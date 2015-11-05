@@ -1,0 +1,27 @@
+﻿<div class="col-xs-6">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+		    <h3 class="panel-title">{{message}} <a ui-sref="create">Create</a></h3>
+		</div>
+		<div class="panel-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+                        <th>Timestamp</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style="height:20px;" ng-repeat="dataEventRecord in dataEventRecords">
+						<td><a href="#/home/overview/details/{{dataEventRecord.Id}}">{{dataEventRecord.Name}}</a></td>
+					    <td>{{dataEventRecord.Timestamp}}</td>
+                        <td><button ng-click="Delete(dataEventRecord.Id)">Delete</button></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</div>
+
+<div class="col-xs-5" ui-view></div>

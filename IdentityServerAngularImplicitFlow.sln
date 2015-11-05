@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{68FE7151-CB27-498E-8FC3-DB0EB76BED8A}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IdentityServerAspNet5", "src\IdentityServerAspNet5\IdentityServerAspNet5.xproj", "{BDA03321-C60F-4A32-9D34-882DFEE9C3E7}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Api1", "src\Api1\Api1.xproj", "{E7C440D3-A6E2-4E92-A332-EFEFA8AC4B5C}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MvcClient", "src\MvcClient\MvcClient.xproj", "{8049D943-1BFB-4B3E-9046-67E6267CF5A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClient", "TestClient\TestClient.csproj", "{15DE027E-7578-485F-A2CE-C3A2E8A3779D}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AngularClient", "src\AngularClient\AngularClient.xproj", "{A408DFD8-2010-40EF-9D7C-8B6B2514C647}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ResourceServer", "src\ResourceServer\ResourceServer.xproj", "{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDA03321-C60F-4A32-9D34-882DFEE9C3E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDA03321-C60F-4A32-9D34-882DFEE9C3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDA03321-C60F-4A32-9D34-882DFEE9C3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDA03321-C60F-4A32-9D34-882DFEE9C3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7C440D3-A6E2-4E92-A332-EFEFA8AC4B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7C440D3-A6E2-4E92-A332-EFEFA8AC4B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7C440D3-A6E2-4E92-A332-EFEFA8AC4B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7C440D3-A6E2-4E92-A332-EFEFA8AC4B5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8049D943-1BFB-4B3E-9046-67E6267CF5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8049D943-1BFB-4B3E-9046-67E6267CF5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8049D943-1BFB-4B3E-9046-67E6267CF5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8049D943-1BFB-4B3E-9046-67E6267CF5A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15DE027E-7578-485F-A2CE-C3A2E8A3779D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15DE027E-7578-485F-A2CE-C3A2E8A3779D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15DE027E-7578-485F-A2CE-C3A2E8A3779D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15DE027E-7578-485F-A2CE-C3A2E8A3779D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A408DFD8-2010-40EF-9D7C-8B6B2514C647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A408DFD8-2010-40EF-9D7C-8B6B2514C647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A408DFD8-2010-40EF-9D7C-8B6B2514C647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A408DFD8-2010-40EF-9D7C-8B6B2514C647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BDA03321-C60F-4A32-9D34-882DFEE9C3E7} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
+		{E7C440D3-A6E2-4E92-A332-EFEFA8AC4B5C} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
+		{8049D943-1BFB-4B3E-9046-67E6267CF5A7} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
+		{A408DFD8-2010-40EF-9D7C-8B6B2514C647} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
+		{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
+	EndGlobalSection
+EndGlobal
