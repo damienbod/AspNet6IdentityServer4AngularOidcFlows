@@ -11,11 +11,11 @@ namespace IdentityServerAspNet5
         {
             var users = new List<InMemoryUser>
             {
-                new InMemoryUser{Subject = "88421113", Username = "Damien", Password = "Damien",
+                new InMemoryUser{Subject = "48421156", Username = "damienbod", Password = "damienbod",
                     Claims = new Claim[]
                     {
-                        new Claim(Constants.ClaimTypes.Name, "Damienbod"),
-                        new Claim(Constants.ClaimTypes.GivenName, "Damien"),
+                        new Claim(Constants.ClaimTypes.Name, "damienbod"),
+                        new Claim(Constants.ClaimTypes.GivenName, "damienbod"),
                         new Claim(Constants.ClaimTypes.Email, "damien_bod@hotmail.com"),
                         new Claim(Constants.ClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(Constants.ClaimTypes.Role, "Developer")
