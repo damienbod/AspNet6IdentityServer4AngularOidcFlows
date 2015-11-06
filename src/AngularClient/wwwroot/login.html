@@ -44,20 +44,22 @@
             var authorizationUrl = 'https://localhost:44300/connect/authorize';
             var client_id = 'angularclient';
             var redirect_uri = 'http://localhost:30661/index.html';
-            var response_type = "token";
-            var scope = "dataEventRecords";
+            var response_type = "id_token token";
+            var scope = "openid profile email dataEventRecords";
             var state = Date.now() + "" + Math.random();
 
             localStorage["state"] = state;
 
             var url =
                 authorizationUrl + "?" +
-                "client_id=" + encodeURI(client_id) + "&" +
-                "redirect_uri=" + encodeURI(redirect_uri) + "&" +
-                "response_type=" + encodeURI(response_type) + "&" +
-                "scope=" + encodeURI(scope) + "&" +
-                "state=" + encodeURI(state) + "&" +
-                "nonce=n-0S6_WzA2Mj";
+                    "client_id=" + encodeURI(client_id) + "&" +
+                    "redirect_uri=" + encodeURI(redirect_uri) + "&" +
+                    "response_type=" + encodeURI(response_type) + "&" +
+                    "scope=" + encodeURI(scope) + "&" +
+                    "state=" + encodeURI(state) + "&" +
+                    "response_mode=form_post" + "&" +
+                    "nonce=23343222"
+                    ;
             window.location = url;
         }
 
