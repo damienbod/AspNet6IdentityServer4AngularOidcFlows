@@ -10,8 +10,8 @@ namespace IdentityServerAspNet5
             return new List<Client>
             {new Client
                 {
-                    ClientName = "AngularClient",
-                    ClientId = "angular",
+                    ClientName = "angularclient",
+                    ClientId = "angularclient",
                     Flow = Flows.Implicit,
                     RedirectUris = new List<string>
                     {
