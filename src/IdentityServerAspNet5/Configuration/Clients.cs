@@ -8,15 +8,32 @@ namespace IdentityServerAspNet5
         public static List<Client> Get()
         {
             return new List<Client>
-            {
+            {new Client
+                {
+                    ClientName = "AngularClient",
+                    ClientId = "angular",
+                    Flow = Flows.Implicit,
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:30661/",
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "http://localhost:30661/",
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        "openid",
+                        "email",
+                        "profile",
+                        "dataEventRecords"
+                    }
+                },
                 new Client
                 {
-                    ClientName = "MVC6 Demo Client",
+                    ClientName = "MVC6 Demo Client from Identity",
                     ClientId = "mvc6",
-
-                    // human involved
                     Flow = Flows.Implicit,
-
                     RedirectUris = new List<string>
                     {
                         "http://localhost:2221/",
@@ -25,8 +42,6 @@ namespace IdentityServerAspNet5
                     {
                         "http://localhost:2221/",
                     },
-
-                    // access to identity data and api1
                     AllowedScopes = new List<string>
                     {
                         "openid",

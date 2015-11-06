@@ -60,7 +60,6 @@ namespace MvcClient
                         id.AddClaim(incoming.FindFirst("email"));
                         id.AddClaim(incoming.FindFirst("email_verified"));
                         id.AddClaim(incoming.FindFirst("given_name"));
-                        id.AddClaim(incoming.FindFirst("family_name"));
                         id.AddClaim(new Claim("access_token", data.ProtocolMessage.AccessToken));
                         id.AddClaim(new Claim("id_token", data.ProtocolMessage.IdToken));
                         id.AddClaim(new Claim("expires_at", DateTime.Now.AddSeconds(double.Parse(data.ProtocolMessage.ExpiresIn)).ToString()));

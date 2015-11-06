@@ -18,7 +18,7 @@ namespace IdentityServerAspNet5
             app.UseIISPlatformHandler();
             app.UseDeveloperExceptionPage();
 
-            var certFile = env.ApplicationBasePath + "\\idsrv3test.pfx";
+            var certFile = env.ApplicationBasePath + "\\damienbodserver.pfx";
 
             var idsrvOptions = new IdentityServerOptions
             {
@@ -27,7 +27,7 @@ namespace IdentityServerAspNet5
                                 .UseInMemoryClients(Clients.Get())
                                 .UseInMemoryScopes(Scopes.Get()),
 
-                SigningCertificate = new X509Certificate2(certFile, "idsrv3test"),
+                SigningCertificate = new X509Certificate2(certFile, ""),
                 AuthenticationOptions = new AuthenticationOptions
                 {
                     EnablePostSignOutAutoRedirect = true
