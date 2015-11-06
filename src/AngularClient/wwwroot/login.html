@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
+    <title>Login</title>
     <style>
         button {
             display: none;
@@ -43,7 +43,7 @@
         function getToken() {
             var authorizationUrl = 'https://localhost:44300/connect/authorize';
             var client_id = 'angularclient';
-            var redirect_uri = 'http://localhost:30661/index.html';
+            var redirect_uri = 'https://localhost:44301/login.html';
             var response_type = "id_token token";
             var scope = "openid profile email dataEventRecords";
             var state = Date.now() + "" + Math.random();
@@ -65,6 +65,7 @@
 
         function processTokenCallback() {
             var hash = window.location.hash.substr(1);
+            console.log(hash);
             var result = hash.split('&').reduce(function (result, item) {
                 var parts = item.split('=');
                 result[parts[0]] = parts[1];

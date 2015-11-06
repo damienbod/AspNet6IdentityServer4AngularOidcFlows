@@ -14,6 +14,7 @@
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
     <DevelopmentServerPort>30661</DevelopmentServerPort>
+    <SSLPort>44301</SSLPort>
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleFolder Include=".sass-cache\" />
