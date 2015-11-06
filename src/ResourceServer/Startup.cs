@@ -11,6 +11,9 @@ using Microsoft.Framework.Logging;
 
 namespace AspNet5SQLite
 {
+    using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
+
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
@@ -58,7 +61,19 @@ namespace AspNet5SQLite
             app.UseExceptionHandler("/Home/Error");
 
             app.UseCors("corsGlobalPolicy");
+
             app.UseStaticFiles();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+
+            app.UseJwtBearerAuthentication(options =>
+            {
+                options.Authority = "https://localhost:44300";
+                options.Audience = "https://localhost:44300/resources";
+                options.AutomaticAuthentication = true;
+            });
+
+            app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "api1" });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

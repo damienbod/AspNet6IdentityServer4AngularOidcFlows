@@ -5,8 +5,10 @@ namespace AspNet5SQLite.Controllers
     using AspNet5SQLite.Model;
     using AspNet5SQLite.Repositories;
 
+    using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Mvc;
 
+    [Authorize]
     [Route("api/[controller]")]
     public class DataEventRecordsController : Controller
     {
