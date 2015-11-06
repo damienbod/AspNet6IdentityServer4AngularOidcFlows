@@ -47,7 +47,7 @@ namespace MvcClient
                 options.Scope.Add("openid");
                 options.Scope.Add("email");
                 options.Scope.Add("profile");
-                options.Scope.Add("api1");
+                options.Scope.Add("dataEventRecords");
                 
                 options.Events = new OpenIdConnectEvents
                 {

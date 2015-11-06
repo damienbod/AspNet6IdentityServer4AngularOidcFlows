@@ -18,8 +18,8 @@ namespace IdentityServerAspNet5
                 // contain roles of user
                 new Scope
                 {
-                    Name = "api1",
-                    DisplayName = "API 1",
+                    Name = "dataEventRecords",
+                    DisplayName = "Data Event Records Scope",
                     Type = ScopeType.Resource,
 
                     Claims = new List<ScopeClaim>

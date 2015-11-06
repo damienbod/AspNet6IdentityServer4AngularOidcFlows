@@ -11,25 +11,6 @@ namespace IdentityServerAspNet5
             {
                 new Client
                 {
-                    ClientName = "Test Client",
-                    ClientId = "test",
-                    ClientSecrets = new List<Secret>
-                    {
-                        new Secret("secret".Sha256())
-                    },
-
-                    // server to server communication
-                    Flow = Flows.ClientCredentials,
-
-                    // only allowed to access api1
-                    AllowedScopes = new List<string>
-                    {
-                        "api1"
-                    }
-                },
-
-                new Client
-                {
                     ClientName = "MVC6 Demo Client",
                     ClientId = "mvc6",
 
@@ -51,7 +32,7 @@ namespace IdentityServerAspNet5
                         "openid",
                         "email",
                         "profile",
-                        "api1"
+                        "dataEventRecords"
                     }
                 }
             };
