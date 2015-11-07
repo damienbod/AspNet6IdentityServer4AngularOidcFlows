@@ -9,13 +9,12 @@
         var processTokenCallback = function() {
             var hash = window.location.hash.substr(1);
             console.log(hash);
+
             var result = hash.split('&').reduce(function(result, item) {
                 var parts = item.split('=');
                 result[parts[0]] = parts[1];
                 return result;
             }, {});
-
-            
 
             if (!result.error) {
                 if (result.state !== localStorage["state"]) {
@@ -30,24 +29,23 @@
         }; 
 
         var request = function(requestSuccess) {
-
             requestSuccess.headers = requestSuccess.headers || {};
             var authorizationData = localStorageService.get('authorizationData');
-           
-            console.log(authorizationData);
+
             if (authorizationData) {
                 requestSuccess.headers.Authorization = 'Bearer ' + authorizationData;
-            } else {
-                //if (window.location.hash) {
-                //    console.log(window.location.hash);
-                //    var token = processTokenCallback();
-                //    localStorageService.set('authorizationData', token);
-
-                //} else {
-                //    requestSuccess.headers.Authorization = '';
-                //}
-                
             }
+            //else {
+            //    //if (window.location.hash) {
+            //    //    console.log(window.location.hash);
+            //    //    var token = processTokenCallback();
+            //    //    localStorageService.set('authorizationData', token);
+
+            //    //} else {
+            //    //    requestSuccess.headers.Authorization = '';
+            //    //}
+                
+            //}
 
             return requestSuccess || $q.when(requestSuccess);
 
@@ -87,7 +85,7 @@
 
                 var authorizationUrl = 'https://localhost:44300/connect/authorize';
                 var client_id = 'angularclient';
-                var redirect_uri = 'https://localhost:44302/Index.html';
+                var redirect_uri = 'https://localhost:44302/authorized.html';
                 var response_type = "token";
                 var scope = "dataEventRecords";
                 var state = Date.now() + "" + Math.random();
