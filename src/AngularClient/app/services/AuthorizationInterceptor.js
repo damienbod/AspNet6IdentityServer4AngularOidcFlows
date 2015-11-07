@@ -3,15 +3,17 @@
 
     var module = angular.module('mainApp');
 
-    function AuthorizationInterceptor($rootScope, $q, localStorageService) {
+    function AuthorizationInterceptor($rootScope, $q) {
 
         console.log("AuthorizationInterceptor created");
 
         var request = function(requestSuccess) {
             requestSuccess.headers = requestSuccess.headers || {};
-            var authorizationData = localStorageService.get('authorizationData');
+            var authorizationData = localStorage["authorizationData"];
 
             if (authorizationData) {
+                console.log("Request with authorizationData");
+                console.log('Bearer ' + authorizationData);
                 requestSuccess.headers.Authorization = 'Bearer ' + authorizationData;
             }
             //else {
@@ -94,7 +96,6 @@
     module.service("authorizationInterceptor", [
             '$rootScope',
             '$q',
-            'localStorageService',
             AuthorizationInterceptor
     ]);
 

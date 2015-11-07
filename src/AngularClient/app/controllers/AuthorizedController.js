@@ -8,28 +8,30 @@
 		[
 			"$scope",
 			"$log",
-            "localStorageService",
             "$window",
+            "$state",
 			AuthorizedController
 		]
 	);
 
-	function AuthorizedController($scope, $log, localStorageService, $window) {
+	function AuthorizedController($scope, $log, $window, $state) {
 	    $log.info("AuthorizedController called");
 		$scope.message = "AuthorizedController created";
 	
-		var authorizationData = localStorageService.get('authorizationData');
+        // TEST always log in if this is called
+		localStorage.removeItem("authorizationData");
+
+		var authorizationData = localStorage["authorizationData"];
 
 		if (authorizationData) {
 		    $scope.message = "AuthorizedController created logged on";
-		    window.location = 'https://localhost:44302/home/overview';
+		    console.log(authorizationData);
+		    $state.go("overview");
 		} else {
-		    if (window.location.hash) {
+		    if ($window.location.hash) {
 		        $scope.message = "AuthorizedController created with a code";
-		            console.log(window.location.hash);
 
                     var hash = window.location.hash.substr(1);
-		            console.log(hash);
 
 		            var result = hash.split('&').reduce(function (result, item) {
 		                var parts = item.split('=');
@@ -38,26 +40,23 @@
 		            }, {});
 
 		            if (!result.error) {
-		                console.log("HERE");
-		                console.log(result.access_token);
-		                if (result.state !== localStorageService.get["state"]) {
+		                if (result.state !== localStorage["state"]) {
 		                    console.log("invalid state");
 		                } else {
 
-		                    localStorageService.removeItem("state");
+		                    localStorage.removeItem("state");
 		                    return result.access_token;
 		                }
 		            }
 
-		            localStorageService.set('authorizationData', result.access_token);
-		            console.log(result.access_token);
+		            localStorage["authorizationData"] = result.access_token;
 
-		            window.location = 'https://localhost:44302/home/overview';
+		            $state.go("overview");
 
 		        } else {
 		            $scope.message = "AuthorizedController time to log on";
 		            
-		            localStorageService.remove('authorizationData');
+		            localStorage.removeItem('authorizationData');
 
 		            var authorizationUrl = 'https://localhost:44300/connect/authorize';
 		            var client_id = 'angularclient';
@@ -66,7 +65,7 @@
 		            var scope = "dataEventRecords";
 		            var state = Date.now() + "" + Math.random();
 
-		            localStorageService.set('state', state);
+		            localStorage["state"] = state;
 
 		            var url =
                         authorizationUrl + "?" +
@@ -75,7 +74,7 @@
                         "response_type=" + encodeURI(response_type) + "&" +
                         "scope=" + encodeURI(scope) + "&" +
                         "state=" + encodeURI(state);
-		            window.location = url;
+		            $window.location = url;
 		        }
 		}
 	}
