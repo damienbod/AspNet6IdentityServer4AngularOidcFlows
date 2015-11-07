@@ -38,28 +38,23 @@
             document.querySelector(".results").textContent = "";
         }
 
-
-
         function getToken() {
             var authorizationUrl = 'https://localhost:44300/connect/authorize';
             var client_id = 'angularclient';
-            var redirect_uri = 'https://localhost:44301/login.html';
-            var response_type = "id_token token";
-            var scope = "openid profile email dataEventRecords";
+            var redirect_uri = 'https://localhost:44302/login.html';
+            var response_type = "token";
+            var scope = "dataEventRecords";
             var state = Date.now() + "" + Math.random();
 
             localStorage["state"] = state;
 
             var url =
                 authorizationUrl + "?" +
-                    "client_id=" + encodeURI(client_id) + "&" +
-                    "redirect_uri=" + encodeURI(redirect_uri) + "&" +
-                    "response_type=" + encodeURI(response_type) + "&" +
-                    "scope=" + encodeURI(scope) + "&" +
-                    "state=" + encodeURI(state) + "&" +
-                    "response_mode=form_post" + "&" +
-                    "nonce=23343222"
-                    ;
+                "client_id=" + encodeURI(client_id) + "&" +
+                "redirect_uri=" + encodeURI(redirect_uri) + "&" +
+                "response_type=" + encodeURI(response_type) + "&" +
+                "scope=" + encodeURI(scope) + "&" +
+                "state=" + encodeURI(state);
             window.location = url;
         }
 
