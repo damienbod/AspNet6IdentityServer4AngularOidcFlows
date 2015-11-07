@@ -61,21 +61,49 @@
 
 	    var GetDataEventRecords = function () {
 	        $log.info("DataEventRecordService DataEventRecords called");
-	        return $http.get(baseUrl + "/api/DataEventRecords")
-			.then(function (response) {
-			    return response.data;
-			});
+
+	        var deferred = $q.defer();
+
+	        console.log("addDataEventRecord started");
+	        console.log(dataEventRecord);
+
+	        $http({
+	            url: baseUrl + 'api/DataEventRecords',
+	            method: "GET",
+	            data: dataEventRecord
+	        }).success(function (data) {
+	            deferred.resolve(data);
+	        }).error(function (error) {
+	            deferred.reject(error);
+	        });
+	        return deferred.promise;
+
+	        //return $http.get(baseUrl + "/api/DataEventRecords")
+			//.then(function (response) {
+			//    return response.data;
+			//});
 	    }
 
 	    var GetDataEventRecord = function (id) {
 	        $log.info("DataEventRecordService GetDataEventRecord called: " + id.id);
 	        $log.info(id);
-	        return $http.get(baseUrl + "/api/DataEventRecords/" + id.id)
-			.then(function (response) {
-			    return response.data;
-			});
-	    }
 
+	        $http({
+	            url: baseUrl + "/api/DataEventRecords/" + id.id,
+	            method: "GET",
+	            data: dataEventRecord
+	        }).success(function (data) {
+	            deferred.resolve(data);
+	        }).error(function (error) {
+	            deferred.reject(error);
+	        });
+	        return deferred.promise;
+
+	        //return $http.get(baseUrl + "/api/DataEventRecords/" + id.id)
+			//.then(function (response) {
+			//    return response.data;
+			//});
+	    }
 
 		return {
 		    AddDataEventRecord: AddDataEventRecord,
