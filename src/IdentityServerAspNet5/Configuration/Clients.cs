@@ -15,11 +15,14 @@ namespace IdentityServerAspNet5
                     Flow = Flows.Implicit,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44302/identitytestclient.html"
+                        "https://localhost:44302/identitytestclient.html",
+                        "https://localhost:44302/Index.html"
+                        
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:44302/identitytestclient.html"
+                        "https://localhost:44302/identitytestclient.html",
+                        "https://localhost:44302/Index.html"
                     },
                     AllowedScopes = new List<string>
                     {

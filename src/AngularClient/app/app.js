@@ -1,5 +1,5 @@
 ﻿(function () {
-    var mainApp = angular.module("mainApp", ["ui.router"]);
+    var mainApp = angular.module("mainApp", ["ui.router", "LocalStorageModule"]);
 
     mainApp.config(["$stateProvider", "$urlRouterProvider",
 		function ($stateProvider, $urlRouterProvider) {
