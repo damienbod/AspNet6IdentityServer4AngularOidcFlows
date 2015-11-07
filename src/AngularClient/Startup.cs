@@ -15,6 +15,18 @@ namespace AspNet5SQLite
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add Cors support to the service
+            services.AddCors();
+
+            var policy = new Microsoft.AspNet.Cors.Core.CorsPolicy();
+
+            policy.Headers.Add("*");
+            policy.Methods.Add("*");
+            policy.Origins.Add("*");
+            policy.SupportsCredentials = true;
+
+            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+
             services.AddMvc();
         }
 
@@ -26,7 +38,9 @@ namespace AspNet5SQLite
 
             app.UseIISPlatformHandler();
 
-            app.UseExceptionHandler("/Home/Error");         
+            app.UseExceptionHandler("/Home/Error");
+
+            app.UseCors("corsGlobalPolicy");
 
             app.UseStaticFiles();
             app.UseMvc(routes =>

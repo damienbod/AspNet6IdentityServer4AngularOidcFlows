@@ -83,6 +83,7 @@
         function useToken() {
             clear();
 
+            console.log("TOKEN USED Bearer " + token);
             var xhr = new XMLHttpRequest();
             xhr.onload = function (e) {
                 if (xhr.status >= 400) {
@@ -100,7 +101,7 @@
                 console.log(e, xhr);
                 show({ error: "unknown http error" });
             };
-            xhr.open("GET", "http://localhost:30660/api/dataEventRecords", true);
+            xhr.open("GET", "https://localhost:44303/api/dataEventRecords", true);
             xhr.setRequestHeader("Authorization", "Bearer " + token);
             xhr.send();
         }
