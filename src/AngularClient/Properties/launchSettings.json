@@ -3,7 +3,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:44302/login.html",
+      "launchUrl": "https://localhost:44302/identitytestclient.html",
       "environmentVariables": {
         "ASPNET_ENV": "Development"
       }
