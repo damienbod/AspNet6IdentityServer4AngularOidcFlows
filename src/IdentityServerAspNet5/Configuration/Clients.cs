@@ -16,13 +16,13 @@ namespace IdentityServerAspNet5
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44302/identitytestclient.html",
-                        "https://localhost:44302/authorized.html"
+                        "https://localhost:44302/authorized"
 
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
                         "https://localhost:44302/identitytestclient.html",
-                        "https://localhost:44302/authorized.html"
+                        "https://localhost:44302/authorized"
                     },
                     AllowedScopes = new List<string>
                     {
