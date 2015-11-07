@@ -6,27 +6,6 @@
     function AuthorizationInterceptor($rootScope, $q, localStorageService) {
 
         console.log("AuthorizationInterceptor created");
-        var processTokenCallback = function() {
-            var hash = window.location.hash.substr(1);
-            console.log(hash);
-
-            var result = hash.split('&').reduce(function(result, item) {
-                var parts = item.split('=');
-                result[parts[0]] = parts[1];
-                return result;
-            }, {});
-
-            if (!result.error) {
-                if (result.state !== localStorage["state"]) {
-                    show("invalid state");
-                } else {
-                    localStorage.removeItem("state");
-                    return result.access_token;
-                }
-            }
-
-            return null;
-        }; 
 
         var request = function(requestSuccess) {
             requestSuccess.headers = requestSuccess.headers || {};
@@ -64,51 +43,51 @@
         //    //return response || $q.when(response);
         //};
 
-        var responseError = function(responseFailure) {
+        //var responseError = function(responseFailure) {
 
-            console.log("console.log(responseFailure);");
-            console.log(responseFailure);
-            if (responseFailure.status === 403) {
-                window.location.href = '/#/unauthorized';
+        //    console.log("console.log(responseFailure);");
+        //    console.log(responseFailure);
+        //    if (responseFailure.status === 403) {
+        //        window.location.href = '/#/unauthorized';
 
-            } else if (responseFailure.status === 401) {
+        //    } else if (responseFailure.status === 401) {
 
-                localStorageService.remove('authorizationData');
+        //        localStorageService.remove('authorizationData');
 
-                //if (window.location.href && window.location.hash !== '#/logon') {
+        //        //if (window.location.href && window.location.hash !== '#/logon') {
 
-                //    this.lastPath = window.location.href;
+        //        //    this.lastPath = window.location.href;
 
-                //    $rootScope.returnToState = this.rootScope.toState;
-                //    $rootScope.returnToStateParams = this.rootScope.toStateParams;
-                //}
+        //        //    $rootScope.returnToState = this.rootScope.toState;
+        //        //    $rootScope.returnToStateParams = this.rootScope.toStateParams;
+        //        //}
 
-                var authorizationUrl = 'https://localhost:44300/connect/authorize';
-                var client_id = 'angularclient';
-                var redirect_uri = 'https://localhost:44302/authorized.html';
-                var response_type = "token";
-                var scope = "dataEventRecords";
-                var state = Date.now() + "" + Math.random();
+        //        var authorizationUrl = 'https://localhost:44300/connect/authorize';
+        //        var client_id = 'angularclient';
+        //        var redirect_uri = 'https://localhost:44302/authorized.html';
+        //        var response_type = "token";
+        //        var scope = "dataEventRecords";
+        //        var state = Date.now() + "" + Math.random();
 
-                localStorageService.set('state', state);
+        //        localStorageService.set('state', state);
 
-                var url =
-                    authorizationUrl + "?" +
-                    "client_id=" + encodeURI(client_id) + "&" +
-                    "redirect_uri=" + encodeURI(redirect_uri) + "&" +
-                    "response_type=" + encodeURI(response_type) + "&" +
-                    "scope=" + encodeURI(scope) + "&" +
-                    "state=" + encodeURI(state);
-                window.location = url;
-            }
+        //        var url =
+        //            authorizationUrl + "?" +
+        //            "client_id=" + encodeURI(client_id) + "&" +
+        //            "redirect_uri=" + encodeURI(redirect_uri) + "&" +
+        //            "response_type=" + encodeURI(response_type) + "&" +
+        //            "scope=" + encodeURI(scope) + "&" +
+        //            "state=" + encodeURI(state);
+        //        window.location = url;
+        //    }
 
-            return this.q.reject(responseFailure);
-        };
+        //    return this.q.reject(responseFailure);
+        //};
 
         return {
-            request: request,
+            request: request
             //response: response,
-            responseError: responseError
+            //responseError: responseError
         }
     }
 

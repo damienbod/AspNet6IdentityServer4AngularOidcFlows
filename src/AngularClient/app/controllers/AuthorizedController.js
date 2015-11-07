@@ -22,12 +22,37 @@
 
 		if (authorizationData) {
 		    $scope.message = "AuthorizedController created logged on";
-		    // auth is ok, redirect to data requests
+		    window.location = 'https://localhost:44302/home/overview';
 		} else {
-		        if (window.location.hash) {
+		    if (window.location.hash) {
+		        $scope.message = "AuthorizedController created with a code";
 		            console.log(window.location.hash);
-		            //var token = processTokenCallback();
-		            //localStorageService.set('authorizationData', token);
+
+                    var hash = window.location.hash.substr(1);
+		            console.log(hash);
+
+		            var result = hash.split('&').reduce(function (result, item) {
+		                var parts = item.split('=');
+		                result[parts[0]] = parts[1];
+		                return result;
+		            }, {});
+
+		            if (!result.error) {
+		                console.log("HERE");
+		                console.log(result.access_token);
+		                if (result.state !== localStorageService.get["state"]) {
+		                    console.log("invalid state");
+		                } else {
+
+		                    localStorageService.removeItem("state");
+		                    return result.access_token;
+		                }
+		            }
+
+		            localStorageService.set('authorizationData', result.access_token);
+		            console.log(result.access_token);
+
+		            window.location = 'https://localhost:44302/home/overview';
 
 		        } else {
 		            $scope.message = "AuthorizedController time to log on";
@@ -53,6 +78,5 @@
 		            window.location = url;
 		        }
 		}
-	
 	}
 })();
