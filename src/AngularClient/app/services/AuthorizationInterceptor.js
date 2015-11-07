@@ -57,12 +57,12 @@
             //return config || $q.when(config);
         };
 
-        var response = function(response) {
-            //if (response.status === 401) {
-            //    //  Redirect user to login page / signup Page. 
-            //}
-            //return response || $q.when(response);
-        };
+        //var response = function(response) {
+        //    //if (response.status === 401) {
+        //    //    //  Redirect user to login page / signup Page. 
+        //    //}
+        //    //return response || $q.when(response);
+        //};
 
         var responseError = function(responseFailure) {
 
@@ -107,7 +107,7 @@
 
         return {
             request: request,
-            response: response,
+            //response: response,
             responseError: responseError
         }
     }

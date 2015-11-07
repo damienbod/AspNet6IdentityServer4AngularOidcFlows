@@ -14,7 +14,7 @@
 
 	function AuthorizedController($scope, $log ) {
 	    $log.info("AuthorizedController called");
-		$scope.message = "AuthorizedController";
+		$scope.message = "AuthorizedController created";
 	
 	
 	}

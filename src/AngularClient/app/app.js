@@ -3,7 +3,7 @@
 
     mainApp.config(["$stateProvider", "$urlRouterProvider", "$locationProvider",
     function ($stateProvider, $urlRouterProvider, $locationProvider) {
-		    $urlRouterProvider.otherwise("/home/overview");
+        $urlRouterProvider.otherwise("/authorized");
 
         $stateProvider
             .state("authorized", {
