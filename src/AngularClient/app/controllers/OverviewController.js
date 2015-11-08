@@ -11,12 +11,11 @@
 			"dataEventRecords",
 			"DataEventRecordsService",
             "$state",
-            "$rootScope",
 			OverviewController
 		]
 	);
 
-	function OverviewController($scope, $log, dataEventRecords, DataEventRecordsService, $state, $rootScope) {
+	function OverviewController($scope, $log, dataEventRecords, DataEventRecordsService, $state) {
 
 		$log.info("OverviewController called");
 		$scope.message = "Overview";
