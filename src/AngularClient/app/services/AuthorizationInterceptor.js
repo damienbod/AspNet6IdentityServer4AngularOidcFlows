@@ -1,106 +1,88 @@
-﻿//(function () {
-//    'use strict';
+﻿(function () {
+    'use strict';
 
-//    var module = angular.module('mainApp');
+    var module = angular.module('mainApp');
 
-//    function AuthorizationInterceptor($rootScope, $q) {
+    function AuthorizationInterceptor($rootScope, $q) {
 
-//        console.log("AuthorizationInterceptor created");
+        console.log("AuthorizationInterceptor created");
 
-//        var request = function(requestSuccess) {
-//            requestSuccess.headers = requestSuccess.headers || {};
-//            var authorizationData = localStorage["authorizationData"];
 
-//            if (authorizationData) {
-//                console.log("Request with authorizationData");
-//                console.log('Bearer ' + authorizationData);
-//                requestSuccess.headers.Authorization = 'Bearer ' + authorizationData;
-//            }
-//            //else {
-//            //    //if (window.location.hash) {
-//            //    //    console.log(window.location.hash);
-//            //    //    var token = processTokenCallback();
-//            //    //    localStorageService.set('authorizationData', token);
+        var request = function (requestSuccess) {
+            requestSuccess.headers = requestSuccess.headers || {};
 
-//            //    //} else {
-//            //    //    requestSuccess.headers.Authorization = '';
-//            //    //}
-                
-//            //}
+            if ($rootScope.authorizationData) {
+                //console.log("AuthorizationInterceptor Request with authorizationData");
+                //console.log('Bearer ' + $rootScope.authorizationData);
+                requestSuccess.headers.Authorization = 'Bearer ' + $rootScope.authorizationData;
+            }
 
-//            return requestSuccess || $q.when(requestSuccess);
+            return requestSuccess || $q.when(requestSuccess);
+        };
 
-//            //config.headers = config.headers || {};
-//            //if ($window.localStorage.getItem('token')) {
+        //var response = function(response) {
+        //    //if (response.status === 401) {
+        //    //    //  Redirect user to login page / signup Page. 
+        //    //}
+        //    //return response || $q.when(response);
+        //};
 
-//            //    config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('token');
-//            //}
-//            //return config || $q.when(config);
-//        };
+        //var responseError = function(responseFailure) {
 
-//        //var response = function(response) {
-//        //    //if (response.status === 401) {
-//        //    //    //  Redirect user to login page / signup Page. 
-//        //    //}
-//        //    //return response || $q.when(response);
-//        //};
+        //    console.log("console.log(responseFailure);");
+        //    console.log(responseFailure);
+        //    if (responseFailure.status === 403) {
+        //        window.location.href = '/#/unauthorized';
 
-//        //var responseError = function(responseFailure) {
+        //    } else if (responseFailure.status === 401) {
 
-//        //    console.log("console.log(responseFailure);");
-//        //    console.log(responseFailure);
-//        //    if (responseFailure.status === 403) {
-//        //        window.location.href = '/#/unauthorized';
+        //        localStorageService.remove('authorizationData');
 
-//        //    } else if (responseFailure.status === 401) {
+        //        //if (window.location.href && window.location.hash !== '#/logon') {
 
-//        //        localStorageService.remove('authorizationData');
+        //        //    this.lastPath = window.location.href;
 
-//        //        //if (window.location.href && window.location.hash !== '#/logon') {
+        //        //    $rootScope.returnToState = this.rootScope.toState;
+        //        //    $rootScope.returnToStateParams = this.rootScope.toStateParams;
+        //        //}
 
-//        //        //    this.lastPath = window.location.href;
+        //        var authorizationUrl = 'https://localhost:44300/connect/authorize';
+        //        var client_id = 'angularclient';
+        //        var redirect_uri = 'https://localhost:44302/authorized.html';
+        //        var response_type = "token";
+        //        var scope = "dataEventRecords";
+        //        var state = Date.now() + "" + Math.random();
 
-//        //        //    $rootScope.returnToState = this.rootScope.toState;
-//        //        //    $rootScope.returnToStateParams = this.rootScope.toStateParams;
-//        //        //}
+        //        localStorageService.set('state', state);
 
-//        //        var authorizationUrl = 'https://localhost:44300/connect/authorize';
-//        //        var client_id = 'angularclient';
-//        //        var redirect_uri = 'https://localhost:44302/authorized.html';
-//        //        var response_type = "token";
-//        //        var scope = "dataEventRecords";
-//        //        var state = Date.now() + "" + Math.random();
+        //        var url =
+        //            authorizationUrl + "?" +
+        //            "client_id=" + encodeURI(client_id) + "&" +
+        //            "redirect_uri=" + encodeURI(redirect_uri) + "&" +
+        //            "response_type=" + encodeURI(response_type) + "&" +
+        //            "scope=" + encodeURI(scope) + "&" +
+        //            "state=" + encodeURI(state);
+        //        window.location = url;
+        //    }
 
-//        //        localStorageService.set('state', state);
+        //    return this.q.reject(responseFailure);
+        //};
 
-//        //        var url =
-//        //            authorizationUrl + "?" +
-//        //            "client_id=" + encodeURI(client_id) + "&" +
-//        //            "redirect_uri=" + encodeURI(redirect_uri) + "&" +
-//        //            "response_type=" + encodeURI(response_type) + "&" +
-//        //            "scope=" + encodeURI(scope) + "&" +
-//        //            "state=" + encodeURI(state);
-//        //        window.location = url;
-//        //    }
+        return {
+            request: request
+            //response: response,
+            //responseError: responseError
+        }
+    }
 
-//        //    return this.q.reject(responseFailure);
-//        //};
+    module.service("authorizationInterceptor", [
+            '$rootScope',
+            '$q',
+            AuthorizationInterceptor
+    ]);
 
-//        return {
-//            request: request
-//            //response: response,
-//            //responseError: responseError
-//        }
-//    }
+    module.config(["$httpProvider", function ($httpProvider) {
+        $httpProvider.interceptors.push("authorizationInterceptor");
+    }]);
 
-//    module.service("authorizationInterceptor", [
-//            '$rootScope',
-//            '$q',
-//            AuthorizationInterceptor
-//    ]);
-
-//    module.config(["$httpProvider", function ($httpProvider) {
-//        $httpProvider.interceptors.push("authorizationInterceptor");
-//    }]);
-
-//})();
+})();

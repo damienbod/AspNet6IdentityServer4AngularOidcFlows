@@ -68,11 +68,11 @@
 
 	        $http({
 	            url: baseUrl + 'api/DataEventRecords',
-	            method: "GET",
-	            headers:  {
-	                "accept": "application/json; charset=utf-8",
-	                'Authorization': 'Bearer ' + $rootScope.authorizationData
-	            }
+	            method: "GET"
+	            //headers:  {
+	            //    "accept": "application/json; charset=utf-8",
+	            //    'Authorization': 'Bearer ' + $rootScope.authorizationData
+	            //}
 	        }).success(function (data) {
 	            console.log("GetDataEventRecords success");
 	            deferred.resolve(data);
@@ -88,6 +88,25 @@
 	    var GetDataEventRecord = function (id) {
 	        $log.info("DataEventRecordService GetDataEventRecord called: " + id.id);
 	        $log.info(id);
+
+	        var deferred = $q.defer();
+
+	        $http({
+	            url: baseUrl + "api/DataEventRecords/" + id.id,
+	            method: "GET"
+	            //headers:  {
+	            //    "accept": "application/json; charset=utf-8",
+	            //    'Authorization': 'Bearer ' + $rootScope.authorizationData
+	            //}
+	        }).success(function (data) {
+	            console.log("GetDataEventRecords success");
+	            deferred.resolve(data);
+	        }).error(function (error) {
+	            console.log("GetDataEventRecords error");
+	            deferred.reject(error);
+	        });
+
+	        return deferred.promise;
 
 	        return $http.get(baseUrl + "api/DataEventRecords/" + id.id)
 			.then(function (response) {

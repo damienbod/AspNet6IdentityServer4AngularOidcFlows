@@ -46,6 +46,7 @@
 		            var token = "";
 		            if (!result.error) {
 		                if (result.state !== $rootScope.myautostate) {
+                            // TODO this must be fixed
 		                    console.log("AuthorizedController created. no myautostate");
 		                    token = result.access_token;
 		                } else {
