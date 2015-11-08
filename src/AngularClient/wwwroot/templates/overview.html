@@ -13,7 +13,7 @@
 				</thead>
 				<tbody>
 					<tr style="height:20px;" ng-repeat="dataEventRecord in dataEventRecords">
-						<td><a href="#/home/overview/details/{{dataEventRecord.Id}}">{{dataEventRecord.Name}}</a></td>
+						<td><a href="/home/overview/details/{{dataEventRecord.Id}}">{{dataEventRecord.Name}}</a></td>
 					    <td>{{dataEventRecord.Timestamp}}</td>
                         <td><button ng-click="Delete(dataEventRecord.Id)">Delete</button></td>
 					</tr>
