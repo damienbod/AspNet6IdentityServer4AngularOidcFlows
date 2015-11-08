@@ -10,13 +10,21 @@
 			"$log",
 			"dataEventRecords",
 			"DataEventRecordsService",
+            "$state",
+            "$rootScope",
 			OverviewController
 		]
 	);
 
-	function OverviewController($scope, $log, dataEventRecords, DataEventRecordsService) {
+	function OverviewController($scope, $log, dataEventRecords, DataEventRecordsService, $state, $rootScope) {
+
 		$log.info("OverviewController called");
 		$scope.message = "Overview";
+		if ($rootScope.authorizationData === null) {
+		    $scope.message = "not authorized";
+		    $state.go("authorized");
+		}
+		
 		$scope.DataEventRecordsService = DataEventRecordsService;
 
 		$log.info(dataEventRecords);

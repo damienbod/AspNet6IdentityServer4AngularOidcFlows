@@ -34,7 +34,7 @@
 		    $log.info("Creating");
 		    $log.info(dataEventRecord);
 		    $scope.DataEventRecordsService.AddDataEventRecord(dataEventRecord);
-		    $scope.state.go("overview");
+		    $scope.state.go("authorized");
 		};
 
 	}

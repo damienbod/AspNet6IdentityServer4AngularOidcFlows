@@ -10,22 +10,25 @@
 			"$log",
             "$window",
             "$state",
-            "$rootScope",
+            "localStorageService",
 			AuthorizedController
 		]
 	);
 
-	function AuthorizedController($scope, $log, $window, $state, $rootScope) {
+	function AuthorizedController($scope, $log, $window, $state, localStorageService) {
 	    $log.info("AuthorizedController called");
 		$scope.message = "AuthorizedController created";
 	
-        // TEST always log in if this is called
-		$rootScope.authorizationData = null;
-		console.log($rootScope.authorizationData);
+	    localStorageService.set("authorizationData", "");
+	    //localStorageService.get("authorizationData");
+	    //localStorageService.set("authStateControl", "");
+	    //localStorageService.get("authStateControl");
+
+	    console.log(localStorageService.get("authorizationData"));
 
 		//var authorizationData = localStorage.getItem("authorizationData");
 
-		if ($rootScope.authorizationData) {
+	    if (localStorageService.get("authorizationData") !== "") {
 		    $scope.message = "AuthorizedController created logged on";
 		   // console.log(authorizationData);
 		    $state.go("overview");
@@ -45,19 +48,17 @@
 
 		            var token = "";
 		            if (!result.error) {
-		                if (result.state !== $rootScope.myautostate) {
-                            // TODO this must be fixed
-		                    console.log("AuthorizedController created. no myautostate");
-		                    token = result.access_token;
+		                if (result.state !== localStorageService.get("authStateControl")) {
+		                    console.log("AuthorizedController created. no myautostate");                    
 		                } else {
-		                    $rootScope.myautostate = null;
+		                    localStorageService.set("authStateControl", "");
 		                    console.log("AuthorizedController created. returning access token");
 		                    token = result.access_token;
 		                }
 		            }
 
-		            $rootScope.authorizationData = token;
-		            console.log($rootScope.authorizationData);
+		            localStorageService.set("authorizationData", token);
+		            console.log(localStorageService.get("authorizationData"));
 
 		            $state.go("overview");
 
@@ -73,8 +74,8 @@
 		            var scope = "dataEventRecords";
 		            var state = Date.now() + "" + Math.random();
 
-		            $rootScope.myautostate = state;
-		            console.log("AuthorizedController created. adding myautostate: " + $rootScope.myautostate);
+		            localStorageService.set("authStateControl", state);
+		            console.log("AuthorizedController created. adding myautostate: " + localStorageService.get("authStateControl"));
 		          
 		            var url =
                         authorizationUrl + "?" +
