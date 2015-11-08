@@ -26,15 +26,19 @@
 		$scope.Update = function() {
 		    $log.info("Updating");
 		    $log.info(dataEventRecord);
-		    $scope.DataEventRecordsService.UpdateDataEventRecord(dataEventRecord);
-		    $scope.state.go("overview");
+		    $scope.DataEventRecordsService.UpdateDataEventRecord(dataEventRecord).then(
+		        function() {
+		            $scope.state.go("overviewindex");
+		        });
 		};
 
 		$scope.Create = function () {
 		    $log.info("Creating");
 		    $log.info(dataEventRecord);
-		    $scope.DataEventRecordsService.AddDataEventRecord(dataEventRecord);
-		    $scope.state.go("authorized");
+		    $scope.DataEventRecordsService.AddDataEventRecord(dataEventRecord).then(
+		        function () {
+		            $scope.state.go("overviewindex");
+		        });
 		};
 
 	}

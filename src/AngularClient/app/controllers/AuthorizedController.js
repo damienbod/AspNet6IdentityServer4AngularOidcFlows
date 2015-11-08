@@ -19,6 +19,7 @@
 	    $log.info("AuthorizedController called");
 		$scope.message = "AuthorizedController created";
 	
+        // TO force check always
 	    localStorageService.set("authorizationData", "");
 	    //localStorageService.get("authorizationData");
 	    //localStorageService.set("authStateControl", "");
@@ -26,12 +27,10 @@
 
 	    console.log(localStorageService.get("authorizationData"));
 
-		//var authorizationData = localStorage.getItem("authorizationData");
-
 	    if (localStorageService.get("authorizationData") !== "") {
 		    $scope.message = "AuthorizedController created logged on";
 		   // console.log(authorizationData);
-		    $state.go("overview");
+		    $state.go("overviewindex");
 		} else {
 		    console.log("AuthorizedController created, no auth data");
 		    if ($window.location.hash) {
@@ -60,7 +59,7 @@
 		            localStorageService.set("authorizationData", token);
 		            console.log(localStorageService.get("authorizationData"));
 
-		            $state.go("overview");
+		            $state.go("overviewindex");
 
 		        } else {
 		            $scope.message = "AuthorizedController time to log on";

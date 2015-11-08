@@ -20,11 +20,7 @@
 
 		$log.info("OverviewController called");
 		$scope.message = "Overview";
-		if ($rootScope.authorizationData === null) {
-		    $scope.message = "not authorized";
-		    $state.go("authorized");
-		}
-		
+
 		$scope.DataEventRecordsService = DataEventRecordsService;
 
 		$log.info(dataEventRecords);
@@ -32,7 +28,10 @@
 	
 		$scope.Delete = function (id) {
 		    $log.info("deleting");
-		    $scope.DataEventRecordsService.DeleteDataEventRecord(id);
+		    $scope.DataEventRecordsService.DeleteDataEventRecord(id).then(
+		        function () {
+		            $state.go($state.current, {}, { reload: true });
+		        });;
 		};
 	}
 })();

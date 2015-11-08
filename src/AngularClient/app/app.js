@@ -14,19 +14,10 @@
 		        .state("home", { abstract: true, url: "/home", templateUrl: "/templates/home.html" })
                   
 		        .state("overview", {
+		            abstract: true,
 		            parent: "home",
 		            url: "/overview",
-		            templateUrl: "/templates/overview.html",
-		            controller: "OverviewController",
-		            resolve: {
-		                DataEventRecordsService: "DataEventRecordsService",
-
-		                dataEventRecords: [
-		                    "DataEventRecordsService", function(DataEventRecordsService) {
-		                        return DataEventRecordsService.GetDataEventRecords();
-		                    }
-		                ]
-		            }
+		            templateUrl: "/templates/overview.html"
 		        })
 		        .state("details", {
 		            parent: "overview",
@@ -36,6 +27,11 @@
 		            resolve: {
 		                DataEventRecordsService: "DataEventRecordsService",
 
+		                dataEventRecords: [
+		                    "DataEventRecordsService", function(DataEventRecordsService) {
+		                        return DataEventRecordsService.GetDataEventRecords();
+		                    }
+		                ],
 		                dataEventRecord: [
 		                    "DataEventRecordsService", "$stateParams", function(DataEventRecordsService, $stateParams) {
 		                        var id = $stateParams.id;
@@ -45,12 +41,32 @@
 		                ]
 		            }
 		        })
+                .state("overviewindex", {
+                    parent: "overview",
+                    url: "/overviewindex",
+                    templateUrl: "/templates/overviewindex.html",
+                    controller: "OverviewController",
+                    resolve: {
+                        DataEventRecordsService: "DataEventRecordsService",
+
+                        dataEventRecords: [
+		                    "DataEventRecordsService", function(DataEventRecordsService) {
+		                        return DataEventRecordsService.GetDataEventRecords();
+		                    }
+                        ]
+                    }
+                })
 		        .state("create", {
 		            parent: "overview",
 		            url: "/create",
 		            templateUrl: "/templates/create.html",
 		            controller: "DetailsController",
 		            resolve: {
+		                dataEventRecords: [
+		                    "DataEventRecordsService", function(DataEventRecordsService) {
+		                        return DataEventRecordsService.GetDataEventRecords();
+		                    }
+		                ],
 		                dataEventRecord: [
 		                    function() {
 		                        return { Id: "", Name: "", Description: "", Timestamp: "2015-08-28T09:57:32.4669632" };
