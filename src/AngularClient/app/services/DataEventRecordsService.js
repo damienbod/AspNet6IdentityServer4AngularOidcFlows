@@ -1,10 +1,10 @@
 ﻿(function () {
     'use strict';
 
-    function DataEventRecordsService($http, $log, $q) {
+    function DataEventRecordsService($http, $log, $q, $rootScope) {
         $log.info("DataEventRecordsService called");
 
-        var baseUrl = "https://localhost:44303";
+        var baseUrl = "https://localhost:44303/";
 	    var AddDataEventRecord = function (dataEventRecord) {
 	        var deferred = $q.defer();
 
@@ -60,22 +60,36 @@
 	    };
 
 	    var GetDataEventRecords = function () {
-	        $log.info("DataEventRecordService DataEventRecords called");
+	     
+	        var deferred = $q.defer();
 
-	        console.log("addDataEventRecord started");
-	        console.log(dataEventRecord);
+	        console.log("GetDataEventRecords started");
+	        console.log($rootScope.authorizationData);
 
-	        return $http.get(baseUrl + "/api/DataEventRecords")
-			.then(function (response) {
-			    return response.data;
-			});
+	        $http({
+	            url: baseUrl + 'api/DataEventRecords',
+	            method: "GET",
+	            headers:  {
+	                "accept": "application/json; charset=utf-8",
+	                'Authorization': 'Bearer ' + $rootScope.authorizationData
+	            }
+	        }).success(function (data) {
+	            console.log("GetDataEventRecords success");
+	            deferred.resolve(data);
+	        }).error(function (error) {
+	            console.log("GetDataEventRecords error");
+	            deferred.reject(error);
+	        });
+
+	        return deferred.promise;
+
 	    }
 
 	    var GetDataEventRecord = function (id) {
 	        $log.info("DataEventRecordService GetDataEventRecord called: " + id.id);
 	        $log.info(id);
 
-	        return $http.get(baseUrl + "/api/DataEventRecords/" + id.id)
+	        return $http.get(baseUrl + "api/DataEventRecords/" + id.id)
 			.then(function (response) {
 			    return response.data;
 			});
@@ -97,6 +111,7 @@
 			"$http",
 			"$log",
             "$q",
+            "$rootScope",
 			DataEventRecordsService
 		]
 	);
