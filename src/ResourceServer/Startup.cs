@@ -1,6 +1,5 @@
 using AspNet5SQLite.Model;
 using AspNet5SQLite.Repositories;
-
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Data.Entity;
