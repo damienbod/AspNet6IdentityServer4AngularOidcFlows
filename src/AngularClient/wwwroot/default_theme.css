@@ -1,0 +1,47 @@
+.bodydefinitions {
+  background-color: #fff; }
+
+.panel-primary > .panel-heading {
+  background-color: #337ab7;
+  border-color: #337ab7;
+  color: #000; }
+
+.panel-heading {
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  padding: 10px 15px;
+  color: #000;
+  background-color: #fff; }
+
+.panel-body {
+  padding: 15px;
+  color: #000;
+  background-color: #fff; }
+
+.changeThemeButton {
+  color: #000;
+  background-color: #fff;
+  padding: 15px;
+  margin: 15px;
+  margin-bottom: 0; }
+
+.alarmsDisplay {
+  margin-top: 5px;
+  width: 160px;
+  height: 80px;
+  border: 1px;
+  background-color: red;
+  color: white;
+  text-align: center; }
+
+.alarmsDisplay p {
+  font-size: 60px;
+  padding-left: 5px; }
+
+.round-corners-5px {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px; }
+
+/*# sourceMappingURL=default_theme.css.map */

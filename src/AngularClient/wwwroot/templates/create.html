@@ -1,0 +1,32 @@
+﻿<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{message}}</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-xs-2">Id</div>
+                <div class="col-xs-6"><input type="text" ng-model="dataEventRecord.Id" style="width: 100%" /></div>
+            </div>
+
+            <hr/>
+            <div class="row">
+                <div class="col-xs-2">Name</div>
+                <div class="col-xs-6"><input type="text" ng-model="dataEventRecord.Name" style="width: 100%"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-xs-2">Description</div>
+                <div class="col-xs-6"><input type="text" ng-model="dataEventRecord.Description" style="width: 100%"/>
+                </div>
+            </div>         
+            <hr/>
+            <div class="row">
+                <div class="col-xs-2"><button ng-click="Create()">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
