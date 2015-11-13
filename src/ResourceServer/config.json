@@ -1,5 +1,5 @@
 ﻿{
     "Production": {
-        "SqliteConnectionString": "Data Source=C:\\git\\damienbod\\AspNet5SQLite\\src\\AspNet5SQLite\\dataeventrecords.sqlite"
+        "SqliteConnectionString": "Data Source=C:\\git\\damienbod\\AspNet5IdentityServerAngularImplicitFlow\\src\\ResourceServer\\dataeventrecords.sqlite"
     }
 }

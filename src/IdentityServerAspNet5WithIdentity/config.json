@@ -1,0 +1,5 @@
+﻿{
+    "Production": {
+        "SqliteConnectionString": "Data Source=C:\\git\\damienbod\\AspNet5IdentityServerAngularImplicitFlow\\src\\IdentityServerAspNet5WithIdentity\\identity.sqlite"
+    }
+}
