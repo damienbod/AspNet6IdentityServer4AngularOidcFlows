@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/DataEventRecords",
+      "launchUrl": "https://localhost:44390/api/DataEventRecords",
       "environmentVariables": {
         "ASPNET_ENV": "Development"
       }

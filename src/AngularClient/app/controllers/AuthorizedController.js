@@ -66,7 +66,7 @@
 		            
 		            //localStorage.removeItem('authorizationData');
 
-		            var authorizationUrl = 'https://localhost:44300/connect/authorize';
+		            var authorizationUrl = 'https://localhost:44345/connect/authorize';
 		            var client_id = 'angularclient';
 		            var redirect_uri = 'https://localhost:44347/authorized';
 		            var response_type = "token";
