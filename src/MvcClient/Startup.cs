@@ -41,7 +41,7 @@ namespace MvcClient
                 options.AutomaticAuthenticate = true;
                 options.SaveTokensAsClaims = false;
                 
-                options.Authority = "https://localhost:44300";
+                options.Authority = "https://localhost:44345";
                 options.PostLogoutRedirectUri = "http://localhost:2221/";
 
                 options.ClientId = "mvc6";

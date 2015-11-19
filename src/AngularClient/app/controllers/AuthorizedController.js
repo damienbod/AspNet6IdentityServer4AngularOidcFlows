@@ -68,7 +68,7 @@
 
 		            var authorizationUrl = 'https://localhost:44300/connect/authorize';
 		            var client_id = 'angularclient';
-		            var redirect_uri = 'https://localhost:44302/authorized';
+		            var redirect_uri = 'https://localhost:44347/authorized';
 		            var response_type = "token";
 		            var scope = "dataEventRecords";
 		            var state = Date.now() + "" + Math.random();

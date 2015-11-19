@@ -70,8 +70,8 @@ namespace AspNet5SQLite
 
             app.UseJwtBearerAuthentication(options =>
             {
-                options.Authority = "https://localhost:44300";
-                options.Audience = "https://localhost:44300/resources";
+                options.Authority = "https://localhost:44345";
+                options.Audience = "https://localhost:44345/resources";
                 options.AutomaticAuthenticate = true;
             });
 

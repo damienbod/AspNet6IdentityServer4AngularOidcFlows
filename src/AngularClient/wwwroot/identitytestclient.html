@@ -39,7 +39,7 @@
         }
 
         function getToken() {
-            var authorizationUrl = 'https://localhost:44300/connect/authorize';
+            var authorizationUrl = 'https://localhost:44345/connect/authorize';
             var client_id = 'angularclient';
             var redirect_uri = 'https://localhost:44302/identitytestclient.html';
             var response_type = "token";
@@ -101,7 +101,7 @@
                 console.log(e, xhr);
                 show({ error: "unknown http error" });
             };
-            xhr.open("GET", "https://localhost:44303/api/dataEventRecords", true);
+            xhr.open("GET", "https://localhost:44390/api/dataEventRecords", true);
             xhr.setRequestHeader("Authorization", "Bearer " + token);
             xhr.send();
         }

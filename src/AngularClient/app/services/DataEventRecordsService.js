@@ -4,7 +4,7 @@
     function DataEventRecordsService($http, $log, $q, $rootScope) {
         $log.info("DataEventRecordsService called");
 
-        var baseUrl = "https://localhost:44303/";
+        var baseUrl = "https://localhost:44390/";
 	    var AddDataEventRecord = function (dataEventRecord) {
 	        var deferred = $q.defer();
 
