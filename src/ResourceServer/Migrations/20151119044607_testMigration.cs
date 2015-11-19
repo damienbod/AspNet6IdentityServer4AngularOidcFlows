@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
 
-namespace AspNet5SQLite.Migrations
+namespace ResourceServer.Migrations
 {
     public partial class testMigration : Migration
     {

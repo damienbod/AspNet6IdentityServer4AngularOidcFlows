@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServerAspNet5WithIdentity.AspNetIdentity
 {
+    using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
 
     public class MyUser : IdentityUser
@@ -12,4 +13,9 @@ namespace IdentityServerAspNet5WithIdentity.AspNetIdentity
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }
+
+    public class MyRole : IdentityRole<int>
+    { }
+
+
 }

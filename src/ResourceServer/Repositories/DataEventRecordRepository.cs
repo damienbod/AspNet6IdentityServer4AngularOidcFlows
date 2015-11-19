@@ -1,13 +1,11 @@
-﻿namespace AspNet5SQLite.Repositories
+﻿using System.Collections.Generic;
+using System.Linq;
+using AspNet5SQLite.Model;
+using Microsoft.AspNet.Mvc;
+using Microsoft.Extensions.Logging;
+
+namespace AspNet5SQLite.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using AspNet5SQLite.Model;
-
-    using Microsoft.AspNet.Mvc;
-    using Microsoft.Framework.Logging;
-
     public class DataEventRecordRepository : IDataEventRecordRepository
     {
         private readonly DataEventRecordContext _context;

@@ -151,22 +151,6 @@
           "lib/net45/EntityFramework.SqlServer.dll": {}
         }
       },
-      "IdentityModel/1.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
-        },
-        "frameworkAssemblies": [
-          "System.IdentityModel",
-          "System.Net.Http"
-        ],
-        "compile": {
-          "lib/net45/IdentityModel.Net45.dll": {}
-        },
-        "runtime": {
-          "lib/net45/IdentityModel.Net45.dll": {}
-        }
-      },
       "IdentityServer3/2.0.2": {
         "type": "package",
         "dependencies": {
@@ -177,14 +161,6 @@
         },
         "runtime": {
           "lib/net45/IdentityServer3.dll": {}
-        }
-      },
-      "IdentityServer3.AspNetIdentity/2.0.0": {
-        "type": "package",
-        "dependencies": {
-          "IdentityModel": "1.0.0",
-          "IdentityServer3": "2.0.0",
-          "Microsoft.AspNet.Identity.Core": "2.2.1"
         }
       },
       "Ix-Async/1.2.5": {
@@ -562,15 +538,6 @@
         },
         "runtime": {
           "lib/dnx451/Microsoft.AspNet.Identity.dll": {}
-        }
-      },
-      "Microsoft.AspNet.Identity.Core/2.2.1": {
-        "type": "package",
-        "compile": {
-          "lib/net45/Microsoft.AspNet.Identity.Core.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.Identity.Core.dll": {}
         }
       },
       "Microsoft.AspNet.Identity.EntityFramework/3.0.0-beta8": {
@@ -1203,7 +1170,7 @@
           "lib/net45/Microsoft.Owin.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.8": {
+      "Newtonsoft.Json/6.0.6": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -1568,22 +1535,6 @@
           "lib/net45/EntityFramework.SqlServer.dll": {}
         }
       },
-      "IdentityModel/1.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
-        },
-        "frameworkAssemblies": [
-          "System.IdentityModel",
-          "System.Net.Http"
-        ],
-        "compile": {
-          "lib/net45/IdentityModel.Net45.dll": {}
-        },
-        "runtime": {
-          "lib/net45/IdentityModel.Net45.dll": {}
-        }
-      },
       "IdentityServer3/2.0.2": {
         "type": "package",
         "dependencies": {
@@ -1594,14 +1545,6 @@
         },
         "runtime": {
           "lib/net45/IdentityServer3.dll": {}
-        }
-      },
-      "IdentityServer3.AspNetIdentity/2.0.0": {
-        "type": "package",
-        "dependencies": {
-          "IdentityModel": "1.0.0",
-          "IdentityServer3": "2.0.0",
-          "Microsoft.AspNet.Identity.Core": "2.2.1"
         }
       },
       "Ix-Async/1.2.5": {
@@ -1979,15 +1922,6 @@
         },
         "runtime": {
           "lib/dnx451/Microsoft.AspNet.Identity.dll": {}
-        }
-      },
-      "Microsoft.AspNet.Identity.Core/2.2.1": {
-        "type": "package",
-        "compile": {
-          "lib/net45/Microsoft.AspNet.Identity.Core.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.Identity.Core.dll": {}
         }
       },
       "Microsoft.AspNet.Identity.EntityFramework/3.0.0-beta8": {
@@ -2626,7 +2560,7 @@
           "lib/net45/Microsoft.Owin.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.8": {
+      "Newtonsoft.Json/6.0.6": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -2991,22 +2925,6 @@
           "lib/net45/EntityFramework.SqlServer.dll": {}
         }
       },
-      "IdentityModel/1.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "6.0.8"
-        },
-        "frameworkAssemblies": [
-          "System.IdentityModel",
-          "System.Net.Http"
-        ],
-        "compile": {
-          "lib/net45/IdentityModel.Net45.dll": {}
-        },
-        "runtime": {
-          "lib/net45/IdentityModel.Net45.dll": {}
-        }
-      },
       "IdentityServer3/2.0.2": {
         "type": "package",
         "dependencies": {
@@ -3017,14 +2935,6 @@
         },
         "runtime": {
           "lib/net45/IdentityServer3.dll": {}
-        }
-      },
-      "IdentityServer3.AspNetIdentity/2.0.0": {
-        "type": "package",
-        "dependencies": {
-          "IdentityModel": "1.0.0",
-          "IdentityServer3": "2.0.0",
-          "Microsoft.AspNet.Identity.Core": "2.2.1"
         }
       },
       "Ix-Async/1.2.5": {
@@ -3402,15 +3312,6 @@
         },
         "runtime": {
           "lib/dnx451/Microsoft.AspNet.Identity.dll": {}
-        }
-      },
-      "Microsoft.AspNet.Identity.Core/2.2.1": {
-        "type": "package",
-        "compile": {
-          "lib/net45/Microsoft.AspNet.Identity.Core.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.Identity.Core.dll": {}
         }
       },
       "Microsoft.AspNet.Identity.EntityFramework/3.0.0-beta8": {
@@ -4049,7 +3950,7 @@
           "lib/net45/Microsoft.Owin.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.8": {
+      "Newtonsoft.Json/6.0.6": {
         "type": "package",
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
@@ -4376,19 +4277,6 @@
         "lib/net45/EntityFramework.SqlServer.xml"
       ]
     },
-    "IdentityModel/1.0.0": {
-      "type": "package",
-      "sha512": "vDVPapP4kiSMl3iU5DYiGbGWIvapK6rpvjNDdl2ax/izBfcz90vDcWl9p6lPOzrVMgn0fXCewbNp8PNRSYbaKg==",
-      "files": [
-        "IdentityModel.1.0.0.nupkg",
-        "IdentityModel.1.0.0.nupkg.sha512",
-        "IdentityModel.nuspec",
-        "lib/net45/IdentityModel.Net45.dll",
-        "lib/net45/IdentityModel.Net45.pdb",
-        "lib/portable-net45+win8+wpa81/IdentityModel.Portable.dll",
-        "lib/portable-net45+win8+wpa81/IdentityModel.Portable.pdb"
-      ]
-    },
     "IdentityServer3/2.0.2": {
       "type": "package",
       "sha512": "qj7b2VAO34OGPIQUEEVkkXMOvUp/KVMyO0ktMTf9AOLVIhZYswE0xx1YysTUOixByXl+kWmPdjYAulEDP8mtxw==",
@@ -4399,16 +4287,6 @@
         "lib/net45/IdentityServer3.dll",
         "lib/net45/IdentityServer3.pdb",
         "lib/net45/IdentityServer3.xml"
-      ]
-    },
-    "IdentityServer3.AspNetIdentity/2.0.0": {
-      "type": "package",
-      "sha512": "Gf7/2d2pzVlv3yqHd+9LdhTfm30plyx8WKmTMAwmOVqkxlPfAuO9QMvWiDHf7P/gqpGW63h5yttlMxuQ89773g==",
-      "files": [
-        "content/App_Packages/IdentityServer3.AspNetIdentity/IdentityServer3.AspNetIdentity.cs.pp",
-        "IdentityServer3.AspNetIdentity.2.0.0.nupkg",
-        "IdentityServer3.AspNetIdentity.2.0.0.nupkg.sha512",
-        "IdentityServer3.AspNetIdentity.nuspec"
       ]
     },
     "Ix-Async/1.2.5": {
@@ -4688,18 +4566,6 @@
         "Microsoft.AspNet.Identity.3.0.0-beta8.nupkg",
         "Microsoft.AspNet.Identity.3.0.0-beta8.nupkg.sha512",
         "Microsoft.AspNet.Identity.nuspec"
-      ]
-    },
-    "Microsoft.AspNet.Identity.Core/2.2.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "jjurNglpmcv0SLBd4Fmar8ZoJ2yqfTf6iuP3p8wVH7Nvanfo8l3qTBzq3qRQz2BQlb6iXJiDWPjcnIImVz512g==",
-      "files": [
-        "lib/net45/Microsoft.AspNet.Identity.Core.dll",
-        "lib/net45/Microsoft.AspNet.Identity.Core.xml",
-        "Microsoft.AspNet.Identity.Core.2.2.1.nupkg",
-        "Microsoft.AspNet.Identity.Core.2.2.1.nupkg.sha512",
-        "Microsoft.AspNet.Identity.Core.nuspec"
       ]
     },
     "Microsoft.AspNet.Identity.EntityFramework/3.0.0-beta8": {
@@ -5283,9 +5149,9 @@
         "Microsoft.Owin.nuspec"
       ]
     },
-    "Newtonsoft.Json/6.0.8": {
+    "Newtonsoft.Json/6.0.6": {
       "type": "package",
-      "sha512": "nZX7xCBl3PXpxRCxVtVfUXn63gSzrT8aO0VB9Tp24q656IUup9EGE8SGlo0UJ9if48OacJU34ZEtKEGWIdNCzg==",
+      "sha512": "w26uZNyCG5VeoKiEOJ4+9/o8koSofLKwHl7WLreIcp0U6r57L7WiRXmjp8MTKFw6dYNZ9AE0lw69WYbIhUsU9Q==",
       "files": [
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
@@ -5301,8 +5167,8 @@
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
         "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll",
         "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.xml",
-        "Newtonsoft.Json.6.0.8.nupkg",
-        "Newtonsoft.Json.6.0.8.nupkg.sha512",
+        "Newtonsoft.Json.6.0.6.nupkg",
+        "Newtonsoft.Json.6.0.6.nupkg.sha512",
         "Newtonsoft.Json.nuspec",
         "tools/install.ps1"
       ]
@@ -6036,7 +5902,7 @@
       "Microsoft.AspNet.Owin >= 1.0.0-beta8",
       "Microsoft.Owin >= 3.0.1",
       "IdentityServer3 >= 2.0.2",
-      "IdentityServer3.AspNetIdentity >= 2.0.0",
+      "Microsoft.AspNet.Identity >= 3.0.0-beta8",
       "Microsoft.AspNet.Identity.EntityFramework >= 3.0.0-beta8",
       "EntityFramework.Commands >= 7.0.0-beta8",
       "EntityFramework.SQLite >= 7.0.0-beta8"

@@ -49,6 +49,7 @@ namespace IdentityServerAspNet5WithIdentity
 
         public void Configure(IApplicationBuilder app, IApplicationEnvironment env)
         {
+          
             app.UseIISPlatformHandler();
             app.UseDeveloperExceptionPage();
 
