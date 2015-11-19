@@ -1,11 +1,12 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace AspNet5SQLite
 {
+
     public class Startup
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
@@ -18,7 +19,7 @@ namespace AspNet5SQLite
             //Add Cors support to the service
             services.AddCors();
 
-            var policy = new Microsoft.AspNet.Cors.Core.CorsPolicy();
+            var policy = new Microsoft.AspNet.Cors.Infrastructure.CorsPolicy();
 
             policy.Headers.Add("*");
             policy.Methods.Add("*");
@@ -50,5 +51,8 @@ namespace AspNet5SQLite
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }
