@@ -3,12 +3,13 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
-    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
-    "Microsoft.AspNet.Diagnostics": "1.0.0-beta8",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
     "Microsoft.Owin": "3.0.1",
-    "Microsoft.AspNet.DataProtection": "1.0.0-beta8",
-    "Microsoft.AspNet.Owin": "1.0.0-beta8",
+    "Microsoft.AspNet.DataProtection": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Owin": "1.0.0-rc1-final",
+
     "IdentityServer3": "2.0.2"
   },
 

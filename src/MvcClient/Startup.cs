@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Builder;
-using Microsoft.Framework.DependencyInjection;
+
 using Microsoft.AspNet.Authentication.OpenIdConnect;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNet.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using Microsoft.AspNet.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MvcClient
 {
+
+
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
@@ -27,18 +31,18 @@ namespace MvcClient
             app.UseCookieAuthentication(options =>
             {
                 options.AuthenticationScheme = "Cookies";
-                options.AutomaticAuthentication = true;
+                options.AutomaticAuthenticate = true;
             });
 
             app.UseOpenIdConnectAuthentication(options =>
             {
                 options.AuthenticationScheme = "oidc";
                 options.SignInScheme = "Cookies";
-                options.AutomaticAuthentication = true;
+                options.AutomaticAuthenticate = true;
                 options.SaveTokensAsClaims = false;
                 
                 options.Authority = "https://localhost:44300";
-                options.RedirectUri = "http://localhost:2221/";
+                options.PostLogoutRedirectUri = "http://localhost:2221/";
 
                 options.ClientId = "mvc6";
                 options.ResponseType = "id_token token";
@@ -89,5 +93,8 @@ namespace MvcClient
 
             app.UseMvcWithDefaultRoute();
         }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

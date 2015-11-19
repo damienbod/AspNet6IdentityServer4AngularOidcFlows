@@ -3,7 +3,7 @@ using IdentityServer3.Core.Configuration;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Owin;
-using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNet.Builder
 {

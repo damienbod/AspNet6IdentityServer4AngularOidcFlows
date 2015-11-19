@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Builder;
-using Microsoft.Framework.DependencyInjection;
 using System.Security.Cryptography.X509Certificates;
 using IdentityServer3.Core.Configuration;
 using Microsoft.Dnx.Runtime;
@@ -7,12 +6,13 @@ using IdentityServerAspNet5WithIdentity.AspNetIdentity;
 using IdentityServerAspNet5WithIdentity.Configuration;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
+using Microsoft.AspNet.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace IdentityServerAspNet5WithIdentity
 {
-    using Microsoft.AspNet.Hosting;
-    using Microsoft.Framework.Configuration;
-
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
@@ -73,5 +73,7 @@ namespace IdentityServerAspNet5WithIdentity
 
             app.UseIdentityServer(idsrvOptions);
         }
+
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }
