@@ -10,7 +10,7 @@
     "Microsoft.AspNet.DataProtection": "1.0.0-rc1-final",
     "Microsoft.AspNet.Owin": "1.0.0-rc1-final",
 
-    "IdentityServer3": "2.0.2"
+    "IdentityServer3": "2.2.0"
   },
 
   "commands": {
