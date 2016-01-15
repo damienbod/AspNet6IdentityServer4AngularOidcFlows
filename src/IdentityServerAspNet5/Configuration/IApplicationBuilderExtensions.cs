@@ -1,38 +1,40 @@
-﻿using System;
-using IdentityServer3.Core.Configuration;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Owin;
-using Microsoft.Extensions.DependencyInjection;
+﻿//using System;
+//using IdentityServer3.Core.Configuration;
+//using System.Threading.Tasks;
+//using System.Collections.Generic;
+//using Owin;
+//using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.AspNet.Builder
-{
-    using DataProtectionProviderDelegate = Func<string[], Tuple<Func<byte[], byte[]>, Func<byte[], byte[]>>>;
-    using DataProtectionTuple = Tuple<Func<byte[], byte[]>, Func<byte[], byte[]>>;
+//namespace Microsoft.AspNet.Builder
+//{
+//    using IdentityServer4.Core.Configuration;
 
-    public static class IApplicationBuilderExtensions
-    {
-        public static void UseIdentityServer(this IApplicationBuilder app, IdentityServerOptions options)
-        {
-            app.UseOwin(addToPipeline =>
-            {
-                addToPipeline(next =>
-                {
-                    var builder = new Microsoft.Owin.Builder.AppBuilder();
-                    var provider = app.ApplicationServices.GetService<Microsoft.AspNet.DataProtection.IDataProtectionProvider>();
+//    using DataProtectionProviderDelegate = Func<string[], Tuple<Func<byte[], byte[]>, Func<byte[], byte[]>>>;
+//    using DataProtectionTuple = Tuple<Func<byte[], byte[]>, Func<byte[], byte[]>>;
 
-                    builder.Properties["security.DataProtectionProvider"] = new DataProtectionProviderDelegate(purposes =>
-                    {
-                        var dataProtection = provider.CreateProtector(String.Join(",", purposes));
-                        return new DataProtectionTuple(dataProtection.Protect, dataProtection.Unprotect);
-                    });
+//    public static class IApplicationBuilderExtensions
+//    {
+//        public static void UseIdentityServer(this IApplicationBuilder app, IdentityServerOptions options)
+//        {
+//            app.UseOwin(addToPipeline =>
+//            {
+//                addToPipeline(next =>
+//                {
+//                    var builder = new Microsoft.Owin.Builder.AppBuilder();
+//                    var provider = app.ApplicationServices.GetService<Microsoft.AspNet.DataProtection.IDataProtectionProvider>();
 
-                    builder.UseIdentityServer(options);
+//                    builder.Properties["security.DataProtectionProvider"] = new DataProtectionProviderDelegate(purposes =>
+//                    {
+//                        var dataProtection = provider.CreateProtector(String.Join(",", purposes));
+//                        return new DataProtectionTuple(dataProtection.Protect, dataProtection.Unprotect);
+//                    });
 
-                    var appFunc = builder.Build(typeof(Func<IDictionary<string, object>, Task>)) as Func<IDictionary<string, object>, Task>;
-                    return appFunc;
-                });
-            });
-        }
-    }
-}
+//                    builder.UseIdentityServer(options);
+
+//                    var appFunc = builder.Build(typeof(Func<IDictionary<string, object>, Task>)) as Func<IDictionary<string, object>, Task>;
+//                    return appFunc;
+//                });
+//            });
+//        }
+//    }
+//}

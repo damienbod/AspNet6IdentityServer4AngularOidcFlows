@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using IdentityServer3.Core.Models;
-
-namespace IdentityServerAspNet5
+﻿namespace IdentityServerAspNet5.Configuration
 {
+    using System.Collections.Generic;
+
+    using IdentityServer4.Core.Models;
+
     public class Clients
     {
         public static List<Client> Get()
