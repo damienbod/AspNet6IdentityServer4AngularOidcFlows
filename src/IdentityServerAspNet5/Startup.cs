@@ -37,8 +37,6 @@ namespace IdentityServerAspNet5
             builder.AddInMemoryScopes(Scopes.Get());
             builder.AddInMemoryUsers(Users.Get());
 
-            //builder.AddCustomGrantValidator<CustomGrantValidator>();
-
             // for the UI
             services
                 .AddMvc()
@@ -62,36 +60,7 @@ namespace IdentityServerAspNet5
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }
-        //public void ConfigureServices(IServiceCollection services)
-        //{
-        //    services.AddDataProtection();
-        //}
-
-        //public void Configure(IApplicationBuilder app, IApplicationEnvironment env)
-        //{
-        //    app.UseIISPlatformHandler();
-        //    app.UseDeveloperExceptionPage();
-
-        //    var certFile = env.ApplicationBasePath + "\\damienbodserver.pfx";
-
-        //    var idsrvOptions = new IdentityServerOptions
-        //    {
-        //        Factory = new IdentityServerServiceFactory()
-        //                        .UseInMemoryUsers(Users.Get())
-        //                        .UseInMemoryClients(Clients.Get())
-        //                        .UseInMemoryScopes(Scopes.Get()),
-
-        //        SigningCertificate = new X509Certificate2(certFile, ""),
-        //        AuthenticationOptions = new AuthenticationOptions
-        //        {
-        //            EnablePostSignOutAutoRedirect = true
-        //        }
-        //    };
-
-        //    app.UseIdentityServer(idsrvOptions);
-        //}
-
-        // Entry point for the application.
+       
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

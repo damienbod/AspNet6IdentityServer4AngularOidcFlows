@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Builder;
 using System.Security.Cryptography.X509Certificates;
-using IdentityServer3.Core.Configuration;
 using Microsoft.Dnx.Runtime;
 using IdentityServerAspNet5WithIdentity.AspNetIdentity;
 using IdentityServerAspNet5WithIdentity.Configuration;
@@ -13,14 +12,22 @@ using Microsoft.Extensions.PlatformAbstractions;
 
 namespace IdentityServerAspNet5WithIdentity
 {
+    using System.IO;
+
+    using IdentityServerAspNet5.UI.Login;
+
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
 
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
+        private readonly IApplicationEnvironment _environment;
+
+        public Startup(IHostingEnvironment env, IApplicationEnvironment environment)
         {
+            _environment = environment;
+
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
+                .SetBasePath(environment.ApplicationBasePath)
                 .AddJsonFile("config.json");
             Configuration = builder.Build();
         }
@@ -44,34 +51,35 @@ namespace IdentityServerAspNet5WithIdentity
                 .AddEntityFrameworkStores<MyIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddDataProtection();
+            var cert = new X509Certificate2(Path.Combine(_environment.ApplicationBasePath, "damienbodserver.pfx"), "");
+
+            var builder = services.AddIdentityServer(options =>
+            {
+                options.SigningCertificate = cert;
+            });
+
+            builder.AddInMemoryClients(Clients.Get());
+            builder.AddInMemoryScopes(Scopes.Get());
+            builder.AddInMemoryUsers(Users.Get());
+
+            // for the UI
+            services
+                .AddMvc()
+                .AddRazorOptions(razor =>
+                {
+                    razor.ViewLocationExpanders.Add(new IdSvrHost.UI.CustomViewLocationExpander());
+                });
+            services.AddTransient<LoginService>();
         }
 
         public void Configure(IApplicationBuilder app, IApplicationEnvironment env)
         {
-          
             app.UseIISPlatformHandler();
             app.UseDeveloperExceptionPage();
 
             app.UseIdentity();
 
-            var certFile = env.ApplicationBasePath + "\\damienbodserver.pfx";
-
-            var idsrvOptions = new IdentityServerOptions
-            {
-                Factory = new IdentityServerServiceFactory()
-                                .UseInMemoryUsers(Users.Get())
-                                .UseInMemoryClients(Clients.Get())
-                                .UseInMemoryScopes(Scopes.Get()),
-
-                SigningCertificate = new X509Certificate2(certFile, ""),
-                AuthenticationOptions = new AuthenticationOptions
-                {
-                    EnablePostSignOutAutoRedirect = true
-                }
-            };
-
-            app.UseIdentityServer(idsrvOptions);
+            app.UseIdentityServer();
         }
 
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);

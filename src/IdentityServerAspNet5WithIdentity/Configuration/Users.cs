@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Security.Claims;
 
-    using IdentityServer3.Core;
-    using IdentityServer3.Core.Services.InMemory;
+    using IdentityServer4.Core;
+    using IdentityServer4.Core.Services.InMemory;
 
     static class Users
     {

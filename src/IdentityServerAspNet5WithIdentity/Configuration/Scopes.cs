@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using IdentityServer3.Core.Models;
-
-namespace IdentityServerAspNet5WithIdentity
+﻿namespace IdentityServerAspNet5WithIdentity.Configuration
 {
+    using System.Collections.Generic;
+
+    using IdentityServer4.Core.Models;
+
     public class Scopes
     {
         public static IEnumerable<Scope> Get()
