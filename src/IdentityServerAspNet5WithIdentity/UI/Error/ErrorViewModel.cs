@@ -1,4 +1,4 @@
-﻿namespace IdentityServerAspNet5.UI.Error
+﻿namespace IdentityServerAspNet5WithIdentity.UI.Error
 {
     using IdentityServer4.Core.Models;
 

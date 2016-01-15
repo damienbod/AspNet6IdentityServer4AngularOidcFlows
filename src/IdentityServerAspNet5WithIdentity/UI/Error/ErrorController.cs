@@ -1,4 +1,4 @@
-﻿namespace IdentityServerAspNet5.UI.Error
+﻿namespace IdentityServerAspNet5WithIdentity.UI.Error
 {
     using System.Threading.Tasks;
 

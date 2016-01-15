@@ -14,7 +14,8 @@ namespace IdentityServerAspNet5WithIdentity
 {
     using System.IO;
 
-    using IdentityServerAspNet5.UI.Login;
+    using IdentityServerAspNet5WithIdentity.UI;
+    using IdentityServerAspNet5WithIdentity.UI.Login;
 
     public class Startup
     {
@@ -67,7 +68,7 @@ namespace IdentityServerAspNet5WithIdentity
                 .AddMvc()
                 .AddRazorOptions(razor =>
                 {
-                    razor.ViewLocationExpanders.Add(new IdSvrHost.UI.CustomViewLocationExpander());
+                    razor.ViewLocationExpanders.Add(new CustomViewLocationExpander());
                 });
             services.AddTransient<LoginService>();
         }

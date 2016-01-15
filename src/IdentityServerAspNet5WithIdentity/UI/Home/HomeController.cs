@@ -1,4 +1,4 @@
-﻿namespace IdentityServerAspNet5.UI.Home
+﻿namespace IdentityServerAspNet5WithIdentity.UI.Home
 {
     using Microsoft.AspNet.Mvc;
 

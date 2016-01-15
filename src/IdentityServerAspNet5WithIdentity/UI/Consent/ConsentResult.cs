@@ -1,4 +1,4 @@
-﻿namespace IdentityServerAspNet5.UI.Consent
+﻿namespace IdentityServerAspNet5WithIdentity.UI.Consent
 {
     using System.Threading.Tasks;
 

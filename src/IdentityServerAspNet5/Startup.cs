@@ -11,6 +11,7 @@ namespace IdentityServerAspNet5
     using IdentityServer4.Core.Configuration;
 
     using IdentityServerAspNet5.Configuration;
+    using IdentityServerAspNet5.UI;
     using IdentityServerAspNet5.UI.Login;
 
     using Microsoft.Extensions.Logging;
@@ -42,7 +43,7 @@ namespace IdentityServerAspNet5
                 .AddMvc()
                 .AddRazorOptions(razor =>
                 {
-                    razor.ViewLocationExpanders.Add(new IdSvrHost.UI.CustomViewLocationExpander());
+                    razor.ViewLocationExpanders.Add(new CustomViewLocationExpander());
                 });
             services.AddTransient<LoginService>();
         }

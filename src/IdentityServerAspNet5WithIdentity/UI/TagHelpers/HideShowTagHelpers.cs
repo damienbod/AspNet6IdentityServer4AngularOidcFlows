@@ -1,4 +1,4 @@
-﻿namespace IdentityServerAspNet5.UI.TagHelpers
+﻿namespace IdentityServerAspNet5WithIdentity.UI.TagHelpers
 {
     using Microsoft.AspNet.Razor.TagHelpers;
 

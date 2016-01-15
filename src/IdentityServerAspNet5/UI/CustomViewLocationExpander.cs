@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNet.Mvc.Razor;
-using System.Collections.Generic;
-
-namespace IdSvrHost.UI
+﻿namespace IdentityServerAspNet5.UI
 {
+    using System.Collections.Generic;
+
+    using Microsoft.AspNet.Mvc.Razor;
+
     public class CustomViewLocationExpander : IViewLocationExpander
     {
         public IEnumerable<string> ExpandViewLocations(

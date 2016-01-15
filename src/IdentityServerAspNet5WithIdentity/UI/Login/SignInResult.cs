@@ -1,4 +1,4 @@
-﻿namespace IdentityServerAspNet5.UI.Login
+﻿namespace IdentityServerAspNet5WithIdentity.UI.Login
 {
     using System.Threading.Tasks;
 

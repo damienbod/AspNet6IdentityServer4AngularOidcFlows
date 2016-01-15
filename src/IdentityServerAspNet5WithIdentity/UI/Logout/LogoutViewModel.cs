@@ -1,4 +1,4 @@
-﻿namespace IdentityServerAspNet5.UI.Logout
+﻿namespace IdentityServerAspNet5WithIdentity.UI.Logout
 {
     public class LogoutViewModel
     {
