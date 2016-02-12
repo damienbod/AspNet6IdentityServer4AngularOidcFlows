@@ -20,13 +20,36 @@
                 new Scope
                 {
                     Name = "dataEventRecords",
-                    DisplayName = "Data Event Records Scope",
+                    DisplayName = "Guest Data Event Records Scope",
                     Type = ScopeType.Resource,
 
                     Claims = new List<ScopeClaim>
                     {
-                        new ScopeClaim("role")
+                        new ScopeClaim("dataEventRecords")
                     }
+                },
+                new Scope
+                {
+                    Name = "dataEventRecords.admin",
+                    DisplayName = "Admin Data Event Records Scope",
+                    Type = ScopeType.Resource,
+
+                    Claims = new List<ScopeClaim>
+                    {
+                        new ScopeClaim("dataEventRecords.admin")
+                    }
+                },
+                new Scope
+                {
+                    Name = "dataEventRecords.user",
+                    DisplayName = "User Data Event Records Scope",
+                    Type = ScopeType.Resource,
+
+                    Claims = new List<ScopeClaim>
+                    {
+                        new ScopeClaim("dataEventRecords.user")
+                    }
+                    
                 }
             };
         }

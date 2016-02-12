@@ -30,7 +30,9 @@
                         "openid",
                         "email",
                         "profile",
-                        "dataEventRecords"
+                        "dataEventRecords",
+                        "dataEventRecords.admin",
+                        "dataEventRecords.user"
                     }
                 },
                 new Client

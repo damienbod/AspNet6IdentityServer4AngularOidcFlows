@@ -75,7 +75,7 @@ namespace AspNet5SQLite
                 options.AutomaticAuthenticate = true;
             });
 
-            app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords" });
+            app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
