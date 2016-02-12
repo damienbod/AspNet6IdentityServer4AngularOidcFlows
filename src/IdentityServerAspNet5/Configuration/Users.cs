@@ -20,7 +20,7 @@
                         new Claim(Constants.ClaimTypes.Email, "damien_bod@hotmail.com"),
                         new Claim(Constants.ClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(Constants.ClaimTypes.Role, "guest"),
-                        new Claim(Constants.ClaimTypes.Scope, "dataEventRecords")
+                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords")
                     }
                 },
                 new InMemoryUser{Subject = "48421157", Username = "damienbodadmin", Password = "damienbod",
@@ -31,9 +31,9 @@
                         new Claim(Constants.ClaimTypes.Email, "damien_bod@hotmail.com"),
                         new Claim(Constants.ClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(Constants.ClaimTypes.Role, "admin"),
-                        new Claim(Constants.ClaimTypes.Scope, "dataEventRecords.admin"),
-                        new Claim(Constants.ClaimTypes.Scope, "dataEventRecords.user"),
-                        new Claim(Constants.ClaimTypes.Scope, "dataEventRecords")
+                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords.admin"),
+                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords.user"),
+                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords")
                     }
                 },
                 new InMemoryUser{Subject = "48421158", Username = "damienboduser", Password = "damienbod",
@@ -44,8 +44,8 @@
                         new Claim(Constants.ClaimTypes.Email, "damien_bod@hotmail.com"),
                         new Claim(Constants.ClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(Constants.ClaimTypes.Role, "user"),
-                        new Claim(Constants.ClaimTypes.Scope, "dataEventRecords.user"),
-                        new Claim(Constants.ClaimTypes.Scope, "dataEventRecords")
+                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords.user"),
+                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords")
                     }
                 }
             };

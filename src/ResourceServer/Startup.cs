@@ -57,11 +57,11 @@ namespace AspNet5SQLite
             {
                 options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
                 {
-                    policyAdmin.RequireClaim("scope", "dataEventRecords.admin");
+                    policyAdmin.RequireClaim("role", "dataEventRecords.admin");
                 });
                 options.AddPolicy("dataEventRecordsUser", policyUser =>
                 {
-                    policyUser.RequireClaim("scope",  "dataEventRecords.user");
+                    policyUser.RequireClaim("role",  "dataEventRecords.user");
                 });
 
             });
@@ -99,7 +99,7 @@ namespace AspNet5SQLite
                 options.AutomaticAuthenticate = true;
             });
 
-           // app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
+              app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

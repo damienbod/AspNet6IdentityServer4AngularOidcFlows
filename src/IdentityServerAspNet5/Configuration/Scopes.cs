@@ -25,6 +25,7 @@
 
                     Claims = new List<ScopeClaim>
                     {
+                        new ScopeClaim("role"),
                         new ScopeClaim("dataEventRecords")
                     }
                 },
@@ -36,6 +37,7 @@
 
                     Claims = new List<ScopeClaim>
                     {
+                        new ScopeClaim("role"),
                         new ScopeClaim("dataEventRecords.admin")
                     }
                 },
@@ -47,6 +49,7 @@
 
                     Claims = new List<ScopeClaim>
                     {
+                        new ScopeClaim("role"),
                         new ScopeClaim("dataEventRecords.user")
                     }
                     
