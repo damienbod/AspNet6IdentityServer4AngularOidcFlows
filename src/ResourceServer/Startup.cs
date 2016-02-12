@@ -48,16 +48,6 @@ namespace AspNet5SQLite
 
             services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
 
-            var adminPolicy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .RequireClaim("dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user")
-                .Build();
-
-            var userPolicy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .RequireClaim("dataEventRecords", "dataEventRecords.user")
-                .Build();
-
             var guestPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .RequireClaim("dataEventRecords")
@@ -65,14 +55,21 @@ namespace AspNet5SQLite
 
             services.AddMvc(options =>
             {
-               options.Filters.Add(new AuthorizeFilter(guestPolicy));
+               //options.Filters.Add(new AuthorizeFilter(guestPolicy));
             });
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("dataEventRecordsAdmin", userPolicy);
-                options.AddPolicy("dataEventRecordsUser", userPolicy);
-            });
+                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user");
+                });
+                options.AddPolicy("dataEventRecordsUser", policyUser =>
+                {
+                    policyUser.RequireClaim("dataEventRecords", "dataEventRecords.user");
+                });
+
+        });
 
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
         }
