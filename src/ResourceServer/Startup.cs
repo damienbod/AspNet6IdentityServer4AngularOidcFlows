@@ -11,11 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc.Filters;
 
 namespace AspNet5SQLite
 {
-
-
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
@@ -48,7 +48,32 @@ namespace AspNet5SQLite
 
             services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
 
-            services.AddMvc();
+            var adminPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireClaim("dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user")
+                .Build();
+
+            var userPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireClaim("dataEventRecords", "dataEventRecords.user")
+                .Build();
+
+            var guestPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireClaim("dataEventRecords")
+                .Build();
+
+            services.AddMvc(options =>
+            {
+               options.Filters.Add(new AuthorizeFilter(guestPolicy));
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("dataEventRecordsAdmin", userPolicy);
+                options.AddPolicy("dataEventRecordsUser", userPolicy);
+            });
+
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
         }
 
@@ -75,7 +100,7 @@ namespace AspNet5SQLite
                 options.AutomaticAuthenticate = true;
             });
 
-            app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
+           // app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
