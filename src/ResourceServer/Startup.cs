@@ -55,7 +55,7 @@ namespace AspNet5SQLite
 
             services.AddMvc(options =>
             {
-               //options.Filters.Add(new AuthorizeFilter(guestPolicy));
+               options.Filters.Add(new AuthorizeFilter(guestPolicy));
             });
 
             services.AddAuthorization(options =>
@@ -97,7 +97,7 @@ namespace AspNet5SQLite
                 options.AutomaticAuthenticate = true;
             });
 
-           // app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
+            app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
