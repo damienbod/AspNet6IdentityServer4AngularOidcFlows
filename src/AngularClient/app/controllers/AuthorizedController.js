@@ -70,7 +70,8 @@
 		            var client_id = 'angularclient';
 		            var redirect_uri = 'https://localhost:44347/authorized';
 		            var response_type = "token";
-		            var scope = "dataEventRecords dataEventRecords.user";
+		           // var scope = "dataEventRecords dataEventRecords.user";
+		            var scope = "dataEventRecords dataEventRecords.admin dataEventRecords.user";
 		            var state = Date.now() + "" + Math.random();
 
 		            localStorageService.set("authStateControl", state);

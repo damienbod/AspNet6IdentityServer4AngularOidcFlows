@@ -57,11 +57,11 @@ namespace AspNet5SQLite
             {
                 options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
                 {
-                    policyAdmin.RequireClaim("scope", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user");
+                    policyAdmin.RequireClaim("scope", "dataEventRecords.admin");
                 });
                 options.AddPolicy("dataEventRecordsUser", policyUser =>
                 {
-                    policyUser.RequireClaim("scope", "dataEventRecords", "dataEventRecords.user");
+                    policyUser.RequireClaim("scope",  "dataEventRecords.user");
                 });
 
             });
