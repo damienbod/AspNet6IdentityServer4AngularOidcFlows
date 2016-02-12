@@ -26,7 +26,7 @@ namespace AspNet5SQLite.Controllers
             return _dataEventRecordRepository.GetAll();
         }
 
-        [Authorize("dataEventRecordsUser")]
+        [Authorize("dataEventRecordsAdmin")]
         [HttpGet("{id}")]
         public DataEventRecord Get(long id)
         {
