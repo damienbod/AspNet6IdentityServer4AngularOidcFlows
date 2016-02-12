@@ -99,7 +99,7 @@ namespace AspNet5SQLite
                 options.AutomaticAuthenticate = true;
             });
 
-            //app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
+            //app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "aReallyCoolScope" });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

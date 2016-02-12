@@ -31,8 +31,8 @@
                         "email",
                         "profile",
                         "dataEventRecords",
-                        "dataEventRecords.admin",
-                        "dataEventRecords.user"
+                        "aReallyCoolScope",
+                        "role"
                     }
                 },
                 new Client
@@ -53,7 +53,8 @@
                         "openid",
                         "email",
                         "profile",
-                        "dataEventRecords"
+                        "dataEventRecords",
+                        "role"
                     }
                 }
             };

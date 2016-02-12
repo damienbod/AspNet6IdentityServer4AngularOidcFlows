@@ -20,7 +20,7 @@
                 new Scope
                 {
                     Name = "dataEventRecords",
-                    DisplayName = "Guest Data Event Records Scope",
+                    DisplayName = "Data Event Records Scope",
                     Type = ScopeType.Resource,
 
                     Claims = new List<ScopeClaim>
@@ -31,28 +31,15 @@
                 },
                 new Scope
                 {
-                    Name = "dataEventRecords.admin",
-                    DisplayName = "Admin Data Event Records Scope",
+                    Name = "aReallyCoolScope",
+                    DisplayName = "A really cool scope",
                     Type = ScopeType.Resource,
 
                     Claims = new List<ScopeClaim>
                     {
                         new ScopeClaim("role"),
-                        new ScopeClaim("dataEventRecords.admin")
+                        new ScopeClaim("aReallyCoolScope")
                     }
-                },
-                new Scope
-                {
-                    Name = "dataEventRecords.user",
-                    DisplayName = "User Data Event Records Scope",
-                    Type = ScopeType.Resource,
-
-                    Claims = new List<ScopeClaim>
-                    {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("dataEventRecords.user")
-                    }
-                    
                 }
             };
         }
