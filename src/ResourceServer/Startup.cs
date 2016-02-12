@@ -50,26 +50,28 @@ namespace AspNet5SQLite
 
             var guestPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .RequireClaim("dataEventRecords")
+                .RequireClaim("scope", "dataEventRecords")
                 .Build();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("scope", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user");
+                });
+                options.AddPolicy("dataEventRecordsUser", policyUser =>
+                {
+                    policyUser.RequireClaim("scope", "dataEventRecords", "dataEventRecords.user");
+                });
+
+            });
 
             services.AddMvc(options =>
             {
                options.Filters.Add(new AuthorizeFilter(guestPolicy));
             });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
-                {
-                    policyAdmin.RequireClaim("dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user");
-                });
-                options.AddPolicy("dataEventRecordsUser", policyUser =>
-                {
-                    policyUser.RequireClaim("dataEventRecords", "dataEventRecords.user");
-                });
-
-        });
+          
 
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
         }
@@ -97,7 +99,7 @@ namespace AspNet5SQLite
                 options.AutomaticAuthenticate = true;
             });
 
-            app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
+           // app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
