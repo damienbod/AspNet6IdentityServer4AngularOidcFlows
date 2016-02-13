@@ -25,7 +25,20 @@
 
                     Claims = new List<ScopeClaim>
                     {
-                        new ScopeClaim("role")
+                        new ScopeClaim("role"),
+                        new ScopeClaim("dataEventRecords")
+                    }
+                },
+                new Scope
+                {
+                    Name = "aReallyCoolScope",
+                    DisplayName = "A really cool scope",
+                    Type = ScopeType.Resource,
+
+                    Claims = new List<ScopeClaim>
+                    {
+                        new ScopeClaim("role"),
+                        new ScopeClaim("aReallyCoolScope")
                     }
                 }
             };

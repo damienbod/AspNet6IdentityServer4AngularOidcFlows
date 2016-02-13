@@ -30,6 +30,8 @@
                 }
             }
 
+            var test = context.User.Claims.ToList();
+            // TODO add user claims
             await _next(context);
         }
                 

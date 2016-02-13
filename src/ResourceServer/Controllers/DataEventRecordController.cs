@@ -19,30 +19,35 @@ namespace AspNet5SQLite.Controllers
             _dataEventRecordRepository = dataEventRecordRepository;
         }
 
+        [Authorize("dataEventRecordsUser")]
         [HttpGet]
         public IEnumerable<DataEventRecord> Get()
         {
             return _dataEventRecordRepository.GetAll();
         }
 
+        [Authorize("dataEventRecordsUser")]
         [HttpGet("{id}")]
         public DataEventRecord Get(long id)
         {
             return _dataEventRecordRepository.Get(id);
         }
 
+        [Authorize("dataEventRecordsAdmin")]
         [HttpPost]
         public void Post([FromBody]DataEventRecord value)
         {
             _dataEventRecordRepository.Post(value);
         }
 
+        [Authorize("dataEventRecordsAdmin")]
         [HttpPut("{id}")]
         public void Put(long id, [FromBody]DataEventRecord value)
         {
             _dataEventRecordRepository.Put(id, value);
         }
 
+        [Authorize("dataEventRecordsAdmin")]
         [HttpDelete("{id}")]
         public void Delete(long id)
         {

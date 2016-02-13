@@ -11,11 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc.Filters;
 
 namespace AspNet5SQLite
 {
-
-
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
@@ -48,7 +48,31 @@ namespace AspNet5SQLite
 
             services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
 
-            services.AddMvc();
+            var guestPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireClaim("scope", "dataEventRecords")
+                .Build();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("role", "dataEventRecords.admin");
+                });
+                options.AddPolicy("dataEventRecordsUser", policyUser =>
+                {
+                    policyUser.RequireClaim("role",  "dataEventRecords.user");
+                });
+
+            });
+
+            services.AddMvc(options =>
+            {
+               options.Filters.Add(new AuthorizeFilter(guestPolicy));
+            });
+
+          
+
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
         }
 
@@ -75,7 +99,7 @@ namespace AspNet5SQLite
                 options.AutomaticAuthenticate = true;
             });
 
-            app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords" });
+            //app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "aReallyCoolScope" });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
