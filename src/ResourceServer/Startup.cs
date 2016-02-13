@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc.Filters;
+using System.IO;
+using System;
 
 namespace AspNet5SQLite
 {
@@ -31,6 +33,13 @@ namespace AspNet5SQLite
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration["Production:SqliteConnectionString"];
+
+            services.AddDataProtection();
+            services.ConfigureDataProtection(configure =>
+            {
+                configure.SetDefaultKeyLifetime(TimeSpan.FromDays(14));
+                //.PersistKeysToFileSystem(new DirectoryInfo(@"C:\\git\\damienbod\\AspNet5IdentityServerAngularImplicitFlow\\src\\ResourceServer\\Keys"));
+            });
 
             services.AddEntityFramework()
                 .AddSqlite()
@@ -71,7 +80,7 @@ namespace AspNet5SQLite
                options.Filters.Add(new AuthorizeFilter(guestPolicy));
             });
 
-          
+            
 
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
         }
