@@ -13,6 +13,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc.Filters;
 using System;
+using System.IO;
 
 namespace AspNet5SQLite
 {
@@ -35,8 +36,11 @@ namespace AspNet5SQLite
             services.AddDataProtection();
             services.ConfigureDataProtection(configure =>
             {
-                configure.SetDefaultKeyLifetime(TimeSpan.FromDays(14));
-                //.PersistKeysToFileSystem(new DirectoryInfo(@"C:\\git\\damienbod\\AspNet5IdentityServerAngularImplicitFlow\\src\\ResourceServer\\Keys"));
+                configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
+                configure.DisableAutomaticKeyGeneration();
+
+                // This folder needs to be backed up.
+                configure.PersistKeysToFileSystem(new DirectoryInfo(@"C:\\git\\damienbod\\AspNet5IdentityServerAngularImplicitFlow\\src\\ResourceServer\\Keys"));
             });
 
             services.AddEntityFramework()
