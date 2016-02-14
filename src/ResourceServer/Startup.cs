@@ -37,7 +37,6 @@ namespace AspNet5SQLite
             services.ConfigureDataProtection(configure =>
             {
                 configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
-                configure.DisableAutomaticKeyGeneration();
 
                 // This folder needs to be backed up.
                 configure.PersistKeysToFileSystem(new DirectoryInfo(@"C:\\git\\damienbod\\AspNet5IdentityServerAngularImplicitFlow\\src\\ResourceServer\\Keys"));
