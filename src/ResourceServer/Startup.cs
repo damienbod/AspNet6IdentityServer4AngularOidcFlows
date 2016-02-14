@@ -14,6 +14,8 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc.Filters;
 using System;
 using System.IO;
+using Microsoft.AspNet.DataProtection.AuthenticatedEncryption;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AspNet5SQLite
 {
@@ -21,25 +23,32 @@ namespace AspNet5SQLite
     {
         public IConfigurationRoot Configuration { get; set; }
 
+        private readonly IApplicationEnvironment _environment;
+
+
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile("config.json");
             Configuration = builder.Build();
+            _environment = appEnv;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration["Production:SqliteConnectionString"];
 
+            var cert = new X509Certificate2(Path.Combine(_environment.ApplicationBasePath, "damienbodserver.pfx"), "");
+
             services.AddDataProtection();
             services.ConfigureDataProtection(configure =>
             {
                 configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
-
+                configure.ProtectKeysWithCertificate(cert);
                 // This folder needs to be backed up.
                 configure.PersistKeysToFileSystem(new DirectoryInfo(@"C:\\git\\damienbod\\AspNet5IdentityServerAngularImplicitFlow\\src\\ResourceServer\\Keys"));
+                
             });
 
             services.AddEntityFramework()
