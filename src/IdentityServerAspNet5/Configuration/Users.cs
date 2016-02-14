@@ -33,8 +33,7 @@
                         new Claim(Constants.ClaimTypes.Role, "admin"),
                         new Claim(Constants.ClaimTypes.Role, "dataEventRecords.admin"),
                         new Claim(Constants.ClaimTypes.Role, "dataEventRecords.user"),
-                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords"),
-                        new Claim(Constants.ClaimTypes.Scope, "aReallyCoolScope")
+                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords")
                     }
                 },
                 new InMemoryUser{Subject = "48421158", Username = "damienboduser", Password = "damienbod",
