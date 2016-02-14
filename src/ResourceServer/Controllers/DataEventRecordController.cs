@@ -1,13 +1,11 @@
+using AspNet5SQLite.Model;
+using AspNet5SQLite.Repositories;
+
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
+
 namespace AspNet5SQLite.Controllers
 {
-    using System.Collections.Generic;
-
-    using AspNet5SQLite.Model;
-    using AspNet5SQLite.Repositories;
-
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Mvc;
-
     [Authorize]
     [Route("api/[controller]")]
     public class DataEventRecordsController : Controller
@@ -21,16 +19,16 @@ namespace AspNet5SQLite.Controllers
 
         [Authorize("dataEventRecordsUser")]
         [HttpGet]
-        public IEnumerable<DataEventRecord> Get()
+        public IActionResult Get()
         {
-            return _dataEventRecordRepository.GetAll();
+            return Ok(_dataEventRecordRepository.GetAll());
         }
 
         [Authorize("dataEventRecordsAdmin")]
         [HttpGet("{id}")]
-        public DataEventRecord Get(long id)
+        public IActionResult Get(long id)
         {
-            return _dataEventRecordRepository.Get(id);
+            return Ok(_dataEventRecordRepository.Get(id));
         }
 
         [Authorize("dataEventRecordsAdmin")]

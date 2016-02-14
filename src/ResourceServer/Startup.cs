@@ -3,7 +3,6 @@ using AspNet5SQLite.Repositories;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Data.Entity;
-using Microsoft.Dnx.Runtime;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -13,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc.Filters;
-using System.IO;
 using System;
 
 namespace AspNet5SQLite
@@ -80,8 +78,6 @@ namespace AspNet5SQLite
                options.Filters.Add(new AuthorizeFilter(guestPolicy));
             });
 
-            
-
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
         }
 
@@ -106,6 +102,9 @@ namespace AspNet5SQLite
                 options.Authority = "https://localhost:44345";
                 options.Audience = "https://localhost:44345/resources";
                 options.AutomaticAuthenticate = true;
+
+                // required if you want to return a 403 and not a 401 for forbidden responses
+                options.AutomaticChallenge = true;
             });
 
             //app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "aReallyCoolScope" });
