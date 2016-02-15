@@ -28,7 +28,7 @@
 		    $log.info(dataEventRecord);
 		    $scope.DataEventRecordsService.UpdateDataEventRecord(dataEventRecord).then(
 		        function() {
-		            $scope.state.go("overviewindex");
+		            $scope.state.go("reload", { "destinationState": "overviewindex" });
 		        });
 		};
 
@@ -37,7 +37,7 @@
 		    $log.info(dataEventRecord);
 		    $scope.DataEventRecordsService.AddDataEventRecord(dataEventRecord).then(
 		        function () {
-		            $scope.state.go("overviewindex");
+		            $scope.state.go("reload", { "destinationState": "overviewindex" });
 		        });
 		};
 

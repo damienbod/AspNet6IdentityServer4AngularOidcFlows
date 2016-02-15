@@ -16,3 +16,5 @@ TestClient/obj
 TestClient/bin
 src/ResourceServer/project.lock.json
 src/ResourceServer/ResourceServer.xproj.user
+src/ResourceServer/dataeventrecords.sqlite
+src/ResourceServer/Keys/key-c301dae8-ede3-4841-af99-beb6c2003f31.xml
