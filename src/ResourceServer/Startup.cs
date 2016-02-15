@@ -38,7 +38,9 @@ namespace AspNet5SQLite
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration["Production:SqliteConnectionString"];
+            var folderForKeyStore = Configuration["Production:KeyStoreFolderWhichIsBacked"];
 
+            
             var cert = new X509Certificate2(Path.Combine(_environment.ApplicationBasePath, "damienbodserver.pfx"), "");
 
             services.AddDataProtection();
@@ -47,7 +49,7 @@ namespace AspNet5SQLite
                 configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
                 configure.ProtectKeysWithCertificate(cert);
                 // This folder needs to be backed up.
-                configure.PersistKeysToFileSystem(new DirectoryInfo(@"C:\\git\\damienbod\\AspNet5IdentityServerAngularImplicitFlow\\src\\ResourceServer\\Keys"));
+                configure.PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
                 
             });
 
