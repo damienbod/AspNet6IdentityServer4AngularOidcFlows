@@ -3,7 +3,7 @@
 
     mainApp.config(["$stateProvider", "$urlRouterProvider", "$locationProvider",
     function ($stateProvider, $urlRouterProvider, $locationProvider) {
-        $urlRouterProvider.otherwise("/authorized");
+        $urlRouterProvider.otherwise("/unauthorized");
 
         $stateProvider
             .state("authorized", {
@@ -13,6 +13,7 @@
             })
 		    .state("home", { abstract: true, url: "/home", templateUrl: "/templates/home.html" })
             .state("forbidden", { url: "/forbidden", templateUrl: "/templates/forbidden.html" })
+            .state("unauthorized", { url: "/unauthorized", templateUrl: "/templates/unauthorized.html" })       
 		    .state("details", {
 		        parent: "home",
 		        url: "/details/:id",
