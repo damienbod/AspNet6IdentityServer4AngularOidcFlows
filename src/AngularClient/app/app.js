@@ -20,11 +20,6 @@
 		        controller: "DetailsController",
 		        resolve: {
 		            DataEventRecordsService: "DataEventRecordsService",
-		            dataEventRecords: [
-		                "DataEventRecordsService", function (DataEventRecordsService) {
-		                    return DataEventRecordsService.GetDataEventRecords();
-		                }
-		            ],
 		            dataEventRecord: [
 		                "DataEventRecordsService", "$stateParams", function (DataEventRecordsService, $stateParams) {
 		                    var id = $stateParams.id;
@@ -41,7 +36,6 @@
                 controller: "OverviewController",
                 resolve: {
                     DataEventRecordsService: "DataEventRecordsService",
-
                     dataEventRecords: [
 		                "DataEventRecordsService", function (DataEventRecordsService) {
 		                    return DataEventRecordsService.GetDataEventRecords();
@@ -65,14 +59,12 @@
 		                    return { Id: "", Name: "", Description: "", Timestamp: "2016-02-15T08:57:32" };
 		                }
 		            ]
-
 		        }
 		    })
             .state("reload", {
 		        url: "/reload/:destinationState",
 		        controller: ["$state", "$stateParams", function ($state, $stateParams) {
 		            if ($stateParams.destinationState) {
-		                alert("going");
 		                $state.go($stateParams.destinationState);
 		            }
 		            else {
