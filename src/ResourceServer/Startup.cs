@@ -39,8 +39,7 @@ namespace AspNet5SQLite
         {
             var connection = Configuration["Production:SqliteConnectionString"];
             var folderForKeyStore = Configuration["Production:KeyStoreFolderWhichIsBacked"];
-
-            
+          
             var cert = new X509Certificate2(Path.Combine(_environment.ApplicationBasePath, "damienbodserver.pfx"), "");
 
             services.AddDataProtection();
