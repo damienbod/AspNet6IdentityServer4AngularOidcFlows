@@ -11,70 +11,63 @@
                 templateUrl: "/templates/authorized.html",
                 controller: "AuthorizedController"
             })
-		        .state("home", { abstract: true, url: "/home", templateUrl: "/templates/home.html" })
-                  
-		        .state("overview", {
-		            abstract: true,
-		            parent: "home",
-		            url: "/overview",
-		            templateUrl: "/templates/overview.html"
-		        })
-		        .state("details", {
-		            parent: "overview",
-		            url: "/details/:id",
-		            templateUrl: "/templates/details.html",
-		            controller: "DetailsController",
-		            resolve: {
-		                DataEventRecordsService: "DataEventRecordsService",
+		    .state("home", { abstract: true, url: "/home", templateUrl: "/templates/home.html" })
+            .state("forbidden", { url: "/forbidden", templateUrl: "/templates/forbidden.html" })
+		    .state("details", {
+		        parent: "home",
+		        url: "/details/:id",
+		        templateUrl: "/templates/details.html",
+		        controller: "DetailsController",
+		        resolve: {
+		            DataEventRecordsService: "DataEventRecordsService",
+		            dataEventRecords: [
+		                "DataEventRecordsService", function(DataEventRecordsService) {
+		                    return DataEventRecordsService.GetDataEventRecords();
+		                }
+		            ],
+		            dataEventRecord: [
+		                "DataEventRecordsService", "$stateParams", function(DataEventRecordsService, $stateParams) {
+		                    var id = $stateParams.id;
+		                    console.log($stateParams.id);
+		                    return DataEventRecordsService.GetDataEventRecord({ id: id });
+		                }
+		            ]
+		        }
+		    })
+            .state("overviewindex", {
+                parent: "home",
+                url: "/overviewindex",
+                templateUrl: "/templates/overviewindex.html",
+                controller: "OverviewController",
+                resolve: {
+                    DataEventRecordsService: "DataEventRecordsService",
 
-		                dataEventRecords: [
-		                    "DataEventRecordsService", function(DataEventRecordsService) {
-		                        return DataEventRecordsService.GetDataEventRecords();
-		                    }
-		                ],
-		                dataEventRecord: [
-		                    "DataEventRecordsService", "$stateParams", function(DataEventRecordsService, $stateParams) {
-		                        var id = $stateParams.id;
-		                        console.log($stateParams.id);
-		                        return DataEventRecordsService.GetDataEventRecord({ id: id });
-		                    }
-		                ]
-		            }
-		        })
-                .state("overviewindex", {
-                    parent: "overview",
-                    url: "/overviewindex",
-                    templateUrl: "/templates/overviewindex.html",
-                    controller: "OverviewController",
-                    resolve: {
-                        DataEventRecordsService: "DataEventRecordsService",
+                    dataEventRecords: [
+		                "DataEventRecordsService", function(DataEventRecordsService) {
+		                    return DataEventRecordsService.GetDataEventRecords();
+		                }
+                    ]
+                }
+            })
+		    .state("create", {
+		        parent: "home",
+		        url: "/create",
+		        templateUrl: "/templates/create.html",
+		        controller: "DetailsController",
+		        resolve: {
+		            dataEventRecords: [
+		                "DataEventRecordsService", function(DataEventRecordsService) {
+		                    return DataEventRecordsService.GetDataEventRecords();
+		                }
+		            ],
+		            dataEventRecord: [
+		                function() {
+		                    return { Id: "", Name: "", Description: "", Timestamp: "2016-02-15T08:57:32" };
+		                }
+		            ]
 
-                        dataEventRecords: [
-		                    "DataEventRecordsService", function(DataEventRecordsService) {
-		                        return DataEventRecordsService.GetDataEventRecords();
-		                    }
-                        ]
-                    }
-                })
-		        .state("create", {
-		            parent: "overview",
-		            url: "/create",
-		            templateUrl: "/templates/create.html",
-		            controller: "DetailsController",
-		            resolve: {
-		                dataEventRecords: [
-		                    "DataEventRecordsService", function(DataEventRecordsService) {
-		                        return DataEventRecordsService.GetDataEventRecords();
-		                    }
-		                ],
-		                dataEventRecord: [
-		                    function() {
-		                        return { Id: "", Name: "", Description: "", Timestamp: "2015-08-28T09:57:32.4669632" };
-		                    }
-		                ]
-
-		            }
-		        });
+		        }
+		    });
 
 		    $locationProvider.html5Mode(true);
 		}
