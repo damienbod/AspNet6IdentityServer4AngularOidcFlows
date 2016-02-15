@@ -11,11 +11,9 @@
                 templateUrl: "/templates/authorized.html",
                 controller: "AuthorizedController"
             })
-		    .state("home", { abstract: true, url: "/home", templateUrl: "/templates/home.html" })
             .state("forbidden", { url: "/forbidden", templateUrl: "/templates/forbidden.html" })
             .state("unauthorized", { url: "/unauthorized", templateUrl: "/templates/unauthorized.html" })       
 		    .state("details", {
-		        parent: "home",
 		        url: "/details/:id",
 		        templateUrl: "/templates/details.html",
 		        controller: "DetailsController",
@@ -31,7 +29,6 @@
 		        }
 		    })
             .state("overviewindex", {
-                parent: "home",
                 url: "/overviewindex",
                 templateUrl: "/templates/overviewindex.html",
                 controller: "OverviewController",
@@ -45,7 +42,6 @@
                 }
             })
 		    .state("create", {
-		        parent: "home",
 		        url: "/create",
 		        templateUrl: "/templates/create.html",
 		        controller: "DetailsController",
@@ -69,7 +65,7 @@
 		                $state.go($stateParams.destinationState);
 		            }
 		            else {
-		                $state.go("home");
+		                $state.go("overviewindex");
 		            }
 		        }]
 		    });

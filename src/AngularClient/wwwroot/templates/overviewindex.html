@@ -1,4 +1,4 @@
-﻿<div class="col-md-12">
+﻿<div class="col-md-12"  ng-show="IsAuthorized">
     <div class="panel panel-default" >
         <div class="panel-heading">
             <h3 class="panel-title">{{message}}</h3>
@@ -13,7 +13,7 @@
                 </thead>
                 <tbody>
                     <tr style="height:20px;" ng-repeat="dataEventRecord in dataEventRecords">
-                        <td><a href="/home/details/{{dataEventRecord.Id}}">{{dataEventRecord.Name}}</a></td>
+                        <td><a href="/details/{{dataEventRecord.Id}}">{{dataEventRecord.Name}}</a></td>
                         <td>{{dataEventRecord.Timestamp}}</td>
                         <td><button ng-click="Delete(dataEventRecord.Id)">Delete</button></td>
                     </tr>
