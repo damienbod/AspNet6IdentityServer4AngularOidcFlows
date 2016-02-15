@@ -26,13 +26,14 @@
             console.log("console.log(responseFailure);");
             console.log(responseFailure);
             if (responseFailure.status === 403) {
-                localStorageService.set("authorizationData", "");
+                //localStorageService.set("authorizationData", "");
                 alert("forbidden");
                 window.location = "https://localhost:44347/forbidden";
                 window.href = "forbidden";
 
             } else if (responseFailure.status === 401) {
 
+                alert("unauthorized");
                 localStorageService.set("authorizationData", "");
             }
 
