@@ -11,11 +11,12 @@
 			"dataEventRecords",
 			"DataEventRecordsService",
             "$state",
+            "localStorageService",
 			OverviewController
 		]
 	);
 
-	function OverviewController($scope, $log, dataEventRecords, DataEventRecordsService, $state) {
+	function OverviewController($scope, $log, dataEventRecords, DataEventRecordsService, $state, localStorageService) {
 
 		$log.info("OverviewController called");
 		$scope.message = "Overview";
@@ -25,6 +26,12 @@
 		$log.info(dataEventRecords);
 		$scope.dataEventRecords = dataEventRecords;
 	
+		$scope.IsAuthorized = false;
+
+		if (localStorageService.get("authorizationData") !== "") {
+		    $scope.IsAuthorized = true;
+		}
+
 		$scope.Delete = function (id) {
 		    $log.info("deleting");
 		    $scope.DataEventRecordsService.DeleteDataEventRecord(id).then(
