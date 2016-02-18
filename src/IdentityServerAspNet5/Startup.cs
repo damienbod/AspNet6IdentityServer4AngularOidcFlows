@@ -27,11 +27,25 @@ namespace IdentityServerAspNet5
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add Cors support to the service
+            services.AddCors();
+
+            var policy = new Microsoft.AspNet.Cors.Infrastructure.CorsPolicy();
+
+            policy.Headers.Add("*");
+            policy.Methods.Add("*");
+            policy.Origins.Add("*");
+            policy.SupportsCredentials = true;
+
+            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+
             var cert = new X509Certificate2(Path.Combine(_environment.ApplicationBasePath, "damienbodserver.pfx"), "");
 
             var builder = services.AddIdentityServer(options =>
             {
                 options.SigningCertificate = cert;
+                options.Endpoints.EnableEndSessionEndpoint = true;
+
             });
 
             builder.AddInMemoryClients(Clients.Get());
@@ -50,6 +64,8 @@ namespace IdentityServerAspNet5
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
+            app.UseCors("corsGlobalPolicy");
+
             loggerFactory.AddConsole(LogLevel.Verbose);
             loggerFactory.AddDebug(LogLevel.Verbose);
 

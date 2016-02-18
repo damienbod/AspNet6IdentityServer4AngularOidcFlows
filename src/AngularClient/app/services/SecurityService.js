@@ -7,9 +7,16 @@
         var baseUrl = "https://localhost:44390/";
 
         var ResetAuthorizationData = function () {
+            localStorageService.set("authorizationData", "");
         }
 
         var SetAuthorizationData = function (token) {
+            
+            if (localStorageService.get("authorizationData") !== "") {
+                localStorageService.set("authorizationData", "");
+            }
+
+            localStorageService.set("authorizationData", token);
         }
 
         var Authorize = function () {
@@ -80,14 +87,28 @@
                         "scope=" + encodeURI(scope) + "&" +
                         "state=" + encodeURI(state);
 
-
                     $window.location = url;
                 }
             }
         }
 
+        // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://localhost:44347/unauthorized.html
         var Logoff = function () {
+            var token = localStorageService.get("authorizationData");
 
+            var authorizationUrl = 'https://localhost:44345/connect/endsession';
+            var id_token_hint = token;
+            var post_logout_redirect_uri = 'https://localhost:44347/unauthorized.html';
+            var state = Date.now() + "" + Math.random();
+
+            var url =
+                authorizationUrl + "?" +
+                "id_token_hint=" + id_token_hint + "&" +
+                "post_logout_redirect_uri=" + encodeURI(post_logout_redirect_uri) + "&" +
+                "state=" + encodeURI(state);
+
+            ResetAuthorizationData();
+            $window.location = url;
         }
 
 

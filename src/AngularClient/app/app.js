@@ -12,7 +12,9 @@
                 controller: "AuthorizeController"
             })
             .state("forbidden", { url: "/forbidden", templateUrl: "/templates/forbidden.html" })
-            .state("unauthorized", { url: "/unauthorized", templateUrl: "/templates/unauthorized.html" })       
+            .state("unauthorized", { url: "/unauthorized", templateUrl: "/templates/unauthorized.html" })
+            .state("logoff", { url: "/logoff", templateUrl: "/templates/unauthorized.html", controller: "LogoffController" })
+        
 		    .state("details", {
 		        url: "/details/:id",
 		        templateUrl: "/templates/details.html",
