@@ -9,7 +9,7 @@
             .state("authorized", {
                 url: "/authorized",
                 templateUrl: "/templates/authorized.html",
-                controller: "AuthorizedController"
+                controller: "AuthorizeController"
             })
             .state("forbidden", { url: "/forbidden", templateUrl: "/templates/forbidden.html" })
             .state("unauthorized", { url: "/unauthorized", templateUrl: "/templates/unauthorized.html" })       
