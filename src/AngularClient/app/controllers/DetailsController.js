@@ -11,22 +11,16 @@
 			'dataEventRecord',
             'DataEventRecordsService',
             '$state',
-            'localStorageService',
 			DetailsController
 		]
 	);
 
-	function DetailsController($scope, $log, dataEventRecord, DataEventRecordsService, $state, localStorageService ) {
+	function DetailsController($scope, $log, dataEventRecord, DataEventRecordsService, $state ) {
 	    $log.info("DetailsController called");
 		$scope.message = "dataEventRecord Create, Update or Delete";
 	    $scope.DataEventRecordsService = DataEventRecordsService;
 	    $scope.state = $state;
-	    $scope.IsAuthorized = false;
-
-	    if (localStorageService.get("authorizationData") !== "") {
-	        $scope.IsAuthorized = true;
-	    }
-
+	   
 		$scope.dataEventRecord = dataEventRecord;
 
 		$scope.Update = function() {

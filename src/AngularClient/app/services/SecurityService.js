@@ -4,8 +4,8 @@
     function SecurityService($http, $log, $q, $rootScope,  $window, $state, localStorageService) {
         $log.info("SecurityService called");
 
-        var IsAuthorised = false;
-        var HasAdminRole = false;
+        $rootScope.IsAuthorized = false;
+        $rootScope.HasAdminRole = false;
 
         function urlBase64Decode(str) {
             var output = str.replace('-', '+').replace('_', '/');
@@ -35,7 +35,8 @@
 
         var ResetAuthorizationData = function () {
             localStorageService.set("authorizationData", "");
-            IsAuthorised = false;
+            $rootScope.IsAuthorized = false;
+            $rootScope.HasAdminRole = false;
         }
 
         var SetAuthorizationData = function (token) {
@@ -45,7 +46,17 @@
             }
 
             localStorageService.set("authorizationData", token);
-            IsAuthorised = true;
+            $rootScope.IsAuthorized = true;
+
+            var data = getDataFromToken(token);
+
+            alert(data.role[0]);
+
+            for (var i = 0; i < data.role.length; i++) {
+                if (data.role[i] === "dataEventRecords.admin") {
+                    $rootScope.HasAdminRole = true;                    
+                }
+            }
         }
 
         var Authorize = function () {
@@ -73,7 +84,6 @@
                            
                         token = result.access_token;
                         var data = getDataFromToken(token);
-                        console.log(data);
                         $log.info(data);
                     }
                 }
@@ -111,31 +121,33 @@
 
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://localhost:44347/unauthorized.html
         var Logoff = function () {
-            var token = localStorageService.get("authorizationData");
-            var data = getDataFromToken(token);
+            //var token = localStorageService.get("authorizationData");
+            //var data = getDataFromToken(token);
 
-            var authorizationUrl = 'https://localhost:44345/connect/endsession';
-            var id_token_hint = data.jti;
-            var post_logout_redirect_uri = 'https://localhost:44347/unauthorized.html';
-            var state = Date.now() + "" + Math.random();
+            //var authorizationUrl = 'https://localhost:44345/connect/endsession';
+            //var id_token_hint = data.jti;
+            //var post_logout_redirect_uri = 'https://localhost:44347/unauthorized.html';
+            //var state = Date.now() + "" + Math.random();
 
-            var url =
-                authorizationUrl + "?" +
-                "id_token_hint=" + id_token_hint + "&" +
-                "post_logout_redirect_uri=" + encodeURI(post_logout_redirect_uri) + "&" +
-                "state=" + encodeURI(state);
+            //var url =
+            //    authorizationUrl + "?" +
+            //    "id_token_hint=" + id_token_hint + "&" +
+            //    "post_logout_redirect_uri=" + encodeURI(post_logout_redirect_uri) + "&" +
+            //    "state=" + encodeURI(state);
 
+            //ResetAuthorizationData();
+            //$window.location = url;
+
+            // 19.02.2106: temp until connect/endsession is implemented in IdentityServer4 NOT A PROPER SOLUTION!
             ResetAuthorizationData();
-            $window.location = url;
+            $window.location = "https://localhost:44347/unauthorized.html";
         }
 
 		return {
 		    ResetAuthorizationData: ResetAuthorizationData,
 		    SetAuthorizationData: SetAuthorizationData,
 		    Authorize: Authorize,
-		    Logoff: Logoff,
-		    IsAuthorised: IsAuthorised,
-		    HasAdminRole: HasAdminRole
+		    Logoff: Logoff
 		}
 	}
 
