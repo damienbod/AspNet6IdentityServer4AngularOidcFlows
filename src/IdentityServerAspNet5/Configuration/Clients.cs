@@ -16,14 +16,18 @@
                     Flow = Flows.Implicit,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44347/identitytestclient.html",
                         "https://localhost:44347/authorized"
 
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:44347/identitytestclient.html",
-                        "https://localhost:44347/authorized"
+                        "https://localhost:44347/unauthorized.html"
+                    },
+                    IncludeJwtId= true,
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "https://localhost:44347",
+                        "http://localhost:44347"
                     },
                     AllowedScopes = new List<string>
                     {
