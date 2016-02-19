@@ -27,8 +27,8 @@
                     <ul class="nav navbar-nav">
                         <li><a ui-sref="overviewindex">Home</a></li>
                         <li><a ui-sref="create">Create</a>
-                        <li><a ui-sref="authorized">Login</a></li>
-                        <li><a ui-sref="logoff">Logoff</a></li>
+                        <li><a ng-show="!IsAuthorized" ui-sref="authorized">Login</a></li>
+                        <li><a ng-show="IsAuthorized" ui-sref="logoff">Logoff</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
