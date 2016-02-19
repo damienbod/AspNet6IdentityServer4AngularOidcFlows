@@ -49,9 +49,6 @@
             $rootScope.IsAuthorized = true;
 
             var data = getDataFromToken(token);
-
-            alert(data.role[0]);
-
             for (var i = 0; i < data.role.length; i++) {
                 if (data.role[i] === "dataEventRecords.admin") {
                     $rootScope.HasAdminRole = true;                    
