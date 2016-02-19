@@ -95,9 +95,10 @@
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://localhost:44347/unauthorized.html
         var Logoff = function () {
             var token = localStorageService.get("authorizationData");
+            var data = getClaimsFromToken(token);
 
             var authorizationUrl = 'https://localhost:44345/connect/endsession';
-            var id_token_hint = token;
+            var id_token_hint = data.jti;
             var post_logout_redirect_uri = 'https://localhost:44347/unauthorized.html';
             var state = Date.now() + "" + Math.random();
 
