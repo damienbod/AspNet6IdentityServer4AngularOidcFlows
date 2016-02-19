@@ -45,8 +45,14 @@ namespace IdentityServerAspNet5
             {
                 options.SigningCertificate = cert;
                 options.Endpoints.EnableEndSessionEndpoint = true;
+                options.AuthenticationOptions = new AuthenticationOptions
+                {
+                    EnableSignOutPrompt = false
+                };
 
             });
+
+  
 
             builder.AddInMemoryClients(Clients.Get());
             builder.AddInMemoryScopes(Scopes.Get());
