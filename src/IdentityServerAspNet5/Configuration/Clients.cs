@@ -16,7 +16,6 @@
                     Flow = Flows.Implicit,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44347/identitytestclient.html",
                         "https://localhost:44347/authorized"
 
                     },
