@@ -22,7 +22,10 @@
                     Name = "dataEventRecords",
                     DisplayName = "Data Event Records Scope",
                     Type = ScopeType.Resource,
-
+                    ScopeSecrets = new List<Secret>
+                    {
+                        new Secret("dataEventRecordsSecret".Sha256())
+                    },
                     Claims = new List<ScopeClaim>
                     {
                         new ScopeClaim("role"),

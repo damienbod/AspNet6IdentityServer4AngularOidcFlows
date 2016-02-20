@@ -108,17 +108,29 @@ namespace AspNet5SQLite
 
             app.UseStaticFiles();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
-
-            app.UseJwtBearerAuthentication(options =>
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            app.UseIdentityServerAuthentication(options =>
             {
-                options.Authority = "https://localhost:44345";
-                options.Audience = "https://localhost:44345/resources";
-                options.AutomaticAuthenticate = true;
+                options.Authority = "https://localhost:44345/";
+                options.ScopeName = "dataEventRecords";
+                options.ScopeSecret = "dataEventRecordsSecret";
 
+                options.AutomaticAuthenticate = true;
                 // required if you want to return a 403 and not a 401 for forbidden responses
                 options.AutomaticChallenge = true;
             });
+
+            // This is also possible:
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+            //app.UseJwtBearerAuthentication(options =>
+            //{
+            //    options.Authority = "https://localhost:44345";
+            //    options.Audience = "https://localhost:44345/resources";
+            //    options.AutomaticAuthenticate = true;
+
+            //    // required if you want to return a 403 and not a 401 for forbidden responses
+            //    options.AutomaticChallenge = true;
+            //});
 
             //app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "aReallyCoolScope" });
             app.UseMvc(routes =>

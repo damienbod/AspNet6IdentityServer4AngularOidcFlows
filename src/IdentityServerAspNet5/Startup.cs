@@ -52,8 +52,6 @@ namespace IdentityServerAspNet5
 
             });
 
-  
-
             builder.AddInMemoryClients(Clients.Get());
             builder.AddInMemoryScopes(Scopes.Get());
             builder.AddInMemoryUsers(Users.Get());
