@@ -47,12 +47,7 @@
 		        url: "/create",
 		        templateUrl: "/templates/create.html",
 		        controller: "DetailsController",
-		        resolve: {
-		            dataEventRecords: [
-		                "DataEventRecordsService", function (DataEventRecordsService) {
-		                    return DataEventRecordsService.GetDataEventRecords();
-		                }
-		            ],
+		        resolve: {		     
 		            dataEventRecord: [
 		                function () {
 		                    return { Id: "", Name: "", Description: "", Timestamp: "2016-02-15T08:57:32" };
