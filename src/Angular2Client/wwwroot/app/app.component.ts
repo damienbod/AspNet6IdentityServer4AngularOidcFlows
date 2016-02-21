@@ -9,6 +9,7 @@ import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {DetailsComponent} from './details/details.component';
 import {LogoffComponent} from './logoff/logoff.component';
+import { SecurityService } from './services/SecurityService';
 
 @Component({
     selector: 'my-app',
@@ -29,4 +30,13 @@ import {LogoffComponent} from './logoff/logoff.component';
         { path: '/Logoff', name: 'Logoff', component: LogoffComponent }
 ])
  
-export class AppComponent { }
+export class AppComponent {
+
+    constructor(private _securityService: SecurityService) {
+        this.HasAdminRole = _securityService.HasAdminRole;
+        this.IsAuthorized = _securityService.IsAuthorized;
+    }
+
+    public IsAuthorized: boolean = false;
+    public HasAdminRole: boolean = false;
+}

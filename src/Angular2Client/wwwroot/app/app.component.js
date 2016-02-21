@@ -18,8 +18,14 @@ var forbidden_component_1 = require('./forbidden/forbidden.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var details_component_1 = require('./details/details.component');
 var logoff_component_1 = require('./logoff/logoff.component');
+var SecurityService_1 = require('./services/SecurityService');
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(_securityService) {
+        this._securityService = _securityService;
+        this.IsAuthorized = false;
+        this.HasAdminRole = false;
+        this.HasAdminRole = _securityService.HasAdminRole;
+        this.IsAuthorized = _securityService.IsAuthorized;
     }
     AppComponent = __decorate([
         core_1.Component({
@@ -39,7 +45,7 @@ var AppComponent = (function () {
             { path: '/Details/:id', name: 'Details', component: details_component_1.DetailsComponent },
             { path: '/Logoff', name: 'Logoff', component: logoff_component_1.LogoffComponent }
         ]), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [SecurityService_1.SecurityService])
     ], AppComponent);
     return AppComponent;
 })();
