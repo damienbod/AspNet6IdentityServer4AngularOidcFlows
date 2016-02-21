@@ -10,7 +10,7 @@ var paths = {
     libTarget: "./wwwroot/libs/"
 };
 
-var libsToMove = [
+var packagesToMove = [
    paths.npmSrc + '/angular2/bundles/angular2-polyfills.js',
    paths.npmSrc + '/angular2/bundles/router.dev.js',
    paths.npmSrc + '/angular2/bundles/http.dev.js',
@@ -24,9 +24,11 @@ var libsToMove = [
    paths.npmSrc + '/reflect-metadata/Reflect.js',
    paths.npmSrc + '/zone.js/dist/zone.js',
    paths.npmSrc + '/jquery/dist/jquery.min.js',
+   paths.npmSrc + '/angular2-localstorage/LocalStorage.ts',
+   paths.npmSrc + '/angular2-localstorage/LocalStorageEmitter.ts'
    
 ];
-gulp.task('moveToLibs', function () {
-    return gulp.src(libsToMove).pipe(gulp.dest(paths.libTarget));
+gulp.task('copyNpmTo_wwwrootLibs', function () {
+    return gulp.src(packagesToMove).pipe(gulp.dest(paths.libTarget));
 });
 
