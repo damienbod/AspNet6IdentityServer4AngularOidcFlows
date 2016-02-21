@@ -1,24 +1,41 @@
-<div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-12">
-            <br/>
-            <br/>
-            <h1>{{message}}</h1>
-            
-            <h3>Values from Resource server</h3>
-            <ul>
-                <li *ngFor="#value of values">
-                    <span>{{value}} </span>
-                </li>
-            </ul>
+<div class="col-md-12" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{message}}</h3>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="row">
+                    <div class="col-xs-2">Id</div>
+                    <div class="col-xs-6">{{DataEventRecord.Id}}</div>
+                </div>
+
+                <hr />
+                <div class="row">
+                    <div class="col-xs-2">Name</div>
+                    <div class="col-xs-6">
+                        <input type="text" [(ng-model)]="DataEventRecord.Name" style="width: 100%" />
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-2">Description</div>
+                    <div class="col-xs-6">
+                        <input type="text" [(ng-model)]="DataEventRecord.Description" style="width: 100%" />
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-2">Timestamp</div>
+                    <div class="col-xs-6">{{DataEventRecord.Timestamp}}</div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-2">
+                        <button (click)="Update()">Update</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <hr>
-
-    <footer>
-        <p>TODO</p>
-    </footer>
 </div>
-<!-- /container -->

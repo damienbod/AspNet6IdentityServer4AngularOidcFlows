@@ -25,7 +25,7 @@ import {LogoffComponent} from './logoff/logoff.component';
         { path: '/Authorized', name: 'Authorized', component: AuthorizedComponent },
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
-        { path: '/Details', name: 'Details', component: DetailsComponent },
+        { path: '/Details/:id', name: 'Details', component: DetailsComponent },
         { path: '/Logoff', name: 'Logoff', component: LogoffComponent }
 ])
  

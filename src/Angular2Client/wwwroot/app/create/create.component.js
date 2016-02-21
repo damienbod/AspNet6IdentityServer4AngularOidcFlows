@@ -16,10 +16,12 @@ var CreateComponent = (function () {
         this.message = "CreateComponent constructor";
     }
     CreateComponent.prototype.ngOnInit = function () {
+    };
+    CreateComponent.prototype.Create = function () {
         var _this = this;
         this._dataEventRecordsService
-            .GetAll()
-            .subscribe(function (data) { return _this.values = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
+            .Add(this.DataEventRecord)
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
     };
     CreateComponent = __decorate([
         core_1.Component({

@@ -12,17 +12,21 @@ import { DataEventRecordsService } from '../services/DataEventRecordsService';
 export class CreateComponent implements OnInit {
 
     public message: string;
-    public values: any[];
+    public DataEventRecord: any;
 
     constructor(private _dataEventRecordsService: DataEventRecordsService) {
         this.message = "CreateComponent constructor";
     }
     
     ngOnInit() {
+       
+    }
+
+    public Create() {
         this._dataEventRecordsService
-        .GetAll()
-        .subscribe((data:any[]) => this.values = data,
-                error => console.log(error),
-                () => console.log('Get all complete'));
+            .Add(this.DataEventRecord)
+            .subscribe((data: any) => this.DataEventRecord = data,
+            error => console.log(error),
+            () => console.log('Get all complete'));
     }
 }

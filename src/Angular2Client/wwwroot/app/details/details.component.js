@@ -10,16 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
+var router_1 = require('angular2/router');
 var DetailsComponent = (function () {
-    function DetailsComponent(_dataEventRecordsService) {
+    function DetailsComponent(_dataEventRecordsService, _routeParams) {
         this._dataEventRecordsService = _dataEventRecordsService;
+        this._routeParams = _routeParams;
         this.message = "DetailsComponent constructor";
+        this.id = this._routeParams.get('id');
     }
     DetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._dataEventRecordsService
-            .GetAll()
-            .subscribe(function (data) { return _this.values = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
+        this._dataEventRecordsService.GetById(this.id)
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Get by Id complete'); });
+    };
+    DetailsComponent.prototype.Update = function () {
+        var _this = this;
+        this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Get by Id complete'); });
     };
     DetailsComponent = __decorate([
         core_1.Component({
@@ -28,7 +35,7 @@ var DetailsComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService])
+        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams])
     ], DetailsComponent);
     return DetailsComponent;
 })();

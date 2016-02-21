@@ -12,7 +12,7 @@ import { DataEventRecordsService } from '../services/DataEventRecordsService';
 export class OverviewindexComponent implements OnInit {
 
     public message: string;
-    public values: any[];
+    public DataEventRecords: any[];
 
     constructor(private _dataEventRecordsService: DataEventRecordsService) {
         this.message = "OverviewindexComponent constructor";
@@ -21,7 +21,7 @@ export class OverviewindexComponent implements OnInit {
     ngOnInit() {
         this._dataEventRecordsService
         .GetAll()
-        .subscribe((data:any[]) => this.values = data,
+            .subscribe((data: any[]) => this.DataEventRecords = data,
                 error => console.log(error),
                 () => console.log('Get all complete'));
     }

@@ -27,7 +27,7 @@ export class DataEventRecordsService {
         return this._http.get(this.actionUrl + id).map(res => res.json());
     }
 
-    public Add = (itemName: string): Observable<Response> => {
+    public Add = (itemName: any): Observable<Response> => {
         var toAdd = JSON.stringify({ ItemName: itemName });
 
         return this._http.post(this.actionUrl, toAdd, { headers: this.headers }).map(res => res.json());

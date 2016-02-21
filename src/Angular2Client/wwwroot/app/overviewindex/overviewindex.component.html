@@ -1,24 +1,28 @@
-<div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-12">
-            <br/>
-            <br/>
-            <h1>{{message}}</h1>
-            
-            <h3>Values from Resource server</h3>
-            <ul>
-                <li *ngFor="#value of values">
-                    <span>{{value}} </span>
-                </li>
-            </ul>
+<div class="col-md-12" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{message}}</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="height:20px;" *ngFor="#dataEventRecord of DataEventRecords" >
+                        <td>
+                            <a [ngIf]="HasAdminRole" href="/details/{{dataEventRecord.Id}}">{{dataEventRecord.Name}}</a>
+                            <span [ngIf]="!HasAdminRole">{{dataEventRecord.Name}}</span>
+                        </td>
+                        <td>{{dataEventRecord.Timestamp}}</td>
+                        <td><button (click)="Delete(dataEventRecord.Id)">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
-
-    <hr>
-
-    <footer>
-        <p>TODO</p>
-    </footer>
 </div>
-<!-- /container -->
