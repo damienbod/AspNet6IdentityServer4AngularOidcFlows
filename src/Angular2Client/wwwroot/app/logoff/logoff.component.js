@@ -9,26 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
-var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
+var SecurityService_1 = require('../services/SecurityService');
 var LogoffComponent = (function () {
-    function LogoffComponent(_dataEventRecordsService) {
-        this._dataEventRecordsService = _dataEventRecordsService;
+    function LogoffComponent(_securityService) {
+        this._securityService = _securityService;
         this.message = "LogoffComponent constructor";
     }
     LogoffComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this._dataEventRecordsService
-            .GetAll()
-            .subscribe(function (data) { return _this.values = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
+        this._securityService.Logoff();
     };
     LogoffComponent = __decorate([
         core_1.Component({
             selector: 'logoff',
             templateUrl: 'app/logoff/logoff.component.html',
             directives: [common_1.CORE_DIRECTIVES],
-            providers: [DataEventRecordsService_1.DataEventRecordsService]
+            providers: [SecurityService_1.SecurityService]
         }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService])
+        __metadata('design:paramtypes', [SecurityService_1.SecurityService])
     ], LogoffComponent);
     return LogoffComponent;
 })();
