@@ -80,14 +80,15 @@ export class SecurityService {
             this.SetAuthorizationData(token);
             console.log(this.retrieve("authorizationData"));
 
+            alert("DAAA");
             this._router.navigate(['Overviewindex']);
         }
         else {
             console.log("AuthorizedController time to log on");
 
             var authorizationUrl = 'https://localhost:44345/connect/authorize';
-            var client_id = 'angularclient';
-            var redirect_uri = 'https://localhost:44347/authorized';
+            var client_id = 'angular2client';
+            var redirect_uri = 'https://localhost:44311/authorized';
             var response_type = "token";
             var scope = "dataEventRecords aReallyCoolScope";
             var state = Date.now() + "" + Math.random();
