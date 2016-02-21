@@ -5,6 +5,8 @@ import {OverviewindexComponent} from './overviewindex/overviewindex.component';
 import {CreateComponent} from './create/create.component';
 import {AuthorizedComponent} from './authorized/authorized.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
+import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
+import {DetailsComponent} from './details/details.component';
 
 @Component({
     selector: 'my-app',
@@ -18,7 +20,9 @@ import {ForbiddenComponent} from './forbidden/forbidden.component';
         { path: '/Create', name: 'Create', component: CreateComponent },
         { path: '/Overviewindex', name: 'Overviewindex', component: OverviewindexComponent },
         { path: '/Authorized', name: 'Authorized', component: AuthorizedComponent },
-        { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent }
+        { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
+        { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
+        { path: '/Details', name: 'Details', component: DetailsComponent }
 ])
  
 export class AppComponent { }
