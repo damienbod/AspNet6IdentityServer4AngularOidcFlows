@@ -22,6 +22,23 @@ namespace Angular2Client
         {
             app.UseIISPlatformHandler();
 
+            var angularRoutes = new[] { "/home", "/detail", "/create" };
+
+            app.Use(async (context, next) =>
+            {
+                // If the request matches one of those paths, change it.
+                // This needs to happen before UseDefaultFiles.
+                if (context.Request.Path.HasValue &&
+                    null !=
+                    angularRoutes.FirstOrDefault(
+                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.Request.Path = new PathString("/");
+                }
+
+                await next();
+            });
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
