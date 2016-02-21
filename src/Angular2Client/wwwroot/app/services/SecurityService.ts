@@ -55,7 +55,7 @@ export class SecurityService {
 
         var authorizationUrl = 'https://localhost:44345/connect/authorize';
         var client_id = 'angular2client';
-        var redirect_uri = 'https://localhost:44311/authorized';
+        var redirect_uri = 'https://localhost:44311/Authorized';
         var response_type = "token";
         var scope = "dataEventRecords aReallyCoolScope";
         var state = Date.now() + "" + Math.random();
@@ -75,40 +75,40 @@ export class SecurityService {
     }
 
     public AuthorizedCallback() {
+        console.log("BEGIN AuthorizedCallback, no auth data");
         this.ResetAuthorizationData();
 
-        console.log("BEGIN AuthorizedCallback, no auth data");
+        var hash = window.location.hash.substr(1);
 
-            console.log("AuthorizedController created, has hash");
-            var hash = window.location.hash.substr(1);
+        var result: any = hash.split('&').reduce(function (result, item) {
+            var parts = item.split('=');
+            result[parts[0]] = parts[1];
+            return result;
+        }, {});
 
-            var result: any = hash.split('&').reduce(function (result, item) {
-                var parts = item.split('=');
-                result[parts[0]] = parts[1];
-                return result;
-            }, {});
+        console.log(result);
+        console.log("AuthorizedCallback created, begin token validation");
 
-            var token = "";
-            if (!result.error) {
-                if (result.state !== this.retrieve("authStateControl")) {
-                    console.log("AuthorizedController created. no myautostate");
-                } else {
-                    this.store("authStateControl", "");
-                    console.log("AuthorizedController created. returning access token");
-                    console.log(result);
+        var token = "";
+        if (!result.error) {
+            if (result.state !== this.retrieve("authStateControl")) {
+                console.log("AuthorizedCallback created. no myautostate");
+            } else {
+                this.store("authStateControl", "");
+                console.log("AuthorizedCallback created. returning access token");
+                console.log(result);
 
-                    token = result.access_token;
-                    var data = this.getDataFromToken(token);
-                    console.log(data);
-                }
+                token = result.access_token;
+                var data = this.getDataFromToken(token);
+                console.log(data);
             }
+        }
 
-            this.SetAuthorizationData(token);
-            console.log(this.retrieve("authorizationData"));
+        this.SetAuthorizationData(token);
+        console.log(this.retrieve("authorizationData"));
 
-            alert("DAAA");
-            this._router.navigate(['Overviewindex']);
-        
+        alert("DAAA");
+        this._router.navigate(['Overviewindex']);
     }
 
     public Logoff() {

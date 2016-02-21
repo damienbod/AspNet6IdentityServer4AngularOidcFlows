@@ -16,9 +16,11 @@ export class AuthorizedComponent implements OnInit {
 
     constructor(private _securityService: SecurityService) {
         this.message = "AuthorizedComponent constructor";
+        console.log("ctor AuthorizedComponent constructor");
     }
     
     ngOnInit() {
+        console.log("ctor AuthorizedComponent constructor");
         this._securityService.AuthorizedCallback();
     }
 }

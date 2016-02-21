@@ -14,8 +14,10 @@ var AuthorizedComponent = (function () {
     function AuthorizedComponent(_securityService) {
         this._securityService = _securityService;
         this.message = "AuthorizedComponent constructor";
+        console.log("ctor AuthorizedComponent constructor");
     }
     AuthorizedComponent.prototype.ngOnInit = function () {
+        console.log("ctor AuthorizedComponent constructor");
         this._securityService.AuthorizedCallback();
     };
     AuthorizedComponent = __decorate([

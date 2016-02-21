@@ -48,7 +48,7 @@ var SecurityService = (function () {
         console.log("BEGIN Authorize, no auth data");
         var authorizationUrl = 'https://localhost:44345/connect/authorize';
         var client_id = 'angular2client';
-        var redirect_uri = 'https://localhost:44311/authorized';
+        var redirect_uri = 'https://localhost:44311/Authorized';
         var response_type = "token";
         var scope = "dataEventRecords aReallyCoolScope";
         var state = Date.now() + "" + Math.random();
@@ -63,23 +63,24 @@ var SecurityService = (function () {
         window.location.href = url;
     };
     SecurityService.prototype.AuthorizedCallback = function () {
-        this.ResetAuthorizationData();
         console.log("BEGIN AuthorizedCallback, no auth data");
-        console.log("AuthorizedController created, has hash");
+        this.ResetAuthorizationData();
         var hash = window.location.hash.substr(1);
         var result = hash.split('&').reduce(function (result, item) {
             var parts = item.split('=');
             result[parts[0]] = parts[1];
             return result;
         }, {});
+        console.log(result);
+        console.log("AuthorizedCallback created, begin token validation");
         var token = "";
         if (!result.error) {
             if (result.state !== this.retrieve("authStateControl")) {
-                console.log("AuthorizedController created. no myautostate");
+                console.log("AuthorizedCallback created. no myautostate");
             }
             else {
                 this.store("authStateControl", "");
-                console.log("AuthorizedController created. returning access token");
+                console.log("AuthorizedCallback created. returning access token");
                 console.log(result);
                 token = result.access_token;
                 var data = this.getDataFromToken(token);
