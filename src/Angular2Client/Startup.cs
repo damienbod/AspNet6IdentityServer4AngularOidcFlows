@@ -22,7 +22,7 @@ namespace Angular2Client
         {
             app.UseIISPlatformHandler();
 
-            var angularRoutes = new[] { "/home", "/detail", "/create" };
+            var angularRoutes = new[] { "/home", "/overviewindex", "/create" };
 
             app.Use(async (context, next) =>
             {
