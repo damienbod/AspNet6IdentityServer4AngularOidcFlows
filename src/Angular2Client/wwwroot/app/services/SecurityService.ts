@@ -27,17 +27,19 @@ export class SecurityService {
 
     public ResetAuthorizationData() {
         this.store("authorizationData", "");
+        this.store("authorizationDataIdToken", "");
 
         this.IsAuthorized = false;
         this.HasAdminRole = false;
     }
 
-    public SetAuthorizationData(token: any) {
+    public SetAuthorizationData(token: any, id_token:any) {
         if (this.retrieve("authorizationData") !== "") {
             this.store("authorizationData", "");
         }
 
         this.store("authorizationData", token);
+        this.store("authorizationDataIdToken", id_token);
         this.IsAuthorized = true;
 
         var data: any = this.getDataFromToken(token);
@@ -103,6 +105,7 @@ export class SecurityService {
         console.log("AuthorizedCallback created, begin token validation");
 
         var token = "";
+        var id_token = "";
         if (!result.error) {
             if (result.state !== this.retrieve("authStateControl")) {
                 console.log("AuthorizedCallback created. no myautostate");
@@ -112,12 +115,14 @@ export class SecurityService {
                 console.log(result);
 
                 token = result.access_token;
+                id_token = result.id_token;
                 var data = this.getDataFromToken(token);
                 console.log(data);
             }
         }
 
-        this.SetAuthorizationData(token);
+        // TODO validate nonce
+        this.SetAuthorizationData(token, id_token);
         console.log(this.retrieve("authorizationData"));
 
         alert("DAAA");

@@ -27,14 +27,16 @@ var SecurityService = (function () {
     }
     SecurityService.prototype.ResetAuthorizationData = function () {
         this.store("authorizationData", "");
+        this.store("authorizationDataIdToken", "");
         this.IsAuthorized = false;
         this.HasAdminRole = false;
     };
-    SecurityService.prototype.SetAuthorizationData = function (token) {
+    SecurityService.prototype.SetAuthorizationData = function (token, id_token) {
         if (this.retrieve("authorizationData") !== "") {
             this.store("authorizationData", "");
         }
         this.store("authorizationData", token);
+        this.store("authorizationDataIdToken", id_token);
         this.IsAuthorized = true;
         var data = this.getDataFromToken(token);
         for (var i = 0; i < data.role.length; i++) {
@@ -76,6 +78,7 @@ var SecurityService = (function () {
         console.log(result);
         console.log("AuthorizedCallback created, begin token validation");
         var token = "";
+        var id_token = "";
         if (!result.error) {
             if (result.state !== this.retrieve("authStateControl")) {
                 console.log("AuthorizedCallback created. no myautostate");
@@ -85,11 +88,12 @@ var SecurityService = (function () {
                 console.log("AuthorizedCallback created. returning access token");
                 console.log(result);
                 token = result.access_token;
+                id_token = result.id_token;
                 var data = this.getDataFromToken(token);
                 console.log(data);
             }
         }
-        this.SetAuthorizationData(token);
+        this.SetAuthorizationData(token, id_token);
         console.log(this.retrieve("authorizationData"));
         alert("DAAA");
         this._router.navigate(['Overviewindex']);
