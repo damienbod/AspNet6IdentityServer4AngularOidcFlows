@@ -25,12 +25,12 @@
         }
 
         function getDataFromToken(token) {
-            var user = {};
+            var data = {};
             if (typeof token !== 'undefined') {
                 var encoded = token.split('.')[1];
-                user = JSON.parse(urlBase64Decode(encoded));
+                data = JSON.parse(urlBase64Decode(encoded));
             }
-            return user;
+            return data;
         }
 
         var ResetAuthorizationData = function () {
