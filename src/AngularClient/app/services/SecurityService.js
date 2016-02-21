@@ -87,6 +87,7 @@
                     }
                 }
 
+                // TODO validate nonce
                 SetAuthorizationData(token, id_token);
                 console.log(localStorageService.get("authorizationData"));
 
