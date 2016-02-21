@@ -16,8 +16,11 @@
                     <li><a [routerLink]="['/Home']" class="btn">Home</a></li>
                     <li><a [routerLink]="['/Overviewindex']">Overviewindex</a></li>
                     <li><a [routerLink]="['/Create']">Create</a></li>
-                        <!--<li><a ng-show="!IsAuthorized" ui-sref="authorized">Login</a></li>
-                        <li><a ng-show="IsAuthorized" ui-sref="logoff">Logoff</a></li>-->
+                    <li><a [routerLink]="['/Authorized']" >Login</a></li>
+                    <!--
+                        <li><a ng-show="!IsAuthorized" ui-sref="authorized">Login</a></li>
+                        <li><a ng-show="IsAuthorized" ui-sref="logoff">Logoff</a></li>
+                    -->
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
