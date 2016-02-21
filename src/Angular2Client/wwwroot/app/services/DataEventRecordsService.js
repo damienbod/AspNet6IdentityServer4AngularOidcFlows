@@ -11,11 +11,13 @@ var core_1 = require('angular2/core');
 var http_1 = require('angular2/http');
 require('rxjs/add/operator/map');
 var app_constants_1 = require('../app.constants');
+var SecurityService_1 = require('../services/SecurityService');
 var DataEventRecordsService = (function () {
-    function DataEventRecordsService(_http, _configuration) {
+    function DataEventRecordsService(_http, _configuration, _securityService) {
         var _this = this;
         this._http = _http;
         this._configuration = _configuration;
+        this._securityService = _securityService;
         this.GetAll = function () {
             return _this._http.get(_this.actionUrl).map(function (res) { return res.json(); });
         };
@@ -38,10 +40,14 @@ var DataEventRecordsService = (function () {
         this.headers = new http_1.Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
+        var token = _securityService.GetToken();
+        if (token !== "") {
+            this.headers.append('Authorization', 'Bearer ' + token);
+        }
     }
     DataEventRecordsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, app_constants_1.Configuration])
+        __metadata('design:paramtypes', [http_1.Http, app_constants_1.Configuration, SecurityService_1.SecurityService])
     ], DataEventRecordsService);
     return DataEventRecordsService;
 })();

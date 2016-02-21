@@ -25,6 +25,9 @@ var SecurityService = (function () {
         this.headers.append('Accept', 'application/json');
         this.storage = localStorage;
     }
+    SecurityService.prototype.GetToken = function () {
+        return this.retrieve("authorizationData");
+    };
     SecurityService.prototype.ResetAuthorizationData = function () {
         this.store("authorizationData", "");
         this.store("authorizationDataIdToken", "");

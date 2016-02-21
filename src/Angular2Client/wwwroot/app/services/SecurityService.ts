@@ -25,6 +25,9 @@ export class SecurityService {
     public IsAuthorized: boolean = false;
     public HasAdminRole: boolean = false;
 
+    public GetToken(): any {
+        return this.retrieve("authorizationData");
+    }
     public ResetAuthorizationData() {
         this.store("authorizationData", "");
         this.store("authorizationDataIdToken", "");

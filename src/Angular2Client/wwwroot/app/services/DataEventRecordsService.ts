@@ -3,6 +3,7 @@ import { Http, Response, Headers } from 'angular2/http';
 import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
+import { SecurityService } from '../services/SecurityService';
 
 @Injectable()
 export class DataEventRecordsService {
@@ -10,13 +11,18 @@ export class DataEventRecordsService {
     private actionUrl: string;
     private headers: Headers;
 
-    constructor(private _http: Http, private _configuration: Configuration) {
+    constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
 
         this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
+
+        var token = _securityService.GetToken();
+        if (token !== "") {
+            this.headers.append('Authorization', 'Bearer ' + token);
+        }
     }
 
     public GetAll = (): Observable<Response> => {
