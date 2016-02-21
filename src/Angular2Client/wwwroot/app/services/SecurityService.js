@@ -49,16 +49,18 @@ var SecurityService = (function () {
         var authorizationUrl = 'https://localhost:44345/connect/authorize';
         var client_id = 'angular2client';
         var redirect_uri = 'https://localhost:44311/Authorized';
-        var response_type = "token";
-        var scope = "dataEventRecords aReallyCoolScope";
+        var response_type = "id_token token";
+        var scope = "dataEventRecords aReallyCoolScope openid";
+        var nonce = Date.now() + "" + Math.random();
         var state = Date.now() + "" + Math.random();
         this.store("authStateControl", state);
         console.log("AuthorizedController created. adding myautostate: " + this.retrieve("authStateControl"));
         var url = authorizationUrl + "?" +
+            "response_type=" + encodeURI(response_type) + "&" +
             "client_id=" + encodeURI(client_id) + "&" +
             "redirect_uri=" + encodeURI(redirect_uri) + "&" +
-            "response_type=" + encodeURI(response_type) + "&" +
             "scope=" + encodeURI(scope) + "&" +
+            "nonce=" + encodeURI(nonce) + "&" +
             "state=" + encodeURI(state);
         window.location.href = url;
     };
