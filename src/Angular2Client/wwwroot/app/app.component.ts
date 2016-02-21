@@ -7,6 +7,7 @@ import {AuthorizedComponent} from './authorized/authorized.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {DetailsComponent} from './details/details.component';
+import {LogoffComponent} from './logoff/logoff.component';
 
 @Component({
     selector: 'my-app',
@@ -22,7 +23,8 @@ import {DetailsComponent} from './details/details.component';
         { path: '/Authorized', name: 'Authorized', component: AuthorizedComponent },
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
-        { path: '/Details', name: 'Details', component: DetailsComponent }
+        { path: '/Details', name: 'Details', component: DetailsComponent },
+        { path: '/Logoff', name: 'Logoff', component: LogoffComponent }
 ])
  
 export class AppComponent { }

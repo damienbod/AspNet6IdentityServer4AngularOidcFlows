@@ -16,6 +16,7 @@ var authorized_component_1 = require('./authorized/authorized.component');
 var forbidden_component_1 = require('./forbidden/forbidden.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var details_component_1 = require('./details/details.component');
+var logoff_component_1 = require('./logoff/logoff.component');
 var AppComponent = (function () {
     function AppComponent() {
     }
@@ -33,7 +34,8 @@ var AppComponent = (function () {
             { path: '/Authorized', name: 'Authorized', component: authorized_component_1.AuthorizedComponent },
             { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
             { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
-            { path: '/Details', name: 'Details', component: details_component_1.DetailsComponent }
+            { path: '/Details', name: 'Details', component: details_component_1.DetailsComponent },
+            { path: '/Logoff', name: 'Logoff', component: logoff_component_1.LogoffComponent }
         ]), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
