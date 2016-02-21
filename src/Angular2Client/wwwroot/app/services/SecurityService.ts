@@ -52,7 +52,33 @@ export class SecurityService {
         this.ResetAuthorizationData();
 
         console.log("BEGIN Authorize, no auth data");
-        if (window.location.hash) {
+
+        var authorizationUrl = 'https://localhost:44345/connect/authorize';
+        var client_id = 'angular2client';
+        var redirect_uri = 'https://localhost:44311/authorized';
+        var response_type = "token";
+        var scope = "dataEventRecords aReallyCoolScope";
+        var state = Date.now() + "" + Math.random();
+
+        this.store("authStateControl", state);
+        console.log("AuthorizedController created. adding myautostate: " + this.retrieve("authStateControl"));
+
+        var url =
+            authorizationUrl + "?" +
+            "client_id=" + encodeURI(client_id) + "&" +
+            "redirect_uri=" + encodeURI(redirect_uri) + "&" +
+            "response_type=" + encodeURI(response_type) + "&" +
+            "scope=" + encodeURI(scope) + "&" +
+            "state=" + encodeURI(state);
+
+        window.location.href = url;
+    }
+
+    public AuthorizedCallback() {
+        this.ResetAuthorizationData();
+
+        console.log("BEGIN AuthorizedCallback, no auth data");
+
             console.log("AuthorizedController created, has hash");
             var hash = window.location.hash.substr(1);
 
@@ -82,30 +108,7 @@ export class SecurityService {
 
             alert("DAAA");
             this._router.navigate(['Overviewindex']);
-        }
-        else {
-            console.log("AuthorizedController time to log on");
-
-            var authorizationUrl = 'https://localhost:44345/connect/authorize';
-            var client_id = 'angular2client';
-            var redirect_uri = 'https://localhost:44311/authorized';
-            var response_type = "token";
-            var scope = "dataEventRecords aReallyCoolScope";
-            var state = Date.now() + "" + Math.random();
-
-            this.store("authStateControl", state);
-            console.log("AuthorizedController created. adding myautostate: " + this.retrieve("authStateControl"));
-
-            var url =
-                authorizationUrl + "?" +
-                "client_id=" + encodeURI(client_id) + "&" +
-                "redirect_uri=" + encodeURI(redirect_uri) + "&" +
-                "response_type=" + encodeURI(response_type) + "&" +
-                "scope=" + encodeURI(scope) + "&" +
-                "state=" + encodeURI(state);
-
-            window.location.href = url;
-        }
+        
     }
 
     public Logoff() {

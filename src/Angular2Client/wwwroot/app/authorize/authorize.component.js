@@ -10,24 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var SecurityService_1 = require('../services/SecurityService');
-var AuthorizedComponent = (function () {
-    function AuthorizedComponent(_securityService) {
+var AuthorizeComponent = (function () {
+    function AuthorizeComponent(_securityService) {
         this._securityService = _securityService;
-        this.message = "AuthorizedComponent constructor";
+        this.message = "AuthorizeComponent constructor";
     }
-    AuthorizedComponent.prototype.ngOnInit = function () {
-        this._securityService.AuthorizedCallback();
+    AuthorizeComponent.prototype.ngOnInit = function () {
+        this._securityService.Authorize();
     };
-    AuthorizedComponent = __decorate([
+    AuthorizeComponent = __decorate([
         core_1.Component({
-            selector: 'authorized',
-            templateUrl: 'app/authorized/authorized.component.html',
+            selector: 'authorize',
+            templateUrl: 'app/authorize/authorize.component.html',
             directives: [common_1.CORE_DIRECTIVES],
             providers: [SecurityService_1.SecurityService]
         }), 
         __metadata('design:paramtypes', [SecurityService_1.SecurityService])
-    ], AuthorizedComponent);
-    return AuthorizedComponent;
+    ], AuthorizeComponent);
+    return AuthorizeComponent;
 })();
-exports.AuthorizedComponent = AuthorizedComponent;
-//# sourceMappingURL=authorized.component.js.map
+exports.AuthorizeComponent = AuthorizeComponent;
+//# sourceMappingURL=authorize.component.js.map

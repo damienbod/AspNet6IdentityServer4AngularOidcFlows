@@ -13,6 +13,7 @@ var home_component_1 = require('./home/home.component');
 var overviewindex_component_1 = require('./overviewindex/overviewindex.component');
 var create_component_1 = require('./create/create.component');
 var authorized_component_1 = require('./authorized/authorized.component');
+var authorize_component_1 = require('./authorize/authorize.component');
 var forbidden_component_1 = require('./forbidden/forbidden.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var details_component_1 = require('./details/details.component');
@@ -31,6 +32,7 @@ var AppComponent = (function () {
             { path: '/Home', name: 'Home', component: home_component_1.HomeComponent, useAsDefault: true },
             { path: '/Create', name: 'Create', component: create_component_1.CreateComponent },
             { path: '/Overviewindex', name: 'Overviewindex', component: overviewindex_component_1.OverviewindexComponent },
+            { path: '/Authorize', name: 'Authorize', component: authorize_component_1.AuthorizeComponent },
             { path: '/Authorized', name: 'Authorized', component: authorized_component_1.AuthorizedComponent },
             { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
             { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },

@@ -29,6 +29,7 @@ namespace Angular2Client
                 "/forbidden",
                 "/details",
                 "/authorized",
+                "/authorize",
                 "/unauthorized",
                 "/logoff",
             };

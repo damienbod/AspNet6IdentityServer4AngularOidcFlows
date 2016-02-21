@@ -46,50 +46,50 @@ var SecurityService = (function () {
     SecurityService.prototype.Authorize = function () {
         this.ResetAuthorizationData();
         console.log("BEGIN Authorize, no auth data");
-        if (window.location.hash) {
-            console.log("AuthorizedController created, has hash");
-            var hash = window.location.hash.substr(1);
-            var result = hash.split('&').reduce(function (result, item) {
-                var parts = item.split('=');
-                result[parts[0]] = parts[1];
-                return result;
-            }, {});
-            var token = "";
-            if (!result.error) {
-                if (result.state !== this.retrieve("authStateControl")) {
-                    console.log("AuthorizedController created. no myautostate");
-                }
-                else {
-                    this.store("authStateControl", "");
-                    console.log("AuthorizedController created. returning access token");
-                    console.log(result);
-                    token = result.access_token;
-                    var data = this.getDataFromToken(token);
-                    console.log(data);
-                }
+        var authorizationUrl = 'https://localhost:44345/connect/authorize';
+        var client_id = 'angular2client';
+        var redirect_uri = 'https://localhost:44311/authorized';
+        var response_type = "token";
+        var scope = "dataEventRecords aReallyCoolScope";
+        var state = Date.now() + "" + Math.random();
+        this.store("authStateControl", state);
+        console.log("AuthorizedController created. adding myautostate: " + this.retrieve("authStateControl"));
+        var url = authorizationUrl + "?" +
+            "client_id=" + encodeURI(client_id) + "&" +
+            "redirect_uri=" + encodeURI(redirect_uri) + "&" +
+            "response_type=" + encodeURI(response_type) + "&" +
+            "scope=" + encodeURI(scope) + "&" +
+            "state=" + encodeURI(state);
+        window.location.href = url;
+    };
+    SecurityService.prototype.AuthorizedCallback = function () {
+        this.ResetAuthorizationData();
+        console.log("BEGIN AuthorizedCallback, no auth data");
+        console.log("AuthorizedController created, has hash");
+        var hash = window.location.hash.substr(1);
+        var result = hash.split('&').reduce(function (result, item) {
+            var parts = item.split('=');
+            result[parts[0]] = parts[1];
+            return result;
+        }, {});
+        var token = "";
+        if (!result.error) {
+            if (result.state !== this.retrieve("authStateControl")) {
+                console.log("AuthorizedController created. no myautostate");
             }
-            this.SetAuthorizationData(token);
-            console.log(this.retrieve("authorizationData"));
-            this._router.navigate(['Overviewindex']);
+            else {
+                this.store("authStateControl", "");
+                console.log("AuthorizedController created. returning access token");
+                console.log(result);
+                token = result.access_token;
+                var data = this.getDataFromToken(token);
+                console.log(data);
+            }
         }
-        else {
-            console.log("AuthorizedController time to log on");
-            var authorizationUrl = 'https://localhost:44345/connect/authorize';
-            var client_id = 'angular2client';
-            var redirect_uri = 'https://localhost:44311/authorized';
-            var response_type = "token";
-            var scope = "dataEventRecords aReallyCoolScope";
-            var state = Date.now() + "" + Math.random();
-            this.store("authStateControl", state);
-            console.log("AuthorizedController created. adding myautostate: " + this.retrieve("authStateControl"));
-            var url = authorizationUrl + "?" +
-                "client_id=" + encodeURI(client_id) + "&" +
-                "redirect_uri=" + encodeURI(redirect_uri) + "&" +
-                "response_type=" + encodeURI(response_type) + "&" +
-                "scope=" + encodeURI(scope) + "&" +
-                "state=" + encodeURI(state);
-            window.location.href = url;
-        }
+        this.SetAuthorizationData(token);
+        console.log(this.retrieve("authorizationData"));
+        alert("DAAA");
+        this._router.navigate(['Overviewindex']);
     };
     SecurityService.prototype.Logoff = function () {
     };

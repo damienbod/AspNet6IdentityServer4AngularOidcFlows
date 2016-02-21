@@ -3,22 +3,22 @@ import { CORE_DIRECTIVES } from 'angular2/common';
 import { SecurityService } from '../services/SecurityService';
 
 @Component({
-    selector: 'authorized',
-    templateUrl: 'app/authorized/authorized.component.html',
+    selector: 'authorize',
+    templateUrl: 'app/authorize/authorize.component.html',
     directives: [CORE_DIRECTIVES],
     providers: [SecurityService]
 })
 
-export class AuthorizedComponent implements OnInit {
+export class AuthorizeComponent implements OnInit {
 
     public message: string;
 
 
     constructor(private _securityService: SecurityService) {
-        this.message = "AuthorizedComponent constructor";
+        this.message = "AuthorizeComponent constructor";
     }
     
     ngOnInit() {
-        this._securityService.AuthorizedCallback();
+        this._securityService.Authorize(); 
     }
 }
