@@ -21,6 +21,9 @@ var OverviewindexComponent = (function () {
             .GetAll()
             .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
     };
+    OverviewindexComponent.prototype.Delete = function (id) {
+        this._dataEventRecordsService.Delete(id);
+    };
     OverviewindexComponent = __decorate([
         core_1.Component({
             selector: 'overviewindex',

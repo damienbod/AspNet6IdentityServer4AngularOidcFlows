@@ -25,4 +25,8 @@ export class OverviewindexComponent implements OnInit {
                 error => console.log(error),
                 () => console.log('Get all complete'));
     }
+
+    public Delete(id: any) {
+        this._dataEventRecordsService.Delete(id);
+    }
 }
