@@ -35,17 +35,19 @@
 
         var ResetAuthorizationData = function () {
             localStorageService.set("authorizationData", "");
+            localStorageService.set("authorizationDataIdToken", "");
             $rootScope.IsAuthorized = false;
             $rootScope.HasAdminRole = false;
         }
 
-        var SetAuthorizationData = function (token) {
+        var SetAuthorizationData = function (token, id_token) {
             
             if (localStorageService.get("authorizationData") !== "") {
                 localStorageService.set("authorizationData", "");
             }
 
             localStorageService.set("authorizationData", token);
+            localStorageService.set("authorizationDataIdToken", id_token);
             $rootScope.IsAuthorized = true;
 
             var data = getDataFromToken(token);
@@ -71,6 +73,7 @@
                 }, {});
 
                 var token = "";
+                var id_token = "";
                 if (!result.error) {
                     if (result.state !== localStorageService.get("authStateControl")) {
                         console.log("AuthorizedController created. no myautostate");
@@ -80,12 +83,11 @@
                         console.log(result);
                            
                         token = result.access_token;
-                        var data = getDataFromToken(token);
-                        $log.info(data);
+                        id_token = result.id_token;
                     }
                 }
 
-                SetAuthorizationData(token);
+                SetAuthorizationData(token, id_token);
                 console.log(localStorageService.get("authorizationData"));
 
                 $state.go("overviewindex");
@@ -129,11 +131,9 @@
 
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://localhost:44347/unauthorized.html
         var Logoff = function () {
-            //var token = localStorageService.get("authorizationData");
-            //var data = getDataFromToken(token);
-
+            //var id_token = localStorageService.get("authorizationDataIdToken");     
             //var authorizationUrl = 'https://localhost:44345/connect/endsession';
-            //var id_token_hint = data.jti;
+            //var id_token_hint = id_token;
             //var post_logout_redirect_uri = 'https://localhost:44347/unauthorized.html';
             //var state = Date.now() + "" + Math.random();
 
