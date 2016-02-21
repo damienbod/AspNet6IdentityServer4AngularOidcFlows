@@ -5,14 +5,14 @@ import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
 
 @Injectable()
-export class DataService {
+export class DataEventRecordsService {
 
     private actionUrl: string;
     private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration) {
 
-        this.actionUrl = _configuration.ServerWithApiUrl + 'values/';
+        this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
@@ -23,7 +23,7 @@ export class DataService {
         return this._http.get(this.actionUrl).map(res => res.json());
     }
 
-    public GetSingle = (id: number): Observable<Response> => {
+    public GetById = (id: number): Observable<Response> => {
         return this._http.get(this.actionUrl + id).map(res => res.json());
     }
 

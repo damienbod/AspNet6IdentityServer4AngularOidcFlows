@@ -11,15 +11,15 @@ var core_1 = require('angular2/core');
 var http_1 = require('angular2/http');
 require('rxjs/add/operator/map');
 var app_constants_1 = require('../app.constants');
-var DataService = (function () {
-    function DataService(_http, _configuration) {
+var DataEventRecordsService = (function () {
+    function DataEventRecordsService(_http, _configuration) {
         var _this = this;
         this._http = _http;
         this._configuration = _configuration;
         this.GetAll = function () {
             return _this._http.get(_this.actionUrl).map(function (res) { return res.json(); });
         };
-        this.GetSingle = function (id) {
+        this.GetById = function (id) {
             return _this._http.get(_this.actionUrl + id).map(function (res) { return res.json(); });
         };
         this.Add = function (itemName) {
@@ -34,16 +34,16 @@ var DataService = (function () {
         this.Delete = function (id) {
             return _this._http.delete(_this.actionUrl + id);
         };
-        this.actionUrl = _configuration.ServerWithApiUrl + 'values/';
+        this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
         this.headers = new http_1.Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
     }
-    DataService = __decorate([
+    DataEventRecordsService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, app_constants_1.Configuration])
-    ], DataService);
-    return DataService;
+    ], DataEventRecordsService);
+    return DataEventRecordsService;
 })();
-exports.DataService = DataService;
-//# sourceMappingURL=DataService.js.map
+exports.DataEventRecordsService = DataEventRecordsService;
+//# sourceMappingURL=DataEventRecordsService.js.map

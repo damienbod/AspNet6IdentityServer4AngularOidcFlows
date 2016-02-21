@@ -1,12 +1,12 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
-import { DataService } from '../services/DataService';
+import { DataEventRecordsService } from '../services/DataEventRecordsService';
 
 @Component({
     selector: 'create',
     templateUrl: 'app/create/create.component.html',
     directives: [CORE_DIRECTIVES],
-    providers:[DataService]
+    providers: [DataEventRecordsService]
 })
 
 export class CreateComponent implements OnInit {
@@ -14,12 +14,12 @@ export class CreateComponent implements OnInit {
     public message: string;
     public values: any[];
 
-    constructor(private _dataService : DataService) {
-        this.message = "Hello from create Component constructor";
+    constructor(private _dataEventRecordsService: DataEventRecordsService) {
+        this.message = "CreateComponent constructor";
     }
     
     ngOnInit() {
-        this._dataService
+        this._dataEventRecordsService
         .GetAll()
         .subscribe((data:any[]) => this.values = data,
                 error => console.log(error),

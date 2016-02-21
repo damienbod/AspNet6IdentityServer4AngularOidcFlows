@@ -9,15 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
-var DataService_1 = require('../services/DataService');
+var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var HomeComponent = (function () {
-    function HomeComponent(_dataService) {
-        this._dataService = _dataService;
-        this.message = "Hello from HomeComponent constructor";
+    function HomeComponent(_dataEventRecordsService) {
+        this._dataEventRecordsService = _dataEventRecordsService;
+        this.message = "HomeComponent constructor";
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._dataService
+        this._dataEventRecordsService
             .GetAll()
             .subscribe(function (data) { return _this.values = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
     };
@@ -26,9 +26,9 @@ var HomeComponent = (function () {
             selector: 'home',
             templateUrl: 'app/home/home.component.html',
             directives: [common_1.CORE_DIRECTIVES],
-            providers: [DataService_1.DataService]
+            providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
-        __metadata('design:paramtypes', [DataService_1.DataService])
+        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService])
     ], HomeComponent);
     return HomeComponent;
 })();
