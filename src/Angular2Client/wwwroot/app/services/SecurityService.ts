@@ -53,6 +53,7 @@ export class SecurityService {
         }
     }
 
+    // NOT working yet because angular2 routing messes up with the hash and at present this bug from angular2 is not fixed.
     public Authorize() {
         this.ResetAuthorizationData();
 
@@ -75,7 +76,8 @@ export class SecurityService {
         var nonce = Date.now() + "" + Math.random();
         var state = Date.now() + "" + Math.random();
 
-   
+        // If you use this IdentityServer returns a POST with URL encoded data in the body.
+        // var response_mode = "form_post";
 
         this.store("authStateControl", state);
         console.log("AuthorizedController created. adding myautostate: " + this.retrieve("authStateControl"));
@@ -87,6 +89,7 @@ export class SecurityService {
             "redirect_uri=" + encodeURI(redirect_uri) + "&" +
             "scope=" + encodeURI(scope) + "&" +
             "nonce=" + encodeURI(nonce) + "&" +
+         //   "response_mode=" + encodeURI(response_mode) + "&" +
             "state=" + encodeURI(state);
 
         window.location.href = url;
