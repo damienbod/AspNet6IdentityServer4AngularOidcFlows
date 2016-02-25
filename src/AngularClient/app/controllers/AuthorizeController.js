@@ -17,6 +17,6 @@
 	    $log.info("AuthorizeController called");
 		$scope.message = "AuthorizeController created";
 	
-		SecurityService.Authorize();
+		SecurityService.DoAuthorization();
 	}
 })();
