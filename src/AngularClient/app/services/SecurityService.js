@@ -105,28 +105,43 @@
 
             var token = "";
             var id_token = "";
+            var authResponseIsValid = false;
             if (!result.error) {
-                if (result.nonce !== localStorageService.get("authNonce")) {
-                    console.log("AuthorizedController created. no myautostate");
-                } else {
+                
                     if (result.state !== localStorageService.get("authStateControl")) {
-                        console.log("AuthorizedController created. no myautostate");
+                        console.log("AuthorizedCallback incorrect state");
                     } else {
-                        localStorageService.set("authNonce", "");
-                        localStorageService.set("authStateControl", "");
-                        console.log("AuthorizedController created. returning access token");
-                        console.log(result);
 
                         token = result.access_token;
-                        id_token = result.id_token;
-                    }
-                }
+                        id_token = result.id_token
+
+                        var dataIdToken = getDataFromToken(id_token);
+                        console.log(dataIdToken);
+
+                        // validate nonce
+                        if (dataIdToken.nonce !== localStorageService.get("authNonce")) {
+                            console.log("AuthorizedCallback incorrect nonce");
+                        } else {
+                            localStorageService.set("authNonce", "");
+                            localStorageService.set("authStateControl", "");
+
+                            authResponseIsValid = true;
+                            console.log("AuthorizedCallback state and nonce validated, returning access token");
+                        }
+                    }    
             }
 
-            SetAuthorizationData(token, id_token);
-            console.log(localStorageService.get("authorizationData"));
+            if (authResponseIsValid) {
+                SetAuthorizationData(token, id_token);
+                console.log(localStorageService.get("authorizationData"));
 
-            $state.go("overviewindex");
+                $state.go("overviewindex");
+            }
+            else {
+                ResetAuthorizationData();
+                $state.go("unauthorized");
+            }
+            
         }
 
         var DoAuthorization = function () {
