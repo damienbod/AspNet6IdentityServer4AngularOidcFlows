@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Security.Claims;
-
+    using IdentityModel;
     using IdentityServer4.Core;
     using IdentityServer4.Core.Services.InMemory;
 
@@ -15,37 +15,37 @@
                 new InMemoryUser{Subject = "48421156", Username = "damienbod", Password = "damienbod",
                     Claims = new Claim[]
                     {
-                        new Claim(Constants.ClaimTypes.Name, "damienbod"),
-                        new Claim(Constants.ClaimTypes.GivenName, "damienbod"),
-                        new Claim(Constants.ClaimTypes.Email, "damien_bod@hotmail.com"),
-                        new Claim(Constants.ClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(Constants.ClaimTypes.Role, "guest"),
-                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords")
+                        new Claim(JwtClaimTypes.Name, "damienbod"),
+                        new Claim(JwtClaimTypes.GivenName, "damienbod"),
+                        new Claim(JwtClaimTypes.Email, "damien_bod@hotmail.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.Role, "guest"),
+                        new Claim(JwtClaimTypes.Role, "dataEventRecords")
                     }
                 },
                 new InMemoryUser{Subject = "48421157", Username = "damienbodadmin", Password = "damienbod",
                     Claims = new Claim[]
                     {
-                        new Claim(Constants.ClaimTypes.Name, "damienbodadmin"),
-                        new Claim(Constants.ClaimTypes.GivenName, "damienbodadmin"),
-                        new Claim(Constants.ClaimTypes.Email, "damien_bod@hotmail.com"),
-                        new Claim(Constants.ClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(Constants.ClaimTypes.Role, "admin"),
-                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords.admin"),
-                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords.user"),
-                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords")
+                        new Claim(JwtClaimTypes.Name, "damienbodadmin"),
+                        new Claim(JwtClaimTypes.GivenName, "damienbodadmin"),
+                        new Claim(JwtClaimTypes.Email, "damien_bod@hotmail.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.Role, "admin"),
+                        new Claim(JwtClaimTypes.Role, "dataEventRecords.admin"),
+                        new Claim(JwtClaimTypes.Role, "dataEventRecords.user"),
+                        new Claim(JwtClaimTypes.Role, "dataEventRecords")
                     }
                 },
                 new InMemoryUser{Subject = "48421158", Username = "damienboduser", Password = "damienbod",
                     Claims = new Claim[]
                     {
-                        new Claim(Constants.ClaimTypes.Name, "damienboduser"),
-                        new Claim(Constants.ClaimTypes.GivenName, "damienboduser"),
-                        new Claim(Constants.ClaimTypes.Email, "damien_bod@hotmail.com"),
-                        new Claim(Constants.ClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(Constants.ClaimTypes.Role, "user"),
-                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords.user"),
-                        new Claim(Constants.ClaimTypes.Role, "dataEventRecords")
+                        new Claim(JwtClaimTypes.Name, "damienboduser"),
+                        new Claim(JwtClaimTypes.GivenName, "damienboduser"),
+                        new Claim(JwtClaimTypes.Email, "damien_bod@hotmail.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.Role, "user"),
+                        new Claim(JwtClaimTypes.Role, "dataEventRecords.user"),
+                        new Claim(JwtClaimTypes.Role, "dataEventRecords")
                     }
                 }
             };

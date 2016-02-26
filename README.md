@@ -5,6 +5,8 @@
 	
 	<li><a href="http://damienbod.com/2016/02/14/authorization-policies-and-data-protection-with-identityserver4-in-asp-net-core/">Authorization Policies and Data Protection with IdentityServer4 in ASP.NET Core</a></li>
 
+	<li><a href="http://damienbod.com/2016/02/26/angular-openid-connect-implicit-flow-with-identityserver4/">Angular OpenID Connect Implicit Flow with IdentityServer4</a></li>
+
 </ul>
 
 

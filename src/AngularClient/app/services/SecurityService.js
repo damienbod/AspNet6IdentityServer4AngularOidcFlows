@@ -74,9 +74,10 @@
             var redirect_uri = 'https://localhost:44347/authorized';
             var response_type = "id_token token";
             var scope = "dataEventRecords aReallyCoolScope openid";
-            var nonce = Date.now() + "" + Math.random();
+            var nonce = "N" + Math.random() + "" + Date.now();
             var state = Date.now() + "" + Math.random();
 
+            localStorageService.set("authNonce", nonce);
             localStorageService.set("authStateControl", state);
             console.log("AuthorizedController created. adding myautostate: " + localStorageService.get("authStateControl"));
 
@@ -104,30 +105,48 @@
 
             var token = "";
             var id_token = "";
+            var authResponseIsValid = false;
             if (!result.error) {
-                if (result.state !== localStorageService.get("authStateControl")) {
-                    console.log("AuthorizedController created. no myautostate");
-                } else {
-                    localStorageService.set("authStateControl", "");
-                    console.log("AuthorizedController created. returning access token");
-                    console.log(result);
+                
+                    if (result.state !== localStorageService.get("authStateControl")) {
+                        console.log("AuthorizedCallback incorrect state");
+                    } else {
 
-                    token = result.access_token;
-                    id_token = result.id_token;
-                }
+                        token = result.access_token;
+                        id_token = result.id_token
+
+                        var dataIdToken = getDataFromToken(id_token);
+                        console.log(dataIdToken);
+
+                        // validate nonce
+                        if (dataIdToken.nonce !== localStorageService.get("authNonce")) {
+                            console.log("AuthorizedCallback incorrect nonce");
+                        } else {
+                            localStorageService.set("authNonce", "");
+                            localStorageService.set("authStateControl", "");
+
+                            authResponseIsValid = true;
+                            console.log("AuthorizedCallback state and nonce validated, returning access token");
+                        }
+                    }    
             }
 
-            // TODO validate nonce
-            SetAuthorizationData(token, id_token);
-            console.log(localStorageService.get("authorizationData"));
+            if (authResponseIsValid) {
+                SetAuthorizationData(token, id_token);
+                console.log(localStorageService.get("authorizationData"));
 
-            $state.go("overviewindex");
+                $state.go("overviewindex");
+            }
+            else {
+                ResetAuthorizationData();
+                $state.go("unauthorized");
+            }
+            
         }
 
         var DoAuthorization = function () {
             ResetAuthorizationData();
 
-            console.log("BEGIN Authorize, no auth data");
             if ($window.location.hash) {
                 authorizeCallback();
             }
