@@ -53,15 +53,15 @@
                 {
                     var user = _loginService.FindByUsername(model.Username);
 
-                    var name = user.Claims.Where(x => x.Type == Constants.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault() ?? user.Username;
+                    var name = user.Claims.Where(x => x.Type == JwtClaimTypes.Name).Select(x => x.Value).FirstOrDefault() ?? user.Username;
 
                     var claims = new Claim[] {
-                        new Claim(Constants.ClaimTypes.Subject, user.Subject),
-                        new Claim(Constants.ClaimTypes.Name, name),
-                        new Claim(Constants.ClaimTypes.IdentityProvider, "idsvr"),
-                        new Claim(Constants.ClaimTypes.AuthenticationTime, DateTime.UtcNow.ToEpochTime().ToString()),
+                        new Claim(JwtClaimTypes.Subject, user.Subject),
+                        new Claim(JwtClaimTypes.Name, name),
+                        new Claim(JwtClaimTypes.IdentityProvider, "idsvr"),
+                        new Claim(JwtClaimTypes.AuthenticationTime, DateTime.UtcNow.ToEpochTime().ToString()),
                     };
-                    var ci = new ClaimsIdentity(claims, "password", Constants.ClaimTypes.Name, Constants.ClaimTypes.Role);
+                    var ci = new ClaimsIdentity(claims, "password", JwtClaimTypes.Name, JwtClaimTypes.Role);
                     var cp = new ClaimsPrincipal(ci);
 
                     await HttpContext.Authentication.SignInAsync(Constants.PrimaryAuthenticationType, cp);
