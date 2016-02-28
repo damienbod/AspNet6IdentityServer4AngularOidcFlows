@@ -18,18 +18,19 @@ var DetailsComponent = (function () {
         this._routeParams = _routeParams;
         this.securityService = securityService;
         this.message = "DetailsComponent constructor";
-        this.Id = this._routeParams.get('Id');
+        this.id = this._routeParams.get('Id');
+        this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
     }
     DetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
         console.log("IsAuthorized:" + this.securityService.IsAuthorized);
         console.log("HasAdminRole:" + this.securityService.HasAdminRole);
-        this._dataEventRecordsService.GetById(this.Id)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Get by Id complete'); });
+        this._dataEventRecordsService.GetById(this.id)
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('DetailsComponent:Get by Id complete'); });
     };
     DetailsComponent.prototype.Update = function () {
         var _this = this;
-        this._dataEventRecordsService.Update(this.Id, this.DataEventRecord)
+        this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Update complete'); });
     };
     DetailsComponent = __decorate([
