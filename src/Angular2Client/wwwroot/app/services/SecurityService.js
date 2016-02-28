@@ -123,6 +123,16 @@ var SecurityService = (function () {
     SecurityService.prototype.Logoff = function () {
         this.ResetAuthorizationData();
     };
+    SecurityService.prototype.HandleError = function (error) {
+        console.log(error);
+        if (error.status == 403) {
+            this._router.navigate(['Forbidden']);
+        }
+        else if (error.status == 401) {
+            this.ResetAuthorizationData();
+            this._router.navigate(['Unauthorized']);
+        }
+    };
     SecurityService.prototype.urlBase64Decode = function (str) {
         var output = str.replace('-', '+').replace('_', '/');
         switch (output.length % 4) {

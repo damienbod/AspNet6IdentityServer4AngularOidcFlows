@@ -162,6 +162,17 @@ export class SecurityService {
         // TODO logout on IdentityServer4
     }
 
+    public HandleError(error: any) {
+        console.log(error);
+        if (error.status == 403) {
+            this._router.navigate(['Forbidden'])
+        }
+        else if (error.status == 401) {
+            this.ResetAuthorizationData();
+            this._router.navigate(['Unauthorized'])
+        }
+    }
+
     private urlBase64Decode(str) {
         var output = str.replace('-', '+').replace('_', '/');
         switch (output.length % 4) {

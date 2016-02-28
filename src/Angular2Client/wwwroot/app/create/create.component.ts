@@ -30,7 +30,9 @@ export class CreateComponent implements OnInit {
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
-            error => console.log(error),
+            error => this.securityService.HandleError(error),
             () => this._router.navigate(['Overviewindex']));
     }
+
+    
 }

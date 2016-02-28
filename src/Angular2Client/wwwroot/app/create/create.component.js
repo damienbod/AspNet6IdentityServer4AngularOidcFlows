@@ -28,7 +28,7 @@ var CreateComponent = (function () {
         var _this = this;
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return _this._router.navigate(['Overviewindex']); });
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Overviewindex']); });
     };
     CreateComponent = __decorate([
         core_1.Component({
