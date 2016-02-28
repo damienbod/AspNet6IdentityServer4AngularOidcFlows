@@ -22,6 +22,10 @@ var SecurityService = (function () {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
         this.storage = localStorage;
+        if (this.retrieve("IsAuthorized") !== "") {
+            this.HasAdminRole = this.retrieve("HasAdminRole");
+            this.IsAuthorized = this.retrieve("IsAuthorized");
+        }
     }
     SecurityService.prototype.GetToken = function () {
         return this.retrieve("authorizationData");
@@ -31,6 +35,8 @@ var SecurityService = (function () {
         this.store("authorizationDataIdToken", "");
         this.IsAuthorized = false;
         this.HasAdminRole = false;
+        this.store("HasAdminRole", false);
+        this.store("IsAuthorized", false);
     };
     SecurityService.prototype.SetAuthorizationData = function (token, id_token) {
         if (this.retrieve("authorizationData") !== "") {
@@ -39,10 +45,12 @@ var SecurityService = (function () {
         this.store("authorizationData", token);
         this.store("authorizationDataIdToken", id_token);
         this.IsAuthorized = true;
+        this.store("IsAuthorized", true);
         var data = this.getDataFromToken(token);
         for (var i = 0; i < data.role.length; i++) {
             if (data.role[i] === "dataEventRecords.admin") {
                 this.HasAdminRole = true;
+                this.store("HasAdminRole", true);
             }
         }
     };
@@ -113,6 +121,7 @@ var SecurityService = (function () {
         }
     };
     SecurityService.prototype.Logoff = function () {
+        this.ResetAuthorizationData();
     };
     SecurityService.prototype.urlBase64Decode = function (str) {
         var output = str.replace('-', '+').replace('_', '/');

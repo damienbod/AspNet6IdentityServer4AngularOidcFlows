@@ -10,18 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
+var SecurityService_1 = require('../services/SecurityService');
 var CreateComponent = (function () {
-    function CreateComponent(_dataEventRecordsService) {
+    function CreateComponent(_dataEventRecordsService, securityService) {
         this._dataEventRecordsService = _dataEventRecordsService;
+        this.securityService = securityService;
         this.message = "CreateComponent constructor";
     }
     CreateComponent.prototype.ngOnInit = function () {
+        this.DataEventRecord = { Id: 0, Name: "", Description: "" };
+        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
+        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
     };
     CreateComponent.prototype.Create = function () {
         var _this = this;
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Add completed'); });
     };
     CreateComponent = __decorate([
         core_1.Component({
@@ -30,7 +35,7 @@ var CreateComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService])
+        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService])
     ], CreateComponent);
     return CreateComponent;
 })();

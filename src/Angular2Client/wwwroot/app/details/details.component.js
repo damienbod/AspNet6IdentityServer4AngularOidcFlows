@@ -13,26 +13,24 @@ var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var router_1 = require('angular2/router');
 var SecurityService_1 = require('../services/SecurityService');
 var DetailsComponent = (function () {
-    function DetailsComponent(_dataEventRecordsService, _routeParams, _securityService) {
+    function DetailsComponent(_dataEventRecordsService, _routeParams, securityService) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this._routeParams = _routeParams;
-        this._securityService = _securityService;
-        this.IsAuthorized = false;
-        this.HasAdminRole = false;
+        this.securityService = securityService;
         this.message = "DetailsComponent constructor";
-        this.id = this._routeParams.get('id');
-        this.HasAdminRole = _securityService.HasAdminRole;
-        this.IsAuthorized = _securityService.IsAuthorized;
+        this.Id = this._routeParams.get('Id');
     }
     DetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._dataEventRecordsService.GetById(this.id)
+        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
+        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
+        this._dataEventRecordsService.GetById(this.Id)
             .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Get by Id complete'); });
     };
     DetailsComponent.prototype.Update = function () {
         var _this = this;
-        this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Get by Id complete'); });
+        this._dataEventRecordsService.Update(this.Id, this.DataEventRecord)
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Update complete'); });
     };
     DetailsComponent = __decorate([
         core_1.Component({

@@ -13,30 +13,28 @@ import { SecurityService } from '../services/SecurityService';
 
 export class DetailsComponent implements OnInit {
 
-    private id: any;
+    private Id: any;
     public message: string;
     public DataEventRecord: any;
-    public IsAuthorized: boolean = false;
-    public HasAdminRole: boolean = false;
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService, private _routeParams: RouteParams, private _securityService: SecurityService) {
+    constructor(private _dataEventRecordsService: DataEventRecordsService, private _routeParams: RouteParams, public securityService: SecurityService) {
         this.message = "DetailsComponent constructor";
-        this.id = this._routeParams.get('id');
-        this.HasAdminRole = _securityService.HasAdminRole;
-        this.IsAuthorized = _securityService.IsAuthorized;
+        this.Id = this._routeParams.get('Id');
     }
     
     ngOnInit() {
-        this._dataEventRecordsService.GetById(this.id)
+        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
+        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
+        this._dataEventRecordsService.GetById(this.Id)
             .subscribe((data: any[]) => this.DataEventRecord = data,
                 error => console.log(error),
                 () => console.log('Get by Id complete'));
     }
 
     public Update() {
-        this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
+        this._dataEventRecordsService.Update(this.Id, this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
             error => console.log(error),
-            () => console.log('Get by Id complete'));
+            () => console.log('Update complete'));
     }
 }

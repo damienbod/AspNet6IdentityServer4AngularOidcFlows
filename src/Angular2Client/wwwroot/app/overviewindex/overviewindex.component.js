@@ -13,16 +13,16 @@ var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var SecurityService_1 = require('../services/SecurityService');
 var OverviewindexComponent = (function () {
     function OverviewindexComponent(_dataEventRecordsService, securityService) {
-        var _this = this;
         this._dataEventRecordsService = _dataEventRecordsService;
         this.securityService = securityService;
         this.message = "Overview DataEventRecords";
-        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
-        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
+    }
+    OverviewindexComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this._dataEventRecordsService
             .GetAll()
-            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
-    }
+            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all completed'); });
+    };
     OverviewindexComponent.prototype.Delete = function (id) {
         console.log("Try to delete" + id);
         this._dataEventRecordsService.Delete(id);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
 import { DataEventRecordsService } from '../services/DataEventRecordsService';
+import { SecurityService } from '../services/SecurityService';
 
 @Component({
     selector: 'create',
@@ -14,12 +15,14 @@ export class CreateComponent implements OnInit {
     public message: string;
     public DataEventRecord: any;
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService) {
+    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService) {
         this.message = "CreateComponent constructor";
     }
     
     ngOnInit() {
-       
+        this.DataEventRecord = { Id: 0, Name: "", Description: "" };
+        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
+        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
     }
 
     public Create() {
@@ -27,6 +30,6 @@ export class CreateComponent implements OnInit {
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
             error => console.log(error),
-            () => console.log('Get all complete'));
+            () => console.log('Add completed'));
     }
 }

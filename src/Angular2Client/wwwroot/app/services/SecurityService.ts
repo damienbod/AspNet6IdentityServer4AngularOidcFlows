@@ -20,6 +20,11 @@ export class SecurityService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
         this.storage = localStorage;
+
+        if (this.retrieve("IsAuthorized") !== "") {
+            this.HasAdminRole = this.retrieve("HasAdminRole");
+            this.IsAuthorized = this.retrieve("IsAuthorized");
+        }
     }
 
     public IsAuthorized: boolean;
@@ -34,15 +39,9 @@ export class SecurityService {
 
         this.IsAuthorized = false;
         this.HasAdminRole = false;
+        this.store("HasAdminRole", false);
+        this.store("IsAuthorized", false);
     }
-
-    //public GetIsAuthorized(): Observable<string> {
-      
-    //    return Observable.of(boolean).map(o => this.IsAuthorized);
-       
-    //}
-
-   
 
     public SetAuthorizationData(token: any, id_token:any) {
         if (this.retrieve("authorizationData") !== "") {
@@ -52,11 +51,13 @@ export class SecurityService {
         this.store("authorizationData", token);
         this.store("authorizationDataIdToken", id_token);
         this.IsAuthorized = true;
+        this.store("IsAuthorized", true);
 
         var data: any = this.getDataFromToken(token);
         for (var i = 0; i < data.role.length; i++) {
             if (data.role[i] === "dataEventRecords.admin") {
                 this.HasAdminRole = true;
+                this.store("HasAdminRole", true)
             }
         }
     }
@@ -156,7 +157,9 @@ export class SecurityService {
     }
 
     public Logoff() {
+        this.ResetAuthorizationData();
 
+        // TODO logout on IdentityServer4
     }
 
     private urlBase64Decode(str) {

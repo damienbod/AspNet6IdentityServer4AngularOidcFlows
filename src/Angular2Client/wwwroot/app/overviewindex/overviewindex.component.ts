@@ -11,7 +11,7 @@ import {Observable}       from 'rxjs/Observable';
     providers: [DataEventRecordsService]
 })
 
-export class OverviewindexComponent {
+export class OverviewindexComponent implements OnInit {
 
     public message: string;
     public DataEventRecords: any[];
@@ -19,13 +19,14 @@ export class OverviewindexComponent {
     constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService) {
         this.message = "Overview DataEventRecords";
 
-        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
-        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
+    }
+
+    ngOnInit() {
         this._dataEventRecordsService
             .GetAll()
             .subscribe((data: any[]) => this.DataEventRecords = data,
             error => console.log(error),
-            () => console.log('Get all complete'));
+            () => console.log('Get all completed'));
     }
 
     public Delete(id: any) {
