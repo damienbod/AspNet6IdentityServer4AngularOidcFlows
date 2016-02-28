@@ -16,26 +16,22 @@ var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var details_component_1 = require('./details/details.component');
 var SecurityService_1 = require('./services/SecurityService');
 var AppComponent = (function () {
-    function AppComponent(_securityService) {
-        this._securityService = _securityService;
-        this.IsAuthorized = false;
-        this.HasAdminRole = false;
-        this.HasAdminRole = _securityService.HasAdminRole;
-        this.IsAuthorized = _securityService.IsAuthorized;
+    function AppComponent(securityService) {
+        this.securityService = securityService;
     }
     AppComponent.prototype.ngOnInit = function () {
-        console.log("ctor AuthorizedComponent constructor");
+        console.log("ngOnInit _securityService.AuthorizedCallback");
         if (window.location.hash) {
-            this._securityService.AuthorizedCallback();
+            this.securityService.AuthorizedCallback();
         }
     };
     AppComponent.prototype.Login = function () {
         console.log("Do login logic");
-        this._securityService.Authorize();
+        this.securityService.Authorize();
     };
     AppComponent.prototype.Logout = function () {
         console.log("Do logout logic");
-        this._securityService.Logoff();
+        this.securityService.Logoff();
     };
     AppComponent = __decorate([
         core_1.Component({

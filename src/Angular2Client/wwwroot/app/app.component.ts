@@ -24,28 +24,25 @@ import {SecurityService} from './services/SecurityService';
  
 export class AppComponent {
 
-    constructor(private _securityService: SecurityService) {
-        this.HasAdminRole = _securityService.HasAdminRole;
-        this.IsAuthorized = _securityService.IsAuthorized;
+    constructor(public securityService: SecurityService) {
+     
     }
 
     ngOnInit() {
-        console.log("ctor AuthorizedComponent constructor");
+        console.log("ngOnInit _securityService.AuthorizedCallback");
+
         if (window.location.hash) {
-            this._securityService.AuthorizedCallback();
+            this.securityService.AuthorizedCallback();
         }      
     }
 
-    public IsAuthorized: boolean = false;
-    public HasAdminRole: boolean = false;
-
     public Login() {
         console.log("Do login logic");
-        this._securityService.Authorize(); 
+        this.securityService.Authorize(); 
     }
 
     public Logout() {
         console.log("Do logout logic");
-        this._securityService.Logoff();
+        this.securityService.Logoff();
     }
 }

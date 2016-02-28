@@ -22,8 +22,8 @@ export class SecurityService {
         this.storage = localStorage;
     }
 
-    public IsAuthorized: boolean = false;
-    public HasAdminRole: boolean = false;
+    public IsAuthorized: boolean;
+    public HasAdminRole: boolean;
 
     public GetToken(): any {
         return this.retrieve("authorizationData");
@@ -35,6 +35,14 @@ export class SecurityService {
         this.IsAuthorized = false;
         this.HasAdminRole = false;
     }
+
+    //public GetIsAuthorized(): Observable<string> {
+      
+    //    return Observable.of(boolean).map(o => this.IsAuthorized);
+       
+    //}
+
+   
 
     public SetAuthorizationData(token: any, id_token:any) {
         if (this.retrieve("authorizationData") !== "") {

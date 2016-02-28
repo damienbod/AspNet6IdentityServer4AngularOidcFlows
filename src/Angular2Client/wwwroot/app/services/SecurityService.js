@@ -17,8 +17,6 @@ var SecurityService = (function () {
         this._http = _http;
         this._configuration = _configuration;
         this._router = _router;
-        this.IsAuthorized = false;
-        this.HasAdminRole = false;
         this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
         this.headers = new http_1.Headers();
         this.headers.append('Content-Type', 'application/json');

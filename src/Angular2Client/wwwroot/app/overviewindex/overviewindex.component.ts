@@ -2,6 +2,7 @@ import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
 import { DataEventRecordsService } from '../services/DataEventRecordsService';
 import { SecurityService } from '../services/SecurityService';
+import {Observable}       from 'rxjs/Observable';
 
 @Component({
     selector: 'overviewindex',
@@ -10,25 +11,21 @@ import { SecurityService } from '../services/SecurityService';
     providers: [DataEventRecordsService]
 })
 
-export class OverviewindexComponent implements OnInit {
+export class OverviewindexComponent {
 
     public message: string;
     public DataEventRecords: any[];
-    public IsAuthorized: boolean = false;
-    public HasAdminRole: boolean = false;
+   
+    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService) {
+        this.message = "Overview DataEventRecords";
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService, private _securityService: SecurityService) {
-        this.message = "OverviewindexComponent constructor";
-        this.HasAdminRole = _securityService.HasAdminRole;
-        this.IsAuthorized = _securityService.IsAuthorized;
-    }
-    
-    ngOnInit() {
+        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
+        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
         this._dataEventRecordsService
-        .GetAll()
+            .GetAll()
             .subscribe((data: any[]) => this.DataEventRecords = data,
-                error => console.log(error),
-                () => console.log('Get all complete'));
+            error => console.log(error),
+            () => console.log('Get all complete'));
     }
 
     public Delete(id: any) {
