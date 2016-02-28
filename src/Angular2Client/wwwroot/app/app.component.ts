@@ -3,12 +3,9 @@ import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {HomeComponent} from './home/home.component';
 import {OverviewindexComponent} from './overviewindex/overviewindex.component';
 import {CreateComponent} from './create/create.component';
-import {AuthorizedComponent} from './authorized/authorized.component';
-import {AuthorizeComponent} from './authorize/authorize.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {DetailsComponent} from './details/details.component';
-import {LogoffComponent} from './logoff/logoff.component';
 import { SecurityService } from './services/SecurityService';
 
 @Component({
@@ -22,12 +19,9 @@ import { SecurityService } from './services/SecurityService';
         { path: '/Home', name: 'Home', component: HomeComponent },
         { path: '/Create', name: 'Create', component: CreateComponent },
         { path: '/Overviewindex', name: 'Overviewindex', component: OverviewindexComponent },
-        { path: '/Authorize', name: 'Authorize', component: AuthorizeComponent },
-        { path: '/Authorized', name: 'Authorized', component: AuthorizedComponent },
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
-        { path: '/Details/:id', name: 'Details', component: DetailsComponent },
-        { path: '/Logoff', name: 'Logoff', component: LogoffComponent }
+        { path: '/Details/:id', name: 'Details', component: DetailsComponent }
 ])
  
 export class AppComponent {
@@ -37,14 +31,23 @@ export class AppComponent {
         this.IsAuthorized = _securityService.IsAuthorized;
     }
 
+    ngOnInit() {
+        console.log("ctor AuthorizedComponent constructor");
+        if (window.location.hash) {
+            this._securityService.AuthorizedCallback();
+        }      
+    }
+
     public IsAuthorized: boolean = false;
     public HasAdminRole: boolean = false;
 
     public Login() {
         console.log("Do login logic");
+        this._securityService.Authorize(); 
     }
 
     public Logout() {
         console.log("Do logout logic");
+        this._securityService.Logoff();
     }
 }

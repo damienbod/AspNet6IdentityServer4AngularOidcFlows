@@ -12,12 +12,9 @@ var router_1 = require('angular2/router');
 var home_component_1 = require('./home/home.component');
 var overviewindex_component_1 = require('./overviewindex/overviewindex.component');
 var create_component_1 = require('./create/create.component');
-var authorized_component_1 = require('./authorized/authorized.component');
-var authorize_component_1 = require('./authorize/authorize.component');
 var forbidden_component_1 = require('./forbidden/forbidden.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var details_component_1 = require('./details/details.component');
-var logoff_component_1 = require('./logoff/logoff.component');
 var SecurityService_1 = require('./services/SecurityService');
 var AppComponent = (function () {
     function AppComponent(_securityService) {
@@ -27,11 +24,19 @@ var AppComponent = (function () {
         this.HasAdminRole = _securityService.HasAdminRole;
         this.IsAuthorized = _securityService.IsAuthorized;
     }
+    AppComponent.prototype.ngOnInit = function () {
+        console.log("ctor AuthorizedComponent constructor");
+        if (window.location.hash) {
+            this._securityService.AuthorizedCallback();
+        }
+    };
     AppComponent.prototype.Login = function () {
         console.log("Do login logic");
+        this._securityService.Authorize();
     };
     AppComponent.prototype.Logout = function () {
         console.log("Do logout logic");
+        this._securityService.Logoff();
     };
     AppComponent = __decorate([
         core_1.Component({
@@ -44,12 +49,9 @@ var AppComponent = (function () {
             { path: '/Home', name: 'Home', component: home_component_1.HomeComponent },
             { path: '/Create', name: 'Create', component: create_component_1.CreateComponent },
             { path: '/Overviewindex', name: 'Overviewindex', component: overviewindex_component_1.OverviewindexComponent },
-            { path: '/Authorize', name: 'Authorize', component: authorize_component_1.AuthorizeComponent },
-            { path: '/Authorized', name: 'Authorized', component: authorized_component_1.AuthorizedComponent },
             { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
             { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
-            { path: '/Details/:id', name: 'Details', component: details_component_1.DetailsComponent },
-            { path: '/Logoff', name: 'Logoff', component: logoff_component_1.LogoffComponent }
+            { path: '/Details/:id', name: 'Details', component: details_component_1.DetailsComponent }
         ]), 
         __metadata('design:paramtypes', [SecurityService_1.SecurityService])
     ], AppComponent);
