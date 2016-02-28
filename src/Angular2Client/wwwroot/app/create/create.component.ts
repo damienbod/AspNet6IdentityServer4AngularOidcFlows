@@ -1,6 +1,7 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
 import { DataEventRecordsService } from '../services/DataEventRecordsService';
+import { Router } from 'angular2/router';
 import { SecurityService } from '../services/SecurityService';
 
 @Component({
@@ -15,7 +16,7 @@ export class CreateComponent implements OnInit {
     public message: string;
     public DataEventRecord: any;
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService) {
+    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
         this.message = "CreateComponent constructor";
     }
     
@@ -30,6 +31,6 @@ export class CreateComponent implements OnInit {
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
             error => console.log(error),
-            () => console.log('Add completed'));
+            () => this._router.navigate(['Overviewindex']));
     }
 }

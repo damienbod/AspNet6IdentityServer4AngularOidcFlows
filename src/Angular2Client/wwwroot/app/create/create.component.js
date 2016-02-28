@@ -10,11 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
+var router_1 = require('angular2/router');
 var SecurityService_1 = require('../services/SecurityService');
 var CreateComponent = (function () {
-    function CreateComponent(_dataEventRecordsService, securityService) {
+    function CreateComponent(_dataEventRecordsService, securityService, _router) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this.securityService = securityService;
+        this._router = _router;
         this.message = "CreateComponent constructor";
     }
     CreateComponent.prototype.ngOnInit = function () {
@@ -26,7 +28,7 @@ var CreateComponent = (function () {
         var _this = this;
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Add completed'); });
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return _this._router.navigate(['Overviewindex']); });
     };
     CreateComponent = __decorate([
         core_1.Component({
@@ -35,7 +37,7 @@ var CreateComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService])
+        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
     ], CreateComponent);
     return CreateComponent;
 })();
