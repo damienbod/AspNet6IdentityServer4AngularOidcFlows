@@ -11,10 +11,12 @@ var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var SecurityService_1 = require('../services/SecurityService');
+var router_1 = require('angular2/router');
 var OverviewindexComponent = (function () {
-    function OverviewindexComponent(_dataEventRecordsService, securityService) {
+    function OverviewindexComponent(_dataEventRecordsService, securityService, _router) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this.securityService = securityService;
+        this._router = _router;
         this.message = "Overview DataEventRecords";
     }
     OverviewindexComponent.prototype.ngOnInit = function () {
@@ -24,8 +26,10 @@ var OverviewindexComponent = (function () {
             .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
     };
     OverviewindexComponent.prototype.Delete = function (id) {
+        var _this = this;
         console.log("Try to delete" + id);
-        this._dataEventRecordsService.Delete(id);
+        this._dataEventRecordsService.Delete(id)
+            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Overviewindex']); });
     };
     OverviewindexComponent = __decorate([
         core_1.Component({
@@ -34,7 +38,7 @@ var OverviewindexComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService])
+        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
     ], OverviewindexComponent);
     return OverviewindexComponent;
 })();
