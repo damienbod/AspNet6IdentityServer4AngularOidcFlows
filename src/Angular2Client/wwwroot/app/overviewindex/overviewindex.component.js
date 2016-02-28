@@ -21,7 +21,7 @@ var OverviewindexComponent = (function () {
         var _this = this;
         this._dataEventRecordsService
             .GetAll()
-            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all completed'); });
+            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
     };
     OverviewindexComponent.prototype.Delete = function (id) {
         console.log("Try to delete" + id);

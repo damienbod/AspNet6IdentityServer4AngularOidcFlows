@@ -25,7 +25,7 @@ export class OverviewindexComponent implements OnInit {
         this._dataEventRecordsService
             .GetAll()
             .subscribe((data: any[]) => this.DataEventRecords = data,
-            error => console.log(error),
+            error => this.securityService.HandleError(error),
             () => console.log('Get all completed'));
     }
 

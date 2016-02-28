@@ -27,12 +27,12 @@ var DetailsComponent = (function () {
         console.log("IsAuthorized:" + this.securityService.IsAuthorized);
         console.log("HasAdminRole:" + this.securityService.HasAdminRole);
         this._dataEventRecordsService.GetById(this.id)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('DetailsComponent:Get by Id complete'); });
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('DetailsComponent:Get by Id complete'); });
     };
     DetailsComponent.prototype.Update = function () {
         var _this = this;
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
-            .subscribe((function () { return console.log("subscribed"); }), function (error) { return console.log(error); }, function () { return _this._router.navigate(['Overviewindex']); });
+            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Overviewindex']); });
     };
     DetailsComponent = __decorate([
         core_1.Component({

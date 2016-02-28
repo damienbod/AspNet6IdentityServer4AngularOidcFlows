@@ -31,14 +31,14 @@ export class DetailsComponent implements OnInit {
         console.log("HasAdminRole:" + this.securityService.HasAdminRole);
         this._dataEventRecordsService.GetById(this.id)
             .subscribe((data: any[]) => this.DataEventRecord = data,
-                error => console.log(error),
+                error => this.securityService.HandleError(error),
                 () => console.log('DetailsComponent:Get by Id complete'));
     }
 
     public Update() {
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe((() => console.log("subscribed")),
-            error => console.log(error),
+            error => this.securityService.HandleError(error),
             () => this._router.navigate(['Overviewindex']));
     }
 }
