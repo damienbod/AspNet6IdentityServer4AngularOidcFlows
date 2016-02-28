@@ -19,32 +19,45 @@ var DataEventRecordsService = (function () {
         this._configuration = _configuration;
         this._securityService = _securityService;
         this.GetAll = function () {
-            return _this._http.get(_this.actionUrl).map(function (res) { return res.json(); });
+            _this.setHeaders();
+            return _this._http.get(_this.actionUrl, {
+                headers: _this.headers
+            }).map(function (res) { return res.json(); });
         };
         this.GetById = function (id) {
-            return _this._http.get(_this.actionUrl + id).map(function (res) { return res.json(); });
+            _this.setHeaders();
+            return _this._http.get(_this.actionUrl + id, {
+                headers: _this.headers
+            }).map(function (res) { return res.json(); });
         };
         this.Add = function (itemName) {
             var toAdd = JSON.stringify({ ItemName: itemName });
+            _this.setHeaders();
             return _this._http.post(_this.actionUrl, toAdd, { headers: _this.headers }).map(function (res) { return res.json(); });
         };
         this.Update = function (id, itemToUpdate) {
+            _this.setHeaders();
             return _this._http
                 .put(_this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: _this.headers })
                 .map(function (res) { return res.json(); });
         };
         this.Delete = function (id) {
-            return _this._http.delete(_this.actionUrl + id);
+            _this.setHeaders();
+            return _this._http.delete(_this.actionUrl + id, {
+                headers: _this.headers
+            });
         };
         this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
+    }
+    DataEventRecordsService.prototype.setHeaders = function () {
         this.headers = new http_1.Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
-        var token = _securityService.GetToken();
+        var token = this._securityService.GetToken();
         if (token !== "") {
             this.headers.append('Authorization', 'Bearer ' + token);
         }
-    }
+    };
     DataEventRecordsService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, app_constants_1.Configuration, SecurityService_1.SecurityService])
