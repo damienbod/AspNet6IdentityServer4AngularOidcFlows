@@ -20,6 +20,7 @@ export class DataEventRecordsService {
         this.headers.append('Accept', 'application/json');
 
         var token = _securityService.GetToken();
+
         if (token !== "") {
             this.headers.append('Authorization', 'Bearer ' + token);
         }

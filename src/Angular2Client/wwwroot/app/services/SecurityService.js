@@ -56,9 +56,10 @@ var SecurityService = (function () {
         var redirect_uri = 'https://localhost:44311';
         var response_type = "id_token token";
         var scope = "dataEventRecords aReallyCoolScope openid";
-        var nonce = Date.now() + "" + Math.random();
+        var nonce = "N" + Math.random() + "" + Date.now();
         var state = Date.now() + "" + Math.random();
         this.store("authStateControl", state);
+        this.store("authNonce", nonce);
         console.log("AuthorizedController created. adding myautostate: " + this.retrieve("authStateControl"));
         var url = authorizationUrl + "?" +
             "response_type=" + encodeURI(response_type) + "&" +
@@ -82,24 +83,36 @@ var SecurityService = (function () {
         console.log("AuthorizedCallback created, begin token validation");
         var token = "";
         var id_token = "";
+        var authResponseIsValid = false;
         if (!result.error) {
             if (result.state !== this.retrieve("authStateControl")) {
-                console.log("AuthorizedCallback created. no myautostate");
+                console.log("AuthorizedCallback incorrect state");
             }
             else {
-                this.store("authStateControl", "");
-                console.log("AuthorizedCallback created. returning access token");
-                console.log(result);
                 token = result.access_token;
                 id_token = result.id_token;
-                var data = this.getDataFromToken(token);
-                console.log(data);
+                var dataIdToken = this.getDataFromToken(id_token);
+                console.log(dataIdToken);
+                if (dataIdToken.nonce !== this.retrieve("authNonce")) {
+                    console.log("AuthorizedCallback incorrect nonce");
+                }
+                else {
+                    this.store("authNonce", "");
+                    this.store("authStateControl", "");
+                    authResponseIsValid = true;
+                    console.log("AuthorizedCallback state and nonce validated, returning access token");
+                }
             }
         }
-        this.SetAuthorizationData(token, id_token);
-        console.log(this.retrieve("authorizationData"));
-        alert("DAAA");
-        this._router.navigate(['Overviewindex']);
+        if (authResponseIsValid) {
+            this.SetAuthorizationData(token, id_token);
+            console.log(this.retrieve("authorizationData"));
+            this._router.navigate(['Overviewindex']);
+        }
+        else {
+            this.ResetAuthorizationData();
+            this._router.navigate(['Unauthorized']);
+        }
     };
     SecurityService.prototype.Logoff = function () {
     };
