@@ -16,8 +16,9 @@
                     <li><a [routerLink]="['/Home']" class="btn">Home</a></li>
                     <li><a [routerLink]="['/Overviewindex']">Overviewindex</a></li>
                     <li><a [routerLink]="['/Create']">Create</a></li>
-                    <li><a [routerLink]="['/Authorize']" [hidden]="IsAuthorized" >Login</a></li>
-                    <li><a [routerLink]="['/Logoff']" [hidden]="!IsAuthorized" >Logoff</a></li>
+
+                    <li><a *ngIf="!IsAuthorized" (click)="Login()">Login</a></li>
+                    <li><a *ngIf="IsAuthorized" (click)="Logout()">Logout</a></li>
               
                 </ul>
             </div><!--/.nav-collapse -->

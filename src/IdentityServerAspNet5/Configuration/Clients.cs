@@ -44,7 +44,7 @@
                     Flow = Flows.Implicit,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44311/Authorized"
+                        "https://localhost:44311"
 
                     },
                     PostLogoutRedirectUris = new List<string>

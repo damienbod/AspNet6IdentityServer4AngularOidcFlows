@@ -53,7 +53,7 @@ var SecurityService = (function () {
         console.log("BEGIN Authorize, no auth data");
         var authorizationUrl = 'https://localhost:44345/connect/authorize';
         var client_id = 'angular2client';
-        var redirect_uri = 'https://localhost:44311/Authorized';
+        var redirect_uri = 'https://localhost:44311';
         var response_type = "id_token token";
         var scope = "dataEventRecords aReallyCoolScope openid";
         var nonce = Date.now() + "" + Math.random();

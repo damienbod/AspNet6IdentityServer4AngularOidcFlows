@@ -19,7 +19,7 @@ import { SecurityService } from './services/SecurityService';
 })
 
 @RouteConfig([
-        { path: '/Home', name: 'Home', component: HomeComponent, useAsDefault: true },
+        { path: '/Home', name: 'Home', component: HomeComponent },
         { path: '/Create', name: 'Create', component: CreateComponent },
         { path: '/Overviewindex', name: 'Overviewindex', component: OverviewindexComponent },
         { path: '/Authorize', name: 'Authorize', component: AuthorizeComponent },
@@ -39,4 +39,12 @@ export class AppComponent {
 
     public IsAuthorized: boolean = false;
     public HasAdminRole: boolean = false;
+
+    public Login() {
+        console.log("Do login logic");
+    }
+
+    public Logout() {
+        console.log("Do logout logic");
+    }
 }

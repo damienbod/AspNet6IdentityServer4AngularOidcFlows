@@ -27,6 +27,12 @@ var AppComponent = (function () {
         this.HasAdminRole = _securityService.HasAdminRole;
         this.IsAuthorized = _securityService.IsAuthorized;
     }
+    AppComponent.prototype.Login = function () {
+        console.log("Do login logic");
+    };
+    AppComponent.prototype.Logout = function () {
+        console.log("Do logout logic");
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
@@ -35,7 +41,7 @@ var AppComponent = (function () {
             styleUrls: ['app/app.component.css']
         }),
         router_1.RouteConfig([
-            { path: '/Home', name: 'Home', component: home_component_1.HomeComponent, useAsDefault: true },
+            { path: '/Home', name: 'Home', component: home_component_1.HomeComponent },
             { path: '/Create', name: 'Create', component: create_component_1.CreateComponent },
             { path: '/Overviewindex', name: 'Overviewindex', component: overviewindex_component_1.OverviewindexComponent },
             { path: '/Authorize', name: 'Authorize', component: authorize_component_1.AuthorizeComponent },
