@@ -45,7 +45,7 @@ var AppComponent = (function () {
             { path: '/Overviewindex', name: 'Overviewindex', component: overviewindex_component_1.OverviewindexComponent },
             { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
             { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
-            { path: '/Details/:id', name: 'Details', component: details_component_1.DetailsComponent }
+            { path: '/Details/:Id', name: 'Details', component: details_component_1.DetailsComponent }
         ]), 
         __metadata('design:paramtypes', [SecurityService_1.SecurityService])
     ], AppComponent);

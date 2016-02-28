@@ -19,7 +19,7 @@ import {SecurityService} from './services/SecurityService';
         { path: '/Overviewindex', name: 'Overviewindex', component: OverviewindexComponent },
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
-        { path: '/Details/:id', name: 'Details', component: DetailsComponent }
+        { path: '/Details/:Id', name: 'Details', component: DetailsComponent }
 ])
  
 export class AppComponent {
