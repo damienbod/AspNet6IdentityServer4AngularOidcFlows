@@ -20,16 +20,19 @@ var OverviewindexComponent = (function () {
         this.message = "Overview DataEventRecords";
     }
     OverviewindexComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this._dataEventRecordsService
-            .GetAll()
-            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
+        this.getData();
     };
     OverviewindexComponent.prototype.Delete = function (id) {
         var _this = this;
         console.log("Try to delete" + id);
         this._dataEventRecordsService.Delete(id)
-            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Overviewindex']); });
+            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this.getData(); });
+    };
+    OverviewindexComponent.prototype.getData = function () {
+        var _this = this;
+        this._dataEventRecordsService
+            .GetAll()
+            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
     };
     OverviewindexComponent = __decorate([
         core_1.Component({

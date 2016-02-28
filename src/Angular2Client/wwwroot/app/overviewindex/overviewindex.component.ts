@@ -23,11 +23,7 @@ export class OverviewindexComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._dataEventRecordsService
-            .GetAll()
-            .subscribe((data: any[]) => this.DataEventRecords = data,
-            error => this.securityService.HandleError(error),
-            () => console.log('Get all completed'));
+        this.getData();
     }
 
     public Delete(id: any) {
@@ -35,6 +31,15 @@ export class OverviewindexComponent implements OnInit {
         this._dataEventRecordsService.Delete(id)
             .subscribe((() => console.log("subscribed")),
             error => this.securityService.HandleError(error),
-            () => this._router.navigate(['Overviewindex']));
+            () => this.getData());
     }
+
+    private getData() {
+        this._dataEventRecordsService
+            .GetAll()
+            .subscribe((data: any[]) => this.DataEventRecords = data,
+            error => this.securityService.HandleError(error),
+            () => console.log('Get all completed'));
+    }
+
 }
