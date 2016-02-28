@@ -17,7 +17,10 @@ export class DetailsComponent implements OnInit {
     public message: string;
     public DataEventRecord: any;
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService, private _routeParams: RouteParams, public securityService: SecurityService) {
+    constructor(private _dataEventRecordsService: DataEventRecordsService,
+            private _routeParams: RouteParams,
+            public securityService: SecurityService,
+            private _router: Router) {
         this.message = "DetailsComponent constructor";
         this.id = this._routeParams.get('Id');
         this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
@@ -34,8 +37,8 @@ export class DetailsComponent implements OnInit {
 
     public Update() {
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
-            .subscribe((data: any) => this.DataEventRecord = data,
+            .subscribe((() => console.log("subscribed")),
             error => console.log(error),
-            () => console.log('Update complete'));
+            () => this._router.navigate(['Overviewindex']));
     }
 }

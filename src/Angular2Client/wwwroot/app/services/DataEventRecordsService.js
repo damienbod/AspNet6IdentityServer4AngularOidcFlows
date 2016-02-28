@@ -30,16 +30,14 @@ var DataEventRecordsService = (function () {
                 headers: _this.headers
             }).map(function (res) { return res.json(); });
         };
-        this.Add = function (itemName) {
-            var toAdd = JSON.stringify({ ItemName: itemName });
+        this.Add = function (itemToAdd) {
             _this.setHeaders();
-            return _this._http.post(_this.actionUrl, toAdd, { headers: _this.headers }).map(function (res) { return res.json(); });
+            return _this._http.post(_this.actionUrl, JSON.stringify(itemToAdd), { headers: _this.headers });
         };
         this.Update = function (id, itemToUpdate) {
             _this.setHeaders();
             return _this._http
-                .put(_this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: _this.headers })
-                .map(function (res) { return res.json(); });
+                .put(_this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: _this.headers });
         };
         this.Delete = function (id) {
             _this.setHeaders();

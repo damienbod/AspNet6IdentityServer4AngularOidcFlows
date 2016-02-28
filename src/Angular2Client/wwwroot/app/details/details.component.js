@@ -13,10 +13,11 @@ var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var router_1 = require('angular2/router');
 var SecurityService_1 = require('../services/SecurityService');
 var DetailsComponent = (function () {
-    function DetailsComponent(_dataEventRecordsService, _routeParams, securityService) {
+    function DetailsComponent(_dataEventRecordsService, _routeParams, securityService, _router) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this._routeParams = _routeParams;
         this.securityService = securityService;
+        this._router = _router;
         this.message = "DetailsComponent constructor";
         this.id = this._routeParams.get('Id');
         this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
@@ -31,7 +32,7 @@ var DetailsComponent = (function () {
     DetailsComponent.prototype.Update = function () {
         var _this = this;
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return console.log(error); }, function () { return console.log('Update complete'); });
+            .subscribe((function () { return console.log("subscribed"); }), function (error) { return console.log(error); }, function () { return _this._router.navigate(['Overviewindex']); });
     };
     DetailsComponent = __decorate([
         core_1.Component({
@@ -40,7 +41,7 @@ var DetailsComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams, SecurityService_1.SecurityService])
+        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams, SecurityService_1.SecurityService, router_1.Router])
     ], DetailsComponent);
     return DetailsComponent;
 })();

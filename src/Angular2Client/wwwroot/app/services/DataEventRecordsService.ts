@@ -41,18 +41,15 @@ export class DataEventRecordsService {
         }).map(res => res.json());
     }
 
-    public Add = (itemName: any): Observable<Response> => {
-        var toAdd = JSON.stringify({ ItemName: itemName });
-
+    public Add = (itemToAdd: any): Observable<Response> => {       
         this.setHeaders();
-        return this._http.post(this.actionUrl, toAdd, { headers: this.headers }).map(res => res.json());
+        return this._http.post(this.actionUrl, JSON.stringify(itemToAdd), { headers: this.headers });
     }
 
     public Update = (id: number, itemToUpdate: any): Observable<Response> => {
         this.setHeaders();
         return this._http
-            .put(this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: this.headers })
-            .map(res => res.json());
+            .put(this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: this.headers });
     }
 
     public Delete = (id: number): Observable<Response> => {
