@@ -24,8 +24,7 @@ import {SecurityService} from './services/SecurityService';
  
 export class AppComponent {
 
-    constructor(public securityService: SecurityService) {
-     
+    constructor(public securityService: SecurityService) {     
     }
 
     ngOnInit() {
