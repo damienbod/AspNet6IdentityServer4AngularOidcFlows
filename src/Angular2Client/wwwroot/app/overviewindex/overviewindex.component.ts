@@ -1,6 +1,7 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
 import { DataEventRecordsService } from '../services/DataEventRecordsService';
+import { SecurityService } from '../services/SecurityService';
 
 @Component({
     selector: 'overviewindex',
@@ -13,9 +14,13 @@ export class OverviewindexComponent implements OnInit {
 
     public message: string;
     public DataEventRecords: any[];
+    public IsAuthorized: boolean = false;
+    public HasAdminRole: boolean = false;
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService) {
+    constructor(private _dataEventRecordsService: DataEventRecordsService, private _securityService: SecurityService) {
         this.message = "OverviewindexComponent constructor";
+        this.HasAdminRole = _securityService.HasAdminRole;
+        this.IsAuthorized = _securityService.IsAuthorized;
     }
     
     ngOnInit() {
@@ -27,6 +32,7 @@ export class OverviewindexComponent implements OnInit {
     }
 
     public Delete(id: any) {
+        console.log("Try to delete" + id);
         this._dataEventRecordsService.Delete(id);
     }
 }

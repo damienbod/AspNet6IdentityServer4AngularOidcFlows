@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var router_1 = require('angular2/router');
-var home_component_1 = require('./home/home.component');
 var overviewindex_component_1 = require('./overviewindex/overviewindex.component');
 var create_component_1 = require('./create/create.component');
 var forbidden_component_1 = require('./forbidden/forbidden.component');
@@ -46,7 +45,6 @@ var AppComponent = (function () {
             styleUrls: ['app/app.component.css']
         }),
         router_1.RouteConfig([
-            { path: '/Home', name: 'Home', component: home_component_1.HomeComponent },
             { path: '/Create', name: 'Create', component: create_component_1.CreateComponent },
             { path: '/Overviewindex', name: 'Overviewindex', component: overviewindex_component_1.OverviewindexComponent },
             { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },

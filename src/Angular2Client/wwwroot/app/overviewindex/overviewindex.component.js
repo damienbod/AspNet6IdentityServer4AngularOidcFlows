@@ -10,10 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
+var SecurityService_1 = require('../services/SecurityService');
 var OverviewindexComponent = (function () {
-    function OverviewindexComponent(_dataEventRecordsService) {
+    function OverviewindexComponent(_dataEventRecordsService, _securityService) {
         this._dataEventRecordsService = _dataEventRecordsService;
+        this._securityService = _securityService;
+        this.IsAuthorized = false;
+        this.HasAdminRole = false;
         this.message = "OverviewindexComponent constructor";
+        this.HasAdminRole = _securityService.HasAdminRole;
+        this.IsAuthorized = _securityService.IsAuthorized;
     }
     OverviewindexComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -22,6 +28,7 @@ var OverviewindexComponent = (function () {
             .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all complete'); });
     };
     OverviewindexComponent.prototype.Delete = function (id) {
+        console.log("Try to delete" + id);
         this._dataEventRecordsService.Delete(id);
     };
     OverviewindexComponent = __decorate([
@@ -31,7 +38,7 @@ var OverviewindexComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService])
+        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService])
     ], OverviewindexComponent);
     return OverviewindexComponent;
 })();

@@ -2,6 +2,7 @@ import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
 import { DataEventRecordsService } from '../services/DataEventRecordsService';
 import { RouteParams, Router } from 'angular2/router';
+import { SecurityService } from '../services/SecurityService';
 
 @Component({
     selector: 'details',
@@ -15,10 +16,14 @@ export class DetailsComponent implements OnInit {
     private id: any;
     public message: string;
     public DataEventRecord: any;
+    public IsAuthorized: boolean = false;
+    public HasAdminRole: boolean = false;
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService, private _routeParams: RouteParams) {
+    constructor(private _dataEventRecordsService: DataEventRecordsService, private _routeParams: RouteParams, private _securityService: SecurityService) {
         this.message = "DetailsComponent constructor";
         this.id = this._routeParams.get('id');
+        this.HasAdminRole = _securityService.HasAdminRole;
+        this.IsAuthorized = _securityService.IsAuthorized;
     }
     
     ngOnInit() {

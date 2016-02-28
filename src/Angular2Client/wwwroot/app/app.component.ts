@@ -1,12 +1,11 @@
 ﻿import {Component} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
-import {HomeComponent} from './home/home.component';
 import {OverviewindexComponent} from './overviewindex/overviewindex.component';
 import {CreateComponent} from './create/create.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {DetailsComponent} from './details/details.component';
-import { SecurityService } from './services/SecurityService';
+import {SecurityService} from './services/SecurityService';
 
 @Component({
     selector: 'my-app',
@@ -16,7 +15,6 @@ import { SecurityService } from './services/SecurityService';
 })
 
 @RouteConfig([
-        { path: '/Home', name: 'Home', component: HomeComponent },
         { path: '/Create', name: 'Create', component: CreateComponent },
         { path: '/Overviewindex', name: 'Overviewindex', component: OverviewindexComponent },
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },

@@ -11,12 +11,18 @@ var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var router_1 = require('angular2/router');
+var SecurityService_1 = require('../services/SecurityService');
 var DetailsComponent = (function () {
-    function DetailsComponent(_dataEventRecordsService, _routeParams) {
+    function DetailsComponent(_dataEventRecordsService, _routeParams, _securityService) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this._routeParams = _routeParams;
+        this._securityService = _securityService;
+        this.IsAuthorized = false;
+        this.HasAdminRole = false;
         this.message = "DetailsComponent constructor";
         this.id = this._routeParams.get('id');
+        this.HasAdminRole = _securityService.HasAdminRole;
+        this.IsAuthorized = _securityService.IsAuthorized;
     }
     DetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -35,7 +41,7 @@ var DetailsComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams])
+        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams, SecurityService_1.SecurityService])
     ], DetailsComponent);
     return DetailsComponent;
 })();
