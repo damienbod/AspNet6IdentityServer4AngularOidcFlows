@@ -59,10 +59,7 @@
                     AllowedScopes = new List<string>
                     {
                         "openid",
-                        "email",
-                        "profile",
                         "dataEventRecords",
-                        "aReallyCoolScope",
                         "role"
                     }
                 }

@@ -72,7 +72,7 @@ export class SecurityService {
         var client_id = 'angular2client';
         var redirect_uri = 'https://localhost:44311';
         var response_type = "id_token token";
-        var scope = "dataEventRecords aReallyCoolScope openid";
+        var scope = "dataEventRecords openid";
         var nonce = "N" + Math.random() + "" + Date.now();
         var state = Date.now() + "" + Math.random();
 
