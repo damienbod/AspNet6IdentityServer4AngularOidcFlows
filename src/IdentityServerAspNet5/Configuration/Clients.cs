@@ -51,7 +51,6 @@
                     {
                         "https://localhost:44311/Unauthorized.html"
                     },
-                    IncludeJwtId= true,
                     AllowedCorsOrigins = new List<string>
                     {
                         "https://localhost:44311",

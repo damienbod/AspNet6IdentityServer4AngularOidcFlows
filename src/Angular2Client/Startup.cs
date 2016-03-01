@@ -36,8 +36,6 @@ namespace Angular2Client
 
             app.Use(async (context, next) =>
             {
-                // If the request matches one of those paths, change it.
-                // This needs to happen before UseDefaultFiles.
                 if (context.Request.Path.HasValue &&
                     null !=
                     angularRoutes.FirstOrDefault(

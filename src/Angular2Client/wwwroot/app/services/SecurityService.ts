@@ -33,6 +33,7 @@ export class SecurityService {
     public GetToken(): any {
         return this.retrieve("authorizationData");
     }
+
     public ResetAuthorizationData() {
         this.store("authorizationData", "");
         this.store("authorizationDataIdToken", "");
@@ -62,7 +63,6 @@ export class SecurityService {
         }
     }
 
-    // NOT working yet because angular2 routing messes up with the hash and at present this bug from angular2 is not fixed.
     public Authorize() {
         this.ResetAuthorizationData();
 
