@@ -68,15 +68,6 @@ export class SecurityService {
 
         console.log("BEGIN Authorize, no auth data");
 
-        //GET /authorize?
-        //response_type=code%20id_token
-        //&client_id=s6BhdRkqt3
-        //&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-        //&scope=openid%20profile%20email
-        //&nonce=n-0S6_WzA2Mj
-        //&state=af0ifjsldkj HTTP/1.1
-        //              Host: server.example.com
-
         var authorizationUrl = 'https://localhost:44345/connect/authorize';
         var client_id = 'angular2client';
         var redirect_uri = 'https://localhost:44311';
