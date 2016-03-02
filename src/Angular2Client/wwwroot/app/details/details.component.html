@@ -1,0 +1,41 @@
+<div class="col-md-12" *ngIf="securityService.IsAuthorized" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{message}}</h3>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="row">
+                    <div class="col-xs-2">Id</div>
+                    <div class="col-xs-6">{{DataEventRecord.Id}}</div>
+                </div>
+
+                <hr />
+                <div class="row">
+                    <div class="col-xs-2">Name</div>
+                    <div class="col-xs-6">
+                        <input type="text" [(ngModel)]="DataEventRecord.Name" style="width: 100%" />
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-2">Description</div>
+                    <div class="col-xs-6">
+                        <input type="text" [(ngModel)]="DataEventRecord.Description" style="width: 100%" />
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-2">Timestamp</div>
+                    <div class="col-xs-6">{{DataEventRecord.Timestamp}}</div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-2">
+                        <button (click)="Update()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

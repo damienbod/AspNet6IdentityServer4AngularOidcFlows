@@ -9,7 +9,8 @@
         public static List<Client> Get()
         {
             return new List<Client>
-            {new Client
+            {
+                new Client
                 {
                     ClientName = "angularclient",
                     ClientId = "angularclient",
@@ -38,22 +39,26 @@
                 },
                 new Client
                 {
-                    ClientName = "MVC6 Demo Client from Identity",
-                    ClientId = "mvc6",
+                    ClientName = "angular2client",
+                    ClientId = "angular2client",
                     Flow = Flows.Implicit,
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:2221/",
+                        "https://localhost:44311"
+
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:2221/",
+                        "https://localhost:44311/Unauthorized.html"
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "https://localhost:44311",
+                        "http://localhost:44311"
                     },
                     AllowedScopes = new List<string>
                     {
                         "openid",
-                        "email",
-                        "profile",
                         "dataEventRecords",
                         "role"
                     }

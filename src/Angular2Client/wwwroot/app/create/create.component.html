@@ -1,0 +1,33 @@
+<div class="panel panel-default col-md-12" *ngIf="securityService.IsAuthorized" >
+    <div class="panel-heading">
+        {{message}}
+    </div>
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-xs-2">Id</div>
+            <div class="col-xs-6"><input type="text" [(ngModel)]="DataEventRecord.Id" style="width: 100%" /></div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <div class="col-xs-2">Name</div>
+            <div class="col-xs-6">
+                <input type="text" [(ngModel)]="DataEventRecord.Name" style="width: 100%" />
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-xs-2">Description</div>
+            <div class="col-xs-6">
+                <input type="text" [(ngModel)]="DataEventRecord.Description" style="width: 100%" />
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-xs-2">
+                <button (click)="Create()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

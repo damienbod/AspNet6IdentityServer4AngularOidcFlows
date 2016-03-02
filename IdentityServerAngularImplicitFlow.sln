@@ -18,6 +18,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ResourceServer", "src\Resou
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IdentityServerAspNet5WithIdentity", "src\IdentityServerAspNet5WithIdentity\IdentityServerAspNet5WithIdentity.xproj", "{49866915-A480-4CCB-8D3B-21DAC53047CB}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Angular2Client", "src\Angular2Client\Angular2Client.xproj", "{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{49866915-A480-4CCB-8D3B-21DAC53047CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49866915-A480-4CCB-8D3B-21DAC53047CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49866915-A480-4CCB-8D3B-21DAC53047CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +55,6 @@ Global
 		{A408DFD8-2010-40EF-9D7C-8B6B2514C647} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 		{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 		{49866915-A480-4CCB-8D3B-21DAC53047CB} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
+		{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 	EndGlobalSection
 EndGlobal

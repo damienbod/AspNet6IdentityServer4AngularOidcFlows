@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <base href="/" />
+    <title>ASP.NET Core 1.0 Angular 2 IdentityServer4 Client</title>
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- endinject -->
+</head>
+
+<body>
+    <my-app>Loading...</my-app>
+
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfills, in this exact order -->
+    <script src="libs/es6-shim.min.js"></script>
+    <script src="libs/shims_for_ie.js"></script>
+    <script src="libs/system-polyfills.js"></script>
+    <script src="libs/angular2-polyfills.js"></script>
+    <script src="libs/system.js"></script>
+    <script src="libs/Rx.js"></script>
+    <script src="libs/angular2.dev.js"></script>
+    <script src="libs/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="libs/http.dev.js"></script>
+    <script src="libs/router.dev.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+        System.config({
+            packages: {
+                app: {
+                    defaultExtension: 'js'
+                }
+            }
+        });
+        System.import('app/boot')
+            .then(null, console.error.bind(console));
+    </script>
+</body>
+</html>
