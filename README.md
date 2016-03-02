@@ -7,6 +7,10 @@
 
 	<li><a href="http://damienbod.com/2016/02/26/angular-openid-connect-implicit-flow-with-identityserver4/">Angular OpenID Connect Implicit Flow with IdentityServer4</a></li>
 
+
+	<li><a href="http://damienbod.com/2016/03/02/angular2-openid-connect-implicit-flow-with-identityserver4/">Angular2 OpenID Connect Implicit Flow with IdentityServer4</a></li>
+
+
 </ul>
 
 
