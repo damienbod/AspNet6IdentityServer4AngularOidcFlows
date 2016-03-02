@@ -35,7 +35,7 @@ export class DataEventRecordsService {
         }).map(res => res.json());
     }
 
-    public GetById = (id: string): Observable<DataEventRecord> => {
+    public GetById = (id: number): Observable<DataEventRecord> => {
         this.setHeaders();
         return this._http.get(this.actionUrl + id, {
             headers: this.headers
@@ -47,13 +47,13 @@ export class DataEventRecordsService {
         return this._http.post(this.actionUrl, JSON.stringify(itemToAdd), { headers: this.headers });
     }
 
-    public Update = (id: string, itemToUpdate: any): Observable<Response> => {
+    public Update = (id: number, itemToUpdate: any): Observable<Response> => {
         this.setHeaders();
         return this._http
             .put(this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: this.headers });
     }
 
-    public Delete = (id: string): Observable<Response> => {
+    public Delete = (id: number): Observable<Response> => {
         this.setHeaders();
         return this._http.delete(this.actionUrl + id, {
             headers: this.headers

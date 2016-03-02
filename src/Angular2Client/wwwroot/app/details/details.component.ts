@@ -14,7 +14,7 @@ import { DataEventRecord } from '../models/DataEventRecord';
 
 export class DetailsComponent implements OnInit {
 
-    private id: any;
+    private id: number;
     public message: string;
     public DataEventRecord: DataEventRecord;
 
@@ -23,7 +23,7 @@ export class DetailsComponent implements OnInit {
             public securityService: SecurityService,
             private _router: Router) {
         this.message = "DetailsComponent constructor";
-        this.id = this._routeParams.get('Id');
+        this.id = +this._routeParams.get('Id');
         this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
     }
     

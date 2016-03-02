@@ -1,5 +1,5 @@
 ﻿export class DataEventRecord {
-    Id: string;
+    Id: number;
     Name: string;
     Description: string;
     Timestamp: string;

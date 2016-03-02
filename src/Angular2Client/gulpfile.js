@@ -15,6 +15,8 @@ var packagesToMove = [
    paths.npmSrc + '/angular2/bundles/router.dev.js',
    paths.npmSrc + '/angular2/bundles/http.dev.js',
    paths.npmSrc + '/angular2/bundles/angular2.dev.js',
+   paths.npmSrc + '/angular2/es6/dev/src/testing/shims_for_IE.js',
+   
 
    paths.npmSrc + '/systemjs/dist/system.js',
    paths.npmSrc + '/systemjs/dist/system-polyfills.js',
