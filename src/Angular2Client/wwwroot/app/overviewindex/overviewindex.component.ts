@@ -4,6 +4,7 @@ import { DataEventRecordsService } from '../services/DataEventRecordsService';
 import { SecurityService } from '../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
 import { Router } from 'angular2/router';
+import { DataEventRecord } from '../models/DataEventRecord';
 
 @Component({
     selector: 'overviewindex',
@@ -15,7 +16,7 @@ import { Router } from 'angular2/router';
 export class OverviewindexComponent implements OnInit {
 
     public message: string;
-    public DataEventRecords: any[];
+    public DataEventRecords: DataEventRecord[];
    
     constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
         this.message = "Overview DataEventRecords";
@@ -37,7 +38,7 @@ export class OverviewindexComponent implements OnInit {
     private getData() {
         this._dataEventRecordsService
             .GetAll()
-            .subscribe((data: any[]) => this.DataEventRecords = data,
+            .subscribe(data => this.DataEventRecords = data,
             error => this.securityService.HandleError(error),
             () => console.log('Get all completed'));
     }

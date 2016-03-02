@@ -19,7 +19,7 @@ var DetailsComponent = (function () {
         this.securityService = securityService;
         this._router = _router;
         this.message = "DetailsComponent constructor";
-        this.id = this._routeParams.get('Id');
+        this.id = +this._routeParams.get('Id');
         this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
     }
     DetailsComponent.prototype.ngOnInit = function () {

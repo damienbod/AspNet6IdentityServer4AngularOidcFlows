@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
 import { SecurityService } from '../services/SecurityService';
+import { DataEventRecord } from '../models/DataEventRecord';
 
 @Injectable()
 export class DataEventRecordsService {
@@ -27,14 +28,14 @@ export class DataEventRecordsService {
         }
     }
 
-    public GetAll = (): Observable<Response> => {
+    public GetAll = (): Observable<DataEventRecord[]> => {
         this.setHeaders();
         return this._http.get(this.actionUrl, {
             headers: this.headers
         }).map(res => res.json());
     }
 
-    public GetById = (id: number): Observable<Response> => {
+    public GetById = (id: number): Observable<DataEventRecord> => {
         this.setHeaders();
         return this._http.get(this.actionUrl + id, {
             headers: this.headers
