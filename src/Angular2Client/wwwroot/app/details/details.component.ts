@@ -3,6 +3,7 @@ import { CORE_DIRECTIVES } from 'angular2/common';
 import { DataEventRecordsService } from '../services/DataEventRecordsService';
 import { RouteParams, Router } from 'angular2/router';
 import { SecurityService } from '../services/SecurityService';
+import { DataEventRecord } from '../models/DataEventRecord';
 
 @Component({
     selector: 'details',
@@ -15,7 +16,7 @@ export class DetailsComponent implements OnInit {
 
     private id: any;
     public message: string;
-    public DataEventRecord: any;
+    public DataEventRecord: DataEventRecord;
 
     constructor(private _dataEventRecordsService: DataEventRecordsService,
             private _routeParams: RouteParams,
@@ -30,7 +31,7 @@ export class DetailsComponent implements OnInit {
         console.log("IsAuthorized:" + this.securityService.IsAuthorized);
         console.log("HasAdminRole:" + this.securityService.HasAdminRole);
         this._dataEventRecordsService.GetById(this.id)
-            .subscribe((data: any[]) => this.DataEventRecord = data,
+            .subscribe( data => this.DataEventRecord = data,
                 error => this.securityService.HandleError(error),
                 () => console.log('DetailsComponent:Get by Id complete'));
     }
