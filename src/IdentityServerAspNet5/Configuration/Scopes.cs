@@ -43,6 +43,22 @@
                         new ScopeClaim("role"),
                         new ScopeClaim("aReallyCoolScope")
                     }
+                },
+                new Scope
+                {
+                    Name = "securedFiles",
+                    DisplayName = "Access scope for the resource securred files",
+                    Type = ScopeType.Resource,
+
+                    ScopeSecrets = new List<Secret>
+                    {
+                        new Secret("securedFilesSecret".Sha256())
+                    },
+                    Claims = new List<ScopeClaim>
+                    {
+                        new ScopeClaim("role"),
+                        new ScopeClaim("securedFiles")
+                    }
                 }
             };
         }
