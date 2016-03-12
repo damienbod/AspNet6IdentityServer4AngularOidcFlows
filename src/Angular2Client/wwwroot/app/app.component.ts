@@ -6,6 +6,8 @@ import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {DetailsComponent} from './details/details.component';
 import {SecurityService} from './services/SecurityService';
+import {SecureFilesComponent} from './securefiles/securefiles.component';
+
 
 @Component({
     selector: 'my-app',
@@ -19,7 +21,8 @@ import {SecurityService} from './services/SecurityService';
         { path: '/Overviewindex', name: 'Overviewindex', component: OverviewindexComponent },
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
-        { path: '/Details/:Id', name: 'Details', component: DetailsComponent }
+        { path: '/Details/:Id', name: 'Details', component: DetailsComponent },
+        { path: '/SecureFiles', name: 'SecureFiles', component: SecureFilesComponent },
 ])
  
 export class AppComponent {
