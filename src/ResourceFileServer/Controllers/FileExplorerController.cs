@@ -9,15 +9,17 @@ namespace ResourceFileServer.Controllers
 {
     using Microsoft.AspNet.Authorization;
     using Microsoft.Extensions.PlatformAbstractions;
-
+    using Providers;
     [Authorize]
     [Route("api/[controller]")]
     public class FileExplorerController : Controller
     {
-        private IApplicationEnvironment _appEnvironment;
+        private readonly IApplicationEnvironment _appEnvironment;
+        private readonly ISecuredFileProvider _securedFileProvider;
 
-        public FileExplorerController(IApplicationEnvironment appEnvironment)
+        public FileExplorerController(ISecuredFileProvider securedFileProvider, IApplicationEnvironment appEnvironment)
         {
+            _securedFileProvider = securedFileProvider;
             _appEnvironment = appEnvironment;
         }
 
@@ -25,15 +27,8 @@ namespace ResourceFileServer.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            List<string> files = new List<string>();
-            files.Add("SecureFile.txt");
-            files.Add("SecureFileTwo.txt");
-
-            // Use the claims to check if the logged in use has admin rights.
-            if (true)
-            {
-                files.Add("SecureFileAdmin.txt");
-            }
+            bool isAdmin = User.Claims.Contains(new System.Security.Claims.Claim("role", "securedFiles.admin"));
+            var files = _securedFileProvider.GetFilesForUser(isAdmin);
 
             return Ok(files);
         }

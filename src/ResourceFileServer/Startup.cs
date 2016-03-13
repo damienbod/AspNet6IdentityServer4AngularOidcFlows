@@ -14,6 +14,7 @@ namespace ResourceFileServer
 {
     using System.IdentityModel.Tokens.Jwt;
     using IdentityModel.AspNet.OAuth2Introspection;
+    using Providers;
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -61,6 +62,8 @@ namespace ResourceFileServer
             });
 
             services.AddMvc();
+
+            services.AddTransient<ISecuredFileProvider, SecuredFileProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

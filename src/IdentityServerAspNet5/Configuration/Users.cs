@@ -35,6 +35,7 @@
                         new Claim(JwtClaimTypes.Role, "dataEventRecords.user"),
                         new Claim(JwtClaimTypes.Role, "dataEventRecords"),
                         new Claim(JwtClaimTypes.Role, "securedFiles.user"),
+                        new Claim(JwtClaimTypes.Role, "securedFiles.admin"),
                         new Claim(JwtClaimTypes.Role, "securedFiles")
                     }
                 },

@@ -9,15 +9,17 @@ namespace ResourceFileServer.Controllers
 {
     using Microsoft.AspNet.Authorization;
     using Microsoft.Extensions.PlatformAbstractions;
-
+    using Providers;
     [Authorize]
     [Route("api/[controller]")]
     public class DownloadController : Controller
     {
-        private IApplicationEnvironment _appEnvironment;
+        private readonly IApplicationEnvironment _appEnvironment;
+        private readonly ISecuredFileProvider _securedFileProvider;
 
-        public DownloadController(IApplicationEnvironment appEnvironment)
+        public DownloadController(ISecuredFileProvider securedFileProvider, IApplicationEnvironment appEnvironment)
         {
+            _securedFileProvider = securedFileProvider;
             _appEnvironment = appEnvironment;
         }
 
@@ -25,6 +27,8 @@ namespace ResourceFileServer.Controllers
         [HttpGet("{id}")]
         public FileContentResult Get(string id)
         {
+            // TODO add file validation and authorization check
+
             var fileContents = System.IO.File.ReadAllBytes($"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/SecureFile.txt");
             return new FileContentResult(fileContents, "application/octet-stream");
         }
