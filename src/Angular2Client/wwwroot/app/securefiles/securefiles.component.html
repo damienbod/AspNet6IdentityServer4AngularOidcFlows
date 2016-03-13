@@ -1,6 +1,4 @@
-<button (click)="GetFileById('secureFile.txt')">Download secureFile.txt</button>
-
-<!--<div class="col-md-12" *ngIf="securityService.IsAuthorized" >
+<div class="col-md-12" *ngIf="securityService.IsAuthorized" >
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">{{message}}</h3>
@@ -10,21 +8,15 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Timestamp</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="height:20px;" *ngFor="#dataEventRecord of DataEventRecords" >
-                        <td>
-                            <a *ngIf="securityService.HasAdminRole" href="/Details/{{dataEventRecord.Id}}">{{dataEventRecord.Name}}</a>
-                            <span *ngIf="!securityService.HasAdminRole">{{dataEventRecord.Name}}</span>
-                        </td>
-                        <td>{{dataEventRecord.Timestamp}}</td>
-                        <td><button (click)="Delete(dataEventRecord.Id)">Delete</button></td>
+                    <tr style="height:20px;" *ngFor="#file of Files" >
+                        <td><a (click)="GetFileById(file)">Download {{file}}</a></td>
                     </tr>
                 </tbody>
             </table>
 
         </div>
     </div>
-</div>-->
+</div>

@@ -32,6 +32,7 @@ namespace Angular2Client
                 "/authorize",
                 "/unauthorized",
                 "/logoff",
+                "/secureFiles",
             };
 
             app.Use(async (context, next) =>
