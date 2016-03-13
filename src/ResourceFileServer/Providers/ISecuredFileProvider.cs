@@ -7,7 +7,7 @@ namespace ResourceFileServer.Providers
 {
     public interface ISecuredFileProvider
     {
-        bool HasUserClaimToAccessFile(string fileId, string claim);
+        bool HasUserClaimToAccessFile(string fileId, bool isSecuredFilesAdmin);
 
         List<string> GetFilesForUser(bool isSecuredFilesAdmin);
     }

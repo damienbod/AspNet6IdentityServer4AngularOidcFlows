@@ -25,12 +25,22 @@ namespace ResourceFileServer.Controllers
 
         [Authorize("securedFilesUser")]
         [HttpGet("{id}")]
-        public FileContentResult Get(string id)
+        public IActionResult Get(string id)
         {
-            // TODO add file validation and authorization check
+            var filePath = $"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/{id}";
+            if(!System.IO.File.Exists(filePath))
+            {
+                return HttpBadRequest($"File does not exist: {id}");
+            }
 
-            var fileContents = System.IO.File.ReadAllBytes($"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/SecureFile.txt");
-            return new FileContentResult(fileContents, "application/octet-stream");
+            var adminClaim = User.Claims.FirstOrDefault(x => x.Type == "role" && x.Value == "securedFiles.admin");
+            if(_securedFileProvider.HasUserClaimToAccessFile(id, adminClaim != null))
+            {
+                var fileContents = System.IO.File.ReadAllBytes(filePath);
+                return new FileContentResult(fileContents, "application/octet-stream");
+            }
+
+            return HttpUnauthorized();
         }
     }
 }

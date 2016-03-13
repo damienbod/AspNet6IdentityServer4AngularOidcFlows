@@ -27,8 +27,8 @@ namespace ResourceFileServer.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            bool isAdmin = User.Claims.Contains(new System.Security.Claims.Claim("role", "securedFiles.admin"));
-            var files = _securedFileProvider.GetFilesForUser(isAdmin);
+            var adminClaim = User.Claims.FirstOrDefault(x => x.Type == "role" && x.Value == "securedFiles.admin");
+            var files = _securedFileProvider.GetFilesForUser(adminClaim != null);
 
             return Ok(files);
         }

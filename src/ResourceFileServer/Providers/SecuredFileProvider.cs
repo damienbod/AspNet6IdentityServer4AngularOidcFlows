@@ -22,9 +22,16 @@ namespace ResourceFileServer.Providers
             return files;
         }
 
-        public bool HasUserClaimToAccessFile(string fileId, string claim)
+        public bool HasUserClaimToAccessFile(string fileId, bool isSecuredFilesAdmin)
         {
-            throw new NotImplementedException();
+            if ("SecureFileAdmin.txt" == fileId && !isSecuredFilesAdmin)
+            {
+                return false;
+            }
+
+            return true;
+
+
         }
     }
 }
