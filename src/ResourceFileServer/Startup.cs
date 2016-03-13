@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ResourceFileServer
 {
     using System.IdentityModel.Tokens.Jwt;
-
+    using IdentityModel.AspNet.OAuth2Introspection;
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -84,6 +84,7 @@ namespace ResourceFileServer
                 options.AutomaticAuthenticate = true;
                 // required if you want to return a 403 and not a 401 for forbidden responses
                 options.AutomaticChallenge = true;
+                options.TokenRetriever = TokenRetrieval.FromQueryString();
             });
             app.UseMvc();
         }

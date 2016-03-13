@@ -25,11 +25,7 @@ export class SecureFilesComponent implements OnInit {
     }
 
     public GetFileById(id: any) {
-        console.log("Try to delete" + id);
-        this._secureFileService.GetFileUsingId(id)
-            .subscribe((() => console.log("subscribed")),
-            error => this.securityService.HandleError(error),
-            () => console.log('Get File completed'));
+        window.open(this._secureFileService.GetDownloadfileUrl(id));
     }
 
     //private getData() {

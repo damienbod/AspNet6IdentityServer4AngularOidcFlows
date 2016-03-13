@@ -22,10 +22,7 @@ var SecureFilesComponent = (function () {
     SecureFilesComponent.prototype.ngOnInit = function () {
     };
     SecureFilesComponent.prototype.GetFileById = function (id) {
-        var _this = this;
-        console.log("Try to delete" + id);
-        this._secureFileService.GetFileUsingId(id)
-            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get File completed'); });
+        window.open(this._secureFileService.GetDownloadfileUrl(id));
     };
     SecureFilesComponent = __decorate([
         core_1.Component({

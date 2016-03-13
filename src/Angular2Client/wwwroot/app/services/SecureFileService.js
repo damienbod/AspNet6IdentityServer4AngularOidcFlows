@@ -14,16 +14,9 @@ var app_constants_1 = require('../app.constants');
 var SecurityService_1 = require('../services/SecurityService');
 var SecureFileService = (function () {
     function SecureFileService(_http, _configuration, _securityService) {
-        var _this = this;
         this._http = _http;
         this._configuration = _configuration;
         this._securityService = _securityService;
-        this.GetFileUsingId = function (id) {
-            _this.setHeaders();
-            return _this._http.get(_this.actionUrl + id, {
-                headers: _this.headers
-            }).map(function (res) { return res; });
-        };
         this.actionUrl = _configuration.FileServer + 'api/Download/';
     }
     SecureFileService.prototype.setHeaders = function () {
@@ -34,6 +27,10 @@ var SecureFileService = (function () {
         if (token !== "") {
             this.headers.append('Authorization', 'Bearer ' + token);
         }
+    };
+    SecureFileService.prototype.GetDownloadfileUrl = function (id) {
+        var token = this._securityService.GetToken();
+        return this.actionUrl + id + "#Authorization=Bearer " + token;
     };
     SecureFileService = __decorate([
         core_1.Injectable(), 

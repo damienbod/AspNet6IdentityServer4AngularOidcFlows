@@ -27,12 +27,8 @@ export class SecureFileService {
         }
     }
 
-    public GetFileUsingId = (id: string): Observable<any> => {
-        this.setHeaders();
-        return this._http.get(this.actionUrl + id, {
-            headers: this.headers
-        }).map(res => res);
+    public GetDownloadfileUrl(id: string): string {
+        var token = this._securityService.GetToken();
+        return this.actionUrl + id + "#Authorization=Bearer " + token;
     }
-
-
 }
