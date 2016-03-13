@@ -20,9 +20,15 @@ var SecureFilesComponent = (function () {
         this.message = "Secure Files download";
     }
     SecureFilesComponent.prototype.ngOnInit = function () {
+        this.getData();
     };
     SecureFilesComponent.prototype.GetFileById = function (id) {
         window.open(this._secureFileService.GetDownloadfileUrl(id));
+    };
+    SecureFilesComponent.prototype.getData = function () {
+        var _this = this;
+        this._secureFileService.GetListOfFiles()
+            .subscribe(function (data) { return _this.Files = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
     };
     SecureFilesComponent = __decorate([
         core_1.Component({

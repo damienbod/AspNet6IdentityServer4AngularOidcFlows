@@ -9,26 +9,23 @@ import { SecurityService } from '../services/SecurityService';
 export class SecureFileService {
 
     private actionUrl: string;
-    private headers: Headers;
+    private fileExplorerUrl: string;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
-        this.actionUrl = _configuration.FileServer + 'api/Download/';   
-    }
-
-    private setHeaders() {
-        this.headers = new Headers();
-        this.headers.append('Content-Type', 'application/octet-stream');
-        this.headers.append('Accept', 'application/octet-stream');
-
-        var token = this._securityService.GetToken();
-
-        if (token !== "") {
-            this.headers.append('Authorization', 'Bearer ' + token);
-        }
+        this.actionUrl = _configuration.FileServer + 'api/Download/'; 
+        this.fileExplorerUrl = _configuration.FileServer + 'api/FileExplorer/';    
     }
 
     public GetDownloadfileUrl(id: string): string {
         var token = this._securityService.GetToken();
         return this.actionUrl + id + "?access_token=" + token;
     }
+
+    public GetListOfFiles = (): Observable<string[]> => {
+        var token = this._securityService.GetToken();
+
+        return this._http.get(this.fileExplorerUrl + "?access_token=" + token, {
+        }).map(res => res.json());
+    }
+
 }

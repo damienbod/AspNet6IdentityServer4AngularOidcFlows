@@ -15,25 +15,25 @@ import { Router } from 'angular2/router';
 export class SecureFilesComponent implements OnInit {
 
     public message: string;
+    public Files: string[];
    
     constructor(private _secureFileService: SecureFileService, public securityService: SecurityService, private _router: Router) {
         this.message = "Secure Files download";
     }
 
     ngOnInit() {
-      //  this.getData();
+      this.getData();
     }
 
     public GetFileById(id: any) {
         window.open(this._secureFileService.GetDownloadfileUrl(id));
     }
 
-    //private getData() {
-    //    this._secureFileService
-    //        .GetAll()
-    //        .subscribe(data => this.DataEventRecords = data,
-    //        error => this.securityService.HandleError(error),
-    //        () => console.log('Get all completed'));
-    //}
+    private getData() {
+        this._secureFileService.GetListOfFiles()
+            .subscribe(data => this.Files = data,
+            error => this.securityService.HandleError(error),
+            () => console.log('Get all completed'));
+    }
 
 }
