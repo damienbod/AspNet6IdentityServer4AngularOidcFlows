@@ -20,7 +20,7 @@
                 new Scope
                 {
                     Name = "dataEventRecords",
-                    DisplayName = "Data Event Records Scope",
+                    DisplayName = "Scope for the data event records resource.",
                     Type = ScopeType.Resource,
                     ScopeSecrets = new List<Secret>
                     {
@@ -47,7 +47,7 @@
                 new Scope
                 {
                     Name = "securedFiles",
-                    DisplayName = "Access scope for the resource securred files",
+                    DisplayName = "Scope for the secured files resource.",
                     Type = ScopeType.Resource,
 
                     ScopeSecrets = new List<Secret>
