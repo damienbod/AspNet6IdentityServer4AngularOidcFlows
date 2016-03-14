@@ -15,6 +15,7 @@ var forbidden_component_1 = require('./forbidden/forbidden.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var details_component_1 = require('./details/details.component');
 var SecurityService_1 = require('./services/SecurityService');
+var securefiles_component_1 = require('./securefiles/securefiles.component');
 var AppComponent = (function () {
     function AppComponent(securityService) {
         this.securityService = securityService;
@@ -45,7 +46,8 @@ var AppComponent = (function () {
             { path: '/Overviewindex', name: 'Overviewindex', component: overviewindex_component_1.OverviewindexComponent },
             { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
             { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
-            { path: '/Details/:Id', name: 'Details', component: details_component_1.DetailsComponent }
+            { path: '/Details/:Id', name: 'Details', component: details_component_1.DetailsComponent },
+            { path: '/SecureFiles', name: 'SecureFiles', component: securefiles_component_1.SecureFilesComponent },
         ]), 
         __metadata('design:paramtypes', [SecurityService_1.SecurityService])
     ], AppComponent);

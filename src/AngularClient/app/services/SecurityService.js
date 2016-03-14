@@ -73,7 +73,7 @@
             var client_id = 'angularclient';
             var redirect_uri = 'https://localhost:44347/authorized';
             var response_type = "id_token token";
-            var scope = "dataEventRecords aReallyCoolScope openid";
+            var scope = "dataEventRecords aReallyCoolScope securedFiles openid";
             var nonce = "N" + Math.random() + "" + Date.now();
             var state = Date.now() + "" + Math.random();
 

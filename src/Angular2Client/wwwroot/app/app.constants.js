@@ -11,6 +11,7 @@ var core_1 = require('angular2/core');
 var Configuration = (function () {
     function Configuration() {
         this.Server = "https://localhost:44390/";
+        this.FileServer = "https://localhost:44378/";
     }
     Configuration = __decorate([
         core_1.Injectable(), 

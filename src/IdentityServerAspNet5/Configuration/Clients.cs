@@ -34,6 +34,7 @@
                         "profile",
                         "dataEventRecords",
                         "aReallyCoolScope",
+                        "securedFiles",
                         "role"
                     }
                 },
@@ -60,6 +61,7 @@
                     {
                         "openid",
                         "dataEventRecords",
+                        "securedFiles",
                         "role"
                     }
                 }

@@ -1,0 +1,22 @@
+<div class="col-md-12" *ngIf="securityService.IsAuthorized" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{message}}</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="height:20px;" *ngFor="#file of Files" >
+                        <td><a (click)="GetFileById(file)">Download {{file}}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

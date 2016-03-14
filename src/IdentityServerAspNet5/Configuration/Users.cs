@@ -33,7 +33,10 @@
                         new Claim(JwtClaimTypes.Role, "admin"),
                         new Claim(JwtClaimTypes.Role, "dataEventRecords.admin"),
                         new Claim(JwtClaimTypes.Role, "dataEventRecords.user"),
-                        new Claim(JwtClaimTypes.Role, "dataEventRecords")
+                        new Claim(JwtClaimTypes.Role, "dataEventRecords"),
+                        new Claim(JwtClaimTypes.Role, "securedFiles.user"),
+                        new Claim(JwtClaimTypes.Role, "securedFiles.admin"),
+                        new Claim(JwtClaimTypes.Role, "securedFiles")
                     }
                 },
                 new InMemoryUser{Subject = "48421158", Username = "damienboduser", Password = "damienbod",
@@ -45,7 +48,9 @@
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(JwtClaimTypes.Role, "user"),
                         new Claim(JwtClaimTypes.Role, "dataEventRecords.user"),
-                        new Claim(JwtClaimTypes.Role, "dataEventRecords")
+                        new Claim(JwtClaimTypes.Role, "dataEventRecords"),
+                        new Claim(JwtClaimTypes.Role, "securedFiles.user"),
+                        new Claim(JwtClaimTypes.Role, "securedFiles")
                     }
                 }
             };
