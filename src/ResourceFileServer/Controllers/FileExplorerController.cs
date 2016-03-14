@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Authorization;
+using Microsoft.Extensions.PlatformAbstractions;
+using ResourceFileServer.Providers;
 
 namespace ResourceFileServer.Controllers
 {
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.Extensions.PlatformAbstractions;
-    using Providers;
     [Authorize]
     [Route("api/[controller]")]
     public class FileExplorerController : Controller
