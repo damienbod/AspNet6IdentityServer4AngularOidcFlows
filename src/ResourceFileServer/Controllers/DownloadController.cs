@@ -26,7 +26,7 @@ namespace ResourceFileServer.Controllers
             var filePath = $"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/{id}";
             if(!System.IO.File.Exists(filePath))
             {
-                return HttpBadRequest($"File does not exist: {id}");
+                return HttpNotFound($"File does not exist: {id}");
             }
 
             var adminClaim = User.Claims.FirstOrDefault(x => x.Type == "role" && x.Value == "securedFiles.admin");
