@@ -23,6 +23,11 @@ namespace ResourceFileServer.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
+            if(!_securedFileProvider.FileIdExists(id))
+            {
+                return HttpNotFound($"File does not exist: {id}");
+            }
+
             var filePath = $"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/{id}";
             if(!System.IO.File.Exists(filePath))
             {
