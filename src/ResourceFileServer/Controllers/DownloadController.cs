@@ -25,7 +25,7 @@ namespace ResourceFileServer.Controllers
         {
             if(!_securedFileProvider.FileIdExists(id))
             {
-                return HttpNotFound($"File does not exist: {id}");
+                return HttpNotFound($"File id does not exist: {id}");
             }
 
             var filePath = $"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/{id}";
