@@ -41,7 +41,8 @@ namespace ResourceFileServer.Controllers
                 return new FileContentResult(fileContents, "application/octet-stream");
             }
 
-            return HttpUnauthorized();
+            // returning a HTTP Forbidden result.
+            return new HttpStatusCodeResult(403);
         }
     }
 }
