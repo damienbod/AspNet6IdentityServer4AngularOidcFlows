@@ -18,7 +18,7 @@ export class SecureFileService {
 
     public GetDownloadfileUrl(id: string): string {
         var token = this._securityService.GetToken();
-        return this.actionUrl + id + "?access_token=" + token;
+        return `${this.actionUrl}${id}?access_token=${token}`;
     }
 
     public GetListOfFiles = (): Observable<string[]> => {

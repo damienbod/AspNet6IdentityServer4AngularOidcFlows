@@ -27,7 +27,7 @@ var SecureFileService = (function () {
     }
     SecureFileService.prototype.GetDownloadfileUrl = function (id) {
         var token = this._securityService.GetToken();
-        return this.actionUrl + id + "?access_token=" + token;
+        return "" + this.actionUrl + id + "?access_token=" + token;
     };
     SecureFileService = __decorate([
         core_1.Injectable(), 
