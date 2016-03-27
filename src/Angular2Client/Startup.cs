@@ -23,11 +23,11 @@ namespace Angular2Client
             app.UseIISPlatformHandler();
 
             var angularRoutes = new[] {
-                "/home",
-                "/overviewindex",
-                "/create",
+                "/dataeventrecord",
+                "/dataeventrecord/dataeventrecords",
+                "/dataeventrecord/create",
+                "/dataeventrecord/edit",
                 "/forbidden",
-                "/details",
                 "/authorized",
                 "/authorize",
                 "/unauthorized",
