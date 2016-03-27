@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var http_1 = require('angular2/http');
 require('rxjs/add/operator/map');
-var app_constants_1 = require('../app.constants');
-var SecurityService_1 = require('../services/SecurityService');
+var app_constants_1 = require('../../app.constants');
+var SecurityService_1 = require('../../services/SecurityService');
 var SecureFileService = (function () {
     function SecureFileService(_http, _configuration, _securityService) {
         var _this = this;

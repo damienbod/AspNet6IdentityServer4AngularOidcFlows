@@ -3,7 +3,7 @@ import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {SecurityService} from './services/SecurityService';
-import {SecureFilesComponent} from './securefiles/securefiles.component';
+import {SecureFilesComponent} from './securefile/securefiles/securefiles.component';
 
 import {DataeventrecordComponent} from './dataeventrecord/dataeventrecord/dataeventrecord.component';
 
@@ -17,7 +17,7 @@ import {DataeventrecordComponent} from './dataeventrecord/dataeventrecord/dataev
 @RouteConfig([
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
-        { path: '/SecureFiles', name: 'SecureFiles', component: SecureFilesComponent },
+        { path: '/securefile/securefiles', name: 'Securefiles', component: SecureFilesComponent },
         { path: '/dataeventrecords/...', name: 'Dataeventrecords', component: DataeventrecordComponent },
 ])
  
