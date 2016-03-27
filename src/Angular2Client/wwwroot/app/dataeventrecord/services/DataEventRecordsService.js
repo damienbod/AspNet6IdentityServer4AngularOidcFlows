@@ -45,7 +45,7 @@ var DataEventRecordsService = (function () {
                 headers: _this.headers
             });
         };
-        this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
+        this.actionUrl = _configuration.Server + "api/DataEventRecords/";
     }
     DataEventRecordsService.prototype.setHeaders = function () {
         this.headers = new http_1.Headers();

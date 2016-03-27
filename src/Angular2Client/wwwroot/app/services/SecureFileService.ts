@@ -12,8 +12,8 @@ export class SecureFileService {
     private fileExplorerUrl: string;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
-        this.actionUrl = _configuration.FileServer + 'api/Download/'; 
-        this.fileExplorerUrl = _configuration.FileServer + 'api/FileExplorer/';    
+        this.actionUrl = `${_configuration.FileServer}api/Download/`; 
+        this.fileExplorerUrl = `${_configuration.FileServer }api/FileExplorer/`;    
     }
 
     public GetDownloadfileUrl(id: string): string {
@@ -24,7 +24,7 @@ export class SecureFileService {
     public GetListOfFiles = (): Observable<string[]> => {
         var token = this._securityService.GetToken();
 
-        return this._http.get(this.fileExplorerUrl + "?access_token=" + token, {
+        return this._http.get(`${this.fileExplorerUrl}?access_token=${token}`, {
         }).map(res => res.json());
     }
 

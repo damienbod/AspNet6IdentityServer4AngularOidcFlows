@@ -22,8 +22,8 @@ var SecureFileService = (function () {
             var token = _this._securityService.GetToken();
             return _this._http.get(_this.fileExplorerUrl + "?access_token=" + token, {}).map(function (res) { return res.json(); });
         };
-        this.actionUrl = _configuration.FileServer + 'api/Download/';
-        this.fileExplorerUrl = _configuration.FileServer + 'api/FileExplorer/';
+        this.actionUrl = _configuration.FileServer + "api/Download/";
+        this.fileExplorerUrl = _configuration.FileServer + "api/FileExplorer/";
     }
     SecureFileService.prototype.GetDownloadfileUrl = function (id) {
         var token = this._securityService.GetToken();
