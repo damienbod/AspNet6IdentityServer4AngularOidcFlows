@@ -31,7 +31,7 @@ export class DataeventrecordcreateComponent implements OnInit {
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
             error => this.securityService.HandleError(error),
-            () => this._router.navigate(['Overviewindex']));
+            () => this._router.navigate(['Dataeventrecords']));
     }
 
     

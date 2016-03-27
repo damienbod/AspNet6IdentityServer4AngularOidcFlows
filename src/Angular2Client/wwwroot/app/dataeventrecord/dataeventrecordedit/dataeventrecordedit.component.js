@@ -32,7 +32,7 @@ var DataeventrecordeditComponent = (function () {
     DataeventrecordeditComponent.prototype.Update = function () {
         var _this = this;
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
-            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Overviewindex']); });
+            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Dataeventrecords']); });
     };
     DataeventrecordeditComponent = __decorate([
         core_1.Component({

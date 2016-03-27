@@ -139,7 +139,7 @@ export class SecurityService {
             this.SetAuthorizationData(token, id_token);
             console.log(this.retrieve("authorizationData"));
 
-            this._router.navigate(['Overviewindex']);
+            this._router.navigate(['Dataeventrecords']);
         }
         else {
             this.ResetAuthorizationData();

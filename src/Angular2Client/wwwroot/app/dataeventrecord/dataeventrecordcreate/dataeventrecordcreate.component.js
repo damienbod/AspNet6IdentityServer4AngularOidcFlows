@@ -28,7 +28,7 @@ var DataeventrecordcreateComponent = (function () {
         var _this = this;
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Overviewindex']); });
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Dataeventrecords']); });
     };
     DataeventrecordcreateComponent = __decorate([
         core_1.Component({
