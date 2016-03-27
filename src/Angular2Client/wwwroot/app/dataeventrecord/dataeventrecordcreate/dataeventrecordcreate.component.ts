@@ -1,23 +1,23 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
-import { DataEventRecordsService } from '../services/DataEventRecordsService';
+import { DataEventRecordsService } from '../../services/DataEventRecordsService';
 import { Router } from 'angular2/router';
-import { SecurityService } from '../services/SecurityService';
+import { SecurityService } from '../../services/SecurityService';
 
 @Component({
-    selector: 'create',
-    templateUrl: 'app/create/create.component.html',
+    selector: 'dataeventrecordcreate',
+    templateUrl: 'app/dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component.html',
     directives: [CORE_DIRECTIVES],
     providers: [DataEventRecordsService]
 })
 
-export class CreateComponent implements OnInit {
+export class DataeventrecordcreateComponent implements OnInit {
 
     public message: string;
     public DataEventRecord: any;
 
     constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
-        this.message = "CreateComponent constructor";
+        this.message = "DataeventrecordcreateComponent constructor";
     }
     
     ngOnInit() {

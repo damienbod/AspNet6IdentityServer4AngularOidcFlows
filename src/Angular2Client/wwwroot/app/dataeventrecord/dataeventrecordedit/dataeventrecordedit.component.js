@@ -9,41 +9,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
-var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
+var DataEventRecordsService_1 = require('../../services/DataEventRecordsService');
 var router_1 = require('angular2/router');
-var SecurityService_1 = require('../services/SecurityService');
-var DetailsComponent = (function () {
-    function DetailsComponent(_dataEventRecordsService, _routeParams, securityService, _router) {
+var SecurityService_1 = require('../../services/SecurityService');
+var DataeventrecordeditComponent = (function () {
+    function DataeventrecordeditComponent(_dataEventRecordsService, _routeParams, securityService, _router) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this._routeParams = _routeParams;
         this.securityService = securityService;
         this._router = _router;
-        this.message = "DetailsComponent constructor";
+        this.message = "DataeventrecordeditComponent constructor";
         this.id = +this._routeParams.get('Id');
         this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
     }
-    DetailsComponent.prototype.ngOnInit = function () {
+    DataeventrecordeditComponent.prototype.ngOnInit = function () {
         var _this = this;
         console.log("IsAuthorized:" + this.securityService.IsAuthorized);
         console.log("HasAdminRole:" + this.securityService.HasAdminRole);
         this._dataEventRecordsService.GetById(this.id)
             .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('DetailsComponent:Get by Id complete'); });
     };
-    DetailsComponent.prototype.Update = function () {
+    DataeventrecordeditComponent.prototype.Update = function () {
         var _this = this;
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Overviewindex']); });
     };
-    DetailsComponent = __decorate([
+    DataeventrecordeditComponent = __decorate([
         core_1.Component({
-            selector: 'details',
-            templateUrl: 'app/details/details.component.html',
+            selector: 'dataeventrecordedit',
+            templateUrl: 'app/dataeventrecord/dataeventrecordedit/dataeventrecordedit.component.html',
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
         __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams, SecurityService_1.SecurityService, router_1.Router])
-    ], DetailsComponent);
-    return DetailsComponent;
+    ], DataeventrecordeditComponent);
+    return DataeventrecordeditComponent;
 })();
-exports.DetailsComponent = DetailsComponent;
-//# sourceMappingURL=details.component.js.map
+exports.DataeventrecordeditComponent = DataeventrecordeditComponent;
+//# sourceMappingURL=dataeventrecordedit.component.js.map

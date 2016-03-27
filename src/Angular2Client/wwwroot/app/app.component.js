@@ -9,13 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var router_1 = require('angular2/router');
-var overviewindex_component_1 = require('./overviewindex/overviewindex.component');
-var create_component_1 = require('./create/create.component');
 var forbidden_component_1 = require('./forbidden/forbidden.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
-var details_component_1 = require('./details/details.component');
 var SecurityService_1 = require('./services/SecurityService');
 var securefiles_component_1 = require('./securefiles/securefiles.component');
+var dataeventrecords_component_1 = require('./dataeventrecord/dataeventrecords/dataeventrecords.component');
+var dataeventrecordcreate_component_1 = require('./dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component');
+var dataeventrecordedit_component_1 = require('./dataeventrecord/dataeventrecordedit/dataeventrecordedit.component');
 var AppComponent = (function () {
     function AppComponent(securityService) {
         this.securityService = securityService;
@@ -42,12 +42,12 @@ var AppComponent = (function () {
             styleUrls: ['app/app.component.css']
         }),
         router_1.RouteConfig([
-            { path: '/Create', name: 'Create', component: create_component_1.CreateComponent },
-            { path: '/Overviewindex', name: 'Overviewindex', component: overviewindex_component_1.OverviewindexComponent },
             { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
             { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
-            { path: '/Details/:Id', name: 'Details', component: details_component_1.DetailsComponent },
             { path: '/SecureFiles', name: 'SecureFiles', component: securefiles_component_1.SecureFilesComponent },
+            { path: '/dataeventrecord', name: 'Dataeventrecords', component: dataeventrecords_component_1.DataeventrecordsComponent },
+            { path: '/dataeventrecord/create', name: 'Dataeventrecordcreate', component: dataeventrecordcreate_component_1.DataeventrecordcreateComponent },
+            { path: '/dataeventrecord/edit/:Id', name: 'Dataeventrecordedit', component: dataeventrecordedit_component_1.DataeventrecordeditComponent },
         ]), 
         __metadata('design:paramtypes', [SecurityService_1.SecurityService])
     ], AppComponent);

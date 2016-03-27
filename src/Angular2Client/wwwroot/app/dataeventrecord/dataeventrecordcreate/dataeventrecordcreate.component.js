@@ -9,41 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
-var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
-var SecurityService_1 = require('../services/SecurityService');
+var DataEventRecordsService_1 = require('../../services/DataEventRecordsService');
 var router_1 = require('angular2/router');
-var OverviewindexComponent = (function () {
-    function OverviewindexComponent(_dataEventRecordsService, securityService, _router) {
+var SecurityService_1 = require('../../services/SecurityService');
+var DataeventrecordcreateComponent = (function () {
+    function DataeventrecordcreateComponent(_dataEventRecordsService, securityService, _router) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this.securityService = securityService;
         this._router = _router;
-        this.message = "Overview DataEventRecords";
+        this.message = "DataeventrecordcreateComponent constructor";
     }
-    OverviewindexComponent.prototype.ngOnInit = function () {
-        this.getData();
+    DataeventrecordcreateComponent.prototype.ngOnInit = function () {
+        this.DataEventRecord = { Id: 0, Name: "", Description: "" };
+        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
+        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
     };
-    OverviewindexComponent.prototype.Delete = function (id) {
-        var _this = this;
-        console.log("Try to delete" + id);
-        this._dataEventRecordsService.Delete(id)
-            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this.getData(); });
-    };
-    OverviewindexComponent.prototype.getData = function () {
+    DataeventrecordcreateComponent.prototype.Create = function () {
         var _this = this;
         this._dataEventRecordsService
-            .GetAll()
-            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
+            .Add(this.DataEventRecord)
+            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Overviewindex']); });
     };
-    OverviewindexComponent = __decorate([
+    DataeventrecordcreateComponent = __decorate([
         core_1.Component({
-            selector: 'overviewindex',
-            templateUrl: 'app/overviewindex/overviewindex.component.html',
+            selector: 'dataeventrecordcreate',
+            templateUrl: 'app/dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component.html',
             directives: [common_1.CORE_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }), 
         __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
-    ], OverviewindexComponent);
-    return OverviewindexComponent;
+    ], DataeventrecordcreateComponent);
+    return DataeventrecordcreateComponent;
 })();
-exports.OverviewindexComponent = OverviewindexComponent;
-//# sourceMappingURL=overviewindex.component.js.map
+exports.DataeventrecordcreateComponent = DataeventrecordcreateComponent;
+//# sourceMappingURL=dataeventrecordcreate.component.js.map
