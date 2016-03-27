@@ -5,9 +5,7 @@ import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {SecurityService} from './services/SecurityService';
 import {SecureFilesComponent} from './securefiles/securefiles.component';
 
-import {DataeventrecordsComponent} from './dataeventrecord/dataeventrecords/dataeventrecords.component';
-import {DataeventrecordcreateComponent} from './dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component';
-import {DataeventrecordeditComponent} from './dataeventrecord/dataeventrecordedit/dataeventrecordedit.component';
+import {DataeventrecordComponent} from './dataeventrecord/dataeventrecord/dataeventrecord.component';
 
 @Component({
     selector: 'my-app',
@@ -20,9 +18,7 @@ import {DataeventrecordeditComponent} from './dataeventrecord/dataeventrecordedi
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
         { path: '/SecureFiles', name: 'SecureFiles', component: SecureFilesComponent },
-        { path: '/dataeventrecord', name: 'Dataeventrecords', component: DataeventrecordsComponent },
-        { path: '/dataeventrecord/create', name: 'Dataeventrecordcreate', component: DataeventrecordcreateComponent },
-        { path: '/dataeventrecord/edit/:Id', name: 'Dataeventrecordedit', component: DataeventrecordeditComponent },
+        { path: '/dataeventrecords/...', name: 'Dataeventrecords', component: DataeventrecordComponent },
 ])
  
 export class AppComponent {

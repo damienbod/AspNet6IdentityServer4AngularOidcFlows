@@ -10,38 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var DataEventRecordsService_1 = require('../../services/DataEventRecordsService');
-var SecurityService_1 = require('../../services/SecurityService');
 var router_1 = require('angular2/router');
+var dataeventrecords_component_1 = require('../../dataeventrecord/dataeventrecords/dataeventrecords.component');
+var dataeventrecordcreate_component_1 = require('../../dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component');
+var dataeventrecordedit_component_1 = require('../../dataeventrecord/dataeventrecordedit/dataeventrecordedit.component');
 var DataeventrecordComponent = (function () {
-    function DataeventrecordComponent(_dataEventRecordsService, securityService, _router) {
-        this._dataEventRecordsService = _dataEventRecordsService;
-        this.securityService = securityService;
-        this._router = _router;
-        this.message = "DataeventrecordComponent DataEventRecords";
+    function DataeventrecordComponent() {
     }
-    DataeventrecordComponent.prototype.ngOnInit = function () {
-        this.getData();
-    };
-    DataeventrecordComponent.prototype.Delete = function (id) {
-        var _this = this;
-        console.log("Try to delete" + id);
-        this._dataEventRecordsService.Delete(id)
-            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this.getData(); });
-    };
-    DataeventrecordComponent.prototype.getData = function () {
-        var _this = this;
-        this._dataEventRecordsService
-            .GetAll()
-            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
-    };
     DataeventrecordComponent = __decorate([
         core_1.Component({
             selector: 'dataeventrecord',
             templateUrl: 'app/dataeventrecord/dataeventrecord/dataeventrecord.component.html',
-            directives: [common_1.CORE_DIRECTIVES],
+            directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES],
             providers: [DataEventRecordsService_1.DataEventRecordsService]
-        }), 
-        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
+        }),
+        router_1.RouteConfig([
+            { path: '/', name: 'Dataeventrecords', component: dataeventrecords_component_1.DataeventrecordsComponent, useAsDefault: true },
+            { path: '/create', name: 'Dataeventrecordcreate', component: dataeventrecordcreate_component_1.DataeventrecordcreateComponent },
+            { path: '/edit/:Id', name: 'Dataeventrecordedit', component: dataeventrecordedit_component_1.DataeventrecordeditComponent },
+        ]), 
+        __metadata('design:paramtypes', [])
     ], DataeventrecordComponent);
     return DataeventrecordComponent;
 })();

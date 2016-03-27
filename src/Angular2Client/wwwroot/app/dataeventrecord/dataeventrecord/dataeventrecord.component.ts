@@ -3,44 +3,25 @@ import { CORE_DIRECTIVES } from 'angular2/common';
 import { DataEventRecordsService } from '../../services/DataEventRecordsService';
 import { SecurityService } from '../../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
-import { Router } from 'angular2/router';
+import { RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 import { DataEventRecord } from '../../models/DataEventRecord';
+
+import {DataeventrecordsComponent} from '../../dataeventrecord/dataeventrecords/dataeventrecords.component';
+import {DataeventrecordcreateComponent} from '../../dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component';
+import {DataeventrecordeditComponent} from '../../dataeventrecord/dataeventrecordedit/dataeventrecordedit.component';
 
 @Component({
     selector: 'dataeventrecord',
     templateUrl: 'app/dataeventrecord/dataeventrecord/dataeventrecord.component.html',
-    directives: [CORE_DIRECTIVES],
+    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
     providers: [DataEventRecordsService]
 })
 
-export class DataeventrecordComponent implements OnInit {
+@RouteConfig([
+    { path: '/', name: 'Dataeventrecords', component: DataeventrecordsComponent, useAsDefault: true },
+    { path: '/create', name: 'Dataeventrecordcreate', component: DataeventrecordcreateComponent },
+    { path: '/edit/:Id', name: 'Dataeventrecordedit', component: DataeventrecordeditComponent },
+])
 
-    public message: string;
-    public DataEventRecords: DataEventRecord[];
-   
-    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
-        this.message = "DataeventrecordComponent DataEventRecords";
 
-    }
-
-    ngOnInit() {
-        this.getData();
-    }
-
-    public Delete(id: any) {
-        console.log("Try to delete" + id);
-        this._dataEventRecordsService.Delete(id)
-            .subscribe((() => console.log("subscribed")),
-            error => this.securityService.HandleError(error),
-            () => this.getData());
-    }
-
-    private getData() {
-        this._dataEventRecordsService
-            .GetAll()
-            .subscribe(data => this.DataEventRecords = data,
-            error => this.securityService.HandleError(error),
-            () => console.log('Get all completed'));
-    }
-
-}
+export class DataeventrecordComponent { }
