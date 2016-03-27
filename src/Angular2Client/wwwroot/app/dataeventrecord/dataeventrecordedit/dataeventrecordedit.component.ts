@@ -1,9 +1,9 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
-import { DataEventRecordsService } from '../../services/DataEventRecordsService';
+import { DataEventRecordsService } from '../services/DataEventRecordsService';
 import { RouteParams, Router } from 'angular2/router';
 import { SecurityService } from '../../services/SecurityService';
-import { DataEventRecord } from '../../models/DataEventRecord';
+import { DataEventRecord } from '../models/DataEventRecord';
 
 @Component({
     selector: 'dataeventrecordedit',

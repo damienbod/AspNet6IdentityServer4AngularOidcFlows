@@ -1,10 +1,10 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
-import { DataEventRecordsService } from '../../services/DataEventRecordsService';
+import { DataEventRecordsService } from '../services/DataEventRecordsService';
 import { SecurityService } from '../../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
 import { Router } from 'angular2/router';
-import { DataEventRecord } from '../../models/DataEventRecord';
+import { DataEventRecord } from '../models/DataEventRecord';
 
 @Component({
     selector: 'dataeventrecords',

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
-var DataEventRecordsService_1 = require('../../services/DataEventRecordsService');
+var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var router_1 = require('angular2/router');
 var dataeventrecords_component_1 = require('../../dataeventrecord/dataeventrecords/dataeventrecords.component');
 var dataeventrecordcreate_component_1 = require('../../dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component');
