@@ -7,8 +7,7 @@ import { SecurityService } from '../../services/SecurityService';
 @Component({
     selector: 'dataeventrecordcreate',
     templateUrl: 'app/dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component.html',
-    directives: [CORE_DIRECTIVES],
-    providers: [DataEventRecordsService]
+    directives: [CORE_DIRECTIVES]
 })
 
 export class DataeventrecordcreateComponent implements OnInit {

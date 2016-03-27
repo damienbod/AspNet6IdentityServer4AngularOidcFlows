@@ -38,8 +38,7 @@ var DataeventrecordeditComponent = (function () {
         core_1.Component({
             selector: 'dataeventrecordedit',
             templateUrl: 'app/dataeventrecord/dataeventrecordedit/dataeventrecordedit.component.html',
-            directives: [common_1.CORE_DIRECTIVES],
-            providers: [DataEventRecordsService_1.DataEventRecordsService]
+            directives: [common_1.CORE_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams, SecurityService_1.SecurityService, router_1.Router])
     ], DataeventrecordeditComponent);

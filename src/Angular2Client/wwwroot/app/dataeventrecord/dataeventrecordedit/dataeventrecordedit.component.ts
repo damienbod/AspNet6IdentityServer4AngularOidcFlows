@@ -8,8 +8,7 @@ import { DataEventRecord } from '../../models/DataEventRecord';
 @Component({
     selector: 'dataeventrecordedit',
     templateUrl: 'app/dataeventrecord/dataeventrecordedit/dataeventrecordedit.component.html',
-    directives: [CORE_DIRECTIVES],
-    providers: [DataEventRecordsService]
+    directives: [CORE_DIRECTIVES]
 })
 
 export class DataeventrecordeditComponent implements OnInit {
