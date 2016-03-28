@@ -18,7 +18,10 @@ export class DataEventRecordsListComponent implements OnInit {
     public message: string;
     public DataEventRecords: DataEventRecord[];
    
-    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
+    constructor(
+        private _dataEventRecordsService: DataEventRecordsService,
+        public securityService: SecurityService,
+        private _router: Router) {
         this.message = "DataEventRecords";
     }
 

@@ -18,10 +18,12 @@ export class DataEventRecordsEditComponent implements OnInit {
     public message: string;
     public DataEventRecord: DataEventRecord;
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService,
-            private _routeParams: RouteParams,
-            public securityService: SecurityService,
-            private _router: Router) {
+    constructor(
+        private _dataEventRecordsService: DataEventRecordsService,
+        private _routeParams: RouteParams,
+        public securityService: SecurityService,
+        private _router: Router
+    ) {
         this.message = "DataEventRecords Edit";
         this.id = +this._routeParams.get('id');
     }
