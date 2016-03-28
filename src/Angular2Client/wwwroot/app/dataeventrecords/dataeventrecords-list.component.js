@@ -11,38 +11,38 @@ var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
 var SecurityService_1 = require('../services/SecurityService');
 var router_1 = require('angular2/router');
-var DataEventRecordsService_1 = require('../dataeventrecord/DataEventRecordsService');
-var DataEventRecordsComponent = (function () {
-    function DataEventRecordsComponent(_dataEventRecordsService, securityService, _router) {
+var DataEventRecordsService_1 = require('../dataeventrecords/DataEventRecordsService');
+var DataEventRecordsListComponent = (function () {
+    function DataEventRecordsListComponent(_dataEventRecordsService, securityService, _router) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this.securityService = securityService;
         this._router = _router;
-        this.message = "DataEventRecordsComponent";
+        this.message = "DataEventRecordsListComponent";
     }
-    DataEventRecordsComponent.prototype.ngOnInit = function () {
+    DataEventRecordsListComponent.prototype.ngOnInit = function () {
         this.getData();
     };
-    DataEventRecordsComponent.prototype.Delete = function (id) {
+    DataEventRecordsListComponent.prototype.Delete = function (id) {
         var _this = this;
         console.log("Try to delete" + id);
         this._dataEventRecordsService.Delete(id)
             .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this.getData(); });
     };
-    DataEventRecordsComponent.prototype.getData = function () {
+    DataEventRecordsListComponent.prototype.getData = function () {
         var _this = this;
         this._dataEventRecordsService
             .GetAll()
             .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
     };
-    DataEventRecordsComponent = __decorate([
+    DataEventRecordsListComponent = __decorate([
         core_1.Component({
-            selector: 'dataeventrecords',
-            templateUrl: 'app/dataeventrecord/dataeventrecords.component.html',
+            selector: 'dataeventrecords-list',
+            templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html',
             directives: [common_1.CORE_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
-    ], DataEventRecordsComponent);
-    return DataEventRecordsComponent;
+    ], DataEventRecordsListComponent);
+    return DataEventRecordsListComponent;
 })();
-exports.DataEventRecordsComponent = DataEventRecordsComponent;
-//# sourceMappingURL=dataeventrecords.component.js.map
+exports.DataEventRecordsListComponent = DataEventRecordsListComponent;
+//# sourceMappingURL=dataeventrecords-list.component.js.map

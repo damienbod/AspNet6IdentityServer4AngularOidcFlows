@@ -13,7 +13,8 @@ var forbidden_component_1 = require('./forbidden/forbidden.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var SecurityService_1 = require('./services/SecurityService');
 var securefiles_component_1 = require('./securefile/securefiles/securefiles.component');
-var dataeventrecord_component_1 = require('./dataeventrecord/dataeventrecord.component');
+var dataeventrecords_component_1 = require('./dataeventrecords/dataeventrecords.component');
+var DataEventRecordsService_1 = require('./dataeventrecords/DataEventRecordsService');
 var AppComponent = (function () {
     function AppComponent(securityService) {
         this.securityService = securityService;
@@ -36,14 +37,18 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
+            styleUrls: ['app/app.component.css'],
             directives: [router_1.ROUTER_DIRECTIVES],
-            styleUrls: ['app/app.component.css']
+            providers: [
+                router_1.ROUTER_PROVIDERS,
+                DataEventRecordsService_1.DataEventRecordsService
+            ]
         }),
         router_1.RouteConfig([
             { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
             { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
             { path: '/securefile/securefiles', name: 'Securefiles', component: securefiles_component_1.SecureFilesComponent },
-            { path: '/dataeventrecords/...', name: 'Dataeventrecords', component: dataeventrecord_component_1.DataEventRecordComponent },
+            { path: '/dataeventrecords/...', name: 'DataEventRecords', component: dataeventrecords_component_1.DataEventRecordsComponent },
         ]), 
         __metadata('design:paramtypes', [SecurityService_1.SecurityService])
     ], AppComponent);

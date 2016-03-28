@@ -3,22 +3,22 @@ import { CORE_DIRECTIVES } from 'angular2/common';
 import { Router } from 'angular2/router';
 import { SecurityService } from '../services/SecurityService';
 
-import { DataEventRecordsService } from '../dataeventrecord/DataEventRecordsService';
+import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
-    selector: 'dataeventrecord-create',
-    templateUrl: 'app/dataeventrecord/dataeventrecord-create.component.html',
+    selector: 'dataeventrecords-create',
+    templateUrl: 'app/dataeventrecords/dataeventrecords-create.component.html',
     directives: [CORE_DIRECTIVES]
 })
 
-export class DataEventRecordCreateComponent implements OnInit {
+export class DataEventRecordsCreateComponent implements OnInit {
 
     public message: string;
     public DataEventRecord: any;
 
     constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
-        this.message = "DataEventRecordCreateComponent constructor";
+        this.message = "DataEventRecordsCreateComponent constructor";
     }
     
     ngOnInit() {
@@ -32,7 +32,7 @@ export class DataEventRecordCreateComponent implements OnInit {
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
             error => this.securityService.HandleError(error),
-            () => this._router.navigate(['Dataeventrecords']));
+            () => this._router.navigate(['DataEventRecords']));
     }
 
     

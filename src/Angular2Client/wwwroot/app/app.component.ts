@@ -1,24 +1,29 @@
 ﻿import {Component} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {SecurityService} from './services/SecurityService';
 import {SecureFilesComponent} from './securefile/securefiles/securefiles.component';
 
-import {DataEventRecordComponent} from './dataeventrecord/dataeventrecord.component';
+import {DataEventRecordsComponent} from './dataeventrecords/dataeventrecords.component';
+import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
+    styleUrls: ['app/app.component.css'],
     directives: [ROUTER_DIRECTIVES],
-    styleUrls: ['app/app.component.css']
+    providers: [
+        ROUTER_PROVIDERS,
+        DataEventRecordsService
+    ]
 })
 
 @RouteConfig([
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
         { path: '/securefile/securefiles', name: 'Securefiles', component: SecureFilesComponent },
-        { path: '/dataeventrecords/...', name: 'Dataeventrecords', component: DataEventRecordComponent },
+        { path: '/dataeventrecords/...', name: 'DataEventRecords', component: DataEventRecordsComponent },
 ])
  
 export class AppComponent {

@@ -3,16 +3,16 @@ import { CORE_DIRECTIVES } from 'angular2/common';
 import { RouteParams, Router } from 'angular2/router';
 import { SecurityService } from '../services/SecurityService';
 
-import { DataEventRecordsService } from '../dataeventrecord/DataEventRecordsService';
+import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
-    selector: 'dataeventrecord-edit',
-    templateUrl: 'app/dataeventrecord/dataeventrecord-edit.component.html',
+    selector: 'dataeventrecords-edit',
+    templateUrl: 'app/dataeventrecords/dataeventrecords-edit.component.html',
     directives: [CORE_DIRECTIVES]
 })
 
-export class DataEventRecordEditComponent implements OnInit {
+export class DataEventRecordsEditComponent implements OnInit {
 
     private id: number;
     public message: string;
@@ -22,7 +22,7 @@ export class DataEventRecordEditComponent implements OnInit {
             private _routeParams: RouteParams,
             public securityService: SecurityService,
             private _router: Router) {
-        this.message = "DataEventRecordEditComponent constructor";
+        this.message = "DataEventRecordsEditComponent constructor";
         this.id = +this._routeParams.get('Id');
         this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
     }
@@ -40,6 +40,6 @@ export class DataEventRecordEditComponent implements OnInit {
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe((() => console.log("subscribed")),
             error => this.securityService.HandleError(error),
-            () => this._router.navigate(['Dataeventrecords']));
+            () => this._router.navigate(['DataEventRecords']));
     }
 }
