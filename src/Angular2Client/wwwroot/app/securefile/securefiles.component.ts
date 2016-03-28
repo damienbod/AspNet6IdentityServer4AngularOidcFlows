@@ -1,13 +1,13 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
-import { SecureFileService } from '../services/SecureFileService';
-import { SecurityService } from '../../services/SecurityService';
+import { SecureFileService } from './SecureFileService';
+import { SecurityService } from '../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
 import { Router } from 'angular2/router';
 
 @Component({
     selector: 'securefiles',
-    templateUrl: 'app/securefile/securefiles/securefiles.component.html',
+    templateUrl: 'app/securefile/securefiles.component.html',
     directives: [CORE_DIRECTIVES],
     providers: [SecureFileService]
 })

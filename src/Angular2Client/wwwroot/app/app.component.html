@@ -15,7 +15,7 @@
                 <ul class="nav navbar-nav">
                     <li><a [routerLink]="['/DataEventRecords/']">DataEventRecords</a></li>
                     <li><a [routerLink]="['/DataEventRecords/DataEventRecordsCreate']">Create DataEventRecord</a></li>
-                    <li><a [routerLink]="['/Securefiles']">Secured Files Download</a></li>
+                    <li><a [routerLink]="['/SecureFiles']">Secured Files Download</a></li>
 
                     <li><a class="navigationLinkButton" *ngIf="!securityService.IsAuthorized" (click)="Login()">Login</a></li>
                     <li><a class="navigationLinkButton" *ngIf="securityService.IsAuthorized" (click)="Logout()">Logout</a></li>
