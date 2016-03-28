@@ -30,6 +30,7 @@ var DataEventRecordsListComponent = (function () {
     };
     DataEventRecordsListComponent.prototype.getData = function () {
         var _this = this;
+        console.log('DataEventRecordsListComponent:getData starting...');
         this._dataEventRecordsService
             .GetAll()
             .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
@@ -38,7 +39,7 @@ var DataEventRecordsListComponent = (function () {
         core_1.Component({
             selector: 'dataeventrecords-list',
             templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html',
-            directives: [common_1.CORE_DIRECTIVES]
+            directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
     ], DataEventRecordsListComponent);

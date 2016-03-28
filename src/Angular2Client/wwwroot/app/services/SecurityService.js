@@ -113,7 +113,7 @@ var SecurityService = (function () {
         if (authResponseIsValid) {
             this.SetAuthorizationData(token, id_token);
             console.log(this.retrieve("authorizationData"));
-            this._router.navigate(['DataEventRecords']);
+            this._router.navigate(['DataEventRecords/DataEventRecordsList']);
         }
         else {
             this.ResetAuthorizationData();

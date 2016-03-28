@@ -12,12 +12,12 @@ import {DataEventRecordsEditComponent} from '../dataeventrecords/dataeventrecord
 
 @Component({
     selector: 'dataeventrecords',
-    templateUrl: 'app/dataeventrecords/dataeventrecords/dataeventrecords.component.html',
+    templateUrl: 'app/dataeventrecords/dataeventrecords.component.html',
     directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES]
 })
 
 @RouteConfig([
-        { path: '/', name: 'DataEventRecords', component: DataEventRecordsListComponent, useAsDefault: true },
+        { path: '/', name: 'DataEventRecordsList', component: DataEventRecordsListComponent, useAsDefault: true },
         { path: '/create', name: 'DataEventRecordsCreate', component: DataEventRecordsCreateComponent },
         { path: '/edit/:Id', name: 'DataEventRecordsEdit', component: DataEventRecordsEditComponent },
 ])

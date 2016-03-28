@@ -19,11 +19,11 @@ var DataEventRecordsComponent = (function () {
     DataEventRecordsComponent = __decorate([
         core_1.Component({
             selector: 'dataeventrecords',
-            templateUrl: 'app/dataeventrecords/dataeventrecords/dataeventrecords.component.html',
+            templateUrl: 'app/dataeventrecords/dataeventrecords.component.html',
             directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
         }),
         router_1.RouteConfig([
-            { path: '/', name: 'DataEventRecords', component: dataeventrecords_list_component_1.DataEventRecordsListComponent, useAsDefault: true },
+            { path: '/', name: 'DataEventRecordsList', component: dataeventrecords_list_component_1.DataEventRecordsListComponent, useAsDefault: true },
             { path: '/create', name: 'DataEventRecordsCreate', component: dataeventrecords_create_component_1.DataEventRecordsCreateComponent },
             { path: '/edit/:Id', name: 'DataEventRecordsEdit', component: dataeventrecords_edit_component_1.DataEventRecordsEditComponent },
         ]), 
