@@ -1,6 +1,6 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
-import { RouteParams, Router } from 'angular2/router';
+import { RouteParams, Router, ROUTER_DIRECTIVES } from 'angular2/router';
 import { SecurityService } from '../services/SecurityService';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
@@ -9,7 +9,7 @@ import { DataEventRecord } from './models/DataEventRecord';
 @Component({
     selector: 'dataeventrecords-edit',
     templateUrl: 'app/dataeventrecords/dataeventrecords-edit.component.html',
-    directives: [CORE_DIRECTIVES]
+    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES]
 })
 
 export class DataEventRecordsEditComponent implements OnInit {
@@ -23,17 +23,20 @@ export class DataEventRecordsEditComponent implements OnInit {
             public securityService: SecurityService,
             private _router: Router) {
         this.message = "DataEventRecordsEditComponent constructor";
-        this.id = +this._routeParams.get('Id');
-        this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
+        this.id = +this._routeParams.get('id');
     }
     
     ngOnInit() {     
         console.log("IsAuthorized:" + this.securityService.IsAuthorized);
         console.log("HasAdminRole:" + this.securityService.HasAdminRole);
-        this._dataEventRecordsService.GetById(this.id)
-            .subscribe( data => this.DataEventRecord = data,
+        let id = +this._routeParams.get('id');
+
+        if (!this.DataEventRecord) {
+            this._dataEventRecordsService.GetById(id)
+                .subscribe(data => this.DataEventRecord = data,
                 error => this.securityService.HandleError(error),
-                () => console.log('DetailsComponent:Get by Id complete'));
+                () => console.log('DataEventRecordsEditComponent:Get by Id complete'));
+        } 
     }
 
     public Update() {

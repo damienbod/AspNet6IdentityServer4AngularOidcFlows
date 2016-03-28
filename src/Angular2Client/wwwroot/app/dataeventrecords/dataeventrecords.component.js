@@ -25,7 +25,7 @@ var DataEventRecordsComponent = (function () {
         router_1.RouteConfig([
             { path: '/', name: 'DataEventRecordsList', component: dataeventrecords_list_component_1.DataEventRecordsListComponent, useAsDefault: true },
             { path: '/create', name: 'DataEventRecordsCreate', component: dataeventrecords_create_component_1.DataEventRecordsCreateComponent },
-            { path: '/edit/:Id', name: 'DataEventRecordsEdit', component: dataeventrecords_edit_component_1.DataEventRecordsEditComponent },
+            { path: '/edit/:id', name: 'DataEventRecordsEdit', component: dataeventrecords_edit_component_1.DataEventRecordsEditComponent },
         ]), 
         __metadata('design:paramtypes', [])
     ], DataEventRecordsComponent);

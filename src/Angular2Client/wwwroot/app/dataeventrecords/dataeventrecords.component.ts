@@ -19,7 +19,7 @@ import {DataEventRecordsEditComponent} from '../dataeventrecords/dataeventrecord
 @RouteConfig([
         { path: '/', name: 'DataEventRecordsList', component: DataEventRecordsListComponent, useAsDefault: true },
         { path: '/create', name: 'DataEventRecordsCreate', component: DataEventRecordsCreateComponent },
-        { path: '/edit/:Id', name: 'DataEventRecordsEdit', component: DataEventRecordsEditComponent },
+        { path: '/edit/:id', name: 'DataEventRecordsEdit', component: DataEventRecordsEditComponent },
 ])
 
 export class DataEventRecordsComponent { }

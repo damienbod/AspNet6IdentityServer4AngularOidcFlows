@@ -19,15 +19,17 @@ var DataEventRecordsEditComponent = (function () {
         this.securityService = securityService;
         this._router = _router;
         this.message = "DataEventRecordsEditComponent constructor";
-        this.id = +this._routeParams.get('Id');
-        this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
+        this.id = +this._routeParams.get('id');
     }
     DataEventRecordsEditComponent.prototype.ngOnInit = function () {
         var _this = this;
         console.log("IsAuthorized:" + this.securityService.IsAuthorized);
         console.log("HasAdminRole:" + this.securityService.HasAdminRole);
-        this._dataEventRecordsService.GetById(this.id)
-            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('DetailsComponent:Get by Id complete'); });
+        var id = +this._routeParams.get('id');
+        if (!this.DataEventRecord) {
+            this._dataEventRecordsService.GetById(id)
+                .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('DataEventRecordsEditComponent:Get by Id complete'); });
+        }
     };
     DataEventRecordsEditComponent.prototype.Update = function () {
         var _this = this;
@@ -38,7 +40,7 @@ var DataEventRecordsEditComponent = (function () {
         core_1.Component({
             selector: 'dataeventrecords-edit',
             templateUrl: 'app/dataeventrecords/dataeventrecords-edit.component.html',
-            directives: [common_1.CORE_DIRECTIVES]
+            directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams, SecurityService_1.SecurityService, router_1.Router])
     ], DataEventRecordsEditComponent);
