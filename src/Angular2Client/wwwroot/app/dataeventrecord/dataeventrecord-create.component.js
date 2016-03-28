@@ -9,36 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
-var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var router_1 = require('angular2/router');
-var SecurityService_1 = require('../../services/SecurityService');
-var DataeventrecordcreateComponent = (function () {
-    function DataeventrecordcreateComponent(_dataEventRecordsService, securityService, _router) {
+var SecurityService_1 = require('../services/SecurityService');
+var DataEventRecordsService_1 = require('../dataeventrecord/DataEventRecordsService');
+var DataEventRecordCreateComponent = (function () {
+    function DataEventRecordCreateComponent(_dataEventRecordsService, securityService, _router) {
         this._dataEventRecordsService = _dataEventRecordsService;
         this.securityService = securityService;
         this._router = _router;
-        this.message = "DataeventrecordcreateComponent constructor";
+        this.message = "DataEventRecordCreateComponent constructor";
     }
-    DataeventrecordcreateComponent.prototype.ngOnInit = function () {
+    DataEventRecordCreateComponent.prototype.ngOnInit = function () {
         this.DataEventRecord = { Id: 0, Name: "", Description: "" };
         console.log("IsAuthorized:" + this.securityService.IsAuthorized);
         console.log("HasAdminRole:" + this.securityService.HasAdminRole);
     };
-    DataeventrecordcreateComponent.prototype.Create = function () {
+    DataEventRecordCreateComponent.prototype.Create = function () {
         var _this = this;
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
             .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['Dataeventrecords']); });
     };
-    DataeventrecordcreateComponent = __decorate([
+    DataEventRecordCreateComponent = __decorate([
         core_1.Component({
-            selector: 'dataeventrecordcreate',
-            templateUrl: 'app/dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component.html',
+            selector: 'dataeventrecord-create',
+            templateUrl: 'app/dataeventrecord/dataeventrecord-create.component.html',
             directives: [common_1.CORE_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
-    ], DataeventrecordcreateComponent);
-    return DataeventrecordcreateComponent;
+    ], DataEventRecordCreateComponent);
+    return DataEventRecordCreateComponent;
 })();
-exports.DataeventrecordcreateComponent = DataeventrecordcreateComponent;
-//# sourceMappingURL=dataeventrecordcreate.component.js.map
+exports.DataEventRecordCreateComponent = DataEventRecordCreateComponent;
+//# sourceMappingURL=dataeventrecord-create.component.js.map

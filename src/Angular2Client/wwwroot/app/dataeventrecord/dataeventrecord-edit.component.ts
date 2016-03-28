@@ -1,17 +1,18 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
-import { DataEventRecordsService } from '../services/DataEventRecordsService';
 import { RouteParams, Router } from 'angular2/router';
-import { SecurityService } from '../../services/SecurityService';
-import { DataEventRecord } from '../models/DataEventRecord';
+import { SecurityService } from '../services/SecurityService';
+
+import { DataEventRecordsService } from '../dataeventrecord/DataEventRecordsService';
+import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
-    selector: 'dataeventrecordedit',
-    templateUrl: 'app/dataeventrecord/dataeventrecordedit/dataeventrecordedit.component.html',
+    selector: 'dataeventrecord-edit',
+    templateUrl: 'app/dataeventrecord/dataeventrecord-edit.component.html',
     directives: [CORE_DIRECTIVES]
 })
 
-export class DataeventrecordeditComponent implements OnInit {
+export class DataEventRecordEditComponent implements OnInit {
 
     private id: number;
     public message: string;
@@ -21,7 +22,7 @@ export class DataeventrecordeditComponent implements OnInit {
             private _routeParams: RouteParams,
             public securityService: SecurityService,
             private _router: Router) {
-        this.message = "DataeventrecordeditComponent constructor";
+        this.message = "DataEventRecordEditComponent constructor";
         this.id = +this._routeParams.get('Id');
         this.DataEventRecord = { Id: this.id, Name: "", Description: "", Timestamp: "" };
     }

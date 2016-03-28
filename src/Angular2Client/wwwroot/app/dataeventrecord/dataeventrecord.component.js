@@ -9,15 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
-var DataEventRecordsService_1 = require('../services/DataEventRecordsService');
 var router_1 = require('angular2/router');
-var dataeventrecords_component_1 = require('../../dataeventrecord/dataeventrecords/dataeventrecords.component');
-var dataeventrecordcreate_component_1 = require('../../dataeventrecord/dataeventrecordcreate/dataeventrecordcreate.component');
-var dataeventrecordedit_component_1 = require('../../dataeventrecord/dataeventrecordedit/dataeventrecordedit.component');
-var DataeventrecordComponent = (function () {
-    function DataeventrecordComponent() {
+var DataEventRecordsService_1 = require('../dataeventrecord/DataEventRecordsService');
+var dataeventrecords_component_1 = require('../dataeventrecord/dataeventrecords.component');
+var dataeventrecord_create_component_1 = require('../dataeventrecord/dataeventrecord-create.component');
+var dataeventrecord_edit_component_1 = require('../dataeventrecord/dataeventrecord-edit.component');
+var DataEventRecordComponent = (function () {
+    function DataEventRecordComponent() {
     }
-    DataeventrecordComponent = __decorate([
+    DataEventRecordComponent = __decorate([
         core_1.Component({
             selector: 'dataeventrecord',
             templateUrl: 'app/dataeventrecord/dataeventrecord/dataeventrecord.component.html',
@@ -25,13 +25,13 @@ var DataeventrecordComponent = (function () {
             providers: [DataEventRecordsService_1.DataEventRecordsService]
         }),
         router_1.RouteConfig([
-            { path: '/', name: 'Dataeventrecords', component: dataeventrecords_component_1.DataeventrecordsComponent, useAsDefault: true },
-            { path: '/create', name: 'Dataeventrecordcreate', component: dataeventrecordcreate_component_1.DataeventrecordcreateComponent },
-            { path: '/edit/:Id', name: 'Dataeventrecordedit', component: dataeventrecordedit_component_1.DataeventrecordeditComponent },
+            { path: '/', name: 'DataEventRecords', component: dataeventrecords_component_1.DataEventRecordsComponent, useAsDefault: true },
+            { path: '/create', name: 'DataEventRecordCreate', component: dataeventrecord_create_component_1.DataEventRecordCreateComponent },
+            { path: '/edit/:Id', name: 'DataEventRecordEdit', component: dataeventrecord_edit_component_1.DataEventRecordEditComponent },
         ]), 
         __metadata('design:paramtypes', [])
-    ], DataeventrecordComponent);
-    return DataeventrecordComponent;
+    ], DataEventRecordComponent);
+    return DataEventRecordComponent;
 })();
-exports.DataeventrecordComponent = DataeventrecordComponent;
+exports.DataEventRecordComponent = DataEventRecordComponent;
 //# sourceMappingURL=dataeventrecord.component.js.map
