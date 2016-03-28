@@ -19,7 +19,7 @@ export class DataEventRecordsListComponent implements OnInit {
     public DataEventRecords: DataEventRecord[];
    
     constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
-        this.message = "DataEventRecordsListComponent";
+        this.message = "DataEventRecords";
     }
 
     ngOnInit() {

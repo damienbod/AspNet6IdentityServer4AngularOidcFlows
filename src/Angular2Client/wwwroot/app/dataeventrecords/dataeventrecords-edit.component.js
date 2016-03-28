@@ -18,7 +18,7 @@ var DataEventRecordsEditComponent = (function () {
         this._routeParams = _routeParams;
         this.securityService = securityService;
         this._router = _router;
-        this.message = "DataEventRecordsEditComponent constructor";
+        this.message = "DataEventRecords Edit";
         this.id = +this._routeParams.get('id');
     }
     DataEventRecordsEditComponent.prototype.ngOnInit = function () {

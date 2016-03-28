@@ -22,7 +22,7 @@ export class DataEventRecordsEditComponent implements OnInit {
             private _routeParams: RouteParams,
             public securityService: SecurityService,
             private _router: Router) {
-        this.message = "DataEventRecordsEditComponent constructor";
+        this.message = "DataEventRecords Edit";
         this.id = +this._routeParams.get('id');
     }
     

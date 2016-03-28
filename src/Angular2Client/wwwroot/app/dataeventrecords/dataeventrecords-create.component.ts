@@ -18,7 +18,7 @@ export class DataEventRecordsCreateComponent implements OnInit {
     public DataEventRecord: any;
 
     constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
-        this.message = "DataEventRecordsCreateComponent constructor";
+        this.message = "DataEventRecords Create";
     }
     
     ngOnInit() {

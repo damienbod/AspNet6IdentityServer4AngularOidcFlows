@@ -17,7 +17,7 @@ var DataEventRecordsListComponent = (function () {
         this._dataEventRecordsService = _dataEventRecordsService;
         this.securityService = securityService;
         this._router = _router;
-        this.message = "DataEventRecordsListComponent";
+        this.message = "DataEventRecords";
     }
     DataEventRecordsListComponent.prototype.ngOnInit = function () {
         this.getData();

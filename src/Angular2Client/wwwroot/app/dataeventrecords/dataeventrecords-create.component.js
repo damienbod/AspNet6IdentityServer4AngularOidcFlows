@@ -17,7 +17,7 @@ var DataEventRecordsCreateComponent = (function () {
         this._dataEventRecordsService = _dataEventRecordsService;
         this.securityService = securityService;
         this._router = _router;
-        this.message = "DataEventRecordsCreateComponent constructor";
+        this.message = "DataEventRecords Create";
     }
     DataEventRecordsCreateComponent.prototype.ngOnInit = function () {
         this.DataEventRecord = { Id: 0, Name: "", Description: "" };
