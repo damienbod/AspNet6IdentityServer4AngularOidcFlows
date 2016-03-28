@@ -23,7 +23,7 @@ import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsServ
         { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
         { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
         { path: '/securefile/securefiles', name: 'SecureFiles', component: SecureFilesComponent },
-        { path: '/dataeventrecords/...', name: 'DataEventRecords', component: DataEventRecordsComponent },
+        { path: '/dataeventrecords/...', name: 'DataEventRecords', component: DataEventRecordsComponent, useAsDefault: true },
 ])
  
 export class AppComponent {
