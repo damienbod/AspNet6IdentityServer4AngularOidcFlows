@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
 import { SecurityService } from '../services/SecurityService';
-import { DataEventRecord } from '../models/DataEventRecord';
+import { DataEventRecord } from './models/DataEventRecord';
 
 @Injectable()
 export class DataEventRecordsService {
@@ -13,7 +13,7 @@ export class DataEventRecordsService {
     private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
-        this.actionUrl = _configuration.Server + 'api/DataEventRecords/';   
+        this.actionUrl = `${_configuration.Server}api/DataEventRecords/`;   
     }
 
     private setHeaders() {

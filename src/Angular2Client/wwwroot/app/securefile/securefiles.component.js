@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var common_1 = require('angular2/common');
-var SecureFileService_1 = require('../services/SecureFileService');
+var SecureFileService_1 = require('./SecureFileService');
 var SecurityService_1 = require('../services/SecurityService');
 var router_1 = require('angular2/router');
 var SecureFilesComponent = (function () {
@@ -33,7 +33,7 @@ var SecureFilesComponent = (function () {
     SecureFilesComponent = __decorate([
         core_1.Component({
             selector: 'securefiles',
-            templateUrl: 'app/securefiles/securefiles.component.html',
+            templateUrl: 'app/securefile/securefiles.component.html',
             directives: [common_1.CORE_DIRECTIVES],
             providers: [SecureFileService_1.SecureFileService]
         }), 

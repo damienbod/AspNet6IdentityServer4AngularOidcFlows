@@ -4,7 +4,7 @@
     </div>
     <div class="panel-body">
 
-        <div class="row">
+        <div class="row" *ngIf="DataEventRecord">
             <div class="col-xs-2">Id</div>
             <div class="col-xs-6"><input type="text" [(ngModel)]="DataEventRecord.Id" style="width: 100%" /></div>
         </div>

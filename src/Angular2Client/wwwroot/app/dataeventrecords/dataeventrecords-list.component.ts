@@ -1,26 +1,28 @@
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
-import { DataEventRecordsService } from '../services/DataEventRecordsService';
 import { SecurityService } from '../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
-import { Router } from 'angular2/router';
-import { DataEventRecord } from '../models/DataEventRecord';
+import { Router, ROUTER_DIRECTIVES } from 'angular2/router';
+
+import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
+import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
-    selector: 'overviewindex',
-    templateUrl: 'app/overviewindex/overviewindex.component.html',
-    directives: [CORE_DIRECTIVES],
-    providers: [DataEventRecordsService]
+    selector: 'dataeventrecords-list',
+    templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html',
+    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES]
 })
 
-export class OverviewindexComponent implements OnInit {
+export class DataEventRecordsListComponent implements OnInit {
 
     public message: string;
     public DataEventRecords: DataEventRecord[];
    
-    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
-        this.message = "Overview DataEventRecords";
-
+    constructor(
+        private _dataEventRecordsService: DataEventRecordsService,
+        public securityService: SecurityService,
+        private _router: Router) {
+        this.message = "DataEventRecords";
     }
 
     ngOnInit() {
@@ -36,6 +38,7 @@ export class OverviewindexComponent implements OnInit {
     }
 
     private getData() {
+        console.log('DataEventRecordsListComponent:getData starting...');
         this._dataEventRecordsService
             .GetAll()
             .subscribe(data => this.DataEventRecords = data,
