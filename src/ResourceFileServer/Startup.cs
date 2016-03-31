@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Authorization;
+﻿using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc.Filters;
@@ -13,13 +9,11 @@ using Microsoft.Extensions.Logging;
 namespace ResourceFileServer
 {
     using System.IdentityModel.Tokens.Jwt;
-    using IdentityModel.AspNet.OAuth2Introspection;
     using Providers;
     public class Startup
     {
         public Startup(IHostingEnvironment env)
         {
-            // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
@@ -28,7 +22,6 @@ namespace ResourceFileServer
 
         public IConfigurationRoot Configuration { get; set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //Add Cors support to the service
@@ -88,14 +81,11 @@ namespace ResourceFileServer
                 options.AutomaticAuthenticate = true;
                 // required if you want to return a 403 and not a 401 for forbidden responses
                 options.AutomaticChallenge = true;
-
-             //   options.TokenRetriever = TokenRetrieval.FromQueryString();
             });
 
             app.UseMvc();
         }
 
-        // Entry point for the application.
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }
