@@ -31,7 +31,7 @@ var SecureFileService = (function () {
         var _this = this;
         this.setHeaders();
         var oneTimeAccessToken = "";
-        this._http.get(this.fileExplorerUrl + "GenerateOneTimeAccessToken/" + id, {
+        this._http.get(this.actionUrl + "GenerateOneTimeAccessToken/" + id, {
             headers: this.headers
         }).map(function (res) { return res.json(); }).subscribe(function (data) {
             oneTimeAccessToken = data;

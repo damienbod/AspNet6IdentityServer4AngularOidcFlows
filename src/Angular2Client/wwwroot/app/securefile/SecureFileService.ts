@@ -20,7 +20,7 @@ export class SecureFileService {
     public GetDownloadfileUrl(id: string) {
         this.setHeaders();
         let oneTimeAccessToken = "";
-        this._http.get(`${this.fileExplorerUrl}GenerateOneTimeAccessToken/${id}`, {
+        this._http.get(`${this.actionUrl}GenerateOneTimeAccessToken/${id}`, {
             headers: this.headers
         }).map(
             res => res.json()
