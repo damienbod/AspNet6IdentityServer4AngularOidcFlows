@@ -26,7 +26,7 @@ export class SecureFilesComponent implements OnInit {
     }
 
     public GetFileById(id: any) {
-        window.open(this._secureFileService.GetDownloadfileUrl(id));
+        this._secureFileService.GetDownloadfileUrl(id);
     }
 
     private getData() {

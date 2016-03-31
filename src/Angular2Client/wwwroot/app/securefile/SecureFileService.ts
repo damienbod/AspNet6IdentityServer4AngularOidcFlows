@@ -17,10 +17,23 @@ export class SecureFileService {
         this.fileExplorerUrl = `${_configuration.FileServer }api/FileExplorer/`;    
     }
 
-    public GetDownloadfileUrl(id: string): string {
-        var token = this._securityService.GetToken();
-        return `${this.actionUrl}${id}?onetime_token=${token}`;
+    public GetDownloadfileUrl(id: string) {
+        this.setHeaders();
+        let oneTimeAccessToken = "";
+        this._http.get(`${this.fileExplorerUrl}GenerateOneTimeAccessToken/${id}`, {
+            headers: this.headers
+        }).map(
+            res => res.json()
+            ).subscribe(
+            data => {
+                oneTimeAccessToken = data;
+                window.open(`${this.actionUrl}${id}?onetime_token=${oneTimeAccessToken}`);
+            },
+            error => this._securityService.HandleError(error),
+            () => console.log('GetDownloadfileUrl completed'));
     }
+
+  
 
     public GetListOfFiles = (): Observable<string[]> => {
         this.setHeaders();

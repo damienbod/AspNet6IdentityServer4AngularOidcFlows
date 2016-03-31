@@ -23,7 +23,7 @@ var SecureFilesComponent = (function () {
         this.getData();
     };
     SecureFilesComponent.prototype.GetFileById = function (id) {
-        window.open(this._secureFileService.GetDownloadfileUrl(id));
+        this._secureFileService.GetDownloadfileUrl(id);
     };
     SecureFilesComponent.prototype.getData = function () {
         var _this = this;

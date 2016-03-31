@@ -44,5 +44,32 @@ namespace ResourceFileServer.Controllers
             // returning a HTTP Forbidden result.
             return new HttpStatusCodeResult(403);
         }
+
+
+        [Authorize("securedFilesUser")]
+        [HttpGet("/GenerateOneTimeAccessToken/{id}")]
+        public IActionResult GenerateOneTimeAccessToken(string id)
+        {
+            if (!_securedFileProvider.FileIdExists(id))
+            {
+                return HttpNotFound($"File id does not exist: {id}");
+            }
+
+            var filePath = $"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/{id}";
+            if (!System.IO.File.Exists(filePath))
+            {
+                return HttpNotFound($"File does not exist: {id}");
+            }
+
+            var adminClaim = User.Claims.FirstOrDefault(x => x.Type == "role" && x.Value == "securedFiles.admin");
+            if (_securedFileProvider.HasUserClaimToAccessFile(id, adminClaim != null))
+            {
+                // TODO generate a one time access token
+                return Ok("1234456");
+            }
+
+            // returning a HTTP Forbidden result.
+            return new HttpStatusCodeResult(403);
+        }
     }
 }

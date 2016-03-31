@@ -28,8 +28,15 @@ var SecureFileService = (function () {
         this.fileExplorerUrl = _configuration.FileServer + "api/FileExplorer/";
     }
     SecureFileService.prototype.GetDownloadfileUrl = function (id) {
-        var token = this._securityService.GetToken();
-        return "" + this.actionUrl + id + "?onetime_token=" + token;
+        var _this = this;
+        this.setHeaders();
+        var oneTimeAccessToken = "";
+        this._http.get(this.fileExplorerUrl + "GenerateOneTimeAccessToken/" + id, {
+            headers: this.headers
+        }).map(function (res) { return res.json(); }).subscribe(function (data) {
+            oneTimeAccessToken = data;
+            window.open("" + _this.actionUrl + id + "?onetime_token=" + oneTimeAccessToken);
+        }, function (error) { return _this._securityService.HandleError(error); }, function () { return console.log('GetDownloadfileUrl completed'); });
     };
     SecureFileService.prototype.setHeaders = function () {
         this.headers = new http_1.Headers();
