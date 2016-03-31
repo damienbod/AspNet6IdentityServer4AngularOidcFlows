@@ -10,6 +10,7 @@ export class SecureFileService {
 
     private actionUrl: string;
     private fileExplorerUrl: string;
+    private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
         this.actionUrl = `${_configuration.FileServer}api/Download/`; 
@@ -18,14 +19,26 @@ export class SecureFileService {
 
     public GetDownloadfileUrl(id: string): string {
         var token = this._securityService.GetToken();
-        return `${this.actionUrl}${id}?access_token=${token}`;
+        return `${this.actionUrl}${id}?onetime_token=${token}`;
     }
 
     public GetListOfFiles = (): Observable<string[]> => {
+        this.setHeaders();
+        return this._http.get(this.fileExplorerUrl, {
+            headers: this.headers
+        }).map(res => res.json());
+    }
+
+    private setHeaders() {
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Accept', 'application/json');
+
         var token = this._securityService.GetToken();
 
-        return this._http.get(`${this.fileExplorerUrl}?access_token=${token}`, {
-        }).map(res => res.json());
+        if (token !== "") {
+            this.headers.append('Authorization', 'Bearer ' + token);
+        }
     }
 
 }

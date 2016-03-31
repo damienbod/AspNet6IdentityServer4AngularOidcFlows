@@ -87,8 +87,10 @@ namespace ResourceFileServer
                 options.AutomaticAuthenticate = true;
                 // required if you want to return a 403 and not a 401 for forbidden responses
                 options.AutomaticChallenge = true;
-                options.TokenRetriever = TokenRetrieval.FromQueryString();
+
+             //   options.TokenRetriever = TokenRetrieval.FromQueryString();
             });
+
             app.UseMvc();
         }
 

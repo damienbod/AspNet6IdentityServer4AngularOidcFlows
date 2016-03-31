@@ -6,7 +6,7 @@ using ResourceFileServer.Providers;
 
 namespace ResourceFileServer.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class DownloadController : Controller
     {
@@ -19,7 +19,7 @@ namespace ResourceFileServer.Controllers
             _appEnvironment = appEnvironment;
         }
 
-        [Authorize("securedFilesUser")]
+        //[Authorize("securedFilesUser")]
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
