@@ -12,7 +12,7 @@ namespace ResourceFileServer.Providers
         bool HasUserClaimToAccessFile(string fileId, bool isSecuredFilesAdmin);
 
         List<string> GetFilesForUser(bool isSecuredFilesAdmin);
-        string GetFileIdForOneTimeToken(string oneTimeToken);
-        string AddFileIdForOneTimeToken(string filePath);
+        string GetFileIdForUseOnceAccessId(string useOnceAccessId);
+        string AddFileIdForUseOnceAccessId(string filePath);
     }
 }

@@ -20,10 +20,10 @@ namespace ResourceFileServer.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{oneTimeToken}")]
-        public IActionResult Get(string oneTimeToken)
+        [HttpGet("{accessId}")]
+        public IActionResult Get(string accessId)
         {
-            var filePath = _securedFileProvider.GetFileIdForOneTimeToken(oneTimeToken);
+            var filePath = _securedFileProvider.GetFileIdForUseOnceAccessId(accessId);
             if(!string.IsNullOrEmpty(filePath))
             {
                 var fileContents = System.IO.File.ReadAllBytes(filePath);
@@ -53,7 +53,7 @@ namespace ResourceFileServer.Controllers
             if (_securedFileProvider.HasUserClaimToAccessFile(id, adminClaim != null))
             {
                 // TODO generate a one time access token
-                var oneTimeToken = _securedFileProvider.AddFileIdForOneTimeToken(filePath);
+                var oneTimeToken = _securedFileProvider.AddFileIdForUseOnceAccessId(filePath);
                 return Ok(oneTimeToken);
             }
 

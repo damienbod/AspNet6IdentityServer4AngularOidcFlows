@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ResourceFileServer.Providers
 {
-    public class OneTimeTokenService
+    public class UseOnceAccessIdService
     {
         /// <summary>
         /// One time tokens live for a max of 30 seconds
@@ -13,35 +13,35 @@ namespace ResourceFileServer.Providers
         private double _timeToLive = 30.0;
         private static object lockObject = new object();
 
-        private List<OneTimeToken> _oneTimeTokens = new List<OneTimeToken>();
+        private List<UseOnceAccessId> _useOnceAccessIds = new List<UseOnceAccessId>();
 
-        public string GetFileIdForOneTimeToken(string oneTimeToken)
+        public string GetFileIdForUseOnceAccessId(string useOnceAccessId)
         {
             var fileId = string.Empty;
 
             lock(lockObject) {
 
                 // Max 30 seconds to start download after requesting one time token.
-                _oneTimeTokens.RemoveAll(t => t.Created < DateTime.UtcNow.AddSeconds(-_timeToLive));
+                _useOnceAccessIds.RemoveAll(t => t.Created < DateTime.UtcNow.AddSeconds(-_timeToLive));
 
-                var item = _oneTimeTokens.FirstOrDefault(t => t.Token == oneTimeToken);
+                var item = _useOnceAccessIds.FirstOrDefault(t => t.AccessId == useOnceAccessId);
                 if (item != null)
                 {
                     fileId = item.FileId;
-                    _oneTimeTokens.Remove(item);
+                    _useOnceAccessIds.Remove(item);
                 }
             }
 
             return fileId;
         }
-        public string AddFileIdForOneTimeToken(string filePath)
+        public string AddFileIdForUseOnceAccessId(string filePath)
         {
-            var oneTimeToken = new OneTimeToken(filePath);
+            var useOnceAccessId = new UseOnceAccessId(filePath);
             lock (lockObject)
             {
-                _oneTimeTokens.Add(oneTimeToken);
+                _useOnceAccessIds.Add(useOnceAccessId);
             }
-            return oneTimeToken.Token;
+            return useOnceAccessId.AccessId;
         }
     }
 }

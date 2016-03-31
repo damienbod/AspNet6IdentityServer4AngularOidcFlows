@@ -2,22 +2,22 @@
 
 namespace ResourceFileServer.Providers
 {
-    internal class OneTimeToken
+    internal class UseOnceAccessId
     {
-        public OneTimeToken(string fileId)
+        public UseOnceAccessId(string fileId)
         {
             Created = DateTime.UtcNow;
-            Token = CreateToken();
+            AccessId = CreateAccessId();
             FileId = fileId;
         }
 
         public DateTime Created { get; }
 
-        public string Token { get; }
+        public string AccessId { get; }
 
         public string FileId { get; }
 
-        private string CreateToken()
+        private string CreateAccessId()
         {
             SecureRandom secureRandom = new SecureRandom();
             return secureRandom.Next() + Guid.NewGuid().ToString();

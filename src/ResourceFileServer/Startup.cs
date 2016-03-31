@@ -64,7 +64,7 @@ namespace ResourceFileServer
             services.AddMvc();
 
             services.AddTransient<ISecuredFileProvider, SecuredFileProvider>();
-            services.AddSingleton<OneTimeTokenService>();
+            services.AddSingleton<UseOnceAccessIdService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
