@@ -33,10 +33,12 @@ var SecureFileService = (function () {
         var oneTimeAccessToken = "";
         this._http.get(this.actionUrl + "GenerateOneTimeAccessToken/" + id, {
             headers: this.headers
-        }).map(function (res) { return res.json(); }).subscribe(function (data) {
+        }).map(function (res) { return res.text(); }).subscribe(function (data) {
             oneTimeAccessToken = data;
-            window.open("" + _this.actionUrl + id + "?onetime_token=" + oneTimeAccessToken);
-        }, function (error) { return _this._securityService.HandleError(error); }, function () { return console.log('GetDownloadfileUrl completed'); });
+        }, function (error) { return _this._securityService.HandleError(error); }, function () {
+            console.log("open GetDownloadfileUrl: " + _this.actionUrl + id + "?onetime_token=" + oneTimeAccessToken);
+            window.open("" + _this.actionUrl + oneTimeAccessToken);
+        });
     };
     SecureFileService.prototype.setHeaders = function () {
         this.headers = new http_1.Headers();

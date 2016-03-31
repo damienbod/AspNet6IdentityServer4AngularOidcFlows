@@ -19,12 +19,19 @@ namespace ResourceFileServer.Controllers
             _appEnvironment = appEnvironment;
         }
 
+        [AllowAnonymous]
         [HttpGet("{oneTimeToken}")]
         public IActionResult Get(string oneTimeToken)
         {
             var filePath = _securedFileProvider.GetFileIdForOneTimeToken(oneTimeToken);
-            var fileContents = System.IO.File.ReadAllBytes(filePath);
-            return new FileContentResult(fileContents, "application/octet-stream");
+            if(!string.IsNullOrEmpty(filePath))
+            {
+                var fileContents = System.IO.File.ReadAllBytes(filePath);
+                return new FileContentResult(fileContents, "application/octet-stream");
+            }
+
+            // returning a HTTP Forbidden result.
+            return new HttpStatusCodeResult(401);
         }
 
         [Authorize("securedFilesUser")]
@@ -46,8 +53,8 @@ namespace ResourceFileServer.Controllers
             if (_securedFileProvider.HasUserClaimToAccessFile(id, adminClaim != null))
             {
                 // TODO generate a one time access token
-                var token =_securedFileProvider.AddFileIdForOneTimeToken(filePath);
-                return Ok(token);
+                var oneTimeToken = _securedFileProvider.AddFileIdForOneTimeToken(filePath);
+                return Ok(oneTimeToken);
             }
 
             // returning a HTTP Forbidden result.

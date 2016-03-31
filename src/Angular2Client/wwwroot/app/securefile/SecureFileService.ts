@@ -23,14 +23,17 @@ export class SecureFileService {
         this._http.get(`${this.actionUrl}GenerateOneTimeAccessToken/${id}`, {
             headers: this.headers
         }).map(
-            res => res.json()
+            res => res.text()
             ).subscribe(
             data => {
                 oneTimeAccessToken = data;
-                window.open(`${this.actionUrl}${id}?onetime_token=${oneTimeAccessToken}`);
+                
             },
             error => this._securityService.HandleError(error),
-            () => console.log('GetDownloadfileUrl completed'));
+            () => {
+                console.log(`open GetDownloadfileUrl: ${this.actionUrl}${id}?onetime_token=${oneTimeAccessToken}`);
+                window.open(`${this.actionUrl}${oneTimeAccessToken}`);
+            });
     }
 
   
