@@ -27,7 +27,7 @@ var SecureFileService = (function () {
         this.actionUrl = _configuration.FileServer + "api/Download/";
         this.fileExplorerUrl = _configuration.FileServer + "api/FileExplorer/";
     }
-    SecureFileService.prototype.GetDownloadfileUrl = function (id) {
+    SecureFileService.prototype.DownloadFile = function (id) {
         var _this = this;
         this.setHeaders();
         var oneTimeAccessToken = "";
@@ -36,7 +36,7 @@ var SecureFileService = (function () {
         }).map(function (res) { return res.text(); }).subscribe(function (data) {
             oneTimeAccessToken = data;
         }, function (error) { return _this._securityService.HandleError(error); }, function () {
-            console.log("open GetDownloadfileUrl: " + _this.actionUrl + id + "?onetime_token=" + oneTimeAccessToken);
+            console.log("open DownloadFile: " + _this.actionUrl + id + "?onetime_token=" + oneTimeAccessToken);
             window.open("" + _this.actionUrl + oneTimeAccessToken);
         });
     };
