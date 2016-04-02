@@ -36,7 +36,7 @@ var SecureFileService = (function () {
         }).map(function (res) { return res.text(); }).subscribe(function (data) {
             oneTimeAccessToken = data;
         }, function (error) { return _this._securityService.HandleError(error); }, function () {
-            console.log("open DownloadFile: " + _this.actionUrl + id + "?onetime_token=" + oneTimeAccessToken);
+            console.log("open DownloadFile for file " + id + ": " + _this.actionUrl + oneTimeAccessToken);
             window.open("" + _this.actionUrl + oneTimeAccessToken);
         });
     };
