@@ -22,8 +22,8 @@ var SecureFilesComponent = (function () {
     SecureFilesComponent.prototype.ngOnInit = function () {
         this.getData();
     };
-    SecureFilesComponent.prototype.GetFileById = function (id) {
-        window.open(this._secureFileService.GetDownloadfileUrl(id));
+    SecureFilesComponent.prototype.DownloadFileById = function (id) {
+        this._secureFileService.DownloadFile(id);
     };
     SecureFilesComponent.prototype.getData = function () {
         var _this = this;

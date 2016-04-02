@@ -6,7 +6,7 @@ using ResourceFileServer.Providers;
 
 namespace ResourceFileServer.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class DownloadController : Controller
     {
@@ -19,26 +19,42 @@ namespace ResourceFileServer.Controllers
             _appEnvironment = appEnvironment;
         }
 
-        [Authorize("securedFilesUser")]
-        [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        [AllowAnonymous]
+        [HttpGet("{accessId}")]
+        public IActionResult Get(string accessId)
         {
-            if(!_securedFileProvider.FileIdExists(id))
+            var filePath = _securedFileProvider.GetFileIdForUseOnceAccessId(accessId);
+            if(!string.IsNullOrEmpty(filePath))
+            {
+                var fileContents = System.IO.File.ReadAllBytes(filePath);
+                return new FileContentResult(fileContents, "application/octet-stream");
+            }
+
+            // returning a HTTP Forbidden result.
+            return new HttpStatusCodeResult(401);
+        }
+
+        [Authorize("securedFilesUser")]
+        [HttpGet("GenerateOneTimeAccessToken/{id}")]
+        public IActionResult GenerateOneTimeAccessToken(string id)
+        {
+            if (!_securedFileProvider.FileIdExists(id))
             {
                 return HttpNotFound($"File id does not exist: {id}");
             }
 
             var filePath = $"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/{id}";
-            if(!System.IO.File.Exists(filePath))
+            if (!System.IO.File.Exists(filePath))
             {
                 return HttpNotFound($"File does not exist: {id}");
             }
 
             var adminClaim = User.Claims.FirstOrDefault(x => x.Type == "role" && x.Value == "securedFiles.admin");
-            if(_securedFileProvider.HasUserClaimToAccessFile(id, adminClaim != null))
+            if (_securedFileProvider.HasUserClaimToAccessFile(id, adminClaim != null))
             {
-                var fileContents = System.IO.File.ReadAllBytes(filePath);
-                return new FileContentResult(fileContents, "application/octet-stream");
+                // TODO generate a one time access token
+                var oneTimeToken = _securedFileProvider.AddFileIdForUseOnceAccessId(filePath);
+                return Ok(oneTimeToken);
             }
 
             // returning a HTTP Forbidden result.

@@ -9,10 +9,18 @@ namespace ResourceFileServer.Providers
     {
         private List<string> _fileIds;
 
-        public SecuredFileProvider()
+        private readonly UseOnceAccessIdService _useOnceAccessIdService;
+
+        public SecuredFileProvider(UseOnceAccessIdService oneTimeTokenService)
         {
             // create the demo data, this could be data from a database or file provider...
             _fileIds = new List<string> { "securefile.txt", "securefileadmin.txt", "securefiletwo.txt" };
+            _useOnceAccessIdService = oneTimeTokenService;
+        }
+
+        public string AddFileIdForUseOnceAccessId(string filePath)
+        {
+            return _useOnceAccessIdService.AddFileIdForUseOnceAccessId(filePath);
         }
 
         public bool FileIdExists(string fileId)
@@ -23,6 +31,11 @@ namespace ResourceFileServer.Providers
             }
 
             return false;
+        }
+
+        public string GetFileIdForUseOnceAccessId(string oneTimeToken)
+        {
+           return _useOnceAccessIdService.GetFileIdForUseOnceAccessId(oneTimeToken);
         }
 
         public List<string> GetFilesForUser(bool isSecuredFilesAdmin)

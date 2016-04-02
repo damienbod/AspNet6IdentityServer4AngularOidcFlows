@@ -25,8 +25,8 @@ export class SecureFilesComponent implements OnInit {
       this.getData();
     }
 
-    public GetFileById(id: any) {
-        window.open(this._secureFileService.GetDownloadfileUrl(id));
+    public DownloadFileById(id: any) {
+        this._secureFileService.DownloadFile(id);
     }
 
     private getData() {
@@ -35,5 +35,4 @@ export class SecureFilesComponent implements OnInit {
             error => this.securityService.HandleError(error),
             () => console.log('Get all completed'));
     }
-
 }

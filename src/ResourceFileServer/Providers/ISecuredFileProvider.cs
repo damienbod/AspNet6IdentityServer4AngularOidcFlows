@@ -12,5 +12,7 @@ namespace ResourceFileServer.Providers
         bool HasUserClaimToAccessFile(string fileId, bool isSecuredFilesAdmin);
 
         List<string> GetFilesForUser(bool isSecuredFilesAdmin);
+        string GetFileIdForUseOnceAccessId(string useOnceAccessId);
+        string AddFileIdForUseOnceAccessId(string filePath);
     }
 }

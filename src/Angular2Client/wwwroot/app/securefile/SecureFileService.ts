@@ -10,22 +10,48 @@ export class SecureFileService {
 
     private actionUrl: string;
     private fileExplorerUrl: string;
+    private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
         this.actionUrl = `${_configuration.FileServer}api/Download/`; 
         this.fileExplorerUrl = `${_configuration.FileServer }api/FileExplorer/`;    
     }
 
-    public GetDownloadfileUrl(id: string): string {
-        var token = this._securityService.GetToken();
-        return `${this.actionUrl}${id}?access_token=${token}`;
+    public DownloadFile(id: string) {
+        this.setHeaders();
+        let oneTimeAccessToken = "";
+        this._http.get(`${this.actionUrl}GenerateOneTimeAccessToken/${id}`, {
+            headers: this.headers
+        }).map(
+            res => res.text()
+            ).subscribe(
+            data => {
+                oneTimeAccessToken = data;
+                
+            },
+            error => this._securityService.HandleError(error),
+            () => {
+                console.log(`open DownloadFile: ${this.actionUrl}${id}?onetime_token=${oneTimeAccessToken}`);
+                window.open(`${this.actionUrl}${oneTimeAccessToken}`);
+            });
     }
 
     public GetListOfFiles = (): Observable<string[]> => {
-        var token = this._securityService.GetToken();
-
-        return this._http.get(`${this.fileExplorerUrl}?access_token=${token}`, {
+        this.setHeaders();
+        return this._http.get(this.fileExplorerUrl, {
+            headers: this.headers
         }).map(res => res.json());
     }
 
+    private setHeaders() {
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Accept', 'application/json');
+
+        var token = this._securityService.GetToken();
+
+        if (token !== "") {
+            this.headers.append('Authorization', 'Bearer ' + token);
+        }
+    }
 }
