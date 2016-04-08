@@ -28,7 +28,7 @@ import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsServ
  
 export class AppComponent {
 
-    constructor(public securityService: SecurityService) {     
+    constructor(public securityService: SecurityService) {  
     }
 
     ngOnInit() {
