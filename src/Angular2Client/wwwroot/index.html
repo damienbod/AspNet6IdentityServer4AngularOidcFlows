@@ -30,6 +30,11 @@
     <!-- 2. Configure SystemJS -->
     <script>
         System.config({
+            meta: {
+                '*.js' : {
+                    scriptLoad: true
+                }
+            },
             packages: {
                 app: {
                     defaultExtension: 'js'

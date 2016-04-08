@@ -1,21 +1,17 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using System.IO;
+using Microsoft.AspNet.Builder;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.AspNet.Hosting;
+using Microsoft.Extensions.Logging;
+using IdentityServer4.Core.Configuration;
+using IdentityServerAspNet5.Configuration;
+using IdentityServerAspNet5.UI;
+using IdentityServerAspNet5.UI.Login;
 
 namespace IdentityServerAspNet5
 {
-    using System.IO;
-
-    using IdentityServer4.Core.Configuration;
-
-    using IdentityServerAspNet5.Configuration;
-    using IdentityServerAspNet5.UI;
-    using IdentityServerAspNet5.UI.Login;
-
-    using Microsoft.Extensions.Logging;
-
     public class Startup
     {
         private readonly IApplicationEnvironment _environment;
