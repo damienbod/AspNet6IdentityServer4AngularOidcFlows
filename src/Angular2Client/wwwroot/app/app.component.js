@@ -42,7 +42,6 @@ System.register(['angular2/core', 'angular2/router', './forbidden/forbidden.comp
             AppComponent = (function () {
                 function AppComponent(securityService) {
                     this.securityService = securityService;
-                    var test = null;
                 }
                 AppComponent.prototype.ngOnInit = function () {
                     console.log("ngOnInit _securityService.AuthorizedCallback");

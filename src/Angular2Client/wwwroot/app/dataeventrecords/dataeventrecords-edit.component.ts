@@ -45,6 +45,6 @@ export class DataEventRecordsEditComponent implements OnInit {
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe((() => console.log("subscribed")),
             error => this.securityService.HandleError(error),
-            () => this._router.navigate(['DataEventRecords']));
+            () => this._router.navigate(['DataEventRecordsList']));
     }
 }
