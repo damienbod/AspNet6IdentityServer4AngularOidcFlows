@@ -52,7 +52,7 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', '../serv
                 DataEventRecordsEditComponent.prototype.Update = function () {
                     var _this = this;
                     this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
-                        .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['DataEventRecords']); });
+                        .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['DataEventRecordsList']); });
                 };
                 DataEventRecordsEditComponent = __decorate([
                     core_1.Component({
