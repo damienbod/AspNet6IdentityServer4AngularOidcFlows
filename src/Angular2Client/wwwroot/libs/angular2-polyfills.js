@@ -102,6 +102,62 @@ THE SOFTWARE.
 	utils_1.patchClass('FileReader');
 	define_property_1.propertyPatch();
 	register_element_1.registerElementPatch(_global);
+	// Treat XMLHTTPRequest as a macrotask.
+	patchXHR(_global);
+	var XHR_TASK = utils_1.zoneSymbol('xhrTask');
+	function patchXHR(window) {
+	    function findPendingTask(target) {
+	        var pendingTask = target[XHR_TASK];
+	        return pendingTask;
+	    }
+	    function scheduleTask(task) {
+	        var data = task.data;
+	        data.target.addEventListener('readystatechange', function () {
+	            if (data.target.readyState === XMLHttpRequest.DONE) {
+	                if (!data.aborted) {
+	                    task.invoke();
+	                }
+	            }
+	        });
+	        var storedTask = data.target[XHR_TASK];
+	        if (!storedTask) {
+	            data.target[XHR_TASK] = task;
+	        }
+	        setNative.apply(data.target, data.args);
+	        return task;
+	    }
+	    function placeholderCallback() {
+	    }
+	    function clearTask(task) {
+	        var data = task.data;
+	        // Note - ideally, we would call data.target.removeEventListener here, but it's too late
+	        // to prevent it from firing. So instead, we store info for the event listener.
+	        data.aborted = true;
+	        return clearNative.apply(data.target, data.args);
+	    }
+	    var setNative = utils_1.patchMethod(window.XMLHttpRequest.prototype, 'send', function () { return function (self, args) {
+	        var zone = Zone.current;
+	        var options = {
+	            target: self,
+	            isPeriodic: false,
+	            delay: null,
+	            args: args,
+	            aborted: false
+	        };
+	        return zone.scheduleMacroTask('XMLHttpRequest.send', placeholderCallback, options, scheduleTask, clearTask);
+	    }; });
+	    var clearNative = utils_1.patchMethod(window.XMLHttpRequest.prototype, 'abort', function (delegate) { return function (self, args) {
+	        var task = findPendingTask(self);
+	        if (task && typeof task.type == 'string') {
+	            // If the XHR has already completed, do nothing.
+	            if (task.cancelFn == null) {
+	                return;
+	            }
+	            task.zone.cancelTask(task);
+	        }
+	        // Otherwise, we are trying to abort an XHR which has not yet been sent, so there is no task to cancel. Do nothing.
+	    }; });
+	}
 	/// GEO_LOCATION
 	if (_global['navigator'] && _global['navigator'].geolocation) {
 	    utils_1.patchPrototype(_global['navigator'].geolocation, [
@@ -140,7 +196,7 @@ THE SOFTWARE.
 	    var clearNative = utils_1.patchMethod(window, cancelName, function (delegate) { return function (self, args) {
 	        var task = args[0];
 	        if (task && typeof task.type == 'string') {
-	            if (task.cancelFn) {
+	            if (task.cancelFn && task.data.isPeriodic || task.runCount == 0) {
 	                // Do not cancel already canceled functions
 	                task.zone.cancelTask(task);
 	            }
@@ -251,6 +307,7 @@ THE SOFTWARE.
 	            }
 	        };
 	        Zone.prototype.runTask = function (task, applyThis, applyArgs) {
+	            task.runCount++;
 	            if (task.zone != this)
 	                throw new Error('A task can only be run in the zone which created it! (Creation: ' +
 	                    task.zone.name + '; Execution: ' + this.name + ')');
@@ -287,6 +344,7 @@ THE SOFTWARE.
 	        };
 	        Zone.prototype.cancelTask = function (task) {
 	            var value = this._zoneDelegate.cancelTask(this, task);
+	            task.runCount = -1;
 	            task.cancelFn = null;
 	            return value;
 	        };
@@ -418,6 +476,7 @@ THE SOFTWARE.
 	    }());
 	    var ZoneTask = (function () {
 	        function ZoneTask(type, zone, source, callback, options, scheduleFn, cancelFn) {
+	            this.runCount = 0;
 	            this.type = type;
 	            this.zone = zone;
 	            this.source = source;
