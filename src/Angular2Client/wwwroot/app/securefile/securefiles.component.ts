@@ -1,9 +1,9 @@
-import { Component, OnInit } from 'angular2/core';
-import { CORE_DIRECTIVES } from 'angular2/common';
+import { Component, OnInit } from '@angular/core';
+import { CORE_DIRECTIVES } from '@angular/common';
 import { SecureFileService } from './SecureFileService';
 import { SecurityService } from '../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
-import { Router } from 'angular2/router';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'securefiles',

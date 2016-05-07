@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './forbidden/forbidden.component', './unauthorized/unauthorized.component', './services/SecurityService', './securefile/securefiles.component', './dataeventrecords/dataeventrecords.component', './dataeventrecords/DataEventRecordsService'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', './forbidden/forbidden.component', './unauthorized/unauthorized.component', './services/SecurityService', './securefile/securefiles.component', './dataeventrecords/dataeventrecords.component', './dataeventrecords/DataEventRecordsService'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -64,15 +64,14 @@ System.register(['angular2/core', 'angular2/router', './forbidden/forbidden.comp
                         styleUrls: ['app/app.component.css'],
                         directives: [router_1.ROUTER_DIRECTIVES],
                         providers: [
-                            router_1.ROUTER_PROVIDERS,
                             DataEventRecordsService_1.DataEventRecordsService
                         ]
                     }),
-                    router_1.RouteConfig([
-                        { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
-                        { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
-                        { path: '/securefile/securefiles', name: 'SecureFiles', component: securefiles_component_1.SecureFilesComponent },
-                        { path: '/dataeventrecords/...', name: 'DataEventRecords', component: dataeventrecords_component_1.DataEventRecordsComponent, useAsDefault: true },
+                    router_1.Routes([
+                        { path: '/Forbidden', component: forbidden_component_1.ForbiddenComponent },
+                        { path: '/Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
+                        { path: '/securefile/securefiles', component: securefiles_component_1.SecureFilesComponent },
+                        { path: '/dataeventrecords/...', component: dataeventrecords_component_1.DataEventRecordsComponent },
                     ]), 
                     __metadata('design:paramtypes', [SecurityService_1.SecurityService])
                 ], AppComponent);
