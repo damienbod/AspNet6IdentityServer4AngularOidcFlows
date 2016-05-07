@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', 'angular2/router', '../services/SecurityService', '../dataeventrecords/DataEventRecordsService'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/common', '@angular/router', '../services/SecurityService', '../dataeventrecords/DataEventRecordsService'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -60,9 +60,10 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', '../serv
                         templateUrl: 'app/dataeventrecords/dataeventrecords-edit.component.html',
                         directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, router_1.RouteParams, SecurityService_1.SecurityService, router_1.Router])
+                    __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, (typeof (_a = typeof router_1.RouteParams !== 'undefined' && router_1.RouteParams) === 'function' && _a) || Object, SecurityService_1.SecurityService, router_1.Router])
                 ], DataEventRecordsEditComponent);
                 return DataEventRecordsEditComponent;
+                var _a;
             }());
             exports_1("DataEventRecordsEditComponent", DataEventRecordsEditComponent);
         }

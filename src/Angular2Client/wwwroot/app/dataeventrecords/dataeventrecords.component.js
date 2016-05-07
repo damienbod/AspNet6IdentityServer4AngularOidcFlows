@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', 'angular2/router', '../dataeventrecords/dataeventrecords-list.component', '../dataeventrecords/dataeventrecords-create.component', '../dataeventrecords/dataeventrecords-edit.component'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/common', '@angular/router', '../dataeventrecords/dataeventrecords-list.component', '../dataeventrecords/dataeventrecords-create.component', '../dataeventrecords/dataeventrecords-edit.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -42,21 +42,17 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', '../data
                         templateUrl: 'app/dataeventrecords/dataeventrecords.component.html',
                         directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
                     }),
-                    router_1.RouteConfig([
+                    router_1.Routes([
                         {
                             path: '/',
-                            name: 'DataEventRecordsList',
-                            component: dataeventrecords_list_component_1.DataEventRecordsListComponent,
-                            useAsDefault: true
+                            component: dataeventrecords_list_component_1.DataEventRecordsListComponent
                         },
                         {
                             path: '/create',
-                            name: 'DataEventRecordsCreate',
                             component: dataeventrecords_create_component_1.DataEventRecordsCreateComponent
                         },
                         {
                             path: '/edit/:id',
-                            name: 'DataEventRecordsEdit',
                             component: dataeventrecords_edit_component_1.DataEventRecordsEditComponent
                         },
                     ]), 
