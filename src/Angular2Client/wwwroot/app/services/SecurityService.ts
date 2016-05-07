@@ -1,9 +1,9 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
-import {Router} from '@angular/router';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 @Injectable()
 export class SecurityService {

@@ -3,7 +3,6 @@ import { CORE_DIRECTIVES } from '@angular/common';
 import { SecureFileService } from './SecureFileService';
 import { SecurityService } from '../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'securefiles',
@@ -17,7 +16,7 @@ export class SecureFilesComponent implements OnInit {
     public message: string;
     public Files: string[];
    
-    constructor(private _secureFileService: SecureFileService, public securityService: SecurityService, private _router: Router) {
+    constructor(private _secureFileService: SecureFileService, public securityService: SecurityService) {
         this.message = "Secure Files download";
     }
 

@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/http', 'rxjs/add/operator/map', '../app.constants', '@angular/router'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', 'rxjs/add/operator/map', '../app.constants', '@angular/router-deprecated'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/http', 'rxjs/add/operator/map', '../
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, app_constants_1, router_1;
+    var core_1, http_1, app_constants_1, router_deprecated_1;
     var SecurityService;
     return {
         setters:[
@@ -24,8 +24,8 @@ System.register(['@angular/core', '@angular/http', 'rxjs/add/operator/map', '../
             function (app_constants_1_1) {
                 app_constants_1 = app_constants_1_1;
             },
-            function (router_1_1) {
-                router_1 = router_1_1;
+            function (router_deprecated_1_1) {
+                router_deprecated_1 = router_deprecated_1_1;
             }],
         execute: function() {
             SecurityService = (function () {
@@ -185,7 +185,7 @@ System.register(['@angular/core', '@angular/http', 'rxjs/add/operator/map', '../
                 };
                 SecurityService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http, app_constants_1.Configuration, router_1.Router])
+                    __metadata('design:paramtypes', [http_1.Http, app_constants_1.Configuration, router_deprecated_1.Router])
                 ], SecurityService);
                 return SecurityService;
             }());
