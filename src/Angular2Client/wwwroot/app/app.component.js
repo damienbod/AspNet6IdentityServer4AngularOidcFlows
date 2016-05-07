@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './forbidden/forbidden.component', './unauthorized/unauthorized.component', './services/SecurityService', './securefile/securefiles.component', './dataeventrecords/dataeventrecords.component', './dataeventrecords/DataEventRecordsService'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router-deprecated', './forbidden/forbidden.component', './unauthorized/unauthorized.component', './services/SecurityService', './securefile/securefiles.component', './dataeventrecords/dataeventrecords.component', './dataeventrecords/DataEventRecordsService'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,15 @@ System.register(['angular2/core', 'angular2/router', './forbidden/forbidden.comp
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, forbidden_component_1, unauthorized_component_1, SecurityService_1, securefiles_component_1, dataeventrecords_component_1, DataEventRecordsService_1;
+    var core_1, router_deprecated_1, forbidden_component_1, unauthorized_component_1, SecurityService_1, securefiles_component_1, dataeventrecords_component_1, DataEventRecordsService_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (router_1_1) {
-                router_1 = router_1_1;
+            function (router_deprecated_1_1) {
+                router_deprecated_1 = router_deprecated_1_1;
             },
             function (forbidden_component_1_1) {
                 forbidden_component_1 = forbidden_component_1_1;
@@ -62,17 +62,17 @@ System.register(['angular2/core', 'angular2/router', './forbidden/forbidden.comp
                         selector: 'my-app',
                         templateUrl: 'app/app.component.html',
                         styleUrls: ['app/app.component.css'],
-                        directives: [router_1.ROUTER_DIRECTIVES],
+                        directives: [router_deprecated_1.ROUTER_DIRECTIVES],
                         providers: [
-                            router_1.ROUTER_PROVIDERS,
+                            router_deprecated_1.ROUTER_PROVIDERS,
                             DataEventRecordsService_1.DataEventRecordsService
                         ]
                     }),
-                    router_1.RouteConfig([
+                    router_deprecated_1.RouteConfig([
                         { path: '/Forbidden', name: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
                         { path: '/Unauthorized', name: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
                         { path: '/securefile/securefiles', name: 'SecureFiles', component: securefiles_component_1.SecureFilesComponent },
-                        { path: '/dataeventrecords/...', name: 'DataEventRecords', component: dataeventrecords_component_1.DataEventRecordsComponent, useAsDefault: true },
+                        { path: '/dataeventrecords/...', name: 'DataEventRecords', component: dataeventrecords_component_1.DataEventRecordsComponent, useAsDefault: true }
                     ]), 
                     __metadata('design:paramtypes', [SecurityService_1.SecurityService])
                 ], AppComponent);

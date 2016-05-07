@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', './SecureFileService', '../services/SecurityService', 'angular2/router'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/common', './SecureFileService', '../services/SecurityService'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/common', './SecureFileService', '../
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, SecureFileService_1, SecurityService_1, router_1;
+    var core_1, common_1, SecureFileService_1, SecurityService_1;
     var SecureFilesComponent;
     return {
         setters:[
@@ -25,16 +25,12 @@ System.register(['angular2/core', 'angular2/common', './SecureFileService', '../
             },
             function (SecurityService_1_1) {
                 SecurityService_1 = SecurityService_1_1;
-            },
-            function (router_1_1) {
-                router_1 = router_1_1;
             }],
         execute: function() {
             SecureFilesComponent = (function () {
-                function SecureFilesComponent(_secureFileService, securityService, _router) {
+                function SecureFilesComponent(_secureFileService, securityService) {
                     this._secureFileService = _secureFileService;
                     this.securityService = securityService;
-                    this._router = _router;
                     this.message = "Secure Files download";
                 }
                 SecureFilesComponent.prototype.ngOnInit = function () {
@@ -55,7 +51,7 @@ System.register(['angular2/core', 'angular2/common', './SecureFileService', '../
                         directives: [common_1.CORE_DIRECTIVES],
                         providers: [SecureFileService_1.SecureFileService]
                     }), 
-                    __metadata('design:paramtypes', [SecureFileService_1.SecureFileService, SecurityService_1.SecurityService, router_1.Router])
+                    __metadata('design:paramtypes', [SecureFileService_1.SecureFileService, SecurityService_1.SecurityService])
                 ], SecureFilesComponent);
                 return SecureFilesComponent;
             }());

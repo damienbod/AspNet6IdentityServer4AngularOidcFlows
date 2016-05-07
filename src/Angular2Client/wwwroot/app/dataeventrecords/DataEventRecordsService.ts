@@ -1,6 +1,6 @@
-﻿import { Injectable } from 'angular2/core';
-import { Http, Response, Headers } from 'angular2/http';
-import 'rxjs/add/operator/map'
+﻿import { Injectable } from '@angular/core';
+import { Http, Response, Headers } from '@angular/http';
+import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
 import { SecurityService } from '../services/SecurityService';

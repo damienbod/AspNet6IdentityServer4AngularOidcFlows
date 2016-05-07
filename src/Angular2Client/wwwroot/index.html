@@ -13,36 +13,18 @@
 <body>
     <my-app>Loading...</my-app>
 
-    <!-- 1. Load libraries -->
-    <!-- IE required polyfills, in this exact order -->
-    <script src="libs/es6-shim.min.js"></script>
-    <script src="libs/shims_for_ie.js"></script>
-    <script src="libs/system-polyfills.js"></script>
-    <script src="libs/angular2-polyfills.js"></script>
-    <script src="libs/system.js"></script>
-    <script src="libs/Rx.js"></script>
-    <script src="libs/angular2.dev.js"></script>
+    <script src="libs/es6-shim/es6-shim.js"></script>
+    <script src="libs/zone.js/dist/zone.js"></script>
+    <script src="libs/reflect-metadata/Reflect.js"></script>
+    <script src="libs/systemjs/dist/system.src.js"></script>
+
     <script src="libs/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
-    <script src="libs/http.dev.js"></script>
-    <script src="libs/router.dev.js"></script>
-
-    <!-- 2. Configure SystemJS -->
+    
+    <!--configures SystemJS-->
+    <script src="systemjs.config.js"></script>
     <script>
-        System.config({
-            meta: {
-                '*.js' : {
-                    scriptLoad: true
-                }
-            },
-            packages: {
-                app: {
-                    defaultExtension: 'js'
-                }
-            }
-        });
-        System.import('app/boot')
-            .then(null, console.error.bind(console));
+        System.import('app').catch(function(err){ console.error(err); });
     </script>
 </body>
 </html>

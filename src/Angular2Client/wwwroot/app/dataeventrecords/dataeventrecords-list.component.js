@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', '../services/SecurityService', 'angular2/router', '../dataeventrecords/DataEventRecordsService'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/common', '../services/SecurityService', '@angular/router-deprecated', '../dataeventrecords/DataEventRecordsService'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/common', '../services/SecurityServic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, SecurityService_1, router_1, DataEventRecordsService_1;
+    var core_1, common_1, SecurityService_1, router_deprecated_1, DataEventRecordsService_1;
     var DataEventRecordsListComponent;
     return {
         setters:[
@@ -23,8 +23,8 @@ System.register(['angular2/core', 'angular2/common', '../services/SecurityServic
             function (SecurityService_1_1) {
                 SecurityService_1 = SecurityService_1_1;
             },
-            function (router_1_1) {
-                router_1 = router_1_1;
+            function (router_deprecated_1_1) {
+                router_deprecated_1 = router_deprecated_1_1;
             },
             function (DataEventRecordsService_1_1) {
                 DataEventRecordsService_1 = DataEventRecordsService_1_1;
@@ -57,9 +57,9 @@ System.register(['angular2/core', 'angular2/common', '../services/SecurityServic
                     core_1.Component({
                         selector: 'dataeventrecords-list',
                         templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html',
-                        directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
+                        directives: [common_1.CORE_DIRECTIVES, router_deprecated_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
+                    __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_deprecated_1.Router])
                 ], DataEventRecordsListComponent);
                 return DataEventRecordsListComponent;
             }());
