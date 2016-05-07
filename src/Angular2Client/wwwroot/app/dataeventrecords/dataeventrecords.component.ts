@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
 import { SecurityService } from '../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
-import {Routes, Router, ROUTER_DIRECTIVES} from '@angular/router';
+import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './models/DataEventRecord';
@@ -16,17 +16,21 @@ import { DataEventRecordsEditComponent } from '../dataeventrecords/dataeventreco
     directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES]
 })
 
-@Routes([
+@RouteConfig([
         {
             path: '/',
-            component: DataEventRecordsListComponent
+            name: 'DataEventRecordsList',
+            component: DataEventRecordsListComponent,
+            useAsDefault: true
         },
         {
             path: '/create',
+            name: 'DataEventRecordsCreate',
             component: DataEventRecordsCreateComponent
         },
         {
             path: '/edit/:id',
+            name: 'DataEventRecordsEdit',
             component: DataEventRecordsEditComponent
         },
 ])

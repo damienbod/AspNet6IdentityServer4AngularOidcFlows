@@ -1,5 +1,5 @@
 ﻿import {Component} from '@angular/core';
-import {Routes, Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {RouteConfig, Router, ROUTER_DIRECTIVES}  from '@angular/router-deprecated';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {SecurityService} from './services/SecurityService';
@@ -18,13 +18,13 @@ import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsServ
     ]
 })
 
-@Routes([
-        { path: '/Forbidden', component: ForbiddenComponent },
-        { path: '/Unauthorized', component: UnauthorizedComponent },
-        { path: '/securefile/securefiles', component: SecureFilesComponent },
-        { path: '/dataeventrecords/...',  component: DataEventRecordsComponent },
-])
- 
+@RouteConfig([
+    { path: '/Forbidden', name: 'Forbidden', component: ForbiddenComponent },
+    { path: '/Unauthorized', name: 'Unauthorized', component: UnauthorizedComponent },
+    { path: '/securefile/securefiles', name: 'SecureFiles', component: SecureFilesComponent },
+    { path: '/dataeventrecords/...', name: 'DataEventRecords', component: DataEventRecordsComponent, useAsDefault: true },
+})
+
 export class AppComponent {
 
     constructor(public securityService: SecurityService) {  
