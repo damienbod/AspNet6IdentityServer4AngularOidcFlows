@@ -99,7 +99,7 @@ namespace AspNet5SQLite
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-                        loggerFactory.AddConsole();
+            loggerFactory.AddConsole();
             loggerFactory.AddDebug();
 
             app.UseExceptionHandler("/Home/Error");
