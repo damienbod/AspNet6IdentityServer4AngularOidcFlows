@@ -33,3 +33,5 @@ src/AngularClient/AngularClient.xproj.user
 .vs/config/applicationhost.config
 .vs/restore.dg
 src/IdentityServerAspNet5/bin
+src/ResourceFileServer/bin
+src/ResourceServer/bin

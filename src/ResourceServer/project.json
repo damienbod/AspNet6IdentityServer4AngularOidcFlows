@@ -2,10 +2,6 @@
   "userSecretsId": "aspnet-WebApp_Auth-96d521e3-30ac-4a8f-967f-abc243174dce",
 
     "dependencies": {
-        "Microsoft.NETCore.App": {
-            "version": "1.0.0-rc2-3002702",
-            "type": "platform"
-        },
         "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-rc2-final",
         "Microsoft.EntityFrameworkCore.Sqlite.Design": "1.0.0-rc2-final",
         "Microsoft.EntityFrameworkCore.Tools.Core": "1.0.0-rc2-final",
@@ -17,7 +13,6 @@
                 "portable-net45+win8"
             ]
         },
-
         "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0-rc2-final",
         "Microsoft.AspNetCore.Diagnostics": "1.0.0-rc2-final",
         "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0-rc2-final",
@@ -48,8 +43,9 @@
             "version": "1.0.0-preview1-final",
             "type": "build"
         },
-        "IdentityServer4.AccessTokenValidation": "1.0.0-beta5",
-        "Microsoft.AspNetCore.DataProtection": "1.0.0-rc2-final"
+        "Microsoft.AspNetCore.DataProtection": "1.0.0-rc2-final",
+        "System.IdentityModel.Tokens.Jwt": "5.0.0-rc2-305061149",
+        "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0-rc2-final"
     },
 
   "tools": {
@@ -82,12 +78,8 @@
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
-      "imports": [
-        "dotnet5.6",
-        "dnxcore50",
-        "portable-net45+win8"
-      ]
+    "net46": {
+      
     }
   },
 

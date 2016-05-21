@@ -6,12 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
 
 namespace AspNet5SQLite
 {
@@ -107,31 +108,33 @@ namespace AspNet5SQLite
 
             app.UseStaticFiles();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            app.UseIdentityServerAuthentication(options =>
-            {
-                options.Authority = "https://localhost:44345/";
-                options.ScopeName = "dataEventRecords";
-                options.ScopeSecret = "dataEventRecordsSecret";
-
-                options.AutomaticAuthenticate = true;
-                // required if you want to return a 403 and not a 401 for forbidden responses
-                options.AutomaticChallenge = true;
-            });
-
-            // This is also possible:
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
-            //app.UseJwtBearerAuthentication(options =>
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //app.UseIdentityServerAuthentication(options =>
             //{
-            //    options.Authority = "https://localhost:44345";
-            //    options.Audience = "https://localhost:44345/resources";
-            //    options.AutomaticAuthenticate = true;
+            //    options.Authority = "https://localhost:44345/";
+            //    options.ScopeName = "dataEventRecords";
+            //    options.ScopeSecret = "dataEventRecordsSecret";
 
-            //    // required if you want to return a 403 and not a 401 for forbidden responses
-            //    options.AutomaticChallenge = true;
+            //    options.AutomaticAuthenticate = true;
+            //    required if you want to return a 403 and not a 401 for forbidden responses
+
+            //   options.AutomaticChallenge = true;
             //});
 
-            //app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "aReallyCoolScope" });
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+
+            var jwtBearerOptions = new JwtBearerOptions()
+            {
+                Authority = "https://localhost:44345",
+                Audience = "https://localhost:44345/resources",
+                AutomaticAuthenticate = true,
+
+                // required if you want to return a 403 and not a 401 for forbidden responses
+                AutomaticChallenge = true
+            };
+
+            app.UseJwtBearerAuthentication(jwtBearerOptions);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
