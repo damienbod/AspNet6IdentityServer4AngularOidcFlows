@@ -8,8 +8,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -38,15 +37,22 @@ namespace AspNet5SQLite
           
             var cert = new X509Certificate2(Path.Combine(_env.ContentRootPath, "damienbodserver.pfx"), "");
 
-            services.AddDataProtection();
-            services.ConfigureDataProtection(configure =>
-            {
-                configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
-                configure.ProtectKeysWithCertificate(cert);
-                // This folder needs to be backed up.
-                configure.PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
+            services.AddDataProtection()
+                .SetApplicationName("AspNet5IdentityServerAngularImplicitFlow")
+                .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore))
+                .ProtectKeysWithCertificate(cert);
+
+
+
+            //services.ConfigureDataProtection(configure =>
+            //{
+            //    configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
+            //    configure.ProtectKeysWithCertificate(cert)
+            //    ;
+            //    // This folder needs to be backed up.
+            //    configure.PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
                 
-            });
+            //});
 
             services.AddDbContext<DataEventRecordContext>(options =>
                 options.UseSqlite(connection)
