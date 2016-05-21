@@ -4,13 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using AspNet5Configuration.Configurations;
 
-namespace AspNet5Configuration
+namespace Angular2Client
 {
     public class Startup
     {
-         public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
