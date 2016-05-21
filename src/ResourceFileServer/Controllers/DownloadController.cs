@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Authorization;
-using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using ResourceFileServer.Providers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ResourceFileServer.Controllers
 {
@@ -10,10 +10,10 @@ namespace ResourceFileServer.Controllers
     [Route("api/[controller]")]
     public class DownloadController : Controller
     {
-        private readonly IApplicationEnvironment _appEnvironment;
+        private readonly IHostingEnvironment _appEnvironment;
         private readonly ISecuredFileProvider _securedFileProvider;
 
-        public DownloadController(ISecuredFileProvider securedFileProvider, IApplicationEnvironment appEnvironment)
+        public DownloadController(ISecuredFileProvider securedFileProvider, IHostingEnvironment appEnvironment)
         {
             _securedFileProvider = securedFileProvider;
             _appEnvironment = appEnvironment;
@@ -31,7 +31,7 @@ namespace ResourceFileServer.Controllers
             }
 
             // returning a HTTP Forbidden result.
-            return new HttpStatusCodeResult(401);
+            return new StatusCodeResult(401);
         }
 
         [Authorize("securedFilesUser")]
@@ -40,13 +40,13 @@ namespace ResourceFileServer.Controllers
         {
             if (!_securedFileProvider.FileIdExists(id))
             {
-                return HttpNotFound($"File id does not exist: {id}");
+                return NotFound($"File id does not exist: {id}");
             }
 
-            var filePath = $"{_appEnvironment.ApplicationBasePath}/SecuredFileShare/{id}";
+            var filePath = $"{_appEnvironment.ContentRootPath}/SecuredFileShare/{id}";
             if (!System.IO.File.Exists(filePath))
             {
-                return HttpNotFound($"File does not exist: {id}");
+                return NotFound($"File does not exist: {id}");
             }
 
             var adminClaim = User.Claims.FirstOrDefault(x => x.Type == "role" && x.Value == "securedFiles.admin");
@@ -58,7 +58,7 @@ namespace ResourceFileServer.Controllers
             }
 
             // returning a HTTP Forbidden result.
-            return new HttpStatusCodeResult(403);
+            return new StatusCodeResult(403);
         }
     }
 }

@@ -1,20 +1,20 @@
-using System;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.Infrastructure;
-using Microsoft.Data.Entity.Metadata;
-using Microsoft.Data.Entity.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using AspNet5SQLite.Model;
 
 namespace ResourceServer.Migrations
 {
     [DbContext(typeof(DataEventRecordContext))]
-    [Migration("20151119044607_testMigration")]
-    partial class testMigration
+    [Migration("20160521184959_testMigrations")]
+    partial class testMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
+                .HasAnnotation("ProductVersion", "1.0.0-rc2-20896");
 
             modelBuilder.Entity("AspNet5SQLite.Model.DataEventRecord", b =>
                 {
@@ -28,6 +28,8 @@ namespace ResourceServer.Migrations
                     b.Property<DateTime>("Timestamp");
 
                     b.HasKey("Id");
+
+                    b.ToTable("DataEventRecords");
                 });
         }
     }

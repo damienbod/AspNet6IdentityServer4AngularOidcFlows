@@ -1,5 +1,4 @@
-﻿@using IdentityServerAspNet5.UI.Logout
-@model IdentityServerAspNet5.UI.Logout.LogoutViewModel
+﻿@model Host.UI.Logout.LogoutViewModel
 
 <div class="logout-page">
     <div class="page-header">
@@ -9,7 +8,7 @@
     <div class="row">
         <div class="col-sm-6">
             <p>Would you like to logout of IdentityServer?</p>
-            <form asp-action="Submit">
+            <form asp-route="Logout">
                 <input type="hidden" asp-for="SignOutId" />
                 <fieldset>
                     <div class="form-group">

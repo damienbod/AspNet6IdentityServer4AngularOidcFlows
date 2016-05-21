@@ -1,12 +1,11 @@
-﻿namespace IdentityServerAspNet5.UI.Consent
+﻿using System.Collections.Generic;
+using System.Linq;
+using IdentityServer4.Core.Extensions;
+using IdentityServer4.Core.Models;
+using IdentityServer4.Core.Services;
+
+namespace Host.UI.Consent
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using IdentityServer4.Core.Extensions;
-    using IdentityServer4.Core.Models;
-    using IdentityServer4.Core.Services;
-
     public class ConsentViewModel : ConsentInputModel
     {
         public ConsentViewModel(ConsentInputModel model, string consentId, ConsentRequest request, Client client, IEnumerable<Scope> scopes, ILocalizationService localization)

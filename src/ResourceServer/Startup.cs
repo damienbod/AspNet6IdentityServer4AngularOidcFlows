@@ -1,38 +1,34 @@
 using AspNet5SQLite.Model;
 using AspNet5SQLite.Repositories;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.Data.Entity;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc.Filters;
-using System;
 using System.IO;
-using Microsoft.AspNet.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
 
 namespace AspNet5SQLite
 {
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
+        
+        private IHostingEnvironment _env { get; set; }
 
-        private readonly IApplicationEnvironment _environment;
-
-
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
+        public Startup(IHostingEnvironment env)
         {
+            _env = env;
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
+                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("config.json");
             Configuration = builder.Build();
-            _environment = appEnv;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -40,26 +36,33 @@ namespace AspNet5SQLite
             var connection = Configuration["Production:SqliteConnectionString"];
             var folderForKeyStore = Configuration["Production:KeyStoreFolderWhichIsBacked"];
           
-            var cert = new X509Certificate2(Path.Combine(_environment.ApplicationBasePath, "damienbodserver.pfx"), "");
+            var cert = new X509Certificate2(Path.Combine(_env.ContentRootPath, "damienbodserver.pfx"), "");
 
-            services.AddDataProtection();
-            services.ConfigureDataProtection(configure =>
-            {
-                configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
-                configure.ProtectKeysWithCertificate(cert);
-                // This folder needs to be backed up.
-                configure.PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
+            services.AddDataProtection()
+                .SetApplicationName("AspNet5IdentityServerAngularImplicitFlow")
+                .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore))
+                .ProtectKeysWithCertificate(cert);
+
+
+
+            //services.ConfigureDataProtection(configure =>
+            //{
+            //    configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
+            //    configure.ProtectKeysWithCertificate(cert)
+            //    ;
+            //    // This folder needs to be backed up.
+            //    configure.PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
                 
-            });
+            //});
 
-            services.AddEntityFramework()
-                .AddSqlite()
-                .AddDbContext<DataEventRecordContext>(options => options.UseSqlite(connection));
+            services.AddDbContext<DataEventRecordContext>(options =>
+                options.UseSqlite(connection)
+            );
 
             //Add Cors support to the service
             services.AddCors();
 
-            var policy = new Microsoft.AspNet.Cors.Infrastructure.CorsPolicy();
+            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
 
             policy.Headers.Add("*");
             policy.Methods.Add("*");
@@ -96,11 +99,8 @@ namespace AspNet5SQLite
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.MinimumLevel = LogLevel.Information;
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
-
-            app.UseIISPlatformHandler();
 
             app.UseExceptionHandler("/Home/Error");
 
@@ -108,31 +108,33 @@ namespace AspNet5SQLite
 
             app.UseStaticFiles();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            app.UseIdentityServerAuthentication(options =>
-            {
-                options.Authority = "https://localhost:44345/";
-                options.ScopeName = "dataEventRecords";
-                options.ScopeSecret = "dataEventRecordsSecret";
-
-                options.AutomaticAuthenticate = true;
-                // required if you want to return a 403 and not a 401 for forbidden responses
-                options.AutomaticChallenge = true;
-            });
-
-            // This is also possible:
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
-            //app.UseJwtBearerAuthentication(options =>
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //app.UseIdentityServerAuthentication(options =>
             //{
-            //    options.Authority = "https://localhost:44345";
-            //    options.Audience = "https://localhost:44345/resources";
-            //    options.AutomaticAuthenticate = true;
+            //    options.Authority = "https://localhost:44345/";
+            //    options.ScopeName = "dataEventRecords";
+            //    options.ScopeSecret = "dataEventRecordsSecret";
 
-            //    // required if you want to return a 403 and not a 401 for forbidden responses
-            //    options.AutomaticChallenge = true;
+            //    options.AutomaticAuthenticate = true;
+            //    required if you want to return a 403 and not a 401 for forbidden responses
+
+            //   options.AutomaticChallenge = true;
             //});
 
-            //app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "dataEventRecords", "aReallyCoolScope" });
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+
+            var jwtBearerOptions = new JwtBearerOptions()
+            {
+                Authority = "https://localhost:44345",
+                Audience = "https://localhost:44345/resources",
+                AutomaticAuthenticate = true,
+
+                // required if you want to return a 403 and not a 401 for forbidden responses
+                AutomaticChallenge = true
+            };
+
+            app.UseJwtBearerAuthentication(jwtBearerOptions);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -141,7 +143,16 @@ namespace AspNet5SQLite
             });
         }
 
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
     }
 }

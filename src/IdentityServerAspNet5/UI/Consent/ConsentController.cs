@@ -1,15 +1,13 @@
-﻿namespace IdentityServerAspNet5.UI.Consent
+﻿using IdentityServer4.Core;
+using IdentityServer4.Core.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
+using IdentityServer4.Core.Models;
+
+namespace Host.UI.Consent
 {
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using IdentityServer4.Core;
-    using IdentityServer4.Core.Models;
-    using IdentityServer4.Core.Services;
-
-    using Microsoft.AspNet.Mvc;
-    using Microsoft.Extensions.Logging;
-
     public class ConsentController : Controller
     {
         private readonly ILogger<ConsentController> _logger;

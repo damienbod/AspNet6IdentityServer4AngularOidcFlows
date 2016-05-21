@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AspNet5SQLite.Model;
-using Microsoft.AspNet.DataProtection;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace AspNet5SQLite.Repositories
@@ -57,14 +57,16 @@ namespace AspNet5SQLite.Repositories
 
         private void protectDescription(DataEventRecord dataEventRecord)
         {
-            var protectedData = _protector.Protect(dataEventRecord.Description);
-            dataEventRecord.Description = protectedData;
+            // TODO add this when keys work again
+            //var protectedData = _protector.Protect(dataEventRecord.Description);
+            //dataEventRecord.Description = protectedData;
         }
 
         private void unprotectDescription(DataEventRecord dataEventRecord)
         {
-            var unprotectedData = _protector.Unprotect(dataEventRecord.Description);
-            dataEventRecord.Description = unprotectedData;
+            // TODO add this when keys work again
+            //var unprotectedData = _protector.Unprotect(dataEventRecord.Description);
+            //dataEventRecord.Description = unprotectedData;
         }
     }
 }

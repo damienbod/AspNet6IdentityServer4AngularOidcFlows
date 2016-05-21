@@ -1,17 +1,16 @@
-﻿namespace IdentityServerAspNet5.UI.Login
+﻿using IdentityModel;
+using IdentityServer4.Core;
+using IdentityServer4.Core.Services;
+using IdentityServer4.Core.Services.InMemory;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace Host.UI.Login
 {
-    using System;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-
-    using IdentityModel;
-
-    using IdentityServer4.Core;
-    using IdentityServer4.Core.Services;
-
-    using Microsoft.AspNet.Mvc;
-
     public class LoginController : Controller
     {
         private readonly LoginService _loginService;
@@ -52,19 +51,7 @@
                 if (_loginService.ValidateCredentials(model.Username, model.Password))
                 {
                     var user = _loginService.FindByUsername(model.Username);
-
-                    var name = user.Claims.Where(x => x.Type == JwtClaimTypes.Name).Select(x => x.Value).FirstOrDefault() ?? user.Username;
-
-                    var claims = new Claim[] {
-                        new Claim(JwtClaimTypes.Subject, user.Subject),
-                        new Claim(JwtClaimTypes.Name, name),
-                        new Claim(JwtClaimTypes.IdentityProvider, "idsvr"),
-                        new Claim(JwtClaimTypes.AuthenticationTime, DateTime.UtcNow.ToEpochTime().ToString()),
-                    };
-                    var ci = new ClaimsIdentity(claims, "password", JwtClaimTypes.Name, JwtClaimTypes.Role);
-                    var cp = new ClaimsPrincipal(ci);
-
-                    await HttpContext.Authentication.SignInAsync(Constants.PrimaryAuthenticationType, cp);
+                    await IssueCookie(user, "idsvr", "password");
 
                     if (model.SignInId != null)
                     {
@@ -79,6 +66,78 @@
 
             var vm = new LoginViewModel(model);
             return View(vm);
+        }
+
+        private async Task IssueCookie(
+            InMemoryUser user, 
+            string idp,
+            string amr)
+        {
+            var name = user.Claims.Where(x => x.Type == JwtClaimTypes.Name).Select(x => x.Value).FirstOrDefault() ?? user.Username;
+
+            var claims = new Claim[] {
+                        new Claim(JwtClaimTypes.Subject, user.Subject),
+                        new Claim(JwtClaimTypes.Name, name),
+                        new Claim(JwtClaimTypes.IdentityProvider, idp),
+                        new Claim(JwtClaimTypes.AuthenticationTime, DateTime.UtcNow.ToEpochTime().ToString()),
+                    };
+            var ci = new ClaimsIdentity(claims, amr, JwtClaimTypes.Name, JwtClaimTypes.Role);
+            var cp = new ClaimsPrincipal(ci);
+
+            await HttpContext.Authentication.SignInAsync(Constants.PrimaryAuthenticationType, cp);
+        }
+
+        [HttpGet("/ui/external/{provider}", Name = "External")]
+        public IActionResult External(string provider, string signInId)
+        {
+            return new ChallengeResult(provider, new AuthenticationProperties
+            {
+                RedirectUri = "/ui/external-callback?signInId=" + signInId
+            });
+        }
+
+        [HttpGet("/ui/external-callback")]
+        public async Task<IActionResult> ExternalCallback(string signInId)
+        {
+            var tempUser = await HttpContext.Authentication.AuthenticateAsync("Temp");
+            if (tempUser == null)
+            {
+                throw new Exception();
+            }
+
+            var claims = tempUser.Claims.ToList();
+
+            var userIdClaim = claims.FirstOrDefault(x=>x.Type==JwtClaimTypes.Subject);
+            if (userIdClaim == null)
+            {
+                userIdClaim = claims.FirstOrDefault(x=>x.Type==ClaimTypes.NameIdentifier);
+            }
+            if (userIdClaim == null)
+            {
+                throw new Exception("Unknown userid");
+            }
+
+            claims.Remove(userIdClaim);
+
+            var provider = userIdClaim.Issuer;
+            var userId = userIdClaim.Value;
+
+            var user = _loginService.FindByExternalProvider(provider, userId);
+            if (user == null)
+            {
+                user = _loginService.AutoProvisionUser(provider, userId, claims);
+            }
+
+            await IssueCookie(user, provider, "external");
+            await HttpContext.Authentication.SignOutAsync("Temp");
+
+            if (signInId != null)
+            {
+                return new SignInResult(signInId);
+            }
+
+            return Redirect("~/");
+
         }
     }
 }

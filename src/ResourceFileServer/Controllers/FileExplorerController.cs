@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Authorization;
-using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using ResourceFileServer.Providers;
 
 namespace ResourceFileServer.Controllers
@@ -10,13 +9,11 @@ namespace ResourceFileServer.Controllers
     [Route("api/[controller]")]
     public class FileExplorerController : Controller
     {
-        private readonly IApplicationEnvironment _appEnvironment;
         private readonly ISecuredFileProvider _securedFileProvider;
 
-        public FileExplorerController(ISecuredFileProvider securedFileProvider, IApplicationEnvironment appEnvironment)
+        public FileExplorerController(ISecuredFileProvider securedFileProvider)
         {
             _securedFileProvider = securedFileProvider;
-            _appEnvironment = appEnvironment;
         }
 
         [Authorize("securedFilesUser")]

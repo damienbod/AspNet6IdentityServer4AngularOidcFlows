@@ -1,7 +1,7 @@
-﻿namespace IdentityServerAspNet5.UI.TagHelpers
-{
-    using Microsoft.AspNet.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
+namespace Host.UI.TagHelpers
+{
     [HtmlTargetElement(Attributes = "hide-if")]
     public class HideIfTagHelper : TagHelper
     {

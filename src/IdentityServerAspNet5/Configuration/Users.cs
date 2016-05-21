@@ -1,11 +1,11 @@
-﻿namespace IdentityServerAspNet5.Configuration
-{
-    using System.Collections.Generic;
-    using System.Security.Claims;
-    using IdentityModel;
-    using IdentityServer4.Core;
-    using IdentityServer4.Core.Services.InMemory;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using IdentityModel;
+using IdentityServer4.Core;
+using IdentityServer4.Core.Services.InMemory;
 
+namespace Host.Configuration
+{
     static class Users
     {
         public static List<InMemoryUser> Get()

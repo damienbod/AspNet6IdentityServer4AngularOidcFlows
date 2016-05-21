@@ -1,13 +1,11 @@
-﻿namespace IdentityServerAspNet5.UI.Logout
+﻿using IdentityServer4.Core;
+using IdentityServer4.Core.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace Host.UI.Logout
 {
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-
-    using IdentityServer4.Core;
-    using IdentityServer4.Core.Services;
-
-    using Microsoft.AspNet.Mvc;
-
     public class LogoutController : Controller
     {
         private readonly SignOutInteraction _signOutInteraction;
