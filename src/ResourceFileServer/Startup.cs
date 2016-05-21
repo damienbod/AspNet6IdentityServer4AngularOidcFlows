@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,14 +8,16 @@ using Microsoft.Extensions.Logging;
 namespace ResourceFileServer
 {
     using System.IdentityModel.Tokens.Jwt;
+    using System.IO;
+    using Microsoft.AspNetCore.Mvc.Authorization;
     using Providers;
     public class Startup
     {
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables();
+                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json");
             Configuration = builder.Build();
         }
 
@@ -27,7 +28,7 @@ namespace ResourceFileServer
             //Add Cors support to the service
             services.AddCors();
 
-            var policy = new Microsoft.AspNet.Cors.Infrastructure.CorsPolicy();
+            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
 
             policy.Headers.Add("*");
             policy.Methods.Add("*");
@@ -65,7 +66,6 @@ namespace ResourceFileServer
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseIISPlatformHandler();
 
             app.UseCors("corsGlobalPolicy");
 
@@ -86,6 +86,16 @@ namespace ResourceFileServer
             app.UseMvc();
         }
 
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
     }
 }
