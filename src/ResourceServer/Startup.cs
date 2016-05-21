@@ -1,20 +1,19 @@
 using AspNet5SQLite.Model;
 using AspNet5SQLite.Repositories;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.Data.Entity;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc.Filters;
-using System;
 using System.IO;
-using Microsoft.AspNet.DataProtection.AuthenticatedEncryption;
+
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using System.Security.Cryptography.X509Certificates;
 
 namespace AspNet5SQLite
@@ -22,17 +21,14 @@ namespace AspNet5SQLite
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
-
-        private readonly IApplicationEnvironment _environment;
-
-
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
-        {
+		
+		public Startup(IHostingEnvironment env)
+        {		
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
-                .AddJsonFile("config.json");
+                 .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("config.json")
+                .AddJsonFile($"config.{stagingEnvironment}.json", optional: true);
             Configuration = builder.Build();
-            _environment = appEnv;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -52,9 +48,9 @@ namespace AspNet5SQLite
                 
             });
 
-            services.AddEntityFramework()
-                .AddSqlite()
-                .AddDbContext<DataEventRecordContext>(options => options.UseSqlite(connection));
+			services.AddDbContext<DataEventRecordContext>(options =>
+                options.UseSqlite(connection)
+            );
 
             //Add Cors support to the service
             services.AddCors();
@@ -96,11 +92,8 @@ namespace AspNet5SQLite
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.MinimumLevel = LogLevel.Information;
-            loggerFactory.AddConsole();
+                        loggerFactory.AddConsole();
             loggerFactory.AddDebug();
-
-            app.UseIISPlatformHandler();
 
             app.UseExceptionHandler("/Home/Error");
 
@@ -141,7 +134,16 @@ namespace AspNet5SQLite
             });
         }
 
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
     }
 }
