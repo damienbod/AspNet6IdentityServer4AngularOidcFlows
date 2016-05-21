@@ -14,6 +14,7 @@ namespace Host.Configuration
                     ClientName = "angularclient",
                     ClientId = "angularclient",
                     AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44347/authorized"
@@ -42,6 +43,7 @@ namespace Host.Configuration
                     ClientName = "angular2client",
                     ClientId = "angular2client",
                     AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44311"
