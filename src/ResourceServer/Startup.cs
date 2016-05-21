@@ -1,33 +1,33 @@
 using AspNet5SQLite.Model;
 using AspNet5SQLite.Repositories;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
-
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNet5SQLite
 {
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
-		
-		public Startup(IHostingEnvironment env)
-        {		
+        
+        private IHostingEnvironment _env { get; set; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            _env = env;
             var builder = new ConfigurationBuilder()
                  .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("config.json")
-                .AddJsonFile($"config.{stagingEnvironment}.json", optional: true);
+                .AddJsonFile("config.json");
             Configuration = builder.Build();
         }
 
@@ -36,7 +36,7 @@ namespace AspNet5SQLite
             var connection = Configuration["Production:SqliteConnectionString"];
             var folderForKeyStore = Configuration["Production:KeyStoreFolderWhichIsBacked"];
           
-            var cert = new X509Certificate2(Path.Combine(_environment.ApplicationBasePath, "damienbodserver.pfx"), "");
+            var cert = new X509Certificate2(Path.Combine(_env.ContentRootPath, "damienbodserver.pfx"), "");
 
             services.AddDataProtection();
             services.ConfigureDataProtection(configure =>
@@ -48,14 +48,14 @@ namespace AspNet5SQLite
                 
             });
 
-			services.AddDbContext<DataEventRecordContext>(options =>
+            services.AddDbContext<DataEventRecordContext>(options =>
                 options.UseSqlite(connection)
             );
 
             //Add Cors support to the service
             services.AddCors();
 
-            var policy = new Microsoft.AspNet.Cors.Infrastructure.CorsPolicy();
+            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
 
             policy.Headers.Add("*");
             policy.Methods.Add("*");
