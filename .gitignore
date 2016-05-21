@@ -35,3 +35,5 @@ src/AngularClient/AngularClient.xproj.user
 src/IdentityServerAspNet5/bin
 src/ResourceFileServer/bin
 src/ResourceServer/bin
+src/ResourceServer/Keys/key-0cbc98fb-31ef-48ac-9f6d-07e4c30f84a1.xml
+src/ResourceServer/Keys/key-fb39fbc6-528d-4090-9864-d516f6604241.xml

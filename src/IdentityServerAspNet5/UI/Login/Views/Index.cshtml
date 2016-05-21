@@ -40,31 +40,10 @@
                     </form>
                 </div>
 
-                @*<ul class="list-unstyled">
-                        <li ng-repeat="link in model.additionalLinks"><a ng-href="{{link.href}}">{{link.text}}</a></li>
-                    </ul>*@
+          
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-6 external-providers" ng-show="model.externalProviders.length">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">External Login</h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-inline">
-                            <li>
-                                <a class="btn btn-default" 
-                                   asp-route="External" 
-                                   asp-route-provider="Google"
-                                   asp-route-signInId="@Model.SignInId">Google</a>
-                            </li>
-                            @*<li ng-repeat="provider in model.externalProviders">
-                                <a class="btn btn-default" href="{{provider.href}}">{{provider.text}}</a>
-                            </li>*@
-                        </ul>
-                    </div>
-                </div>
-            </div>
+       
     </div>
 </div>
