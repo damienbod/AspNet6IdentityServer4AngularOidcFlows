@@ -33,7 +33,7 @@
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0-rc2-final",
-	"Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0-rc2-final",
     "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc2-final",
     "Microsoft.Extensions.DependencyModel": "1.0.0-*",
     "Microsoft.Extensions.Logging": "1.0.0-rc2-final",
@@ -48,7 +48,7 @@
       "version": "1.0.0-preview1-final",
       "type": "build"
     },
-	"IdentityServer4.AccessTokenValidation": "1.0.0-beta*"
+    "IdentityServer4.AccessTokenValidation": "1.0.0-beta*"
   },
 
   "tools": {

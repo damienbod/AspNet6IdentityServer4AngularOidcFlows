@@ -1,9 +1,8 @@
-﻿namespace IdentityServerAspNet5.Configuration
+﻿using System.Collections.Generic;
+using IdentityServer4.Core.Models;
+
+namespace Host.Configuration
 {
-    using System.Collections.Generic;
-
-    using IdentityServer4.Core.Models;
-
     public class Clients
     {
         public static List<Client> Get()
@@ -14,7 +13,7 @@
                 {
                     ClientName = "angularclient",
                     ClientId = "angularclient",
-                    Flow = Flows.Implicit,
+                    AllowedGrantTypes = GrantTypes.Implicit,
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44347/authorized"
@@ -42,7 +41,7 @@
                 {
                     ClientName = "angular2client",
                     ClientId = "angular2client",
-                    Flow = Flows.Implicit,
+                    AllowedGrantTypes = GrantTypes.Implicit,
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44311"
