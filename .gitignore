@@ -23,3 +23,12 @@ src/Angular2Client/Angular2Client.xproj.user
 src/Angular2Client/project.lock.json
 src/ResourceFileServer/project.lock.json
 src/ResourceFileServer/ResourceFileServer.xproj.user
+src/Angular2Client/obj
+src/Angular2Client/bin
+src/AngularClient/obj
+src/IdentityServerAspNet5/obj
+src/ResourceFileServer/obj
+src/ResourceServer/obj
+src/AngularClient/AngularClient.xproj.user
+.vs/config/applicationhost.config
+.vs/restore.dg

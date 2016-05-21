@@ -19,12 +19,14 @@ namespace AngularClient
             Configuration = builder.Build();
         }
 
+        public IConfigurationRoot Configuration { get; set; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             //Add Cors support to the service
             services.AddCors();
 
-            var policy = new Microsoft.AspNet.Cors.Infrastructure.CorsPolicy();
+            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
 
             policy.Headers.Add("*");
             policy.Methods.Add("*");
