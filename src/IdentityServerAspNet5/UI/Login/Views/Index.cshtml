@@ -1,5 +1,4 @@
-﻿@using IdentityServerAspNet5.UI.Login
-@model IdentityServerAspNet5.UI.Login.LoginViewModel
+﻿@model Host.UI.Login.LoginViewModel
 
 <div class="login-page">
     <div class="page-header">
@@ -16,7 +15,7 @@
                 </div>
                 <div class="panel-body">
 
-                    <form asp-action="Login">
+                    <form asp-route="Login">
                         <input type="hidden" asp-for="SignInId" />
 
                         <fieldset>
@@ -47,19 +46,25 @@
             </div>
         </div>
 
-        @*<div class="col-md-6 col-sm-6 external-providers" ng-show="model.externalProviders.length">
+        <div class="col-md-6 col-sm-6 external-providers" ng-show="model.externalProviders.length">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">External Login</h3>
                     </div>
                     <div class="panel-body">
                         <ul class="list-inline">
-                            <li ng-repeat="provider in model.externalProviders">
-                                <a class="btn btn-default" href="{{provider.href}}">{{provider.text}}</a>
+                            <li>
+                                <a class="btn btn-default" 
+                                   asp-route="External" 
+                                   asp-route-provider="Google"
+                                   asp-route-signInId="@Model.SignInId">Google</a>
                             </li>
+                            @*<li ng-repeat="provider in model.externalProviders">
+                                <a class="btn btn-default" href="{{provider.href}}">{{provider.text}}</a>
+                            </li>*@
                         </ul>
                     </div>
                 </div>
-            </div>*@
+            </div>
     </div>
 </div>

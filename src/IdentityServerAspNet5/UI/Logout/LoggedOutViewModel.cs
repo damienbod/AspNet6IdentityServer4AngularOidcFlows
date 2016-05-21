@@ -1,10 +1,9 @@
-﻿namespace IdentityServerAspNet5.UI.Logout
+﻿using IdentityServer4.Core.Models;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Host.UI.Logout
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using IdentityServer4.Core.Models;
-
     public class LoggedOutViewModel
     {
         public LoggedOutViewModel()

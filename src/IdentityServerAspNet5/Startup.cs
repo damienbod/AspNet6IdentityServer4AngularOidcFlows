@@ -1,83 +1,69 @@
-﻿using System.IO;
-using Microsoft.AspNet.Builder;
-using System.Security.Cryptography.X509Certificates;
+﻿using Host.Configuration;
+using Host.Extensions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.PlatformAbstractions;
-using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Logging;
-using IdentityServer4.Core.Configuration;
-using IdentityServerAspNet5.Configuration;
-using IdentityServerAspNet5.UI;
-using IdentityServerAspNet5.UI.Login;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
-namespace IdentityServerAspNet5
+namespace Host
 {
     public class Startup
     {
-        private readonly IApplicationEnvironment _environment;
+        private readonly IHostingEnvironment _environment;
 
-        public Startup(IApplicationEnvironment environment)
+        public Startup(IHostingEnvironment env)
         {
-            _environment = environment;
+            _environment = env;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //Add Cors support to the service
-            services.AddCors();
+            var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
 
-            var policy = new Microsoft.AspNet.Cors.Infrastructure.CorsPolicy();
-
-            policy.Headers.Add("*");
-            policy.Methods.Add("*");
-            policy.Origins.Add("*");
-            policy.SupportsCredentials = true;
-
-            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
-
-            var cert = new X509Certificate2(Path.Combine(_environment.ApplicationBasePath, "damienbodserver.pfx"), "");
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             var builder = services.AddIdentityServer(options =>
             {
                 options.SigningCertificate = cert;
-                options.Endpoints.EnableEndSessionEndpoint = true;
-                options.AuthenticationOptions = new AuthenticationOptions
-                {
-                    EnableSignOutPrompt = false
-                };
-
             });
-            builder.Services.AddLogging();
+
             builder.AddInMemoryClients(Clients.Get());
             builder.AddInMemoryScopes(Scopes.Get());
             builder.AddInMemoryUsers(Users.Get());
+
+            builder.AddCustomGrantValidator<CustomGrantValidator>();
+
 
             // for the UI
             services
                 .AddMvc()
                 .AddRazorOptions(razor =>
                 {
-                    razor.ViewLocationExpanders.Add(new CustomViewLocationExpander());
+                    razor.ViewLocationExpanders.Add(new UI.CustomViewLocationExpander());
                 });
-            services.AddTransient<LoginService>();
+            services.AddTransient<UI.Login.LoginService>();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            app.UseCors("corsGlobalPolicy");
-
-            loggerFactory.AddConsole(LogLevel.Verbose);
-            loggerFactory.AddDebug(LogLevel.Verbose);
+            loggerFactory.AddConsole(LogLevel.Trace);
+            loggerFactory.AddDebug(LogLevel.Trace);
 
             app.UseDeveloperExceptionPage();
-            app.UseIISPlatformHandler();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Temp",
+                AutomaticAuthenticate = false,
+                AutomaticChallenge = false
+            });
 
             app.UseIdentityServer();
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }
-       
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

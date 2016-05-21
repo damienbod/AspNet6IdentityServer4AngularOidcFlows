@@ -1,7 +1,7 @@
-﻿namespace IdentityServerAspNet5.UI.Home
-{
-    using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
+namespace Host.UI.Home
+{
     public class HomeController : Controller
     {
         [Route("/")]

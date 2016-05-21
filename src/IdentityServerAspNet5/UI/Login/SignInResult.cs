@@ -1,12 +1,10 @@
-﻿namespace IdentityServerAspNet5.UI.Login
+﻿using IdentityServer4.Core.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
+
+namespace Host.UI.Login
 {
-    using System.Threading.Tasks;
-
-    using IdentityServer4.Core.Services;
-
-    using Microsoft.AspNet.Mvc;
-    using Microsoft.Extensions.DependencyInjection;
-
     public class SignInResult : IActionResult
     {
         private readonly string _requestId;

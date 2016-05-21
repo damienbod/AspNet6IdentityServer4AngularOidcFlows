@@ -1,7 +1,7 @@
-﻿namespace IdentityServerAspNet5.UI.Login
-{
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace Host.UI.Login
+{
     public class LoginInputModel
     {
         [Required]

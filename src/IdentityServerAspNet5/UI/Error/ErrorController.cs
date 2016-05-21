@@ -1,12 +1,10 @@
-﻿namespace IdentityServerAspNet5.UI.Error
+﻿using IdentityServer4.Core;
+using IdentityServer4.Core.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
+namespace Host.UI.Error
 {
-    using System.Threading.Tasks;
-
-    using IdentityServer4.Core;
-    using IdentityServer4.Core.Services;
-
-    using Microsoft.AspNet.Mvc;
-
     public class ErrorController : Controller
     {
         private readonly ErrorInteraction _errorInteraction;

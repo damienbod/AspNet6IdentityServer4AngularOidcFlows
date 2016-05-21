@@ -1,13 +1,11 @@
-﻿namespace IdentityServerAspNet5.UI.Consent
+﻿using IdentityServer4.Core.Models;
+using IdentityServer4.Core.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
+
+namespace Host.UI.Consent
 {
-    using System.Threading.Tasks;
-
-    using IdentityServer4.Core.Models;
-    using IdentityServer4.Core.Services;
-
-    using Microsoft.AspNet.Mvc;
-    using Microsoft.Extensions.DependencyInjection;
-
     public class ConsentResult : IActionResult
     {
         private readonly string _requestId;

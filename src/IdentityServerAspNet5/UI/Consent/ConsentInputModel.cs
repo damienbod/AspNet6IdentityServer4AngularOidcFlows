@@ -1,7 +1,7 @@
-﻿namespace IdentityServerAspNet5.UI.Consent
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace Host.UI.Consent
+{
     public class ConsentInputModel
     {
         public IEnumerable<string> ScopesConsented { get; set; }

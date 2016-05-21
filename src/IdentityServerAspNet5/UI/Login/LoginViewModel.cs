@@ -1,4 +1,4 @@
-﻿namespace IdentityServerAspNet5.UI.Login
+﻿namespace Host.UI.Login
 {
     public class LoginViewModel : LoginInputModel
     {
