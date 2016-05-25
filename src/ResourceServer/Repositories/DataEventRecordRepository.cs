@@ -58,15 +58,15 @@ namespace AspNet5SQLite.Repositories
         private void protectDescription(DataEventRecord dataEventRecord)
         {
             // TODO add this when keys work again
-            //var protectedData = _protector.Protect(dataEventRecord.Description);
-            //dataEventRecord.Description = protectedData;
+            var protectedData = _protector.Protect(dataEventRecord.Description);
+            dataEventRecord.Description = protectedData;
         }
 
         private void unprotectDescription(DataEventRecord dataEventRecord)
         {
             // TODO add this when keys work again
-            //var unprotectedData = _protector.Unprotect(dataEventRecord.Description);
-            //dataEventRecord.Description = unprotectedData;
+            var unprotectedData = _protector.Unprotect(dataEventRecord.Description);
+            dataEventRecord.Description = unprotectedData;
         }
     }
 }
