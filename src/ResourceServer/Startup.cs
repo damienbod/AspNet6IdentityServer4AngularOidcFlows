@@ -45,16 +45,6 @@ namespace AspNet5SQLite
                 .ProtectKeysWithCertificate(cert);
 
 
-            //services.ConfigureDataProtection(configure =>
-            //{
-            //    configure.SetApplicationName("AspNet5IdentityServerAngularImplicitFlow");
-            //    configure.ProtectKeysWithCertificate(cert)
-            //    ;
-            //    // This folder needs to be backed up.
-            //    configure.PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore));
-                
-            //});
-
             services.AddDbContext<DataEventRecordContext>(options =>
                 options.UseSqlite(connection)
             );

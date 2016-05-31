@@ -4,27 +4,15 @@
 <head>
     <base href="/" />
     <title>ASP.NET Core 1.0 Angular 2 IdentityServer4 Client</title>
-
-    <!-- inject:css -->
     <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- endinject -->
 </head>
 
 <body>
-    <my-app>Loading...</my-app>
+	<my-app>Loading...</my-app>
 
-    <script src="libs/es6-shim/es6-shim.js"></script>
-    <script src="libs/zone.js/dist/zone.js"></script>
-    <script src="libs/reflect-metadata/Reflect.js"></script>
-    <script src="libs/systemjs/dist/system.src.js"></script>
-
-    <script src="libs/jquery.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    
-    <!--configures SystemJS-->
-    <script src="systemjs.config.js"></script>
-    <script>
-        System.import('app').catch(function(err){ console.error(err); });
-    </script>
+	<!--loads libraries-->
+	<script src="dist/vendor.bundle.js"></script>
+	<!--loads the application-->
+	<script src="dist/app.bundle.js"></script>
 </body>
 </html>
