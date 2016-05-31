@@ -65,7 +65,4 @@ src/Angular2Client/wwwroot/app/unauthorized/unauthorized.component.js
 src/Angular2Client/wwwroot/app/unauthorized/unauthorized.component.js.map
 src/Angular2Client/wwwroot/app/vendor.js
 src/Angular2Client/wwwroot/app/vendor.js.map
-src/Angular2Client/wwwroot/dist/app.bundle.js
-src/Angular2Client/wwwroot/dist/app.bundle.js.map
-src/Angular2Client/wwwroot/dist/vendor.bundle.js
-src/Angular2Client/wwwroot/dist/vendor.bundle.js.map
+
