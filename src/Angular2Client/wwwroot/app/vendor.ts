@@ -15,10 +15,8 @@ import '@angular/core';
 import '@angular/http';
 import '@angular/platform-browser';
 import '@angular/platform-browser-dynamic';
-import '@angular/router';
+import '@angular/router-deprecated';
 
-// angular2localization.
-import 'angular2localization/angular2localization';
 
 // Other libraries.
 import 'jquery/src/jquery';
