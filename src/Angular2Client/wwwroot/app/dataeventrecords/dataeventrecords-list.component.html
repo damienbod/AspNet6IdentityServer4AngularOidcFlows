@@ -12,7 +12,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="height:20px;" *ngFor="#dataEventRecord of DataEventRecords" >
+                    <tr style="height:20px;" *ngFor="let dataEventRecord of DataEventRecords" >
                         <td>
                             <a *ngIf="securityService.HasAdminRole" href="" [routerLink]="['DataEventRecordsEdit', {id: dataEventRecord.Id}]" >{{dataEventRecord.Name}}</a>
                             <span *ngIf="!securityService.HasAdminRole">{{dataEventRecord.Name}}</span>
