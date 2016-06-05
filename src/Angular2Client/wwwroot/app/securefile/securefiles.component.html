@@ -11,7 +11,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="height:20px;" *ngFor="#file of Files" >
+                    <tr style="height:20px;" *ngFor="let file of Files" >
                         <td><a (click)="DownloadFileById(file)">Download {{file}}</a></td>
                     </tr>
                 </tbody>
