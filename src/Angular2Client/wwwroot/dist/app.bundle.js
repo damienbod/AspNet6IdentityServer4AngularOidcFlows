@@ -8,11 +8,11 @@ webpackJsonp([0],{
 
 	"use strict";
 	var platform_browser_dynamic_1 = __webpack_require__(/*! @angular/platform-browser-dynamic */ 1);
-	var http_1 = __webpack_require__(/*! @angular/http */ 280);
-	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 301);
-	var app_component_1 = __webpack_require__(/*! ./app.component */ 333);
-	var app_constants_1 = __webpack_require__(/*! ./app.constants */ 339);
-	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 336);
+	var http_1 = __webpack_require__(/*! @angular/http */ 323);
+	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 344);
+	var app_component_1 = __webpack_require__(/*! ./app.component */ 376);
+	var app_constants_1 = __webpack_require__(/*! ./app.constants */ 382);
+	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 379);
 	platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
 	    router_deprecated_1.ROUTER_PROVIDERS,
 	    http_1.HTTP_PROVIDERS,
@@ -23,7 +23,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 333:
+/***/ 376:
 /*!**************************************!*\
   !*** ./wwwroot/app/app.component.ts ***!
   \**************************************/
@@ -39,14 +39,14 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 301);
-	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 334);
-	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 335);
-	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 336);
-	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 340);
-	var dataeventrecords_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords.component */ 342);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 344);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 344);
+	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 377);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 378);
+	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 379);
+	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 383);
+	var dataeventrecords_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords.component */ 385);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 387);
 	var AppComponent = (function () {
 	    function AppComponent(securityService) {
 	        this.securityService = securityService;
@@ -91,7 +91,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 334:
+/***/ 377:
 /*!******************************************************!*\
   !*** ./wwwroot/app/forbidden/forbidden.component.ts ***!
   \******************************************************/
@@ -107,8 +107,8 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var common_1 = __webpack_require__(/*! @angular/common */ 181);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var common_1 = __webpack_require__(/*! @angular/common */ 2);
 	var ForbiddenComponent = (function () {
 	    function ForbiddenComponent() {
 	        this.message = "ForbiddenComponent constructor";
@@ -130,7 +130,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 335:
+/***/ 378:
 /*!************************************************************!*\
   !*** ./wwwroot/app/unauthorized/unauthorized.component.ts ***!
   \************************************************************/
@@ -146,8 +146,8 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var common_1 = __webpack_require__(/*! @angular/common */ 181);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var common_1 = __webpack_require__(/*! @angular/common */ 2);
 	var UnauthorizedComponent = (function () {
 	    function UnauthorizedComponent() {
 	        this.message = "UnauthorizedComponent constructor";
@@ -169,7 +169,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 336:
+/***/ 379:
 /*!*************************************************!*\
   !*** ./wwwroot/app/services/SecurityService.ts ***!
   \*************************************************/
@@ -185,11 +185,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var http_1 = __webpack_require__(/*! @angular/http */ 280);
-	__webpack_require__(/*! rxjs/add/operator/map */ 337);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 339);
-	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 301);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var http_1 = __webpack_require__(/*! @angular/http */ 323);
+	__webpack_require__(/*! rxjs/add/operator/map */ 380);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 382);
+	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 344);
 	var SecurityService = (function () {
 	    function SecurityService(_http, _configuration, _router) {
 	        this._http = _http;
@@ -356,7 +356,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 339:
+/***/ 382:
 /*!**************************************!*\
   !*** ./wwwroot/app/app.constants.ts ***!
   \**************************************/
@@ -372,7 +372,7 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
 	var Configuration = (function () {
 	    function Configuration() {
 	        this.Server = "https://localhost:44390/";
@@ -389,7 +389,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 340:
+/***/ 383:
 /*!*********************************************************!*\
   !*** ./wwwroot/app/securefile/securefiles.component.ts ***!
   \*********************************************************/
@@ -405,10 +405,10 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var common_1 = __webpack_require__(/*! @angular/common */ 181);
-	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 341);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 336);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var common_1 = __webpack_require__(/*! @angular/common */ 2);
+	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 384);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 379);
 	var SecureFilesComponent = (function () {
 	    function SecureFilesComponent(_secureFileService, securityService) {
 	        this._secureFileService = _secureFileService;
@@ -442,7 +442,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 341:
+/***/ 384:
 /*!*****************************************************!*\
   !*** ./wwwroot/app/securefile/SecureFileService.ts ***!
   \*****************************************************/
@@ -458,11 +458,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var http_1 = __webpack_require__(/*! @angular/http */ 280);
-	__webpack_require__(/*! rxjs/add/operator/map */ 337);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 339);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 336);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var http_1 = __webpack_require__(/*! @angular/http */ 323);
+	__webpack_require__(/*! rxjs/add/operator/map */ 380);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 382);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 379);
 	var SecureFileService = (function () {
 	    function SecureFileService(_http, _configuration, _securityService) {
 	        var _this = this;
@@ -511,7 +511,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 342:
+/***/ 385:
 /*!********************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords.component.ts ***!
   \********************************************************************/
@@ -527,12 +527,12 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var common_1 = __webpack_require__(/*! @angular/common */ 181);
-	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 301);
-	var dataeventrecords_list_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-list.component */ 343);
-	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 345);
-	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 346);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var common_1 = __webpack_require__(/*! @angular/common */ 2);
+	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 344);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-list.component */ 386);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 388);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 389);
 	var DataEventRecordsComponent = (function () {
 	    function DataEventRecordsComponent() {
 	    }
@@ -569,7 +569,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 343:
+/***/ 386:
 /*!*************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-list.component.ts ***!
   \*************************************************************************/
@@ -585,11 +585,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var common_1 = __webpack_require__(/*! @angular/common */ 181);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 336);
-	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 301);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 344);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var common_1 = __webpack_require__(/*! @angular/common */ 2);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 379);
+	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 344);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 387);
 	var DataEventRecordsListComponent = (function () {
 	    function DataEventRecordsListComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -628,7 +628,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 344:
+/***/ 387:
 /*!*****************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/DataEventRecordsService.ts ***!
   \*****************************************************************/
@@ -644,11 +644,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var http_1 = __webpack_require__(/*! @angular/http */ 280);
-	__webpack_require__(/*! rxjs/add/operator/map */ 337);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 339);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 336);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var http_1 = __webpack_require__(/*! @angular/http */ 323);
+	__webpack_require__(/*! rxjs/add/operator/map */ 380);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 382);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 379);
 	var DataEventRecordsService = (function () {
 	    function DataEventRecordsService(_http, _configuration, _securityService) {
 	        var _this = this;
@@ -704,7 +704,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 345:
+/***/ 388:
 /*!***************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-create.component.ts ***!
   \***************************************************************************/
@@ -720,11 +720,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var common_1 = __webpack_require__(/*! @angular/common */ 181);
-	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 301);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 336);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 344);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var common_1 = __webpack_require__(/*! @angular/common */ 2);
+	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 344);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 379);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 387);
 	var DataEventRecordsCreateComponent = (function () {
 	    function DataEventRecordsCreateComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -758,7 +758,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 346:
+/***/ 389:
 /*!*************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-edit.component.ts ***!
   \*************************************************************************/
@@ -774,11 +774,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 7);
-	var common_1 = __webpack_require__(/*! @angular/common */ 181);
-	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 301);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 336);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 344);
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var common_1 = __webpack_require__(/*! @angular/common */ 2);
+	var router_deprecated_1 = __webpack_require__(/*! @angular/router-deprecated */ 344);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 379);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 387);
 	var DataEventRecordsEditComponent = (function () {
 	    function DataEventRecordsEditComponent(_dataEventRecordsService, _routeParams, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
