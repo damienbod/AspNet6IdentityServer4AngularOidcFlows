@@ -1,4 +1,4 @@
-﻿using IdentityServer4.Core.Services.InMemory;
+﻿using IdentityServer4.Services.InMemory;
 using System.Linq;
 using System.Collections.Generic;
 using System;
