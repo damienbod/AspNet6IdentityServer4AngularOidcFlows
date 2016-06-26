@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { SecurityService } from '../services/SecurityService';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
