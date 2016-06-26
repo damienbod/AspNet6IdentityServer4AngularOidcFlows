@@ -148,7 +148,7 @@ webpackJsonp([0],{
 	        console.log("BEGIN Authorize, no auth data");
 	        var authorizationUrl = 'https://localhost:44345/connect/authorize';
 	        var client_id = 'angular2client';
-	        var redirect_uri = 'https://localhost:44311';
+	        var redirect_uri = 'https://localhost:44311/dataeventrecords';
 	        var response_type = "id_token token";
 	        var scope = "dataEventRecords securedFiles openid";
 	        var nonce = "N" + Math.random() + "" + Date.now();
@@ -202,18 +202,18 @@ webpackJsonp([0],{
 	        if (authResponseIsValid) {
 	            this.SetAuthorizationData(token, id_token);
 	            console.log(this.retrieve("authorizationData"));
-	            this._router.navigate(['DataEventRecords/']);
+	            this._router.navigate(['/dataeventrecords']);
 	        }
 	        else {
 	            this.ResetAuthorizationData();
-	            this._router.navigate(['Unauthorized']);
+	            this._router.navigate(['/Unauthorized']);
 	        }
 	    };
 	    SecurityService.prototype.Logoff = function () {
 	        console.log("BEGIN Authorize, no auth data");
 	        var authorizationUrl = 'https://localhost:44345/connect/endsession';
 	        var id_token_hint = this.retrieve("authorizationDataIdToken");
-	        var post_logout_redirect_uri = 'https://localhost:44311';
+	        var post_logout_redirect_uri = 'https://localhost:44311/Unauthorized.html';
 	        var url = authorizationUrl + "?" +
 	            "id_token_hint=" + encodeURI(id_token_hint) + "&" +
 	            "post_logout_redirect_uri=" + encodeURI(post_logout_redirect_uri);
@@ -223,11 +223,11 @@ webpackJsonp([0],{
 	    SecurityService.prototype.HandleError = function (error) {
 	        console.log(error);
 	        if (error.status == 403) {
-	            this._router.navigate(['Forbidden']);
+	            this._router.navigate(['/Forbidden']);
 	        }
 	        else if (error.status == 401) {
 	            this.ResetAuthorizationData();
-	            this._router.navigate(['Unauthorized']);
+	            this._router.navigate(['/Unauthorized']);
 	        }
 	    };
 	    SecurityService.prototype.urlBase64Decode = function (str) {
@@ -776,7 +776,7 @@ webpackJsonp([0],{
 	        var _this = this;
 	        this._dataEventRecordsService
 	            .Add(this.DataEventRecord)
-	            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['DataEventRecordsList']); });
+	            .subscribe(function (data) { return _this.DataEventRecord = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['/dataeventrecords']); });
 	    };
 	    DataEventRecordsCreateComponent = __decorate([
 	        core_1.Component({
@@ -840,7 +840,7 @@ webpackJsonp([0],{
 	    DataEventRecordsEditComponent.prototype.Update = function () {
 	        var _this = this;
 	        this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
-	            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['DataEventRecordsList']); });
+	            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this._router.navigate(['/dataeventrecords']); });
 	    };
 	    DataEventRecordsEditComponent = __decorate([
 	        core_1.Component({
