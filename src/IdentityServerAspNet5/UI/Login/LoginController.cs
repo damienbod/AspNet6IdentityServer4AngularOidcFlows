@@ -1,7 +1,7 @@
 ﻿using IdentityModel;
-using IdentityServer4.Core;
-using IdentityServer4.Core.Services;
-using IdentityServer4.Core.Services.InMemory;
+using IdentityServer4;
+using IdentityServer4.Services;
+using IdentityServer4.Services.InMemory;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System;

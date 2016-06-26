@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using IdentityModel;
-using IdentityServer4.Core;
-using IdentityServer4.Core.Services.InMemory;
+using IdentityServer4.Services.InMemory;
 
 namespace Host.Configuration
 {

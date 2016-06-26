@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { SecurityService } from '../services/SecurityService';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
@@ -28,11 +28,12 @@ export class DataEventRecordsCreateComponent implements OnInit {
     }
 
     public Create() {
+        // router navigate to DataEventRecordsList
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
             error => this.securityService.HandleError(error),
-            () => this._router.navigate(['DataEventRecordsList']));
+            () => this._router.navigate(['/dataeventrecords']));
     }
 
     

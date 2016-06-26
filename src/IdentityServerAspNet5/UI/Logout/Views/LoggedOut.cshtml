@@ -11,6 +11,8 @@
         <span>@Model.ClientName</span> application.
     </div>
 
+    <a href="https://localhost:44311/">Back to website</a> 
+
     @foreach (var url in Model.SignOutIFrameUrls)
     {
         <iframe class="signout" src="@url"></iframe>

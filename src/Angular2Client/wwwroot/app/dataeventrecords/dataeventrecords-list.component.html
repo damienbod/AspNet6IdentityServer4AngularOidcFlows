@@ -14,7 +14,7 @@
                 <tbody>
                     <tr style="height:20px;" *ngFor="let dataEventRecord of DataEventRecords" >
                         <td>
-                            <a *ngIf="securityService.HasAdminRole" href="" [routerLink]="['DataEventRecordsEdit', {id: dataEventRecord.Id}]" >{{dataEventRecord.Name}}</a>
+                            <a *ngIf="securityService.HasAdminRole" href="" [routerLink]="['/dataeventrecords/edit/' + dataEventRecord.Id]" >{{dataEventRecord.Name}}</a>
                             <span *ngIf="!securityService.HasAdminRole">{{dataEventRecord.Name}}</span>
                         </td>
                         <td>{{dataEventRecord.Timestamp}}</td>

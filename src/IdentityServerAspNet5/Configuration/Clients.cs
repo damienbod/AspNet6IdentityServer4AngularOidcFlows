@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using IdentityServer4.Core.Models;
+using IdentityServer4.Models;
 
 namespace Host.Configuration
 {
@@ -57,7 +57,7 @@ namespace Host.Configuration
                     {
                         "https://localhost:44311",
                         "http://localhost:44311"
-                    },
+                    },                  
                     AllowedScopes = new List<string>
                     {
                         "openid",
