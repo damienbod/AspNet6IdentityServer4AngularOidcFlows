@@ -57,7 +57,7 @@ namespace Host.Configuration
                     {
                         "https://localhost:44311",
                         "http://localhost:44311"
-                    },
+                    },                  
                     AllowedScopes = new List<string>
                     {
                         "openid",
