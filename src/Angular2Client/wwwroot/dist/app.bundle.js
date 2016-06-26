@@ -393,10 +393,12 @@ webpackJsonp([0],{
 	"use strict";
 	var router_1 = __webpack_require__(/*! @angular/router */ 347);
 	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 400);
-	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 401);
-	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 402);
-	var dataeventrecords_routes_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords.routes */ 404);
+	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 401);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 402);
+	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 403);
+	var dataeventrecords_routes_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords.routes */ 405);
 	exports.routes = [
+	    { path: '', component: home_component_1.HomeComponent },
 	    { path: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
 	    { path: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
 	    { path: 'securefile/securefiles', component: securefiles_component_1.SecureFilesComponent }
@@ -448,6 +450,45 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 401:
+/*!********************************************!*\
+  !*** ./wwwroot/app/home/home.component.ts ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var common_1 = __webpack_require__(/*! @angular/common */ 2);
+	var HomeComponent = (function () {
+	    function HomeComponent() {
+	        this.message = "HomeComponent constructor";
+	    }
+	    HomeComponent.prototype.ngOnInit = function () {
+	    };
+	    HomeComponent = __decorate([
+	        core_1.Component({
+	            selector: 'forbidden',
+	            templateUrl: 'app/home/home.component.html',
+	            directives: [common_1.CORE_DIRECTIVES]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], HomeComponent);
+	    return HomeComponent;
+	}());
+	exports.HomeComponent = HomeComponent;
+
+
+/***/ },
+
+/***/ 402:
 /*!************************************************************!*\
   !*** ./wwwroot/app/unauthorized/unauthorized.component.ts ***!
   \************************************************************/
@@ -486,7 +527,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 402:
+/***/ 403:
 /*!*********************************************************!*\
   !*** ./wwwroot/app/securefile/securefiles.component.ts ***!
   \*********************************************************/
@@ -504,7 +545,7 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
 	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 403);
+	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 404);
 	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 396);
 	var SecureFilesComponent = (function () {
 	    function SecureFilesComponent(_secureFileService, securityService) {
@@ -539,7 +580,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 403:
+/***/ 404:
 /*!*****************************************************!*\
   !*** ./wwwroot/app/securefile/SecureFileService.ts ***!
   \*****************************************************/
@@ -608,17 +649,17 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 404:
+/***/ 405:
 /*!*****************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords.routes.ts ***!
   \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var dataeventrecords_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords.component */ 405);
-	var dataeventrecords_list_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-list.component */ 406);
-	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 407);
-	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 408);
+	var dataeventrecords_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords.component */ 406);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-list.component */ 407);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 408);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 409);
 	exports.DataEventRecordsRoutes = [
 	    {
 	        path: 'dataeventrecords',
@@ -643,7 +684,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 405:
+/***/ 406:
 /*!********************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords.component.ts ***!
   \********************************************************************/
@@ -680,7 +721,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 406:
+/***/ 407:
 /*!*************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-list.component.ts ***!
   \*************************************************************************/
@@ -739,7 +780,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 407:
+/***/ 408:
 /*!***************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-create.component.ts ***!
   \***************************************************************************/
@@ -793,7 +834,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 408:
+/***/ 409:
 /*!*************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-edit.component.ts ***!
   \*************************************************************************/
