@@ -55,7 +55,7 @@ namespace Host.Configuration
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:44311/dataeventrecords",
+                        "https://localhost:44311",
                         "http://localhost:44311"
                     },
                     AllowedScopes = new List<string>

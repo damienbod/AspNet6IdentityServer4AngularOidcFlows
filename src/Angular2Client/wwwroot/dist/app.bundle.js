@@ -148,7 +148,7 @@ webpackJsonp([0],{
 	        console.log("BEGIN Authorize, no auth data");
 	        var authorizationUrl = 'https://localhost:44345/connect/authorize';
 	        var client_id = 'angular2client';
-	        var redirect_uri = 'https://localhost:44311/dataeventrecords';
+	        var redirect_uri = 'https://localhost:44311';
 	        var response_type = "id_token token";
 	        var scope = "dataEventRecords securedFiles openid";
 	        var nonce = "N" + Math.random() + "" + Date.now();
