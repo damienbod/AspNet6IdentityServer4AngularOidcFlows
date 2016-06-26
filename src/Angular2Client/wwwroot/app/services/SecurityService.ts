@@ -139,11 +139,12 @@ export class SecurityService {
             this.SetAuthorizationData(token, id_token);
             console.log(this.retrieve("authorizationData"));
 
-            this._router.navigate(['DataEventRecords/']);
+            // router navigate to DataEventRecordsList
+            this._router.navigate(['/dataeventrecords']);
         }
         else {
             this.ResetAuthorizationData();
-            this._router.navigate(['Unauthorized']);
+            this._router.navigate(['/Unauthorized']);
         }
     }
 
@@ -154,7 +155,7 @@ export class SecurityService {
         var authorizationUrl = 'https://localhost:44345/connect/endsession';
 
         var id_token_hint = this.retrieve("authorizationDataIdToken");
-        var post_logout_redirect_uri = 'https://localhost:44311';
+        var post_logout_redirect_uri = 'https://localhost:44311/Unauthorized.html';
 
         var url =
             authorizationUrl + "?" +
@@ -169,11 +170,11 @@ export class SecurityService {
     public HandleError(error: any) {
         console.log(error);
         if (error.status == 403) {
-            this._router.navigate(['Forbidden'])
+            this._router.navigate(['/Forbidden'])
         }
         else if (error.status == 401) {
             this.ResetAuthorizationData();
-            this._router.navigate(['Unauthorized'])
+            this._router.navigate(['/Unauthorized'])
         }
     }
 

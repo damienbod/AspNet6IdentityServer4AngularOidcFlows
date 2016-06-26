@@ -48,9 +48,10 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
     }
 
     public Update() {
+        // router navigate to DataEventRecordsList
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe((() => console.log("subscribed")),
             error => this.securityService.HandleError(error),
-            () => this._router.navigate(['DataEventRecordsList']));
+            () => this._router.navigate(['/dataeventrecords']));
     }
 }
