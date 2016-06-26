@@ -148,9 +148,22 @@ export class SecurityService {
     }
 
     public Logoff() {
+        // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
+        console.log("BEGIN Authorize, no auth data");
+
+        var authorizationUrl = 'https://localhost:44345/connect/endsession';
+
+        var id_token_hint = this.retrieve("authorizationDataIdToken");
+        var post_logout_redirect_uri = 'https://localhost:44311';
+
+        var url =
+            authorizationUrl + "?" +
+            "id_token_hint=" + encodeURI(id_token_hint) + "&" +
+            "post_logout_redirect_uri=" + encodeURI(post_logout_redirect_uri);
+
         this.ResetAuthorizationData();
 
-        // TODO logout on IdentityServer4
+        window.location.href = url;
     }
 
     public HandleError(error: any) {
