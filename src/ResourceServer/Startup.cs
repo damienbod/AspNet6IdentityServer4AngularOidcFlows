@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
+using Newtonsoft.Json.Serialization;
 
 namespace AspNet5SQLite
 {
@@ -82,6 +83,7 @@ namespace AspNet5SQLite
             services.AddMvc(options =>
             {
                options.Filters.Add(new AuthorizeFilter(guestPolicy));
+              // options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
 
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
