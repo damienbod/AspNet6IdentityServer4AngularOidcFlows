@@ -83,7 +83,9 @@ namespace AspNet5SQLite
             services.AddMvc(options =>
             {
                options.Filters.Add(new AuthorizeFilter(guestPolicy));
-              // options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            }).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
 
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
