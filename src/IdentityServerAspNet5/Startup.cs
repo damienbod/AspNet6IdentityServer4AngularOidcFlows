@@ -23,7 +23,7 @@ namespace Host
             var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
 
             var builder = services.AddIdentityServer()
-                .SetSigningCredentials(cert)
+                .SetSigningCredential(cert)
                 .AddInMemoryClients(Clients.Get())
                 .AddInMemoryScopes(Scopes.Get())
                 .AddInMemoryUsers(Users.Get());
