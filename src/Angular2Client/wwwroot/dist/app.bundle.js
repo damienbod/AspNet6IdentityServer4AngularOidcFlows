@@ -8,11 +8,11 @@ webpackJsonp([0],{
 
 	"use strict";
 	var platform_browser_dynamic_1 = __webpack_require__(/*! @angular/platform-browser-dynamic */ 1);
-	var http_1 = __webpack_require__(/*! @angular/http */ 325);
-	var app_component_1 = __webpack_require__(/*! ./app.component */ 346);
-	var app_constants_1 = __webpack_require__(/*! ./app.constants */ 397);
-	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 396);
-	var app_routes_1 = __webpack_require__(/*! ./app.routes */ 399);
+	var http_1 = __webpack_require__(/*! @angular/http */ 328);
+	var app_component_1 = __webpack_require__(/*! ./app.component */ 349);
+	var app_constants_1 = __webpack_require__(/*! ./app.constants */ 403);
+	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 402);
+	var app_routes_1 = __webpack_require__(/*! ./app.routes */ 405);
 	platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
 	    app_routes_1.APP_ROUTER_PROVIDERS,
 	    http_1.HTTP_PROVIDERS,
@@ -23,7 +23,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 346:
+/***/ 349:
 /*!**************************************!*\
   !*** ./wwwroot/app/app.component.ts ***!
   \**************************************/
@@ -40,9 +40,9 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var router_1 = __webpack_require__(/*! @angular/router */ 347);
-	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 396);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 398);
+	var router_1 = __webpack_require__(/*! @angular/router */ 350);
+	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 402);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 404);
 	var AppComponent = (function () {
 	    function AppComponent(securityService) {
 	        this.securityService = securityService;
@@ -80,7 +80,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 396:
+/***/ 402:
 /*!*************************************************!*\
   !*** ./wwwroot/app/services/SecurityService.ts ***!
   \*************************************************/
@@ -97,10 +97,10 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var http_1 = __webpack_require__(/*! @angular/http */ 325);
-	__webpack_require__(/*! rxjs/add/operator/map */ 350);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 397);
-	var router_1 = __webpack_require__(/*! @angular/router */ 347);
+	var http_1 = __webpack_require__(/*! @angular/http */ 328);
+	__webpack_require__(/*! rxjs/add/operator/map */ 353);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 403);
+	var router_1 = __webpack_require__(/*! @angular/router */ 350);
 	var SecurityService = (function () {
 	    function SecurityService(_http, _configuration, _router) {
 	        this._http = _http;
@@ -275,7 +275,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 397:
+/***/ 403:
 /*!**************************************!*\
   !*** ./wwwroot/app/app.constants.ts ***!
   \**************************************/
@@ -308,7 +308,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 398:
+/***/ 404:
 /*!*****************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/DataEventRecordsService.ts ***!
   \*****************************************************************/
@@ -325,10 +325,10 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var http_1 = __webpack_require__(/*! @angular/http */ 325);
-	__webpack_require__(/*! rxjs/add/operator/map */ 350);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 397);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 396);
+	var http_1 = __webpack_require__(/*! @angular/http */ 328);
+	__webpack_require__(/*! rxjs/add/operator/map */ 353);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 403);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
 	var DataEventRecordsService = (function () {
 	    function DataEventRecordsService(_http, _configuration, _securityService) {
 	        var _this = this;
@@ -384,19 +384,19 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 399:
+/***/ 405:
 /*!***********************************!*\
   !*** ./wwwroot/app/app.routes.ts ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(/*! @angular/router */ 347);
-	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 400);
-	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 401);
-	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 402);
-	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 403);
-	var dataeventrecords_routes_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords.routes */ 405);
+	var router_1 = __webpack_require__(/*! @angular/router */ 350);
+	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 406);
+	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 407);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 408);
+	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 409);
+	var dataeventrecords_routes_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords.routes */ 411);
 	exports.routes = [
 	    { path: '', component: home_component_1.HomeComponent },
 	    { path: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
@@ -410,7 +410,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 400:
+/***/ 406:
 /*!******************************************************!*\
   !*** ./wwwroot/app/forbidden/forbidden.component.ts ***!
   \******************************************************/
@@ -449,7 +449,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 401:
+/***/ 407:
 /*!********************************************!*\
   !*** ./wwwroot/app/home/home.component.ts ***!
   \********************************************/
@@ -488,7 +488,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 402:
+/***/ 408:
 /*!************************************************************!*\
   !*** ./wwwroot/app/unauthorized/unauthorized.component.ts ***!
   \************************************************************/
@@ -527,7 +527,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 403:
+/***/ 409:
 /*!*********************************************************!*\
   !*** ./wwwroot/app/securefile/securefiles.component.ts ***!
   \*********************************************************/
@@ -545,8 +545,8 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
 	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 404);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 396);
+	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 410);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
 	var SecureFilesComponent = (function () {
 	    function SecureFilesComponent(_secureFileService, securityService) {
 	        this._secureFileService = _secureFileService;
@@ -580,7 +580,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 404:
+/***/ 410:
 /*!*****************************************************!*\
   !*** ./wwwroot/app/securefile/SecureFileService.ts ***!
   \*****************************************************/
@@ -597,10 +597,10 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var http_1 = __webpack_require__(/*! @angular/http */ 325);
-	__webpack_require__(/*! rxjs/add/operator/map */ 350);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 397);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 396);
+	var http_1 = __webpack_require__(/*! @angular/http */ 328);
+	__webpack_require__(/*! rxjs/add/operator/map */ 353);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 403);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
 	var SecureFileService = (function () {
 	    function SecureFileService(_http, _configuration, _securityService) {
 	        var _this = this;
@@ -649,17 +649,17 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 405:
+/***/ 411:
 /*!*****************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords.routes.ts ***!
   \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var dataeventrecords_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords.component */ 406);
-	var dataeventrecords_list_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-list.component */ 407);
-	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 408);
-	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 409);
+	var dataeventrecords_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords.component */ 412);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-list.component */ 413);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 414);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 415);
 	exports.DataEventRecordsRoutes = [
 	    {
 	        path: 'dataeventrecords',
@@ -684,7 +684,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 406:
+/***/ 412:
 /*!********************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords.component.ts ***!
   \********************************************************************/
@@ -702,7 +702,7 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
 	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var router_1 = __webpack_require__(/*! @angular/router */ 347);
+	var router_1 = __webpack_require__(/*! @angular/router */ 350);
 	var DataEventRecordsComponent = (function () {
 	    function DataEventRecordsComponent() {
 	    }
@@ -721,7 +721,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 407:
+/***/ 413:
 /*!*************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-list.component.ts ***!
   \*************************************************************************/
@@ -739,9 +739,9 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
 	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 396);
-	var router_1 = __webpack_require__(/*! @angular/router */ 347);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 398);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
+	var router_1 = __webpack_require__(/*! @angular/router */ 350);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 404);
 	var DataEventRecordsListComponent = (function () {
 	    function DataEventRecordsListComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -780,7 +780,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 408:
+/***/ 414:
 /*!***************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-create.component.ts ***!
   \***************************************************************************/
@@ -798,9 +798,9 @@ webpackJsonp([0],{
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
 	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var router_1 = __webpack_require__(/*! @angular/router */ 347);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 396);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 398);
+	var router_1 = __webpack_require__(/*! @angular/router */ 350);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 404);
 	var DataEventRecordsCreateComponent = (function () {
 	    function DataEventRecordsCreateComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -834,7 +834,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 409:
+/***/ 415:
 /*!*************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-edit.component.ts ***!
   \*************************************************************************/
@@ -851,10 +851,10 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var router_1 = __webpack_require__(/*! @angular/router */ 347);
+	var router_1 = __webpack_require__(/*! @angular/router */ 350);
 	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 396);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 398);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 404);
 	var DataEventRecordsEditComponent = (function () {
 	    function DataEventRecordsEditComponent(_dataEventRecordsService, securityService, _route, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
