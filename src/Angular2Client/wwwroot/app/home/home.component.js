@@ -10,21 +10,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
-var ForbiddenComponent = (function () {
-    function ForbiddenComponent() {
-        this.message = "ForbiddenComponent constructor";
+var HomeComponent = (function () {
+    function HomeComponent() {
+        this.message = "HomeComponent constructor";
     }
-    ForbiddenComponent.prototype.ngOnInit = function () {
+    HomeComponent.prototype.ngOnInit = function () {
     };
-    ForbiddenComponent = __decorate([
+    HomeComponent = __decorate([
         core_1.Component({
             selector: 'forbidden',
-            templateUrl: 'app/forbidden/forbidden.component.html',
+            templateUrl: 'app/home/home.component.html',
             directives: [common_1.CORE_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [])
-    ], ForbiddenComponent);
-    return ForbiddenComponent;
+    ], HomeComponent);
+    return HomeComponent;
 }());
-exports.ForbiddenComponent = ForbiddenComponent;
-//# sourceMappingURL=forbidden.component.js.map
+exports.HomeComponent = HomeComponent;
+//# sourceMappingURL=home.component.js.map
