@@ -7,11 +7,11 @@ import { SecureFilesComponent } from './securefile/securefiles.component';
 import { DataEventRecordsRoutes } from './dataeventrecords/dataeventrecords.routes';
 
 export const routes: RouterConfig = [
-    { path: '', component: HomeComponent },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent },
-    { path: 'securefile/securefiles',  component: SecureFilesComponent },
-    ...DataEventRecordsRoutes
+    { path: 'securefile/securefiles', component: SecureFilesComponent },
+    ...DataEventRecordsRoutes,
+    { path: '', component: HomeComponent }
 ];
 
 export const APP_ROUTER_PROVIDERS = [

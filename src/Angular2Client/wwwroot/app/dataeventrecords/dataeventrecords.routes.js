@@ -9,16 +9,16 @@ exports.DataEventRecordsRoutes = [
         component: dataeventrecords_component_1.DataEventRecordsComponent,
         children: [
             {
-                path: '',
-                component: dataeventrecords_list_component_1.DataEventRecordsListComponent,
-            },
-            {
                 path: 'create',
                 component: dataeventrecords_create_component_1.DataEventRecordsCreateComponent
             },
             {
                 path: 'edit/:id',
                 component: dataeventrecords_edit_component_1.DataEventRecordsEditComponent
+            },
+            {
+                path: '',
+                component: dataeventrecords_list_component_1.DataEventRecordsListComponent,
             }
         ]
     }

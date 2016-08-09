@@ -10,16 +10,16 @@ export const DataEventRecordsRoutes: RouterConfig = [
         component: DataEventRecordsComponent,
         children: [
             {
-                path: '',
-                component: DataEventRecordsListComponent,
-            },
-            {
                 path: 'create',
                 component: DataEventRecordsCreateComponent
             },
             {
                 path: 'edit/:id',
                 component: DataEventRecordsEditComponent
+            },
+            {
+                path: '',
+                component: DataEventRecordsListComponent,
             }
         ]
     }
