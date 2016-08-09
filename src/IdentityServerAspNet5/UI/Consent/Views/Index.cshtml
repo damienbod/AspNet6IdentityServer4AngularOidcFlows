@@ -15,7 +15,8 @@
         <div class="col-sm-8">
             @Html.Partial("_ValidationSummary")
 
-            <form asp-route="Consent" asp-route-id="@Model.ConsentId" class="consent-form">
+            <form asp-route="Consent" class="consent-form">
+                <input type="hidden" asp-for="ReturnUrl" />
 
                 <div>Uncheck the permissions you do not wish to grant.</div>
                 

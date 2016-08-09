@@ -8,12 +8,12 @@ namespace Host.UI.Consent
 {
     public class ConsentViewModel : ConsentInputModel
     {
-        public ConsentViewModel(ConsentInputModel model, string consentId, ConsentRequest request, Client client, IEnumerable<Scope> scopes, ILocalizationService localization)
+        public ConsentViewModel(ConsentInputModel model, string returnUrl, AuthorizationRequest request, Client client, IEnumerable<Scope> scopes, ILocalizationService localization)
         {
             RememberConsent = model?.RememberConsent ?? true;
             ScopesConsented = model?.ScopesConsented ?? Enumerable.Empty<string>();
 
-            ConsentId = consentId;
+            ReturnUrl = returnUrl;
 
             ClientName = client.ClientName;
             ClientUrl = client.ClientUri;
@@ -23,8 +23,6 @@ namespace Host.UI.Consent
             IdentityScopes = scopes.Where(x => x.Type == ScopeType.Identity).Select(x => new ScopeViewModel(localization, x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             ResourceScopes = scopes.Where(x => x.Type == ScopeType.Resource).Select(x => new ScopeViewModel(localization, x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
         }
-
-        public string ConsentId { get; set; }
 
         public string ClientName { get; set; }
         public string ClientUrl { get; set; }

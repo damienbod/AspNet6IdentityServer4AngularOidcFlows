@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System;
 
 namespace Host
 {
@@ -22,11 +23,17 @@ namespace Host
         {
             var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
 
-            var builder = services.AddIdentityServer()
-                .SetSigningCredential(cert)
-                .AddInMemoryClients(Clients.Get())
-                .AddInMemoryScopes(Scopes.Get())
-                .AddInMemoryUsers(Users.Get());
+            var builder = services.AddIdentityServer(options =>
+            {
+                options.UserInteractionOptions.LoginUrl = "/ui/login";
+                options.UserInteractionOptions.LogoutUrl = "/ui/logout";
+                options.UserInteractionOptions.ConsentUrl = "/ui/consent";
+                options.UserInteractionOptions.ErrorUrl = "/ui/error";
+            })
+             .SetSigningCredential(cert)
+             .AddInMemoryClients(Clients.Get())
+             .AddInMemoryScopes(Scopes.Get())
+             .AddInMemoryUsers(Users.Get());
 
             // for the UI
             services
@@ -40,8 +47,14 @@ namespace Host
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(LogLevel.Trace);
-            loggerFactory.AddDebug(LogLevel.Trace);
+            Func<string, LogLevel, bool> filter = (scope, level) =>
+                scope.StartsWith("IdentityServer") ||
+                scope.StartsWith("IdentityModel") ||
+                level == LogLevel.Error ||
+                level == LogLevel.Critical;
+
+            loggerFactory.AddConsole(filter);
+            loggerFactory.AddDebug(filter);
 
             app.UseDeveloperExceptionPage();
 
@@ -50,14 +63,6 @@ namespace Host
                 AuthenticationScheme = "Temp",
                 AutomaticAuthenticate = false,
                 AutomaticChallenge = false
-            });
-
-            app.UseGoogleAuthentication(new GoogleOptions
-            {
-                AuthenticationScheme = "Google",
-                SignInScheme = "Temp",
-                ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com",
-                ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo"
             });
 
             app.UseIdentityServer();

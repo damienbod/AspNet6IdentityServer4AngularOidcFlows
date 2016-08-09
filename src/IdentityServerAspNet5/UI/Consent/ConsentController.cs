@@ -12,28 +12,28 @@ namespace Host.UI.Consent
     {
         private readonly ILogger<ConsentController> _logger;
         private readonly IClientStore _clientStore;
-        private readonly ConsentInteraction _consentInteraction;
+        private readonly IUserInteractionService _interaction;
         private readonly IScopeStore _scopeStore;
         private readonly ILocalizationService _localization;
 
         public ConsentController(
             ILogger<ConsentController> logger,
-            ConsentInteraction consentInteraction,
+            IUserInteractionService interaction,
             IClientStore clientStore,
             IScopeStore scopeStore,
             ILocalizationService localization)
         {
             _logger = logger;
-            _consentInteraction = consentInteraction;
+            _interaction = interaction;
             _clientStore = clientStore;
             _scopeStore = scopeStore;
             _localization = localization;
         }
 
-        [HttpGet(Constants.RoutePaths.Consent, Name = "Consent")]
-        public async Task<IActionResult> Index(string id)
+        [HttpGet("ui/consent", Name = "Consent")]
+        public async Task<IActionResult> Index(string returnUrl)
         {
-            var vm = await BuildViewModelAsync(id);
+            var vm = await BuildViewModelAsync(returnUrl);
             if (vm != null)
             {
                 return View("Index", vm);
@@ -42,23 +42,26 @@ namespace Host.UI.Consent
             return View("Error");
         }
 
-        [HttpPost(Constants.RoutePaths.Consent)]
+        [HttpPost("ui/consent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(string button, string id, ConsentInputModel model)
+        public async Task<IActionResult> Index(string button, ConsentInputModel model)
         {
+            var request = await _interaction.GetConsentContextAsync(model.ReturnUrl);
+            ConsentResponse response = null;
+
             if (button == "no")
             {
-                return new ConsentResult(id, ConsentResponse.Denied);
+                response = ConsentResponse.Denied;
             }
             else if (button == "yes" && model != null)
             {
                 if (model.ScopesConsented != null && model.ScopesConsented.Any())
                 {
-                    return new ConsentResult(id, new ConsentResponse
+                    response = new ConsentResponse
                     {
                         RememberConsent = model.RememberConsent,
                         ScopesConsented = model.ScopesConsented
-                    });
+                    };
                 }
                 else
                 {
@@ -70,7 +73,13 @@ namespace Host.UI.Consent
                 ModelState.AddModelError("", "Invalid Selection");
             }
 
-            var vm = await BuildViewModelAsync(id, model);
+            if (response != null)
+            {
+                await _interaction.GrantConsentAsync(request, response);
+                return Redirect(model.ReturnUrl);
+            }
+
+            var vm = await BuildViewModelAsync(model.ReturnUrl, model);
             if (vm != null)
             {
                 return View("Index", vm);
@@ -79,21 +88,21 @@ namespace Host.UI.Consent
             return View("Error");
         }
 
-        async Task<IActionResult> BuildConsentResponse(string id, string[] scopesConsented, bool rememberConsent)
-        {
-            if (id != null)
-            {
-                var request = await _consentInteraction.GetRequestAsync(id);
-            }
+        //async Task<IActionResult> BuildConsentResponse(string id, string[] scopesConsented, bool rememberConsent)
+        //{
+        //    if (id != null)
+        //    {
+        //        var request = await _interaction.GetRequestAsync(id);
+        //    }
 
-            return View("Error");
-        }
+        //    return View("Error");
+        //}
 
-        async Task<ConsentViewModel> BuildViewModelAsync(string id, ConsentInputModel model = null)
+        async Task<ConsentViewModel> BuildViewModelAsync(string returnUrl, ConsentInputModel model = null)
         {
-            if (id != null)
+            if (returnUrl != null)
             {
-                var request = await _consentInteraction.GetRequestAsync(id);
+                var request = await _interaction.GetConsentContextAsync(returnUrl);
                 if (request != null)
                 {
                     var client = await _clientStore.FindClientByIdAsync(request.ClientId);
@@ -102,7 +111,7 @@ namespace Host.UI.Consent
                         var scopes = await _scopeStore.FindScopesAsync(request.ScopesRequested);
                         if (scopes != null && scopes.Any())
                         {
-                            return new ConsentViewModel(model, id, request, client, scopes, _localization);
+                            return new ConsentViewModel(model, returnUrl, request, client, scopes, _localization);
                         }
                         else
                         {
@@ -116,12 +125,12 @@ namespace Host.UI.Consent
                 }
                 else
                 {
-                    _logger.LogError("No consent request matching id: {0}", id);
+                    _logger.LogError("No consent request matching id: {0}", returnUrl);
                 }
             }
             else
             {
-                _logger.LogError("No id passed");
+                _logger.LogError("No returnUrl passed");
             }
 
             return null;

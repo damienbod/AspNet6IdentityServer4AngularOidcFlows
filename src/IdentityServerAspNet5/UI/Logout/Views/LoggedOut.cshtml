@@ -6,15 +6,10 @@
         <small>You are now logged out</small>
     </h1>
 
-    <div hide-if-null="Model.ReturnInfo">
-        Click <a href="@Model.ReturnInfo.Uri">here</a> to return to the
+    <div hide-if-null="Model.PostLogoutRedirectUri">
+        Click <a href="@Model.PostLogoutRedirectUri">here</a> to return to the
         <span>@Model.ClientName</span> application.
     </div>
 
-    <a href="https://localhost:44311/">Back to website</a> 
-
-    @foreach (var url in Model.SignOutIFrameUrls)
-    {
-        <iframe class="signout" src="@url"></iframe>
-    }
+    <iframe style="display:none" width="0" height="0" hide-if-null="Model.SignOutIframeUrl" class="signout" src="@Model.SignOutIframeUrl"></iframe>
 </div>
