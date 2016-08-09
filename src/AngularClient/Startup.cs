@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using System.Linq;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace AngularClient
 {
@@ -45,12 +48,37 @@ namespace AngularClient
 
             app.UseCors("corsGlobalPolicy");
 
-            app.UseStaticFiles();
-            app.UseMvc(routes =>
+
+            var angularRoutes = new[] {
+                "/forbidden",
+                "/authorized",
+                "/authorize",
+                "/unauthorized",
+                "/dataeventrecords",
+                "/dataeventrecords/create",
+                "/dataeventrecords/edit",
+                "/logoff",
+                "/securefile",
+                "/securefile/securefiles",
+            };
+
+            app.Use(async (context, next) =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
+                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.Request.Path = new PathString("/");
+                }
+
+                await next();
+            });
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("This is server routing, not angular2 routing");
             });
         }
 
