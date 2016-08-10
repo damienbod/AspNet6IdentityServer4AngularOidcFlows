@@ -1,9 +1,11 @@
-﻿
+﻿// RxJS.
+import 'rxjs';
+
 // Polyfill(s) for older browsers.
 import 'core-js/client/core';
 
-// RxJS.
-import 'rxjs';
+// Zone.
+import 'zone.js/dist/zone';
 
 // Angular 2.
 import '@angular/common';
@@ -18,11 +20,6 @@ import '@angular/upgrade';
 
 // Reflect Metadata.
 import 'reflect-metadata';
-
-
-// Zone.
-import 'zone.js/dist/zone';
-
 
 // Other libraries.
 import 'jquery/src/jquery';

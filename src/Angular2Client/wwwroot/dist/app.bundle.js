@@ -586,7 +586,8 @@ webpackJsonp([0],{
 	        this.GetListOfFiles = function () {
 	            _this.setHeaders();
 	            return _this._http.get(_this.fileExplorerUrl, {
-	                headers: _this.headers
+	                headers: _this.headers,
+	                body: ''
 	            }).map(function (res) { return res.json(); });
 	        };
 	        this.actionUrl = _configuration.FileServer + "api/Download/";
@@ -797,13 +798,15 @@ webpackJsonp([0],{
 	        this.GetAll = function () {
 	            _this.setHeaders();
 	            return _this._http.get(_this.actionUrl, {
-	                headers: _this.headers
+	                headers: _this.headers,
+	                body: ''
 	            }).map(function (res) { return res.json(); });
 	        };
 	        this.GetById = function (id) {
 	            _this.setHeaders();
 	            return _this._http.get(_this.actionUrl + id, {
-	                headers: _this.headers
+	                headers: _this.headers,
+	                body: ''
 	            }).map(function (res) { return res.json(); });
 	        };
 	        this.Add = function (itemToAdd) {

@@ -31,14 +31,17 @@ export class DataEventRecordsService {
     public GetAll = (): Observable<DataEventRecord[]> => {
         this.setHeaders();
         return this._http.get(this.actionUrl, {
-            headers: this.headers
+            headers: this.headers,
+            body: ''
+
         }).map(res => res.json());
     }
 
     public GetById = (id: number): Observable<DataEventRecord> => {
         this.setHeaders();
         return this._http.get(this.actionUrl + id, {
-            headers: this.headers
+            headers: this.headers,
+            body: ''
         }).map(res => res.json());
     }
 

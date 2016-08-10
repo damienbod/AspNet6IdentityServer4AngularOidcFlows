@@ -39,7 +39,8 @@ export class SecureFileService {
     public GetListOfFiles = (): Observable<string[]> => {
         this.setHeaders();
         return this._http.get(this.fileExplorerUrl, {
-            headers: this.headers
+            headers: this.headers,
+            body: ''
         }).map(res => res.json());
     }
 
