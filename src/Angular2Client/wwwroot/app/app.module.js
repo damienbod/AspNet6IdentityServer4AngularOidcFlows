@@ -47,8 +47,7 @@ var AppModule = (function () {
             providers: [
                 SecurityService_1.SecurityService,
                 SecureFileService_1.SecureFileService,
-                app_constants_1.Configuration,
-                http_1.HTTP_PROVIDERS
+                app_constants_1.Configuration
             ],
             bootstrap: [app_component_1.AppComponent],
         }), 

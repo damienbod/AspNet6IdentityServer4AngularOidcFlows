@@ -25,9 +25,10 @@ export class DataEventRecordsService {
         this.headers.append('Accept', 'application/json');
 
         var token = this._securityService.GetToken();
-        console.log("Bearer:" + token);
         if (token !== "") {
-            this.headers.append('Authorization', 'Bearer ' + token);
+            let tokenValue = 'Bearer ' + token;
+            console.log("tokenValue:" + tokenValue);
+            this.headers.append('Authorization', tokenValue);
         }
     }
 

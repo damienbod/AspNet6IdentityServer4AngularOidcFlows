@@ -835,7 +835,9 @@ webpackJsonp([0],{
 	        var token = this._securityService.GetToken();
 	        console.log("Bearer:" + token);
 	        if (token !== "") {
-	            this.headers.append('Authorization', 'Bearer ' + token);
+	            var tokenValue = 'Bearer ' + token;
+	            console.log("tokenValue:" + tokenValue);
+	            this.headers.append('Authorization', tokenValue);
 	        }
 	    };
 	    DataEventRecordsService = __decorate([
