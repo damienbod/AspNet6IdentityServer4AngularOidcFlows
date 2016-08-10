@@ -800,10 +800,8 @@ webpackJsonp([0],{
 	        this._securityService = _securityService;
 	        this.GetAll = function () {
 	            _this.setHeaders();
-	            return _this._http.get(_this.actionUrl, {
-	                headers: _this.headers,
-	                body: ''
-	            }).map(function (res) { return res.json(); });
+	            var options = new http_1.RequestOptions({ headers: _this.headers, body: '' });
+	            return _this._http.get(_this.actionUrl, options).map(function (res) { return res.json(); });
 	        };
 	        this.GetById = function (id) {
 	            _this.setHeaders();
@@ -835,7 +833,7 @@ webpackJsonp([0],{
 	        this.headers.append('Content-Type', 'application/json');
 	        this.headers.append('Accept', 'application/json');
 	        var token = this._securityService.GetToken();
-	        console.log("token:" + token);
+	        console.log("Bearer:" + token);
 	        if (token !== "") {
 	            this.headers.append('Authorization', 'Bearer ' + token);
 	        }

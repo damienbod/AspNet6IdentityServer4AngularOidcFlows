@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
+var http_1 = require('@angular/http');
 var dataeventrecords_routes_1 = require('./dataeventrecords.routes');
 var dataeventrecords_create_component_1 = require('./dataeventrecords-create.component');
 var dataeventrecords_edit_component_1 = require('./dataeventrecords-edit.component');
@@ -32,7 +33,8 @@ var DataEventRecordsModule = (function () {
                 dataeventrecords_routes_1.dataEventRecordsRouting
             ],
             providers: [
-                DataEventRecordsService_1.DataEventRecordsService
+                DataEventRecordsService_1.DataEventRecordsService,
+                http_1.HTTP_PROVIDERS
             ]
         }), 
         __metadata('design:paramtypes', [])
