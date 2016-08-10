@@ -5,17 +5,11 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { SecurityService } from './services/SecurityService';
 import { SecureFilesComponent } from './securefile/securefiles.component';
 
-import { DataEventRecordsComponent } from './dataeventrecords/dataeventrecords.component';
-import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
-
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
     styleUrls: ['app/app.component.css'],
-    directives: [ROUTER_DIRECTIVES],
-    providers: [
-        DataEventRecordsService
-    ]
+    directives: [ROUTER_DIRECTIVES]
 })
 
 export class AppComponent {
