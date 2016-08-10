@@ -1,6 +1,6 @@
 import { NgModule }       from '@angular/core';
 import { CommonModule }   from '@angular/common';
-import { FormsModule }    from '@angular/forms';
+//import { FormsModule }    from '@angular/forms';
 
 import { dataEventRecordsRouting } from './dataeventrecords.routes';
 
@@ -18,7 +18,7 @@ import { DataEventRecordsService } from './DataEventRecordsService';
     ],
     imports: [
         CommonModule,
-        FormsModule,
+  //      FormsModule,
         dataEventRecordsRouting
     ],
     providers: [

@@ -28,15 +28,17 @@ var AppModule = (function () {
                 app_component_1.AppComponent,
                 forbidden_component_1.ForbiddenComponent,
                 home_component_1.HomeComponent,
-                unauthorized_component_1.UnauthorizedComponent
+                unauthorized_component_1.UnauthorizedComponent,
+                http_1.HTTP_PROVIDERS,
+                app_constants_1.Configuration,
             ],
             imports: [
                 platform_browser_1.BrowserModule,
                 app_routes_1.routing,
-                http_1.HTTP_PROVIDERS,
-                app_constants_1.Configuration,
-                SecurityService_1.SecurityService,
                 dataeventrecords_module_1.DataEventRecordsModule
+            ],
+            providers: [
+                SecurityService_1.SecurityService
             ],
             bootstrap: [app_component_1.AppComponent],
         }), 

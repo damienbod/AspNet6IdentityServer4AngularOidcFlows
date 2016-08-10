@@ -6,15 +6,12 @@ import { SecurityService } from './services/SecurityService';
 import { SecureFilesComponent } from './securefile/securefiles.component';
 
 const appRoutes: Routes = [
-    {
-        path: '',
-        redirectTo: '/home',
-        pathMatch: 'full'
-    },
+    { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent },
-    { path: 'securefile/securefiles', component: SecureFilesComponent }
+    { path: 'securefile/securefiles', component: SecureFilesComponent },
+	{ path: 'dataeventrecords', loadChildren: './dataeventrecords/dataeventrecords.module' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

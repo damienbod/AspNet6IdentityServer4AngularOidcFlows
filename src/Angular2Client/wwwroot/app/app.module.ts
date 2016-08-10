@@ -1,5 +1,7 @@
 import { NgModule }       from '@angular/core';
 import { BrowserModule  } from '@angular/platform-browser';
+//import { CommonModule }   from '@angular/common';
+//import { FormsModule }    from '@angular/forms';
 
 import { HTTP_PROVIDERS } from '@angular/http';
 import { AppComponent } from './app.component';
@@ -18,15 +20,19 @@ import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.modu
         AppComponent,
         ForbiddenComponent,
         HomeComponent,
-        UnauthorizedComponent
+        UnauthorizedComponent,
+        HTTP_PROVIDERS,
+        Configuration,
     ],
     imports: [
         BrowserModule,
+        //CommonModule,
+        //FormsModule,
         routing,
-        HTTP_PROVIDERS,
-        Configuration,
-        SecurityService,
         DataEventRecordsModule
+    ],
+    providers: [
+        SecurityService
     ],
     bootstrap:    [AppComponent],
 })

@@ -8,22 +8,72 @@ webpackJsonp([0],{
 
 	"use strict";
 	var platform_browser_dynamic_1 = __webpack_require__(/*! @angular/platform-browser-dynamic */ 1);
-	var http_1 = __webpack_require__(/*! @angular/http */ 328);
-	var app_component_1 = __webpack_require__(/*! ./app.component */ 349);
-	var app_constants_1 = __webpack_require__(/*! ./app.constants */ 403);
-	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 402);
-	var app_routes_1 = __webpack_require__(/*! ./app.routes */ 405);
-	platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
-	    app_routes_1.APP_ROUTER_PROVIDERS,
-	    http_1.HTTP_PROVIDERS,
-	    app_constants_1.Configuration,
-	    SecurityService_1.SecurityService
-	]);
+	var app_module_1 = __webpack_require__(/*! ./app.module */ 336);
+	platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
 
 
 /***/ },
 
-/***/ 349:
+/***/ 336:
+/*!***********************************!*\
+  !*** ./wwwroot/app/app.module.ts ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ 202);
+	var http_1 = __webpack_require__(/*! @angular/http */ 337);
+	var app_component_1 = __webpack_require__(/*! ./app.component */ 359);
+	var app_constants_1 = __webpack_require__(/*! ./app.constants */ 422);
+	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 421);
+	var app_routes_1 = __webpack_require__(/*! ./app.routes */ 423);
+	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 424);
+	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 425);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 426);
+	var dataeventrecords_module_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords.module */ 429);
+	var AppModule = (function () {
+	    function AppModule() {
+	    }
+	    AppModule = __decorate([
+	        core_1.NgModule({
+	            declarations: [
+	                app_component_1.AppComponent,
+	                forbidden_component_1.ForbiddenComponent,
+	                home_component_1.HomeComponent,
+	                unauthorized_component_1.UnauthorizedComponent,
+	                http_1.HTTP_PROVIDERS,
+	                app_constants_1.Configuration,
+	            ],
+	            imports: [
+	                platform_browser_1.BrowserModule,
+	                app_routes_1.routing,
+	                dataeventrecords_module_1.DataEventRecordsModule
+	            ],
+	            providers: [
+	                SecurityService_1.SecurityService
+	            ],
+	            bootstrap: [app_component_1.AppComponent],
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], AppModule);
+	    return AppModule;
+	}());
+	exports.AppModule = AppModule;
+
+
+/***/ },
+
+/***/ 359:
 /*!**************************************!*\
   !*** ./wwwroot/app/app.component.ts ***!
   \**************************************/
@@ -39,10 +89,9 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var router_1 = __webpack_require__(/*! @angular/router */ 350);
-	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 402);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 404);
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var router_1 = __webpack_require__(/*! @angular/router */ 360);
+	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 421);
 	var AppComponent = (function () {
 	    function AppComponent(securityService) {
 	        this.securityService = securityService;
@@ -66,10 +115,7 @@ webpackJsonp([0],{
 	            selector: 'my-app',
 	            templateUrl: 'app/app.component.html',
 	            styleUrls: ['app/app.component.css'],
-	            directives: [router_1.ROUTER_DIRECTIVES],
-	            providers: [
-	                DataEventRecordsService_1.DataEventRecordsService
-	            ]
+	            directives: [router_1.ROUTER_DIRECTIVES]
 	        }), 
 	        __metadata('design:paramtypes', [SecurityService_1.SecurityService])
 	    ], AppComponent);
@@ -80,7 +126,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 402:
+/***/ 421:
 /*!*************************************************!*\
   !*** ./wwwroot/app/services/SecurityService.ts ***!
   \*************************************************/
@@ -96,11 +142,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var http_1 = __webpack_require__(/*! @angular/http */ 328);
-	__webpack_require__(/*! rxjs/add/operator/map */ 353);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 403);
-	var router_1 = __webpack_require__(/*! @angular/router */ 350);
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var http_1 = __webpack_require__(/*! @angular/http */ 337);
+	__webpack_require__(/*! rxjs/add/operator/map */ 363);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 422);
+	var router_1 = __webpack_require__(/*! @angular/router */ 360);
 	var SecurityService = (function () {
 	    function SecurityService(_http, _configuration, _router) {
 	        this._http = _http;
@@ -202,7 +248,7 @@ webpackJsonp([0],{
 	        if (authResponseIsValid) {
 	            this.SetAuthorizationData(token, id_token);
 	            console.log(this.retrieve("authorizationData"));
-	            this._router.navigate(['/dataeventrecords']);
+	            this._router.navigate(['/dataeventrecords/list']);
 	        }
 	        else {
 	            this.ResetAuthorizationData();
@@ -275,7 +321,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 403:
+/***/ 422:
 /*!**************************************!*\
   !*** ./wwwroot/app/app.constants.ts ***!
   \**************************************/
@@ -291,7 +337,7 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
 	var Configuration = (function () {
 	    function Configuration() {
 	        this.Server = "https://localhost:44390/";
@@ -308,7 +354,411 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 404:
+/***/ 423:
+/*!***********************************!*\
+  !*** ./wwwroot/app/app.routes.ts ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var router_1 = __webpack_require__(/*! @angular/router */ 360);
+	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 424);
+	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 425);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 426);
+	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 427);
+	var appRoutes = [
+	    { path: '', component: home_component_1.HomeComponent },
+	    { path: 'home', component: home_component_1.HomeComponent },
+	    { path: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
+	    { path: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
+	    { path: 'securefile/securefiles', component: securefiles_component_1.SecureFilesComponent },
+	    { path: 'dataeventrecords', loadChildren: './dataeventrecords/dataeventrecords.module' }
+	];
+	exports.routing = router_1.RouterModule.forRoot(appRoutes);
+
+
+/***/ },
+
+/***/ 424:
+/*!******************************************************!*\
+  !*** ./wwwroot/app/forbidden/forbidden.component.ts ***!
+  \******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var common_1 = __webpack_require__(/*! @angular/common */ 204);
+	var ForbiddenComponent = (function () {
+	    function ForbiddenComponent() {
+	        this.message = "ForbiddenComponent constructor";
+	    }
+	    ForbiddenComponent.prototype.ngOnInit = function () {
+	    };
+	    ForbiddenComponent = __decorate([
+	        core_1.Component({
+	            selector: 'forbidden',
+	            templateUrl: 'app/forbidden/forbidden.component.html',
+	            directives: [common_1.CORE_DIRECTIVES]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], ForbiddenComponent);
+	    return ForbiddenComponent;
+	}());
+	exports.ForbiddenComponent = ForbiddenComponent;
+
+
+/***/ },
+
+/***/ 425:
+/*!********************************************!*\
+  !*** ./wwwroot/app/home/home.component.ts ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var common_1 = __webpack_require__(/*! @angular/common */ 204);
+	var HomeComponent = (function () {
+	    function HomeComponent() {
+	        this.message = "HomeComponent constructor";
+	    }
+	    HomeComponent.prototype.ngOnInit = function () {
+	    };
+	    HomeComponent = __decorate([
+	        core_1.Component({
+	            selector: 'forbidden',
+	            templateUrl: 'app/home/home.component.html',
+	            directives: [common_1.CORE_DIRECTIVES]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], HomeComponent);
+	    return HomeComponent;
+	}());
+	exports.HomeComponent = HomeComponent;
+
+
+/***/ },
+
+/***/ 426:
+/*!************************************************************!*\
+  !*** ./wwwroot/app/unauthorized/unauthorized.component.ts ***!
+  \************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var common_1 = __webpack_require__(/*! @angular/common */ 204);
+	var UnauthorizedComponent = (function () {
+	    function UnauthorizedComponent() {
+	        this.message = "UnauthorizedComponent constructor";
+	    }
+	    UnauthorizedComponent.prototype.ngOnInit = function () {
+	    };
+	    UnauthorizedComponent = __decorate([
+	        core_1.Component({
+	            selector: 'unauthorized',
+	            templateUrl: 'app/unauthorized/unauthorized.component.html',
+	            directives: [common_1.CORE_DIRECTIVES]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], UnauthorizedComponent);
+	    return UnauthorizedComponent;
+	}());
+	exports.UnauthorizedComponent = UnauthorizedComponent;
+
+
+/***/ },
+
+/***/ 427:
+/*!*********************************************************!*\
+  !*** ./wwwroot/app/securefile/securefiles.component.ts ***!
+  \*********************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var common_1 = __webpack_require__(/*! @angular/common */ 204);
+	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 428);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 421);
+	var SecureFilesComponent = (function () {
+	    function SecureFilesComponent(_secureFileService, securityService) {
+	        this._secureFileService = _secureFileService;
+	        this.securityService = securityService;
+	        this.message = "Secure Files download";
+	    }
+	    SecureFilesComponent.prototype.ngOnInit = function () {
+	        this.getData();
+	    };
+	    SecureFilesComponent.prototype.DownloadFileById = function (id) {
+	        this._secureFileService.DownloadFile(id);
+	    };
+	    SecureFilesComponent.prototype.getData = function () {
+	        var _this = this;
+	        this._secureFileService.GetListOfFiles()
+	            .subscribe(function (data) { return _this.Files = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
+	    };
+	    SecureFilesComponent = __decorate([
+	        core_1.Component({
+	            selector: 'securefiles',
+	            templateUrl: 'app/securefile/securefiles.component.html',
+	            directives: [common_1.CORE_DIRECTIVES],
+	            providers: [SecureFileService_1.SecureFileService]
+	        }), 
+	        __metadata('design:paramtypes', [SecureFileService_1.SecureFileService, SecurityService_1.SecurityService])
+	    ], SecureFilesComponent);
+	    return SecureFilesComponent;
+	}());
+	exports.SecureFilesComponent = SecureFilesComponent;
+
+
+/***/ },
+
+/***/ 428:
+/*!*****************************************************!*\
+  !*** ./wwwroot/app/securefile/SecureFileService.ts ***!
+  \*****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var http_1 = __webpack_require__(/*! @angular/http */ 337);
+	__webpack_require__(/*! rxjs/add/operator/map */ 363);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 422);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 421);
+	var SecureFileService = (function () {
+	    function SecureFileService(_http, _configuration, _securityService) {
+	        var _this = this;
+	        this._http = _http;
+	        this._configuration = _configuration;
+	        this._securityService = _securityService;
+	        this.GetListOfFiles = function () {
+	            _this.setHeaders();
+	            return _this._http.get(_this.fileExplorerUrl, {
+	                headers: _this.headers
+	            }).map(function (res) { return res.json(); });
+	        };
+	        this.actionUrl = _configuration.FileServer + "api/Download/";
+	        this.fileExplorerUrl = _configuration.FileServer + "api/FileExplorer/";
+	    }
+	    SecureFileService.prototype.DownloadFile = function (id) {
+	        var _this = this;
+	        this.setHeaders();
+	        var oneTimeAccessToken = "";
+	        this._http.get(this.actionUrl + "GenerateOneTimeAccessToken/" + id, {
+	            headers: this.headers
+	        }).map(function (res) { return res.text(); }).subscribe(function (data) {
+	            oneTimeAccessToken = data;
+	        }, function (error) { return _this._securityService.HandleError(error); }, function () {
+	            console.log("open DownloadFile for file " + id + ": " + _this.actionUrl + oneTimeAccessToken);
+	            window.open("" + _this.actionUrl + oneTimeAccessToken);
+	        });
+	    };
+	    SecureFileService.prototype.setHeaders = function () {
+	        this.headers = new http_1.Headers();
+	        this.headers.append('Content-Type', 'application/json');
+	        this.headers.append('Accept', 'application/json');
+	        var token = this._securityService.GetToken();
+	        if (token !== "") {
+	            this.headers.append('Authorization', 'Bearer ' + token);
+	        }
+	    };
+	    SecureFileService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [http_1.Http, app_constants_1.Configuration, SecurityService_1.SecurityService])
+	    ], SecureFileService);
+	    return SecureFileService;
+	}());
+	exports.SecureFileService = SecureFileService;
+
+
+/***/ },
+
+/***/ 429:
+/*!*****************************************************************!*\
+  !*** ./wwwroot/app/dataeventrecords/dataeventrecords.module.ts ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var common_1 = __webpack_require__(/*! @angular/common */ 204);
+	var dataeventrecords_routes_1 = __webpack_require__(/*! ./dataeventrecords.routes */ 430);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords-create.component */ 433);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords-edit.component */ 434);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords-list.component */ 431);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ./DataEventRecordsService */ 432);
+	var DataEventRecordsModule = (function () {
+	    function DataEventRecordsModule() {
+	    }
+	    DataEventRecordsModule = __decorate([
+	        core_1.NgModule({
+	            declarations: [
+	                dataeventrecords_create_component_1.DataEventRecordsCreateComponent,
+	                dataeventrecords_edit_component_1.DataEventRecordsEditComponent,
+	                dataeventrecords_list_component_1.DataEventRecordsListComponent
+	            ],
+	            imports: [
+	                common_1.CommonModule,
+	                dataeventrecords_routes_1.dataEventRecordsRouting
+	            ],
+	            providers: [
+	                DataEventRecordsService_1.DataEventRecordsService
+	            ]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], DataEventRecordsModule);
+	    return DataEventRecordsModule;
+	}());
+	exports.DataEventRecordsModule = DataEventRecordsModule;
+
+
+/***/ },
+
+/***/ 430:
+/*!*****************************************************************!*\
+  !*** ./wwwroot/app/dataeventrecords/dataeventrecords.routes.ts ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var router_1 = __webpack_require__(/*! @angular/router */ 360);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-list.component */ 431);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 433);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 434);
+	var dataEventRecordsRoutes = [
+	    { path: '', component: dataeventrecords_list_component_1.DataEventRecordsListComponent },
+	    {
+	        path: 'create',
+	        component: dataeventrecords_create_component_1.DataEventRecordsCreateComponent
+	    },
+	    {
+	        path: 'edit/:id',
+	        component: dataeventrecords_edit_component_1.DataEventRecordsEditComponent
+	    },
+	    {
+	        path: 'list',
+	        component: dataeventrecords_list_component_1.DataEventRecordsListComponent,
+	    }
+	];
+	exports.dataEventRecordsRouting = router_1.RouterModule.forChild(dataEventRecordsRoutes);
+
+
+/***/ },
+
+/***/ 431:
+/*!*************************************************************************!*\
+  !*** ./wwwroot/app/dataeventrecords/dataeventrecords-list.component.ts ***!
+  \*************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var common_1 = __webpack_require__(/*! @angular/common */ 204);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 421);
+	var router_1 = __webpack_require__(/*! @angular/router */ 360);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 432);
+	var DataEventRecordsListComponent = (function () {
+	    function DataEventRecordsListComponent(_dataEventRecordsService, securityService, _router) {
+	        this._dataEventRecordsService = _dataEventRecordsService;
+	        this.securityService = securityService;
+	        this._router = _router;
+	        this.message = "DataEventRecords";
+	    }
+	    DataEventRecordsListComponent.prototype.ngOnInit = function () {
+	        this.getData();
+	    };
+	    DataEventRecordsListComponent.prototype.Delete = function (id) {
+	        var _this = this;
+	        console.log("Try to delete" + id);
+	        this._dataEventRecordsService.Delete(id)
+	            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this.getData(); });
+	    };
+	    DataEventRecordsListComponent.prototype.getData = function () {
+	        var _this = this;
+	        console.log('DataEventRecordsListComponent:getData starting...');
+	        this._dataEventRecordsService
+	            .GetAll()
+	            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
+	    };
+	    DataEventRecordsListComponent = __decorate([
+	        core_1.Component({
+	            selector: 'dataeventrecords-list',
+	            templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html',
+	            directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
+	        }), 
+	        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
+	    ], DataEventRecordsListComponent);
+	    return DataEventRecordsListComponent;
+	}());
+	exports.DataEventRecordsListComponent = DataEventRecordsListComponent;
+
+
+/***/ },
+
+/***/ 432:
 /*!*****************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/DataEventRecordsService.ts ***!
   \*****************************************************************/
@@ -324,11 +774,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var http_1 = __webpack_require__(/*! @angular/http */ 328);
-	__webpack_require__(/*! rxjs/add/operator/map */ 353);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 403);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var http_1 = __webpack_require__(/*! @angular/http */ 337);
+	__webpack_require__(/*! rxjs/add/operator/map */ 363);
+	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 422);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 421);
 	var DataEventRecordsService = (function () {
 	    function DataEventRecordsService(_http, _configuration, _securityService) {
 	        var _this = this;
@@ -384,403 +834,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 405:
-/*!***********************************!*\
-  !*** ./wwwroot/app/app.routes.ts ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var router_1 = __webpack_require__(/*! @angular/router */ 350);
-	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 406);
-	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 407);
-	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 408);
-	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 409);
-	var dataeventrecords_routes_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords.routes */ 411);
-	exports.routes = [
-	    { path: '', component: home_component_1.HomeComponent },
-	    { path: 'Forbidden', component: forbidden_component_1.ForbiddenComponent },
-	    { path: 'Unauthorized', component: unauthorized_component_1.UnauthorizedComponent },
-	    { path: 'securefile/securefiles', component: securefiles_component_1.SecureFilesComponent }
-	].concat(dataeventrecords_routes_1.DataEventRecordsRoutes);
-	exports.APP_ROUTER_PROVIDERS = [
-	    router_1.provideRouter(exports.routes)
-	];
-
-
-/***/ },
-
-/***/ 406:
-/*!******************************************************!*\
-  !*** ./wwwroot/app/forbidden/forbidden.component.ts ***!
-  \******************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var ForbiddenComponent = (function () {
-	    function ForbiddenComponent() {
-	        this.message = "ForbiddenComponent constructor";
-	    }
-	    ForbiddenComponent.prototype.ngOnInit = function () {
-	    };
-	    ForbiddenComponent = __decorate([
-	        core_1.Component({
-	            selector: 'forbidden',
-	            templateUrl: 'app/forbidden/forbidden.component.html',
-	            directives: [common_1.CORE_DIRECTIVES]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], ForbiddenComponent);
-	    return ForbiddenComponent;
-	}());
-	exports.ForbiddenComponent = ForbiddenComponent;
-
-
-/***/ },
-
-/***/ 407:
-/*!********************************************!*\
-  !*** ./wwwroot/app/home/home.component.ts ***!
-  \********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var HomeComponent = (function () {
-	    function HomeComponent() {
-	        this.message = "HomeComponent constructor";
-	    }
-	    HomeComponent.prototype.ngOnInit = function () {
-	    };
-	    HomeComponent = __decorate([
-	        core_1.Component({
-	            selector: 'forbidden',
-	            templateUrl: 'app/home/home.component.html',
-	            directives: [common_1.CORE_DIRECTIVES]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], HomeComponent);
-	    return HomeComponent;
-	}());
-	exports.HomeComponent = HomeComponent;
-
-
-/***/ },
-
-/***/ 408:
-/*!************************************************************!*\
-  !*** ./wwwroot/app/unauthorized/unauthorized.component.ts ***!
-  \************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var UnauthorizedComponent = (function () {
-	    function UnauthorizedComponent() {
-	        this.message = "UnauthorizedComponent constructor";
-	    }
-	    UnauthorizedComponent.prototype.ngOnInit = function () {
-	    };
-	    UnauthorizedComponent = __decorate([
-	        core_1.Component({
-	            selector: 'unauthorized',
-	            templateUrl: 'app/unauthorized/unauthorized.component.html',
-	            directives: [common_1.CORE_DIRECTIVES]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], UnauthorizedComponent);
-	    return UnauthorizedComponent;
-	}());
-	exports.UnauthorizedComponent = UnauthorizedComponent;
-
-
-/***/ },
-
-/***/ 409:
-/*!*********************************************************!*\
-  !*** ./wwwroot/app/securefile/securefiles.component.ts ***!
-  \*********************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 410);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
-	var SecureFilesComponent = (function () {
-	    function SecureFilesComponent(_secureFileService, securityService) {
-	        this._secureFileService = _secureFileService;
-	        this.securityService = securityService;
-	        this.message = "Secure Files download";
-	    }
-	    SecureFilesComponent.prototype.ngOnInit = function () {
-	        this.getData();
-	    };
-	    SecureFilesComponent.prototype.DownloadFileById = function (id) {
-	        this._secureFileService.DownloadFile(id);
-	    };
-	    SecureFilesComponent.prototype.getData = function () {
-	        var _this = this;
-	        this._secureFileService.GetListOfFiles()
-	            .subscribe(function (data) { return _this.Files = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
-	    };
-	    SecureFilesComponent = __decorate([
-	        core_1.Component({
-	            selector: 'securefiles',
-	            templateUrl: 'app/securefile/securefiles.component.html',
-	            directives: [common_1.CORE_DIRECTIVES],
-	            providers: [SecureFileService_1.SecureFileService]
-	        }), 
-	        __metadata('design:paramtypes', [SecureFileService_1.SecureFileService, SecurityService_1.SecurityService])
-	    ], SecureFilesComponent);
-	    return SecureFilesComponent;
-	}());
-	exports.SecureFilesComponent = SecureFilesComponent;
-
-
-/***/ },
-
-/***/ 410:
-/*!*****************************************************!*\
-  !*** ./wwwroot/app/securefile/SecureFileService.ts ***!
-  \*****************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var http_1 = __webpack_require__(/*! @angular/http */ 328);
-	__webpack_require__(/*! rxjs/add/operator/map */ 353);
-	var app_constants_1 = __webpack_require__(/*! ../app.constants */ 403);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
-	var SecureFileService = (function () {
-	    function SecureFileService(_http, _configuration, _securityService) {
-	        var _this = this;
-	        this._http = _http;
-	        this._configuration = _configuration;
-	        this._securityService = _securityService;
-	        this.GetListOfFiles = function () {
-	            _this.setHeaders();
-	            return _this._http.get(_this.fileExplorerUrl, {
-	                headers: _this.headers
-	            }).map(function (res) { return res.json(); });
-	        };
-	        this.actionUrl = _configuration.FileServer + "api/Download/";
-	        this.fileExplorerUrl = _configuration.FileServer + "api/FileExplorer/";
-	    }
-	    SecureFileService.prototype.DownloadFile = function (id) {
-	        var _this = this;
-	        this.setHeaders();
-	        var oneTimeAccessToken = "";
-	        this._http.get(this.actionUrl + "GenerateOneTimeAccessToken/" + id, {
-	            headers: this.headers
-	        }).map(function (res) { return res.text(); }).subscribe(function (data) {
-	            oneTimeAccessToken = data;
-	        }, function (error) { return _this._securityService.HandleError(error); }, function () {
-	            console.log("open DownloadFile for file " + id + ": " + _this.actionUrl + oneTimeAccessToken);
-	            window.open("" + _this.actionUrl + oneTimeAccessToken);
-	        });
-	    };
-	    SecureFileService.prototype.setHeaders = function () {
-	        this.headers = new http_1.Headers();
-	        this.headers.append('Content-Type', 'application/json');
-	        this.headers.append('Accept', 'application/json');
-	        var token = this._securityService.GetToken();
-	        if (token !== "") {
-	            this.headers.append('Authorization', 'Bearer ' + token);
-	        }
-	    };
-	    SecureFileService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [http_1.Http, app_constants_1.Configuration, SecurityService_1.SecurityService])
-	    ], SecureFileService);
-	    return SecureFileService;
-	}());
-	exports.SecureFileService = SecureFileService;
-
-
-/***/ },
-
-/***/ 411:
-/*!*****************************************************************!*\
-  !*** ./wwwroot/app/dataeventrecords/dataeventrecords.routes.ts ***!
-  \*****************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var dataeventrecords_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords.component */ 412);
-	var dataeventrecords_list_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-list.component */ 413);
-	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 414);
-	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 415);
-	exports.DataEventRecordsRoutes = [
-	    {
-	        path: 'dataeventrecords',
-	        component: dataeventrecords_component_1.DataEventRecordsComponent,
-	        children: [
-	            {
-	                path: '',
-	                component: dataeventrecords_list_component_1.DataEventRecordsListComponent,
-	            },
-	            {
-	                path: 'create',
-	                component: dataeventrecords_create_component_1.DataEventRecordsCreateComponent
-	            },
-	            {
-	                path: 'edit/:id',
-	                component: dataeventrecords_edit_component_1.DataEventRecordsEditComponent
-	            }
-	        ]
-	    }
-	];
-
-
-/***/ },
-
-/***/ 412:
-/*!********************************************************************!*\
-  !*** ./wwwroot/app/dataeventrecords/dataeventrecords.component.ts ***!
-  \********************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var router_1 = __webpack_require__(/*! @angular/router */ 350);
-	var DataEventRecordsComponent = (function () {
-	    function DataEventRecordsComponent() {
-	    }
-	    DataEventRecordsComponent = __decorate([
-	        core_1.Component({
-	            selector: 'dataeventrecords',
-	            templateUrl: 'app/dataeventrecords/dataeventrecords.component.html',
-	            directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], DataEventRecordsComponent);
-	    return DataEventRecordsComponent;
-	}());
-	exports.DataEventRecordsComponent = DataEventRecordsComponent;
-
-
-/***/ },
-
-/***/ 413:
-/*!*************************************************************************!*\
-  !*** ./wwwroot/app/dataeventrecords/dataeventrecords-list.component.ts ***!
-  \*************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
-	var router_1 = __webpack_require__(/*! @angular/router */ 350);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 404);
-	var DataEventRecordsListComponent = (function () {
-	    function DataEventRecordsListComponent(_dataEventRecordsService, securityService, _router) {
-	        this._dataEventRecordsService = _dataEventRecordsService;
-	        this.securityService = securityService;
-	        this._router = _router;
-	        this.message = "DataEventRecords";
-	    }
-	    DataEventRecordsListComponent.prototype.ngOnInit = function () {
-	        this.getData();
-	    };
-	    DataEventRecordsListComponent.prototype.Delete = function (id) {
-	        var _this = this;
-	        console.log("Try to delete" + id);
-	        this._dataEventRecordsService.Delete(id)
-	            .subscribe((function () { return console.log("subscribed"); }), function (error) { return _this.securityService.HandleError(error); }, function () { return _this.getData(); });
-	    };
-	    DataEventRecordsListComponent.prototype.getData = function () {
-	        var _this = this;
-	        console.log('DataEventRecordsListComponent:getData starting...');
-	        this._dataEventRecordsService
-	            .GetAll()
-	            .subscribe(function (data) { return _this.DataEventRecords = data; }, function (error) { return _this.securityService.HandleError(error); }, function () { return console.log('Get all completed'); });
-	    };
-	    DataEventRecordsListComponent = __decorate([
-	        core_1.Component({
-	            selector: 'dataeventrecords-list',
-	            templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html',
-	            directives: [common_1.CORE_DIRECTIVES, router_1.ROUTER_DIRECTIVES]
-	        }), 
-	        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
-	    ], DataEventRecordsListComponent);
-	    return DataEventRecordsListComponent;
-	}());
-	exports.DataEventRecordsListComponent = DataEventRecordsListComponent;
-
-
-/***/ },
-
-/***/ 414:
+/***/ 433:
 /*!***************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-create.component.ts ***!
   \***************************************************************************/
@@ -796,11 +850,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var router_1 = __webpack_require__(/*! @angular/router */ 350);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 404);
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var common_1 = __webpack_require__(/*! @angular/common */ 204);
+	var router_1 = __webpack_require__(/*! @angular/router */ 360);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 421);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 432);
 	var DataEventRecordsCreateComponent = (function () {
 	    function DataEventRecordsCreateComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -834,7 +888,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 415:
+/***/ 434:
 /*!*************************************************************************!*\
   !*** ./wwwroot/app/dataeventrecords/dataeventrecords-edit.component.ts ***!
   \*************************************************************************/
@@ -850,11 +904,11 @@ webpackJsonp([0],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(/*! @angular/core */ 5);
-	var router_1 = __webpack_require__(/*! @angular/router */ 350);
-	var common_1 = __webpack_require__(/*! @angular/common */ 2);
-	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 402);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 404);
+	var core_1 = __webpack_require__(/*! @angular/core */ 11);
+	var router_1 = __webpack_require__(/*! @angular/router */ 360);
+	var common_1 = __webpack_require__(/*! @angular/common */ 204);
+	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 421);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 432);
 	var DataEventRecordsEditComponent = (function () {
 	    function DataEventRecordsEditComponent(_dataEventRecordsService, securityService, _route, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;

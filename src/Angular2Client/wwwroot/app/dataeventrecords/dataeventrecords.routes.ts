@@ -4,6 +4,7 @@ import { DataEventRecordsCreateComponent } from '../dataeventrecords/dataeventre
 import { DataEventRecordsEditComponent } from '../dataeventrecords/dataeventrecords-edit.component';
 
 const dataEventRecordsRoutes: Routes = [
+    { path: '', component: DataEventRecordsListComponent },
     {
         path: 'create',
         component: DataEventRecordsCreateComponent
