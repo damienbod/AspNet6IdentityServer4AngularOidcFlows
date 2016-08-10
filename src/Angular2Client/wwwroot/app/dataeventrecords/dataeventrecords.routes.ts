@@ -1,26 +1,28 @@
-import { provideRouter, RouterConfig } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { DataEventRecordsComponent } from '../dataeventrecords/dataeventrecords.component';
 import { DataEventRecordsListComponent } from '../dataeventrecords/dataeventrecords-list.component';
 import { DataEventRecordsCreateComponent } from '../dataeventrecords/dataeventrecords-create.component';
 import { DataEventRecordsEditComponent } from '../dataeventrecords/dataeventrecords-edit.component';
 
-export const DataEventRecordsRoutes: RouterConfig = [
+const dataEventRecordsRoutes: Routes = [
     {
-        path: 'dataeventrecords',
-        component: DataEventRecordsComponent,
-        children: [
-            {
-                path: 'create',
-                component: DataEventRecordsCreateComponent
-            },
-            {
-                path: 'edit/:id',
-                component: DataEventRecordsEditComponent
-            },
-            {
-                path: '',
-                component: DataEventRecordsListComponent,
-            }
-        ]
+        path: '',
+        redirectTo: '/list',
+        pathMatch: 'full'
+    },
+    {
+        path: 'create',
+        component: DataEventRecordsCreateComponent
+    },
+    {
+        path: 'edit/:id',
+        component: DataEventRecordsEditComponent
+    },
+    {
+        path: 'list',
+        component: DataEventRecordsListComponent,
     }
 ];
+
+export const dataEventRecordsRouting = RouterModule.forChild(dataEventRecordsRoutes);
+

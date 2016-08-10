@@ -18,6 +18,7 @@ var app_routes_1 = require('./app.routes');
 var forbidden_component_1 = require('./forbidden/forbidden.component');
 var home_component_1 = require('./home/home.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
+var dataeventrecords_module_1 = require('./dataeventrecords/dataeventrecords.module');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -34,7 +35,8 @@ var AppModule = (function () {
                 app_routes_1.routing,
                 http_1.HTTP_PROVIDERS,
                 app_constants_1.Configuration,
-                SecurityService_1.SecurityService
+                SecurityService_1.SecurityService,
+                dataeventrecords_module_1.DataEventRecordsModule
             ],
             bootstrap: [app_component_1.AppComponent],
         }), 

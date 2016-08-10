@@ -11,6 +11,8 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
+import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -23,7 +25,8 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
         routing,
         HTTP_PROVIDERS,
         Configuration,
-        SecurityService
+        SecurityService,
+        DataEventRecordsModule
     ],
     bootstrap:    [AppComponent],
 })
