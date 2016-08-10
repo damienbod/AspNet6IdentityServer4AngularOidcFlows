@@ -1,19 +1,20 @@
-import { provideRouter, RouterConfig } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { SecurityService } from './services/SecurityService';
 import { SecureFilesComponent } from './securefile/securefiles.component';
-import { DataEventRecordsRoutes } from './dataeventrecords/dataeventrecords.routes';
 
-export const routes: RouterConfig = [
+const appRoutes: Routes = [
+    {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full'
+    },
+    { path: 'home', component: HomeComponent },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent },
-    { path: 'securefile/securefiles', component: SecureFilesComponent },
-    ...DataEventRecordsRoutes,
-    { path: '', component: HomeComponent }
+    { path: 'securefile/securefiles', component: SecureFilesComponent }
 ];
 
-export const APP_ROUTER_PROVIDERS = [
-    provideRouter(routes)
-];
+export const routing = RouterModule.forRoot(appRoutes);
