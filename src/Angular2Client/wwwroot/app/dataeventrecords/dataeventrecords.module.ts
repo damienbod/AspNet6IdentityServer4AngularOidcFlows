@@ -3,8 +3,6 @@ import { CommonModule }   from '@angular/common';
 import { FormsModule }    from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 
-import { DataEventRecord } from './models/dataeventrecord';
-
 import { dataEventRecordsRouting } from './dataeventrecords.routes';
 
 import { DataEventRecordsCreateComponent } from './dataeventrecords-create.component';

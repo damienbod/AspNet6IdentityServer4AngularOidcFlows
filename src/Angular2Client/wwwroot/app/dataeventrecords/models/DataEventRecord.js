@@ -5,4 +5,4 @@ var DataEventRecord = (function () {
     return DataEventRecord;
 }());
 exports.DataEventRecord = DataEventRecord;
-//# sourceMappingURL=dataeventrecord.js.map
+//# sourceMappingURL=DataEventRecord.js.map

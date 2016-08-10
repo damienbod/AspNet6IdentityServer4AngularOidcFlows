@@ -4,7 +4,9 @@ var dataeventrecords_list_component_1 = require('../dataeventrecords/dataeventre
 var dataeventrecords_create_component_1 = require('../dataeventrecords/dataeventrecords-create.component');
 var dataeventrecords_edit_component_1 = require('../dataeventrecords/dataeventrecords-edit.component');
 var dataEventRecordsRoutes = [
-    { path: '', component: dataeventrecords_list_component_1.DataEventRecordsListComponent },
+    {
+        path: '', component: dataeventrecords_list_component_1.DataEventRecordsListComponent
+    },
     {
         path: 'create',
         component: dataeventrecords_create_component_1.DataEventRecordsCreateComponent

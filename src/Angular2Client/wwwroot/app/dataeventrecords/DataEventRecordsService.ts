@@ -17,12 +17,15 @@ export class DataEventRecordsService {
     }
 
     private setHeaders() {
+
+        console.log("setHeaders started");
+
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
         var token = this._securityService.GetToken();
-
+        console.log("token:" + token);
         if (token !== "") {
             this.headers.append('Authorization', 'Bearer ' + token);
         }

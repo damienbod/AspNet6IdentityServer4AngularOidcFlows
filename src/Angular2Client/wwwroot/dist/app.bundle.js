@@ -598,7 +598,8 @@ webpackJsonp([0],{
 	        this.setHeaders();
 	        var oneTimeAccessToken = "";
 	        this._http.get(this.actionUrl + "GenerateOneTimeAccessToken/" + id, {
-	            headers: this.headers
+	            headers: this.headers,
+	            body: ''
 	        }).map(function (res) { return res.text(); }).subscribe(function (data) {
 	            oneTimeAccessToken = data;
 	        }, function (error) { return _this._securityService.HandleError(error); }, function () {
@@ -690,7 +691,9 @@ webpackJsonp([0],{
 	var dataeventrecords_create_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-create.component */ 472);
 	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ../dataeventrecords/dataeventrecords-edit.component */ 473);
 	var dataEventRecordsRoutes = [
-	    { path: '', component: dataeventrecords_list_component_1.DataEventRecordsListComponent },
+	    {
+	        path: '', component: dataeventrecords_list_component_1.DataEventRecordsListComponent
+	    },
 	    {
 	        path: 'create',
 	        component: dataeventrecords_create_component_1.DataEventRecordsCreateComponent
@@ -827,10 +830,12 @@ webpackJsonp([0],{
 	        this.actionUrl = _configuration.Server + "api/DataEventRecords/";
 	    }
 	    DataEventRecordsService.prototype.setHeaders = function () {
+	        console.log("setHeaders started");
 	        this.headers = new http_1.Headers();
 	        this.headers.append('Content-Type', 'application/json');
 	        this.headers.append('Accept', 'application/json');
 	        var token = this._securityService.GetToken();
+	        console.log("token:" + token);
 	        if (token !== "") {
 	            this.headers.append('Authorization', 'Bearer ' + token);
 	        }

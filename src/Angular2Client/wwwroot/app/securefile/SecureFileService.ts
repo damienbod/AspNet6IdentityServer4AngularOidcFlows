@@ -21,7 +21,8 @@ export class SecureFileService {
         this.setHeaders();
         let oneTimeAccessToken = "";
         this._http.get(`${this.actionUrl}GenerateOneTimeAccessToken/${id}`, {
-            headers: this.headers
+            headers: this.headers,
+            body: ''
         }).map(
             res => res.text()
             ).subscribe(
