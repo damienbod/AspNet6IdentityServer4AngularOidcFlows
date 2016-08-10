@@ -10,11 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
-var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
 var app_constants_1 = require('./app.constants');
-var SecurityService_1 = require('./services/SecurityService');
 var app_routes_1 = require('./app.routes');
+var http_1 = require('@angular/http');
+var SecurityService_1 = require('./services/SecurityService');
 var forbidden_component_1 = require('./forbidden/forbidden.component');
 var home_component_1 = require('./home/home.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
@@ -24,21 +24,22 @@ var AppModule = (function () {
     }
     AppModule = __decorate([
         core_1.NgModule({
+            imports: [
+                platform_browser_1.BrowserModule,
+                app_routes_1.routing,
+                dataeventrecords_module_1.DataEventRecordsModule,
+                http_1.HttpModule,
+                http_1.JsonpModule
+            ],
             declarations: [
                 app_component_1.AppComponent,
                 forbidden_component_1.ForbiddenComponent,
                 home_component_1.HomeComponent,
-                unauthorized_component_1.UnauthorizedComponent,
-                http_1.HTTP_PROVIDERS,
-                app_constants_1.Configuration,
-            ],
-            imports: [
-                platform_browser_1.BrowserModule,
-                app_routes_1.routing,
-                dataeventrecords_module_1.DataEventRecordsModule
+                unauthorized_component_1.UnauthorizedComponent
             ],
             providers: [
-                SecurityService_1.SecurityService
+                SecurityService_1.SecurityService,
+                app_constants_1.Configuration
             ],
             bootstrap: [app_component_1.AppComponent],
         }), 
