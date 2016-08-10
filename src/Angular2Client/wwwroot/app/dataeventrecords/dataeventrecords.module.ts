@@ -1,7 +1,9 @@
 import { NgModule }       from '@angular/core';
 import { CommonModule }   from '@angular/common';
-//import { FormsModule }    from '@angular/forms';
+import { FormsModule }    from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
+
+import { DataEventRecord } from './models/dataeventrecord';
 
 import { dataEventRecordsRouting } from './dataeventrecords.routes';
 
@@ -19,7 +21,7 @@ import { DataEventRecordsService } from './DataEventRecordsService';
     ],
     imports: [
         CommonModule,
-  //      FormsModule,
+        FormsModule,
         dataEventRecordsRouting
     ],
     providers: [
