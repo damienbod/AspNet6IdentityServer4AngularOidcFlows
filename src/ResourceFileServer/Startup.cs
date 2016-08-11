@@ -66,22 +66,21 @@ namespace ResourceFileServer
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-
             app.UseCors("corsGlobalPolicy");
 
             app.UseStaticFiles();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            app.UseIdentityServerAuthentication(options =>
-            {
-                options.Authority = "https://localhost:44345/";
-                options.ScopeName = "securedFiles";
-                options.ScopeSecret = "securedFilesSecret";
+            IdentityServerAuthenticationOptions identityServerAuthenticationOptions = new IdentityServerAuthenticationOptions();
+            identityServerAuthenticationOptions.Authority = "https://localhost:44345/";
+            identityServerAuthenticationOptions.ScopeName = "securedFiles";
+            identityServerAuthenticationOptions.ScopeSecret = "securedFilesSecret";
 
-                options.AutomaticAuthenticate = true;
-                // required if you want to return a 403 and not a 401 for forbidden responses
-                options.AutomaticChallenge = true;
-            });
+            identityServerAuthenticationOptions.AutomaticAuthenticate = true;
+            // required if you want to return a 403 and not a 401 for forbidden responses
+            identityServerAuthenticationOptions.AutomaticChallenge = true;
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            app.UseIdentityServerAuthentication(identityServerAuthenticationOptions);
 
             app.UseMvc();
         }
