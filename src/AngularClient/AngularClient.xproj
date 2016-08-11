@@ -7,7 +7,7 @@
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>a408dfd8-2010-40ef-9d7c-8b6b2514c647</ProjectGuid>
-    <RootNamespace>AspNet5SQLite</RootNamespace>
+    <RootNamespace>AngularClient</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\..\artifacts\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
   </PropertyGroup>
@@ -18,6 +18,7 @@
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleFolder Include=".sass-cache\" />
+    <DnxInvisibleFolder Include="bower_components\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

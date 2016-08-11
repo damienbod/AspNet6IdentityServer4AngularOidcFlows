@@ -1,21 +1,30 @@
 ﻿import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { CommonModule }   from '@angular/common';
+import { FormsModule }    from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { Configuration } from './app.constants';
+import { routing } from './app.routes';
+import { HttpModule, JsonpModule } from '@angular/http';
+
 import { SecurityService } from './services/SecurityService';
+import { SecureFileService } from './securefile/SecureFileService';
+import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
+import { DataEventRecord } from './dataeventrecords/models/DataEventRecord';
+
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { HomeComponent } from './home/home.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { SecureFilesComponent } from './securefile/securefiles.component';
 
-import { DataEventRecordsComponent } from './dataeventrecords/dataeventrecords.component';
-import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
+import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecords-list.component';
+import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
+import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
-    styleUrls: ['app/app.component.css'],
-    directives: [ROUTER_DIRECTIVES],
-    providers: [
-        DataEventRecordsService
-    ]
+    styleUrls: ['app/app.component.css']
 })
 
 export class AppComponent {

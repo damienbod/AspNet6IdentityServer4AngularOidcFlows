@@ -140,7 +140,7 @@ export class SecurityService {
             console.log(this.retrieve("authorizationData"));
 
             // router navigate to DataEventRecordsList
-            this._router.navigate(['/dataeventrecords']);
+            this._router.navigate(['/dataeventrecords/list']);
         }
         else {
             this.ResetAuthorizationData();

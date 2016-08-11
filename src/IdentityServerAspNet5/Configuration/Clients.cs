@@ -51,7 +51,7 @@ namespace Host.Configuration
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:44311/Unauthorized.html"
+                        "https://localhost:44311/Unauthorized"
                     },
                     AllowedCorsOrigins = new List<string>
                     {

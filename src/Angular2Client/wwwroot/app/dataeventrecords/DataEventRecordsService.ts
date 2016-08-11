@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response, Headers, RequestOptions, HTTP_PROVIDERS } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
@@ -17,28 +17,33 @@ export class DataEventRecordsService {
     }
 
     private setHeaders() {
+
+        console.log("setHeaders started");
+
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
         var token = this._securityService.GetToken();
-
         if (token !== "") {
-            this.headers.append('Authorization', 'Bearer ' + token);
+            let tokenValue = 'Bearer ' + token;
+            console.log("tokenValue:" + tokenValue);
+            this.headers.append('Authorization', tokenValue);
         }
     }
 
     public GetAll = (): Observable<DataEventRecord[]> => {
         this.setHeaders();
-        return this._http.get(this.actionUrl, {
-            headers: this.headers
-        }).map(res => res.json());
+        let options = new RequestOptions({ headers: this.headers, body: '' });
+
+        return this._http.get(this.actionUrl, options).map(res => res.json());
     }
 
     public GetById = (id: number): Observable<DataEventRecord> => {
         this.setHeaders();
         return this._http.get(this.actionUrl + id, {
-            headers: this.headers
+            headers: this.headers,
+            body: ''
         }).map(res => res.json());
     }
 
