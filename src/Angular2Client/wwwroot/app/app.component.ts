@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule }   from '@angular/common';
 import { FormsModule }    from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,7 +27,7 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
     styleUrls: ['app/app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
     constructor(public securityService: SecurityService) {  
     }
