@@ -1,9 +1,13 @@
 import { Routes, RouterModule } from '@angular/router';
+
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { SecurityService } from './services/SecurityService';
 import { SecureFilesComponent } from './securefile/securefiles.component';
+
+import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecords-list.component';
+import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
+import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -11,7 +15,21 @@ const appRoutes: Routes = [
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent },
     { path: 'securefile/securefiles', component: SecureFilesComponent },
-	{ path: 'dataeventrecords', loadChildren: './dataeventrecords/dataeventrecords.module' }
+    {
+        path: 'dataeventrecords', component: DataEventRecordsListComponent
+    },
+    {
+        path: 'dataeventrecords/create',
+        component: DataEventRecordsCreateComponent
+    },
+    {
+        path: 'dataeventrecords/edit/:id',
+        component: DataEventRecordsEditComponent
+    },
+    {
+        path: 'dataeventrecords/list',
+        component: DataEventRecordsListComponent,
+    }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

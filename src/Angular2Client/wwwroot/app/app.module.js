@@ -18,11 +18,11 @@ var app_routes_1 = require('./app.routes');
 var http_1 = require('@angular/http');
 var SecurityService_1 = require('./services/SecurityService');
 var SecureFileService_1 = require('./securefile/SecureFileService');
+var DataEventRecordsService_1 = require('./dataeventrecords/DataEventRecordsService');
 var forbidden_component_1 = require('./forbidden/forbidden.component');
 var home_component_1 = require('./home/home.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var securefiles_component_1 = require('./securefile/securefiles.component');
-var dataeventrecords_module_1 = require('./dataeventrecords/dataeventrecords.module');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -33,7 +33,6 @@ var AppModule = (function () {
                 common_1.CommonModule,
                 forms_1.FormsModule,
                 app_routes_1.routing,
-                dataeventrecords_module_1.DataEventRecordsModule,
                 http_1.HttpModule,
                 http_1.JsonpModule
             ],
@@ -47,6 +46,7 @@ var AppModule = (function () {
             providers: [
                 SecurityService_1.SecurityService,
                 SecureFileService_1.SecureFileService,
+                DataEventRecordsService_1.DataEventRecordsService,
                 app_constants_1.Configuration
             ],
             bootstrap: [app_component_1.AppComponent],

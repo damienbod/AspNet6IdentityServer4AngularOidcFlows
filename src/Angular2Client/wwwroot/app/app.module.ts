@@ -9,14 +9,17 @@ import { HttpModule, JsonpModule } from '@angular/http';
 
 import { SecurityService } from './services/SecurityService';
 import { SecureFileService } from './securefile/SecureFileService';
+import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
+import { DataEventRecord } from './dataeventrecords/models/DataEventRecord';
 
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-
 import { SecureFilesComponent } from './securefile/securefiles.component';
 
-import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
+import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecords-list.component';
+import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
+import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
 
 @NgModule({
     imports: [
@@ -24,7 +27,6 @@ import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.modu
         CommonModule,
         FormsModule,
         routing,
-        DataEventRecordsModule,
         HttpModule,
         JsonpModule
     ],
@@ -38,6 +40,7 @@ import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.modu
     providers: [
         SecurityService,
         SecureFileService,
+        DataEventRecordsService,
         Configuration
     ],
     bootstrap:    [AppComponent],
