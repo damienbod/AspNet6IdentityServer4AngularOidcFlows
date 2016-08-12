@@ -45,6 +45,9 @@ webpackJsonp([0],{
 	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 464);
 	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 465);
 	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 466);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 468);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 470);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 471);
 	var AppModule = (function () {
 	    function AppModule() {
 	    }
@@ -63,7 +66,10 @@ webpackJsonp([0],{
 	                forbidden_component_1.ForbiddenComponent,
 	                home_component_1.HomeComponent,
 	                unauthorized_component_1.UnauthorizedComponent,
-	                securefiles_component_1.SecureFilesComponent
+	                securefiles_component_1.SecureFilesComponent,
+	                dataeventrecords_list_component_1.DataEventRecordsListComponent,
+	                dataeventrecords_create_component_1.DataEventRecordsCreateComponent,
+	                dataeventrecords_edit_component_1.DataEventRecordsEditComponent
 	            ],
 	            providers: [
 	                SecurityService_1.SecurityService,
@@ -266,7 +272,7 @@ webpackJsonp([0],{
 	        console.log("BEGIN Authorize, no auth data");
 	        var authorizationUrl = 'https://localhost:44345/connect/endsession';
 	        var id_token_hint = this.retrieve("authorizationDataIdToken");
-	        var post_logout_redirect_uri = 'https://localhost:44311/Unauthorized.html';
+	        var post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
 	        var url = authorizationUrl + "?" +
 	            "id_token_hint=" + encodeURI(id_token_hint) + "&" +
 	            "post_logout_redirect_uri=" + encodeURI(post_logout_redirect_uri);

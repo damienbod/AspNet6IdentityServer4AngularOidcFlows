@@ -35,7 +35,10 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
         ForbiddenComponent,
         HomeComponent,
         UnauthorizedComponent,
-        SecureFilesComponent      
+        SecureFilesComponent,
+        DataEventRecordsListComponent,
+        DataEventRecordsCreateComponent,
+        DataEventRecordsEditComponent
     ],
     providers: [
         SecurityService,

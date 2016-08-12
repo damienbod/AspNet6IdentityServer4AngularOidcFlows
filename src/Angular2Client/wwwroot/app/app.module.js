@@ -23,6 +23,9 @@ var forbidden_component_1 = require('./forbidden/forbidden.component');
 var home_component_1 = require('./home/home.component');
 var unauthorized_component_1 = require('./unauthorized/unauthorized.component');
 var securefiles_component_1 = require('./securefile/securefiles.component');
+var dataeventrecords_list_component_1 = require('./dataeventrecords/dataeventrecords-list.component');
+var dataeventrecords_create_component_1 = require('./dataeventrecords/dataeventrecords-create.component');
+var dataeventrecords_edit_component_1 = require('./dataeventrecords/dataeventrecords-edit.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -41,7 +44,10 @@ var AppModule = (function () {
                 forbidden_component_1.ForbiddenComponent,
                 home_component_1.HomeComponent,
                 unauthorized_component_1.UnauthorizedComponent,
-                securefiles_component_1.SecureFilesComponent
+                securefiles_component_1.SecureFilesComponent,
+                dataeventrecords_list_component_1.DataEventRecordsListComponent,
+                dataeventrecords_create_component_1.DataEventRecordsCreateComponent,
+                dataeventrecords_edit_component_1.DataEventRecordsEditComponent
             ],
             providers: [
                 SecurityService_1.SecurityService,

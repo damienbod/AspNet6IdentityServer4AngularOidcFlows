@@ -155,7 +155,7 @@ export class SecurityService {
         var authorizationUrl = 'https://localhost:44345/connect/endsession';
 
         var id_token_hint = this.retrieve("authorizationDataIdToken");
-        var post_logout_redirect_uri = 'https://localhost:44311/Unauthorized.html';
+        var post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
 
         var url =
             authorizationUrl + "?" +
