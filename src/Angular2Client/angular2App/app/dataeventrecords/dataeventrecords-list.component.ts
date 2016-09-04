@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
 import { SecurityService } from '../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
     selector: 'dataeventrecords-list',
-    templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html',
-    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES]
+    templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html'
 })
 
 export class DataEventRecordsListComponent implements OnInit {

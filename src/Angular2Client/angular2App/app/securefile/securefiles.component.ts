@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
 import { SecureFileService } from './SecureFileService';
 import { SecurityService } from '../services/SecurityService';
 import { Observable }       from 'rxjs/Observable';
@@ -7,7 +6,6 @@ import { Observable }       from 'rxjs/Observable';
 @Component({
     selector: 'securefiles',
     templateUrl: 'app/securefile/securefiles.component.html',
-    directives: [CORE_DIRECTIVES],
     providers: [SecureFileService]
 })
 

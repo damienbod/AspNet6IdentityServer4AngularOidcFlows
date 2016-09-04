@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
 
 @Component({
     selector: 'forbidden',
-    templateUrl: 'app/forbidden/forbidden.component.html',
-    directives: [CORE_DIRECTIVES]
+    templateUrl: 'app/forbidden/forbidden.component.html'
 })
 
 export class ForbiddenComponent implements OnInit {

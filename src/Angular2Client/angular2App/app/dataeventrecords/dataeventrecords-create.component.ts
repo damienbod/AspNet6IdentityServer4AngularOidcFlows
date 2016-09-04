@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router';
+import { Router } from '@angular/router';
 import { SecurityService } from '../services/SecurityService';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
@@ -8,8 +7,7 @@ import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
     selector: 'dataeventrecords-create',
-    templateUrl: 'app/dataeventrecords/dataeventrecords-create.component.html',
-    directives: [CORE_DIRECTIVES]
+    templateUrl: 'app/dataeventrecords/dataeventrecords-create.component.html'
 })
 
 export class DataEventRecordsCreateComponent implements OnInit {

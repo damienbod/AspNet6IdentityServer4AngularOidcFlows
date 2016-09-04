@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CORE_DIRECTIVES } from '@angular/common';
 import { SecurityService } from '../services/SecurityService';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
@@ -8,8 +7,7 @@ import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
     selector: 'dataeventrecords-edit',
-    templateUrl: 'app/dataeventrecords/dataeventrecords-edit.component.html',
-    directives: [CORE_DIRECTIVES]
+    templateUrl: 'app/dataeventrecords/dataeventrecords-edit.component.html'
 })
 
 export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
