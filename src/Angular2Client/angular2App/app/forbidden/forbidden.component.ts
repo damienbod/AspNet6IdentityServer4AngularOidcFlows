@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'forbidden',
-    template: require('./app/forbidden/forbidden.component.html')
+    template: require('./forbidden.component.html')
 })
 
 export class ForbiddenComponent implements OnInit {

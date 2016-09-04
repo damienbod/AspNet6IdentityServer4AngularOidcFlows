@@ -1,6 +1,5 @@
-webpackJsonp([0],{
-
-/***/ 0:
+webpackJsonp([0],[
+/* 0 */
 /*!*****************************!*\
   !*** ./angular2App/boot.ts ***!
   \*****************************/
@@ -13,8 +12,30 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 24:
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */
 /*!***************************************!*\
   !*** ./angular2App/app/app.module.ts ***!
   \***************************************/
@@ -36,18 +57,18 @@ webpackJsonp([0],{
 	var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ 22);
 	var app_component_1 = __webpack_require__(/*! ./app.component */ 29);
 	var app_constants_1 = __webpack_require__(/*! ./app.constants */ 34);
-	var app_routes_1 = __webpack_require__(/*! ./app.routes */ 62);
+	var app_routes_1 = __webpack_require__(/*! ./app.routes */ 63);
 	var http_1 = __webpack_require__(/*! @angular/http */ 31);
 	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 30);
-	var SecureFileService_1 = __webpack_require__(/*! ./securefile/SecureFileService */ 67);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 69);
-	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 63);
-	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 64);
-	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 65);
-	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 66);
-	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 68);
-	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 70);
-	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 71);
+	var SecureFileService_1 = __webpack_require__(/*! ./securefile/SecureFileService */ 71);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 74);
+	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 64);
+	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 66);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 68);
+	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 70);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 73);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 76);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 78);
 	var AppModule = (function () {
 	    function AppModule() {
 	    }
@@ -87,8 +108,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 25:
+/* 25 */
 /*!***********************************************!*\
   !*** ./~/@angular/forms/bundles/forms.umd.js ***!
   \***********************************************/
@@ -4402,8 +4422,7 @@ webpackJsonp([0],{
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-
-/***/ 26:
+/* 26 */
 /*!**************************************!*\
   !*** ./~/rxjs/operator/toPromise.js ***!
   \**************************************/
@@ -4439,8 +4458,9 @@ webpackJsonp([0],{
 	//# sourceMappingURL=toPromise.js.map
 
 /***/ },
-
-/***/ 29:
+/* 27 */,
+/* 28 */,
+/* 29 */
 /*!******************************************!*\
   !*** ./angular2App/app/app.component.ts ***!
   \******************************************/
@@ -4479,7 +4499,7 @@ webpackJsonp([0],{
 	    AppComponent = __decorate([
 	        core_1.Component({
 	            selector: 'my-app',
-	            templateUrl: 'app/app.component.html',
+	            template: __webpack_require__(/*! ./app.component.html */ 62),
 	            styleUrls: ['app/app.component.css']
 	        }), 
 	        __metadata('design:paramtypes', [SecurityService_1.SecurityService])
@@ -4490,8 +4510,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 30:
+/* 30 */
 /*!*****************************************************!*\
   !*** ./angular2App/app/services/SecurityService.ts ***!
   \*****************************************************/
@@ -4685,8 +4704,8 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 32:
+/* 31 */,
+/* 32 */
 /*!************************************!*\
   !*** ./~/rxjs/add/operator/map.js ***!
   \************************************/
@@ -4699,8 +4718,8 @@ webpackJsonp([0],{
 	//# sourceMappingURL=map.js.map
 
 /***/ },
-
-/***/ 34:
+/* 33 */,
+/* 34 */
 /*!******************************************!*\
   !*** ./angular2App/app/app.constants.ts ***!
   \******************************************/
@@ -4732,8 +4751,43 @@ webpackJsonp([0],{
 
 
 /***/ },
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */
+/*!********************************************!*\
+  !*** ./angular2App/app/app.component.html ***!
+  \********************************************/
+/***/ function(module, exports) {
 
-/***/ 62:
+	module.exports = "<div class=\"container\" style=\"margin-top: 15px;\">\r\n    <!-- Static navbar -->\r\n    <nav class=\"navbar navbar-default\">\r\n        <div class=\"container-fluid\">\r\n            <div class=\"navbar-header\">\r\n                <button aria-controls=\"navbar\" aria-expanded=\"false\" data-target=\"#navbar\" data-toggle=\"collapse\" class=\"navbar-toggle collapsed\" type=\"button\">\r\n                    <span class=\"sr-only\">Toggle navigation</span>\r\n                    <span class=\"icon-bar\"></span>\r\n                    <span class=\"icon-bar\"></span>\r\n                    <span class=\"icon-bar\"></span>\r\n                </button>\r\n                <a [routerLink]=\"['/dataeventrecords/list']\" class=\"navbar-brand\"><img src=\"images/damienbod.jpg\" height=\"40\" style=\"margin-top:-10px;\" /></a>\r\n            </div>\r\n            <div class=\"navbar-collapse collapse\" id=\"navbar\">\r\n                <ul class=\"nav navbar-nav\">\r\n                    <li><a [routerLink]=\"['/dataeventrecords/list']\">DataEventRecords</a></li>\r\n                    <li><a [routerLink]=\"['/dataeventrecords/create']\">Create DataEventRecord</a></li>\r\n                    <li><a [routerLink]=\"['/securefile/securefiles']\">Secured Files Download</a></li>\r\n\r\n                    <li><a class=\"navigationLinkButton\" *ngIf=\"!securityService.IsAuthorized\" (click)=\"Login()\">Login</a></li>\r\n                    <li><a class=\"navigationLinkButton\" *ngIf=\"securityService.IsAuthorized\" (click)=\"Logout()\">Logout</a></li>\r\n              \r\n                </ul>\r\n            </div><!--/.nav-collapse -->\r\n        </div><!--/.container-fluid -->\r\n    </nav>\r\n\r\n    <router-outlet></router-outlet>\r\n\r\n</div>\r\n\r\n\r\n"
+
+/***/ },
+/* 63 */
 /*!***************************************!*\
   !*** ./angular2App/app/app.routes.ts ***!
   \***************************************/
@@ -4741,13 +4795,13 @@ webpackJsonp([0],{
 
 	"use strict";
 	var router_1 = __webpack_require__(/*! @angular/router */ 35);
-	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 63);
-	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 64);
-	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 65);
-	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 66);
-	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 68);
-	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 70);
-	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 71);
+	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 64);
+	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 66);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 68);
+	var securefiles_component_1 = __webpack_require__(/*! ./securefile/securefiles.component */ 70);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 73);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 76);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 78);
 	var appRoutes = [
 	    { path: '', component: home_component_1.HomeComponent },
 	    { path: 'home', component: home_component_1.HomeComponent },
@@ -4774,8 +4828,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 63:
+/* 64 */
 /*!**********************************************************!*\
   !*** ./angular2App/app/forbidden/forbidden.component.ts ***!
   \**********************************************************/
@@ -4801,7 +4854,7 @@ webpackJsonp([0],{
 	    ForbiddenComponent = __decorate([
 	        core_1.Component({
 	            selector: 'forbidden',
-	            templateUrl: 'app/forbidden/forbidden.component.html'
+	            template: __webpack_require__(/*! ./forbidden.component.html */ 65)
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], ForbiddenComponent);
@@ -4811,8 +4864,16 @@ webpackJsonp([0],{
 
 
 /***/ },
+/* 65 */
+/*!************************************************************!*\
+  !*** ./angular2App/app/forbidden/forbidden.component.html ***!
+  \************************************************************/
+/***/ function(module, exports) {
 
-/***/ 64:
+	module.exports = "<div>403: You have no rights to access this.</div>"
+
+/***/ },
+/* 66 */
 /*!************************************************!*\
   !*** ./angular2App/app/home/home.component.ts ***!
   \************************************************/
@@ -4837,8 +4898,8 @@ webpackJsonp([0],{
 	    };
 	    HomeComponent = __decorate([
 	        core_1.Component({
-	            selector: 'forbidden',
-	            templateUrl: 'app/home/home.component.html'
+	            selector: 'home',
+	            template: __webpack_require__(/*! ./home.component.html */ 67)
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], HomeComponent);
@@ -4848,8 +4909,16 @@ webpackJsonp([0],{
 
 
 /***/ },
+/* 67 */
+/*!**************************************************!*\
+  !*** ./angular2App/app/home/home.component.html ***!
+  \**************************************************/
+/***/ function(module, exports) {
 
-/***/ 65:
+	module.exports = "<div>Welcome</div>"
+
+/***/ },
+/* 68 */
 /*!****************************************************************!*\
   !*** ./angular2App/app/unauthorized/unauthorized.component.ts ***!
   \****************************************************************/
@@ -4875,7 +4944,7 @@ webpackJsonp([0],{
 	    UnauthorizedComponent = __decorate([
 	        core_1.Component({
 	            selector: 'unauthorized',
-	            templateUrl: 'app/unauthorized/unauthorized.component.html'
+	            template: __webpack_require__(/*! ./unauthorized.component.html */ 69)
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], UnauthorizedComponent);
@@ -4885,8 +4954,16 @@ webpackJsonp([0],{
 
 
 /***/ },
+/* 69 */
+/*!******************************************************************!*\
+  !*** ./angular2App/app/unauthorized/unauthorized.component.html ***!
+  \******************************************************************/
+/***/ function(module, exports) {
 
-/***/ 66:
+	module.exports = "<div>401: You have no rights to access this. Please Login</div>"
+
+/***/ },
+/* 70 */
 /*!*************************************************************!*\
   !*** ./angular2App/app/securefile/securefiles.component.ts ***!
   \*************************************************************/
@@ -4903,7 +4980,7 @@ webpackJsonp([0],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(/*! @angular/core */ 3);
-	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 67);
+	var SecureFileService_1 = __webpack_require__(/*! ./SecureFileService */ 71);
 	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 30);
 	var SecureFilesComponent = (function () {
 	    function SecureFilesComponent(_secureFileService, securityService) {
@@ -4925,7 +5002,7 @@ webpackJsonp([0],{
 	    SecureFilesComponent = __decorate([
 	        core_1.Component({
 	            selector: 'securefiles',
-	            templateUrl: 'app/securefile/securefiles.component.html',
+	            template: __webpack_require__(/*! ./securefiles.component.html */ 72),
 	            providers: [SecureFileService_1.SecureFileService]
 	        }), 
 	        __metadata('design:paramtypes', [SecureFileService_1.SecureFileService, SecurityService_1.SecurityService])
@@ -4936,8 +5013,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 67:
+/* 71 */
 /*!*********************************************************!*\
   !*** ./angular2App/app/securefile/SecureFileService.ts ***!
   \*********************************************************/
@@ -5007,8 +5083,16 @@ webpackJsonp([0],{
 
 
 /***/ },
+/* 72 */
+/*!***************************************************************!*\
+  !*** ./angular2App/app/securefile/securefiles.component.html ***!
+  \***************************************************************/
+/***/ function(module, exports) {
 
-/***/ 68:
+	module.exports = "<div class=\"col-md-12\" *ngIf=\"securityService.IsAuthorized\" >\r\n    <div class=\"panel panel-default\">\r\n        <div class=\"panel-heading\">\r\n            <h3 class=\"panel-title\">{{message}}</h3>\r\n        </div>\r\n        <div class=\"panel-body\">\r\n            <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n                        <th>Name</th>\r\n                    </tr>\r\n                </thead>\r\n                <tbody>\r\n                    <tr style=\"height:20px;\" *ngFor=\"let file of Files\" >\r\n                        <td><a (click)=\"DownloadFileById(file)\">Download {{file}}</a></td>\r\n                    </tr>\r\n                </tbody>\r\n            </table>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+
+/***/ },
+/* 73 */
 /*!*****************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-list.component.ts ***!
   \*****************************************************************************/
@@ -5027,7 +5111,7 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(/*! @angular/core */ 3);
 	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 30);
 	var router_1 = __webpack_require__(/*! @angular/router */ 35);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 69);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 74);
 	var DataEventRecordsListComponent = (function () {
 	    function DataEventRecordsListComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -5054,7 +5138,7 @@ webpackJsonp([0],{
 	    DataEventRecordsListComponent = __decorate([
 	        core_1.Component({
 	            selector: 'dataeventrecords-list',
-	            templateUrl: 'app/dataeventrecords/dataeventrecords-list.component.html'
+	            template: __webpack_require__(/*! ./dataeventrecords-list.component.html */ 75)
 	        }), 
 	        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
 	    ], DataEventRecordsListComponent);
@@ -5064,8 +5148,7 @@ webpackJsonp([0],{
 
 
 /***/ },
-
-/***/ 69:
+/* 74 */
 /*!*********************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/DataEventRecordsService.ts ***!
   \*********************************************************************/
@@ -5143,8 +5226,16 @@ webpackJsonp([0],{
 
 
 /***/ },
+/* 75 */
+/*!*******************************************************************************!*\
+  !*** ./angular2App/app/dataeventrecords/dataeventrecords-list.component.html ***!
+  \*******************************************************************************/
+/***/ function(module, exports) {
 
-/***/ 70:
+	module.exports = "<div class=\"col-md-12\" *ngIf=\"securityService.IsAuthorized\" >\r\n    <div class=\"panel panel-default\">\r\n        <div class=\"panel-heading\">\r\n            <h3 class=\"panel-title\">{{message}}</h3>\r\n        </div>\r\n        <div class=\"panel-body\">\r\n            <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n                        <th>Name</th>\r\n                        <th>Timestamp</th>\r\n                    </tr>\r\n                </thead>\r\n                <tbody>\r\n                    <tr style=\"height:20px;\" *ngFor=\"let dataEventRecord of DataEventRecords\" >\r\n                        <td>\r\n                            <a *ngIf=\"securityService.HasAdminRole\" href=\"\" [routerLink]=\"['/dataeventrecords/edit/' + dataEventRecord.Id]\" >{{dataEventRecord.Name}}</a>\r\n                            <span *ngIf=\"!securityService.HasAdminRole\">{{dataEventRecord.Name}}</span>\r\n                        </td>\r\n                        <td>{{dataEventRecord.Timestamp}}</td>\r\n                        <td><button (click)=\"Delete(dataEventRecord.Id)\">Delete</button></td>\r\n                    </tr>\r\n                </tbody>\r\n            </table>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+
+/***/ },
+/* 76 */
 /*!*******************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-create.component.ts ***!
   \*******************************************************************************/
@@ -5163,7 +5254,7 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(/*! @angular/core */ 3);
 	var router_1 = __webpack_require__(/*! @angular/router */ 35);
 	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 30);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 69);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 74);
 	var DataEventRecordsCreateComponent = (function () {
 	    function DataEventRecordsCreateComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -5185,7 +5276,7 @@ webpackJsonp([0],{
 	    DataEventRecordsCreateComponent = __decorate([
 	        core_1.Component({
 	            selector: 'dataeventrecords-create',
-	            templateUrl: 'app/dataeventrecords/dataeventrecords-create.component.html'
+	            template: __webpack_require__(/*! ./dataeventrecords-create.component.html */ 77)
 	        }), 
 	        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
 	    ], DataEventRecordsCreateComponent);
@@ -5195,8 +5286,16 @@ webpackJsonp([0],{
 
 
 /***/ },
+/* 77 */
+/*!*********************************************************************************!*\
+  !*** ./angular2App/app/dataeventrecords/dataeventrecords-create.component.html ***!
+  \*********************************************************************************/
+/***/ function(module, exports) {
 
-/***/ 71:
+	module.exports = "<div class=\"panel panel-default col-md-12\" *ngIf=\"securityService.IsAuthorized\" >\r\n    <div class=\"panel-heading\">\r\n        {{message}}\r\n    </div>\r\n    <div class=\"panel-body\">\r\n\r\n        <div class=\"row\" *ngIf=\"DataEventRecord\">\r\n            <div class=\"col-xs-2\">Id</div>\r\n            <div class=\"col-xs-6\"><input type=\"text\" [(ngModel)]=\"DataEventRecord.Id\" style=\"width: 100%\" /></div>\r\n        </div>\r\n\r\n        <hr />\r\n        <div class=\"row\">\r\n            <div class=\"col-xs-2\">Name</div>\r\n            <div class=\"col-xs-6\">\r\n                <input type=\"text\" [(ngModel)]=\"DataEventRecord.Name\" style=\"width: 100%\" />\r\n            </div>\r\n        </div>\r\n        <hr />\r\n        <div class=\"row\">\r\n            <div class=\"col-xs-2\">Description</div>\r\n            <div class=\"col-xs-6\">\r\n                <input type=\"text\" [(ngModel)]=\"DataEventRecord.Description\" style=\"width: 100%\" />\r\n            </div>\r\n        </div>\r\n        <hr />\r\n        <div class=\"row\">\r\n            <div class=\"col-xs-2\">\r\n                <button (click)=\"Create()\">Create</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+
+/***/ },
+/* 78 */
 /*!*****************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-edit.component.ts ***!
   \*****************************************************************************/
@@ -5215,7 +5314,7 @@ webpackJsonp([0],{
 	var core_1 = __webpack_require__(/*! @angular/core */ 3);
 	var router_1 = __webpack_require__(/*! @angular/router */ 35);
 	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 30);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 69);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 74);
 	var DataEventRecordsEditComponent = (function () {
 	    function DataEventRecordsEditComponent(_dataEventRecordsService, securityService, _route, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -5247,7 +5346,7 @@ webpackJsonp([0],{
 	    DataEventRecordsEditComponent = __decorate([
 	        core_1.Component({
 	            selector: 'dataeventrecords-edit',
-	            templateUrl: 'app/dataeventrecords/dataeventrecords-edit.component.html'
+	            template: __webpack_require__(/*! ./dataeventrecords-edit.component.html */ 79)
 	        }), 
 	        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.ActivatedRoute, router_1.Router])
 	    ], DataEventRecordsEditComponent);
@@ -5256,7 +5355,15 @@ webpackJsonp([0],{
 	exports.DataEventRecordsEditComponent = DataEventRecordsEditComponent;
 
 
-/***/ }
+/***/ },
+/* 79 */
+/*!*******************************************************************************!*\
+  !*** ./angular2App/app/dataeventrecords/dataeventrecords-edit.component.html ***!
+  \*******************************************************************************/
+/***/ function(module, exports) {
 
-});
+	module.exports = "<div class=\"col-md-12\" *ngIf=\"securityService.IsAuthorized\" >\r\n    <div class=\"panel panel-default\">\r\n        <div class=\"panel-heading\">\r\n            <h3 class=\"panel-title\">{{message}}</h3>\r\n        </div>\r\n        <div class=\"panel-body\">\r\n            <div  *ngIf=\"DataEventRecord\">\r\n                <div class=\"row\" >\r\n                    <div class=\"col-xs-2\">Id</div>\r\n                    <div class=\"col-xs-6\">{{DataEventRecord.Id}}</div>\r\n                </div>\r\n\r\n                <hr />\r\n                <div class=\"row\">\r\n                    <div class=\"col-xs-2\">Name</div>\r\n                    <div class=\"col-xs-6\">\r\n                        <input type=\"text\" [(ngModel)]=\"DataEventRecord.Name\" style=\"width: 100%\" />\r\n                    </div>\r\n                </div>\r\n                <hr />\r\n                <div class=\"row\">\r\n                    <div class=\"col-xs-2\">Description</div>\r\n                    <div class=\"col-xs-6\">\r\n                        <input type=\"text\" [(ngModel)]=\"DataEventRecord.Description\" style=\"width: 100%\" />\r\n                    </div>\r\n                </div>\r\n                <hr />\r\n                <div class=\"row\">\r\n                    <div class=\"col-xs-2\">Timestamp</div>\r\n                    <div class=\"col-xs-6\">{{DataEventRecord.Timestamp}}</div>\r\n                </div>\r\n                <hr />\r\n                <div class=\"row\">\r\n                    <div class=\"col-xs-2\">\r\n                        <button (click)=\"Update()\">Update</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+
+/***/ }
+]);
 //# sourceMappingURL=app.bundle.js.map
