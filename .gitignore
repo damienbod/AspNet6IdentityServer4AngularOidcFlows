@@ -100,3 +100,5 @@ src/Angular2Client/angular2App/polyfills.js
 src/Angular2Client/angular2App/polyfills.js.map
 src/Angular2Client/angular2App/vendor.js
 src/Angular2Client/angular2App/vendor.js.map
+src/Angular2Client/angular2App/app/unauthorized/unauthorized.component.js
+src/Angular2Client/angular2App/app/unauthorized/unauthorized.component.js.map

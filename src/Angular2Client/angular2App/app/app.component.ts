@@ -19,7 +19,7 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
 
 @Component({
     selector: 'my-app',
-    templateUrl: 'app/app.component.html',
+    template: require('./app.component.html'),
     styleUrls: ['app/app.component.css']
 })
 

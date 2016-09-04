@@ -7,7 +7,7 @@ import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
     selector: 'dataeventrecords-edit',
-    templateUrl: 'app/dataeventrecords/dataeventrecords-edit.component.html'
+    template: require('./app/dataeventrecords/dataeventrecords-edit.component.html')
 })
 
 export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
