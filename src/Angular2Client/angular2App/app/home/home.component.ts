@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'forbidden',
-    templateUrl: 'app/home/home.component.html'
+    selector: 'home',
+    template: require('./app/home/home.component.html')
 })
 
 export class HomeComponent implements OnInit {
