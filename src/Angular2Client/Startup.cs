@@ -34,6 +34,7 @@ namespace Angular2Client
             loggerFactory.AddDebug();
 
             var angularRoutes = new[] {
+                "/home",
                 "/forbidden",
                 "/authorized",
                 "/authorize",

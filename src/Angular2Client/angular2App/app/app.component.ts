@@ -1,11 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { CommonModule }   from '@angular/common';
-import { FormsModule }    from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 import { Configuration } from './app.constants';
 import { routing } from './app.routes';
-import { HttpModule, JsonpModule } from '@angular/http';
 
 import { SecurityService } from './services/SecurityService';
 import { SecureFileService } from './securefile/SecureFileService';
