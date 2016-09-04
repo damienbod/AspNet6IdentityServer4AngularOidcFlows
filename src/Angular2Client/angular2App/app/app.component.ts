@@ -2,7 +2,6 @@
 import { Router } from '@angular/router';
 
 import { Configuration } from './app.constants';
-import { routing } from './app.routes';
 
 import { SecurityService } from './services/SecurityService';
 import { SecureFileService } from './securefile/SecureFileService';
