@@ -19,7 +19,7 @@ export class SecurityService {
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
-        this.storage = localStorage;
+        this.storage = sessionStorage; //localStorage;
 
         if (this.retrieve("IsAuthorized") !== "") {
             this.HasAdminRole = this.retrieve("HasAdminRole");

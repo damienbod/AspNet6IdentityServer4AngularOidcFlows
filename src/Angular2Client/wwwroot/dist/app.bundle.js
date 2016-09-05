@@ -4540,7 +4540,7 @@ webpackJsonp([0],[
 	        this.headers = new http_1.Headers();
 	        this.headers.append('Content-Type', 'application/json');
 	        this.headers.append('Accept', 'application/json');
-	        this.storage = localStorage;
+	        this.storage = sessionStorage;
 	        if (this.retrieve("IsAuthorized") !== "") {
 	            this.HasAdminRole = this.retrieve("HasAdminRole");
 	            this.IsAuthorized = this.retrieve("IsAuthorized");
