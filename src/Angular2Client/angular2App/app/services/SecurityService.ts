@@ -68,7 +68,7 @@ export class SecurityService {
 
         console.log("BEGIN Authorize, no auth data");
 
-        var authorizationUrl = 'https://localhost:44345/connect/authorize';
+        var authorizationUrl = 'https://localhost:44318/connect/authorize';
         var client_id = 'angular2client';
         var redirect_uri = 'https://localhost:44311';
         var response_type = "id_token token";
@@ -152,7 +152,7 @@ export class SecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         console.log("BEGIN Authorize, no auth data");
 
-        var authorizationUrl = 'https://localhost:44345/connect/endsession';
+        var authorizationUrl = 'https://localhost:44318/connect/endsession';
 
         var id_token_hint = this.retrieve("authorizationDataIdToken");
         var post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
