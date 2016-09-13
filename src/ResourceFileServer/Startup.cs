@@ -71,7 +71,7 @@ namespace ResourceFileServer
             app.UseStaticFiles();
 
             IdentityServerAuthenticationOptions identityServerAuthenticationOptions = new IdentityServerAuthenticationOptions();
-            identityServerAuthenticationOptions.Authority = "https://localhost:44345/";
+            identityServerAuthenticationOptions.Authority = "https://localhost:44318/";
             identityServerAuthenticationOptions.ScopeName = "securedFiles";
             identityServerAuthenticationOptions.ScopeSecret = "securedFilesSecret";
 

@@ -102,3 +102,7 @@ src/Angular2Client/angular2App/vendor.js
 src/Angular2Client/angular2App/vendor.js.map
 src/Angular2Client/angular2App/app/unauthorized/unauthorized.component.js
 src/Angular2Client/angular2App/app/unauthorized/unauthorized.component.js.map
+src/IdentityServerWithIdentitySQLite/bin
+src/IdentityServerWithIdentitySQLite/IdentityServerWithAspNetIdentitySqlite.xproj.user
+src/IdentityServerWithIdentitySQLite/obj
+src/IdentityServerWithIdentitySQLite/project.lock.json

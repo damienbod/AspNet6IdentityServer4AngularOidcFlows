@@ -105,7 +105,7 @@ namespace AspNet5SQLite
             //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             //app.UseIdentityServerAuthentication(options =>
             //{
-            //    options.Authority = "https://localhost:44345/";
+            //    options.Authority = "https://localhost:44318/";
             //    options.ScopeName = "dataEventRecords";
             //    options.ScopeSecret = "dataEventRecordsSecret";
 
@@ -119,8 +119,8 @@ namespace AspNet5SQLite
 
             var jwtBearerOptions = new JwtBearerOptions()
             {
-                Authority = "https://localhost:44345",
-                Audience = "https://localhost:44345/resources",
+                Authority = "https://localhost:44318",
+                Audience = "https://localhost:44318/resources",
                 AutomaticAuthenticate = true,
 
                 // required if you want to return a 403 and not a 401 for forbidden responses
