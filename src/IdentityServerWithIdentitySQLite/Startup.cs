@@ -10,11 +10,15 @@ using IdentityServerWithAspNetIdentity.Models;
 using IdentityServerWithAspNetIdentity.Services;
 using QuickstartIdentityServer;
 using IdentityServer4.Services;
+using System.Security.Cryptography.X509Certificates;
+using System.IO;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
     public class Startup
     {
+        private readonly IHostingEnvironment _environment;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -27,6 +31,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
                 builder.AddUserSecrets();
             }
 
+            _environment = env;
+
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -35,6 +41,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -49,7 +57,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            services.AddIdentityServerQuickstart()              
+            services.AddIdentityServerQuickstart()
+                .SetSigningCredential(cert)
                 .AddInMemoryScopes(Config.GetScopes())
                 .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
