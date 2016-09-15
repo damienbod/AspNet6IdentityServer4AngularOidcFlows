@@ -57,7 +57,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            services.AddIdentityServerQuickstart()
+            services.AddDeveloperIdentityServer()
                 .SetSigningCredential(cert)
                 .AddInMemoryScopes(Config.GetScopes())
                 .AddInMemoryClients(Config.GetClients())
