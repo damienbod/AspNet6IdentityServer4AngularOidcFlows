@@ -43,7 +43,8 @@
         },
         "Microsoft.AspNetCore.DataProtection": "1.0.0",
         "System.IdentityModel.Tokens.Jwt": "5.0.0",
-        "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0"
+        "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
+        "IdentityServer4.AccessTokenValidation": "1.0.1-rc1"
     },
 
   "tools": {

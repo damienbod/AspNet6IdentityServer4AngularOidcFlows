@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
+using System;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AspNet5SQLite
 {
@@ -102,32 +104,58 @@ namespace AspNet5SQLite
 
             app.UseStaticFiles();
 
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            //app.UseIdentityServerAuthentication(options =>
-            //{
-            //    options.Authority = "https://localhost:44318/";
-            //    options.ScopeName = "dataEventRecords";
-            //    options.ScopeSecret = "dataEventRecordsSecret";
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            //    options.AutomaticAuthenticate = true;
-            //    required if you want to return a 403 and not a 401 for forbidden responses
-
-            //   options.AutomaticChallenge = true;
-            //});
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
-
-            var jwtBearerOptions = new JwtBearerOptions()
+            IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
-                Authority = "https://localhost:44318",
-                Audience = "https://localhost:44318/resources",
-                AutomaticAuthenticate = true,
+                Authority = "https://localhost:44318/",
+                ScopeName = "dataEventRecords",
+                ScopeSecret = "dataEventRecordsSecret",
 
+                AutomaticAuthenticate = true,
                 // required if you want to return a 403 and not a 401 for forbidden responses
+
                 AutomaticChallenge = true
             };
 
-            app.UseJwtBearerAuthentication(jwtBearerOptions);
+            app.UseIdentityServerAuthentication(identityServerValidationOptions);
+
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+
+            //var tokenValidationParameters = new TokenValidationParameters
+            //{
+            //    // The signing key must match!
+            //    //ValidateIssuerSigningKey = true,
+            //    //IssuerSigningKey = signingKey,
+
+            //    // Validate the JWT Issuer (iss) claim
+            //    ValidateIssuer = true,
+            //    ValidIssuer = "https://localhost:44318",
+
+            //    // Validate the JWT Audience (aud) claim
+            //    ValidateAudience = true,
+            //    ValidAudience = "https://localhost:44318/resources",
+
+            //    // Validate the token expiry
+            //    ValidateLifetime = true,
+
+            //    // If you want to allow a certain amount of clock drift, set that here:
+            //    ClockSkew = TimeSpan.Zero
+            //};
+
+            //var jwtBearerOptions = new JwtBearerOptions()
+            //{
+            //    Authority = "https://localhost:44318",
+            //    Audience = "https://localhost:44318/resources",
+            //    AutomaticAuthenticate = true,
+                
+            //    TokenValidationParameters = tokenValidationParameters, 
+               
+            //    // required if you want to return a 403 and not a 401 for forbidden responses
+            //    AutomaticChallenge = true
+            //};
+
+            //app.UseJwtBearerAuthentication(jwtBearerOptions);
 
             app.UseMvc(routes =>
             {
