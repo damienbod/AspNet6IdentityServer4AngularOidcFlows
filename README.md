@@ -13,6 +13,7 @@
 
 	<li><a href="http://damienbod.com/2016/04/02/angular2-secure-file-download-without-using-an-access-token-in-url-or-cookies/">Angular2 secure file download without using an access token in URL or cookies</a></li>
 
+        <li><a href="https://damienbod.com/2016/09/16/full-server-logout-with-identityserver4-and-openid-connect-implicit-flow/">Full Server logout with IdentityServer4 and OpenID Connect Implicit Flow</a></li>
 </ul>
 
 
