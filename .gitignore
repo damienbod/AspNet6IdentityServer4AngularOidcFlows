@@ -106,3 +106,8 @@ src/IdentityServerWithIdentitySQLite/bin
 src/IdentityServerWithIdentitySQLite/IdentityServerWithAspNetIdentitySqlite.xproj.user
 src/IdentityServerWithIdentitySQLite/obj
 src/IdentityServerWithIdentitySQLite/project.lock.json
+src/Angular2Hybrid/node_modules
+artifacts/obj/Angular2Hybrid/Debug/TypeScriptCompilerOutput.txt
+src/Angular2Hybrid/Angular2Hybrid.xproj.user
+src/Angular2Hybrid/bin
+src/Angular2Hybrid/obj
