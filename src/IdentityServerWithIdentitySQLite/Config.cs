@@ -126,6 +126,33 @@ namespace QuickstartIdentityServer
                         "dataEventRecords",
                         "securedFiles"
                     }
+                },
+                new Client
+                {
+                    ClientName = "angular2hydrid",
+                    ClientId = "angular2hydrid",
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = new List<string>
+                    {
+                        "https://localhost:44369"
+
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "https://localhost:44311/Unauthorized"
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "https://localhost:44369",
+                        "http://localhost:44369"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        "openid",
+                        "dataEventRecords",
+                        "securedFiles"
+                    }
                 }
             };
         }
