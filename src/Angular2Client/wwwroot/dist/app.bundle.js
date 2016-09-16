@@ -4565,7 +4565,7 @@ webpackJsonp([0],[
 	        this.store("authorizationDataIdToken", id_token);
 	        this.IsAuthorized = true;
 	        this.store("IsAuthorized", true);
-	        var data = this.getDataFromToken(token);
+	        var data = this.getDataFromToken(id_token);
 	        for (var i = 0; i < data.role.length; i++) {
 	            if (data.role[i] === "dataEventRecords.admin") {
 	                this.HasAdminRole = true;
