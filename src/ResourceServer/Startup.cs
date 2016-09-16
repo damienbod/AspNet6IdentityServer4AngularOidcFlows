@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using System;
 using Microsoft.IdentityModel.Tokens;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Http;
 
 namespace AspNet5SQLite
 {
@@ -106,16 +108,20 @@ namespace AspNet5SQLite
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            //Func<HttpRequest, string> _tokenRetriever = request => request.HttpContext.Items["idsrv4:tokenvalidation:token"] as string;
+
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = "https://localhost:44318/",
                 ScopeName = "dataEventRecords",
                 ScopeSecret = "dataEventRecordsSecret",
-
                 AutomaticAuthenticate = true,
+                SupportedTokens = SupportedTokens.Reference,
+                // TokenRetriever = _tokenRetriever,
                 // required if you want to return a 403 and not a 401 for forbidden responses
 
-                AutomaticChallenge = true
+                AutomaticChallenge = true,
+                
             };
 
             app.UseIdentityServerAuthentication(identityServerValidationOptions);

@@ -497,7 +497,7 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             };
 
 
-            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, user);
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
 
             //var grants = await _persistedGrantService.GetAllGrantsAsync(subjectId);
   
