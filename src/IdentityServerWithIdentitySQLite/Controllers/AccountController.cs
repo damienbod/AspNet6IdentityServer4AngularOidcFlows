@@ -14,6 +14,7 @@ using IdentityServerWithAspNetIdentity.Services;
 using IdentityServer4.Services;
 using IdentityServer4.Quickstart.UI.Models;
 using Microsoft.AspNetCore.Http.Authentication;
+using IdentityServer4.Extensions;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -26,9 +27,11 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IIdentityServerInteractionService _interaction;
+        private readonly IPersistedGrantService _persistedGrantService;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
+            IPersistedGrantService persistedGrantService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
@@ -36,6 +39,7 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             ILoggerFactory loggerFactory)
         {
             _interaction = interaction;
+            _persistedGrantService = persistedGrantService;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -471,21 +475,28 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
+            var user = HttpContext.User.Identity.Name;
+            var subjectId = HttpContext.User.Identity.GetSubjectId();
+
             // delete authentication cookie
             await HttpContext.Authentication.SignOutAsync();
 
+          
             // set this so UI rendering sees an anonymous user
             HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
-
+            
             // get context information (client name, post logout redirect URI and iframe for federated signout)
             var logout = await _interaction.GetLogoutContextAsync(model.LogoutId);
-
-            var vm = new LoggedOutViewModel
+            
+             var vm = new LoggedOutViewModel
             {
                 PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
                 ClientName = logout?.ClientId,
                 SignOutIframeUrl = logout?.SignOutIFrameUrl
             };
+
+
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
 
             return View("LoggedOut", vm);
         }

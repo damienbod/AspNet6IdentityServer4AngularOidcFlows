@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 using System;
 using Microsoft.IdentityModel.Tokens;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Http;
 
 namespace AspNet5SQLite
 {
@@ -111,11 +113,13 @@ namespace AspNet5SQLite
                 Authority = "https://localhost:44318/",
                 ScopeName = "dataEventRecords",
                 ScopeSecret = "dataEventRecordsSecret",
-
                 AutomaticAuthenticate = true,
+                SupportedTokens = SupportedTokens.Both,
+                // TokenRetriever = _tokenRetriever,
                 // required if you want to return a 403 and not a 401 for forbidden responses
 
-                AutomaticChallenge = true
+                AutomaticChallenge = true,
+                
             };
 
             app.UseIdentityServerAuthentication(identityServerValidationOptions);

@@ -54,7 +54,7 @@ export class SecurityService {
         this.IsAuthorized = true;
         this.store("IsAuthorized", true);
 
-        var data: any = this.getDataFromToken(token);
+        var data: any = this.getDataFromToken(id_token);
         for (var i = 0; i < data.role.length; i++) {
             if (data.role[i] === "dataEventRecords.admin") {
                 this.HasAdminRole = true;
