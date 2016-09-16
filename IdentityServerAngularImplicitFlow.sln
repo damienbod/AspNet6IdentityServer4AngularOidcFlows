@@ -20,8 +20,6 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ResourceFileServer", "src\R
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IdentityServerWithAspNetIdentitySqlite", "src\IdentityServerWithIdentitySQLite\IdentityServerWithAspNetIdentitySqlite.xproj", "{1ECB5581-FFA5-4C11-A491-C85ABD962033}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Angular2Hybrid", "src\Angular2Hybrid\Angular2Hybrid.xproj", "{B7C5B94B-8A0D-4750-890B-ACF954919074}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,10 +46,6 @@ Global
 		{1ECB5581-FFA5-4C11-A491-C85ABD962033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1ECB5581-FFA5-4C11-A491-C85ABD962033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1ECB5581-FFA5-4C11-A491-C85ABD962033}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7C5B94B-8A0D-4750-890B-ACF954919074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7C5B94B-8A0D-4750-890B-ACF954919074}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7C5B94B-8A0D-4750-890B-ACF954919074}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7C5B94B-8A0D-4750-890B-ACF954919074}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +56,5 @@ Global
 		{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 		{3F42D8EE-5E25-443D-8EDD-FA950E63A1D3} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 		{1ECB5581-FFA5-4C11-A491-C85ABD962033} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
-		{B7C5B94B-8A0D-4750-890B-ACF954919074} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 	EndGlobalSection
 EndGlobal
