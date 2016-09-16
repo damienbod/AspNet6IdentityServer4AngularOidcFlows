@@ -477,7 +477,6 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         {
             var user = HttpContext.User.Identity.Name;
             var subjectId = HttpContext.User.Identity.GetSubjectId();
-            // var subject = HttpContext.User.
 
             // delete authentication cookie
             await HttpContext.Authentication.SignOutAsync();
@@ -499,8 +498,6 @@ namespace IdentityServerWithAspNetIdentity.Controllers
 
             await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
 
-            //var grants = await _persistedGrantService.GetAllGrantsAsync(subjectId);
-  
             return View("LoggedOut", vm);
         }
 
