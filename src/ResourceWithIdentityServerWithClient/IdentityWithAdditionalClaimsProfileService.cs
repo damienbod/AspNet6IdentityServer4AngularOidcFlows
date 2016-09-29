@@ -10,7 +10,7 @@ using IdentityServer4.Services;
 using IdentityServerWithAspNetIdentity.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace IdentityServerWithAspNetIdentitySqlite
+namespace ResourceWithIdentityServerWithClient
 {
     public class IdentityWithAdditionalClaimsProfileService : IProfileService
     {
