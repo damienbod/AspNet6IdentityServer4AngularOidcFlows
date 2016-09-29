@@ -147,3 +147,5 @@ src/Angular2Hybrid/angular2App/polyfills.js.map
 src/Angular2Hybrid/angular2App/vendor.js
 src/Angular2Hybrid/angular2App/vendor.js.map
 src/Angular2Hybrid/project.lock.json
+src/ResourceWithIdentityServerWithClient/bin
+src/ResourceWithIdentityServerWithClient/obj
