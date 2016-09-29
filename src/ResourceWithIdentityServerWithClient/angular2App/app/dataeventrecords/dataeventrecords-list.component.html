@@ -14,10 +14,10 @@
                 <tbody>
                     <tr style="height:20px;" *ngFor="let dataEventRecord of DataEventRecords" >
                         <td>
-                            <a *ngIf="securityService.HasAdminRole" href="" [routerLink]="['/dataeventrecords/edit/' + dataEventRecord.Id]" >{{dataEventRecord.Name}}</a>
-                            <span *ngIf="!securityService.HasAdminRole">{{dataEventRecord.Name}}</span>
+                            <a *ngIf="securityService.HasAdminRole" href="" [routerLink]="['/dataeventrecords/edit/' + dataEventRecord.id]" >{{dataEventRecord.name}}</a>
+                            <span *ngIf="!securityService.HasAdminRole">{{dataEventRecord.name}}</span>
                         </td>
-                        <td>{{dataEventRecord.Timestamp}}</td>
+                        <td>{{dataEventRecord.timestamp}}</td>
                         <td><button (click)="Delete(dataEventRecord.Id)">Delete</button></td>
                     </tr>
                 </tbody>
