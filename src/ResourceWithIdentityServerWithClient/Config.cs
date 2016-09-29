@@ -74,59 +74,30 @@ namespace QuickstartIdentityServer
             {
                 new Client
                 {
-                    ClientName = "angularclient",
-                    ClientId = "angularclient",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowAccessTokensViaBrowser = true,
-                    RedirectUris = new List<string>
-                    {
-                        "https://localhost:44347/authorized"
-                    },
-                    PostLogoutRedirectUris = new List<string>
-                    {
-                        "https://localhost:44347/unauthorized.html"
-                    },
-                    AllowedCorsOrigins = new List<string>
-                    {
-                        "https://localhost:44347"
-                    },
-                    AllowedScopes = new List<string>
-                    {
-                        "openid",
-                        "email",
-                        "profile",
-                        "dataEventRecords",
-                        "aReallyCoolScope",
-                        "securedFiles"
-                    }
-                },
-                new Client
-                {
-                    ClientName = "angular2client",
-                    ClientId = "angular2client",
+                    ClientName = "singleapp",
+                    ClientId = "singleapp",
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44311"
+                        "https://localhost:44363"
 
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:44311/Unauthorized"
+                        "https://localhost:44363/Unauthorized"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:44311",
-                        "http://localhost:44311"
+                        "https://localhost:44363",
+                        "http://localhost:44363"
                     },
                     AllowedScopes = new List<string>
                     {
                         "openid",
-                        "dataEventRecords",
-                        "securedFiles"
+                        "dataEventRecords"
                     }
                 }
             };
