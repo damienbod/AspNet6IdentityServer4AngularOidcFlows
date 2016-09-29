@@ -12,6 +12,11 @@ using QuickstartIdentityServer;
 using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System;
 
 namespace ResourceWithIdentityServerWithClient
 {
@@ -70,6 +75,25 @@ namespace ResourceWithIdentityServerWithClient
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            var angularRoutes = new[] {
+                "/aui/",
+                "/auiforbidden",
+                };
+
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
+                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.Request.Path = new PathString("/");
+                }
+
+                await next();
+            });
+
+            app.UseDefaultFiles();
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -86,12 +110,20 @@ namespace ResourceWithIdentityServerWithClient
             app.UseIdentity();
             app.UseIdentityServer();
 
-            app.UseMvc(routes =>
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+            var hostingUrl = Configuration["ApplicationConfiguration:HostingUrl"];
+
+            var jwtBearerOptions = new JwtBearerOptions()
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+                Authority = hostingUrl,
+                Audience = hostingUrl + "/resources",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            };
+
+            app.UseJwtBearerAuthentication(jwtBearerOptions);
+
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
