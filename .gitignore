@@ -149,3 +149,4 @@ src/Angular2Hybrid/angular2App/vendor.js.map
 src/Angular2Hybrid/project.lock.json
 src/ResourceWithIdentityServerWithClient/bin
 src/ResourceWithIdentityServerWithClient/obj
+src/ResourceWithIdentityServerWithClient/project.lock.json
