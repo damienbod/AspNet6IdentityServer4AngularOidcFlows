@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using IdentityServer4.AccessTokenValidation;
 
 namespace ResourceWithIdentityServerWithClient
 {
@@ -55,6 +57,24 @@ namespace ResourceWithIdentityServerWithClient
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+            var guestPolicy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .RequireClaim("scope", "dataEventRecords")
+            .Build();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("role", "dataEventRecords.admin");
+                });
+                options.AddPolicy("dataEventRecordsUser", policyUser =>
+                {
+                    policyUser.RequireClaim("role", "dataEventRecords.user");
+                });
+
+            });
+
             services.AddMvc();
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
@@ -76,8 +96,13 @@ namespace ResourceWithIdentityServerWithClient
             loggerFactory.AddDebug();
 
             var angularRoutes = new[] {
-                "/aui/",
-                "/auiforbidden",
+                "/Unauthorized",
+                "/Forbidden",
+                "/home",
+                "/dataeventrecords/",
+                "/dataeventrecords/create",
+                "/dataeventrecords/edit/",
+                "/dataeventrecords/list",
                 };
 
             app.Use(async (context, next) =>
@@ -93,7 +118,6 @@ namespace ResourceWithIdentityServerWithClient
 
             app.UseDefaultFiles();
 
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -105,23 +129,26 @@ namespace ResourceWithIdentityServerWithClient
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
-
             app.UseIdentity();
             app.UseIdentityServer();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
-            var hostingUrl = Configuration["ApplicationConfiguration:HostingUrl"];
+            app.UseStaticFiles();
 
-            var jwtBearerOptions = new JwtBearerOptions()
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
-                Authority = hostingUrl,
-                Audience = hostingUrl + "/resources",
+                Authority = "https://localhost:44363/",
+                ScopeName = "dataEventRecords",
+                ScopeSecret = "dataEventRecordsSecret",
                 AutomaticAuthenticate = true,
-                AutomaticChallenge = true
+                SupportedTokens = SupportedTokens.Both,
+                // TokenRetriever = _tokenRetriever,
+                // required if you want to return a 403 and not a 401 for forbidden responses
+                AutomaticChallenge = true,
             };
 
-            app.UseJwtBearerAuthentication(jwtBearerOptions);
+            app.UseIdentityServerAuthentication(identityServerValidationOptions);
 
             app.UseMvcWithDefaultRoute();
         }
