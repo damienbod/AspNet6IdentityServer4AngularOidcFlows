@@ -43,9 +43,10 @@
       "type": "build"
     },
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
-      "version": "1.0.0-preview2-final",
-      "type": "build"
-    }
+        "version": "1.0.0-preview2-final",
+        "type": "build"
+    },
+    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0"
   },
 
   "tools": {
