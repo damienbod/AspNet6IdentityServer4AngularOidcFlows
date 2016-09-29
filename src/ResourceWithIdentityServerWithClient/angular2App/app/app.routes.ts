@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { SecureFilesComponent } from './securefile/securefiles.component';
 
 import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecords-list.component';
 import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
@@ -14,7 +13,6 @@ const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent },
-    { path: 'securefile/securefiles', component: SecureFilesComponent },
     {
         path: 'dataeventrecords', component: DataEventRecordsListComponent
     },
