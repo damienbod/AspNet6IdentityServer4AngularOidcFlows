@@ -1,17 +1,14 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { Configuration } from './app.constants';
 
 import { SecurityService } from './services/SecurityService';
-import { SecureFileService } from './securefile/SecureFileService';
 import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './dataeventrecords/models/DataEventRecord';
 
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { SecureFilesComponent } from './securefile/securefiles.component';
 
 import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecords-list.component';
 import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
@@ -20,7 +17,7 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
 @Component({
     selector: 'my-app',
     template: require('./app.component.html'),
-    styleUrls: ['app/app.component.css']
+    styles: [require('./app.component.scss')]
 })
 
 export class AppComponent implements OnInit {
