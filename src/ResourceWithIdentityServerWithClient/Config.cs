@@ -77,6 +77,7 @@ namespace QuickstartIdentityServer
                 {
                     ClientName = "singleapp",
                     ClientId = "singleapp",
+                    RequireConsent = false,
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Implicit,
