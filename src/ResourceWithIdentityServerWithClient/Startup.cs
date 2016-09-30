@@ -138,7 +138,7 @@ namespace ResourceWithIdentityServerWithClient
 
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
-                Authority = "https://localhost:44363/",
+                Authority = Config.HOST_URL + "/",
                 ScopeName = "dataEventRecords",
                 ScopeSecret = "dataEventRecordsSecret",
                 AutomaticAuthenticate = true,

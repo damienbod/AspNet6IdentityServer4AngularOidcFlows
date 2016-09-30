@@ -8,6 +8,7 @@ namespace QuickstartIdentityServer
 {
     public class Config
     {
+        public static string HOST_URL =  "https://localhost:44363";
         // scopes define the resources in your system
         public static IEnumerable<Scope> GetScopes()
         {
@@ -82,17 +83,16 @@ namespace QuickstartIdentityServer
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44363"
+                        HOST_URL
 
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:44363/Unauthorized"
+                        HOST_URL + "/Unauthorized"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:44363",
-                        "http://localhost:44363"
+                        HOST_URL
                     },
                     AllowedScopes = new List<string>
                     {
