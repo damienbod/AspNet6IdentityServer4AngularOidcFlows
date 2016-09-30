@@ -15,6 +15,7 @@ using IdentityServer4.Services;
 using IdentityServer4.Quickstart.UI.Models;
 using Microsoft.AspNetCore.Http.Authentication;
 using IdentityServer4.Extensions;
+using QuickstartIdentityServer;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -455,25 +456,12 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         }
 
         /// <summary>
-        /// Show logout page
+        /// special logout to skip logout screens
         /// </summary>
+        /// <param name="logoutId"></param>
+        /// <returns></returns>
         [HttpGet]
-        public IActionResult Logout(string logoutId)
-        {
-            var vm = new LogoutViewModel
-            {
-                LogoutId = logoutId
-            };
-
-            return View(vm);
-        }
-
-        /// <summary>
-        /// Handle logout page postback
-        /// </summary>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout(LogoutViewModel model)
+        public async Task<IActionResult> Logout(string logoutId)
         {
             var user = HttpContext.User.Identity.Name;
             var subjectId = HttpContext.User.Identity.GetSubjectId();
@@ -481,14 +469,14 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             // delete authentication cookie
             await HttpContext.Authentication.SignOutAsync();
 
-          
+
             // set this so UI rendering sees an anonymous user
             HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
-            
+
             // get context information (client name, post logout redirect URI and iframe for federated signout)
-            var logout = await _interaction.GetLogoutContextAsync(model.LogoutId);
-            
-             var vm = new LoggedOutViewModel
+            var logout = await _interaction.GetLogoutContextAsync(logoutId);
+
+            var vm = new LoggedOutViewModel
             {
                 PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
                 ClientName = logout?.ClientId,
@@ -496,10 +484,57 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             };
 
 
-            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "singleapp");
 
-            return View("LoggedOut", vm);
+            return Redirect(Config.HOST_URL + "/Unauthorized");
         }
+
+        /// <summary>
+        /// Show logout page
+        /// </summary>
+        //[HttpGet]
+        //public IActionResult Logout(string logoutId)
+        //{
+        //    var vm = new LogoutViewModel
+        //    {
+        //        LogoutId = logoutId
+        //    };
+
+        //    return View(vm);
+        //}
+
+        /// <summary>
+        /// Handle logout page postback
+        /// </summary>
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Logout(LogoutViewModel model)
+        //{
+        //    var user = HttpContext.User.Identity.Name;
+        //    var subjectId = HttpContext.User.Identity.GetSubjectId();
+
+        //    // delete authentication cookie
+        //    await HttpContext.Authentication.SignOutAsync();
+
+          
+        //    // set this so UI rendering sees an anonymous user
+        //    HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
+            
+        //    // get context information (client name, post logout redirect URI and iframe for federated signout)
+        //    var logout = await _interaction.GetLogoutContextAsync(model.LogoutId);
+            
+        //     var vm = new LoggedOutViewModel
+        //    {
+        //        PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
+        //        ClientName = logout?.ClientId,
+        //        SignOutIframeUrl = logout?.SignOutIFrameUrl
+        //    };
+
+
+        //    await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "singleapp");
+
+        //    return View("LoggedOut", vm);
+        //}
 
         #region Helpers
 
