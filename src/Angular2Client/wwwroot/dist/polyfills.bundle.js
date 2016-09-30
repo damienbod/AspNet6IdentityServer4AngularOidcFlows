@@ -7433,8 +7433,19 @@
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global, process) {;
-	;
+	/* WEBPACK VAR INJECTION */(function(global, process) {/**
+	* @license
+	* Copyright Google Inc. All Rights Reserved.
+	*
+	* Use of this source code is governed by an MIT-style license that can be
+	* found in the LICENSE file at https://angular.io/license
+	*/
+	(function (global, factory) {
+	     true ? factory() :
+	    typeof define === 'function' && define.amd ? define(factory) :
+	    (factory());
+	}(this, (function () { 'use strict';
+	
 	var Zone$1 = (function (global) {
 	    if (global.Zone) {
 	        throw new Error('Zone already loaded.');
@@ -7461,25 +7472,25 @@
 	            enumerable: true,
 	            configurable: true
 	        });
-	        ;
+	        
 	        Object.defineProperty(Zone, "currentTask", {
 	            get: function () { return _currentTask; },
 	            enumerable: true,
 	            configurable: true
 	        });
-	        ;
+	        
 	        Object.defineProperty(Zone.prototype, "parent", {
 	            get: function () { return this._parent; },
 	            enumerable: true,
 	            configurable: true
 	        });
-	        ;
+	        
 	        Object.defineProperty(Zone.prototype, "name", {
 	            get: function () { return this._name; },
 	            enumerable: true,
 	            configurable: true
 	        });
-	        ;
+	        
 	        Zone.prototype.get = function (key) {
 	            var zone = this.getZoneWith(key);
 	            if (zone)
@@ -7588,7 +7599,7 @@
 	        Zone.__symbol__ = __symbol__;
 	        return Zone;
 	    }());
-	    ;
+	    
 	    var ZoneDelegate = (function () {
 	        function ZoneDelegate(zone, parentDelegate, zoneSpec) {
 	            this._taskCounts = { microTask: 0, macroTask: 0, eventTask: 0 };
@@ -7746,7 +7757,7 @@
 	        return ZoneTask;
 	    }());
 	    function __symbol__(name) { return '__zone_symbol__' + name; }
-	    ;
+	    
 	    var symbolSetTimeout = __symbol__('setTimeout');
 	    var symbolPromise = __symbol__('Promise');
 	    var symbolThen = __symbol__('then');
@@ -7853,12 +7864,12 @@
 	                        throw new Error("Uncaught (in promise): " + value);
 	                    }
 	                    catch (e) {
-	                        var error = e;
-	                        error.rejection = value;
-	                        error.promise = promise;
-	                        error.zone = Zone.current;
-	                        error.task = Zone.currentTask;
-	                        _uncaughtPromiseErrors.push(error);
+	                        var error_1 = e;
+	                        error_1.rejection = value;
+	                        error_1.promise = promise;
+	                        error_1.zone = Zone.current;
+	                        error_1.task = Zone.currentTask;
+	                        _uncaughtPromiseErrors.push(error_1);
 	                        scheduleQueueDrain();
 	                    }
 	                }
@@ -8024,7 +8035,7 @@
 	    }
 	    return args;
 	}
-	;
+	
 	function patchPrototype(prototype, fnNames) {
 	    var source = prototype.constructor['name'];
 	    var _loop_1 = function(i) {
@@ -8042,7 +8053,7 @@
 	        _loop_1(i);
 	    }
 	}
-	;
+	
 	var isWebWorker = (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope);
 	var isNode = (typeof process !== 'undefined' && {}.toString.call(process) === '[object process]');
 	var isBrowser = !isNode && !isWebWorker && !!(typeof window !== 'undefined' && window['HTMLElement']);
@@ -8085,7 +8096,7 @@
 	    };
 	    Object.defineProperty(obj, prop, desc);
 	}
-	;
+	
 	function patchOnProperties(obj, properties) {
 	    var onProperties = [];
 	    for (var prop in obj) {
@@ -8102,7 +8113,7 @@
 	        }
 	    }
 	}
-	;
+	
 	var EVENT_TASKS = zoneSymbol('eventTasks');
 	// For EventTarget
 	var ADD_EVENT_LISTENER = 'addEventListener';
@@ -8218,6 +8229,7 @@
 	        }
 	    };
 	}
+	
 	var zoneAwareAddEventListener = makeZoneAwareAddListener(ADD_EVENT_LISTENER, REMOVE_EVENT_LISTENER);
 	var zoneAwareRemoveEventListener = makeZoneAwareRemoveListener(REMOVE_EVENT_LISTENER);
 	function patchEventTargetMethods(obj) {
@@ -8292,7 +8304,7 @@
 	        }
 	    }
 	}
-	;
+	
 	function createNamedFn(name, delegate) {
 	    try {
 	        return (Function('f', "return function " + name + "(){return f(this, arguments)}"))(delegate);
@@ -8387,13 +8399,13 @@
 	        return desc;
 	    };
 	}
-	;
+	
 	function _redefineProperty(obj, prop, desc) {
 	    var originalConfigurableFlag = desc.configurable;
 	    desc = rewriteDescriptor(obj, prop, desc);
 	    return _tryDefineProperty(obj, prop, desc, originalConfigurableFlag);
 	}
-	;
+	
 	function isUnconfigurable(obj, prop) {
 	    return obj && obj[unconfigurablesKey] && obj[unconfigurablesKey][prop];
 	}
@@ -8559,7 +8571,7 @@
 	    Object.defineProperty(XMLHttpRequest.prototype, 'onreadystatechange', {});
 	    return result;
 	}
-	;
+	
 	var unboundKey = zoneSymbol('unbound');
 	// Whenever any eventListener fires, we check the eventListener target and all parents
 	// for `onwhatever` properties and replace them with zone-bound functions
@@ -8589,9 +8601,8 @@
 	    for (var i = 0; i < eventNames.length; i++) {
 	        _loop_1(i);
 	    }
-	    ;
+	    
 	}
-	;
 	
 	function patchTimer(window, setName, cancelName, nameSuffix) {
 	    var setNative = null;
@@ -8747,6 +8758,9 @@
 	        'watchPosition'
 	    ]);
 	}
+	
+	})));
+	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/process/browser.js */ 79)))
 
 /***/ },
@@ -8827,140 +8841,154 @@
 /*!*************************************************!*\
   !*** ./~/zone.js/dist/long-stack-trace-zone.js ***!
   \*************************************************/
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	(function () {
-	    var NEWLINE = '\n';
-	    var SEP = '  -------------  ';
-	    var IGNORE_FRAMES = [];
-	    var creationTrace = '__creationTrace__';
-	    var LongStackTrace = (function () {
-	        function LongStackTrace() {
-	            this.error = getStacktrace();
-	            this.timestamp = new Date();
-	        }
-	        return LongStackTrace;
-	    }());
-	    function getStacktraceWithUncaughtError() {
-	        return new Error('STACKTRACE TRACKING');
+	/**
+	* @license
+	* Copyright Google Inc. All Rights Reserved.
+	*
+	* Use of this source code is governed by an MIT-style license that can be
+	* found in the LICENSE file at https://angular.io/license
+	*/
+	(function (global, factory) {
+	     true ? factory() :
+	    typeof define === 'function' && define.amd ? define(factory) :
+	    (factory());
+	}(this, (function () { 'use strict';
+	
+	var NEWLINE = '\n';
+	var SEP = '  -------------  ';
+	var IGNORE_FRAMES = [];
+	var creationTrace = '__creationTrace__';
+	var LongStackTrace = (function () {
+	    function LongStackTrace() {
+	        this.error = getStacktrace();
+	        this.timestamp = new Date();
 	    }
-	    function getStacktraceWithCaughtError() {
-	        try {
-	            throw getStacktraceWithUncaughtError();
-	        }
-	        catch (e) {
-	            return e;
+	    return LongStackTrace;
+	}());
+	function getStacktraceWithUncaughtError() {
+	    return new Error('STACKTRACE TRACKING');
+	}
+	function getStacktraceWithCaughtError() {
+	    try {
+	        throw getStacktraceWithUncaughtError();
+	    }
+	    catch (e) {
+	        return e;
+	    }
+	}
+	// Some implementations of exception handling don't create a stack trace if the exception
+	// isn't thrown, however it's faster not to actually throw the exception.
+	var error = getStacktraceWithUncaughtError();
+	var coughtError = getStacktraceWithCaughtError();
+	var getStacktrace = error.stack
+	    ? getStacktraceWithUncaughtError
+	    : (coughtError.stack ? getStacktraceWithCaughtError : getStacktraceWithUncaughtError);
+	function getFrames(error) {
+	    return error.stack ? error.stack.split(NEWLINE) : [];
+	}
+	function addErrorStack(lines, error) {
+	    var trace = getFrames(error);
+	    for (var i = 0; i < trace.length; i++) {
+	        var frame = trace[i];
+	        // Filter out the Frames which are part of stack capturing.
+	        if (!(i < IGNORE_FRAMES.length && IGNORE_FRAMES[i] === frame)) {
+	            lines.push(trace[i]);
 	        }
 	    }
-	    // Some implementations of exception handling don't create a stack trace if the exception
-	    // isn't thrown, however it's faster not to actually throw the exception.
-	    var error = getStacktraceWithUncaughtError();
-	    var coughtError = getStacktraceWithCaughtError();
-	    var getStacktrace = error.stack
-	        ? getStacktraceWithUncaughtError
-	        : (coughtError.stack ? getStacktraceWithCaughtError : getStacktraceWithUncaughtError);
-	    function getFrames(error) {
-	        return error.stack ? error.stack.split(NEWLINE) : [];
+	}
+	function renderLongStackTrace(frames, stack) {
+	    var longTrace = [stack];
+	    if (frames) {
+	        var timestamp = new Date().getTime();
+	        for (var i = 0; i < frames.length; i++) {
+	            var traceFrames = frames[i];
+	            var lastTime = traceFrames.timestamp;
+	            longTrace.push(SEP + " Elapsed: " + (timestamp - lastTime.getTime()) + " ms; At: " + lastTime + " " + SEP);
+	            addErrorStack(longTrace, traceFrames.error);
+	            timestamp = lastTime.getTime();
+	        }
 	    }
-	    function addErrorStack(lines, error) {
-	        var trace = getFrames(error);
-	        for (var i = 0; i < trace.length; i++) {
-	            var frame = trace[i];
-	            // Filter out the Frames which are part of stack capturing.
-	            if (!(i < IGNORE_FRAMES.length && IGNORE_FRAMES[i] === frame)) {
-	                lines.push(trace[i]);
+	    return longTrace.join(NEWLINE);
+	}
+	Zone['longStackTraceZoneSpec'] = {
+	    name: 'long-stack-trace',
+	    longStackTraceLimit: 10,
+	    onScheduleTask: function (parentZoneDelegate, currentZone, targetZone, task) {
+	        var currentTask = Zone.currentTask;
+	        var trace = currentTask && currentTask.data && currentTask.data[creationTrace] || [];
+	        trace = [new LongStackTrace()].concat(trace);
+	        if (trace.length > this.longStackTraceLimit) {
+	            trace.length = this.longStackTraceLimit;
+	        }
+	        if (!task.data)
+	            task.data = {};
+	        task.data[creationTrace] = trace;
+	        return parentZoneDelegate.scheduleTask(targetZone, task);
+	    },
+	    onHandleError: function (parentZoneDelegate, currentZone, targetZone, error) {
+	        var parentTask = Zone.currentTask || error.task;
+	        if (error instanceof Error && parentTask) {
+	            var stackSetSucceded = null;
+	            try {
+	                var descriptor = Object.getOwnPropertyDescriptor(error, 'stack');
+	                if (descriptor && descriptor.configurable) {
+	                    var delegateGet_1 = descriptor.get;
+	                    var value_1 = descriptor.value;
+	                    descriptor = {
+	                        get: function () {
+	                            return renderLongStackTrace(parentTask.data && parentTask.data[creationTrace], delegateGet_1 ? delegateGet_1.apply(this) : value_1);
+	                        }
+	                    };
+	                    Object.defineProperty(error, 'stack', descriptor);
+	                    stackSetSucceded = true;
+	                }
 	            }
-	        }
-	    }
-	    function renderLongStackTrace(frames, stack) {
-	        var longTrace = [stack];
-	        if (frames) {
-	            var timestamp = new Date().getTime();
-	            for (var i = 0; i < frames.length; i++) {
-	                var traceFrames = frames[i];
-	                var lastTime = traceFrames.timestamp;
-	                longTrace.push(SEP + " Elapsed: " + (timestamp - lastTime.getTime()) + " ms; At: " + lastTime + " " + SEP);
-	                addErrorStack(longTrace, traceFrames.error);
-	                timestamp = lastTime.getTime();
-	            }
-	        }
-	        return longTrace.join(NEWLINE);
-	    }
-	    Zone['longStackTraceZoneSpec'] = {
-	        name: 'long-stack-trace',
-	        longStackTraceLimit: 10,
-	        onScheduleTask: function (parentZoneDelegate, currentZone, targetZone, task) {
-	            var currentTask = Zone.currentTask;
-	            var trace = currentTask && currentTask.data && currentTask.data[creationTrace] || [];
-	            trace = [new LongStackTrace()].concat(trace);
-	            if (trace.length > this.longStackTraceLimit) {
-	                trace.length = this.longStackTraceLimit;
-	            }
-	            if (!task.data)
-	                task.data = {};
-	            task.data[creationTrace] = trace;
-	            return parentZoneDelegate.scheduleTask(targetZone, task);
-	        },
-	        onHandleError: function (parentZoneDelegate, currentZone, targetZone, error) {
-	            var parentTask = Zone.currentTask || error.task;
-	            if (error instanceof Error && parentTask) {
-	                var stackSetSucceded = null;
+	            catch (e) { }
+	            var longStack = stackSetSucceded ? null : renderLongStackTrace(parentTask.data && parentTask.data[creationTrace], error.stack);
+	            if (!stackSetSucceded) {
 	                try {
-	                    var descriptor = Object.getOwnPropertyDescriptor(error, 'stack');
-	                    if (descriptor && descriptor.configurable) {
-	                        var delegateGet_1 = descriptor.get;
-	                        var value_1 = descriptor.value;
-	                        descriptor = {
-	                            get: function () {
-	                                return renderLongStackTrace(parentTask.data && parentTask.data[creationTrace], delegateGet_1 ? delegateGet_1.apply(this) : value_1);
-	                            }
-	                        };
-	                        Object.defineProperty(error, 'stack', descriptor);
-	                        stackSetSucceded = true;
-	                    }
+	                    stackSetSucceded = error.stack = longStack;
 	                }
 	                catch (e) { }
-	                var longStack = stackSetSucceded ? null : renderLongStackTrace(parentTask.data && parentTask.data[creationTrace], error.stack);
-	                if (!stackSetSucceded) {
-	                    try {
-	                        stackSetSucceded = error.stack = longStack;
-	                    }
-	                    catch (e) { }
-	                }
-	                if (!stackSetSucceded) {
-	                    try {
-	                        stackSetSucceded = error.longStack = longStack;
-	                    }
-	                    catch (e) { }
-	                }
 	            }
-	            return parentZoneDelegate.handleError(targetZone, error);
+	            if (!stackSetSucceded) {
+	                try {
+	                    stackSetSucceded = error.longStack = longStack;
+	                }
+	                catch (e) { }
+	            }
 	        }
-	    };
-	    function captureStackTraces(stackTraces, count) {
-	        if (count > 0) {
-	            stackTraces.push(getFrames((new LongStackTrace()).error));
-	            captureStackTraces(stackTraces, count - 1);
+	        return parentZoneDelegate.handleError(targetZone, error);
+	    }
+	};
+	function captureStackTraces(stackTraces, count) {
+	    if (count > 0) {
+	        stackTraces.push(getFrames((new LongStackTrace()).error));
+	        captureStackTraces(stackTraces, count - 1);
+	    }
+	}
+	function computeIgnoreFrames() {
+	    var frames = [];
+	    captureStackTraces(frames, 2);
+	    var frames1 = frames[0];
+	    var frames2 = frames[1];
+	    for (var i = 0; i < frames1.length; i++) {
+	        var frame1 = frames1[i];
+	        var frame2 = frames2[i];
+	        if (frame1 === frame2) {
+	            IGNORE_FRAMES.push(frame1);
+	        }
+	        else {
+	            break;
 	        }
 	    }
-	    function computeIgnoreFrames() {
-	        var frames = [];
-	        captureStackTraces(frames, 2);
-	        var frames1 = frames[0];
-	        var frames2 = frames[1];
-	        for (var i = 0; i < frames1.length; i++) {
-	            var frame1 = frames1[i];
-	            var frame2 = frames2[i];
-	            if (frame1 === frame2) {
-	                IGNORE_FRAMES.push(frame1);
-	            }
-	            else {
-	                break;
-	            }
-	        }
-	    }
-	    computeIgnoreFrames();
-	})();
+	}
+	computeIgnoreFrames();
+	
+	})));
+
 
 /***/ }
 /******/ ]);
