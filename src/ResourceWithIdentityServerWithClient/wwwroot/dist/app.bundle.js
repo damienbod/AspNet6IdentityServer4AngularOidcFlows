@@ -4991,9 +4991,9 @@ webpackJsonp([0],[
 	    SecurityService.prototype.Authorize = function () {
 	        this.ResetAuthorizationData();
 	        console.log("BEGIN Authorize, no auth data");
-	        var authorizationUrl = 'https://localhost:44363/connect/authorize';
+	        var authorizationUrl = this._configuration.Server + '/connect/authorize';
 	        var client_id = 'singleapp';
-	        var redirect_uri = 'https://localhost:44363';
+	        var redirect_uri = this._configuration.Server;
 	        var response_type = "id_token token";
 	        var scope = "dataEventRecords openid";
 	        var nonce = "N" + Math.random() + "" + Date.now();
@@ -5056,9 +5056,9 @@ webpackJsonp([0],[
 	    };
 	    SecurityService.prototype.Logoff = function () {
 	        console.log("BEGIN Authorize, no auth data");
-	        var authorizationUrl = 'https://localhost:44363/connect/endsession';
+	        var authorizationUrl = this._configuration.Server + '/connect/endsession';
 	        var id_token_hint = this.retrieve("authorizationDataIdToken");
-	        var post_logout_redirect_uri = 'https://localhost:44363/Unauthorized';
+	        var post_logout_redirect_uri = this._configuration.Server + '/Unauthorized';
 	        var url = authorizationUrl + "?" +
 	            "id_token_hint=" + encodeURI(id_token_hint) + "&" +
 	            "post_logout_redirect_uri=" + encodeURI(post_logout_redirect_uri);
@@ -5153,7 +5153,7 @@ webpackJsonp([0],[
 	var core_1 = __webpack_require__(/*! @angular/core */ 3);
 	var Configuration = (function () {
 	    function Configuration() {
-	        this.Server = "https://localhost:44363/";
+	        this.Server = "https://localhost:44363";
 	    }
 	    Configuration = __decorate([
 	        core_1.Injectable(), 
@@ -5494,7 +5494,7 @@ webpackJsonp([0],[
 	                headers: _this.headers
 	            });
 	        };
-	        this.actionUrl = _configuration.Server + "api/DataEventRecords/";
+	        this.actionUrl = _configuration.Server + "/api/DataEventRecords/";
 	    }
 	    DataEventRecordsService.prototype.setHeaders = function () {
 	        console.log("setHeaders started");
