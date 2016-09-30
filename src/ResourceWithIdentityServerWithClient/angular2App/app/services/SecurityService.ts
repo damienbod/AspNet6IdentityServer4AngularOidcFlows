@@ -11,7 +11,6 @@ export class SecurityService {
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
-    private HOST_URL: string = "https://localhost:44363";
 
     constructor(private _http: Http, private _configuration: Configuration, private _router: Router) {
 
@@ -69,9 +68,9 @@ export class SecurityService {
 
         console.log("BEGIN Authorize, no auth data");
 
-        var authorizationUrl = this.HOST_URL + '/connect/authorize';
+        var authorizationUrl = this._configuration.Server + '/connect/authorize';
         var client_id = 'singleapp';
-        var redirect_uri = this.HOST_URL;
+        var redirect_uri = this._configuration.Server;
         var response_type = "id_token token";
         var scope = "dataEventRecords openid";
         var nonce = "N" + Math.random() + "" + Date.now();
@@ -153,10 +152,10 @@ export class SecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         console.log("BEGIN Authorize, no auth data");
 
-        var authorizationUrl = this.HOST_URL + '/connect/endsession';
+        var authorizationUrl = this._configuration.Server + '/connect/endsession';
 
         var id_token_hint = this.retrieve("authorizationDataIdToken");
-        var post_logout_redirect_uri = this.HOST_URL + '/Unauthorized';
+        var post_logout_redirect_uri = this._configuration.Server + '/Unauthorized';
 
         var url =
             authorizationUrl + "?" +
