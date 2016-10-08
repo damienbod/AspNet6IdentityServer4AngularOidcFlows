@@ -122,7 +122,8 @@ namespace ResourceWithIdentityServerWithClient
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
+                // Does not work with HTTPS
+                //app.UseBrowserLink();
             }
             else
             {
