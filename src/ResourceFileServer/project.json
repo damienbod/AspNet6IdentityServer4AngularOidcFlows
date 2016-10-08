@@ -37,7 +37,7 @@
             "version": "1.0.0-preview2-final",
             "type": "build"
         },
-        "IdentityServer4.AccessTokenValidation": "1.0.1-beta2"
+        "IdentityServer4.AccessTokenValidation": "1.0.1-rc2"
     },
 
     "tools": {
