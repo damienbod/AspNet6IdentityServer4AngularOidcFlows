@@ -25,7 +25,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.0.1
+	 * @license Angular v2.0.2
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -241,7 +241,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.0.1
+	 * @license Angular v2.0.2
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -314,7 +314,7 @@ webpackJsonp([2],[
 	      }
 	      var res = token.toString();
 	      var newLineIndex = res.indexOf('\n');
-	      return (newLineIndex === -1) ? res : res.substring(0, newLineIndex);
+	      return newLineIndex === -1 ? res : res.substring(0, newLineIndex);
 	  }
 	  var StringWrapper = (function () {
 	      function StringWrapper() {
@@ -499,7 +499,8 @@ webpackJsonp([2],[
 	      return AttrAst;
 	  }());
 	  /**
-	   * A binding for an element property (e.g. `[property]="expression"`).
+	   * A binding for an element property (e.g. `[property]="expression"`) or an animation trigger (e.g.
+	   * `[@trigger]="stateExp"`)
 	   */
 	  var BoundElementPropertyAst = (function () {
 	      function BoundElementPropertyAst(name, type, securityContext, value, unit, sourceSpan) {
@@ -513,15 +514,22 @@ webpackJsonp([2],[
 	      BoundElementPropertyAst.prototype.visit = function (visitor, context) {
 	          return visitor.visitElementProperty(this, context);
 	      };
+	      Object.defineProperty(BoundElementPropertyAst.prototype, "isAnimation", {
+	          get: function () { return this.type === exports.PropertyBindingType.Animation; },
+	          enumerable: true,
+	          configurable: true
+	      });
 	      return BoundElementPropertyAst;
 	  }());
 	  /**
-	   * A binding for an element event (e.g. `(event)="handler()"`).
+	   * A binding for an element event (e.g. `(event)="handler()"`) or an animation trigger event (e.g.
+	   * `(@trigger.phase)="callback($event)"`).
 	   */
 	  var BoundEventAst = (function () {
-	      function BoundEventAst(name, target, handler, sourceSpan) {
+	      function BoundEventAst(name, target, phase, handler, sourceSpan) {
 	          this.name = name;
 	          this.target = target;
+	          this.phase = phase;
 	          this.handler = handler;
 	          this.sourceSpan = sourceSpan;
 	      }
@@ -537,6 +545,11 @@ webpackJsonp([2],[
 	                  return this.name;
 	              }
 	          },
+	          enumerable: true,
+	          configurable: true
+	      });
+	      Object.defineProperty(BoundEventAst.prototype, "isAnimation", {
+	          get: function () { return !!this.phase; },
 	          enumerable: true,
 	          configurable: true
 	      });
@@ -809,26 +822,6 @@ webpackJsonp([2],[
 	  var StringMapWrapper = (function () {
 	      function StringMapWrapper() {
 	      }
-	      StringMapWrapper.get = function (map, key) {
-	          return map.hasOwnProperty(key) ? map[key] : undefined;
-	      };
-	      StringMapWrapper.set = function (map, key, value) { map[key] = value; };
-	      StringMapWrapper.keys = function (map) { return Object.keys(map); };
-	      StringMapWrapper.values = function (map) {
-	          return Object.keys(map).map(function (k) { return map[k]; });
-	      };
-	      StringMapWrapper.isEmpty = function (map) {
-	          for (var prop in map) {
-	              return false;
-	          }
-	          return true;
-	      };
-	      StringMapWrapper.forEach = function (map, callback) {
-	          for (var _i = 0, _a = Object.keys(map); _i < _a.length; _i++) {
-	              var k = _a[_i];
-	              callback(map[k], k);
-	          }
-	      };
 	      StringMapWrapper.merge = function (m1, m2) {
 	          var m = {};
 	          for (var _i = 0, _a = Object.keys(m1); _i < _a.length; _i++) {
@@ -987,33 +980,6 @@ webpackJsonp([2],[
 	      }
 	      return target;
 	  }
-	  // Safari and Internet Explorer do not support the iterable parameter to the
-	  // Set constructor.  We work around that by manually adding the items.
-	  var createSetFromList = (function () {
-	      var test = new Set([1, 2, 3]);
-	      if (test.size === 3) {
-	          return function createSetFromList(lst) { return new Set(lst); };
-	      }
-	      else {
-	          return function createSetAndPopulateFromList(lst) {
-	              var res = new Set(lst);
-	              if (res.size !== lst.length) {
-	                  for (var i = 0; i < lst.length; i++) {
-	                      res.add(lst[i]);
-	                  }
-	              }
-	              return res;
-	          };
-	      }
-	  })();
-	  var SetWrapper = (function () {
-	      function SetWrapper() {
-	      }
-	      SetWrapper.createFromList = function (lst) { return createSetFromList(lst); };
-	      SetWrapper.has = function (s, key) { return s.has(key); };
-	      SetWrapper.delete = function (m, k) { m.delete(k); };
-	      return SetWrapper;
-	  }());
 	
 	  /**
 	   * @license
@@ -1398,7 +1364,6 @@ webpackJsonp([2],[
 	      return TAG_DEFINITIONS[tagName.toLowerCase()] || _DEFAULT_TAG_DEFINITION;
 	  }
 	
-	  var _EMPTY_ATTR_VALUE = '';
 	  var _SELECTOR_REGEXP = new RegExp('(\\:not\\()|' +
 	      '([-\\w]+)|' +
 	      '(?:\\.([-\\w]+))|' +
@@ -1421,8 +1386,8 @@ webpackJsonp([2],[
 	      CssSelector.parse = function (selector) {
 	          var results = [];
 	          var _addResult = function (res, cssSel) {
-	              if (cssSel.notSelectors.length > 0 && isBlank(cssSel.element) &&
-	                  ListWrapper.isEmpty(cssSel.classNames) && ListWrapper.isEmpty(cssSel.attrs)) {
+	              if (cssSel.notSelectors.length > 0 && !cssSel.element && cssSel.classNames.length == 0 &&
+	                  cssSel.attrs.length == 0) {
 	                  cssSel.element = '*';
 	              }
 	              res.push(cssSel);
@@ -1432,8 +1397,8 @@ webpackJsonp([2],[
 	          var current = cssSelector;
 	          var inNot = false;
 	          _SELECTOR_REGEXP.lastIndex = 0;
-	          while (isPresent(match = _SELECTOR_REGEXP.exec(selector))) {
-	              if (isPresent(match[1])) {
+	          while (match = _SELECTOR_REGEXP.exec(selector)) {
+	              if (match[1]) {
 	                  if (inNot) {
 	                      throw new Error('Nesting :not is not allowed in a selector');
 	                  }
@@ -1441,20 +1406,20 @@ webpackJsonp([2],[
 	                  current = new CssSelector();
 	                  cssSelector.notSelectors.push(current);
 	              }
-	              if (isPresent(match[2])) {
+	              if (match[2]) {
 	                  current.setElement(match[2]);
 	              }
-	              if (isPresent(match[3])) {
+	              if (match[3]) {
 	                  current.addClassName(match[3]);
 	              }
-	              if (isPresent(match[4])) {
+	              if (match[4]) {
 	                  current.addAttribute(match[4], match[5]);
 	              }
-	              if (isPresent(match[6])) {
+	              if (match[6]) {
 	                  inNot = false;
 	                  current = cssSelector;
 	              }
-	              if (isPresent(match[7])) {
+	              if (match[7]) {
 	                  if (inNot) {
 	                      throw new Error('Multiple selectors in :not are not supported');
 	                  }
@@ -1488,36 +1453,20 @@ webpackJsonp([2],[
 	              "<" + tagName + classAttr + attrs + "></" + tagName + ">";
 	      };
 	      CssSelector.prototype.addAttribute = function (name, value) {
-	          if (value === void 0) { value = _EMPTY_ATTR_VALUE; }
-	          this.attrs.push(name);
-	          if (isPresent(value)) {
-	              value = value.toLowerCase();
-	          }
-	          else {
-	              value = _EMPTY_ATTR_VALUE;
-	          }
-	          this.attrs.push(value);
+	          if (value === void 0) { value = ''; }
+	          this.attrs.push(name, value && value.toLowerCase() || '');
 	      };
 	      CssSelector.prototype.addClassName = function (name) { this.classNames.push(name.toLowerCase()); };
 	      CssSelector.prototype.toString = function () {
-	          var res = '';
-	          if (isPresent(this.element)) {
-	              res += this.element;
+	          var res = this.element || '';
+	          if (this.classNames) {
+	              this.classNames.forEach(function (klass) { return res += "." + klass; });
 	          }
-	          if (isPresent(this.classNames)) {
-	              for (var i = 0; i < this.classNames.length; i++) {
-	                  res += '.' + this.classNames[i];
-	              }
-	          }
-	          if (isPresent(this.attrs)) {
-	              for (var i = 0; i < this.attrs.length;) {
-	                  var attrName = this.attrs[i++];
-	                  var attrValue = this.attrs[i++];
-	                  res += '[' + attrName;
-	                  if (attrValue.length > 0) {
-	                      res += '=' + attrValue;
-	                  }
-	                  res += ']';
+	          if (this.attrs) {
+	              for (var i = 0; i < this.attrs.length; i += 2) {
+	                  var name_1 = this.attrs[i];
+	                  var value = this.attrs[i + 1];
+	                  res += "[" + name_1 + (value ? '=' + value : '') + "]";
 	              }
 	          }
 	          this.notSelectors.forEach(function (notSelector) { return res += ":not(" + notSelector + ")"; });
@@ -1531,12 +1480,12 @@ webpackJsonp([2],[
 	   */
 	  var SelectorMatcher = (function () {
 	      function SelectorMatcher() {
-	          this._elementMap = new Map();
-	          this._elementPartialMap = new Map();
-	          this._classMap = new Map();
-	          this._classPartialMap = new Map();
-	          this._attrValueMap = new Map();
-	          this._attrValuePartialMap = new Map();
+	          this._elementMap = {};
+	          this._elementPartialMap = {};
+	          this._classMap = {};
+	          this._classPartialMap = {};
+	          this._attrValueMap = {};
+	          this._attrValuePartialMap = {};
 	          this._listContexts = [];
 	      }
 	      SelectorMatcher.createNotMatcher = function (notSelectors) {
@@ -1565,7 +1514,7 @@ webpackJsonp([2],[
 	          var classNames = cssSelector.classNames;
 	          var attrs = cssSelector.attrs;
 	          var selectable = new SelectorContext(cssSelector, callbackCtxt, listContext);
-	          if (isPresent(element)) {
+	          if (element) {
 	              var isTerminal = attrs.length === 0 && classNames.length === 0;
 	              if (isTerminal) {
 	                  this._addTerminal(matcher._elementMap, element, selectable);
@@ -1574,10 +1523,10 @@ webpackJsonp([2],[
 	                  matcher = this._addPartial(matcher._elementPartialMap, element);
 	              }
 	          }
-	          if (isPresent(classNames)) {
-	              for (var index = 0; index < classNames.length; index++) {
-	                  var isTerminal = attrs.length === 0 && index === classNames.length - 1;
-	                  var className = classNames[index];
+	          if (classNames) {
+	              for (var i = 0; i < classNames.length; i++) {
+	                  var isTerminal = attrs.length === 0 && i === classNames.length - 1;
+	                  var className = classNames[i];
 	                  if (isTerminal) {
 	                      this._addTerminal(matcher._classMap, className, selectable);
 	                  }
@@ -1586,45 +1535,45 @@ webpackJsonp([2],[
 	                  }
 	              }
 	          }
-	          if (isPresent(attrs)) {
-	              for (var index = 0; index < attrs.length;) {
-	                  var isTerminal = index === attrs.length - 2;
-	                  var attrName = attrs[index++];
-	                  var attrValue = attrs[index++];
+	          if (attrs) {
+	              for (var i = 0; i < attrs.length; i += 2) {
+	                  var isTerminal = i === attrs.length - 2;
+	                  var name_2 = attrs[i];
+	                  var value = attrs[i + 1];
 	                  if (isTerminal) {
 	                      var terminalMap = matcher._attrValueMap;
-	                      var terminalValuesMap = terminalMap.get(attrName);
-	                      if (isBlank(terminalValuesMap)) {
-	                          terminalValuesMap = new Map();
-	                          terminalMap.set(attrName, terminalValuesMap);
+	                      var terminalValuesMap = terminalMap[name_2];
+	                      if (!terminalValuesMap) {
+	                          terminalValuesMap = {};
+	                          terminalMap[name_2] = terminalValuesMap;
 	                      }
-	                      this._addTerminal(terminalValuesMap, attrValue, selectable);
+	                      this._addTerminal(terminalValuesMap, value, selectable);
 	                  }
 	                  else {
-	                      var parttialMap = matcher._attrValuePartialMap;
-	                      var partialValuesMap = parttialMap.get(attrName);
-	                      if (isBlank(partialValuesMap)) {
-	                          partialValuesMap = new Map();
-	                          parttialMap.set(attrName, partialValuesMap);
+	                      var partialMap = matcher._attrValuePartialMap;
+	                      var partialValuesMap = partialMap[name_2];
+	                      if (!partialValuesMap) {
+	                          partialValuesMap = {};
+	                          partialMap[name_2] = partialValuesMap;
 	                      }
-	                      matcher = this._addPartial(partialValuesMap, attrValue);
+	                      matcher = this._addPartial(partialValuesMap, value);
 	                  }
 	              }
 	          }
 	      };
 	      SelectorMatcher.prototype._addTerminal = function (map, name, selectable) {
-	          var terminalList = map.get(name);
-	          if (isBlank(terminalList)) {
+	          var terminalList = map[name];
+	          if (!terminalList) {
 	              terminalList = [];
-	              map.set(name, terminalList);
+	              map[name] = terminalList;
 	          }
 	          terminalList.push(selectable);
 	      };
 	      SelectorMatcher.prototype._addPartial = function (map, name) {
-	          var matcher = map.get(name);
-	          if (isBlank(matcher)) {
+	          var matcher = map[name];
+	          if (!matcher) {
 	              matcher = new SelectorMatcher();
-	              map.set(name, matcher);
+	              map[name] = matcher;
 	          }
 	          return matcher;
 	      };
@@ -1646,9 +1595,9 @@ webpackJsonp([2],[
 	          result = this._matchTerminal(this._elementMap, element, cssSelector, matchedCallback) || result;
 	          result = this._matchPartial(this._elementPartialMap, element, cssSelector, matchedCallback) ||
 	              result;
-	          if (isPresent(classNames)) {
-	              for (var index = 0; index < classNames.length; index++) {
-	                  var className = classNames[index];
+	          if (classNames) {
+	              for (var i = 0; i < classNames.length; i++) {
+	                  var className = classNames[i];
 	                  result =
 	                      this._matchTerminal(this._classMap, className, cssSelector, matchedCallback) || result;
 	                  result =
@@ -1656,56 +1605,55 @@ webpackJsonp([2],[
 	                          result;
 	              }
 	          }
-	          if (isPresent(attrs)) {
-	              for (var index = 0; index < attrs.length;) {
-	                  var attrName = attrs[index++];
-	                  var attrValue = attrs[index++];
-	                  var terminalValuesMap = this._attrValueMap.get(attrName);
-	                  if (!StringWrapper.equals(attrValue, _EMPTY_ATTR_VALUE)) {
-	                      result = this._matchTerminal(terminalValuesMap, _EMPTY_ATTR_VALUE, cssSelector, matchedCallback) ||
-	                          result;
-	                  }
-	                  result = this._matchTerminal(terminalValuesMap, attrValue, cssSelector, matchedCallback) ||
-	                      result;
-	                  var partialValuesMap = this._attrValuePartialMap.get(attrName);
-	                  if (!StringWrapper.equals(attrValue, _EMPTY_ATTR_VALUE)) {
-	                      result = this._matchPartial(partialValuesMap, _EMPTY_ATTR_VALUE, cssSelector, matchedCallback) ||
-	                          result;
+	          if (attrs) {
+	              for (var i = 0; i < attrs.length; i += 2) {
+	                  var name_3 = attrs[i];
+	                  var value = attrs[i + 1];
+	                  var terminalValuesMap = this._attrValueMap[name_3];
+	                  if (value) {
+	                      result =
+	                          this._matchTerminal(terminalValuesMap, '', cssSelector, matchedCallback) || result;
 	                  }
 	                  result =
-	                      this._matchPartial(partialValuesMap, attrValue, cssSelector, matchedCallback) || result;
+	                      this._matchTerminal(terminalValuesMap, value, cssSelector, matchedCallback) || result;
+	                  var partialValuesMap = this._attrValuePartialMap[name_3];
+	                  if (value) {
+	                      result = this._matchPartial(partialValuesMap, '', cssSelector, matchedCallback) || result;
+	                  }
+	                  result =
+	                      this._matchPartial(partialValuesMap, value, cssSelector, matchedCallback) || result;
 	              }
 	          }
 	          return result;
 	      };
 	      /** @internal */
 	      SelectorMatcher.prototype._matchTerminal = function (map, name, cssSelector, matchedCallback) {
-	          if (isBlank(map) || isBlank(name)) {
+	          if (!map || typeof name !== 'string') {
 	              return false;
 	          }
-	          var selectables = map.get(name);
-	          var starSelectables = map.get('*');
-	          if (isPresent(starSelectables)) {
+	          var selectables = map[name];
+	          var starSelectables = map['*'];
+	          if (starSelectables) {
 	              selectables = selectables.concat(starSelectables);
 	          }
-	          if (isBlank(selectables)) {
+	          if (!selectables) {
 	              return false;
 	          }
 	          var selectable;
 	          var result = false;
-	          for (var index = 0; index < selectables.length; index++) {
-	              selectable = selectables[index];
+	          for (var i = 0; i < selectables.length; i++) {
+	              selectable = selectables[i];
 	              result = selectable.finalize(cssSelector, matchedCallback) || result;
 	          }
 	          return result;
 	      };
 	      /** @internal */
 	      SelectorMatcher.prototype._matchPartial = function (map, name, cssSelector, matchedCallback) {
-	          if (isBlank(map) || isBlank(name)) {
+	          if (!map || typeof name !== 'string') {
 	              return false;
 	          }
-	          var nestedSelector = map.get(name);
-	          if (isBlank(nestedSelector)) {
+	          var nestedSelector = map[name];
+	          if (!nestedSelector) {
 	              return false;
 	          }
 	          // TODO(perf): get rid of recursion and measure again
@@ -1732,14 +1680,12 @@ webpackJsonp([2],[
 	      }
 	      SelectorContext.prototype.finalize = function (cssSelector, callback) {
 	          var result = true;
-	          if (this.notSelectors.length > 0 &&
-	              (isBlank(this.listContext) || !this.listContext.alreadyMatched)) {
+	          if (this.notSelectors.length > 0 && (!this.listContext || !this.listContext.alreadyMatched)) {
 	              var notMatcher = SelectorMatcher.createNotMatcher(this.notSelectors);
 	              result = !notMatcher.match(cssSelector, null);
 	          }
-	          if (result && isPresent(callback) &&
-	              (isBlank(this.listContext) || !this.listContext.alreadyMatched)) {
-	              if (isPresent(this.listContext)) {
+	          if (result && callback && (!this.listContext || !this.listContext.alreadyMatched)) {
+	              if (this.listContext) {
 	                  this.listContext.alreadyMatched = true;
 	              }
 	              callback(this.selector, this.cbContext);
@@ -1770,7 +1716,7 @@ webpackJsonp([2],[
 	      function Type(modifiers) {
 	          if (modifiers === void 0) { modifiers = null; }
 	          this.modifiers = modifiers;
-	          if (isBlank(modifiers)) {
+	          if (!modifiers) {
 	              this.modifiers = [];
 	          }
 	      }
@@ -2235,7 +2181,7 @@ webpackJsonp([2],[
 	      function Statement(modifiers) {
 	          if (modifiers === void 0) { modifiers = null; }
 	          this.modifiers = modifiers;
-	          if (isBlank(modifiers)) {
+	          if (!modifiers) {
 	              this.modifiers = [];
 	          }
 	      }
@@ -2300,7 +2246,7 @@ webpackJsonp([2],[
 	          if (type === void 0) { type = null; }
 	          this.type = type;
 	          this.modifiers = modifiers;
-	          if (isBlank(modifiers)) {
+	          if (!modifiers) {
 	              this.modifiers = [];
 	          }
 	      }
@@ -2688,10 +2634,16 @@ webpackJsonp([2],[
 	      return StringWrapper.replaceAllMapped(input, CAMEL_CASE_REGEXP, function (m) { return '-' + m[1].toLowerCase(); });
 	  }
 	  function splitAtColon(input, defaultValues) {
-	      var colonIndex = input.indexOf(':');
-	      if (colonIndex == -1)
+	      return _splitAt(input, ':', defaultValues);
+	  }
+	  function splitAtPeriod(input, defaultValues) {
+	      return _splitAt(input, '.', defaultValues);
+	  }
+	  function _splitAt(input, character, defaultValues) {
+	      var characterIndex = input.indexOf(character);
+	      if (characterIndex == -1)
 	          return defaultValues;
-	      return [input.slice(0, colonIndex).trim(), input.slice(colonIndex + 1).trim()];
+	      return [input.slice(0, characterIndex).trim(), input.slice(characterIndex + 1).trim()];
 	  }
 	  function sanitizeIdentifier(name) {
 	      return StringWrapper.replaceAll(name, /\W/g, '_');
@@ -2720,9 +2672,7 @@ webpackJsonp([2],[
 	      ValueTransformer.prototype.visitStringMap = function (map, context) {
 	          var _this = this;
 	          var result = {};
-	          StringMapWrapper.forEach(map, function (value /** TODO #9100 */, key /** TODO #9100 */) {
-	              result[key] = visitValue(value, _this, context);
-	          });
+	          Object.keys(map).forEach(function (key) { result[key] = visitValue(map[key], _this, context); });
 	          return result;
 	      };
 	      ValueTransformer.prototype.visitPrimitive = function (value, context) { return value; };
@@ -3054,7 +3004,8 @@ webpackJsonp([2],[
 	          var hostProperties = {};
 	          var hostAttributes = {};
 	          if (isPresent(host)) {
-	              StringMapWrapper.forEach(host, function (value, key) {
+	              Object.keys(host).forEach(function (key) {
+	                  var value = host[key];
 	                  var matches = key.match(HOST_REG_EXP);
 	                  if (matches === null) {
 	                      hostAttributes[key] = value;
@@ -5771,7 +5722,7 @@ webpackJsonp([2],[
 	          // read =
 	          while (this._peek.type === TokenType$1.EXPANSION_CASE_VALUE) {
 	              var expCase = this._parseExpansionCase();
-	              if (isBlank(expCase))
+	              if (!expCase)
 	                  return; // error
 	              cases.push(expCase);
 	          }
@@ -5794,7 +5745,7 @@ webpackJsonp([2],[
 	          // read until }
 	          var start = this._advance();
 	          var exp = this._collectExpansionExpTokens(start);
-	          if (isBlank(exp))
+	          if (!exp)
 	              return null;
 	          var end = this._advance();
 	          exp.push(new Token$1(TokenType$1.EOF, [], end.sourceSpan));
@@ -7000,6 +6951,11 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
+	  var __extends$8 = (this && this.__extends) || function (d, b) {
+	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	      function __() { this.constructor = d; }
+	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	  };
 	  var _Visitor$1 = (function () {
 	      function _Visitor() {
 	      }
@@ -7072,6 +7028,14 @@ webpackJsonp([2],[
 	      Text.prototype.visit = function (visitor) { return visitor.visitText(this); };
 	      return Text;
 	  }());
+	  var CR = (function (_super) {
+	      __extends$8(CR, _super);
+	      function CR(ws) {
+	          if (ws === void 0) { ws = 0; }
+	          _super.call(this, "\n" + new Array(ws + 1).join(' '));
+	      }
+	      return CR;
+	  }(Text$2));
 	  var _ESCAPED_CHARS = [
 	      [/&/g, '&amp;'],
 	      [/"/g, '&quot;'],
@@ -7091,10 +7055,6 @@ webpackJsonp([2],[
 	  var _SOURCE_TAG = 'source';
 	  var _TARGET_TAG = 'target';
 	  var _UNIT_TAG = 'trans-unit';
-	  var _CR = function (ws) {
-	      if (ws === void 0) { ws = 0; }
-	      return new Text$2("\n" + new Array(ws).join(' '));
-	  };
 	  // http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
 	  // http://docs.oasis-open.org/xliff/v1.2/xliff-profile-html/xliff-profile-html-1.2.html
 	  var Xliff = (function () {
@@ -7108,20 +7068,22 @@ webpackJsonp([2],[
 	          Object.keys(messageMap).forEach(function (id) {
 	              var message = messageMap[id];
 	              var transUnit = new Tag(_UNIT_TAG, { id: id, datatype: 'html' });
-	              transUnit.children.push(_CR(8), new Tag(_SOURCE_TAG, {}, visitor.serialize(message.nodes)), _CR(8), new Tag(_TARGET_TAG));
+	              transUnit.children.push(new CR(8), new Tag(_SOURCE_TAG, {}, visitor.serialize(message.nodes)), new CR(8), new Tag(_TARGET_TAG));
 	              if (message.description) {
-	                  transUnit.children.push(_CR(8), new Tag('note', { priority: '1', from: 'description' }, [new Text$2(message.description)]));
+	                  transUnit.children.push(new CR(8), new Tag('note', { priority: '1', from: 'description' }, [new Text$2(message.description)]));
 	              }
 	              if (message.meaning) {
-	                  transUnit.children.push(_CR(8), new Tag('note', { priority: '1', from: 'meaning' }, [new Text$2(message.meaning)]));
+	                  transUnit.children.push(new CR(8), new Tag('note', { priority: '1', from: 'meaning' }, [new Text$2(message.meaning)]));
 	              }
-	              transUnit.children.push(_CR(6));
-	              transUnits.push(_CR(6), transUnit);
+	              transUnit.children.push(new CR(6));
+	              transUnits.push(new CR(6), transUnit);
 	          });
-	          var body = new Tag('body', {}, transUnits.concat([_CR(4)]));
-	          var file = new Tag('file', { 'source-language': _SOURCE_LANG, datatype: 'plaintext', original: 'ng2.template' }, [_CR(4), body, _CR(2)]);
-	          var xliff = new Tag('xliff', { version: _VERSION, xmlns: _XMLNS }, [_CR(2), file, _CR()]);
-	          return serialize([new Declaration({ version: '1.0', encoding: 'UTF-8' }), _CR(), xliff]);
+	          var body = new Tag('body', {}, transUnits.concat([new CR(4)]));
+	          var file = new Tag('file', { 'source-language': _SOURCE_LANG, datatype: 'plaintext', original: 'ng2.template' }, [new CR(4), body, new CR(2)]);
+	          var xliff = new Tag('xliff', { version: _VERSION, xmlns: _XMLNS }, [new CR(2), file, new CR()]);
+	          return serialize([
+	              new Declaration({ version: '1.0', encoding: 'UTF-8' }), new CR(), xliff, new CR()
+	          ]);
 	      };
 	      Xliff.prototype.load = function (content, url, messageBundle) {
 	          var _this = this;
@@ -7175,12 +7137,13 @@ webpackJsonp([2],[
 	          return nodes;
 	      };
 	      _WriteVisitor.prototype.visitTagPlaceholder = function (ph, context) {
-	          var startTagPh = new Tag(_PLACEHOLDER_TAG, { id: ph.startName, ctype: ph.tag });
+	          var ctype = getCtypeForTag(ph.tag);
+	          var startTagPh = new Tag(_PLACEHOLDER_TAG, { id: ph.startName, ctype: ctype });
 	          if (ph.isVoid) {
 	              // void tags have no children nor closing tags
 	              return [startTagPh];
 	          }
-	          var closeTagPh = new Tag(_PLACEHOLDER_TAG, { id: ph.closeName, ctype: ph.tag });
+	          var closeTagPh = new Tag(_PLACEHOLDER_TAG, { id: ph.closeName, ctype: ctype });
 	          return [startTagPh].concat(this.serialize(ph.children), [closeTagPh]);
 	      };
 	      _WriteVisitor.prototype.visitPlaceholder = function (ph, context) {
@@ -7301,6 +7264,16 @@ webpackJsonp([2],[
 	      };
 	      return _LoadVisitor;
 	  }());
+	  function getCtypeForTag(tag) {
+	      switch (tag.toLowerCase()) {
+	          case 'br':
+	              return 'lb';
+	          case 'img':
+	              return 'image';
+	          default:
+	              return "x-" + tag;
+	      }
+	  }
 	
 	  var _MESSAGES_TAG = 'messagebundle';
 	  var _MESSAGE_TAG = 'msg';
@@ -7313,7 +7286,6 @@ webpackJsonp([2],[
 	      Xmb.prototype.write = function (messageMap) {
 	          var visitor = new _Visitor$2();
 	          var rootNode = new Tag(_MESSAGES_TAG);
-	          rootNode.children.push(new Text$2('\n'));
 	          Object.keys(messageMap).forEach(function (id) {
 	              var message = messageMap[id];
 	              var attrs = { id: id };
@@ -7323,14 +7295,16 @@ webpackJsonp([2],[
 	              if (message.meaning) {
 	                  attrs['meaning'] = message.meaning;
 	              }
-	              rootNode.children.push(new Text$2('  '), new Tag(_MESSAGE_TAG, attrs, visitor.serialize(message.nodes)), new Text$2('\n'));
+	              rootNode.children.push(new CR(2), new Tag(_MESSAGE_TAG, attrs, visitor.serialize(message.nodes)));
 	          });
+	          rootNode.children.push(new CR());
 	          return serialize([
 	              new Declaration({ version: '1.0', encoding: 'UTF-8' }),
-	              new Text$2('\n'),
+	              new CR(),
 	              new Doctype(_MESSAGES_TAG, _DOCTYPE),
-	              new Text$2('\n'),
+	              new CR(),
 	              rootNode,
+	              new CR(),
 	          ]);
 	      };
 	      Xmb.prototype.load = function (content, url, messageBundle) {
@@ -7641,7 +7615,6 @@ webpackJsonp([2],[
 	  var AnimationGroupPlayer = _angular_core.__core_private__.AnimationGroupPlayer;
 	  var AnimationKeyframe = _angular_core.__core_private__.AnimationKeyframe;
 	  var AnimationStyles = _angular_core.__core_private__.AnimationStyles;
-	  var AnimationOutput = _angular_core.__core_private__.AnimationOutput;
 	  var ANY_STATE = _angular_core.__core_private__.ANY_STATE;
 	  var DEFAULT_STATE = _angular_core.__core_private__.DEFAULT_STATE;
 	  var EMPTY_ANIMATION_STATE = _angular_core.__core_private__.EMPTY_STATE;
@@ -7894,11 +7867,6 @@ webpackJsonp([2],[
 	          moduleUrl: assetUrl('core', 'i18n/tokens'),
 	          runtime: _angular_core.TRANSLATIONS_FORMAT
 	      };
-	      Identifiers.AnimationOutput = {
-	          name: 'AnimationOutput',
-	          moduleUrl: assetUrl('core', 'animation/animation_output'),
-	          runtime: AnimationOutput
-	      };
 	      return Identifiers;
 	  }());
 	  function resolveIdentifier(identifier) {
@@ -7926,13 +7894,13 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$8 = (this && this.__extends) || function (d, b) {
+	  var __extends$9 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	  };
 	  var HtmlParser = (function (_super) {
-	      __extends$8(HtmlParser, _super);
+	      __extends$9(HtmlParser, _super);
 	      function HtmlParser() {
 	          _super.call(this, getHtmlTagDefinition);
 	      }
@@ -7956,7 +7924,7 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$9 = (this && this.__extends) || function (d, b) {
+	  var __extends$10 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -7999,7 +7967,7 @@ webpackJsonp([2],[
 	      return ExpansionResult;
 	  }());
 	  var ExpansionError = (function (_super) {
-	      __extends$9(ExpansionError, _super);
+	      __extends$10(ExpansionError, _super);
 	      function ExpansionError(span, errorMsg) {
 	          _super.call(this, span, errorMsg);
 	      }
@@ -8060,13 +8028,13 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$10 = (this && this.__extends) || function (d, b) {
+	  var __extends$11 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	  };
 	  var ProviderError = (function (_super) {
-	      __extends$10(ProviderError, _super);
+	      __extends$11(ProviderError, _super);
 	      function ProviderError(message, span) {
 	          _super.call(this, span, message);
 	      }
@@ -8089,9 +8057,9 @@ webpackJsonp([2],[
 	      return ProviderViewContext;
 	  }());
 	  var ProviderElementContext = (function () {
-	      function ProviderElementContext(_viewContext, _parent, _isViewRoot, _directiveAsts, attrs, refs, _sourceSpan) {
+	      function ProviderElementContext(viewContext, _parent, _isViewRoot, _directiveAsts, attrs, refs, _sourceSpan) {
 	          var _this = this;
-	          this._viewContext = _viewContext;
+	          this.viewContext = viewContext;
 	          this._parent = _parent;
 	          this._isViewRoot = _isViewRoot;
 	          this._directiveAsts = _directiveAsts;
@@ -8103,7 +8071,7 @@ webpackJsonp([2],[
 	          attrs.forEach(function (attrAst) { return _this._attrs[attrAst.name] = attrAst.value; });
 	          var directivesMeta = _directiveAsts.map(function (directiveAst) { return directiveAst.directive; });
 	          this._allProviders =
-	              _resolveProvidersFromDirectives(directivesMeta, _sourceSpan, _viewContext.errors);
+	              _resolveProvidersFromDirectives(directivesMeta, _sourceSpan, viewContext.errors);
 	          this._contentQueries = _getContentQueries(directivesMeta);
 	          var queriedTokens = new Map();
 	          MapWrapper.values(this._allProviders).forEach(function (provider) {
@@ -8174,7 +8142,7 @@ webpackJsonp([2],[
 	              }
 	              currentEl = currentEl._parent;
 	          }
-	          queries = this._viewContext.viewQueries.get(token.reference);
+	          queries = this.viewContext.viewQueries.get(token.reference);
 	          if (isPresent(queries)) {
 	              ListWrapper.addAll(result, queries);
 	          }
@@ -8183,10 +8151,9 @@ webpackJsonp([2],[
 	      ProviderElementContext.prototype._getOrCreateLocalProvider = function (requestingProviderType, token, eager) {
 	          var _this = this;
 	          var resolvedProvider = this._allProviders.get(token.reference);
-	          if (isBlank(resolvedProvider) ||
-	              ((requestingProviderType === exports.ProviderAstType.Directive ||
-	                  requestingProviderType === exports.ProviderAstType.PublicService) &&
-	                  resolvedProvider.providerType === exports.ProviderAstType.PrivateService) ||
+	          if (!resolvedProvider || ((requestingProviderType === exports.ProviderAstType.Directive ||
+	              requestingProviderType === exports.ProviderAstType.PublicService) &&
+	              resolvedProvider.providerType === exports.ProviderAstType.PrivateService) ||
 	              ((requestingProviderType === exports.ProviderAstType.PrivateService ||
 	                  requestingProviderType === exports.ProviderAstType.PublicService) &&
 	                  resolvedProvider.providerType === exports.ProviderAstType.Builtin)) {
@@ -8197,7 +8164,7 @@ webpackJsonp([2],[
 	              return transformedProviderAst;
 	          }
 	          if (isPresent(this._seenProviders.get(token.reference))) {
-	              this._viewContext.errors.push(new ProviderError("Cannot instantiate cyclic dependency! " + token.name, this._sourceSpan));
+	              this.viewContext.errors.push(new ProviderError("Cannot instantiate cyclic dependency! " + token.name, this._sourceSpan));
 	              return null;
 	          }
 	          this._seenProviders.set(token.reference, true);
@@ -8281,13 +8248,13 @@ webpackJsonp([2],[
 	              result = this._getLocalDependency(requestingProviderType, dep, eager);
 	          }
 	          if (dep.isSelf) {
-	              if (isBlank(result) && dep.isOptional) {
+	              if (!result && dep.isOptional) {
 	                  result = new CompileDiDependencyMetadata({ isValue: true, value: null });
 	              }
 	          }
 	          else {
 	              // check parent elements
-	              while (isBlank(result) && isPresent(currElement._parent)) {
+	              while (!result && isPresent(currElement._parent)) {
 	                  var prevElement = currElement;
 	                  currElement = currElement._parent;
 	                  if (prevElement._isViewRoot) {
@@ -8296,10 +8263,10 @@ webpackJsonp([2],[
 	                  result = currElement._getLocalDependency(exports.ProviderAstType.PublicService, dep, currEager);
 	              }
 	              // check @Host restriction
-	              if (isBlank(result)) {
-	                  if (!dep.isHost || this._viewContext.component.type.isHost ||
-	                      this._viewContext.component.type.reference === dep.token.reference ||
-	                      isPresent(this._viewContext.viewProviders.get(dep.token.reference))) {
+	              if (!result) {
+	                  if (!dep.isHost || this.viewContext.component.type.isHost ||
+	                      this.viewContext.component.type.reference === dep.token.reference ||
+	                      isPresent(this.viewContext.viewProviders.get(dep.token.reference))) {
 	                      result = dep;
 	                  }
 	                  else {
@@ -8309,8 +8276,8 @@ webpackJsonp([2],[
 	                  }
 	              }
 	          }
-	          if (isBlank(result)) {
-	              this._viewContext.errors.push(new ProviderError("No provider for " + dep.token.name, this._sourceSpan));
+	          if (!result) {
+	              this.viewContext.errors.push(new ProviderError("No provider for " + dep.token.name, this._sourceSpan));
 	          }
 	          return result;
 	      };
@@ -8344,7 +8311,7 @@ webpackJsonp([2],[
 	      NgModuleProviderAnalyzer.prototype._getOrCreateLocalProvider = function (token, eager) {
 	          var _this = this;
 	          var resolvedProvider = this._allProviders.get(token.reference);
-	          if (isBlank(resolvedProvider)) {
+	          if (!resolvedProvider) {
 	              return null;
 	          }
 	          var transformedProviderAst = this._transformedProviders.get(token.reference);
@@ -8436,7 +8403,7 @@ webpackJsonp([2],[
 	  }
 	  function _normalizeProviders(providers, sourceSpan, targetErrors, targetProviders) {
 	      if (targetProviders === void 0) { targetProviders = null; }
-	      if (isBlank(targetProviders)) {
+	      if (!targetProviders) {
 	          targetProviders = [];
 	      }
 	      if (isPresent(providers)) {
@@ -8483,7 +8450,7 @@ webpackJsonp([2],[
 	          if (isPresent(resolvedProvider) && resolvedProvider.multiProvider !== provider.multi) {
 	              targetErrors.push(new ProviderError("Mixing multi and non multi provider is not possible for token " + resolvedProvider.token.name, sourceSpan));
 	          }
-	          if (isBlank(resolvedProvider)) {
+	          if (!resolvedProvider) {
 	              var lifecycleHooks = provider.token.identifier && provider.token.identifier instanceof CompileTypeMetadata ?
 	                  provider.token.identifier.lifecycleHooks :
 	                  [];
@@ -8527,7 +8494,7 @@ webpackJsonp([2],[
 	  function _addQueryToTokenMap(map, query) {
 	      query.selectors.forEach(function (token) {
 	          var entry = map.get(token.reference);
-	          if (isBlank(entry)) {
+	          if (!entry) {
 	              entry = [];
 	              map.set(token.reference, entry);
 	          }
@@ -9018,6 +8985,10 @@ webpackJsonp([2],[
 	              this._assertOnlyOneComponent(directiveAsts, element.sourceSpan);
 	              var ngContentIndex_1 = hasInlineTemplates ? null : parent.findNgContentIndex(projectionSelector);
 	              parsedElement = new ElementAst(nodeName, attrs, elementProps, events, references, providerContext.transformedDirectiveAsts, providerContext.transformProviders, providerContext.transformedHasViewContainer, children, hasInlineTemplates ? null : ngContentIndex_1, element.sourceSpan);
+	              this._findComponentDirectives(directiveAsts)
+	                  .forEach(function (componentDirectiveAst) { return _this._validateElementAnimationInputOutputs(componentDirectiveAst.hostProperties, componentDirectiveAst.hostEvents, componentDirectiveAst.directive.template); });
+	              var componentTemplate = providerContext.viewContext.component.template;
+	              this._validateElementAnimationInputOutputs(elementProps, events, componentTemplate);
 	          }
 	          if (hasInlineTemplates) {
 	              var templateCssSelector = createElementCssSelector(TEMPLATE_ELEMENT, templateMatchableAttrs);
@@ -9030,6 +9001,26 @@ webpackJsonp([2],[
 	              parsedElement = new EmbeddedTemplateAst([], [], [], templateElementVars, templateProviderContext.transformedDirectiveAsts, templateProviderContext.transformProviders, templateProviderContext.transformedHasViewContainer, [parsedElement], ngContentIndex, element.sourceSpan);
 	          }
 	          return parsedElement;
+	      };
+	      TemplateParseVisitor.prototype._validateElementAnimationInputOutputs = function (inputs, outputs, template) {
+	          var _this = this;
+	          var triggerLookup = new Set();
+	          template.animations.forEach(function (entry) { triggerLookup.add(entry.name); });
+	          var animationInputs = inputs.filter(function (input) { return input.isAnimation; });
+	          animationInputs.forEach(function (input) {
+	              var name = input.name;
+	              if (!triggerLookup.has(name)) {
+	                  _this._reportError("Couldn't find an animation entry for \"" + name + "\"", input.sourceSpan);
+	              }
+	          });
+	          outputs.forEach(function (output) {
+	              if (output.isAnimation) {
+	                  var found = animationInputs.find(function (input) { return input.name == output.name; });
+	                  if (!found) {
+	                      _this._reportError("Unable to listen on (@" + output.name + "." + output.phase + ") because the animation trigger [@" + output.name + "] isn't being used on the same element", output.sourceSpan);
+	                  }
+	              }
+	          });
 	      };
 	      TemplateParseVisitor.prototype._parseInlineTemplateBinding = function (attr, targetMatchableAttrs, targetProps, targetVars) {
 	          var templateBindingsSource = null;
@@ -9084,14 +9075,14 @@ webpackJsonp([2],[
 	                  this._parseReference(identifier, value, srcSpan, targetRefs);
 	              }
 	              else if (bindParts[KW_ON_IDX]) {
-	                  this._parseEvent(bindParts[IDENT_KW_IDX], value, srcSpan, targetMatchableAttrs, targetEvents);
+	                  this._parseEventOrAnimationEvent(bindParts[IDENT_KW_IDX], value, srcSpan, targetMatchableAttrs, targetEvents);
 	              }
 	              else if (bindParts[KW_BINDON_IDX]) {
 	                  this._parsePropertyOrAnimation(bindParts[IDENT_KW_IDX], value, srcSpan, targetMatchableAttrs, targetProps, targetAnimationProps);
 	                  this._parseAssignmentEvent(bindParts[IDENT_KW_IDX], value, srcSpan, targetMatchableAttrs, targetEvents);
 	              }
 	              else if (bindParts[KW_AT_IDX]) {
-	                  if (name[0] == '@' && isPresent(value) && value.length > 0) {
+	                  if (_isAnimationLabel(name) && isPresent(value) && value.length > 0) {
 	                      this._reportError("Assigning animation triggers via @prop=\"exp\" attributes with an expression is invalid." +
 	                          " Use property bindings (e.g. [@prop]=\"exp\") or use an attribute without a value (e.g. @prop) instead.", srcSpan, ParseErrorLevel.FATAL);
 	                  }
@@ -9105,7 +9096,7 @@ webpackJsonp([2],[
 	                  this._parsePropertyOrAnimation(bindParts[IDENT_PROPERTY_IDX], value, srcSpan, targetMatchableAttrs, targetProps, targetAnimationProps);
 	              }
 	              else if (bindParts[IDENT_EVENT_IDX]) {
-	                  this._parseEvent(bindParts[IDENT_EVENT_IDX], value, srcSpan, targetMatchableAttrs, targetEvents);
+	                  this._parseEventOrAnimationEvent(bindParts[IDENT_EVENT_IDX], value, srcSpan, targetMatchableAttrs, targetEvents);
 	              }
 	          }
 	          else {
@@ -9134,7 +9125,7 @@ webpackJsonp([2],[
 	      };
 	      TemplateParseVisitor.prototype._parsePropertyOrAnimation = function (name, expression, sourceSpan, targetMatchableAttrs, targetProps, targetAnimationProps) {
 	          var animatePropLength = ANIMATE_PROP_PREFIX.length;
-	          var isAnimationProp = name[0] == '@';
+	          var isAnimationProp = _isAnimationLabel(name);
 	          var animationPrefixLength = 1;
 	          if (name.substring(0, animatePropLength) == ANIMATE_PROP_PREFIX) {
 	              isAnimationProp = true;
@@ -9171,16 +9162,43 @@ webpackJsonp([2],[
 	          targetProps.push(new BoundElementOrDirectiveProperty(name, ast, false, sourceSpan));
 	      };
 	      TemplateParseVisitor.prototype._parseAssignmentEvent = function (name, expression, sourceSpan, targetMatchableAttrs, targetEvents) {
-	          this._parseEvent(name + "Change", expression + "=$event", sourceSpan, targetMatchableAttrs, targetEvents);
+	          this._parseEventOrAnimationEvent(name + "Change", expression + "=$event", sourceSpan, targetMatchableAttrs, targetEvents);
+	      };
+	      TemplateParseVisitor.prototype._parseEventOrAnimationEvent = function (name, expression, sourceSpan, targetMatchableAttrs, targetEvents) {
+	          if (_isAnimationLabel(name)) {
+	              name = name.substr(1);
+	              this._parseAnimationEvent(name, expression, sourceSpan, targetEvents);
+	          }
+	          else {
+	              this._parseEvent(name, expression, sourceSpan, targetMatchableAttrs, targetEvents);
+	          }
+	      };
+	      TemplateParseVisitor.prototype._parseAnimationEvent = function (name, expression, sourceSpan, targetEvents) {
+	          var matches = splitAtPeriod(name, [name, '']);
+	          var eventName = matches[0];
+	          var phase = matches[1].toLowerCase();
+	          if (phase) {
+	              switch (phase) {
+	                  case 'start':
+	                  case 'done':
+	                      var ast = this._parseAction(expression, sourceSpan);
+	                      targetEvents.push(new BoundEventAst(eventName, null, phase, ast, sourceSpan));
+	                      break;
+	                  default:
+	                      this._reportError("The provided animation output phase value \"" + phase + "\" for \"@" + eventName + "\" is not supported (use start or done)", sourceSpan);
+	                      break;
+	              }
+	          }
+	          else {
+	              this._reportError("The animation trigger output event (@" + eventName + ") is missing its phase value name (start or done are currently supported)", sourceSpan);
+	          }
 	      };
 	      TemplateParseVisitor.prototype._parseEvent = function (name, expression, sourceSpan, targetMatchableAttrs, targetEvents) {
 	          // long format: 'target: eventName'
-	          var parts = splitAtColon(name, [null, name]);
-	          var target = parts[0];
-	          var eventName = parts[1];
+	          var _a = splitAtColon(name, [null, name]), target = _a[0], eventName = _a[1];
 	          var ast = this._parseAction(expression, sourceSpan);
 	          targetMatchableAttrs.push([name, ast.source]);
-	          targetEvents.push(new BoundEventAst(eventName, target, ast, sourceSpan));
+	          targetEvents.push(new BoundEventAst(eventName, target, null, ast, sourceSpan));
 	          // Don't detect directives for event names for now,
 	          // so don't add the event name to the matchableAttrs
 	      };
@@ -9247,7 +9265,8 @@ webpackJsonp([2],[
 	      TemplateParseVisitor.prototype._createDirectiveHostPropertyAsts = function (elementName, hostProps, sourceSpan, targetPropertyAsts) {
 	          var _this = this;
 	          if (hostProps) {
-	              StringMapWrapper.forEach(hostProps, function (expression, propName) {
+	              Object.keys(hostProps).forEach(function (propName) {
+	                  var expression = hostProps[propName];
 	                  if (isString(expression)) {
 	                      var exprAst = _this._parseBinding(expression, sourceSpan);
 	                      targetPropertyAsts.push(_this._createElementPropertyAst(elementName, propName, exprAst, sourceSpan));
@@ -9261,9 +9280,10 @@ webpackJsonp([2],[
 	      TemplateParseVisitor.prototype._createDirectiveHostEventAsts = function (hostListeners, sourceSpan, targetEventAsts) {
 	          var _this = this;
 	          if (hostListeners) {
-	              StringMapWrapper.forEach(hostListeners, function (expression, propName) {
+	              Object.keys(hostListeners).forEach(function (propName) {
+	                  var expression = hostListeners[propName];
 	                  if (isString(expression)) {
-	                      _this._parseEvent(propName, expression, sourceSpan, [], targetEventAsts);
+	                      _this._parseEventOrAnimationEvent(propName, expression, sourceSpan, [], targetEventAsts);
 	                  }
 	                  else {
 	                      _this._reportError("Value of the host listener \"" + propName + "\" needs to be a string representing an expression but got \"" + expression + "\" (" + typeof expression + ")", sourceSpan);
@@ -9276,12 +9296,13 @@ webpackJsonp([2],[
 	              var boundPropsByName_1 = new Map();
 	              boundProps.forEach(function (boundProp) {
 	                  var prevValue = boundPropsByName_1.get(boundProp.name);
-	                  if (isBlank(prevValue) || prevValue.isLiteral) {
+	                  if (!prevValue || prevValue.isLiteral) {
 	                      // give [a]="b" a higher precedence than a="b" on the same element
 	                      boundPropsByName_1.set(boundProp.name, boundProp);
 	                  }
 	              });
-	              StringMapWrapper.forEach(directiveProperties, function (elProp, dirProp) {
+	              Object.keys(directiveProperties).forEach(function (dirProp) {
+	                  var elProp = directiveProperties[dirProp];
 	                  var boundProp = boundPropsByName_1.get(elProp);
 	                  // Bindings are optional, so this binding only needs to be set up if an expression is given.
 	                  if (boundProp) {
@@ -9300,7 +9321,7 @@ webpackJsonp([2],[
 	              });
 	          });
 	          props.forEach(function (prop) {
-	              if (!prop.isLiteral && isBlank(boundDirectivePropsIndex.get(prop.name))) {
+	              if (!prop.isLiteral && !boundDirectivePropsIndex.get(prop.name)) {
 	                  boundElementProps.push(_this._createElementPropertyAst(elementName, prop.name, prop.expression, prop.sourceSpan));
 	              }
 	          });
@@ -9314,7 +9335,7 @@ webpackJsonp([2],[
 	          var securityContext;
 	          if (parts.length === 1) {
 	              var partValue = parts[0];
-	              if (partValue[0] == '@') {
+	              if (_isAnimationLabel(partValue)) {
 	                  boundPropertyName = partValue.substr(1);
 	                  bindingType = exports.PropertyBindingType.Animation;
 	                  securityContext = _angular_core.SecurityContext.NONE;
@@ -9323,7 +9344,7 @@ webpackJsonp([2],[
 	                  boundPropertyName = this._schemaRegistry.getMappedPropName(partValue);
 	                  securityContext = this._schemaRegistry.securityContext(elementName, boundPropertyName);
 	                  bindingType = exports.PropertyBindingType.Property;
-	                  this._assertNoEventBinding(boundPropertyName, sourceSpan, false);
+	                  this._validatePropertyOrAttributeName(boundPropertyName, sourceSpan, false);
 	                  if (!this._schemaRegistry.hasProperty(elementName, boundPropertyName, this._schemas)) {
 	                      var errorMsg = "Can't bind to '" + boundPropertyName + "' since it isn't a known property of '" + elementName + "'.";
 	                      if (elementName.indexOf('-') > -1) {
@@ -9338,7 +9359,7 @@ webpackJsonp([2],[
 	          else {
 	              if (parts[0] == ATTRIBUTE_PREFIX) {
 	                  boundPropertyName = parts[1];
-	                  this._assertNoEventBinding(boundPropertyName, sourceSpan, true);
+	                  this._validatePropertyOrAttributeName(boundPropertyName, sourceSpan, true);
 	                  // NB: For security purposes, use the mapped property name, not the attribute name.
 	                  var mapPropName = this._schemaRegistry.getMappedPropName(boundPropertyName);
 	                  securityContext = this._schemaRegistry.securityContext(elementName, mapPropName);
@@ -9375,27 +9396,19 @@ webpackJsonp([2],[
 	       * @param isAttr true when binding to an attribute
 	       * @private
 	       */
-	      TemplateParseVisitor.prototype._assertNoEventBinding = function (propName, sourceSpan, isAttr) {
-	          if (propName.toLowerCase().startsWith('on')) {
-	              var msg = ("Binding to event attribute '" + propName + "' is disallowed for security reasons, ") +
-	                  ("please use (" + propName.slice(2) + ")=...");
-	              if (!isAttr) {
-	                  msg +=
-	                      ("\nIf '" + propName + "' is a directive input, make sure the directive is imported by the") +
-	                          " current module.";
-	              }
-	              this._reportError(msg, sourceSpan, ParseErrorLevel.FATAL);
+	      TemplateParseVisitor.prototype._validatePropertyOrAttributeName = function (propName, sourceSpan, isAttr) {
+	          var report = isAttr ? this._schemaRegistry.validateAttribute(propName) :
+	              this._schemaRegistry.validateProperty(propName);
+	          if (report.error) {
+	              this._reportError(report.msg, sourceSpan, ParseErrorLevel.FATAL);
 	          }
 	      };
+	      TemplateParseVisitor.prototype._findComponentDirectives = function (directives) {
+	          return directives.filter(function (directive) { return directive.directive.isComponent; });
+	      };
 	      TemplateParseVisitor.prototype._findComponentDirectiveNames = function (directives) {
-	          var componentTypeNames = [];
-	          directives.forEach(function (directive) {
-	              var typeName = directive.directive.type.name;
-	              if (directive.directive.isComponent) {
-	                  componentTypeNames.push(typeName);
-	              }
-	          });
-	          return componentTypeNames;
+	          return this._findComponentDirectives(directives)
+	              .map(function (directive) { return directive.directive.type.name; });
 	      };
 	      TemplateParseVisitor.prototype._assertOnlyOneComponent = function (directives, sourceSpan) {
 	          var componentTypeNames = this._findComponentDirectiveNames(directives);
@@ -9435,7 +9448,8 @@ webpackJsonp([2],[
 	          var _this = this;
 	          var allDirectiveEvents = new Set();
 	          directives.forEach(function (directive) {
-	              StringMapWrapper.forEach(directive.directive.outputs, function (eventName) {
+	              Object.keys(directive.directive.outputs).forEach(function (k) {
+	                  var eventName = directive.directive.outputs[k];
 	                  allDirectiveEvents.add(eventName);
 	              });
 	          });
@@ -9566,6 +9580,9 @@ webpackJsonp([2],[
 	      };
 	      return PipeCollector;
 	  }(RecursiveAstVisitor));
+	  function _isAnimationLabel(name) {
+	      return name[0] == '@';
+	  }
 	
 	  function unimplemented$1() {
 	      throw new Error('unimplemented');
@@ -9659,7 +9676,7 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$11 = (this && this.__extends) || function (d, b) {
+	  var __extends$12 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -9672,14 +9689,14 @@ webpackJsonp([2],[
 	      return AnimationAst;
 	  }());
 	  var AnimationStateAst = (function (_super) {
-	      __extends$11(AnimationStateAst, _super);
+	      __extends$12(AnimationStateAst, _super);
 	      function AnimationStateAst() {
 	          _super.apply(this, arguments);
 	      }
 	      return AnimationStateAst;
 	  }(AnimationAst));
 	  var AnimationEntryAst = (function (_super) {
-	      __extends$11(AnimationEntryAst, _super);
+	      __extends$12(AnimationEntryAst, _super);
 	      function AnimationEntryAst(name, stateDeclarations, stateTransitions) {
 	          _super.call(this);
 	          this.name = name;
@@ -9692,7 +9709,7 @@ webpackJsonp([2],[
 	      return AnimationEntryAst;
 	  }(AnimationAst));
 	  var AnimationStateDeclarationAst = (function (_super) {
-	      __extends$11(AnimationStateDeclarationAst, _super);
+	      __extends$12(AnimationStateDeclarationAst, _super);
 	      function AnimationStateDeclarationAst(stateName, styles) {
 	          _super.call(this);
 	          this.stateName = stateName;
@@ -9711,7 +9728,7 @@ webpackJsonp([2],[
 	      return AnimationStateTransitionExpression;
 	  }());
 	  var AnimationStateTransitionAst = (function (_super) {
-	      __extends$11(AnimationStateTransitionAst, _super);
+	      __extends$12(AnimationStateTransitionAst, _super);
 	      function AnimationStateTransitionAst(stateChanges, animation) {
 	          _super.call(this);
 	          this.stateChanges = stateChanges;
@@ -9723,7 +9740,7 @@ webpackJsonp([2],[
 	      return AnimationStateTransitionAst;
 	  }(AnimationStateAst));
 	  var AnimationStepAst = (function (_super) {
-	      __extends$11(AnimationStepAst, _super);
+	      __extends$12(AnimationStepAst, _super);
 	      function AnimationStepAst(startingStyles, keyframes, duration, delay, easing) {
 	          _super.call(this);
 	          this.startingStyles = startingStyles;
@@ -9738,7 +9755,7 @@ webpackJsonp([2],[
 	      return AnimationStepAst;
 	  }(AnimationAst));
 	  var AnimationStylesAst = (function (_super) {
-	      __extends$11(AnimationStylesAst, _super);
+	      __extends$12(AnimationStylesAst, _super);
 	      function AnimationStylesAst(styles) {
 	          _super.call(this);
 	          this.styles = styles;
@@ -9749,7 +9766,7 @@ webpackJsonp([2],[
 	      return AnimationStylesAst;
 	  }(AnimationAst));
 	  var AnimationKeyframeAst = (function (_super) {
-	      __extends$11(AnimationKeyframeAst, _super);
+	      __extends$12(AnimationKeyframeAst, _super);
 	      function AnimationKeyframeAst(offset, styles) {
 	          _super.call(this);
 	          this.offset = offset;
@@ -9761,7 +9778,7 @@ webpackJsonp([2],[
 	      return AnimationKeyframeAst;
 	  }(AnimationAst));
 	  var AnimationWithStepsAst = (function (_super) {
-	      __extends$11(AnimationWithStepsAst, _super);
+	      __extends$12(AnimationWithStepsAst, _super);
 	      function AnimationWithStepsAst(steps) {
 	          _super.call(this);
 	          this.steps = steps;
@@ -9769,7 +9786,7 @@ webpackJsonp([2],[
 	      return AnimationWithStepsAst;
 	  }(AnimationAst));
 	  var AnimationGroupAst = (function (_super) {
-	      __extends$11(AnimationGroupAst, _super);
+	      __extends$12(AnimationGroupAst, _super);
 	      function AnimationGroupAst(steps) {
 	          _super.call(this, steps);
 	      }
@@ -9779,7 +9796,7 @@ webpackJsonp([2],[
 	      return AnimationGroupAst;
 	  }(AnimationWithStepsAst));
 	  var AnimationSequenceAst = (function (_super) {
-	      __extends$11(AnimationSequenceAst, _super);
+	      __extends$12(AnimationSequenceAst, _super);
 	      function AnimationSequenceAst(steps) {
 	          _super.call(this, steps);
 	      }
@@ -9789,7 +9806,281 @@ webpackJsonp([2],[
 	      return AnimationSequenceAst;
 	  }(AnimationWithStepsAst));
 	
-	  var Math$2 = global$1.Math;
+	  var AnimationEntryCompileResult = (function () {
+	      function AnimationEntryCompileResult(name, statements, fnExp) {
+	          this.name = name;
+	          this.statements = statements;
+	          this.fnExp = fnExp;
+	      }
+	      return AnimationEntryCompileResult;
+	  }());
+	  var AnimationCompiler = (function () {
+	      function AnimationCompiler() {
+	      }
+	      AnimationCompiler.prototype.compile = function (factoryNamePrefix, parsedAnimations) {
+	          return parsedAnimations.map(function (entry) {
+	              var factoryName = factoryNamePrefix + "_" + entry.name;
+	              var visitor = new _AnimationBuilder(entry.name, factoryName);
+	              return visitor.build(entry);
+	          });
+	      };
+	      return AnimationCompiler;
+	  }());
+	  var _ANIMATION_FACTORY_ELEMENT_VAR = variable('element');
+	  var _ANIMATION_DEFAULT_STATE_VAR = variable('defaultStateStyles');
+	  var _ANIMATION_FACTORY_VIEW_VAR = variable('view');
+	  var _ANIMATION_FACTORY_RENDERER_VAR = _ANIMATION_FACTORY_VIEW_VAR.prop('renderer');
+	  var _ANIMATION_CURRENT_STATE_VAR = variable('currentState');
+	  var _ANIMATION_NEXT_STATE_VAR = variable('nextState');
+	  var _ANIMATION_PLAYER_VAR = variable('player');
+	  var _ANIMATION_TIME_VAR = variable('totalTime');
+	  var _ANIMATION_START_STATE_STYLES_VAR = variable('startStateStyles');
+	  var _ANIMATION_END_STATE_STYLES_VAR = variable('endStateStyles');
+	  var _ANIMATION_COLLECTED_STYLES = variable('collectedStyles');
+	  var EMPTY_MAP$1 = literalMap([]);
+	  var _AnimationBuilder = (function () {
+	      function _AnimationBuilder(animationName, factoryName) {
+	          this.animationName = animationName;
+	          this._fnVarName = factoryName + '_factory';
+	          this._statesMapVarName = factoryName + '_states';
+	          this._statesMapVar = variable(this._statesMapVarName);
+	      }
+	      _AnimationBuilder.prototype.visitAnimationStyles = function (ast, context) {
+	          var stylesArr = [];
+	          if (context.isExpectingFirstStyleStep) {
+	              stylesArr.push(_ANIMATION_START_STATE_STYLES_VAR);
+	              context.isExpectingFirstStyleStep = false;
+	          }
+	          ast.styles.forEach(function (entry) {
+	              stylesArr.push(literalMap(Object.keys(entry).map(function (key) { return [key, literal(entry[key])]; })));
+	          });
+	          return importExpr(resolveIdentifier(Identifiers.AnimationStyles)).instantiate([
+	              importExpr(resolveIdentifier(Identifiers.collectAndResolveStyles)).callFn([
+	                  _ANIMATION_COLLECTED_STYLES, literalArr(stylesArr)
+	              ])
+	          ]);
+	      };
+	      _AnimationBuilder.prototype.visitAnimationKeyframe = function (ast, context) {
+	          return importExpr(resolveIdentifier(Identifiers.AnimationKeyframe)).instantiate([
+	              literal(ast.offset), ast.styles.visit(this, context)
+	          ]);
+	      };
+	      _AnimationBuilder.prototype.visitAnimationStep = function (ast, context) {
+	          var _this = this;
+	          if (context.endStateAnimateStep === ast) {
+	              return this._visitEndStateAnimation(ast, context);
+	          }
+	          var startingStylesExpr = ast.startingStyles.visit(this, context);
+	          var keyframeExpressions = ast.keyframes.map(function (keyframeEntry) { return keyframeEntry.visit(_this, context); });
+	          return this._callAnimateMethod(ast, startingStylesExpr, literalArr(keyframeExpressions), context);
+	      };
+	      /** @internal */
+	      _AnimationBuilder.prototype._visitEndStateAnimation = function (ast, context) {
+	          var _this = this;
+	          var startingStylesExpr = ast.startingStyles.visit(this, context);
+	          var keyframeExpressions = ast.keyframes.map(function (keyframe) { return keyframe.visit(_this, context); });
+	          var keyframesExpr = importExpr(resolveIdentifier(Identifiers.balanceAnimationKeyframes)).callFn([
+	              _ANIMATION_COLLECTED_STYLES, _ANIMATION_END_STATE_STYLES_VAR,
+	              literalArr(keyframeExpressions)
+	          ]);
+	          return this._callAnimateMethod(ast, startingStylesExpr, keyframesExpr, context);
+	      };
+	      /** @internal */
+	      _AnimationBuilder.prototype._callAnimateMethod = function (ast, startingStylesExpr, keyframesExpr, context) {
+	          context.totalTransitionTime += ast.duration + ast.delay;
+	          return _ANIMATION_FACTORY_RENDERER_VAR.callMethod('animate', [
+	              _ANIMATION_FACTORY_ELEMENT_VAR, startingStylesExpr, keyframesExpr, literal(ast.duration),
+	              literal(ast.delay), literal(ast.easing)
+	          ]);
+	      };
+	      _AnimationBuilder.prototype.visitAnimationSequence = function (ast, context) {
+	          var _this = this;
+	          var playerExprs = ast.steps.map(function (step) { return step.visit(_this, context); });
+	          return importExpr(resolveIdentifier(Identifiers.AnimationSequencePlayer)).instantiate([
+	              literalArr(playerExprs)
+	          ]);
+	      };
+	      _AnimationBuilder.prototype.visitAnimationGroup = function (ast, context) {
+	          var _this = this;
+	          var playerExprs = ast.steps.map(function (step) { return step.visit(_this, context); });
+	          return importExpr(resolveIdentifier(Identifiers.AnimationGroupPlayer)).instantiate([
+	              literalArr(playerExprs)
+	          ]);
+	      };
+	      _AnimationBuilder.prototype.visitAnimationStateDeclaration = function (ast, context) {
+	          var flatStyles = {};
+	          _getStylesArray(ast).forEach(function (entry) { Object.keys(entry).forEach(function (key) { flatStyles[key] = entry[key]; }); });
+	          context.stateMap.registerState(ast.stateName, flatStyles);
+	      };
+	      _AnimationBuilder.prototype.visitAnimationStateTransition = function (ast, context) {
+	          var steps = ast.animation.steps;
+	          var lastStep = steps[steps.length - 1];
+	          if (_isEndStateAnimateStep(lastStep)) {
+	              context.endStateAnimateStep = lastStep;
+	          }
+	          context.totalTransitionTime = 0;
+	          context.isExpectingFirstStyleStep = true;
+	          var stateChangePreconditions = [];
+	          ast.stateChanges.forEach(function (stateChange) {
+	              stateChangePreconditions.push(_compareToAnimationStateExpr(_ANIMATION_CURRENT_STATE_VAR, stateChange.fromState)
+	                  .and(_compareToAnimationStateExpr(_ANIMATION_NEXT_STATE_VAR, stateChange.toState)));
+	              if (stateChange.fromState != ANY_STATE) {
+	                  context.stateMap.registerState(stateChange.fromState);
+	              }
+	              if (stateChange.toState != ANY_STATE) {
+	                  context.stateMap.registerState(stateChange.toState);
+	              }
+	          });
+	          var animationPlayerExpr = ast.animation.visit(this, context);
+	          var reducedStateChangesPrecondition = stateChangePreconditions.reduce(function (a, b) { return a.or(b); });
+	          var precondition = _ANIMATION_PLAYER_VAR.equals(NULL_EXPR).and(reducedStateChangesPrecondition);
+	          var animationStmt = _ANIMATION_PLAYER_VAR.set(animationPlayerExpr).toStmt();
+	          var totalTimeStmt = _ANIMATION_TIME_VAR.set(literal(context.totalTransitionTime)).toStmt();
+	          return new IfStmt(precondition, [animationStmt, totalTimeStmt]);
+	      };
+	      _AnimationBuilder.prototype.visitAnimationEntry = function (ast, context) {
+	          var _this = this;
+	          // visit each of the declarations first to build the context state map
+	          ast.stateDeclarations.forEach(function (def) { return def.visit(_this, context); });
+	          // this should always be defined even if the user overrides it
+	          context.stateMap.registerState(DEFAULT_STATE, {});
+	          var statements = [];
+	          statements.push(_ANIMATION_FACTORY_VIEW_VAR
+	              .callMethod('cancelActiveAnimation', [
+	              _ANIMATION_FACTORY_ELEMENT_VAR, literal(this.animationName),
+	              _ANIMATION_NEXT_STATE_VAR.equals(literal(EMPTY_ANIMATION_STATE))
+	          ])
+	              .toStmt());
+	          statements.push(_ANIMATION_COLLECTED_STYLES.set(EMPTY_MAP$1).toDeclStmt());
+	          statements.push(_ANIMATION_PLAYER_VAR.set(NULL_EXPR).toDeclStmt());
+	          statements.push(_ANIMATION_TIME_VAR.set(literal(0)).toDeclStmt());
+	          statements.push(_ANIMATION_DEFAULT_STATE_VAR.set(this._statesMapVar.key(literal(DEFAULT_STATE)))
+	              .toDeclStmt());
+	          statements.push(_ANIMATION_START_STATE_STYLES_VAR.set(this._statesMapVar.key(_ANIMATION_CURRENT_STATE_VAR))
+	              .toDeclStmt());
+	          statements.push(new IfStmt(_ANIMATION_START_STATE_STYLES_VAR.equals(NULL_EXPR), [_ANIMATION_START_STATE_STYLES_VAR.set(_ANIMATION_DEFAULT_STATE_VAR).toStmt()]));
+	          statements.push(_ANIMATION_END_STATE_STYLES_VAR.set(this._statesMapVar.key(_ANIMATION_NEXT_STATE_VAR))
+	              .toDeclStmt());
+	          statements.push(new IfStmt(_ANIMATION_END_STATE_STYLES_VAR.equals(NULL_EXPR), [_ANIMATION_END_STATE_STYLES_VAR.set(_ANIMATION_DEFAULT_STATE_VAR).toStmt()]));
+	          var RENDER_STYLES_FN = importExpr(resolveIdentifier(Identifiers.renderStyles));
+	          // before we start any animation we want to clear out the starting
+	          // styles from the element's style property (since they were placed
+	          // there at the end of the last animation
+	          statements.push(RENDER_STYLES_FN
+	              .callFn([
+	              _ANIMATION_FACTORY_ELEMENT_VAR, _ANIMATION_FACTORY_RENDERER_VAR,
+	              importExpr(resolveIdentifier(Identifiers.clearStyles))
+	                  .callFn([_ANIMATION_START_STATE_STYLES_VAR])
+	          ])
+	              .toStmt());
+	          ast.stateTransitions.forEach(function (transAst) { return statements.push(transAst.visit(_this, context)); });
+	          // this check ensures that the animation factory always returns a player
+	          // so that the onDone callback can be used for tracking
+	          statements.push(new IfStmt(_ANIMATION_PLAYER_VAR.equals(NULL_EXPR), [_ANIMATION_PLAYER_VAR
+	                  .set(importExpr(resolveIdentifier(Identifiers.NoOpAnimationPlayer)).instantiate([]))
+	                  .toStmt()]));
+	          // once complete we want to apply the styles on the element
+	          // since the destination state's values should persist once
+	          // the animation sequence has completed.
+	          statements.push(_ANIMATION_PLAYER_VAR
+	              .callMethod('onDone', [fn([], [RENDER_STYLES_FN
+	                      .callFn([
+	                      _ANIMATION_FACTORY_ELEMENT_VAR, _ANIMATION_FACTORY_RENDERER_VAR,
+	                      importExpr(resolveIdentifier(Identifiers.prepareFinalAnimationStyles))
+	                          .callFn([
+	                          _ANIMATION_START_STATE_STYLES_VAR, _ANIMATION_END_STATE_STYLES_VAR
+	                      ])
+	                  ])
+	                      .toStmt()])])
+	              .toStmt());
+	          statements.push(_ANIMATION_FACTORY_VIEW_VAR
+	              .callMethod('queueAnimation', [
+	              _ANIMATION_FACTORY_ELEMENT_VAR, literal(this.animationName),
+	              _ANIMATION_PLAYER_VAR, _ANIMATION_TIME_VAR,
+	              _ANIMATION_CURRENT_STATE_VAR, _ANIMATION_NEXT_STATE_VAR
+	          ])
+	              .toStmt());
+	          return fn([
+	              new FnParam(_ANIMATION_FACTORY_VIEW_VAR.name, importType(resolveIdentifier(Identifiers.AppView), [DYNAMIC_TYPE])),
+	              new FnParam(_ANIMATION_FACTORY_ELEMENT_VAR.name, DYNAMIC_TYPE),
+	              new FnParam(_ANIMATION_CURRENT_STATE_VAR.name, DYNAMIC_TYPE),
+	              new FnParam(_ANIMATION_NEXT_STATE_VAR.name, DYNAMIC_TYPE)
+	          ], statements);
+	      };
+	      _AnimationBuilder.prototype.build = function (ast) {
+	          var context = new _AnimationBuilderContext();
+	          var fnStatement = ast.visit(this, context).toDeclStmt(this._fnVarName);
+	          var fnVariable = variable(this._fnVarName);
+	          var lookupMap = [];
+	          Object.keys(context.stateMap.states).forEach(function (stateName) {
+	              var value = context.stateMap.states[stateName];
+	              var variableValue = EMPTY_MAP$1;
+	              if (isPresent(value)) {
+	                  var styleMap_1 = [];
+	                  Object.keys(value).forEach(function (key) { styleMap_1.push([key, literal(value[key])]); });
+	                  variableValue = literalMap(styleMap_1);
+	              }
+	              lookupMap.push([stateName, variableValue]);
+	          });
+	          var compiledStatesMapStmt = this._statesMapVar.set(literalMap(lookupMap)).toDeclStmt();
+	          var statements = [compiledStatesMapStmt, fnStatement];
+	          return new AnimationEntryCompileResult(this.animationName, statements, fnVariable);
+	      };
+	      return _AnimationBuilder;
+	  }());
+	  var _AnimationBuilderContext = (function () {
+	      function _AnimationBuilderContext() {
+	          this.stateMap = new _AnimationBuilderStateMap();
+	          this.endStateAnimateStep = null;
+	          this.isExpectingFirstStyleStep = false;
+	          this.totalTransitionTime = 0;
+	      }
+	      return _AnimationBuilderContext;
+	  }());
+	  var _AnimationBuilderStateMap = (function () {
+	      function _AnimationBuilderStateMap() {
+	          this._states = {};
+	      }
+	      Object.defineProperty(_AnimationBuilderStateMap.prototype, "states", {
+	          get: function () { return this._states; },
+	          enumerable: true,
+	          configurable: true
+	      });
+	      _AnimationBuilderStateMap.prototype.registerState = function (name, value) {
+	          if (value === void 0) { value = null; }
+	          var existingEntry = this._states[name];
+	          if (!existingEntry) {
+	              this._states[name] = value;
+	          }
+	      };
+	      return _AnimationBuilderStateMap;
+	  }());
+	  function _compareToAnimationStateExpr(value, animationState) {
+	      var emptyStateLiteral = literal(EMPTY_ANIMATION_STATE);
+	      switch (animationState) {
+	          case EMPTY_ANIMATION_STATE:
+	              return value.equals(emptyStateLiteral);
+	          case ANY_STATE:
+	              return literal(true);
+	          default:
+	              return value.equals(literal(animationState));
+	      }
+	  }
+	  function _isEndStateAnimateStep(step) {
+	      // the final animation step is characterized by having only TWO
+	      // keyframe values and it must have zero styles for both keyframes
+	      if (step instanceof AnimationStepAst && step.duration > 0 && step.keyframes.length == 2) {
+	          var styles1 = _getStylesArray(step.keyframes[0])[0];
+	          var styles2 = _getStylesArray(step.keyframes[1])[0];
+	          return Object.keys(styles1).length === 0 && Object.keys(styles2).length === 0;
+	      }
+	      return false;
+	  }
+	  function _getStylesArray(obj) {
+	      return obj.styles.styles;
+	  }
+	
+	  var Math$1 = global$1.Math;
 	
 	  var StylesCollectionEntry = (function () {
 	      function StylesCollectionEntry(time, value) {
@@ -9849,7 +10140,7 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$12 = (this && this.__extends) || function (d, b) {
+	  var __extends$13 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -9858,62 +10149,73 @@ webpackJsonp([2],[
 	  var _TERMINAL_KEYFRAME = 1;
 	  var _ONE_SECOND = 1000;
 	  var AnimationParseError = (function (_super) {
-	      __extends$12(AnimationParseError, _super);
-	      function AnimationParseError(message /** TODO #9100 */) {
+	      __extends$13(AnimationParseError, _super);
+	      function AnimationParseError(message) {
 	          _super.call(this, null, message);
 	      }
 	      AnimationParseError.prototype.toString = function () { return "" + this.msg; };
 	      return AnimationParseError;
 	  }(ParseError));
-	  var ParsedAnimationResult = (function () {
-	      function ParsedAnimationResult(ast, errors) {
+	  var AnimationEntryParseResult = (function () {
+	      function AnimationEntryParseResult(ast, errors) {
 	          this.ast = ast;
 	          this.errors = errors;
 	      }
-	      return ParsedAnimationResult;
+	      return AnimationEntryParseResult;
 	  }());
-	  function parseAnimationEntry(entry) {
-	      var errors = [];
-	      var stateStyles = {};
-	      var transitions = [];
-	      var stateDeclarationAsts = [];
-	      entry.definitions.forEach(function (def) {
-	          if (def instanceof CompileAnimationStateDeclarationMetadata) {
-	              _parseAnimationDeclarationStates(def, errors).forEach(function (ast) {
-	                  stateDeclarationAsts.push(ast);
-	                  stateStyles[ast.stateName] = ast.styles;
-	              });
-	          }
-	          else {
-	              transitions.push(def);
-	          }
-	      });
-	      var stateTransitionAsts = transitions.map(function (transDef) { return _parseAnimationStateTransition(transDef, stateStyles, errors); });
-	      var ast = new AnimationEntryAst(entry.name, stateDeclarationAsts, stateTransitionAsts);
-	      return new ParsedAnimationResult(ast, errors);
-	  }
-	  function parseAnimationOutputName(outputName, errors) {
-	      var values = outputName.split('.');
-	      var name;
-	      var phase = '';
-	      if (values.length > 1) {
-	          name = values[0];
-	          var parsedPhase = values[1];
-	          switch (parsedPhase) {
-	              case 'start':
-	              case 'done':
-	                  phase = parsedPhase;
-	                  break;
-	              default:
-	                  errors.push(new AnimationParseError("The provided animation output phase value \"" + parsedPhase + "\" for \"@" + name + "\" is not supported (use start or done)"));
-	          }
+	  var AnimationParser = (function () {
+	      function AnimationParser() {
 	      }
-	      else {
-	          name = outputName;
-	          errors.push(new AnimationParseError("The animation trigger output event (@" + name + ") is missing its phase value name (start or done are currently supported)"));
-	      }
-	      return new AnimationOutput(name, phase, outputName);
-	  }
+	      AnimationParser.prototype.parseComponent = function (component) {
+	          var _this = this;
+	          var errors = [];
+	          var componentName = component.type.name;
+	          var animationTriggerNames = new Set();
+	          var asts = component.template.animations.map(function (entry) {
+	              var result = _this.parseEntry(entry);
+	              var ast = result.ast;
+	              var triggerName = ast.name;
+	              if (animationTriggerNames.has(triggerName)) {
+	                  result.errors.push(new AnimationParseError("The animation trigger \"" + triggerName + "\" has already been registered for the " + componentName + " component"));
+	              }
+	              else {
+	                  animationTriggerNames.add(triggerName);
+	              }
+	              if (result.errors.length > 0) {
+	                  var errorMessage_1 = "- Unable to parse the animation sequence for \"" + triggerName + "\" on the " + componentName + " component due to the following errors:";
+	                  result.errors.forEach(function (error) { errorMessage_1 += '\n-- ' + error.msg; });
+	                  errors.push(errorMessage_1);
+	              }
+	              return ast;
+	          });
+	          if (errors.length > 0) {
+	              var errorString = errors.join('\n');
+	              throw new Error("Animation parse errors:\n" + errorString);
+	          }
+	          return asts;
+	      };
+	      AnimationParser.prototype.parseEntry = function (entry) {
+	          var errors = [];
+	          var stateStyles = {};
+	          var transitions = [];
+	          var stateDeclarationAsts = [];
+	          entry.definitions.forEach(function (def) {
+	              if (def instanceof CompileAnimationStateDeclarationMetadata) {
+	                  _parseAnimationDeclarationStates(def, errors).forEach(function (ast) {
+	                      stateDeclarationAsts.push(ast);
+	                      stateStyles[ast.stateName] = ast.styles;
+	                  });
+	              }
+	              else {
+	                  transitions.push(def);
+	              }
+	          });
+	          var stateTransitionAsts = transitions.map(function (transDef) { return _parseAnimationStateTransition(transDef, stateStyles, errors); });
+	          var ast = new AnimationEntryAst(entry.name, stateDeclarationAsts, stateTransitionAsts);
+	          return new AnimationEntryParseResult(ast, errors);
+	      };
+	      return AnimationParser;
+	  }());
 	  function _parseAnimationDeclarationStates(stateMetadata, errors) {
 	      var styleValues = [];
 	      stateMetadata.styles.styles.forEach(function (stylesEntry) {
@@ -10104,9 +10406,9 @@ webpackJsonp([2],[
 	          var offset = styleMetadata.offset;
 	          var keyframeStyles = {};
 	          styleMetadata.styles.forEach(function (entry) {
-	              StringMapWrapper.forEach(entry, function (value /** TODO #9100 */, prop /** TODO #9100 */) {
+	              Object.keys(entry).forEach(function (prop) {
 	                  if (prop != 'offset') {
-	                      keyframeStyles[prop] = value;
+	                      keyframeStyles[prop] = entry[prop];
 	                  }
 	              });
 	          });
@@ -10139,20 +10441,23 @@ webpackJsonp([2],[
 	      for (i = 1; i <= limit; i++) {
 	          var entry = rawKeyframes[i];
 	          var styles = entry[1];
-	          StringMapWrapper.forEach(styles, function (value /** TODO #9100 */, prop /** TODO #9100 */) {
+	          Object.keys(styles).forEach(function (prop) {
 	              if (!isPresent(firstKeyframeStyles[prop])) {
 	                  firstKeyframeStyles[prop] = FILL_STYLE_FLAG;
 	              }
 	          });
 	      }
-	      for (i = limit - 1; i >= 0; i--) {
+	      var _loop_1 = function() {
 	          var entry = rawKeyframes[i];
 	          var styles = entry[1];
-	          StringMapWrapper.forEach(styles, function (value /** TODO #9100 */, prop /** TODO #9100 */) {
+	          Object.keys(styles).forEach(function (prop) {
 	              if (!isPresent(lastKeyframeStyles[prop])) {
-	                  lastKeyframeStyles[prop] = value;
+	                  lastKeyframeStyles[prop] = styles[prop];
 	              }
 	          });
+	      };
+	      for (i = limit - 1; i >= 0; i--) {
+	          _loop_1();
 	      }
 	      return rawKeyframes.map(function (entry) { return new AnimationKeyframeAst(entry[0], new AnimationStylesAst([entry[1]])); });
 	  }
@@ -10172,9 +10477,7 @@ webpackJsonp([2],[
 	                  entry.styles.forEach(function (stylesEntry) {
 	                      // by this point we know that we only have stringmap values
 	                      var map = stylesEntry;
-	                      StringMapWrapper.forEach(map, function (value /** TODO #9100 */, prop /** TODO #9100 */) {
-	                          collectedStyles.insertAtTime(prop, time, value);
-	                      });
+	                      Object.keys(map).forEach(function (prop) { collectedStyles.insertAtTime(prop, time, map[prop]); });
 	                  });
 	                  previousStyles = entry.styles;
 	                  return;
@@ -10194,7 +10497,7 @@ webpackJsonp([2],[
 	              var astDuration = innerAst.playTime;
 	              currentTime += astDuration;
 	              playTime += astDuration;
-	              maxDuration = Math$2.max(astDuration, maxDuration);
+	              maxDuration = Math$1.max(astDuration, maxDuration);
 	              steps.push(innerAst);
 	          });
 	          if (isPresent(previousStyles)) {
@@ -10228,9 +10531,7 @@ webpackJsonp([2],[
 	          ast = new AnimationStepAst(new AnimationStylesAst([]), keyframes, timings.duration, timings.delay, timings.easing);
 	          playTime = timings.duration + timings.delay;
 	          currentTime += playTime;
-	          keyframes.forEach(function (keyframe /** TODO #9100 */) { return keyframe.styles.styles.forEach(function (entry /** TODO #9100 */) { return StringMapWrapper.forEach(entry, function (value /** TODO #9100 */, prop /** TODO #9100 */) {
-	              return collectedStyles.insertAtTime(prop, currentTime, value);
-	          }); }); });
+	          keyframes.forEach(function (keyframe /** TODO #9100 */) { return keyframe.styles.styles.forEach(function (entry /** TODO #9100 */) { return Object.keys(entry).forEach(function (prop) { collectedStyles.insertAtTime(prop, currentTime, entry[prop]); }); }); });
 	      }
 	      else {
 	          // if the code reaches this stage then an error
@@ -10272,7 +10573,7 @@ webpackJsonp([2],[
 	          if (durationUnit == 's') {
 	              durationMatch *= _ONE_SECOND;
 	          }
-	          duration = Math$2.floor(durationMatch);
+	          duration = Math$1.floor(durationMatch);
 	          var delayMatch = matches[3];
 	          var delayUnit = matches[4];
 	          if (isPresent(delayMatch)) {
@@ -10280,7 +10581,7 @@ webpackJsonp([2],[
 	              if (isPresent(delayUnit) && delayUnit == 's') {
 	                  delayVal *= _ONE_SECOND;
 	              }
-	              delay = Math$2.floor(delayVal);
+	              delay = Math$1.floor(delayVal);
 	          }
 	          var easingVal = matches[5];
 	          if (!isBlank(easingVal)) {
@@ -10296,7 +10597,8 @@ webpackJsonp([2],[
 	      var values = {};
 	      var endTime = startTime + duration;
 	      endKeyframe.styles.styles.forEach(function (styleData) {
-	          StringMapWrapper.forEach(styleData, function (val /** TODO #9100 */, prop /** TODO #9100 */) {
+	          Object.keys(styleData).forEach(function (prop) {
+	              var val = styleData[prop];
 	              if (prop == 'offset')
 	                  return;
 	              var resultIndex = collectedStyles.indexOfAtOrBeforeTime(prop, startTime);
@@ -10321,399 +10623,6 @@ webpackJsonp([2],[
 	      return new AnimationKeyframeAst(_INITIAL_KEYFRAME, new AnimationStylesAst([values]));
 	  }
 	
-	  var animationCompilationCache = new Map();
-	  var CompiledAnimationTriggerResult = (function () {
-	      function CompiledAnimationTriggerResult(name, statesMapStatement, statesVariableName, fnStatement, fnVariable) {
-	          this.name = name;
-	          this.statesMapStatement = statesMapStatement;
-	          this.statesVariableName = statesVariableName;
-	          this.fnStatement = fnStatement;
-	          this.fnVariable = fnVariable;
-	      }
-	      return CompiledAnimationTriggerResult;
-	  }());
-	  var CompiledComponentAnimationResult = (function () {
-	      function CompiledComponentAnimationResult(outputs, triggers) {
-	          this.outputs = outputs;
-	          this.triggers = triggers;
-	      }
-	      return CompiledComponentAnimationResult;
-	  }());
-	  var AnimationCompiler = (function () {
-	      function AnimationCompiler() {
-	      }
-	      AnimationCompiler.prototype.compileComponent = function (component, template) {
-	          var compiledAnimations = [];
-	          var groupedErrors = [];
-	          var triggerLookup = {};
-	          var componentName = component.type.name;
-	          component.template.animations.forEach(function (entry) {
-	              var result = parseAnimationEntry(entry);
-	              var triggerName = entry.name;
-	              if (result.errors.length > 0) {
-	                  var errorMessage = "Unable to parse the animation sequence for \"" + triggerName + "\" due to the following errors:";
-	                  result.errors.forEach(function (error) { errorMessage += '\n-- ' + error.msg; });
-	                  groupedErrors.push(errorMessage);
-	              }
-	              if (triggerLookup[triggerName]) {
-	                  groupedErrors.push("The animation trigger \"" + triggerName + "\" has already been registered on \"" + componentName + "\"");
-	              }
-	              else {
-	                  var factoryName = componentName + "_" + entry.name;
-	                  var visitor = new _AnimationBuilder(triggerName, factoryName);
-	                  var compileResult = visitor.build(result.ast);
-	                  compiledAnimations.push(compileResult);
-	                  triggerLookup[entry.name] = compileResult;
-	              }
-	          });
-	          var validatedProperties = _validateAnimationProperties(compiledAnimations, template);
-	          validatedProperties.errors.forEach(function (error) { groupedErrors.push(error.msg); });
-	          if (groupedErrors.length > 0) {
-	              var errorMessageStr = "Animation parsing for " + component.type.name + " has failed due to the following errors:";
-	              groupedErrors.forEach(function (error) { return errorMessageStr += "\n- " + error; });
-	              throw new Error(errorMessageStr);
-	          }
-	          animationCompilationCache.set(component, compiledAnimations);
-	          return new CompiledComponentAnimationResult(validatedProperties.outputs, compiledAnimations);
-	      };
-	      return AnimationCompiler;
-	  }());
-	  var _ANIMATION_FACTORY_ELEMENT_VAR = variable('element');
-	  var _ANIMATION_DEFAULT_STATE_VAR = variable('defaultStateStyles');
-	  var _ANIMATION_FACTORY_VIEW_VAR = variable('view');
-	  var _ANIMATION_FACTORY_RENDERER_VAR = _ANIMATION_FACTORY_VIEW_VAR.prop('renderer');
-	  var _ANIMATION_CURRENT_STATE_VAR = variable('currentState');
-	  var _ANIMATION_NEXT_STATE_VAR = variable('nextState');
-	  var _ANIMATION_PLAYER_VAR = variable('player');
-	  var _ANIMATION_TIME_VAR = variable('totalTime');
-	  var _ANIMATION_START_STATE_STYLES_VAR = variable('startStateStyles');
-	  var _ANIMATION_END_STATE_STYLES_VAR = variable('endStateStyles');
-	  var _ANIMATION_COLLECTED_STYLES = variable('collectedStyles');
-	  var EMPTY_MAP$1 = literalMap([]);
-	  var _AnimationBuilder = (function () {
-	      function _AnimationBuilder(animationName, factoryName) {
-	          this.animationName = animationName;
-	          this._fnVarName = factoryName + '_factory';
-	          this._statesMapVarName = factoryName + '_states';
-	          this._statesMapVar = variable(this._statesMapVarName);
-	      }
-	      _AnimationBuilder.prototype.visitAnimationStyles = function (ast, context) {
-	          var stylesArr = [];
-	          if (context.isExpectingFirstStyleStep) {
-	              stylesArr.push(_ANIMATION_START_STATE_STYLES_VAR);
-	              context.isExpectingFirstStyleStep = false;
-	          }
-	          ast.styles.forEach(function (entry) {
-	              stylesArr.push(literalMap(StringMapWrapper.keys(entry).map(function (key) { return [key, literal(entry[key])]; })));
-	          });
-	          return importExpr(resolveIdentifier(Identifiers.AnimationStyles)).instantiate([
-	              importExpr(resolveIdentifier(Identifiers.collectAndResolveStyles)).callFn([
-	                  _ANIMATION_COLLECTED_STYLES, literalArr(stylesArr)
-	              ])
-	          ]);
-	      };
-	      _AnimationBuilder.prototype.visitAnimationKeyframe = function (ast, context) {
-	          return importExpr(resolveIdentifier(Identifiers.AnimationKeyframe)).instantiate([
-	              literal(ast.offset), ast.styles.visit(this, context)
-	          ]);
-	      };
-	      _AnimationBuilder.prototype.visitAnimationStep = function (ast, context) {
-	          var _this = this;
-	          if (context.endStateAnimateStep === ast) {
-	              return this._visitEndStateAnimation(ast, context);
-	          }
-	          var startingStylesExpr = ast.startingStyles.visit(this, context);
-	          var keyframeExpressions = ast.keyframes.map(function (keyframeEntry) { return keyframeEntry.visit(_this, context); });
-	          return this._callAnimateMethod(ast, startingStylesExpr, literalArr(keyframeExpressions), context);
-	      };
-	      /** @internal */
-	      _AnimationBuilder.prototype._visitEndStateAnimation = function (ast, context) {
-	          var _this = this;
-	          var startingStylesExpr = ast.startingStyles.visit(this, context);
-	          var keyframeExpressions = ast.keyframes.map(function (keyframe) { return keyframe.visit(_this, context); });
-	          var keyframesExpr = importExpr(resolveIdentifier(Identifiers.balanceAnimationKeyframes)).callFn([
-	              _ANIMATION_COLLECTED_STYLES, _ANIMATION_END_STATE_STYLES_VAR,
-	              literalArr(keyframeExpressions)
-	          ]);
-	          return this._callAnimateMethod(ast, startingStylesExpr, keyframesExpr, context);
-	      };
-	      /** @internal */
-	      _AnimationBuilder.prototype._callAnimateMethod = function (ast, startingStylesExpr, keyframesExpr, context) {
-	          context.totalTransitionTime += ast.duration + ast.delay;
-	          return _ANIMATION_FACTORY_RENDERER_VAR.callMethod('animate', [
-	              _ANIMATION_FACTORY_ELEMENT_VAR, startingStylesExpr, keyframesExpr, literal(ast.duration),
-	              literal(ast.delay), literal(ast.easing)
-	          ]);
-	      };
-	      _AnimationBuilder.prototype.visitAnimationSequence = function (ast, context) {
-	          var _this = this;
-	          var playerExprs = ast.steps.map(function (step) { return step.visit(_this, context); });
-	          return importExpr(resolveIdentifier(Identifiers.AnimationSequencePlayer)).instantiate([
-	              literalArr(playerExprs)
-	          ]);
-	      };
-	      _AnimationBuilder.prototype.visitAnimationGroup = function (ast, context) {
-	          var _this = this;
-	          var playerExprs = ast.steps.map(function (step) { return step.visit(_this, context); });
-	          return importExpr(resolveIdentifier(Identifiers.AnimationGroupPlayer)).instantiate([
-	              literalArr(playerExprs)
-	          ]);
-	      };
-	      _AnimationBuilder.prototype.visitAnimationStateDeclaration = function (ast, context) {
-	          var flatStyles = {};
-	          _getStylesArray(ast).forEach(function (entry) {
-	              StringMapWrapper.forEach(entry, function (value, key) { flatStyles[key] = value; });
-	          });
-	          context.stateMap.registerState(ast.stateName, flatStyles);
-	      };
-	      _AnimationBuilder.prototype.visitAnimationStateTransition = function (ast, context) {
-	          var steps = ast.animation.steps;
-	          var lastStep = steps[steps.length - 1];
-	          if (_isEndStateAnimateStep(lastStep)) {
-	              context.endStateAnimateStep = lastStep;
-	          }
-	          context.totalTransitionTime = 0;
-	          context.isExpectingFirstStyleStep = true;
-	          var stateChangePreconditions = [];
-	          ast.stateChanges.forEach(function (stateChange) {
-	              stateChangePreconditions.push(_compareToAnimationStateExpr(_ANIMATION_CURRENT_STATE_VAR, stateChange.fromState)
-	                  .and(_compareToAnimationStateExpr(_ANIMATION_NEXT_STATE_VAR, stateChange.toState)));
-	              if (stateChange.fromState != ANY_STATE) {
-	                  context.stateMap.registerState(stateChange.fromState);
-	              }
-	              if (stateChange.toState != ANY_STATE) {
-	                  context.stateMap.registerState(stateChange.toState);
-	              }
-	          });
-	          var animationPlayerExpr = ast.animation.visit(this, context);
-	          var reducedStateChangesPrecondition = stateChangePreconditions.reduce(function (a, b) { return a.or(b); });
-	          var precondition = _ANIMATION_PLAYER_VAR.equals(NULL_EXPR).and(reducedStateChangesPrecondition);
-	          var animationStmt = _ANIMATION_PLAYER_VAR.set(animationPlayerExpr).toStmt();
-	          var totalTimeStmt = _ANIMATION_TIME_VAR.set(literal(context.totalTransitionTime)).toStmt();
-	          return new IfStmt(precondition, [animationStmt, totalTimeStmt]);
-	      };
-	      _AnimationBuilder.prototype.visitAnimationEntry = function (ast, context) {
-	          var _this = this;
-	          // visit each of the declarations first to build the context state map
-	          ast.stateDeclarations.forEach(function (def) { return def.visit(_this, context); });
-	          // this should always be defined even if the user overrides it
-	          context.stateMap.registerState(DEFAULT_STATE, {});
-	          var statements = [];
-	          statements.push(_ANIMATION_FACTORY_VIEW_VAR
-	              .callMethod('cancelActiveAnimation', [
-	              _ANIMATION_FACTORY_ELEMENT_VAR, literal(this.animationName),
-	              _ANIMATION_NEXT_STATE_VAR.equals(literal(EMPTY_ANIMATION_STATE))
-	          ])
-	              .toStmt());
-	          statements.push(_ANIMATION_COLLECTED_STYLES.set(EMPTY_MAP$1).toDeclStmt());
-	          statements.push(_ANIMATION_PLAYER_VAR.set(NULL_EXPR).toDeclStmt());
-	          statements.push(_ANIMATION_TIME_VAR.set(literal(0)).toDeclStmt());
-	          statements.push(_ANIMATION_DEFAULT_STATE_VAR.set(this._statesMapVar.key(literal(DEFAULT_STATE)))
-	              .toDeclStmt());
-	          statements.push(_ANIMATION_START_STATE_STYLES_VAR.set(this._statesMapVar.key(_ANIMATION_CURRENT_STATE_VAR))
-	              .toDeclStmt());
-	          statements.push(new IfStmt(_ANIMATION_START_STATE_STYLES_VAR.equals(NULL_EXPR), [_ANIMATION_START_STATE_STYLES_VAR.set(_ANIMATION_DEFAULT_STATE_VAR).toStmt()]));
-	          statements.push(_ANIMATION_END_STATE_STYLES_VAR.set(this._statesMapVar.key(_ANIMATION_NEXT_STATE_VAR))
-	              .toDeclStmt());
-	          statements.push(new IfStmt(_ANIMATION_END_STATE_STYLES_VAR.equals(NULL_EXPR), [_ANIMATION_END_STATE_STYLES_VAR.set(_ANIMATION_DEFAULT_STATE_VAR).toStmt()]));
-	          var RENDER_STYLES_FN = importExpr(resolveIdentifier(Identifiers.renderStyles));
-	          // before we start any animation we want to clear out the starting
-	          // styles from the element's style property (since they were placed
-	          // there at the end of the last animation
-	          statements.push(RENDER_STYLES_FN
-	              .callFn([
-	              _ANIMATION_FACTORY_ELEMENT_VAR, _ANIMATION_FACTORY_RENDERER_VAR,
-	              importExpr(resolveIdentifier(Identifiers.clearStyles))
-	                  .callFn([_ANIMATION_START_STATE_STYLES_VAR])
-	          ])
-	              .toStmt());
-	          ast.stateTransitions.forEach(function (transAst) { return statements.push(transAst.visit(_this, context)); });
-	          // this check ensures that the animation factory always returns a player
-	          // so that the onDone callback can be used for tracking
-	          statements.push(new IfStmt(_ANIMATION_PLAYER_VAR.equals(NULL_EXPR), [_ANIMATION_PLAYER_VAR
-	                  .set(importExpr(resolveIdentifier(Identifiers.NoOpAnimationPlayer)).instantiate([]))
-	                  .toStmt()]));
-	          // once complete we want to apply the styles on the element
-	          // since the destination state's values should persist once
-	          // the animation sequence has completed.
-	          statements.push(_ANIMATION_PLAYER_VAR
-	              .callMethod('onDone', [fn([], [RENDER_STYLES_FN
-	                      .callFn([
-	                      _ANIMATION_FACTORY_ELEMENT_VAR, _ANIMATION_FACTORY_RENDERER_VAR,
-	                      importExpr(resolveIdentifier(Identifiers.prepareFinalAnimationStyles))
-	                          .callFn([
-	                          _ANIMATION_START_STATE_STYLES_VAR, _ANIMATION_END_STATE_STYLES_VAR
-	                      ])
-	                  ])
-	                      .toStmt()])])
-	              .toStmt());
-	          statements.push(_ANIMATION_FACTORY_VIEW_VAR
-	              .callMethod('queueAnimation', [
-	              _ANIMATION_FACTORY_ELEMENT_VAR, literal(this.animationName),
-	              _ANIMATION_PLAYER_VAR, _ANIMATION_TIME_VAR,
-	              _ANIMATION_CURRENT_STATE_VAR, _ANIMATION_NEXT_STATE_VAR
-	          ])
-	              .toStmt());
-	          return fn([
-	              new FnParam(_ANIMATION_FACTORY_VIEW_VAR.name, importType(resolveIdentifier(Identifiers.AppView), [DYNAMIC_TYPE])),
-	              new FnParam(_ANIMATION_FACTORY_ELEMENT_VAR.name, DYNAMIC_TYPE),
-	              new FnParam(_ANIMATION_CURRENT_STATE_VAR.name, DYNAMIC_TYPE),
-	              new FnParam(_ANIMATION_NEXT_STATE_VAR.name, DYNAMIC_TYPE)
-	          ], statements);
-	      };
-	      _AnimationBuilder.prototype.build = function (ast) {
-	          var context = new _AnimationBuilderContext();
-	          var fnStatement = ast.visit(this, context).toDeclStmt(this._fnVarName);
-	          var fnVariable = variable(this._fnVarName);
-	          var lookupMap = [];
-	          StringMapWrapper.forEach(context.stateMap.states, function (value, stateName) {
-	              var variableValue = EMPTY_MAP$1;
-	              if (isPresent(value)) {
-	                  var styleMap_1 = [];
-	                  StringMapWrapper.forEach(value, function (value, key) {
-	                      styleMap_1.push([key, literal(value)]);
-	                  });
-	                  variableValue = literalMap(styleMap_1);
-	              }
-	              lookupMap.push([stateName, variableValue]);
-	          });
-	          var compiledStatesMapExpr = this._statesMapVar.set(literalMap(lookupMap)).toDeclStmt();
-	          return new CompiledAnimationTriggerResult(this.animationName, compiledStatesMapExpr, this._statesMapVarName, fnStatement, fnVariable);
-	      };
-	      return _AnimationBuilder;
-	  }());
-	  var _AnimationBuilderContext = (function () {
-	      function _AnimationBuilderContext() {
-	          this.stateMap = new _AnimationBuilderStateMap();
-	          this.endStateAnimateStep = null;
-	          this.isExpectingFirstStyleStep = false;
-	          this.totalTransitionTime = 0;
-	      }
-	      return _AnimationBuilderContext;
-	  }());
-	  var _AnimationBuilderStateMap = (function () {
-	      function _AnimationBuilderStateMap() {
-	          this._states = {};
-	      }
-	      Object.defineProperty(_AnimationBuilderStateMap.prototype, "states", {
-	          get: function () { return this._states; },
-	          enumerable: true,
-	          configurable: true
-	      });
-	      _AnimationBuilderStateMap.prototype.registerState = function (name, value) {
-	          if (value === void 0) { value = null; }
-	          var existingEntry = this._states[name];
-	          if (isBlank(existingEntry)) {
-	              this._states[name] = value;
-	          }
-	      };
-	      return _AnimationBuilderStateMap;
-	  }());
-	  function _compareToAnimationStateExpr(value, animationState) {
-	      var emptyStateLiteral = literal(EMPTY_ANIMATION_STATE);
-	      switch (animationState) {
-	          case EMPTY_ANIMATION_STATE:
-	              return value.equals(emptyStateLiteral);
-	          case ANY_STATE:
-	              return literal(true);
-	          default:
-	              return value.equals(literal(animationState));
-	      }
-	  }
-	  function _isEndStateAnimateStep(step) {
-	      // the final animation step is characterized by having only TWO
-	      // keyframe values and it must have zero styles for both keyframes
-	      if (step instanceof AnimationStepAst && step.duration > 0 && step.keyframes.length == 2) {
-	          var styles1 = _getStylesArray(step.keyframes[0])[0];
-	          var styles2 = _getStylesArray(step.keyframes[1])[0];
-	          return StringMapWrapper.isEmpty(styles1) && StringMapWrapper.isEmpty(styles2);
-	      }
-	      return false;
-	  }
-	  function _getStylesArray(obj) {
-	      return obj.styles.styles;
-	  }
-	  function _validateAnimationProperties(compiledAnimations, template) {
-	      var visitor = new _AnimationTemplatePropertyVisitor(compiledAnimations);
-	      templateVisitAll(visitor, template);
-	      return new AnimationPropertyValidationOutput(visitor.outputs, visitor.errors);
-	  }
-	  var AnimationPropertyValidationOutput = (function () {
-	      function AnimationPropertyValidationOutput(outputs, errors) {
-	          this.outputs = outputs;
-	          this.errors = errors;
-	      }
-	      return AnimationPropertyValidationOutput;
-	  }());
-	  var _AnimationTemplatePropertyVisitor = (function () {
-	      function _AnimationTemplatePropertyVisitor(animations) {
-	          this.errors = [];
-	          this.outputs = [];
-	          this._animationRegistry = this._buildCompileAnimationLookup(animations);
-	      }
-	      _AnimationTemplatePropertyVisitor.prototype._buildCompileAnimationLookup = function (animations) {
-	          var map = {};
-	          animations.forEach(function (entry) { map[entry.name] = true; });
-	          return map;
-	      };
-	      _AnimationTemplatePropertyVisitor.prototype._validateAnimationInputOutputPairs = function (inputAsts, outputAsts, animationRegistry, isHostLevel) {
-	          var _this = this;
-	          var detectedAnimationInputs = {};
-	          inputAsts.forEach(function (input) {
-	              if (input.type == exports.PropertyBindingType.Animation) {
-	                  var triggerName = input.name;
-	                  if (isPresent(animationRegistry[triggerName])) {
-	                      detectedAnimationInputs[triggerName] = true;
-	                  }
-	                  else {
-	                      _this.errors.push(new AnimationParseError("Couldn't find an animation entry for " + triggerName));
-	                  }
-	              }
-	          });
-	          outputAsts.forEach(function (output) {
-	              if (output.name[0] == '@') {
-	                  var normalizedOutputData = parseAnimationOutputName(output.name.substr(1), _this.errors);
-	                  var triggerName = normalizedOutputData.name;
-	                  var triggerEventPhase = normalizedOutputData.phase;
-	                  if (!animationRegistry[triggerName]) {
-	                      _this.errors.push(new AnimationParseError("Couldn't find the corresponding " + (isHostLevel ? 'host-level ' : '') + "animation trigger definition for (@" + triggerName + ")"));
-	                  }
-	                  else if (!detectedAnimationInputs[triggerName]) {
-	                      _this.errors.push(new AnimationParseError("Unable to listen on (@" + triggerName + "." + triggerEventPhase + ") because the animation trigger [@" + triggerName + "] isn't being used on the same element"));
-	                  }
-	                  else {
-	                      _this.outputs.push(normalizedOutputData);
-	                  }
-	              }
-	          });
-	      };
-	      _AnimationTemplatePropertyVisitor.prototype.visitElement = function (ast, ctx) {
-	          this._validateAnimationInputOutputPairs(ast.inputs, ast.outputs, this._animationRegistry, false);
-	          var componentOnElement = ast.directives.find(function (directive) { return directive.directive.isComponent; });
-	          if (componentOnElement) {
-	              var cachedComponentAnimations = animationCompilationCache.get(componentOnElement.directive);
-	              if (cachedComponentAnimations) {
-	                  this._validateAnimationInputOutputPairs(componentOnElement.hostProperties, componentOnElement.hostEvents, this._buildCompileAnimationLookup(cachedComponentAnimations), true);
-	              }
-	          }
-	          templateVisitAll(this, ast.children);
-	      };
-	      _AnimationTemplatePropertyVisitor.prototype.visitEmbeddedTemplate = function (ast, ctx) {
-	          templateVisitAll(this, ast.children);
-	      };
-	      _AnimationTemplatePropertyVisitor.prototype.visitEvent = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitBoundText = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitText = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitNgContent = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitAttr = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitDirective = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitReference = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitVariable = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitDirectiveProperty = function (ast, ctx) { };
-	      _AnimationTemplatePropertyVisitor.prototype.visitElementProperty = function (ast, ctx) { };
-	      return _AnimationTemplatePropertyVisitor;
-	  }());
-	
 	  function convertValueToOutputAst(value, type) {
 	      if (type === void 0) { type = null; }
 	      return visitValue(value, new _ValueOutputAstTransformer(), type);
@@ -10728,9 +10637,7 @@ webpackJsonp([2],[
 	      _ValueOutputAstTransformer.prototype.visitStringMap = function (map, type) {
 	          var _this = this;
 	          var entries = [];
-	          StringMapWrapper.forEach(map, function (value, key) {
-	              entries.push([key, visitValue(value, _this, null)]);
-	          });
+	          Object.keys(map).forEach(function (key) { entries.push([key, visitValue(map[key], _this, null)]); });
 	          return literalMap(entries, type);
 	      };
 	      _ValueOutputAstTransformer.prototype.visitPrimitive = function (value, type) { return literal(value, type); };
@@ -10868,7 +10775,7 @@ webpackJsonp([2],[
 	  function createPureProxy(fn, argCount, pureProxyProp, view) {
 	      view.fields.push(new ClassField(pureProxyProp.name, null));
 	      var pureProxyId = argCount < Identifiers.pureProxies.length ? Identifiers.pureProxies[argCount] : null;
-	      if (isBlank(pureProxyId)) {
+	      if (!pureProxyId) {
 	          throw new Error("Unsupported number of argument for pure functions: " + argCount);
 	      }
 	      view.createMethod.addStmt(THIS_EXPR.prop(pureProxyProp.name)
@@ -10954,9 +10861,7 @@ webpackJsonp([2],[
 	      }));
 	  }
 	  function mapNestedViews(declarationAppElement, view, expressions) {
-	      var adjustedExpressions = expressions.map(function (expr) {
-	          return replaceVarInExpression(THIS_EXPR.name, variable('nestedView'), expr);
-	      });
+	      var adjustedExpressions = expressions.map(function (expr) { return replaceVarInExpression(THIS_EXPR.name, variable('nestedView'), expr); });
 	      return declarationAppElement.callMethod('mapNestedViews', [
 	          variable(view.className),
 	          fn([new FnParam('nestedView', view.classType)], [new ReturnStatement(literalArr(adjustedExpressions))], DYNAMIC_TYPE)
@@ -10974,7 +10879,7 @@ webpackJsonp([2],[
 	  function addQueryToTokenMap(map, query) {
 	      query.meta.selectors.forEach(function (selector) {
 	          var entry = map.get(selector.reference);
-	          if (isBlank(entry)) {
+	          if (!entry) {
 	              entry = [];
 	              map.set(selector.reference, entry);
 	          }
@@ -11092,7 +10997,7 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$13 = (this && this.__extends) || function (d, b) {
+	  var __extends$14 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -11105,12 +11010,12 @@ webpackJsonp([2],[
 	          this.renderNode = renderNode;
 	          this.sourceAst = sourceAst;
 	      }
-	      CompileNode.prototype.isNull = function () { return isBlank(this.renderNode); };
+	      CompileNode.prototype.isNull = function () { return !this.renderNode; };
 	      CompileNode.prototype.isRootElement = function () { return this.view != this.parent.view; };
 	      return CompileNode;
 	  }());
 	  var CompileElement = (function (_super) {
-	      __extends$13(CompileElement, _super);
+	      __extends$14(CompileElement, _super);
 	      function CompileElement(parent, view, nodeIndex, renderNode, sourceAst, component, _directives, _resolvedProvidersArray, hasViewContainer, hasEmbeddedView, references) {
 	          var _this = this;
 	          _super.call(this, parent, view, nodeIndex, renderNode, sourceAst);
@@ -11236,7 +11141,7 @@ webpackJsonp([2],[
 	              var queriesForProvider = _this._getQueriesFor(resolvedProvider.token);
 	              ListWrapper.addAll(queriesWithReads, queriesForProvider.map(function (query) { return new _QueryWithRead(query, resolvedProvider.token); }));
 	          });
-	          StringMapWrapper.forEach(this.referenceTokens, function (_, varName) {
+	          Object.keys(this.referenceTokens).forEach(function (varName) {
 	              var token = _this.referenceTokens[varName];
 	              var varValue;
 	              if (isPresent(token)) {
@@ -11339,17 +11244,17 @@ webpackJsonp([2],[
 	      CompileElement.prototype._getLocalDependency = function (requestingProviderType, dep) {
 	          var result = null;
 	          // constructor content query
-	          if (isBlank(result) && isPresent(dep.query)) {
+	          if (!result && isPresent(dep.query)) {
 	              result = this._addQuery(dep.query, null).queryList;
 	          }
 	          // constructor view query
-	          if (isBlank(result) && isPresent(dep.viewQuery)) {
+	          if (!result && isPresent(dep.viewQuery)) {
 	              result = createQueryList(dep.viewQuery, null, "_viewQuery_" + dep.viewQuery.selectors[0].name + "_" + this.nodeIndex + "_" + this._componentConstructorViewQueryLists.length, this.view);
 	              this._componentConstructorViewQueryLists.push(result);
 	          }
 	          if (isPresent(dep.token)) {
 	              // access builtins with special visibility
-	              if (isBlank(result)) {
+	              if (!result) {
 	                  if (dep.token.reference ===
 	                      resolveIdentifierToken(Identifiers.ChangeDetectorRef).reference) {
 	                      if (requestingProviderType === exports.ProviderAstType.Component) {
@@ -11361,7 +11266,7 @@ webpackJsonp([2],[
 	                  }
 	              }
 	              // access regular providers on the element
-	              if (isBlank(result)) {
+	              if (!result) {
 	                  var resolvedProvider = this._resolvedProviders.get(dep.token.reference);
 	                  // don't allow directives / public services to access private services.
 	                  // only components and private services can access private services.
@@ -11381,18 +11286,18 @@ webpackJsonp([2],[
 	          if (dep.isValue) {
 	              result = literal(dep.value);
 	          }
-	          if (isBlank(result) && !dep.isSkipSelf) {
+	          if (!result && !dep.isSkipSelf) {
 	              result = this._getLocalDependency(requestingProviderType, dep);
 	          }
 	          // check parent elements
-	          while (isBlank(result) && !currElement.parent.isNull()) {
+	          while (!result && !currElement.parent.isNull()) {
 	              currElement = currElement.parent;
 	              result = currElement._getLocalDependency(exports.ProviderAstType.PublicService, new CompileDiDependencyMetadata({ token: dep.token }));
 	          }
-	          if (isBlank(result)) {
+	          if (!result) {
 	              result = injectFromViewParentInjector(dep.token, dep.isOptional);
 	          }
-	          if (isBlank(result)) {
+	          if (!result) {
 	              result = NULL_EXPR;
 	          }
 	          return getPropertyInView(result, this.view, currElement.view);
@@ -11423,7 +11328,7 @@ webpackJsonp([2],[
 	          resolvedProviderValueExpr = providerValueExpressions[0];
 	          type = providerValueExpressions[0].type;
 	      }
-	      if (isBlank(type)) {
+	      if (!type) {
 	          type = DYNAMIC_TYPE;
 	      }
 	      if (isEager) {
@@ -11477,7 +11382,7 @@ webpackJsonp([2],[
 	          if (meta.pure) {
 	              // pure pipes live on the component view
 	              pipe = compView.purePipes.get(name);
-	              if (isBlank(pipe)) {
+	              if (!pipe) {
 	                  pipe = new CompilePipe(compView, meta);
 	                  compView.purePipes.set(name, pipe);
 	                  compView.pipes.push(pipe);
@@ -11521,7 +11426,7 @@ webpackJsonp([2],[
 	              break;
 	          }
 	      }
-	      if (isBlank(pipeMeta)) {
+	      if (!pipeMeta) {
 	          throw new Error("Illegal state: Could not find pipe " + name + " although the parser should have detected this error!");
 	      }
 	      return pipeMeta;
@@ -11613,7 +11518,7 @@ webpackJsonp([2],[
 	          }
 	          var currView = this;
 	          var result = currView.locals.get(name);
-	          while (isBlank(result) && isPresent(currView.declarationElement.view)) {
+	          while (!result && isPresent(currView.declarationElement.view)) {
 	              currView = currView.declarationElement.view;
 	              result = currView.locals.get(name);
 	          }
@@ -12095,18 +12000,12 @@ webpackJsonp([2],[
 	      }
 	  }
 	
-	  var CompileElementAnimationOutput = (function () {
-	      function CompileElementAnimationOutput(listener, output) {
-	          this.listener = listener;
-	          this.output = output;
-	      }
-	      return CompileElementAnimationOutput;
-	  }());
 	  var CompileEventListener = (function () {
-	      function CompileEventListener(compileElement, eventTarget, eventName, listenerIndex) {
+	      function CompileEventListener(compileElement, eventTarget, eventName, eventPhase, listenerIndex) {
 	          this.compileElement = compileElement;
 	          this.eventTarget = eventTarget;
 	          this.eventName = eventName;
+	          this.eventPhase = eventPhase;
 	          this._hasComponentHostListener = false;
 	          this._actionResultExprs = [];
 	          this._method = new CompileMethod(compileElement.view);
@@ -12114,10 +12013,11 @@ webpackJsonp([2],[
 	              "_handle_" + santitizeEventName(eventName) + "_" + compileElement.nodeIndex + "_" + listenerIndex;
 	          this._eventParam = new FnParam(EventHandlerVars.event.name, importType(this.compileElement.view.genConfig.renderTypes.renderEvent));
 	      }
-	      CompileEventListener.getOrCreate = function (compileElement, eventTarget, eventName, targetEventListeners) {
-	          var listener = targetEventListeners.find(function (listener) { return listener.eventTarget == eventTarget && listener.eventName == eventName; });
-	          if (isBlank(listener)) {
-	              listener = new CompileEventListener(compileElement, eventTarget, eventName, targetEventListeners.length);
+	      CompileEventListener.getOrCreate = function (compileElement, eventTarget, eventName, eventPhase, targetEventListeners) {
+	          var listener = targetEventListeners.find(function (listener) { return listener.eventTarget == eventTarget && listener.eventName == eventName &&
+	              listener.eventPhase == eventPhase; });
+	          if (!listener) {
+	              listener = new CompileEventListener(compileElement, eventTarget, eventName, eventPhase, targetEventListeners.length);
 	              targetEventListeners.push(listener);
 	          }
 	          return listener;
@@ -12177,16 +12077,13 @@ webpackJsonp([2],[
 	          // private is fine here as no child view will reference the event handler...
 	          this.compileElement.view.createMethod.addStmt(disposable.set(listenExpr).toDeclStmt(FUNCTION_TYPE, [StmtModifier.Private]));
 	      };
-	      CompileEventListener.prototype.listenToAnimation = function (output) {
+	      CompileEventListener.prototype.listenToAnimation = function () {
 	          var outputListener = THIS_EXPR.callMethod('eventHandler', [THIS_EXPR.prop(this._methodName).callMethod(BuiltinMethod.Bind, [THIS_EXPR])]);
 	          // tie the property callback method to the view animations map
 	          var stmt = THIS_EXPR
 	              .callMethod('registerAnimationOutput', [
-	              this.compileElement.renderNode,
-	              importExpr(resolveIdentifier(Identifiers.AnimationOutput)).instantiate([
-	                  literal(output.name), literal(output.phase)
-	              ]),
-	              outputListener
+	              this.compileElement.renderNode, literal(this.eventName),
+	              literal(this.eventPhase), outputListener
 	          ])
 	              .toStmt();
 	          this.compileElement.view.createMethod.addStmt(stmt);
@@ -12206,14 +12103,14 @@ webpackJsonp([2],[
 	      var eventListeners = [];
 	      hostEvents.forEach(function (hostEvent) {
 	          compileElement.view.bindings.push(new CompileBinding(compileElement, hostEvent));
-	          var listener = CompileEventListener.getOrCreate(compileElement, hostEvent.target, hostEvent.name, eventListeners);
+	          var listener = CompileEventListener.getOrCreate(compileElement, hostEvent.target, hostEvent.name, hostEvent.phase, eventListeners);
 	          listener.addAction(hostEvent, null, null);
 	      });
 	      dirs.forEach(function (directiveAst) {
 	          var directiveInstance = compileElement.instances.get(identifierToken(directiveAst.directive.type).reference);
 	          directiveAst.hostEvents.forEach(function (hostEvent) {
 	              compileElement.view.bindings.push(new CompileBinding(compileElement, hostEvent));
-	              var listener = CompileEventListener.getOrCreate(compileElement, hostEvent.target, hostEvent.name, eventListeners);
+	              var listener = CompileEventListener.getOrCreate(compileElement, hostEvent.target, hostEvent.name, hostEvent.phase, eventListeners);
 	              listener.addAction(hostEvent, directiveAst.directive, directiveInstance);
 	          });
 	      });
@@ -12221,17 +12118,22 @@ webpackJsonp([2],[
 	      return eventListeners;
 	  }
 	  function bindDirectiveOutputs(directiveAst, directiveInstance, eventListeners) {
-	      StringMapWrapper.forEach(directiveAst.directive.outputs, function (eventName /** TODO #9100 */, observablePropName /** TODO #9100 */) {
+	      Object.keys(directiveAst.directive.outputs).forEach(function (observablePropName) {
+	          var eventName = directiveAst.directive.outputs[observablePropName];
 	          eventListeners.filter(function (listener) { return listener.eventName == eventName; }).forEach(function (listener) {
 	              listener.listenToDirective(directiveInstance, observablePropName);
 	          });
 	      });
 	  }
 	  function bindRenderOutputs(eventListeners) {
-	      eventListeners.forEach(function (listener) { return listener.listenToRenderer(); });
-	  }
-	  function bindAnimationOutputs(eventListeners) {
-	      eventListeners.forEach(function (entry) { entry.listener.listenToAnimation(entry.output); });
+	      eventListeners.forEach(function (listener) {
+	          if (listener.eventPhase) {
+	              listener.listenToAnimation();
+	          }
+	          else {
+	              listener.listenToRenderer();
+	          }
+	      });
 	  }
 	  function convertStmtIntoExpression(stmt) {
 	      if (stmt instanceof ExpressionStatement) {
@@ -12308,7 +12210,7 @@ webpackJsonp([2],[
 	  }
 	  function bind(view, currValExpr, fieldExpr, parsedExpression, context, actions, method, bindingIndex) {
 	      var checkExpression = convertCdExpressionToIr(view, context, parsedExpression, DetectChangesVars.valUnwrapper, bindingIndex);
-	      if (isBlank(checkExpression.expression)) {
+	      if (!checkExpression.expression) {
 	          // e.g. an empty expression was given
 	          return;
 	      }
@@ -12513,19 +12415,15 @@ webpackJsonp([2],[
 	      return new TryCatchStmt([tryStmt], [catchStmt]);
 	  }
 	
-	  function bindView(view, parsedTemplate, animationOutputs) {
-	      var visitor = new ViewBinderVisitor(view, animationOutputs);
+	  function bindView(view, parsedTemplate) {
+	      var visitor = new ViewBinderVisitor(view);
 	      templateVisitAll(visitor, parsedTemplate);
 	      view.pipes.forEach(function (pipe) { bindPipeDestroyLifecycleCallbacks(pipe.meta, pipe.instance, pipe.view); });
 	  }
 	  var ViewBinderVisitor = (function () {
-	      function ViewBinderVisitor(view, animationOutputs) {
-	          var _this = this;
+	      function ViewBinderVisitor(view) {
 	          this.view = view;
-	          this.animationOutputs = animationOutputs;
 	          this._nodeIndex = 0;
-	          this._animationOutputsMap = {};
-	          animationOutputs.forEach(function (entry) { _this._animationOutputsMap[entry.fullPropertyName] = entry; });
 	      }
 	      ViewBinderVisitor.prototype.visitBoundText = function (ast, parent) {
 	          var node = this.view.nodes[this._nodeIndex++];
@@ -12538,26 +12436,11 @@ webpackJsonp([2],[
 	      };
 	      ViewBinderVisitor.prototype.visitNgContent = function (ast, parent) { return null; };
 	      ViewBinderVisitor.prototype.visitElement = function (ast, parent) {
-	          var _this = this;
 	          var compileElement = this.view.nodes[this._nodeIndex++];
 	          var eventListeners = [];
-	          var animationEventListeners = [];
 	          collectEventListeners(ast.outputs, ast.directives, compileElement).forEach(function (entry) {
-	              // TODO: figure out how to abstract this `if` statement elsewhere
-	              if (entry.eventName[0] == '@') {
-	                  var animationOutputName = entry.eventName.substr(1);
-	                  var output = _this._animationOutputsMap[animationOutputName];
-	                  // no need to report an error here since the parser will
-	                  // have caught the missing animation trigger definition
-	                  if (output) {
-	                      animationEventListeners.push(new CompileElementAnimationOutput(entry, output));
-	                  }
-	              }
-	              else {
-	                  eventListeners.push(entry);
-	              }
+	              eventListeners.push(entry);
 	          });
-	          bindAnimationOutputs(animationEventListeners);
 	          bindRenderInputs(ast.inputs, compileElement);
 	          bindRenderOutputs(eventListeners);
 	          ast.directives.forEach(function (directiveAst) {
@@ -12596,7 +12479,7 @@ webpackJsonp([2],[
 	              var providerInstance = compileElement.instances.get(providerAst.token.reference);
 	              bindInjectableDestroyLifecycleCallbacks(providerAst, providerInstance, compileElement);
 	          });
-	          bindView(compileElement.embeddedView, ast.children, this.animationOutputs);
+	          bindView(compileElement.embeddedView, ast.children);
 	          return null;
 	      };
 	      ViewBinderVisitor.prototype.visitAttr = function (ast, ctx) { return null; };
@@ -12650,7 +12533,6 @@ webpackJsonp([2],[
 	          this.view = view;
 	          this.targetDependencies = targetDependencies;
 	          this.nestedViewCount = 0;
-	          this._animationCompiler = new AnimationCompiler();
 	      }
 	      ViewBuilderVisitor.prototype._isRootNode = function (parent) { return parent.view !== this.view; };
 	      ViewBuilderVisitor.prototype._addRootNodeAndProject = function (node) {
@@ -12823,9 +12705,8 @@ webpackJsonp([2],[
 	          var directives = ast.directives.map(function (directiveAst) { return directiveAst.directive; });
 	          var compileElement = new CompileElement(parent, this.view, nodeIndex, renderNode, ast, null, directives, ast.providers, ast.hasViewContainer, true, ast.references);
 	          this.view.nodes.push(compileElement);
-	          var compiledAnimations = this._animationCompiler.compileComponent(this.view.component, [ast]);
 	          this.nestedViewCount++;
-	          var embeddedView = new CompileView(this.view.component, this.view.genConfig, this.view.pipeMetas, NULL_EXPR, compiledAnimations.triggers, this.view.viewIndex + this.nestedViewCount, compileElement, templateVariableBindings);
+	          var embeddedView = new CompileView(this.view.component, this.view.genConfig, this.view.pipeMetas, NULL_EXPR, this.view.animations, this.view.viewIndex + this.nestedViewCount, compileElement, templateVariableBindings);
 	          this.nestedViewCount += buildView(embeddedView, ast.children, this.targetDependencies);
 	          compileElement.beforeChildren();
 	          this._addRootNodeAndProject(compileElement);
@@ -12877,9 +12758,10 @@ webpackJsonp([2],[
 	  }
 	  function _mergeHtmlAndDirectiveAttrs(declaredHtmlAttrs, directives) {
 	      var result = {};
-	      StringMapWrapper.forEach(declaredHtmlAttrs, function (value, key) { result[key] = value; });
+	      Object.keys(declaredHtmlAttrs).forEach(function (key) { result[key] = declaredHtmlAttrs[key]; });
 	      directives.forEach(function (directiveMeta) {
-	          StringMapWrapper.forEach(directiveMeta.hostAttributes, function (value, name) {
+	          Object.keys(directiveMeta.hostAttributes).forEach(function (name) {
+	              var value = directiveMeta.hostAttributes[name];
 	              var prevValue = result[name];
 	              result[name] = isPresent(prevValue) ? mergeAttributeValue(name, prevValue, value) : value;
 	          });
@@ -12901,9 +12783,7 @@ webpackJsonp([2],[
 	  }
 	  function mapToKeyValueArray(data) {
 	      var entryArray = [];
-	      StringMapWrapper.forEach(data, function (value, name) {
-	          entryArray.push([name, value]);
-	      });
+	      Object.keys(data).forEach(function (name) { entryArray.push([name, data[name]]); });
 	      // We need to sort to get a defined output order
 	      // for tests and for caching generated artifacts...
 	      ListWrapper.sort(entryArray, function (entry1, entry2) { return StringWrapper.compare(entry1[0], entry2[0]); });
@@ -12936,7 +12816,8 @@ webpackJsonp([2],[
 	          if (isPresent(compileElement.component)) {
 	              componentToken = createDiTokenExpression(identifierToken(compileElement.component.type));
 	          }
-	          StringMapWrapper.forEach(compileElement.referenceTokens, function (token, varName) {
+	          Object.keys(compileElement.referenceTokens).forEach(function (varName) {
+	              var token = compileElement.referenceTokens[varName];
 	              varTokenEntries.push([varName, isPresent(token) ? createDiTokenExpression(token) : NULL_EXPR]);
 	          });
 	      }
@@ -12996,17 +12877,16 @@ webpackJsonp([2],[
 	          templateUrlInfo = view.component.template.templateUrl;
 	      }
 	      if (view.viewIndex === 0) {
-	          var animationsExpr = literalMap(view.animations.map(function (entry) { return [entry.name, entry.fnVariable]; }));
-	          initRenderCompTypeStmts = [new IfStmt(renderCompTypeVar.identical(NULL_EXPR), [
-	                  renderCompTypeVar
+	          var animationsExpr = literalMap(view.animations.map(function (entry) { return [entry.name, entry.fnExp]; }));
+	          initRenderCompTypeStmts = [new IfStmt(renderCompTypeVar.identical(NULL_EXPR), [renderCompTypeVar
 	                      .set(ViewConstructorVars.viewUtils.callMethod('createRenderComponentType', [
-	                      literal(templateUrlInfo),
+	                      view.genConfig.genDebugInfo ? literal(templateUrlInfo) : literal(''),
 	                      literal(view.component.template.ngContentSelectors.length),
-	                      ViewEncapsulationEnum.fromValue(view.component.template.encapsulation), view.styles,
-	                      animationsExpr
+	                      ViewEncapsulationEnum.fromValue(view.component.template.encapsulation),
+	                      view.styles,
+	                      animationsExpr,
 	                  ]))
-	                      .toStmt()
-	              ])];
+	                      .toStmt()])];
 	      }
 	      return fn(viewFactoryArgs, initRenderCompTypeStmts.concat([new ReturnStatement(variable(viewClass.name)
 	              .instantiate(viewClass.constructorMethod.params.map(function (param) { return variable(param.name); })))]), importType(resolveIdentifier(Identifiers.AppView), [getContextType(view)]))
@@ -13065,14 +12945,14 @@ webpackJsonp([2],[
 	      }
 	      var varStmts = [];
 	      var readVars = findReadVarNames(stmts);
-	      if (SetWrapper.has(readVars, DetectChangesVars.changed.name)) {
+	      if (readVars.has(DetectChangesVars.changed.name)) {
 	          varStmts.push(DetectChangesVars.changed.set(literal(true)).toDeclStmt(BOOL_TYPE));
 	      }
-	      if (SetWrapper.has(readVars, DetectChangesVars.changes.name)) {
+	      if (readVars.has(DetectChangesVars.changes.name)) {
 	          varStmts.push(DetectChangesVars.changes.set(NULL_EXPR)
 	              .toDeclStmt(new MapType(importType(resolveIdentifier(Identifiers.SimpleChange)))));
 	      }
-	      if (SetWrapper.has(readVars, DetectChangesVars.valUnwrapper.name)) {
+	      if (readVars.has(DetectChangesVars.valUnwrapper.name)) {
 	          varStmts.push(DetectChangesVars.valUnwrapper
 	              .set(importExpr(resolveIdentifier(Identifiers.ValueUnwrapper)).instantiate([]))
 	              .toDeclStmt(null, [StmtModifier.Final]));
@@ -13119,20 +12999,14 @@ webpackJsonp([2],[
 	          this._genConfig = _genConfig;
 	          this._animationCompiler = new AnimationCompiler();
 	      }
-	      ViewCompiler.prototype.compileComponent = function (component, template, styles, pipes) {
+	      ViewCompiler.prototype.compileComponent = function (component, template, styles, pipes, compiledAnimations) {
 	          var dependencies = [];
-	          var compiledAnimations = this._animationCompiler.compileComponent(component, template);
+	          var view = new CompileView(component, this._genConfig, pipes, styles, compiledAnimations, 0, CompileElement.createNull(), []);
 	          var statements = [];
-	          var animationTriggers = compiledAnimations.triggers;
-	          animationTriggers.forEach(function (entry) {
-	              statements.push(entry.statesMapStatement);
-	              statements.push(entry.fnStatement);
-	          });
-	          var view = new CompileView(component, this._genConfig, pipes, styles, animationTriggers, 0, CompileElement.createNull(), []);
 	          buildView(view, template, dependencies);
 	          // Need to separate binding from creation to be able to refer to
 	          // variables that have been declared after usage.
-	          bindView(view, template, compiledAnimations.outputs);
+	          bindView(view, template);
 	          finishView(view, statements);
 	          return new ViewCompileResult(statements, view.viewFactory.name, dependencies);
 	      };
@@ -13170,6 +13044,8 @@ webpackJsonp([2],[
 	          this._outputEmitter = _outputEmitter;
 	          this._localeId = _localeId;
 	          this._translationFormat = _translationFormat;
+	          this._animationParser = new AnimationParser();
+	          this._animationCompiler = new AnimationCompiler();
 	      }
 	      OfflineCompiler.prototype.analyzeModules = function (ngModules) {
 	          var _this = this;
@@ -13263,12 +13139,15 @@ webpackJsonp([2],[
 	          return compFactoryVar;
 	      };
 	      OfflineCompiler.prototype._compileComponent = function (compMeta, directives, pipes, schemas, componentStyles, fileSuffix, targetStatements) {
+	          var parsedAnimations = this._animationParser.parseComponent(compMeta);
 	          var parsedTemplate = this._templateParser.parse(compMeta, compMeta.template.template, directives, pipes, schemas, compMeta.type.name);
 	          var stylesExpr = componentStyles ? variable(componentStyles.stylesVar) : literalArr([]);
-	          var viewResult = this._viewCompiler.compileComponent(compMeta, parsedTemplate, stylesExpr, pipes);
+	          var compiledAnimations = this._animationCompiler.compile(compMeta.type.name, parsedAnimations);
+	          var viewResult = this._viewCompiler.compileComponent(compMeta, parsedTemplate, stylesExpr, pipes, compiledAnimations);
 	          if (componentStyles) {
 	              targetStatements.push.apply(targetStatements, _resolveStyleStatements(componentStyles, fileSuffix));
 	          }
+	          compiledAnimations.forEach(function (entry) { entry.statements.forEach(function (statement) { targetStatements.push(statement); }); });
 	          targetStatements.push.apply(targetStatements, _resolveViewStatements(viewResult));
 	          return viewResult.viewFactoryVar;
 	      };
@@ -13878,9 +13757,6 @@ webpackJsonp([2],[
 	      });
 	  }
 	
-	  function _isDirectiveMetadata(type) {
-	      return type instanceof _angular_core.Directive;
-	  }
 	  /*
 	   * Resolve a `Type` for {@link Directive}.
 	   *
@@ -13899,9 +13775,9 @@ webpackJsonp([2],[
 	      DirectiveResolver.prototype.resolve = function (type, throwIfNotFound) {
 	          if (throwIfNotFound === void 0) { throwIfNotFound = true; }
 	          var typeMetadata = this._reflector.annotations(_angular_core.resolveForwardRef(type));
-	          if (isPresent(typeMetadata)) {
-	              var metadata = typeMetadata.find(_isDirectiveMetadata);
-	              if (isPresent(metadata)) {
+	          if (typeMetadata) {
+	              var metadata = typeMetadata.find(isDirectiveMetadata);
+	              if (metadata) {
 	                  var propertyMetadata = this._reflector.propMetadata(type);
 	                  return this._mergeWithPropertyMetadata(metadata, propertyMetadata, type);
 	              }
@@ -13916,10 +13792,10 @@ webpackJsonp([2],[
 	          var outputs = [];
 	          var host = {};
 	          var queries = {};
-	          StringMapWrapper.forEach(propertyMetadata, function (metadata, propName) {
-	              metadata.forEach(function (a) {
+	          Object.keys(propertyMetadata).forEach(function (propName) {
+	              propertyMetadata[propName].forEach(function (a) {
 	                  if (a instanceof _angular_core.Input) {
-	                      if (isPresent(a.bindingPropertyName)) {
+	                      if (a.bindingPropertyName) {
 	                          inputs.push(propName + ": " + a.bindingPropertyName);
 	                      }
 	                      else {
@@ -13928,7 +13804,7 @@ webpackJsonp([2],[
 	                  }
 	                  else if (a instanceof _angular_core.Output) {
 	                      var output = a;
-	                      if (isPresent(output.bindingPropertyName)) {
+	                      if (output.bindingPropertyName) {
 	                          outputs.push(propName + ": " + output.bindingPropertyName);
 	                      }
 	                      else {
@@ -13937,7 +13813,7 @@ webpackJsonp([2],[
 	                  }
 	                  else if (a instanceof _angular_core.HostBinding) {
 	                      var hostBinding = a;
-	                      if (isPresent(hostBinding.hostPropertyName)) {
+	                      if (hostBinding.hostPropertyName) {
 	                          host[("[" + hostBinding.hostPropertyName + "]")] = propName;
 	                      }
 	                      else {
@@ -13946,8 +13822,8 @@ webpackJsonp([2],[
 	                  }
 	                  else if (a instanceof _angular_core.HostListener) {
 	                      var hostListener = a;
-	                      var args = isPresent(hostListener.args) ? hostListener.args.join(', ') : '';
-	                      host[("(" + hostListener.eventName + ")")] = propName + "(" + args + ")";
+	                      var args = hostListener.args || [];
+	                      host[("(" + hostListener.eventName + ")")] = propName + "(" + args.join(',') + ")";
 	                  }
 	                  else if (a instanceof _angular_core.Query) {
 	                      queries[propName] = a;
@@ -13957,69 +13833,63 @@ webpackJsonp([2],[
 	          return this._merge(dm, inputs, outputs, host, queries, directiveType);
 	      };
 	      DirectiveResolver.prototype._extractPublicName = function (def) { return splitAtColon(def, [null, def])[1].trim(); };
-	      DirectiveResolver.prototype._merge = function (dm, inputs, outputs, host, queries, directiveType) {
+	      DirectiveResolver.prototype._merge = function (directive, inputs, outputs, host, queries, directiveType) {
 	          var _this = this;
-	          var mergedInputs;
-	          if (isPresent(dm.inputs)) {
-	              var inputNames_1 = dm.inputs.map(function (def) { return _this._extractPublicName(def); });
+	          var mergedInputs = inputs;
+	          if (directive.inputs) {
+	              var inputNames_1 = directive.inputs.map(function (def) { return _this._extractPublicName(def); });
 	              inputs.forEach(function (inputDef) {
 	                  var publicName = _this._extractPublicName(inputDef);
 	                  if (inputNames_1.indexOf(publicName) > -1) {
 	                      throw new Error("Input '" + publicName + "' defined multiple times in '" + stringify(directiveType) + "'");
 	                  }
 	              });
-	              mergedInputs = dm.inputs.concat(inputs);
+	              mergedInputs.unshift.apply(mergedInputs, directive.inputs);
 	          }
-	          else {
-	              mergedInputs = inputs;
-	          }
-	          var mergedOutputs;
-	          if (isPresent(dm.outputs)) {
-	              var outputNames_1 = dm.outputs.map(function (def) { return _this._extractPublicName(def); });
+	          var mergedOutputs = outputs;
+	          if (directive.outputs) {
+	              var outputNames_1 = directive.outputs.map(function (def) { return _this._extractPublicName(def); });
 	              outputs.forEach(function (outputDef) {
 	                  var publicName = _this._extractPublicName(outputDef);
 	                  if (outputNames_1.indexOf(publicName) > -1) {
 	                      throw new Error("Output event '" + publicName + "' defined multiple times in '" + stringify(directiveType) + "'");
 	                  }
 	              });
-	              mergedOutputs = dm.outputs.concat(outputs);
+	              mergedOutputs.unshift.apply(mergedOutputs, directive.outputs);
 	          }
-	          else {
-	              mergedOutputs = outputs;
-	          }
-	          var mergedHost = isPresent(dm.host) ? StringMapWrapper.merge(dm.host, host) : host;
-	          var mergedQueries = isPresent(dm.queries) ? StringMapWrapper.merge(dm.queries, queries) : queries;
-	          if (dm instanceof _angular_core.Component) {
+	          var mergedHost = directive.host ? StringMapWrapper.merge(directive.host, host) : host;
+	          var mergedQueries = directive.queries ? StringMapWrapper.merge(directive.queries, queries) : queries;
+	          if (directive instanceof _angular_core.Component) {
 	              return new _angular_core.Component({
-	                  selector: dm.selector,
+	                  selector: directive.selector,
 	                  inputs: mergedInputs,
 	                  outputs: mergedOutputs,
 	                  host: mergedHost,
-	                  exportAs: dm.exportAs,
-	                  moduleId: dm.moduleId,
+	                  exportAs: directive.exportAs,
+	                  moduleId: directive.moduleId,
 	                  queries: mergedQueries,
-	                  changeDetection: dm.changeDetection,
-	                  providers: dm.providers,
-	                  viewProviders: dm.viewProviders,
-	                  entryComponents: dm.entryComponents,
-	                  template: dm.template,
-	                  templateUrl: dm.templateUrl,
-	                  styles: dm.styles,
-	                  styleUrls: dm.styleUrls,
-	                  encapsulation: dm.encapsulation,
-	                  animations: dm.animations,
-	                  interpolation: dm.interpolation
+	                  changeDetection: directive.changeDetection,
+	                  providers: directive.providers,
+	                  viewProviders: directive.viewProviders,
+	                  entryComponents: directive.entryComponents,
+	                  template: directive.template,
+	                  templateUrl: directive.templateUrl,
+	                  styles: directive.styles,
+	                  styleUrls: directive.styleUrls,
+	                  encapsulation: directive.encapsulation,
+	                  animations: directive.animations,
+	                  interpolation: directive.interpolation
 	              });
 	          }
 	          else {
 	              return new _angular_core.Directive({
-	                  selector: dm.selector,
+	                  selector: directive.selector,
 	                  inputs: mergedInputs,
 	                  outputs: mergedOutputs,
 	                  host: mergedHost,
-	                  exportAs: dm.exportAs,
+	                  exportAs: directive.exportAs,
 	                  queries: mergedQueries,
-	                  providers: dm.providers
+	                  providers: directive.providers
 	              });
 	          }
 	      };
@@ -14032,6 +13902,9 @@ webpackJsonp([2],[
 	      ];
 	      return DirectiveResolver;
 	  }());
+	  function isDirectiveMetadata(type) {
+	      return type instanceof _angular_core.Directive;
+	  }
 	
 	  var LIFECYCLE_INTERFACES = MapWrapper.createFromPairs([
 	      [LifecycleHooks.OnInit, _angular_core.OnInit],
@@ -14142,7 +14015,7 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$14 = (this && this.__extends) || function (d, b) {
+	  var __extends$15 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -14830,7 +14703,7 @@ webpackJsonp([2],[
 	      return visitValue(value, new _CompileValueConverter(), targetIdentifiers);
 	  }
 	  var _CompileValueConverter = (function (_super) {
-	      __extends$14(_CompileValueConverter, _super);
+	      __extends$15(_CompileValueConverter, _super);
 	      function _CompileValueConverter() {
 	          _super.apply(this, arguments);
 	      }
@@ -14988,7 +14861,7 @@ webpackJsonp([2],[
 	              resolvedProviderValueExpr = providerValueExpressions[0];
 	              type = providerValueExpressions[0].type;
 	          }
-	          if (isBlank(type)) {
+	          if (!type) {
 	              type = DYNAMIC_TYPE;
 	          }
 	          if (isEager) {
@@ -15019,11 +14892,11 @@ webpackJsonp([2],[
 	                          resolveIdentifierToken(Identifiers.ComponentFactoryResolver).reference)) {
 	                  result = THIS_EXPR;
 	              }
-	              if (isBlank(result)) {
+	              if (!result) {
 	                  result = this._instances.get(dep.token.reference);
 	              }
 	          }
-	          if (isBlank(result)) {
+	          if (!result) {
 	              var args = [createDiTokenExpression(dep.token)];
 	              if (dep.isOptional) {
 	                  args.push(NULL_EXPR);
@@ -15456,7 +15329,7 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$15 = (this && this.__extends) || function (d, b) {
+	  var __extends$16 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -15509,7 +15382,7 @@ webpackJsonp([2],[
 	      return TypeScriptEmitter;
 	  }());
 	  var _TsEmitterVisitor = (function (_super) {
-	      __extends$15(_TsEmitterVisitor, _super);
+	      __extends$16(_TsEmitterVisitor, _super);
 	      function _TsEmitterVisitor(_moduleUrl) {
 	          _super.call(this, false);
 	          this._moduleUrl = _moduleUrl;
@@ -16102,13 +15975,13 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$17 = (this && this.__extends) || function (d, b) {
+	  var __extends$18 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	  };
 	  var AbstractJsEmitterVisitor = (function (_super) {
-	      __extends$17(AbstractJsEmitterVisitor, _super);
+	      __extends$18(AbstractJsEmitterVisitor, _super);
 	      function AbstractJsEmitterVisitor() {
 	          _super.call(this, false);
 	      }
@@ -16267,7 +16140,7 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$16 = (this && this.__extends) || function (d, b) {
+	  var __extends$17 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -16279,7 +16152,7 @@ webpackJsonp([2],[
 	      return evalExpression(sourceUrl, resultVar, ctx.toSource(), converter.getArgs());
 	  }
 	  var JitEmitterVisitor = (function (_super) {
-	      __extends$16(JitEmitterVisitor, _super);
+	      __extends$17(JitEmitterVisitor, _super);
 	      function JitEmitterVisitor() {
 	          _super.apply(this, arguments);
 	          this._evalArgNames = [];
@@ -16307,6 +16180,13 @@ webpackJsonp([2],[
 	      return JitEmitterVisitor;
 	  }(AbstractJsEmitterVisitor));
 	
+	  /**
+	   * @license
+	   * Copyright Google Inc. All Rights Reserved.
+	   *
+	   * Use of this source code is governed by an MIT-style license that can be
+	   * found in the LICENSE file at https://angular.io/license
+	   */
 	  /**
 	   * This file is a port of shadowCSS from webcomponents.js to TypeScript.
 	   *
@@ -16470,7 +16350,13 @@ webpackJsonp([2],[
 	      **/
 	      ShadowCss.prototype._insertPolyfillDirectivesInCssText = function (cssText) {
 	          // Difference with webcomponents.js: does not handle comments
-	          return StringWrapper.replaceAllMapped(cssText, _cssContentNextSelectorRe, function (m /** TODO #9100 */) { return m[1] + '{'; });
+	          return cssText.replace(_cssContentNextSelectorRe, function () {
+	              var m = [];
+	              for (var _i = 0; _i < arguments.length; _i++) {
+	                  m[_i - 0] = arguments[_i];
+	              }
+	              return m[2] + '{';
+	          });
 	      };
 	      /*
 	       * Process styles to add rules which will only apply under the polyfill
@@ -16489,11 +16375,13 @@ webpackJsonp([2],[
 	      **/
 	      ShadowCss.prototype._insertPolyfillRulesInCssText = function (cssText) {
 	          // Difference with webcomponents.js: does not handle comments
-	          return StringWrapper.replaceAllMapped(cssText, _cssContentRuleRe, function (m /** TODO #9100 */) {
-	              var rule = m[0];
-	              rule = StringWrapper.replace(rule, m[1], '');
-	              rule = StringWrapper.replace(rule, m[2], '');
-	              return m[3] + rule;
+	          return cssText.replace(_cssContentRuleRe, function () {
+	              var m = [];
+	              for (var _i = 0; _i < arguments.length; _i++) {
+	                  m[_i - 0] = arguments[_i];
+	              }
+	              var rule = m[0].replace(m[1], '').replace(m[2], '');
+	              return m[4] + rule;
 	          });
 	      };
 	      /* Ensure styles are scoped. Pseudo-scoping takes a rule like:
@@ -16505,15 +16393,16 @@ webpackJsonp([2],[
 	       *  scopeName .foo { ... }
 	      */
 	      ShadowCss.prototype._scopeCssText = function (cssText, scopeSelector, hostSelector) {
-	          var unscoped = this._extractUnscopedRulesFromCssText(cssText);
+	          var unscopedRules = this._extractUnscopedRulesFromCssText(cssText);
+	          // replace :host and :host-context -shadowcsshost and -shadowcsshost respectively
 	          cssText = this._insertPolyfillHostInCssText(cssText);
 	          cssText = this._convertColonHost(cssText);
 	          cssText = this._convertColonHostContext(cssText);
 	          cssText = this._convertShadowDOMSelectors(cssText);
-	          if (isPresent(scopeSelector)) {
+	          if (scopeSelector) {
 	              cssText = this._scopeSelectors(cssText, scopeSelector, hostSelector);
 	          }
-	          cssText = cssText + '\n' + unscoped;
+	          cssText = cssText + '\n' + unscopedRules;
 	          return cssText.trim();
 	      };
 	      /*
@@ -16537,9 +16426,7 @@ webpackJsonp([2],[
 	          var m;
 	          _cssContentUnscopedRuleRe.lastIndex = 0;
 	          while ((m = _cssContentUnscopedRuleRe.exec(cssText)) !== null) {
-	              var rule = m[0];
-	              rule = StringWrapper.replace(rule, m[2], '');
-	              rule = StringWrapper.replace(rule, m[1], m[3]);
+	              var rule = m[0].replace(m[2], '').replace(m[1], m[4]);
 	              r += rule + '\n\n';
 	          }
 	          return r;
@@ -16549,7 +16436,7 @@ webpackJsonp([2],[
 	       *
 	       * to
 	       *
-	       * scopeName.foo > .bar
+	       * .foo<scopeName> > .bar
 	      */
 	      ShadowCss.prototype._convertColonHost = function (cssText) {
 	          return this._convertColonRule(cssText, _cssColonHostRe, this._colonHostPartReplacer);
@@ -16559,7 +16446,7 @@ webpackJsonp([2],[
 	       *
 	       * to
 	       *
-	       * scopeName.foo > .bar, .foo scopeName > .bar { }
+	       * .foo<scopeName> > .bar, .foo scopeName > .bar { }
 	       *
 	       * and
 	       *
@@ -16567,21 +16454,25 @@ webpackJsonp([2],[
 	       *
 	       * to
 	       *
-	       * scopeName.foo .bar { ... }
+	       * .foo<scopeName> .bar { ... }
 	      */
 	      ShadowCss.prototype._convertColonHostContext = function (cssText) {
 	          return this._convertColonRule(cssText, _cssColonHostContextRe, this._colonHostContextPartReplacer);
 	      };
 	      ShadowCss.prototype._convertColonRule = function (cssText, regExp, partReplacer) {
-	          // p1 = :host, p2 = contents of (), p3 rest of rule
-	          return StringWrapper.replaceAllMapped(cssText, regExp, function (m /** TODO #9100 */) {
-	              if (isPresent(m[2])) {
-	                  var parts = m[2].split(','), r = [];
+	          // m[1] = :host(-context), m[2] = contents of (), m[3] rest of rule
+	          return cssText.replace(regExp, function () {
+	              var m = [];
+	              for (var _i = 0; _i < arguments.length; _i++) {
+	                  m[_i - 0] = arguments[_i];
+	              }
+	              if (m[2]) {
+	                  var parts = m[2].split(',');
+	                  var r = [];
 	                  for (var i = 0; i < parts.length; i++) {
-	                      var p = parts[i];
-	                      if (isBlank(p))
+	                      var p = parts[i].trim();
+	                      if (!p)
 	                          break;
-	                      p = p.trim();
 	                      r.push(partReplacer(_polyfillHostNoCombinator, p, m[3]));
 	                  }
 	                  return r.join(',');
@@ -16592,7 +16483,7 @@ webpackJsonp([2],[
 	          });
 	      };
 	      ShadowCss.prototype._colonHostContextPartReplacer = function (host, part, suffix) {
-	          if (StringWrapper.contains(part, _polyfillHost)) {
+	          if (part.indexOf(_polyfillHost) > -1) {
 	              return this._colonHostPartReplacer(host, part, suffix);
 	          }
 	          else {
@@ -16600,14 +16491,14 @@ webpackJsonp([2],[
 	          }
 	      };
 	      ShadowCss.prototype._colonHostPartReplacer = function (host, part, suffix) {
-	          return host + StringWrapper.replace(part, _polyfillHost, '') + suffix;
+	          return host + part.replace(_polyfillHost, '') + suffix;
 	      };
 	      /*
 	       * Convert combinators like ::shadow and pseudo-elements like ::content
 	       * by replacing with space.
 	      */
 	      ShadowCss.prototype._convertShadowDOMSelectors = function (cssText) {
-	          return _shadowDOMSelectorsRe.reduce(function (result, pattern) { return StringWrapper.replaceAll(result, pattern, ' '); }, cssText);
+	          return _shadowDOMSelectorsRe.reduce(function (result, pattern) { return result.replace(pattern, ' '); }, cssText);
 	      };
 	      // change a selector like 'div' to 'name div'
 	      ShadowCss.prototype._scopeSelectors = function (cssText, scopeSelector, hostSelector) {
@@ -16615,11 +16506,12 @@ webpackJsonp([2],[
 	          return processRules(cssText, function (rule) {
 	              var selector = rule.selector;
 	              var content = rule.content;
-	              if (rule.selector[0] != '@' || rule.selector.startsWith('@page')) {
+	              if (rule.selector[0] != '@') {
 	                  selector =
 	                      _this._scopeSelector(rule.selector, scopeSelector, hostSelector, _this.strictStyling);
 	              }
-	              else if (rule.selector.startsWith('@media') || rule.selector.startsWith('@supports')) {
+	              else if (rule.selector.startsWith('@media') || rule.selector.startsWith('@supports') ||
+	                  rule.selector.startsWith('@page') || rule.selector.startsWith('@document')) {
 	                  content = _this._scopeSelectors(rule.content, scopeSelector, hostSelector);
 	              }
 	              return new CssRule(selector, content);
@@ -16652,8 +16544,7 @@ webpackJsonp([2],[
 	      ShadowCss.prototype._makeScopeMatcher = function (scopeSelector) {
 	          var lre = /\[/g;
 	          var rre = /\]/g;
-	          scopeSelector = StringWrapper.replaceAll(scopeSelector, lre, '\\[');
-	          scopeSelector = StringWrapper.replaceAll(scopeSelector, rre, '\\]');
+	          scopeSelector = scopeSelector.replace(lre, '\\[').replace(rre, '\\]');
 	          return new RegExp('^(' + scopeSelector + ')' + _selectorReSuffix, 'm');
 	      };
 	      ShadowCss.prototype._applySelectorScope = function (selector, scopeSelector, hostSelector) {
@@ -16665,13 +16556,11 @@ webpackJsonp([2],[
 	          // In Android browser, the lastIndex is not reset when the regex is used in String.replace()
 	          _polyfillHostRe.lastIndex = 0;
 	          if (_polyfillHostRe.test(selector)) {
-	              var replaceBy = this.strictStyling ? "[" + hostSelector + "]" : scopeSelector;
-	              selector = StringWrapper.replace(selector, _polyfillHostNoCombinator, replaceBy);
-	              return StringWrapper.replaceAll(selector, _polyfillHostRe, replaceBy + ' ');
+	              var replaceBy_1 = this.strictStyling ? "[" + hostSelector + "]" : scopeSelector;
+	              return selector.replace(_polyfillHostNoCombinatorRe, function (hnc, selector) { return selector + replaceBy_1; })
+	                  .replace(_polyfillHostRe, replaceBy_1 + ' ');
 	          }
-	          else {
-	              return scopeSelector + ' ' + selector;
-	          }
+	          return scopeSelector + ' ' + selector;
 	      };
 	      // return a selector with [name] suffix on each simple selector
 	      // e.g. .foo.bar > .zot becomes .foo[name].bar[name] > .zot[name]  /** @internal */
@@ -16688,7 +16577,7 @@ webpackJsonp([2],[
 	          var attrName = '[' + scopeSelector + ']';
 	          var _scopeSelectorPart = function (p) {
 	              var scopedP = p.trim();
-	              if (scopedP.length == 0) {
+	              if (!scopedP) {
 	                  return '';
 	              }
 	              if (p.indexOf(_polyfillHostNoCombinator) > -1) {
@@ -16706,21 +16595,33 @@ webpackJsonp([2],[
 	              }
 	              return scopedP;
 	          };
-	          var sep = /( |>|\+|~(?!=))\s*/g;
-	          var scopeAfter = selector.indexOf(_polyfillHostNoCombinator);
-	          var scoped = '';
+	          var attrSelectorIndex = 0;
+	          var attrSelectors = [];
+	          // replace attribute selectors with placeholders to avoid issue with white space being treated
+	          // as separator
+	          selector = selector.replace(/\[[^\]]*\]/g, function (attrSelector) {
+	              var replaceBy = "__attr_sel_" + attrSelectorIndex + "__";
+	              attrSelectors.push(attrSelector);
+	              attrSelectorIndex++;
+	              return replaceBy;
+	          });
+	          var scopedSelector = '';
 	          var startIndex = 0;
 	          var res;
+	          var sep = /( |>|\+|~(?!=))\s*/g;
+	          var scopeAfter = selector.indexOf(_polyfillHostNoCombinator);
 	          while ((res = sep.exec(selector)) !== null) {
 	              var separator = res[1];
 	              var part = selector.slice(startIndex, res.index).trim();
 	              // if a selector appears before :host-context it should not be shimmed as it
 	              // matches on ancestor elements and not on elements in the host's shadow
 	              var scopedPart = startIndex >= scopeAfter ? _scopeSelectorPart(part) : part;
-	              scoped += scopedPart + " " + separator + " ";
+	              scopedSelector += scopedPart + " " + separator + " ";
 	              startIndex = sep.lastIndex;
 	          }
-	          return scoped + _scopeSelectorPart(selector.substring(startIndex));
+	          scopedSelector += _scopeSelectorPart(selector.substring(startIndex));
+	          // replace the placeholders with their original values
+	          return scopedSelector.replace(/__attr_sel_(\d+)__/g, function (ph, index) { return attrSelectors[+index]; });
 	      };
 	      ShadowCss.prototype._insertPolyfillHostInCssText = function (selector) {
 	          return selector.replace(_colonHostContextRe, _polyfillHostContext)
@@ -16728,9 +16629,9 @@ webpackJsonp([2],[
 	      };
 	      return ShadowCss;
 	  }());
-	  var _cssContentNextSelectorRe = /polyfill-next-selector[^}]*content:[\s]*?['"](.*?)['"][;\s]*}([^{]*?){/gim;
-	  var _cssContentRuleRe = /(polyfill-rule)[^}]*(content:[\s]*['"](.*?)['"])[;\s]*[^}]*}/gim;
-	  var _cssContentUnscopedRuleRe = /(polyfill-unscoped-rule)[^}]*(content:[\s]*['"](.*?)['"])[;\s]*[^}]*}/gim;
+	  var _cssContentNextSelectorRe = /polyfill-next-selector[^}]*content:[\s]*?(['"])(.*?)\1[;\s]*}([^{]*?){/gim;
+	  var _cssContentRuleRe = /(polyfill-rule)[^}]*(content:[\s]*(['"])(.*?)\3)[;\s]*[^}]*}/gim;
+	  var _cssContentUnscopedRuleRe = /(polyfill-unscoped-rule)[^}]*(content:[\s]*(['"])(.*?)\3)[;\s]*[^}]*}/gim;
 	  var _polyfillHost = '-shadowcsshost';
 	  // note: :host-context pre-processed to -shadowcsshostcontext.
 	  var _polyfillHostContext = '-shadowcsscontext';
@@ -16740,6 +16641,7 @@ webpackJsonp([2],[
 	  var _cssColonHostRe = new RegExp('(' + _polyfillHost + _parenSuffix, 'gim');
 	  var _cssColonHostContextRe = new RegExp('(' + _polyfillHostContext + _parenSuffix, 'gim');
 	  var _polyfillHostNoCombinator = _polyfillHost + '-no-combinator';
+	  var _polyfillHostNoCombinatorRe = /-shadowcsshost-no-combinator([^\s]*)/;
 	  var _shadowDOMSelectorsRe = [
 	      /::shadow/g,
 	      /::content/g,
@@ -16754,7 +16656,7 @@ webpackJsonp([2],[
 	  var _colonHostContextRe = /:host-context/gim;
 	  var _commentRe = /\/\*\s*[\s\S]*?\*\//g;
 	  function stripComments(input) {
-	      return StringWrapper.replaceAllMapped(input, _commentRe, function (_ /** TODO #9100 */) { return ''; });
+	      return input.replace(_commentRe, '');
 	  }
 	  // all comments except inline source mapping
 	  var _sourceMappingUrlRe = /\/\*\s*#\s*sourceMappingURL=[\s\S]+?\*\//;
@@ -16777,14 +16679,18 @@ webpackJsonp([2],[
 	  function processRules(input, ruleCallback) {
 	      var inputWithEscapedBlocks = escapeBlocks(input);
 	      var nextBlockIndex = 0;
-	      return StringWrapper.replaceAllMapped(inputWithEscapedBlocks.escapedString, _ruleRe, function (m /** TODO #9100 */) {
+	      return inputWithEscapedBlocks.escapedString.replace(_ruleRe, function () {
+	          var m = [];
+	          for (var _i = 0; _i < arguments.length; _i++) {
+	              m[_i - 0] = arguments[_i];
+	          }
 	          var selector = m[2];
 	          var content = '';
 	          var suffix = m[4];
 	          var contentPrefix = '';
-	          if (isPresent(m[4]) && m[4].startsWith('{' + BLOCK_PLACEHOLDER)) {
+	          if (suffix && suffix.startsWith('{' + BLOCK_PLACEHOLDER)) {
 	              content = inputWithEscapedBlocks.blocks[nextBlockIndex++];
-	              suffix = m[4].substring(BLOCK_PLACEHOLDER.length + 1);
+	              suffix = suffix.substring(BLOCK_PLACEHOLDER.length + 1);
 	              contentPrefix = '{';
 	          }
 	          var rule = ruleCallback(new CssRule(selector, content));
@@ -16799,7 +16705,7 @@ webpackJsonp([2],[
 	      return StringWithEscapedBlocks;
 	  }());
 	  function escapeBlocks(input) {
-	      var inputParts = StringWrapper.split(input, _curlyRe);
+	      var inputParts = input.split(_curlyRe);
 	      var resultParts = [];
 	      var escapedBlocks = [];
 	      var bracketCount = 0;
@@ -16938,6 +16844,8 @@ webpackJsonp([2],[
 	          this._compiledTemplateCache = new Map();
 	          this._compiledHostTemplateCache = new Map();
 	          this._compiledNgModuleCache = new Map();
+	          this._animationParser = new AnimationParser();
+	          this._animationCompiler = new AnimationCompiler();
 	      }
 	      Object.defineProperty(RuntimeCompiler.prototype, "injector", {
 	          get: function () { return this._injector; },
@@ -17072,7 +16980,7 @@ webpackJsonp([2],[
 	      };
 	      RuntimeCompiler.prototype._createCompiledHostTemplate = function (compType) {
 	          var compiledTemplate = this._compiledHostTemplateCache.get(compType);
-	          if (isBlank(compiledTemplate)) {
+	          if (!compiledTemplate) {
 	              var compMeta = this._metadataResolver.getDirectiveMetadata(compType);
 	              assertComponent(compMeta);
 	              var hostMeta = createHostComponentMeta(compMeta);
@@ -17083,7 +16991,7 @@ webpackJsonp([2],[
 	      };
 	      RuntimeCompiler.prototype._createCompiledTemplate = function (compMeta, ngModule) {
 	          var compiledTemplate = this._compiledTemplateCache.get(compMeta.type.reference);
-	          if (isBlank(compiledTemplate)) {
+	          if (!compiledTemplate) {
 	              assertComponent(compMeta);
 	              compiledTemplate = new CompiledTemplate(false, compMeta.selector, compMeta.type, ngModule.transitiveModule.directives, ngModule.transitiveModule.pipes, ngModule.schemas, this._templateNormalizer.normalizeDirective(compMeta));
 	              this._compiledTemplateCache.set(compMeta.type.reference, compiledTemplate);
@@ -17121,8 +17029,10 @@ webpackJsonp([2],[
 	          stylesCompileResult.externalStylesheets.forEach(function (r) { externalStylesheetsByModuleUrl.set(r.meta.moduleUrl, r); });
 	          this._resolveStylesCompileResult(stylesCompileResult.componentStylesheet, externalStylesheetsByModuleUrl);
 	          var viewCompMetas = template.viewComponentTypes.map(function (compType) { return _this._assertComponentLoaded(compType, false).normalizedCompMeta; });
+	          var parsedAnimations = this._animationParser.parseComponent(compMeta);
 	          var parsedTemplate = this._templateParser.parse(compMeta, compMeta.template.template, template.viewDirectives.concat(viewCompMetas), template.viewPipes, template.schemas, compMeta.type.name);
-	          var compileResult = this._viewCompiler.compileComponent(compMeta, parsedTemplate, variable(stylesCompileResult.componentStylesheet.stylesVar), template.viewPipes);
+	          var compiledAnimations = this._animationCompiler.compile(compMeta.type.name, parsedAnimations);
+	          var compileResult = this._viewCompiler.compileComponent(compMeta, parsedTemplate, variable(stylesCompileResult.componentStylesheet.stylesVar), template.viewPipes, compiledAnimations);
 	          compileResult.dependencies.forEach(function (dep) {
 	              var depTemplate;
 	              if (dep instanceof ViewFactoryDependency) {
@@ -17139,6 +17049,7 @@ webpackJsonp([2],[
 	              }
 	          });
 	          var statements = stylesCompileResult.componentStylesheet.statements.concat(compileResult.statements);
+	          compiledAnimations.forEach(function (entry) { entry.statements.forEach(function (statement) { statements.push(statement); }); });
 	          var factory;
 	          if (!this._compilerConfig.useJit) {
 	              factory = interpretStatements(statements, compileResult.viewFactoryVar);
@@ -17340,7 +17251,7 @@ webpackJsonp([2],[
 	   * Use of this source code is governed by an MIT-style license that can be
 	   * found in the LICENSE file at https://angular.io/license
 	   */
-	  var __extends$18 = (this && this.__extends) || function (d, b) {
+	  var __extends$19 = (this && this.__extends) || function (d, b) {
 	      for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -17563,7 +17474,7 @@ webpackJsonp([2],[
 	      'tabindex': 'tabIndex',
 	  };
 	  var DomElementSchemaRegistry = (function (_super) {
-	      __extends$18(DomElementSchemaRegistry, _super);
+	      __extends$19(DomElementSchemaRegistry, _super);
 	      function DomElementSchemaRegistry() {
 	          var _this = this;
 	          _super.call(this);
@@ -17660,6 +17571,28 @@ webpackJsonp([2],[
 	      };
 	      DomElementSchemaRegistry.prototype.getMappedPropName = function (propName) { return _ATTR_TO_PROP[propName] || propName; };
 	      DomElementSchemaRegistry.prototype.getDefaultComponentElementName = function () { return 'ng-component'; };
+	      DomElementSchemaRegistry.prototype.validateProperty = function (name) {
+	          if (name.toLowerCase().startsWith('on')) {
+	              var msg = ("Binding to event property '" + name + "' is disallowed for security reasons, ") +
+	                  ("please use (" + name.slice(2) + ")=...") +
+	                  ("\nIf '" + name + "' is a directive input, make sure the directive is imported by the") +
+	                  " current module.";
+	              return { error: true, msg: msg };
+	          }
+	          else {
+	              return { error: false };
+	          }
+	      };
+	      DomElementSchemaRegistry.prototype.validateAttribute = function (name) {
+	          if (name.toLowerCase().startsWith('on')) {
+	              var msg = ("Binding to event attribute '" + name + "' is disallowed for security reasons, ") +
+	                  ("please use (" + name.slice(2) + ")=...");
+	              return { error: true, msg: msg };
+	          }
+	          else {
+	              return { error: false };
+	          }
+	      };
 	      DomElementSchemaRegistry.decorators = [
 	          { type: _angular_core.Injectable },
 	      ];
@@ -17915,7 +17848,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.0.1
+	 * @license Angular v2.0.2
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -17952,12 +17885,8 @@ webpackJsonp([2],[
 	    // exports the original value of the symbol.
 	    var global$1 = globalScope;
 	    function getTypeNameForDebugging(type) {
-	        if (type['name']) {
-	            return type['name'];
-	        }
-	        return typeof type;
+	        return type['name'] || typeof type;
 	    }
-	    var Math = global$1.Math;
 	    // TODO: remove calls to assert in production environment
 	    // Note: Can't just export this and import in in other files
 	    // as `assert` is a reserved keyword in Dart
@@ -17994,7 +17923,7 @@ webpackJsonp([2],[
 	        }
 	        var res = token.toString();
 	        var newLineIndex = res.indexOf('\n');
-	        return (newLineIndex === -1) ? res : res.substring(0, newLineIndex);
+	        return newLineIndex === -1 ? res : res.substring(0, newLineIndex);
 	    }
 	    var StringWrapper = (function () {
 	        function StringWrapper() {
@@ -18722,13 +18651,6 @@ webpackJsonp([2],[
 	         */
 	        ChangeDetectorStatus[ChangeDetectorStatus["Destroyed"] = 5] = "Destroyed";
 	    })(ChangeDetectorStatus || (ChangeDetectorStatus = {}));
-	    /**
-	     * List of possible {@link ChangeDetectionStrategy} values.
-	     */
-	    var CHANGE_DETECTION_STRATEGY_VALUES = [
-	        exports.ChangeDetectionStrategy.OnPush,
-	        exports.ChangeDetectionStrategy.Default,
-	    ];
 	    function isDefaultChangeDetectionStrategy(changeDetectionStrategy) {
 	        return isBlank(changeDetectionStrategy) ||
 	            changeDetectionStrategy === exports.ChangeDetectionStrategy.Default;
@@ -18989,7 +18911,7 @@ webpackJsonp([2],[
 	
 	    /**
 	     * Defines a schema that will allow:
-	     * - any non-angular elements with a `-` in their name,
+	     * - any non-Angular elements with a `-` in their name,
 	     * - any properties on elements with a `-` in their name which is the common rule for custom
 	     * elements.
 	     *
@@ -19007,7 +18929,7 @@ webpackJsonp([2],[
 	        name: 'no-errors-schema'
 	    };
 	    /**
-	     * NgModule decorator and metadata
+	     * NgModule decorator and metadata.
 	     *
 	     * @stable
 	     * @Annotation
@@ -19059,7 +18981,6 @@ webpackJsonp([2],[
 	         */
 	        ViewEncapsulation[ViewEncapsulation["None"] = 2] = "None";
 	    })(exports.ViewEncapsulation || (exports.ViewEncapsulation = {}));
-	    var VIEW_ENCAPSULATION_VALUES = [exports.ViewEncapsulation.Emulated, exports.ViewEncapsulation.Native, exports.ViewEncapsulation.None];
 	    /**
 	     * Metadata properties available for configuring Views.
 	     *
@@ -19337,26 +19258,6 @@ webpackJsonp([2],[
 	    var StringMapWrapper = (function () {
 	        function StringMapWrapper() {
 	        }
-	        StringMapWrapper.get = function (map, key) {
-	            return map.hasOwnProperty(key) ? map[key] : undefined;
-	        };
-	        StringMapWrapper.set = function (map, key, value) { map[key] = value; };
-	        StringMapWrapper.keys = function (map) { return Object.keys(map); };
-	        StringMapWrapper.values = function (map) {
-	            return Object.keys(map).map(function (k) { return map[k]; });
-	        };
-	        StringMapWrapper.isEmpty = function (map) {
-	            for (var prop in map) {
-	                return false;
-	            }
-	            return true;
-	        };
-	        StringMapWrapper.forEach = function (map, callback) {
-	            for (var _i = 0, _a = Object.keys(map); _i < _a.length; _i++) {
-	                var k = _a[_i];
-	                callback(map[k], k);
-	            }
-	        };
 	        StringMapWrapper.merge = function (m1, m2) {
 	            var m = {};
 	            for (var _i = 0, _a = Object.keys(m1); _i < _a.length; _i++) {
@@ -19550,33 +19451,6 @@ webpackJsonp([2],[
 	            }
 	        }
 	    }
-	    // Safari and Internet Explorer do not support the iterable parameter to the
-	    // Set constructor.  We work around that by manually adding the items.
-	    var createSetFromList = (function () {
-	        var test = new Set([1, 2, 3]);
-	        if (test.size === 3) {
-	            return function createSetFromList(lst) { return new Set(lst); };
-	        }
-	        else {
-	            return function createSetAndPopulateFromList(lst) {
-	                var res = new Set(lst);
-	                if (res.size !== lst.length) {
-	                    for (var i = 0; i < lst.length; i++) {
-	                        res.add(lst[i]);
-	                    }
-	                }
-	                return res;
-	            };
-	        }
-	    })();
-	    var SetWrapper = (function () {
-	        function SetWrapper() {
-	        }
-	        SetWrapper.createFromList = function (lst) { return createSetFromList(lst); };
-	        SetWrapper.has = function (s, key) { return s.has(key); };
-	        SetWrapper.delete = function (m, k) { m.delete(k); };
-	        return SetWrapper;
-	    }());
 	
 	    /**
 	     * @license
@@ -19789,7 +19663,7 @@ webpackJsonp([2],[
 	            var signature = [];
 	            for (var i = 0, ii = params.length; i < ii; i++) {
 	                var parameter = params[i];
-	                if (isBlank(parameter) || parameter.length == 0) {
+	                if (!parameter || parameter.length == 0) {
 	                    signature.push('?');
 	                }
 	                else {
@@ -19869,7 +19743,7 @@ webpackJsonp([2],[
 	        function ReflectiveKey(token, id) {
 	            this.token = token;
 	            this.id = id;
-	            if (isBlank(token)) {
+	            if (!token) {
 	                throw new Error('Token must be defined!');
 	            }
 	        }
@@ -20171,7 +20045,7 @@ webpackJsonp([2],[
 	                throw new Error('Usage tracking is disabled');
 	            }
 	            var allTypes = MapWrapper.keys(this._injectableInfo);
-	            return allTypes.filter(function (key) { return !SetWrapper.has(_this._usedKeys, key); });
+	            return allTypes.filter(function (key) { return !_this._usedKeys.has(key); });
 	        };
 	        Reflector.prototype.registerFunction = function (func, funcInfo) {
 	            this._injectableInfo.set(func, funcInfo);
@@ -20279,7 +20153,7 @@ webpackJsonp([2],[
 	        return Reflector;
 	    }(ReflectorReader));
 	    function _mergeMaps(target, config) {
-	        StringMapWrapper.forEach(config, function (v, k) { return target.set(k, v); });
+	        Object.keys(config).forEach(function (k) { target.set(k, config[k]); });
 	    }
 	
 	    /**
@@ -20434,7 +20308,7 @@ webpackJsonp([2],[
 	        return res;
 	    }
 	    function constructDependencies(typeOrFunc, dependencies) {
-	        if (isBlank(dependencies)) {
+	        if (!dependencies) {
 	            return _dependenciesFor(typeOrFunc);
 	        }
 	        else {
@@ -20444,7 +20318,7 @@ webpackJsonp([2],[
 	    }
 	    function _dependenciesFor(typeOrFunc) {
 	        var params = reflector.parameters(typeOrFunc);
-	        if (isBlank(params))
+	        if (!params)
 	            return [];
 	        if (params.some(isBlank)) {
 	            throw new NoAnnotationError(typeOrFunc, params);
@@ -21304,18 +21178,19 @@ webpackJsonp([2],[
 	     * found in the LICENSE file at https://angular.io/license
 	     */
 	    /**
-	     * Provides a hook for centralized exception handling.
+	     * @whatItDoes Provides a hook for centralized exception handling.
 	     *
-	     * The default implementation of `ErrorHandler` prints error messages to the `Console`. To
-	     * intercept error handling,
-	     * write a custom exception handler that replaces this default as appropriate for your app.
+	     * @description
+	     *
+	     * The default implementation of `ErrorHandler` prints error messages to the `console`. To
+	     * intercept error handling, write a custom exception handler that replaces this default as
+	     * appropriate for your app.
 	     *
 	     * ### Example
 	     *
-	     * ```javascript
-	     *
+	     * ```
 	     * class MyErrorHandler implements ErrorHandler {
-	     *   call(error, stackTrace = null, reason = null) {
+	     *   handleError(error) {
 	     *     // do something with the exception
 	     *   }
 	     * }
@@ -21325,6 +21200,7 @@ webpackJsonp([2],[
 	     * })
 	     * class MyModule {}
 	     * ```
+	     *
 	     * @stable
 	     */
 	    var ErrorHandler = (function () {
@@ -21367,9 +21243,7 @@ webpackJsonp([2],[
 	                return error.context ? error.context :
 	                    this._findContext(error.originalError);
 	            }
-	            else {
-	                return null;
-	            }
+	            return null;
 	        };
 	        /** @internal */
 	        ErrorHandler.prototype._findOriginalError = function (error) {
@@ -22292,7 +22166,7 @@ webpackJsonp([2],[
 	            if (afterIndex === void 0) { afterIndex = null; }
 	            var key = getMapKey(trackById);
 	            var recordList = this.map.get(key);
-	            return isBlank(recordList) ? null : recordList.get(trackById, afterIndex);
+	            return recordList ? recordList.get(trackById, afterIndex) : null;
 	        };
 	        /**
 	         * Removes a {@link CollectionChangeRecord} from the list of duplicates.
@@ -22591,7 +22465,7 @@ webpackJsonp([2],[
 	                obj.forEach(fn);
 	            }
 	            else {
-	                StringMapWrapper.forEach(obj, fn);
+	                Object.keys(obj).forEach(function (k) { return fn(obj[k], k); });
 	            }
 	        };
 	        return DefaultKeyValueDiffer;
@@ -22667,7 +22541,7 @@ webpackJsonp([2],[
 	            return {
 	                provide: IterableDiffers,
 	                useFactory: function (parent) {
-	                    if (isBlank(parent)) {
+	                    if (!parent) {
 	                        // Typically would occur when calling IterableDiffers.extend inside of dependencies passed
 	                        // to
 	                        // bootstrap(), which would override default pipes instead of extending them.
@@ -22732,7 +22606,7 @@ webpackJsonp([2],[
 	            return {
 	                provide: KeyValueDiffers,
 	                useFactory: function (parent) {
-	                    if (isBlank(parent)) {
+	                    if (!parent) {
 	                        // Typically would occur when calling KeyValueDiffers.extend inside of dependencies passed
 	                        // to
 	                        // bootstrap(), which would override default pipes instead of extending them.
@@ -23405,13 +23279,10 @@ webpackJsonp([2],[
 	     * ```typescript
 	     * @Component({
 	     *   selector: 'parent',
-	     *   template: `
-	     *     <child [prop]="parentProp"></child>
-	     *   `,
-	     *   directives: [forwardRef(() => Child)]
+	     *   template: '<child [prop]="parentProp"></child>',
 	     * })
 	     * class Parent {
-	     *   parentProp = "init";
+	     *   parentProp = 'init';
 	     * }
 	     *
 	     * @Directive({selector: 'child', inputs: ['prop']})
@@ -23421,7 +23292,7 @@ webpackJsonp([2],[
 	     *   set prop(v) {
 	     *     // this updates the parent property, which is disallowed during change detection
 	     *     // this will result in ExpressionChangedAfterItHasBeenCheckedError
-	     *     this.parent.parentProp = "updated";
+	     *     this.parent.parentProp = 'updated';
 	     *   }
 	     * }
 	     * ```
@@ -23524,7 +23395,7 @@ webpackJsonp([2],[
 	    var EMPTY_ARR = [];
 	    function ensureSlotCount(projectableNodes, expectedSlotCount) {
 	        var res;
-	        if (isBlank(projectableNodes)) {
+	        if (!projectableNodes) {
 	            res = EMPTY_ARR;
 	        }
 	        else if (projectableNodes.length < expectedSlotCount) {
@@ -23915,7 +23786,7 @@ webpackJsonp([2],[
 	            if (projectableNodes === void 0) { projectableNodes = null; }
 	            if (rootSelectorOrNode === void 0) { rootSelectorOrNode = null; }
 	            var vu = injector.get(ViewUtils);
-	            if (isBlank(projectableNodes)) {
+	            if (!projectableNodes) {
 	                projectableNodes = [];
 	            }
 	            // Note: Host views don't need a declarationAppElement!
@@ -24198,7 +24069,6 @@ webpackJsonp([2],[
 	     *     <button (click)="processWithinAngularZone()">Process within Angular zone</button>
 	     *     <button (click)="processOutsideOfAngularZone()">Process outside of Angular zone</button>
 	     *   `,
-	     *   directives: [NgIf]
 	     * })
 	     * export class NgZoneDemo {
 	     *   progress: number = 0;
@@ -25937,22 +25807,6 @@ webpackJsonp([2],[
 	    }());
 	
 	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var AnimationOutput = (function () {
-	        function AnimationOutput(name, phase, fullPropertyName) {
-	            this.name = name;
-	            this.phase = phase;
-	            this.fullPropertyName = fullPropertyName;
-	        }
-	        return AnimationOutput;
-	    }());
-	
-	    /**
 	     * @experimental Animation support is experimental.
 	     */
 	    var AnimationPlayer = (function () {
@@ -26740,10 +26594,11 @@ webpackJsonp([2],[
 	    function prepareFinalAnimationStyles(previousStyles, newStyles, nullValue) {
 	        if (nullValue === void 0) { nullValue = null; }
 	        var finalStyles = {};
-	        StringMapWrapper.forEach(newStyles, function (value, prop) {
+	        Object.keys(newStyles).forEach(function (prop) {
+	            var value = newStyles[prop];
 	            finalStyles[prop] = value == AUTO_STYLE ? nullValue : value.toString();
 	        });
-	        StringMapWrapper.forEach(previousStyles, function (value, prop) {
+	        Object.keys(previousStyles).forEach(function (prop) {
 	            if (!isPresent(finalStyles[prop])) {
 	                finalStyles[prop] = nullValue;
 	            }
@@ -26757,7 +26612,8 @@ webpackJsonp([2],[
 	        var flatenedFirstKeyframeStyles = flattenStyles(firstKeyframe.styles.styles);
 	        var extraFirstKeyframeStyles = {};
 	        var hasExtraFirstStyles = false;
-	        StringMapWrapper.forEach(collectedStyles, function (value, prop) {
+	        Object.keys(collectedStyles).forEach(function (prop) {
+	            var value = collectedStyles[prop];
 	            // if the style is already defined in the first keyframe then
 	            // we do not replace it.
 	            if (!flatenedFirstKeyframeStyles[prop]) {
@@ -26773,7 +26629,7 @@ webpackJsonp([2],[
 	        var flatenedFinalKeyframeStyles = flattenStyles(finalKeyframe.styles.styles);
 	        var extraFinalKeyframeStyles = {};
 	        var hasExtraFinalStyles = false;
-	        StringMapWrapper.forEach(keyframeCollectedStyles, function (value, prop) {
+	        Object.keys(keyframeCollectedStyles).forEach(function (prop) {
 	            if (!isPresent(flatenedFinalKeyframeStyles[prop])) {
 	                extraFinalKeyframeStyles[prop] = AUTO_STYLE;
 	                hasExtraFinalStyles = true;
@@ -26782,7 +26638,7 @@ webpackJsonp([2],[
 	        if (hasExtraFinalStyles) {
 	            finalKeyframe.styles.styles.push(extraFinalKeyframeStyles);
 	        }
-	        StringMapWrapper.forEach(flatenedFinalKeyframeStyles, function (value, prop) {
+	        Object.keys(flatenedFinalKeyframeStyles).forEach(function (prop) {
 	            if (!isPresent(flatenedFirstKeyframeStyles[prop])) {
 	                extraFirstKeyframeStyles[prop] = AUTO_STYLE;
 	                hasExtraFirstStyles = true;
@@ -26795,13 +26651,14 @@ webpackJsonp([2],[
 	    }
 	    function clearStyles(styles) {
 	        var finalStyles = {};
-	        StringMapWrapper.keys(styles).forEach(function (key) { finalStyles[key] = null; });
+	        Object.keys(styles).forEach(function (key) { finalStyles[key] = null; });
 	        return finalStyles;
 	    }
 	    function collectAndResolveStyles(collection, styles) {
 	        return styles.map(function (entry) {
 	            var stylesObj = {};
-	            StringMapWrapper.forEach(entry, function (value, prop) {
+	            Object.keys(entry).forEach(function (prop) {
+	                var value = entry[prop];
 	                if (value == FILL_STYLE_FLAG) {
 	                    value = collection[prop];
 	                    if (!isPresent(value)) {
@@ -26815,12 +26672,12 @@ webpackJsonp([2],[
 	        });
 	    }
 	    function renderStyles(element, renderer, styles) {
-	        StringMapWrapper.forEach(styles, function (value, prop) { renderer.setElementStyle(element, prop, value); });
+	        Object.keys(styles).forEach(function (prop) { renderer.setElementStyle(element, prop, styles[prop]); });
 	    }
 	    function flattenStyles(styles) {
 	        var finalStyles = {};
 	        styles.forEach(function (entry) {
-	            StringMapWrapper.forEach(entry, function (value, prop) { finalStyles[prop] = value; });
+	            Object.keys(entry).forEach(function (prop) { finalStyles[prop] = entry[prop]; });
 	        });
 	        return finalStyles;
 	    }
@@ -27053,7 +26910,8 @@ webpackJsonp([2],[
 	                var staticNodeInfo = this._staticNodeInfo;
 	                if (isPresent(staticNodeInfo)) {
 	                    var refs = staticNodeInfo.refTokens;
-	                    StringMapWrapper.forEach(refs, function (refToken, refName) {
+	                    Object.keys(refs).forEach(function (refName) {
+	                        var refToken = refs[refName];
 	                        var varValue;
 	                        if (isBlank(refToken)) {
 	                            varValue = _this._view.allNodes ? _this._view.allNodes[_this._nodeIndex] : null;
@@ -27138,7 +26996,7 @@ webpackJsonp([2],[
 	        };
 	        ViewAnimationMap.prototype.findAllPlayersByElement = function (element) {
 	            var el = this._map.get(element);
-	            return el ? StringMapWrapper.values(el) : [];
+	            return el ? Object.keys(el).map(function (k) { return el[k]; }) : [];
 	        };
 	        ViewAnimationMap.prototype.set = function (element, animationName, player) {
 	            var playersByAnimation = this._map.get(element);
@@ -27161,7 +27019,7 @@ webpackJsonp([2],[
 	                delete playersByAnimation[animationName];
 	                var index = this._allPlayers.indexOf(player);
 	                this._allPlayers.splice(index, 1);
-	                if (StringMapWrapper.isEmpty(playersByAnimation)) {
+	                if (Object.keys(playersByAnimation).length === 0) {
 	                    this._map.delete(element);
 	                }
 	            }
@@ -27279,20 +27137,19 @@ webpackJsonp([2],[
 	                    var listener = listeners[i];
 	                    // we check for both the name in addition to the phase in the event
 	                    // that there may be more than one @trigger on the same element
-	                    if (listener.output.name == animationName && listener.output.phase == phase) {
+	                    if (listener.eventName === animationName && listener.eventPhase === phase) {
 	                        listener.handler(event);
 	                        break;
 	                    }
 	                }
 	            }
 	        };
-	        AppView.prototype.registerAnimationOutput = function (element, outputEvent, eventHandler) {
-	            var entry = new _AnimationOutputWithHandler(outputEvent, eventHandler);
+	        AppView.prototype.registerAnimationOutput = function (element, eventName, eventPhase, eventHandler) {
 	            var animations = this._animationListeners.get(element);
 	            if (!isPresent(animations)) {
 	                this._animationListeners.set(element, animations = []);
 	            }
-	            animations.push(entry);
+	            animations.push(new _AnimationOutputHandler(eventName, eventPhase, eventHandler));
 	        };
 	        AppView.prototype.create = function (context, givenProjectableNodes, rootSelectorOrNode) {
 	            this.context = context;
@@ -27621,18 +27478,18 @@ webpackJsonp([2],[
 	        }
 	        return lastNode;
 	    }
-	    var _AnimationOutputWithHandler = (function () {
-	        function _AnimationOutputWithHandler(output, handler) {
-	            this.output = output;
+	    var _AnimationOutputHandler = (function () {
+	        function _AnimationOutputHandler(eventName, eventPhase, handler) {
+	            this.eventName = eventName;
+	            this.eventPhase = eventPhase;
 	            this.handler = handler;
 	        }
-	        return _AnimationOutputWithHandler;
+	        return _AnimationOutputHandler;
 	    }());
 	
 	    var __core_private__ = {
 	        isDefaultChangeDetectionStrategy: isDefaultChangeDetectionStrategy,
 	        ChangeDetectorStatus: ChangeDetectorStatus,
-	        CHANGE_DETECTION_STRATEGY_VALUES: CHANGE_DETECTION_STRATEGY_VALUES,
 	        constructDependencies: constructDependencies,
 	        LifecycleHooks: LifecycleHooks,
 	        LIFECYCLE_HOOKS_VALUES: LIFECYCLE_HOOKS_VALUES,
@@ -27649,7 +27506,6 @@ webpackJsonp([2],[
 	        flattenNestedViewRenderNodes: flattenNestedViewRenderNodes,
 	        interpolate: interpolate,
 	        ViewUtils: ViewUtils,
-	        VIEW_ENCAPSULATION_VALUES: VIEW_ENCAPSULATION_VALUES,
 	        ViewMetadata: ViewMetadata,
 	        DebugContext: DebugContext,
 	        StaticNodeDebugInfo: StaticNodeDebugInfo,
@@ -27689,7 +27545,6 @@ webpackJsonp([2],[
 	        renderStyles: renderStyles,
 	        collectAndResolveStyles: collectAndResolveStyles,
 	        AnimationStyles: AnimationStyles,
-	        AnimationOutput: AnimationOutput,
 	        ANY_STATE: ANY_STATE,
 	        DEFAULT_STATE: DEFAULT_STATE,
 	        EMPTY_STATE: EMPTY_STATE,
@@ -28878,7 +28733,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.0.1
+	 * @license Angular v2.0.2
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -28932,7 +28787,6 @@ webpackJsonp([2],[
 	    // Need to declare a new variable for global here since TypeScript
 	    // exports the original value of the symbol.
 	    var global$1 = globalScope;
-	    var Date = global$1.Date;
 	    // TODO: remove calls to assert in production environment
 	    // Note: Can't just export this and import in in other files
 	    // as `assert` is a reserved keyword in Dart
@@ -28950,9 +28804,6 @@ webpackJsonp([2],[
 	    }
 	    function isString(obj) {
 	        return typeof obj === 'string';
-	    }
-	    function isFunction(obj) {
-	        return typeof obj === 'function';
 	    }
 	    function isArray(obj) {
 	        return Array.isArray(obj);
@@ -28972,7 +28823,7 @@ webpackJsonp([2],[
 	        }
 	        var res = token.toString();
 	        var newLineIndex = res.indexOf('\n');
-	        return (newLineIndex === -1) ? res : res.substring(0, newLineIndex);
+	        return newLineIndex === -1 ? res : res.substring(0, newLineIndex);
 	    }
 	    var StringWrapper = (function () {
 	        function StringWrapper() {
@@ -29094,25 +28945,6 @@ webpackJsonp([2],[
 	        };
 	        return Json;
 	    }());
-	    var DateWrapper = (function () {
-	        function DateWrapper() {
-	        }
-	        DateWrapper.create = function (year, month, day, hour, minutes, seconds, milliseconds) {
-	            if (month === void 0) { month = 1; }
-	            if (day === void 0) { day = 1; }
-	            if (hour === void 0) { hour = 0; }
-	            if (minutes === void 0) { minutes = 0; }
-	            if (seconds === void 0) { seconds = 0; }
-	            if (milliseconds === void 0) { milliseconds = 0; }
-	            return new Date(year, month - 1, day, hour, minutes, seconds, milliseconds);
-	        };
-	        DateWrapper.fromISOString = function (str) { return new Date(str); };
-	        DateWrapper.fromMillis = function (ms) { return new Date(ms); };
-	        DateWrapper.toMillis = function (date) { return date.getTime(); };
-	        DateWrapper.now = function () { return new Date(); };
-	        DateWrapper.toJson = function (date) { return date.toJSON(); };
-	        return DateWrapper;
-	    }());
 	    function setValueOnPath(global, path, value) {
 	        var parts = path.split('.');
 	        var obj = global;
@@ -29130,6 +28962,827 @@ webpackJsonp([2],[
 	        }
 	        obj[parts.shift()] = value;
 	    }
+	
+	    var CAMEL_CASE_REGEXP = /([A-Z])/g;
+	    var DASH_CASE_REGEXP = /-([a-z])/g;
+	    function camelCaseToDashCase(input) {
+	        return StringWrapper.replaceAllMapped(input, CAMEL_CASE_REGEXP, function (m) { return '-' + m[1].toLowerCase(); });
+	    }
+	    function dashCaseToCamelCase(input) {
+	        return StringWrapper.replaceAllMapped(input, DASH_CASE_REGEXP, function (m) { return m[1].toUpperCase(); });
+	    }
+	
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var _DOM = null;
+	    function getDOM() {
+	        return _DOM;
+	    }
+	    function setRootDomAdapter(adapter) {
+	        if (!_DOM) {
+	            _DOM = adapter;
+	        }
+	    }
+	    /* tslint:disable:requireParameterType */
+	    /**
+	     * Provides DOM operations in an environment-agnostic way.
+	     *
+	     * @security Tread carefully! Interacting with the DOM directly is dangerous and
+	     * can introduce XSS risks.
+	     */
+	    var DomAdapter = (function () {
+	        function DomAdapter() {
+	            this.resourceLoaderType = null;
+	        }
+	        Object.defineProperty(DomAdapter.prototype, "attrToPropMap", {
+	            /**
+	             * Maps attribute names to their corresponding property names for cases
+	             * where attribute name doesn't match property name.
+	             */
+	            get: function () { return this._attrToPropMap; },
+	            set: function (value) { this._attrToPropMap = value; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        ;
+	        ;
+	        return DomAdapter;
+	    }());
+	
+	    var WebAnimationsPlayer = (function () {
+	        function WebAnimationsPlayer(element, keyframes, options) {
+	            this.element = element;
+	            this.keyframes = keyframes;
+	            this.options = options;
+	            this._onDoneFns = [];
+	            this._onStartFns = [];
+	            this._finished = false;
+	            this._initialized = false;
+	            this._started = false;
+	            this.parentPlayer = null;
+	            this._duration = options['duration'];
+	        }
+	        WebAnimationsPlayer.prototype._onFinish = function () {
+	            if (!this._finished) {
+	                this._finished = true;
+	                if (!isPresent(this.parentPlayer)) {
+	                    this.destroy();
+	                }
+	                this._onDoneFns.forEach(function (fn) { return fn(); });
+	                this._onDoneFns = [];
+	            }
+	        };
+	        WebAnimationsPlayer.prototype.init = function () {
+	            var _this = this;
+	            if (this._initialized)
+	                return;
+	            this._initialized = true;
+	            var keyframes = this.keyframes.map(function (styles) {
+	                var formattedKeyframe = {};
+	                Object.keys(styles).forEach(function (prop) {
+	                    var value = styles[prop];
+	                    formattedKeyframe[prop] = value == _angular_core.AUTO_STYLE ? _computeStyle(_this.element, prop) : value;
+	                });
+	                return formattedKeyframe;
+	            });
+	            this._player = this._triggerWebAnimation(this.element, keyframes, this.options);
+	            // this is required so that the player doesn't start to animate right away
+	            this.reset();
+	            this._player.onfinish = function () { return _this._onFinish(); };
+	        };
+	        /** @internal */
+	        WebAnimationsPlayer.prototype._triggerWebAnimation = function (element, keyframes, options) {
+	            return element.animate(keyframes, options);
+	        };
+	        WebAnimationsPlayer.prototype.onStart = function (fn) { this._onStartFns.push(fn); };
+	        WebAnimationsPlayer.prototype.onDone = function (fn) { this._onDoneFns.push(fn); };
+	        WebAnimationsPlayer.prototype.play = function () {
+	            this.init();
+	            if (!this.hasStarted()) {
+	                this._onStartFns.forEach(function (fn) { return fn(); });
+	                this._onStartFns = [];
+	                this._started = true;
+	            }
+	            this._player.play();
+	        };
+	        WebAnimationsPlayer.prototype.pause = function () {
+	            this.init();
+	            this._player.pause();
+	        };
+	        WebAnimationsPlayer.prototype.finish = function () {
+	            this.init();
+	            this._onFinish();
+	            this._player.finish();
+	        };
+	        WebAnimationsPlayer.prototype.reset = function () { this._player.cancel(); };
+	        WebAnimationsPlayer.prototype.restart = function () {
+	            this.reset();
+	            this.play();
+	        };
+	        WebAnimationsPlayer.prototype.hasStarted = function () { return this._started; };
+	        WebAnimationsPlayer.prototype.destroy = function () {
+	            this.reset();
+	            this._onFinish();
+	        };
+	        Object.defineProperty(WebAnimationsPlayer.prototype, "totalTime", {
+	            get: function () { return this._duration; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        WebAnimationsPlayer.prototype.setPosition = function (p) { this._player.currentTime = p * this.totalTime; };
+	        WebAnimationsPlayer.prototype.getPosition = function () { return this._player.currentTime / this.totalTime; };
+	        return WebAnimationsPlayer;
+	    }());
+	    function _computeStyle(element, prop) {
+	        return getDOM().getComputedStyle(element)[prop];
+	    }
+	
+	    var WebAnimationsDriver = (function () {
+	        function WebAnimationsDriver() {
+	        }
+	        WebAnimationsDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing) {
+	            var formattedSteps = [];
+	            var startingStyleLookup = {};
+	            if (isPresent(startingStyles) && startingStyles.styles.length > 0) {
+	                startingStyleLookup = _populateStyles(element, startingStyles, {});
+	                startingStyleLookup['offset'] = 0;
+	                formattedSteps.push(startingStyleLookup);
+	            }
+	            keyframes.forEach(function (keyframe) {
+	                var data = _populateStyles(element, keyframe.styles, startingStyleLookup);
+	                data['offset'] = keyframe.offset;
+	                formattedSteps.push(data);
+	            });
+	            // this is a special case when only styles are applied as an
+	            // animation. When this occurs we want to animate from start to
+	            // end with the same values. Removing the offset and having only
+	            // start/end values is suitable enough for the web-animations API
+	            if (formattedSteps.length == 1) {
+	                var start = formattedSteps[0];
+	                start['offset'] = null;
+	                formattedSteps = [start, start];
+	            }
+	            var playerOptions = {
+	                'duration': duration,
+	                'delay': delay,
+	                'fill': 'both' // we use `both` because it allows for styling at 0% to work with `delay`
+	            };
+	            // we check for this to avoid having a null|undefined value be present
+	            // for the easing (which results in an error for certain browsers #9752)
+	            if (easing) {
+	                playerOptions['easing'] = easing;
+	            }
+	            return new WebAnimationsPlayer(element, formattedSteps, playerOptions);
+	        };
+	        return WebAnimationsDriver;
+	    }());
+	    function _populateStyles(element, styles, defaultStyles) {
+	        var data = {};
+	        styles.styles.forEach(function (entry) {
+	            Object.keys(entry).forEach(function (prop) {
+	                var val = entry[prop];
+	                var formattedProp = dashCaseToCamelCase(prop);
+	                data[formattedProp] =
+	                    val == _angular_core.AUTO_STYLE ? val : val.toString() + _resolveStyleUnit(val, prop, formattedProp);
+	            });
+	        });
+	        Object.keys(defaultStyles).forEach(function (prop) {
+	            if (!isPresent(data[prop])) {
+	                data[prop] = defaultStyles[prop];
+	            }
+	        });
+	        return data;
+	    }
+	    function _resolveStyleUnit(val, userProvidedProp, formattedProp) {
+	        var unit = '';
+	        if (_isPixelDimensionStyle(formattedProp) && val != 0 && val != '0') {
+	            if (isNumber(val)) {
+	                unit = 'px';
+	            }
+	            else if (_findDimensionalSuffix(val.toString()).length == 0) {
+	                throw new Error('Please provide a CSS unit value for ' + userProvidedProp + ':' + val);
+	            }
+	        }
+	        return unit;
+	    }
+	    var _$0 = 48;
+	    var _$9 = 57;
+	    var _$PERIOD = 46;
+	    function _findDimensionalSuffix(value) {
+	        for (var i = 0; i < value.length; i++) {
+	            var c = StringWrapper.charCodeAt(value, i);
+	            if ((c >= _$0 && c <= _$9) || c == _$PERIOD)
+	                continue;
+	            return value.substring(i, value.length);
+	        }
+	        return '';
+	    }
+	    function _isPixelDimensionStyle(prop) {
+	        switch (prop) {
+	            case 'width':
+	            case 'height':
+	            case 'minWidth':
+	            case 'minHeight':
+	            case 'maxWidth':
+	            case 'maxHeight':
+	            case 'left':
+	            case 'top':
+	            case 'bottom':
+	            case 'right':
+	            case 'fontSize':
+	            case 'outlineWidth':
+	            case 'outlineOffset':
+	            case 'paddingTop':
+	            case 'paddingLeft':
+	            case 'paddingBottom':
+	            case 'paddingRight':
+	            case 'marginTop':
+	            case 'marginLeft':
+	            case 'marginBottom':
+	            case 'marginRight':
+	            case 'borderRadius':
+	            case 'borderWidth':
+	            case 'borderTopWidth':
+	            case 'borderLeftWidth':
+	            case 'borderRightWidth':
+	            case 'borderBottomWidth':
+	            case 'textIndent':
+	                return true;
+	            default:
+	                return false;
+	        }
+	    }
+	
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends$1 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    /**
+	     * Provides DOM operations in any browser environment.
+	     *
+	     * @security Tread carefully! Interacting with the DOM directly is dangerous and
+	     * can introduce XSS risks.
+	     */
+	    var GenericBrowserDomAdapter = (function (_super) {
+	        __extends$1(GenericBrowserDomAdapter, _super);
+	        function GenericBrowserDomAdapter() {
+	            var _this = this;
+	            _super.call(this);
+	            this._animationPrefix = null;
+	            this._transitionEnd = null;
+	            try {
+	                var element_1 = this.createElement('div', this.defaultDoc());
+	                if (isPresent(this.getStyle(element_1, 'animationName'))) {
+	                    this._animationPrefix = '';
+	                }
+	                else {
+	                    var domPrefixes = ['Webkit', 'Moz', 'O', 'ms'];
+	                    for (var i = 0; i < domPrefixes.length; i++) {
+	                        if (isPresent(this.getStyle(element_1, domPrefixes[i] + 'AnimationName'))) {
+	                            this._animationPrefix = '-' + domPrefixes[i].toLowerCase() + '-';
+	                            break;
+	                        }
+	                    }
+	                }
+	                var transEndEventNames_1 = {
+	                    WebkitTransition: 'webkitTransitionEnd',
+	                    MozTransition: 'transitionend',
+	                    OTransition: 'oTransitionEnd otransitionend',
+	                    transition: 'transitionend'
+	                };
+	                Object.keys(transEndEventNames_1).forEach(function (key) {
+	                    if (isPresent(_this.getStyle(element_1, key))) {
+	                        _this._transitionEnd = transEndEventNames_1[key];
+	                    }
+	                });
+	            }
+	            catch (e) {
+	                this._animationPrefix = null;
+	                this._transitionEnd = null;
+	            }
+	        }
+	        GenericBrowserDomAdapter.prototype.getDistributedNodes = function (el) { return el.getDistributedNodes(); };
+	        GenericBrowserDomAdapter.prototype.resolveAndSetHref = function (el, baseUrl, href) {
+	            el.href = href == null ? baseUrl : baseUrl + '/../' + href;
+	        };
+	        GenericBrowserDomAdapter.prototype.supportsDOMEvents = function () { return true; };
+	        GenericBrowserDomAdapter.prototype.supportsNativeShadowDOM = function () {
+	            return typeof this.defaultDoc().body.createShadowRoot === 'function';
+	        };
+	        GenericBrowserDomAdapter.prototype.getAnimationPrefix = function () { return this._animationPrefix ? this._animationPrefix : ''; };
+	        GenericBrowserDomAdapter.prototype.getTransitionEnd = function () { return this._transitionEnd ? this._transitionEnd : ''; };
+	        GenericBrowserDomAdapter.prototype.supportsAnimation = function () {
+	            return isPresent(this._animationPrefix) && isPresent(this._transitionEnd);
+	        };
+	        return GenericBrowserDomAdapter;
+	    }(DomAdapter));
+	
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    var _attrToPropMap = {
+	        'class': 'className',
+	        'innerHtml': 'innerHTML',
+	        'readonly': 'readOnly',
+	        'tabindex': 'tabIndex',
+	    };
+	    var DOM_KEY_LOCATION_NUMPAD = 3;
+	    // Map to convert some key or keyIdentifier values to what will be returned by getEventKey
+	    var _keyMap = {
+	        // The following values are here for cross-browser compatibility and to match the W3C standard
+	        // cf http://www.w3.org/TR/DOM-Level-3-Events-key/
+	        '\b': 'Backspace',
+	        '\t': 'Tab',
+	        '\x7F': 'Delete',
+	        '\x1B': 'Escape',
+	        'Del': 'Delete',
+	        'Esc': 'Escape',
+	        'Left': 'ArrowLeft',
+	        'Right': 'ArrowRight',
+	        'Up': 'ArrowUp',
+	        'Down': 'ArrowDown',
+	        'Menu': 'ContextMenu',
+	        'Scroll': 'ScrollLock',
+	        'Win': 'OS'
+	    };
+	    // There is a bug in Chrome for numeric keypad keys:
+	    // https://code.google.com/p/chromium/issues/detail?id=155654
+	    // 1, 2, 3 ... are reported as A, B, C ...
+	    var _chromeNumKeyPadMap = {
+	        'A': '1',
+	        'B': '2',
+	        'C': '3',
+	        'D': '4',
+	        'E': '5',
+	        'F': '6',
+	        'G': '7',
+	        'H': '8',
+	        'I': '9',
+	        'J': '*',
+	        'K': '+',
+	        'M': '-',
+	        'N': '.',
+	        'O': '/',
+	        '\x60': '0',
+	        '\x90': 'NumLock'
+	    };
+	    /**
+	     * A `DomAdapter` powered by full browser DOM APIs.
+	     *
+	     * @security Tread carefully! Interacting with the DOM directly is dangerous and
+	     * can introduce XSS risks.
+	     */
+	    /* tslint:disable:requireParameterType */
+	    var BrowserDomAdapter = (function (_super) {
+	        __extends(BrowserDomAdapter, _super);
+	        function BrowserDomAdapter() {
+	            _super.apply(this, arguments);
+	        }
+	        BrowserDomAdapter.prototype.parse = function (templateHtml) { throw new Error('parse not implemented'); };
+	        BrowserDomAdapter.makeCurrent = function () { setRootDomAdapter(new BrowserDomAdapter()); };
+	        BrowserDomAdapter.prototype.hasProperty = function (element, name) { return name in element; };
+	        BrowserDomAdapter.prototype.setProperty = function (el, name, value) { el[name] = value; };
+	        BrowserDomAdapter.prototype.getProperty = function (el, name) { return el[name]; };
+	        BrowserDomAdapter.prototype.invoke = function (el, methodName, args) { (_a = el)[methodName].apply(_a, args); var _a; };
+	        // TODO(tbosch): move this into a separate environment class once we have it
+	        BrowserDomAdapter.prototype.logError = function (error) { (window.console.error || window.console.log)(error); };
+	        BrowserDomAdapter.prototype.log = function (error) { window.console.log(error); };
+	        BrowserDomAdapter.prototype.logGroup = function (error) {
+	            window.console.group && window.console.group(error);
+	            this.logError(error);
+	        };
+	        BrowserDomAdapter.prototype.logGroupEnd = function () { window.console.groupEnd && window.console.groupEnd(); };
+	        Object.defineProperty(BrowserDomAdapter.prototype, "attrToPropMap", {
+	            get: function () { return _attrToPropMap; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        BrowserDomAdapter.prototype.query = function (selector) { return document.querySelector(selector); };
+	        BrowserDomAdapter.prototype.querySelector = function (el, selector) {
+	            return el.querySelector(selector);
+	        };
+	        BrowserDomAdapter.prototype.querySelectorAll = function (el, selector) { return el.querySelectorAll(selector); };
+	        BrowserDomAdapter.prototype.on = function (el, evt, listener) { el.addEventListener(evt, listener, false); };
+	        BrowserDomAdapter.prototype.onAndCancel = function (el, evt, listener) {
+	            el.addEventListener(evt, listener, false);
+	            // Needed to follow Dart's subscription semantic, until fix of
+	            // https://code.google.com/p/dart/issues/detail?id=17406
+	            return function () { el.removeEventListener(evt, listener, false); };
+	        };
+	        BrowserDomAdapter.prototype.dispatchEvent = function (el, evt) { el.dispatchEvent(evt); };
+	        BrowserDomAdapter.prototype.createMouseEvent = function (eventType) {
+	            var evt = document.createEvent('MouseEvent');
+	            evt.initEvent(eventType, true, true);
+	            return evt;
+	        };
+	        BrowserDomAdapter.prototype.createEvent = function (eventType) {
+	            var evt = document.createEvent('Event');
+	            evt.initEvent(eventType, true, true);
+	            return evt;
+	        };
+	        BrowserDomAdapter.prototype.preventDefault = function (evt) {
+	            evt.preventDefault();
+	            evt.returnValue = false;
+	        };
+	        BrowserDomAdapter.prototype.isPrevented = function (evt) {
+	            return evt.defaultPrevented || isPresent(evt.returnValue) && !evt.returnValue;
+	        };
+	        BrowserDomAdapter.prototype.getInnerHTML = function (el) { return el.innerHTML; };
+	        BrowserDomAdapter.prototype.getTemplateContent = function (el) {
+	            return 'content' in el && el instanceof HTMLTemplateElement ? el.content : null;
+	        };
+	        BrowserDomAdapter.prototype.getOuterHTML = function (el) { return el.outerHTML; };
+	        BrowserDomAdapter.prototype.nodeName = function (node) { return node.nodeName; };
+	        BrowserDomAdapter.prototype.nodeValue = function (node) { return node.nodeValue; };
+	        BrowserDomAdapter.prototype.type = function (node) { return node.type; };
+	        BrowserDomAdapter.prototype.content = function (node) {
+	            if (this.hasProperty(node, 'content')) {
+	                return node.content;
+	            }
+	            else {
+	                return node;
+	            }
+	        };
+	        BrowserDomAdapter.prototype.firstChild = function (el) { return el.firstChild; };
+	        BrowserDomAdapter.prototype.nextSibling = function (el) { return el.nextSibling; };
+	        BrowserDomAdapter.prototype.parentElement = function (el) { return el.parentNode; };
+	        BrowserDomAdapter.prototype.childNodes = function (el) { return el.childNodes; };
+	        BrowserDomAdapter.prototype.childNodesAsList = function (el) {
+	            var childNodes = el.childNodes;
+	            var res = new Array(childNodes.length);
+	            for (var i = 0; i < childNodes.length; i++) {
+	                res[i] = childNodes[i];
+	            }
+	            return res;
+	        };
+	        BrowserDomAdapter.prototype.clearNodes = function (el) {
+	            while (el.firstChild) {
+	                el.removeChild(el.firstChild);
+	            }
+	        };
+	        BrowserDomAdapter.prototype.appendChild = function (el, node) { el.appendChild(node); };
+	        BrowserDomAdapter.prototype.removeChild = function (el, node) { el.removeChild(node); };
+	        BrowserDomAdapter.prototype.replaceChild = function (el, newChild, oldChild) { el.replaceChild(newChild, oldChild); };
+	        BrowserDomAdapter.prototype.remove = function (node) {
+	            if (node.parentNode) {
+	                node.parentNode.removeChild(node);
+	            }
+	            return node;
+	        };
+	        BrowserDomAdapter.prototype.insertBefore = function (el, node) { el.parentNode.insertBefore(node, el); };
+	        BrowserDomAdapter.prototype.insertAllBefore = function (el, nodes) {
+	            nodes.forEach(function (n) { return el.parentNode.insertBefore(n, el); });
+	        };
+	        BrowserDomAdapter.prototype.insertAfter = function (el, node) { el.parentNode.insertBefore(node, el.nextSibling); };
+	        BrowserDomAdapter.prototype.setInnerHTML = function (el, value) { el.innerHTML = value; };
+	        BrowserDomAdapter.prototype.getText = function (el) { return el.textContent; };
+	        BrowserDomAdapter.prototype.setText = function (el, value) { el.textContent = value; };
+	        BrowserDomAdapter.prototype.getValue = function (el) { return el.value; };
+	        BrowserDomAdapter.prototype.setValue = function (el, value) { el.value = value; };
+	        BrowserDomAdapter.prototype.getChecked = function (el) { return el.checked; };
+	        BrowserDomAdapter.prototype.setChecked = function (el, value) { el.checked = value; };
+	        BrowserDomAdapter.prototype.createComment = function (text) { return document.createComment(text); };
+	        BrowserDomAdapter.prototype.createTemplate = function (html) {
+	            var t = document.createElement('template');
+	            t.innerHTML = html;
+	            return t;
+	        };
+	        BrowserDomAdapter.prototype.createElement = function (tagName, doc) {
+	            if (doc === void 0) { doc = document; }
+	            return doc.createElement(tagName);
+	        };
+	        BrowserDomAdapter.prototype.createElementNS = function (ns, tagName, doc) {
+	            if (doc === void 0) { doc = document; }
+	            return doc.createElementNS(ns, tagName);
+	        };
+	        BrowserDomAdapter.prototype.createTextNode = function (text, doc) {
+	            if (doc === void 0) { doc = document; }
+	            return doc.createTextNode(text);
+	        };
+	        BrowserDomAdapter.prototype.createScriptTag = function (attrName, attrValue, doc) {
+	            if (doc === void 0) { doc = document; }
+	            var el = doc.createElement('SCRIPT');
+	            el.setAttribute(attrName, attrValue);
+	            return el;
+	        };
+	        BrowserDomAdapter.prototype.createStyleElement = function (css, doc) {
+	            if (doc === void 0) { doc = document; }
+	            var style = doc.createElement('style');
+	            this.appendChild(style, this.createTextNode(css));
+	            return style;
+	        };
+	        BrowserDomAdapter.prototype.createShadowRoot = function (el) { return el.createShadowRoot(); };
+	        BrowserDomAdapter.prototype.getShadowRoot = function (el) { return el.shadowRoot; };
+	        BrowserDomAdapter.prototype.getHost = function (el) { return el.host; };
+	        BrowserDomAdapter.prototype.clone = function (node) { return node.cloneNode(true); };
+	        BrowserDomAdapter.prototype.getElementsByClassName = function (element, name) {
+	            return element.getElementsByClassName(name);
+	        };
+	        BrowserDomAdapter.prototype.getElementsByTagName = function (element, name) {
+	            return element.getElementsByTagName(name);
+	        };
+	        BrowserDomAdapter.prototype.classList = function (element) { return Array.prototype.slice.call(element.classList, 0); };
+	        BrowserDomAdapter.prototype.addClass = function (element, className) { element.classList.add(className); };
+	        BrowserDomAdapter.prototype.removeClass = function (element, className) { element.classList.remove(className); };
+	        BrowserDomAdapter.prototype.hasClass = function (element, className) {
+	            return element.classList.contains(className);
+	        };
+	        BrowserDomAdapter.prototype.setStyle = function (element, styleName, styleValue) {
+	            element.style[styleName] = styleValue;
+	        };
+	        BrowserDomAdapter.prototype.removeStyle = function (element, stylename) {
+	            // IE requires '' instead of null
+	            // see https://github.com/angular/angular/issues/7916
+	            element.style[stylename] = '';
+	        };
+	        BrowserDomAdapter.prototype.getStyle = function (element, stylename) { return element.style[stylename]; };
+	        BrowserDomAdapter.prototype.hasStyle = function (element, styleName, styleValue) {
+	            if (styleValue === void 0) { styleValue = null; }
+	            var value = this.getStyle(element, styleName) || '';
+	            return styleValue ? value == styleValue : value.length > 0;
+	        };
+	        BrowserDomAdapter.prototype.tagName = function (element) { return element.tagName; };
+	        BrowserDomAdapter.prototype.attributeMap = function (element) {
+	            var res = new Map();
+	            var elAttrs = element.attributes;
+	            for (var i = 0; i < elAttrs.length; i++) {
+	                var attrib = elAttrs[i];
+	                res.set(attrib.name, attrib.value);
+	            }
+	            return res;
+	        };
+	        BrowserDomAdapter.prototype.hasAttribute = function (element, attribute) {
+	            return element.hasAttribute(attribute);
+	        };
+	        BrowserDomAdapter.prototype.hasAttributeNS = function (element, ns, attribute) {
+	            return element.hasAttributeNS(ns, attribute);
+	        };
+	        BrowserDomAdapter.prototype.getAttribute = function (element, attribute) {
+	            return element.getAttribute(attribute);
+	        };
+	        BrowserDomAdapter.prototype.getAttributeNS = function (element, ns, name) {
+	            return element.getAttributeNS(ns, name);
+	        };
+	        BrowserDomAdapter.prototype.setAttribute = function (element, name, value) { element.setAttribute(name, value); };
+	        BrowserDomAdapter.prototype.setAttributeNS = function (element, ns, name, value) {
+	            element.setAttributeNS(ns, name, value);
+	        };
+	        BrowserDomAdapter.prototype.removeAttribute = function (element, attribute) { element.removeAttribute(attribute); };
+	        BrowserDomAdapter.prototype.removeAttributeNS = function (element, ns, name) {
+	            element.removeAttributeNS(ns, name);
+	        };
+	        BrowserDomAdapter.prototype.templateAwareRoot = function (el) { return this.isTemplateElement(el) ? this.content(el) : el; };
+	        BrowserDomAdapter.prototype.createHtmlDocument = function () {
+	            return document.implementation.createHTMLDocument('fakeTitle');
+	        };
+	        BrowserDomAdapter.prototype.defaultDoc = function () { return document; };
+	        BrowserDomAdapter.prototype.getBoundingClientRect = function (el) {
+	            try {
+	                return el.getBoundingClientRect();
+	            }
+	            catch (e) {
+	                return { top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0 };
+	            }
+	        };
+	        BrowserDomAdapter.prototype.getTitle = function () { return document.title; };
+	        BrowserDomAdapter.prototype.setTitle = function (newTitle) { document.title = newTitle || ''; };
+	        BrowserDomAdapter.prototype.elementMatches = function (n, selector) {
+	            if (n instanceof HTMLElement) {
+	                return n.matches && n.matches(selector) ||
+	                    n.msMatchesSelector && n.msMatchesSelector(selector) ||
+	                    n.webkitMatchesSelector && n.webkitMatchesSelector(selector);
+	            }
+	            return false;
+	        };
+	        BrowserDomAdapter.prototype.isTemplateElement = function (el) {
+	            return el instanceof HTMLElement && el.nodeName == 'TEMPLATE';
+	        };
+	        BrowserDomAdapter.prototype.isTextNode = function (node) { return node.nodeType === Node.TEXT_NODE; };
+	        BrowserDomAdapter.prototype.isCommentNode = function (node) { return node.nodeType === Node.COMMENT_NODE; };
+	        BrowserDomAdapter.prototype.isElementNode = function (node) { return node.nodeType === Node.ELEMENT_NODE; };
+	        BrowserDomAdapter.prototype.hasShadowRoot = function (node) {
+	            return isPresent(node.shadowRoot) && node instanceof HTMLElement;
+	        };
+	        BrowserDomAdapter.prototype.isShadowRoot = function (node) { return node instanceof DocumentFragment; };
+	        BrowserDomAdapter.prototype.importIntoDoc = function (node) { return document.importNode(this.templateAwareRoot(node), true); };
+	        BrowserDomAdapter.prototype.adoptNode = function (node) { return document.adoptNode(node); };
+	        BrowserDomAdapter.prototype.getHref = function (el) { return el.href; };
+	        BrowserDomAdapter.prototype.getEventKey = function (event) {
+	            var key = event.key;
+	            if (isBlank(key)) {
+	                key = event.keyIdentifier;
+	                // keyIdentifier is defined in the old draft of DOM Level 3 Events implemented by Chrome and
+	                // Safari cf
+	                // http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/events.html#Events-KeyboardEvents-Interfaces
+	                if (isBlank(key)) {
+	                    return 'Unidentified';
+	                }
+	                if (key.startsWith('U+')) {
+	                    key = String.fromCharCode(parseInt(key.substring(2), 16));
+	                    if (event.location === DOM_KEY_LOCATION_NUMPAD && _chromeNumKeyPadMap.hasOwnProperty(key)) {
+	                        // There is a bug in Chrome for numeric keypad keys:
+	                        // https://code.google.com/p/chromium/issues/detail?id=155654
+	                        // 1, 2, 3 ... are reported as A, B, C ...
+	                        key = _chromeNumKeyPadMap[key];
+	                    }
+	                }
+	            }
+	            return _keyMap[key] || key;
+	        };
+	        BrowserDomAdapter.prototype.getGlobalEventTarget = function (target) {
+	            if (target === 'window') {
+	                return window;
+	            }
+	            if (target === 'document') {
+	                return document;
+	            }
+	            if (target === 'body') {
+	                return document.body;
+	            }
+	        };
+	        BrowserDomAdapter.prototype.getHistory = function () { return window.history; };
+	        BrowserDomAdapter.prototype.getLocation = function () { return window.location; };
+	        BrowserDomAdapter.prototype.getBaseHref = function () {
+	            var href = getBaseElementHref();
+	            return isBlank(href) ? null : relativePath(href);
+	        };
+	        BrowserDomAdapter.prototype.resetBaseElement = function () { baseElement = null; };
+	        BrowserDomAdapter.prototype.getUserAgent = function () { return window.navigator.userAgent; };
+	        BrowserDomAdapter.prototype.setData = function (element, name, value) {
+	            this.setAttribute(element, 'data-' + name, value);
+	        };
+	        BrowserDomAdapter.prototype.getData = function (element, name) {
+	            return this.getAttribute(element, 'data-' + name);
+	        };
+	        BrowserDomAdapter.prototype.getComputedStyle = function (element) { return getComputedStyle(element); };
+	        // TODO(tbosch): move this into a separate environment class once we have it
+	        BrowserDomAdapter.prototype.setGlobalVar = function (path, value) { setValueOnPath(global$1, path, value); };
+	        BrowserDomAdapter.prototype.supportsWebAnimation = function () {
+	            return typeof Element.prototype['animate'] === 'function';
+	        };
+	        BrowserDomAdapter.prototype.performanceNow = function () {
+	            // performance.now() is not available in all browsers, see
+	            // http://caniuse.com/#search=performance.now
+	            return window.performance && window.performance.now ? window.performance.now() :
+	                new Date().getTime();
+	        };
+	        BrowserDomAdapter.prototype.supportsCookies = function () { return true; };
+	        BrowserDomAdapter.prototype.getCookie = function (name) { return parseCookieValue(document.cookie, name); };
+	        BrowserDomAdapter.prototype.setCookie = function (name, value) {
+	            // document.cookie is magical, assigning into it assigns/overrides one cookie value, but does
+	            // not clear other cookies.
+	            document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+	        };
+	        return BrowserDomAdapter;
+	    }(GenericBrowserDomAdapter));
+	    var baseElement = null;
+	    function getBaseElementHref() {
+	        if (!baseElement) {
+	            baseElement = document.querySelector('base');
+	            if (!baseElement) {
+	                return null;
+	            }
+	        }
+	        return baseElement.getAttribute('href');
+	    }
+	    // based on urlUtils.js in AngularJS 1
+	    var urlParsingNode;
+	    function relativePath(url) {
+	        if (!urlParsingNode) {
+	            urlParsingNode = document.createElement('a');
+	        }
+	        urlParsingNode.setAttribute('href', url);
+	        return (urlParsingNode.pathname.charAt(0) === '/') ? urlParsingNode.pathname :
+	            '/' + urlParsingNode.pathname;
+	    }
+	    function parseCookieValue(cookieStr, name) {
+	        name = encodeURIComponent(name);
+	        for (var _i = 0, _a = cookieStr.split(';'); _i < _a.length; _i++) {
+	            var cookie = _a[_i];
+	            var eqIndex = cookie.indexOf('=');
+	            var _b = eqIndex == -1 ? [cookie, ''] : [cookie.slice(0, eqIndex), cookie.slice(eqIndex + 1)], cookieName = _b[0], cookieValue = _b[1];
+	            if (cookieName.trim() === name) {
+	                return decodeURIComponent(cookieValue);
+	            }
+	        }
+	        return null;
+	    }
+	
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    function supportsState() {
+	        return !!window.history.pushState;
+	    }
+	
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends$2 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    /**
+	     * `PlatformLocation` encapsulates all of the direct calls to platform APIs.
+	     * This class should not be used directly by an application developer. Instead, use
+	     * {@link Location}.
+	     */
+	    var BrowserPlatformLocation = (function (_super) {
+	        __extends$2(BrowserPlatformLocation, _super);
+	        function BrowserPlatformLocation() {
+	            _super.call(this);
+	            this._init();
+	        }
+	        // This is moved to its own method so that `MockPlatformLocationStrategy` can overwrite it
+	        /** @internal */
+	        BrowserPlatformLocation.prototype._init = function () {
+	            this._location = getDOM().getLocation();
+	            this._history = getDOM().getHistory();
+	        };
+	        Object.defineProperty(BrowserPlatformLocation.prototype, "location", {
+	            get: function () { return this._location; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        BrowserPlatformLocation.prototype.getBaseHrefFromDOM = function () { return getDOM().getBaseHref(); };
+	        BrowserPlatformLocation.prototype.onPopState = function (fn) {
+	            getDOM().getGlobalEventTarget('window').addEventListener('popstate', fn, false);
+	        };
+	        BrowserPlatformLocation.prototype.onHashChange = function (fn) {
+	            getDOM().getGlobalEventTarget('window').addEventListener('hashchange', fn, false);
+	        };
+	        Object.defineProperty(BrowserPlatformLocation.prototype, "pathname", {
+	            get: function () { return this._location.pathname; },
+	            set: function (newPath) { this._location.pathname = newPath; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        Object.defineProperty(BrowserPlatformLocation.prototype, "search", {
+	            get: function () { return this._location.search; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        Object.defineProperty(BrowserPlatformLocation.prototype, "hash", {
+	            get: function () { return this._location.hash; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        BrowserPlatformLocation.prototype.pushState = function (state, title, url) {
+	            if (supportsState()) {
+	                this._history.pushState(state, title, url);
+	            }
+	            else {
+	                this._location.hash = url;
+	            }
+	        };
+	        BrowserPlatformLocation.prototype.replaceState = function (state, title, url) {
+	            if (supportsState()) {
+	                this._history.replaceState(state, title, url);
+	            }
+	            else {
+	                this._location.hash = url;
+	            }
+	        };
+	        BrowserPlatformLocation.prototype.forward = function () { this._history.forward(); };
+	        BrowserPlatformLocation.prototype.back = function () { this._history.back(); };
+	        BrowserPlatformLocation.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        BrowserPlatformLocation.ctorParameters = [];
+	        return BrowserPlatformLocation;
+	    }(_angular_common.PlatformLocation));
 	
 	    var _clearValues = (function () {
 	        if ((new Map()).keys().next) {
@@ -29174,26 +29827,6 @@ webpackJsonp([2],[
 	    var StringMapWrapper = (function () {
 	        function StringMapWrapper() {
 	        }
-	        StringMapWrapper.get = function (map, key) {
-	            return map.hasOwnProperty(key) ? map[key] : undefined;
-	        };
-	        StringMapWrapper.set = function (map, key, value) { map[key] = value; };
-	        StringMapWrapper.keys = function (map) { return Object.keys(map); };
-	        StringMapWrapper.values = function (map) {
-	            return Object.keys(map).map(function (k) { return map[k]; });
-	        };
-	        StringMapWrapper.isEmpty = function (map) {
-	            for (var prop in map) {
-	                return false;
-	            }
-	            return true;
-	        };
-	        StringMapWrapper.forEach = function (map, callback) {
-	            for (var _i = 0, _a = Object.keys(map); _i < _a.length; _i++) {
-	                var k = _a[_i];
-	                callback(map[k], k);
-	            }
-	        };
 	        StringMapWrapper.merge = function (m1, m2) {
 	            var m = {};
 	            for (var _i = 0, _a = Object.keys(m1); _i < _a.length; _i++) {
@@ -29352,881 +29985,6 @@ webpackJsonp([2],[
 	        }
 	        return target;
 	    }
-	
-	    var CAMEL_CASE_REGEXP = /([A-Z])/g;
-	    var DASH_CASE_REGEXP = /-([a-z])/g;
-	    function camelCaseToDashCase(input) {
-	        return StringWrapper.replaceAllMapped(input, CAMEL_CASE_REGEXP, function (m /** TODO #9100 */) { return '-' + m[1].toLowerCase(); });
-	    }
-	    function dashCaseToCamelCase(input) {
-	        return StringWrapper.replaceAllMapped(input, DASH_CASE_REGEXP, function (m /** TODO #9100 */) { return m[1].toUpperCase(); });
-	    }
-	
-	    var _DOM = null;
-	    function getDOM() {
-	        return _DOM;
-	    }
-	    function setRootDomAdapter(adapter) {
-	        if (isBlank(_DOM)) {
-	            _DOM = adapter;
-	        }
-	    }
-	    /* tslint:disable:requireParameterType */
-	    /**
-	     * Provides DOM operations in an environment-agnostic way.
-	     *
-	     * @security Tread carefully! Interacting with the DOM directly is dangerous and
-	     * can introduce XSS risks.
-	     */
-	    var DomAdapter = (function () {
-	        function DomAdapter() {
-	            this.resourceLoaderType = null;
-	        }
-	        Object.defineProperty(DomAdapter.prototype, "attrToPropMap", {
-	            /**
-	             * Maps attribute names to their corresponding property names for cases
-	             * where attribute name doesn't match property name.
-	             */
-	            get: function () { return this._attrToPropMap; },
-	            set: function (value) { this._attrToPropMap = value; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        ;
-	        ;
-	        return DomAdapter;
-	    }());
-	
-	    var WebAnimationsPlayer = (function () {
-	        function WebAnimationsPlayer(element, keyframes, options) {
-	            this.element = element;
-	            this.keyframes = keyframes;
-	            this.options = options;
-	            this._onDoneFns = [];
-	            this._onStartFns = [];
-	            this._finished = false;
-	            this._initialized = false;
-	            this._started = false;
-	            this.parentPlayer = null;
-	            this._duration = options['duration'];
-	        }
-	        WebAnimationsPlayer.prototype._onFinish = function () {
-	            if (!this._finished) {
-	                this._finished = true;
-	                if (!isPresent(this.parentPlayer)) {
-	                    this.destroy();
-	                }
-	                this._onDoneFns.forEach(function (fn) { return fn(); });
-	                this._onDoneFns = [];
-	            }
-	        };
-	        WebAnimationsPlayer.prototype.init = function () {
-	            var _this = this;
-	            if (this._initialized)
-	                return;
-	            this._initialized = true;
-	            var keyframes = this.keyframes.map(function (styles) {
-	                var formattedKeyframe = {};
-	                StringMapWrapper.forEach(styles, function (value, prop) {
-	                    formattedKeyframe[prop] = value == _angular_core.AUTO_STYLE ? _computeStyle(_this.element, prop) : value;
-	                });
-	                return formattedKeyframe;
-	            });
-	            this._player = this._triggerWebAnimation(this.element, keyframes, this.options);
-	            // this is required so that the player doesn't start to animate right away
-	            this.reset();
-	            this._player.onfinish = function () { return _this._onFinish(); };
-	        };
-	        /** @internal */
-	        WebAnimationsPlayer.prototype._triggerWebAnimation = function (element, keyframes, options) {
-	            return element.animate(keyframes, options);
-	        };
-	        WebAnimationsPlayer.prototype.onStart = function (fn) { this._onStartFns.push(fn); };
-	        WebAnimationsPlayer.prototype.onDone = function (fn) { this._onDoneFns.push(fn); };
-	        WebAnimationsPlayer.prototype.play = function () {
-	            this.init();
-	            if (!this.hasStarted()) {
-	                this._onStartFns.forEach(function (fn) { return fn(); });
-	                this._onStartFns = [];
-	                this._started = true;
-	            }
-	            this._player.play();
-	        };
-	        WebAnimationsPlayer.prototype.pause = function () {
-	            this.init();
-	            this._player.pause();
-	        };
-	        WebAnimationsPlayer.prototype.finish = function () {
-	            this.init();
-	            this._onFinish();
-	            this._player.finish();
-	        };
-	        WebAnimationsPlayer.prototype.reset = function () { this._player.cancel(); };
-	        WebAnimationsPlayer.prototype.restart = function () {
-	            this.reset();
-	            this.play();
-	        };
-	        WebAnimationsPlayer.prototype.hasStarted = function () { return this._started; };
-	        WebAnimationsPlayer.prototype.destroy = function () {
-	            this.reset();
-	            this._onFinish();
-	        };
-	        Object.defineProperty(WebAnimationsPlayer.prototype, "totalTime", {
-	            get: function () { return this._duration; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        WebAnimationsPlayer.prototype.setPosition = function (p) { this._player.currentTime = p * this.totalTime; };
-	        WebAnimationsPlayer.prototype.getPosition = function () { return this._player.currentTime / this.totalTime; };
-	        return WebAnimationsPlayer;
-	    }());
-	    function _computeStyle(element, prop) {
-	        return getDOM().getComputedStyle(element)[prop];
-	    }
-	
-	    var WebAnimationsDriver = (function () {
-	        function WebAnimationsDriver() {
-	        }
-	        WebAnimationsDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing) {
-	            var formattedSteps = [];
-	            var startingStyleLookup = {};
-	            if (isPresent(startingStyles) && startingStyles.styles.length > 0) {
-	                startingStyleLookup = _populateStyles(element, startingStyles, {});
-	                startingStyleLookup['offset'] = 0;
-	                formattedSteps.push(startingStyleLookup);
-	            }
-	            keyframes.forEach(function (keyframe) {
-	                var data = _populateStyles(element, keyframe.styles, startingStyleLookup);
-	                data['offset'] = keyframe.offset;
-	                formattedSteps.push(data);
-	            });
-	            // this is a special case when only styles are applied as an
-	            // animation. When this occurs we want to animate from start to
-	            // end with the same values. Removing the offset and having only
-	            // start/end values is suitable enough for the web-animations API
-	            if (formattedSteps.length == 1) {
-	                var start = formattedSteps[0];
-	                start['offset'] = null;
-	                formattedSteps = [start, start];
-	            }
-	            var playerOptions = {
-	                'duration': duration,
-	                'delay': delay,
-	                'fill': 'both' // we use `both` because it allows for styling at 0% to work with `delay`
-	            };
-	            // we check for this to avoid having a null|undefined value be present
-	            // for the easing (which results in an error for certain browsers #9752)
-	            if (easing) {
-	                playerOptions['easing'] = easing;
-	            }
-	            return new WebAnimationsPlayer(element, formattedSteps, playerOptions);
-	        };
-	        return WebAnimationsDriver;
-	    }());
-	    function _populateStyles(element, styles, defaultStyles) {
-	        var data = {};
-	        styles.styles.forEach(function (entry) {
-	            StringMapWrapper.forEach(entry, function (val, prop) {
-	                var formattedProp = dashCaseToCamelCase(prop);
-	                data[formattedProp] =
-	                    val == _angular_core.AUTO_STYLE ? val : val.toString() + _resolveStyleUnit(val, prop, formattedProp);
-	            });
-	        });
-	        StringMapWrapper.forEach(defaultStyles, function (value, prop) {
-	            if (!isPresent(data[prop])) {
-	                data[prop] = value;
-	            }
-	        });
-	        return data;
-	    }
-	    function _resolveStyleUnit(val, userProvidedProp, formattedProp) {
-	        var unit = '';
-	        if (_isPixelDimensionStyle(formattedProp) && val != 0 && val != '0') {
-	            if (isNumber(val)) {
-	                unit = 'px';
-	            }
-	            else if (_findDimensionalSuffix(val.toString()).length == 0) {
-	                throw new Error('Please provide a CSS unit value for ' + userProvidedProp + ':' + val);
-	            }
-	        }
-	        return unit;
-	    }
-	    var _$0 = 48;
-	    var _$9 = 57;
-	    var _$PERIOD = 46;
-	    function _findDimensionalSuffix(value) {
-	        for (var i = 0; i < value.length; i++) {
-	            var c = StringWrapper.charCodeAt(value, i);
-	            if ((c >= _$0 && c <= _$9) || c == _$PERIOD)
-	                continue;
-	            return value.substring(i, value.length);
-	        }
-	        return '';
-	    }
-	    function _isPixelDimensionStyle(prop) {
-	        switch (prop) {
-	            case 'width':
-	            case 'height':
-	            case 'minWidth':
-	            case 'minHeight':
-	            case 'maxWidth':
-	            case 'maxHeight':
-	            case 'left':
-	            case 'top':
-	            case 'bottom':
-	            case 'right':
-	            case 'fontSize':
-	            case 'outlineWidth':
-	            case 'outlineOffset':
-	            case 'paddingTop':
-	            case 'paddingLeft':
-	            case 'paddingBottom':
-	            case 'paddingRight':
-	            case 'marginTop':
-	            case 'marginLeft':
-	            case 'marginBottom':
-	            case 'marginRight':
-	            case 'borderRadius':
-	            case 'borderWidth':
-	            case 'borderTopWidth':
-	            case 'borderLeftWidth':
-	            case 'borderRightWidth':
-	            case 'borderBottomWidth':
-	            case 'textIndent':
-	                return true;
-	            default:
-	                return false;
-	        }
-	    }
-	
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends$1 = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    /**
-	     * Provides DOM operations in any browser environment.
-	     *
-	     * @security Tread carefully! Interacting with the DOM directly is dangerous and
-	     * can introduce XSS risks.
-	     */
-	    var GenericBrowserDomAdapter = (function (_super) {
-	        __extends$1(GenericBrowserDomAdapter, _super);
-	        function GenericBrowserDomAdapter() {
-	            var _this = this;
-	            _super.call(this);
-	            this._animationPrefix = null;
-	            this._transitionEnd = null;
-	            try {
-	                var element = this.createElement('div', this.defaultDoc());
-	                if (isPresent(this.getStyle(element, 'animationName'))) {
-	                    this._animationPrefix = '';
-	                }
-	                else {
-	                    var domPrefixes = ['Webkit', 'Moz', 'O', 'ms'];
-	                    for (var i = 0; i < domPrefixes.length; i++) {
-	                        if (isPresent(this.getStyle(element, domPrefixes[i] + 'AnimationName'))) {
-	                            this._animationPrefix = '-' + domPrefixes[i].toLowerCase() + '-';
-	                            break;
-	                        }
-	                    }
-	                }
-	                var transEndEventNames = {
-	                    WebkitTransition: 'webkitTransitionEnd',
-	                    MozTransition: 'transitionend',
-	                    OTransition: 'oTransitionEnd otransitionend',
-	                    transition: 'transitionend'
-	                };
-	                StringMapWrapper.forEach(transEndEventNames, function (value, key) {
-	                    if (isPresent(_this.getStyle(element, key))) {
-	                        _this._transitionEnd = value;
-	                    }
-	                });
-	            }
-	            catch (e) {
-	                this._animationPrefix = null;
-	                this._transitionEnd = null;
-	            }
-	        }
-	        GenericBrowserDomAdapter.prototype.getDistributedNodes = function (el) { return el.getDistributedNodes(); };
-	        GenericBrowserDomAdapter.prototype.resolveAndSetHref = function (el, baseUrl, href) {
-	            el.href = href == null ? baseUrl : baseUrl + '/../' + href;
-	        };
-	        GenericBrowserDomAdapter.prototype.supportsDOMEvents = function () { return true; };
-	        GenericBrowserDomAdapter.prototype.supportsNativeShadowDOM = function () {
-	            return isFunction(this.defaultDoc().body.createShadowRoot);
-	        };
-	        GenericBrowserDomAdapter.prototype.getAnimationPrefix = function () {
-	            return isPresent(this._animationPrefix) ? this._animationPrefix : '';
-	        };
-	        GenericBrowserDomAdapter.prototype.getTransitionEnd = function () { return isPresent(this._transitionEnd) ? this._transitionEnd : ''; };
-	        GenericBrowserDomAdapter.prototype.supportsAnimation = function () {
-	            return isPresent(this._animationPrefix) && isPresent(this._transitionEnd);
-	        };
-	        return GenericBrowserDomAdapter;
-	    }(DomAdapter));
-	
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    var _attrToPropMap = {
-	        'class': 'className',
-	        'innerHtml': 'innerHTML',
-	        'readonly': 'readOnly',
-	        'tabindex': 'tabIndex'
-	    };
-	    var DOM_KEY_LOCATION_NUMPAD = 3;
-	    // Map to convert some key or keyIdentifier values to what will be returned by getEventKey
-	    var _keyMap = {
-	        // The following values are here for cross-browser compatibility and to match the W3C standard
-	        // cf http://www.w3.org/TR/DOM-Level-3-Events-key/
-	        '\b': 'Backspace',
-	        '\t': 'Tab',
-	        '\x7F': 'Delete',
-	        '\x1B': 'Escape',
-	        'Del': 'Delete',
-	        'Esc': 'Escape',
-	        'Left': 'ArrowLeft',
-	        'Right': 'ArrowRight',
-	        'Up': 'ArrowUp',
-	        'Down': 'ArrowDown',
-	        'Menu': 'ContextMenu',
-	        'Scroll': 'ScrollLock',
-	        'Win': 'OS'
-	    };
-	    // There is a bug in Chrome for numeric keypad keys:
-	    // https://code.google.com/p/chromium/issues/detail?id=155654
-	    // 1, 2, 3 ... are reported as A, B, C ...
-	    var _chromeNumKeyPadMap = {
-	        'A': '1',
-	        'B': '2',
-	        'C': '3',
-	        'D': '4',
-	        'E': '5',
-	        'F': '6',
-	        'G': '7',
-	        'H': '8',
-	        'I': '9',
-	        'J': '*',
-	        'K': '+',
-	        'M': '-',
-	        'N': '.',
-	        'O': '/',
-	        '\x60': '0',
-	        '\x90': 'NumLock'
-	    };
-	    /**
-	     * A `DomAdapter` powered by full browser DOM APIs.
-	     *
-	     * @security Tread carefully! Interacting with the DOM directly is dangerous and
-	     * can introduce XSS risks.
-	     */
-	    /* tslint:disable:requireParameterType */
-	    var BrowserDomAdapter = (function (_super) {
-	        __extends(BrowserDomAdapter, _super);
-	        function BrowserDomAdapter() {
-	            _super.apply(this, arguments);
-	        }
-	        BrowserDomAdapter.prototype.parse = function (templateHtml) { throw new Error('parse not implemented'); };
-	        BrowserDomAdapter.makeCurrent = function () { setRootDomAdapter(new BrowserDomAdapter()); };
-	        BrowserDomAdapter.prototype.hasProperty = function (element /** TODO #9100 */, name) { return name in element; };
-	        BrowserDomAdapter.prototype.setProperty = function (el, name, value) { el[name] = value; };
-	        BrowserDomAdapter.prototype.getProperty = function (el, name) { return el[name]; };
-	        BrowserDomAdapter.prototype.invoke = function (el, methodName, args) {
-	            el[methodName].apply(el, args);
-	        };
-	        // TODO(tbosch): move this into a separate environment class once we have it
-	        BrowserDomAdapter.prototype.logError = function (error /** TODO #9100 */) {
-	            if (window.console.error) {
-	                window.console.error(error);
-	            }
-	            else {
-	                window.console.log(error);
-	            }
-	        };
-	        BrowserDomAdapter.prototype.log = function (error /** TODO #9100 */) { window.console.log(error); };
-	        BrowserDomAdapter.prototype.logGroup = function (error /** TODO #9100 */) {
-	            if (window.console.group) {
-	                window.console.group(error);
-	                this.logError(error);
-	            }
-	            else {
-	                window.console.log(error);
-	            }
-	        };
-	        BrowserDomAdapter.prototype.logGroupEnd = function () {
-	            if (window.console.groupEnd) {
-	                window.console.groupEnd();
-	            }
-	        };
-	        Object.defineProperty(BrowserDomAdapter.prototype, "attrToPropMap", {
-	            get: function () { return _attrToPropMap; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        BrowserDomAdapter.prototype.query = function (selector) { return document.querySelector(selector); };
-	        BrowserDomAdapter.prototype.querySelector = function (el /** TODO #9100 */, selector) {
-	            return el.querySelector(selector);
-	        };
-	        BrowserDomAdapter.prototype.querySelectorAll = function (el /** TODO #9100 */, selector) {
-	            return el.querySelectorAll(selector);
-	        };
-	        BrowserDomAdapter.prototype.on = function (el /** TODO #9100 */, evt /** TODO #9100 */, listener /** TODO #9100 */) {
-	            el.addEventListener(evt, listener, false);
-	        };
-	        BrowserDomAdapter.prototype.onAndCancel = function (el /** TODO #9100 */, evt /** TODO #9100 */, listener /** TODO #9100 */) {
-	            el.addEventListener(evt, listener, false);
-	            // Needed to follow Dart's subscription semantic, until fix of
-	            // https://code.google.com/p/dart/issues/detail?id=17406
-	            return function () { el.removeEventListener(evt, listener, false); };
-	        };
-	        BrowserDomAdapter.prototype.dispatchEvent = function (el /** TODO #9100 */, evt /** TODO #9100 */) { el.dispatchEvent(evt); };
-	        BrowserDomAdapter.prototype.createMouseEvent = function (eventType) {
-	            var evt = document.createEvent('MouseEvent');
-	            evt.initEvent(eventType, true, true);
-	            return evt;
-	        };
-	        BrowserDomAdapter.prototype.createEvent = function (eventType /** TODO #9100 */) {
-	            var evt = document.createEvent('Event');
-	            evt.initEvent(eventType, true, true);
-	            return evt;
-	        };
-	        BrowserDomAdapter.prototype.preventDefault = function (evt) {
-	            evt.preventDefault();
-	            evt.returnValue = false;
-	        };
-	        BrowserDomAdapter.prototype.isPrevented = function (evt) {
-	            return evt.defaultPrevented || isPresent(evt.returnValue) && !evt.returnValue;
-	        };
-	        BrowserDomAdapter.prototype.getInnerHTML = function (el /** TODO #9100 */) { return el.innerHTML; };
-	        BrowserDomAdapter.prototype.getTemplateContent = function (el /** TODO #9100 */) {
-	            return 'content' in el && el instanceof HTMLTemplateElement ? el.content : null;
-	        };
-	        BrowserDomAdapter.prototype.getOuterHTML = function (el /** TODO #9100 */) { return el.outerHTML; };
-	        BrowserDomAdapter.prototype.nodeName = function (node) { return node.nodeName; };
-	        BrowserDomAdapter.prototype.nodeValue = function (node) { return node.nodeValue; };
-	        BrowserDomAdapter.prototype.type = function (node) { return node.type; };
-	        BrowserDomAdapter.prototype.content = function (node) {
-	            if (this.hasProperty(node, 'content')) {
-	                return node.content;
-	            }
-	            else {
-	                return node;
-	            }
-	        };
-	        BrowserDomAdapter.prototype.firstChild = function (el /** TODO #9100 */) { return el.firstChild; };
-	        BrowserDomAdapter.prototype.nextSibling = function (el /** TODO #9100 */) { return el.nextSibling; };
-	        BrowserDomAdapter.prototype.parentElement = function (el /** TODO #9100 */) { return el.parentNode; };
-	        BrowserDomAdapter.prototype.childNodes = function (el /** TODO #9100 */) { return el.childNodes; };
-	        BrowserDomAdapter.prototype.childNodesAsList = function (el /** TODO #9100 */) {
-	            var childNodes = el.childNodes;
-	            var res = new Array(childNodes.length);
-	            for (var i = 0; i < childNodes.length; i++) {
-	                res[i] = childNodes[i];
-	            }
-	            return res;
-	        };
-	        BrowserDomAdapter.prototype.clearNodes = function (el /** TODO #9100 */) {
-	            while (el.firstChild) {
-	                el.removeChild(el.firstChild);
-	            }
-	        };
-	        BrowserDomAdapter.prototype.appendChild = function (el /** TODO #9100 */, node /** TODO #9100 */) { el.appendChild(node); };
-	        BrowserDomAdapter.prototype.removeChild = function (el /** TODO #9100 */, node /** TODO #9100 */) { el.removeChild(node); };
-	        BrowserDomAdapter.prototype.replaceChild = function (el, newChild /** TODO #9100 */, oldChild /** TODO #9100 */) {
-	            el.replaceChild(newChild, oldChild);
-	        };
-	        BrowserDomAdapter.prototype.remove = function (node /** TODO #9100 */) {
-	            if (node.parentNode) {
-	                node.parentNode.removeChild(node);
-	            }
-	            return node;
-	        };
-	        BrowserDomAdapter.prototype.insertBefore = function (el /** TODO #9100 */, node /** TODO #9100 */) {
-	            el.parentNode.insertBefore(node, el);
-	        };
-	        BrowserDomAdapter.prototype.insertAllBefore = function (el /** TODO #9100 */, nodes /** TODO #9100 */) {
-	            nodes.forEach(function (n /** TODO #9100 */) { return el.parentNode.insertBefore(n, el); });
-	        };
-	        BrowserDomAdapter.prototype.insertAfter = function (el /** TODO #9100 */, node /** TODO #9100 */) {
-	            el.parentNode.insertBefore(node, el.nextSibling);
-	        };
-	        BrowserDomAdapter.prototype.setInnerHTML = function (el /** TODO #9100 */, value /** TODO #9100 */) { el.innerHTML = value; };
-	        BrowserDomAdapter.prototype.getText = function (el /** TODO #9100 */) { return el.textContent; };
-	        // TODO(vicb): removed Element type because it does not support StyleElement
-	        BrowserDomAdapter.prototype.setText = function (el /** TODO #9100 */, value) { el.textContent = value; };
-	        BrowserDomAdapter.prototype.getValue = function (el /** TODO #9100 */) { return el.value; };
-	        BrowserDomAdapter.prototype.setValue = function (el /** TODO #9100 */, value) { el.value = value; };
-	        BrowserDomAdapter.prototype.getChecked = function (el /** TODO #9100 */) { return el.checked; };
-	        BrowserDomAdapter.prototype.setChecked = function (el /** TODO #9100 */, value) { el.checked = value; };
-	        BrowserDomAdapter.prototype.createComment = function (text) { return document.createComment(text); };
-	        BrowserDomAdapter.prototype.createTemplate = function (html /** TODO #9100 */) {
-	            var t = document.createElement('template');
-	            t.innerHTML = html;
-	            return t;
-	        };
-	        BrowserDomAdapter.prototype.createElement = function (tagName /* TODO #9100 */, doc) {
-	            if (doc === void 0) { doc = document; }
-	            return doc.createElement(tagName);
-	        };
-	        BrowserDomAdapter.prototype.createElementNS = function (ns /* TODO #9100 */, tagName /* TODO #9100 */, doc) {
-	            if (doc === void 0) { doc = document; }
-	            return doc.createElementNS(ns, tagName);
-	        };
-	        BrowserDomAdapter.prototype.createTextNode = function (text, doc) {
-	            if (doc === void 0) { doc = document; }
-	            return doc.createTextNode(text);
-	        };
-	        BrowserDomAdapter.prototype.createScriptTag = function (attrName, attrValue, doc) {
-	            if (doc === void 0) { doc = document; }
-	            var el = doc.createElement('SCRIPT');
-	            el.setAttribute(attrName, attrValue);
-	            return el;
-	        };
-	        BrowserDomAdapter.prototype.createStyleElement = function (css, doc) {
-	            if (doc === void 0) { doc = document; }
-	            var style = doc.createElement('style');
-	            this.appendChild(style, this.createTextNode(css));
-	            return style;
-	        };
-	        BrowserDomAdapter.prototype.createShadowRoot = function (el) { return el.createShadowRoot(); };
-	        BrowserDomAdapter.prototype.getShadowRoot = function (el) { return el.shadowRoot; };
-	        BrowserDomAdapter.prototype.getHost = function (el) { return el.host; };
-	        BrowserDomAdapter.prototype.clone = function (node) { return node.cloneNode(true); };
-	        BrowserDomAdapter.prototype.getElementsByClassName = function (element /** TODO #9100 */, name) {
-	            return element.getElementsByClassName(name);
-	        };
-	        BrowserDomAdapter.prototype.getElementsByTagName = function (element /** TODO #9100 */, name) {
-	            return element.getElementsByTagName(name);
-	        };
-	        BrowserDomAdapter.prototype.classList = function (element /** TODO #9100 */) {
-	            return Array.prototype.slice.call(element.classList, 0);
-	        };
-	        BrowserDomAdapter.prototype.addClass = function (element /** TODO #9100 */, className) { element.classList.add(className); };
-	        BrowserDomAdapter.prototype.removeClass = function (element /** TODO #9100 */, className) {
-	            element.classList.remove(className);
-	        };
-	        BrowserDomAdapter.prototype.hasClass = function (element /** TODO #9100 */, className) {
-	            return element.classList.contains(className);
-	        };
-	        BrowserDomAdapter.prototype.setStyle = function (element /** TODO #9100 */, styleName, styleValue) {
-	            element.style[styleName] = styleValue;
-	        };
-	        BrowserDomAdapter.prototype.removeStyle = function (element /** TODO #9100 */, stylename) {
-	            element.style[stylename] = null;
-	        };
-	        BrowserDomAdapter.prototype.getStyle = function (element /** TODO #9100 */, stylename) {
-	            return element.style[stylename];
-	        };
-	        BrowserDomAdapter.prototype.hasStyle = function (element /** TODO #9100 */, styleName, styleValue) {
-	            if (styleValue === void 0) { styleValue = null; }
-	            var value = this.getStyle(element, styleName) || '';
-	            return styleValue ? value == styleValue : value.length > 0;
-	        };
-	        BrowserDomAdapter.prototype.tagName = function (element /** TODO #9100 */) { return element.tagName; };
-	        BrowserDomAdapter.prototype.attributeMap = function (element /** TODO #9100 */) {
-	            var res = new Map();
-	            var elAttrs = element.attributes;
-	            for (var i = 0; i < elAttrs.length; i++) {
-	                var attrib = elAttrs[i];
-	                res.set(attrib.name, attrib.value);
-	            }
-	            return res;
-	        };
-	        BrowserDomAdapter.prototype.hasAttribute = function (element /** TODO #9100 */, attribute) {
-	            return element.hasAttribute(attribute);
-	        };
-	        BrowserDomAdapter.prototype.hasAttributeNS = function (element /** TODO #9100 */, ns, attribute) {
-	            return element.hasAttributeNS(ns, attribute);
-	        };
-	        BrowserDomAdapter.prototype.getAttribute = function (element /** TODO #9100 */, attribute) {
-	            return element.getAttribute(attribute);
-	        };
-	        BrowserDomAdapter.prototype.getAttributeNS = function (element /** TODO #9100 */, ns, name) {
-	            return element.getAttributeNS(ns, name);
-	        };
-	        BrowserDomAdapter.prototype.setAttribute = function (element /** TODO #9100 */, name, value) {
-	            element.setAttribute(name, value);
-	        };
-	        BrowserDomAdapter.prototype.setAttributeNS = function (element /** TODO #9100 */, ns, name, value) {
-	            element.setAttributeNS(ns, name, value);
-	        };
-	        BrowserDomAdapter.prototype.removeAttribute = function (element /** TODO #9100 */, attribute) {
-	            element.removeAttribute(attribute);
-	        };
-	        BrowserDomAdapter.prototype.removeAttributeNS = function (element /** TODO #9100 */, ns, name) {
-	            element.removeAttributeNS(ns, name);
-	        };
-	        BrowserDomAdapter.prototype.templateAwareRoot = function (el /** TODO #9100 */) {
-	            return this.isTemplateElement(el) ? this.content(el) : el;
-	        };
-	        BrowserDomAdapter.prototype.createHtmlDocument = function () {
-	            return document.implementation.createHTMLDocument('fakeTitle');
-	        };
-	        BrowserDomAdapter.prototype.defaultDoc = function () { return document; };
-	        BrowserDomAdapter.prototype.getBoundingClientRect = function (el /** TODO #9100 */) {
-	            try {
-	                return el.getBoundingClientRect();
-	            }
-	            catch (e) {
-	                return { top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0 };
-	            }
-	        };
-	        BrowserDomAdapter.prototype.getTitle = function () { return document.title; };
-	        BrowserDomAdapter.prototype.setTitle = function (newTitle) { document.title = newTitle || ''; };
-	        BrowserDomAdapter.prototype.elementMatches = function (n /** TODO #9100 */, selector) {
-	            var matches = false;
-	            if (n instanceof HTMLElement) {
-	                if (n.matches) {
-	                    matches = n.matches(selector);
-	                }
-	                else if (n.msMatchesSelector) {
-	                    matches = n.msMatchesSelector(selector);
-	                }
-	                else if (n.webkitMatchesSelector) {
-	                    matches = n.webkitMatchesSelector(selector);
-	                }
-	            }
-	            return matches;
-	        };
-	        BrowserDomAdapter.prototype.isTemplateElement = function (el) {
-	            return el instanceof HTMLElement && el.nodeName == 'TEMPLATE';
-	        };
-	        BrowserDomAdapter.prototype.isTextNode = function (node) { return node.nodeType === Node.TEXT_NODE; };
-	        BrowserDomAdapter.prototype.isCommentNode = function (node) { return node.nodeType === Node.COMMENT_NODE; };
-	        BrowserDomAdapter.prototype.isElementNode = function (node) { return node.nodeType === Node.ELEMENT_NODE; };
-	        BrowserDomAdapter.prototype.hasShadowRoot = function (node /** TODO #9100 */) {
-	            return isPresent(node.shadowRoot) && node instanceof HTMLElement;
-	        };
-	        BrowserDomAdapter.prototype.isShadowRoot = function (node /** TODO #9100 */) { return node instanceof DocumentFragment; };
-	        BrowserDomAdapter.prototype.importIntoDoc = function (node) {
-	            var toImport = node;
-	            if (this.isTemplateElement(node)) {
-	                toImport = this.content(node);
-	            }
-	            return document.importNode(toImport, true);
-	        };
-	        BrowserDomAdapter.prototype.adoptNode = function (node) { return document.adoptNode(node); };
-	        BrowserDomAdapter.prototype.getHref = function (el) { return el.href; };
-	        BrowserDomAdapter.prototype.getEventKey = function (event /** TODO #9100 */) {
-	            var key = event.key;
-	            if (isBlank(key)) {
-	                key = event.keyIdentifier;
-	                // keyIdentifier is defined in the old draft of DOM Level 3 Events implemented by Chrome and
-	                // Safari
-	                // cf
-	                // http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/events.html#Events-KeyboardEvents-Interfaces
-	                if (isBlank(key)) {
-	                    return 'Unidentified';
-	                }
-	                if (key.startsWith('U+')) {
-	                    key = String.fromCharCode(parseInt(key.substring(2), 16));
-	                    if (event.location === DOM_KEY_LOCATION_NUMPAD && _chromeNumKeyPadMap.hasOwnProperty(key)) {
-	                        // There is a bug in Chrome for numeric keypad keys:
-	                        // https://code.google.com/p/chromium/issues/detail?id=155654
-	                        // 1, 2, 3 ... are reported as A, B, C ...
-	                        key = _chromeNumKeyPadMap[key];
-	                    }
-	                }
-	            }
-	            if (_keyMap.hasOwnProperty(key)) {
-	                key = _keyMap[key];
-	            }
-	            return key;
-	        };
-	        BrowserDomAdapter.prototype.getGlobalEventTarget = function (target) {
-	            if (target == 'window') {
-	                return window;
-	            }
-	            else if (target == 'document') {
-	                return document;
-	            }
-	            else if (target == 'body') {
-	                return document.body;
-	            }
-	        };
-	        BrowserDomAdapter.prototype.getHistory = function () { return window.history; };
-	        BrowserDomAdapter.prototype.getLocation = function () { return window.location; };
-	        BrowserDomAdapter.prototype.getBaseHref = function () {
-	            var href = getBaseElementHref();
-	            if (isBlank(href)) {
-	                return null;
-	            }
-	            return relativePath(href);
-	        };
-	        BrowserDomAdapter.prototype.resetBaseElement = function () { baseElement = null; };
-	        BrowserDomAdapter.prototype.getUserAgent = function () { return window.navigator.userAgent; };
-	        BrowserDomAdapter.prototype.setData = function (element /** TODO #9100 */, name, value) {
-	            this.setAttribute(element, 'data-' + name, value);
-	        };
-	        BrowserDomAdapter.prototype.getData = function (element /** TODO #9100 */, name) {
-	            return this.getAttribute(element, 'data-' + name);
-	        };
-	        BrowserDomAdapter.prototype.getComputedStyle = function (element /** TODO #9100 */) { return getComputedStyle(element); };
-	        // TODO(tbosch): move this into a separate environment class once we have it
-	        BrowserDomAdapter.prototype.setGlobalVar = function (path, value) { setValueOnPath(global$1, path, value); };
-	        BrowserDomAdapter.prototype.supportsWebAnimation = function () { return isFunction(Element.prototype['animate']); };
-	        BrowserDomAdapter.prototype.performanceNow = function () {
-	            // performance.now() is not available in all browsers, see
-	            // http://caniuse.com/#search=performance.now
-	            if (isPresent(window.performance) && isPresent(window.performance.now)) {
-	                return window.performance.now();
-	            }
-	            else {
-	                return DateWrapper.toMillis(DateWrapper.now());
-	            }
-	        };
-	        BrowserDomAdapter.prototype.supportsCookies = function () { return true; };
-	        BrowserDomAdapter.prototype.getCookie = function (name) { return parseCookieValue(document.cookie, name); };
-	        BrowserDomAdapter.prototype.setCookie = function (name, value) {
-	            // document.cookie is magical, assigning into it assigns/overrides one cookie value, but does
-	            // not clear other cookies.
-	            document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
-	        };
-	        return BrowserDomAdapter;
-	    }(GenericBrowserDomAdapter));
-	    var baseElement = null;
-	    function getBaseElementHref() {
-	        if (isBlank(baseElement)) {
-	            baseElement = document.querySelector('base');
-	            if (isBlank(baseElement)) {
-	                return null;
-	            }
-	        }
-	        return baseElement.getAttribute('href');
-	    }
-	    // based on urlUtils.js in AngularJS 1
-	    var urlParsingNode = null;
-	    function relativePath(url /** TODO #9100 */) {
-	        if (isBlank(urlParsingNode)) {
-	            urlParsingNode = document.createElement('a');
-	        }
-	        urlParsingNode.setAttribute('href', url);
-	        return (urlParsingNode.pathname.charAt(0) === '/') ? urlParsingNode.pathname :
-	            '/' + urlParsingNode.pathname;
-	    }
-	    function parseCookieValue(cookieStr, name) {
-	        name = encodeURIComponent(name);
-	        for (var _i = 0, _a = cookieStr.split(';'); _i < _a.length; _i++) {
-	            var cookie = _a[_i];
-	            var eqIndex = cookie.indexOf('=');
-	            var _b = eqIndex == -1 ? [cookie, ''] : [cookie.slice(0, eqIndex), cookie.slice(eqIndex + 1)], cookieName = _b[0], cookieValue = _b[1];
-	            if (cookieName.trim() === name) {
-	                return decodeURIComponent(cookieValue);
-	            }
-	        }
-	        return null;
-	    }
-	
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    function supportsState() {
-	        return !!window.history.pushState;
-	    }
-	
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends$2 = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    /**
-	     * `PlatformLocation` encapsulates all of the direct calls to platform APIs.
-	     * This class should not be used directly by an application developer. Instead, use
-	     * {@link Location}.
-	     */
-	    var BrowserPlatformLocation = (function (_super) {
-	        __extends$2(BrowserPlatformLocation, _super);
-	        function BrowserPlatformLocation() {
-	            _super.call(this);
-	            this._init();
-	        }
-	        // This is moved to its own method so that `MockPlatformLocationStrategy` can overwrite it
-	        /** @internal */
-	        BrowserPlatformLocation.prototype._init = function () {
-	            this._location = getDOM().getLocation();
-	            this._history = getDOM().getHistory();
-	        };
-	        Object.defineProperty(BrowserPlatformLocation.prototype, "location", {
-	            get: function () { return this._location; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        BrowserPlatformLocation.prototype.getBaseHrefFromDOM = function () { return getDOM().getBaseHref(); };
-	        BrowserPlatformLocation.prototype.onPopState = function (fn) {
-	            getDOM().getGlobalEventTarget('window').addEventListener('popstate', fn, false);
-	        };
-	        BrowserPlatformLocation.prototype.onHashChange = function (fn) {
-	            getDOM().getGlobalEventTarget('window').addEventListener('hashchange', fn, false);
-	        };
-	        Object.defineProperty(BrowserPlatformLocation.prototype, "pathname", {
-	            get: function () { return this._location.pathname; },
-	            set: function (newPath) { this._location.pathname = newPath; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        Object.defineProperty(BrowserPlatformLocation.prototype, "search", {
-	            get: function () { return this._location.search; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        Object.defineProperty(BrowserPlatformLocation.prototype, "hash", {
-	            get: function () { return this._location.hash; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        BrowserPlatformLocation.prototype.pushState = function (state, title, url) {
-	            if (supportsState()) {
-	                this._history.pushState(state, title, url);
-	            }
-	            else {
-	                this._location.hash = url;
-	            }
-	        };
-	        BrowserPlatformLocation.prototype.replaceState = function (state, title, url) {
-	            if (supportsState()) {
-	                this._history.replaceState(state, title, url);
-	            }
-	            else {
-	                this._location.hash = url;
-	            }
-	        };
-	        BrowserPlatformLocation.prototype.forward = function () { this._history.forward(); };
-	        BrowserPlatformLocation.prototype.back = function () { this._history.back(); };
-	        BrowserPlatformLocation.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        BrowserPlatformLocation.ctorParameters = [];
-	        return BrowserPlatformLocation;
-	    }(_angular_common.PlatformLocation));
 	
 	    var BrowserGetTestability = (function () {
 	        function BrowserGetTestability() {
@@ -30478,7 +30236,7 @@ webpackJsonp([2],[
 	        }
 	        DomRootRenderer.prototype.renderComponent = function (componentProto) {
 	            var renderer = this.registeredComponents.get(componentProto.id);
-	            if (isBlank(renderer)) {
+	            if (!renderer) {
 	                renderer = new DomRenderer(this, componentProto, this.animationDriver);
 	                this.registeredComponents.set(componentProto.id, renderer);
 	            }
@@ -30993,9 +30751,9 @@ webpackJsonp([2],[
 	        };
 	        KeyEventsPlugin.prototype.addEventListener = function (element, eventName, handler) {
 	            var parsedEvent = KeyEventsPlugin.parseEventName(eventName);
-	            var outsideHandler = KeyEventsPlugin.eventCallback(element, StringMapWrapper.get(parsedEvent, 'fullKey'), handler, this.manager.getZone());
+	            var outsideHandler = KeyEventsPlugin.eventCallback(element, parsedEvent['fullKey'], handler, this.manager.getZone());
 	            return this.manager.getZone().runOutsideAngular(function () {
-	                return getDOM().onAndCancel(element, StringMapWrapper.get(parsedEvent, 'domEventName'), outsideHandler);
+	                return getDOM().onAndCancel(element, parsedEvent['domEventName'], outsideHandler);
 	            });
 	        };
 	        KeyEventsPlugin.parseEventName = function (eventName) {
@@ -31020,8 +30778,8 @@ webpackJsonp([2],[
 	                return null;
 	            }
 	            var result = {};
-	            StringMapWrapper.set(result, 'domEventName', domEventName);
-	            StringMapWrapper.set(result, 'fullKey', fullKey);
+	            result['domEventName'] = domEventName;
+	            result['fullKey'] = fullKey;
 	            return result;
 	        };
 	        KeyEventsPlugin.getEventFullKey = function (event) {
@@ -31036,7 +30794,7 @@ webpackJsonp([2],[
 	            }
 	            modifierKeys.forEach(function (modifierName) {
 	                if (modifierName != key) {
-	                    var modifierGetter = StringMapWrapper.get(modifierKeyGetters, modifierName);
+	                    var modifierGetter = modifierKeyGetters[modifierName];
 	                    if (modifierGetter(event)) {
 	                        fullKey += modifierName + '.';
 	                    }
@@ -31883,7 +31641,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.0.1
+	 * @license Angular v2.0.2
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -32018,12 +31776,8 @@ webpackJsonp([2],[
 	    // exports the original value of the symbol.
 	    var _global = globalScope;
 	    function getTypeNameForDebugging(type) {
-	        if (type['name']) {
-	            return type['name'];
-	        }
-	        return typeof type;
+	        return type['name'] || typeof type;
 	    }
-	    var Date$1 = _global.Date;
 	    // TODO: remove calls to assert in production environment
 	    // Note: Can't just export this and import in in other files
 	    // as `assert` is a reserved keyword in Dart
@@ -32043,7 +31797,7 @@ webpackJsonp([2],[
 	        return Array.isArray(obj);
 	    }
 	    function isDate(obj) {
-	        return obj instanceof Date$1 && !isNaN(obj.valueOf());
+	        return obj instanceof Date && !isNaN(obj.valueOf());
 	    }
 	    function stringify(token) {
 	        if (typeof token === 'string') {
@@ -32060,7 +31814,7 @@ webpackJsonp([2],[
 	        }
 	        var res = token.toString();
 	        var newLineIndex = res.indexOf('\n');
-	        return (newLineIndex === -1) ? res : res.substring(0, newLineIndex);
+	        return newLineIndex === -1 ? res : res.substring(0, newLineIndex);
 	    }
 	    var NumberWrapper = (function () {
 	        function NumberWrapper() {
@@ -33940,7 +33694,7 @@ webpackJsonp([2],[
 	        };
 	        NgStyle.prototype._setStyle = function (nameAndUnit, value) {
 	            var _a = nameAndUnit.split('.'), name = _a[0], unit = _a[1];
-	            value = value !== null && value !== void (0) && unit ? "" + value + unit : value;
+	            value = value && unit ? "" + value + unit : value;
 	            this._renderer.setElementStyle(this._ngEl.nativeElement, name, value);
 	        };
 	        NgStyle.decorators = [
@@ -35166,7 +34920,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.0.1
+	 * @license Angular v2.0.2
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -35227,14 +34981,8 @@ webpackJsonp([2],[
 	    function isPresent(obj) {
 	        return obj !== undefined && obj !== null;
 	    }
-	    function isBlank(obj) {
-	        return obj === undefined || obj === null;
-	    }
 	    function isString(obj) {
 	        return typeof obj === 'string';
-	    }
-	    function isArray(obj) {
-	        return Array.isArray(obj);
 	    }
 	    var StringWrapper = (function () {
 	        function StringWrapper() {
@@ -35359,26 +35107,6 @@ webpackJsonp([2],[
 	        };
 	        return Json;
 	    }());
-	    var _symbolIterator = null;
-	    function getSymbolIterator() {
-	        if (isBlank(_symbolIterator)) {
-	            if (isPresent(globalScope.Symbol) && isPresent(Symbol.iterator)) {
-	                _symbolIterator = Symbol.iterator;
-	            }
-	            else {
-	                // es6-shim specific logic
-	                var keys = Object.getOwnPropertyNames(Map.prototype);
-	                for (var i = 0; i < keys.length; ++i) {
-	                    var key = keys[i];
-	                    if (key !== 'entries' && key !== 'size' &&
-	                        Map.prototype[key] === Map.prototype['entries']) {
-	                        _symbolIterator = key;
-	                    }
-	                }
-	            }
-	        }
-	        return _symbolIterator;
-	    }
 	
 	    /**
 	     * @license
@@ -35532,211 +35260,6 @@ webpackJsonp([2],[
 	        MapWrapper.values = function (m) { return _arrayFromMap(m, true); };
 	        return MapWrapper;
 	    }());
-	    /**
-	     * Wraps Javascript Objects
-	     */
-	    var StringMapWrapper = (function () {
-	        function StringMapWrapper() {
-	        }
-	        StringMapWrapper.get = function (map, key) {
-	            return map.hasOwnProperty(key) ? map[key] : undefined;
-	        };
-	        StringMapWrapper.set = function (map, key, value) { map[key] = value; };
-	        StringMapWrapper.keys = function (map) { return Object.keys(map); };
-	        StringMapWrapper.values = function (map) {
-	            return Object.keys(map).map(function (k) { return map[k]; });
-	        };
-	        StringMapWrapper.isEmpty = function (map) {
-	            for (var prop in map) {
-	                return false;
-	            }
-	            return true;
-	        };
-	        StringMapWrapper.forEach = function (map, callback) {
-	            for (var _i = 0, _a = Object.keys(map); _i < _a.length; _i++) {
-	                var k = _a[_i];
-	                callback(map[k], k);
-	            }
-	        };
-	        StringMapWrapper.merge = function (m1, m2) {
-	            var m = {};
-	            for (var _i = 0, _a = Object.keys(m1); _i < _a.length; _i++) {
-	                var k = _a[_i];
-	                m[k] = m1[k];
-	            }
-	            for (var _b = 0, _c = Object.keys(m2); _b < _c.length; _b++) {
-	                var k = _c[_b];
-	                m[k] = m2[k];
-	            }
-	            return m;
-	        };
-	        StringMapWrapper.equals = function (m1, m2) {
-	            var k1 = Object.keys(m1);
-	            var k2 = Object.keys(m2);
-	            if (k1.length != k2.length) {
-	                return false;
-	            }
-	            for (var i = 0; i < k1.length; i++) {
-	                var key = k1[i];
-	                if (m1[key] !== m2[key]) {
-	                    return false;
-	                }
-	            }
-	            return true;
-	        };
-	        return StringMapWrapper;
-	    }());
-	    var ListWrapper = (function () {
-	        function ListWrapper() {
-	        }
-	        // JS has no way to express a statically fixed size list, but dart does so we
-	        // keep both methods.
-	        ListWrapper.createFixedSize = function (size) { return new Array(size); };
-	        ListWrapper.createGrowableSize = function (size) { return new Array(size); };
-	        ListWrapper.clone = function (array) { return array.slice(0); };
-	        ListWrapper.forEachWithIndex = function (array, fn) {
-	            for (var i = 0; i < array.length; i++) {
-	                fn(array[i], i);
-	            }
-	        };
-	        ListWrapper.first = function (array) {
-	            if (!array)
-	                return null;
-	            return array[0];
-	        };
-	        ListWrapper.last = function (array) {
-	            if (!array || array.length == 0)
-	                return null;
-	            return array[array.length - 1];
-	        };
-	        ListWrapper.indexOf = function (array, value, startIndex) {
-	            if (startIndex === void 0) { startIndex = 0; }
-	            return array.indexOf(value, startIndex);
-	        };
-	        ListWrapper.contains = function (list, el) { return list.indexOf(el) !== -1; };
-	        ListWrapper.reversed = function (array) {
-	            var a = ListWrapper.clone(array);
-	            return a.reverse();
-	        };
-	        ListWrapper.concat = function (a, b) { return a.concat(b); };
-	        ListWrapper.insert = function (list, index, value) { list.splice(index, 0, value); };
-	        ListWrapper.removeAt = function (list, index) {
-	            var res = list[index];
-	            list.splice(index, 1);
-	            return res;
-	        };
-	        ListWrapper.removeAll = function (list, items) {
-	            for (var i = 0; i < items.length; ++i) {
-	                var index = list.indexOf(items[i]);
-	                list.splice(index, 1);
-	            }
-	        };
-	        ListWrapper.remove = function (list, el) {
-	            var index = list.indexOf(el);
-	            if (index > -1) {
-	                list.splice(index, 1);
-	                return true;
-	            }
-	            return false;
-	        };
-	        ListWrapper.clear = function (list) { list.length = 0; };
-	        ListWrapper.isEmpty = function (list) { return list.length == 0; };
-	        ListWrapper.fill = function (list, value, start, end) {
-	            if (start === void 0) { start = 0; }
-	            if (end === void 0) { end = null; }
-	            list.fill(value, start, end === null ? list.length : end);
-	        };
-	        ListWrapper.equals = function (a, b) {
-	            if (a.length != b.length)
-	                return false;
-	            for (var i = 0; i < a.length; ++i) {
-	                if (a[i] !== b[i])
-	                    return false;
-	            }
-	            return true;
-	        };
-	        ListWrapper.slice = function (l, from, to) {
-	            if (from === void 0) { from = 0; }
-	            if (to === void 0) { to = null; }
-	            return l.slice(from, to === null ? undefined : to);
-	        };
-	        ListWrapper.splice = function (l, from, length) { return l.splice(from, length); };
-	        ListWrapper.sort = function (l, compareFn) {
-	            if (isPresent(compareFn)) {
-	                l.sort(compareFn);
-	            }
-	            else {
-	                l.sort();
-	            }
-	        };
-	        ListWrapper.toString = function (l) { return l.toString(); };
-	        ListWrapper.toJSON = function (l) { return JSON.stringify(l); };
-	        ListWrapper.maximum = function (list, predicate) {
-	            if (list.length == 0) {
-	                return null;
-	            }
-	            var solution = null;
-	            var maxValue = -Infinity;
-	            for (var index = 0; index < list.length; index++) {
-	                var candidate = list[index];
-	                if (isBlank(candidate)) {
-	                    continue;
-	                }
-	                var candidateValue = predicate(candidate);
-	                if (candidateValue > maxValue) {
-	                    solution = candidate;
-	                    maxValue = candidateValue;
-	                }
-	            }
-	            return solution;
-	        };
-	        ListWrapper.flatten = function (list) {
-	            var target = [];
-	            _flattenArray(list, target);
-	            return target;
-	        };
-	        ListWrapper.addAll = function (list, source) {
-	            for (var i = 0; i < source.length; i++) {
-	                list.push(source[i]);
-	            }
-	        };
-	        return ListWrapper;
-	    }());
-	    function _flattenArray(source, target) {
-	        if (isPresent(source)) {
-	            for (var i = 0; i < source.length; i++) {
-	                var item = source[i];
-	                if (isArray(item)) {
-	                    _flattenArray(item, target);
-	                }
-	                else {
-	                    target.push(item);
-	                }
-	            }
-	        }
-	        return target;
-	    }
-	    function isListLikeIterable(obj) {
-	        if (!isJsObject(obj))
-	            return false;
-	        return isArray(obj) ||
-	            (!(obj instanceof Map) &&
-	                getSymbolIterator() in obj); // JS Iterable have a Symbol.iterator prop
-	    }
-	    function iterateListLike(obj, fn) {
-	        if (isArray(obj)) {
-	            for (var i = 0; i < obj.length; i++) {
-	                fn(obj[i]);
-	            }
-	        }
-	        else {
-	            var iterator = obj[getSymbolIterator()]();
-	            var item;
-	            while (!((item = iterator.next()).done)) {
-	                fn(item.value);
-	            }
-	        }
-	    }
 	
 	    /**
 	     * Polyfill for [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers), as
@@ -35745,7 +35268,7 @@ webpackJsonp([2],[
 	     * The only known difference between this `Headers` implementation and the spec is the
 	     * lack of an `entries` method.
 	     *
-	     * ### Example ([live demo](http://plnkr.co/edit/MTdwT6?p=preview))
+	     * ### Example
 	     *
 	     * ```
 	     * import {Headers} from '@angular/http';
@@ -35767,19 +35290,29 @@ webpackJsonp([2],[
 	     * @experimental
 	     */
 	    var Headers = (function () {
+	        // TODO(vicb): any -> string|string[]
 	        function Headers(headers) {
 	            var _this = this;
+	            /** @internal header names are lower case */
+	            this._headers = new Map();
+	            /** @internal map lower case names to actual names */
+	            this._normalizedNames = new Map();
+	            if (!headers) {
+	                return;
+	            }
 	            if (headers instanceof Headers) {
-	                this._headersMap = new Map(headers._headersMap);
+	                headers._headers.forEach(function (value, name) {
+	                    var lcName = name.toLowerCase();
+	                    _this._headers.set(lcName, value);
+	                    _this.mayBeSetNormalizedName(name);
+	                });
 	                return;
 	            }
-	            this._headersMap = new Map();
-	            if (isBlank(headers)) {
-	                return;
-	            }
-	            // headers instanceof StringMap
-	            StringMapWrapper.forEach(headers, function (v, k) {
-	                _this._headersMap.set(normalize(k), isListLikeIterable(v) ? v : [v]);
+	            Object.keys(headers).forEach(function (name) {
+	                var value = headers[name];
+	                var lcName = name.toLowerCase();
+	                _this._headers.set(lcName, Array.isArray(value) ? value : [value]);
+	                _this.mayBeSetNormalizedName(name);
 	            });
 	        }
 	        /**
@@ -35790,9 +35323,9 @@ webpackJsonp([2],[
 	            headersString.split('\n').forEach(function (line) {
 	                var index = line.indexOf(':');
 	                if (index > 0) {
-	                    var key = line.substring(0, index);
-	                    var value = line.substring(index + 1).trim();
-	                    headers.set(key, value);
+	                    var name_1 = line.slice(0, index);
+	                    var value = line.slice(index + 1).trim();
+	                    headers.set(name_1, value);
 	                }
 	            });
 	            return headers;
@@ -35801,81 +35334,83 @@ webpackJsonp([2],[
 	         * Appends a header to existing list of header values for a given header name.
 	         */
 	        Headers.prototype.append = function (name, value) {
-	            name = normalize(name);
-	            var mapName = this._headersMap.get(name);
-	            var list = isListLikeIterable(mapName) ? mapName : [];
-	            list.push(value);
-	            this._headersMap.set(name, list);
+	            var values = this.getAll(name);
+	            this.set(name, values === null ? [value] : values.concat([value]));
 	        };
 	        /**
 	         * Deletes all header values for the given name.
 	         */
-	        Headers.prototype.delete = function (name) { this._headersMap.delete(normalize(name)); };
+	        Headers.prototype.delete = function (name) {
+	            var lcName = name.toLowerCase();
+	            this._normalizedNames.delete(lcName);
+	            this._headers.delete(lcName);
+	        };
 	        Headers.prototype.forEach = function (fn) {
-	            this._headersMap.forEach(fn);
+	            var _this = this;
+	            this._headers.forEach(function (values, lcName) { return fn(values, _this._normalizedNames.get(lcName), _this._headers); });
 	        };
 	        /**
 	         * Returns first header that matches given name.
 	         */
-	        Headers.prototype.get = function (header) { return ListWrapper.first(this._headersMap.get(normalize(header))); };
+	        Headers.prototype.get = function (name) {
+	            var values = this.getAll(name);
+	            if (values === null) {
+	                return null;
+	            }
+	            return values.length > 0 ? values[0] : null;
+	        };
 	        /**
-	         * Check for existence of header by given name.
+	         * Checks for existence of header by given name.
 	         */
-	        Headers.prototype.has = function (header) { return this._headersMap.has(normalize(header)); };
+	        Headers.prototype.has = function (name) { return this._headers.has(name.toLowerCase()); };
 	        /**
-	         * Provides names of set headers
+	         * Returns the names of the headers
 	         */
-	        Headers.prototype.keys = function () { return MapWrapper.keys(this._headersMap); };
+	        Headers.prototype.keys = function () { return MapWrapper.values(this._normalizedNames); };
 	        /**
 	         * Sets or overrides header value for given name.
 	         */
-	        Headers.prototype.set = function (header, value) {
-	            var list = [];
-	            if (isListLikeIterable(value)) {
-	                var pushValue = value.join(',');
-	                list.push(pushValue);
-	            }
-	            else {
-	                list.push(value);
-	            }
-	            this._headersMap.set(normalize(header), list);
+	        Headers.prototype.set = function (name, value) {
+	            var strValue = Array.isArray(value) ? value.join(',') : value;
+	            this._headers.set(name.toLowerCase(), [strValue]);
+	            this.mayBeSetNormalizedName(name);
 	        };
 	        /**
 	         * Returns values of all headers.
 	         */
-	        Headers.prototype.values = function () { return MapWrapper.values(this._headersMap); };
+	        Headers.prototype.values = function () { return MapWrapper.values(this._headers); };
 	        /**
 	         * Returns string of all headers.
 	         */
+	        // TODO(vicb): returns {[name: string]: string[]}
 	        Headers.prototype.toJSON = function () {
-	            var serializableHeaders = {};
-	            this._headersMap.forEach(function (values, name) {
-	                var list = [];
-	                iterateListLike(values, function (val /** TODO #9100 */) { return list = ListWrapper.concat(list, val.split(',')); });
-	                serializableHeaders[normalize(name)] = list;
+	            var _this = this;
+	            var serialized = {};
+	            this._headers.forEach(function (values, name) {
+	                var split = [];
+	                values.forEach(function (v) { return split.push.apply(split, v.split(',')); });
+	                serialized[_this._normalizedNames.get(name)] = split;
 	            });
-	            return serializableHeaders;
+	            return serialized;
 	        };
 	        /**
 	         * Returns list of header values for a given name.
 	         */
-	        Headers.prototype.getAll = function (header) {
-	            var headers = this._headersMap.get(normalize(header));
-	            return isListLikeIterable(headers) ? headers : [];
+	        Headers.prototype.getAll = function (name) {
+	            return this.has(name) ? this._headers.get(name.toLowerCase()) : null;
 	        };
 	        /**
 	         * This method is not implemented.
 	         */
 	        Headers.prototype.entries = function () { throw new Error('"entries" method is not implemented on Headers class'); };
+	        Headers.prototype.mayBeSetNormalizedName = function (name) {
+	            var lcName = name.toLowerCase();
+	            if (!this._normalizedNames.has(lcName)) {
+	                this._normalizedNames.set(lcName, name);
+	            }
+	        };
 	        return Headers;
 	    }());
-	    // "HTTP character sets are identified by case-insensitive tokens"
-	    // Spec at https://tools.ietf.org/html/rfc2616
-	    // This implementation is same as NodeJS.
-	    // see https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_message_headers
-	    function normalize(name) {
-	        return name.toLowerCase();
-	    }
 	
 	    /**
 	     * @license
@@ -36193,6 +35728,10 @@ webpackJsonp([2],[
 	        };
 	        URLSearchParams.prototype.getAll = function (param) { return this.paramsMap.get(param) || []; };
 	        URLSearchParams.prototype.set = function (param, val) {
+	            if (val === void 0 || val === null) {
+	                this.delete(param);
+	                return;
+	            }
 	            var list = this.paramsMap.get(param) || [];
 	            list.length = 0;
 	            list.push(val);
@@ -36214,6 +35753,8 @@ webpackJsonp([2],[
 	            });
 	        };
 	        URLSearchParams.prototype.append = function (param, val) {
+	            if (val === void 0 || val === null)
+	                return;
 	            var list = this.paramsMap.get(param) || [];
 	            list.push(val);
 	            this.paramsMap.set(param, list);
@@ -36584,9 +36125,8 @@ webpackJsonp([2],[
 	                var onLoad = function () {
 	                    // responseText is the old-school way of retrieving response (supported by IE8 & 9)
 	                    // response/responseType properties were introduced in ResourceLoader Level2 spec (supported
-	                    // by
-	                    // IE10)
-	                    var body = isPresent(_xhr.response) ? _xhr.response : _xhr.responseText;
+	                    // by IE10)
+	                    var body = _xhr.response === undefined ? _xhr.responseText : _xhr.response;
 	                    // Implicitly strip a potential XSSI prefix.
 	                    if (isString(body))
 	                        body = body.replace(XSSI_PREFIX, '');
@@ -37488,7 +37028,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @license Angular v3.0.1
+	 * @license Angular v3.0.2
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -39871,6 +39411,16 @@ webpackJsonp([2],[
 	            this.currentRouterState = createEmptyState(this.currentUrlTree, this.rootComponentType);
 	        }
 	        /**
+	         * @internal
+	         * TODO: this should be removed once the constructor of the router made internal
+	         */
+	        Router.prototype.resetRootComponentType = function (rootComponentType) {
+	            this.rootComponentType = rootComponentType;
+	            // TODO: vsavkin router 4.0 should make the root component set to null
+	            // this will simplify the lifecycle of the router.
+	            this.currentRouterState.root.component = this.rootComponentType;
+	        };
+	        /**
 	         * Sets up the location change listener and performs the initial navigation.
 	         */
 	        Router.prototype.initialNavigation = function () {
@@ -40827,15 +40377,18 @@ webpackJsonp([2],[
 	            var _this = this;
 	            if (!this.links || !this.linksWithHrefs || !this.router.navigated)
 	                return;
-	            var isActiveLinks = this.reduceList(this.links);
-	            var isActiveLinksWithHrefs = this.reduceList(this.linksWithHrefs);
-	            this.classes.forEach(function (c) { return _this.renderer.setElementClass(_this.element.nativeElement, c, isActiveLinks || isActiveLinksWithHrefs); });
+	            var isActive = this.hasActiveLink();
+	            this.classes.forEach(function (c) { return _this.renderer.setElementClass(_this.element.nativeElement, c, isActive); });
 	        };
-	        RouterLinkActive.prototype.reduceList = function (q) {
+	        RouterLinkActive.prototype.isLinkActive = function (router) {
 	            var _this = this;
-	            return q.reduce(function (res, link) {
-	                return res || _this.router.isActive(link.urlTree, _this.routerLinkActiveOptions.exact);
-	            }, false);
+	            return function (link) {
+	                return router.isActive(link.urlTree, _this.routerLinkActiveOptions.exact);
+	            };
+	        };
+	        RouterLinkActive.prototype.hasActiveLink = function () {
+	            return this.links.some(this.isLinkActive(this.router)) ||
+	                this.linksWithHrefs.some(this.isLinkActive(this.router));
 	        };
 	        RouterLinkActive.decorators = [
 	            { type: _angular_core.Directive, args: [{ selector: '[routerLinkActive]' },] },

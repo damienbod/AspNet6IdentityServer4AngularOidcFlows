@@ -112,7 +112,7 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @license Angular v2.0.1
+	 * @license Angular v2.0.2
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -488,26 +488,6 @@ webpackJsonp([0],[
 	    var StringMapWrapper = (function () {
 	        function StringMapWrapper() {
 	        }
-	        StringMapWrapper.get = function (map, key) {
-	            return map.hasOwnProperty(key) ? map[key] : undefined;
-	        };
-	        StringMapWrapper.set = function (map, key, value) { map[key] = value; };
-	        StringMapWrapper.keys = function (map) { return Object.keys(map); };
-	        StringMapWrapper.values = function (map) {
-	            return Object.keys(map).map(function (k) { return map[k]; });
-	        };
-	        StringMapWrapper.isEmpty = function (map) {
-	            for (var prop in map) {
-	                return false;
-	            }
-	            return true;
-	        };
-	        StringMapWrapper.forEach = function (map, callback) {
-	            for (var _i = 0, _a = Object.keys(map); _i < _a.length; _i++) {
-	                var k = _a[_i];
-	                callback(map[k], k);
-	            }
-	        };
 	        StringMapWrapper.merge = function (m1, m2) {
 	            var m = {};
 	            for (var _i = 0, _a = Object.keys(m1); _i < _a.length; _i++) {
@@ -747,8 +727,6 @@ webpackJsonp([0],[
 	         */
 	        Validators.pattern = function (pattern) {
 	            return function (control) {
-	                if (isPresent(Validators.required(control)))
-	                    return null;
 	                var regex = new RegExp("^" + pattern + "$");
 	                var v = control.value;
 	                return regex.test(v) ? null :
@@ -764,7 +742,7 @@ webpackJsonp([0],[
 	         * of the individual error maps.
 	         */
 	        Validators.compose = function (validators) {
-	            if (isBlank(validators))
+	            if (!validators)
 	                return null;
 	            var presentValidators = validators.filter(isPresent);
 	            if (presentValidators.length == 0)
@@ -774,7 +752,7 @@ webpackJsonp([0],[
 	            };
 	        };
 	        Validators.composeAsync = function (validators) {
-	            if (isBlank(validators))
+	            if (!validators)
 	                return null;
 	            var presentValidators = validators.filter(isPresent);
 	            if (presentValidators.length == 0)
@@ -799,7 +777,7 @@ webpackJsonp([0],[
 	        var res = arrayOfErrors.reduce(function (res, errors) {
 	            return isPresent(errors) ? StringMapWrapper.merge(res, errors) : res;
 	        }, {});
-	        return StringMapWrapper.isEmpty(res) ? null : res;
+	        return Object.keys(res).length === 0 ? null : res;
 	    }
 	
 	    /**
@@ -1528,9 +1506,9 @@ webpackJsonp([0],[
 	        return p;
 	    }
 	    function setUpControl(control, dir) {
-	        if (isBlank(control))
+	        if (!control)
 	            _throwError(dir, 'Cannot find control with');
-	        if (isBlank(dir.valueAccessor))
+	        if (!dir.valueAccessor)
 	            _throwError(dir, 'No value accessor for form control with');
 	        control.validator = Validators.compose([control.validator, dir.validator]);
 	        control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
@@ -1617,7 +1595,7 @@ webpackJsonp([0],[
 	    }
 	    // TODO: vsavkin remove it once https://github.com/angular/angular/issues/3011 is implemented
 	    function selectValueAccessor(dir, valueAccessors) {
-	        if (isBlank(valueAccessors))
+	        if (!valueAccessors)
 	            return null;
 	        var defaultAccessor;
 	        var builtinAccessor;
@@ -2404,7 +2382,7 @@ webpackJsonp([0],[
 	            if (path === void 0) { path = null; }
 	            var control = isPresent(path) && !ListWrapper.isEmpty(path) ? this.get(path) : this;
 	            if (isPresent(control) && isPresent(control._errors)) {
-	                return StringMapWrapper.get(control._errors, errorCode);
+	                return control._errors[errorCode];
 	            }
 	            else {
 	                return null;
@@ -2515,6 +2493,8 @@ webpackJsonp([0],[
 	     *
 	     * You can also initialize the control with a form state object on instantiation,
 	     * which includes both the value and whether or not the control is disabled.
+	     * You can't use the value key without the disabled key; both are required
+	     * to use this way of initialization.
 	     *
 	     * ```ts
 	     * const ctrl = new FormControl({value: 'n/a', disabled: true});
@@ -2814,9 +2794,9 @@ webpackJsonp([0],[
 	            var _this = this;
 	            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
 	            this._checkAllValuesPresent(value);
-	            StringMapWrapper.forEach(value, function (newValue, name) {
+	            Object.keys(value).forEach(function (name) {
 	                _this._throwIfControlMissing(name);
-	                _this.controls[name].setValue(newValue, { onlySelf: true });
+	                _this.controls[name].setValue(value[name], { onlySelf: true });
 	            });
 	            this.updateValueAndValidity({ onlySelf: onlySelf });
 	        };
@@ -2844,9 +2824,9 @@ webpackJsonp([0],[
 	        FormGroup.prototype.patchValue = function (value, _a) {
 	            var _this = this;
 	            var onlySelf = (_a === void 0 ? {} : _a).onlySelf;
-	            StringMapWrapper.forEach(value, function (newValue, name) {
+	            Object.keys(value).forEach(function (name) {
 	                if (_this.controls[name]) {
-	                    _this.controls[name].patchValue(newValue, { onlySelf: true });
+	                    _this.controls[name].patchValue(value[name], { onlySelf: true });
 	                }
 	            });
 	            this.updateValueAndValidity({ onlySelf: onlySelf });
@@ -2916,7 +2896,8 @@ webpackJsonp([0],[
 	        };
 	        /** @internal */
 	        FormGroup.prototype._forEachChild = function (cb) {
-	            StringMapWrapper.forEach(this.controls, cb);
+	            var _this = this;
+	            Object.keys(this.controls).forEach(function (k) { return cb(_this.controls[k], k); });
 	        };
 	        /** @internal */
 	        FormGroup.prototype._setUpControls = function () {
@@ -4025,7 +4006,7 @@ webpackJsonp([0],[
 	            this.form.asyncValidator = Validators.composeAsync([this.form.asyncValidator, async]);
 	        };
 	        FormGroupDirective.prototype._checkFormPresent = function () {
-	            if (isBlank(this.form)) {
+	            if (!this.form) {
 	                ReactiveErrors.missingFormException();
 	            }
 	        };
@@ -4647,8 +4628,8 @@ webpackJsonp([0],[
 	        FormBuilder.prototype.group = function (controlsConfig, extra) {
 	            if (extra === void 0) { extra = null; }
 	            var controls = this._reduceControls(controlsConfig);
-	            var validator = isPresent(extra) ? StringMapWrapper.get(extra, 'validator') : null;
-	            var asyncValidator = isPresent(extra) ? StringMapWrapper.get(extra, 'asyncValidator') : null;
+	            var validator = isPresent(extra) ? extra['validator'] : null;
+	            var asyncValidator = isPresent(extra) ? extra['asyncValidator'] : null;
 	            return new FormGroup(controls, validator, asyncValidator);
 	        };
 	        /**
@@ -4679,8 +4660,8 @@ webpackJsonp([0],[
 	        FormBuilder.prototype._reduceControls = function (controlsConfig) {
 	            var _this = this;
 	            var controls = {};
-	            StringMapWrapper.forEach(controlsConfig, function (controlConfig, controlName) {
-	                controls[controlName] = _this._createControl(controlConfig);
+	            Object.keys(controlsConfig).forEach(function (controlName) {
+	                controls[controlName] = _this._createControl(controlsConfig[controlName]);
 	            });
 	            return controls;
 	        };
