@@ -2,8 +2,8 @@
   "userSecretsId": "aspnet-WebApp_Auth-96d521e3-30ac-4a8f-967f-abc243174dce",
 
     "dependencies": {
-        "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0",
-        "Microsoft.EntityFrameworkCore.Sqlite.Design": "1.0.0",
+        "Microsoft.EntityFrameworkCore.Sqlite": "1.0.1",
+        "Microsoft.EntityFrameworkCore.Sqlite.Design": "1.0.1",
         "Microsoft.EntityFrameworkCore.Tools": {
             "version": "1.0.0-preview2-final",
             "imports": [
@@ -15,7 +15,7 @@
         "Microsoft.AspNetCore.Diagnostics": "1.0.0",
         "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",
         "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
-        "Microsoft.AspNetCore.Mvc": "1.0.0",
+        "Microsoft.AspNetCore.Mvc": "1.0.1",
         "Microsoft.AspNetCore.Razor.Tools": {
             "version": "1.0.0-preview2-final",
             "type": "build"
@@ -44,7 +44,7 @@
         "Microsoft.AspNetCore.DataProtection": "1.0.0",
         "System.IdentityModel.Tokens.Jwt": "5.0.0",
         "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
-        "IdentityServer4.AccessTokenValidation": "1.0.1-rc1"
+        "IdentityServer4.AccessTokenValidation": "1.0.1-rc2"
     },
 
   "tools": {
