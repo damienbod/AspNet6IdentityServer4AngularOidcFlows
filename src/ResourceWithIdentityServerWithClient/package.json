@@ -14,15 +14,15 @@
         "postinstall": "typings install"
     },
     "dependencies": {
-        "@angular/common": "~2.0.2",
-        "@angular/compiler": "~2.0.2",
-        "@angular/core": "~2.0.2",
-        "@angular/forms": "~2.0.2",
-        "@angular/http": "~2.0.2",
-        "@angular/platform-browser": "~2.0.2",
-        "@angular/platform-browser-dynamic": "~2.0.2",
-        "@angular/router": "~3.0.2",
-        "@angular/upgrade": "~2.0.2",
+        "@angular/common": "~2.1.0",
+        "@angular/compiler": "~2.1.0",
+        "@angular/core": "~2.1.0",
+        "@angular/forms": "~2.1.0",
+        "@angular/http": "~2.1.0",
+        "@angular/platform-browser": "~2.1.0",
+        "@angular/platform-browser-dynamic": "~2.1.0",
+        "@angular/router": "~3.1.0",
+        "@angular/upgrade": "~2.1.0",
         "angular-in-memory-web-api": "~0.1.5",
         "bootstrap": "^3.3.7",
         "core-js": "^2.4.1",
@@ -30,8 +30,8 @@
         "rxjs": "5.0.0-beta.12",
         "zone.js": "^0.6.25",
 
-        "ie-shim": "^0.1.0",
-        "extract-text-webpack-plugin": "^1.0.1"
+        "extract-text-webpack-plugin": "^1.0.1",
+        "ie-shim": "^0.1.0"
     },
     "devDependencies": {
         "autoprefixer": "^6.3.2",
@@ -44,7 +44,7 @@
         "html-webpack-plugin": "^2.8.1",
         "jquery": "^2.2.0",
         "json-loader": "^0.5.3",
-        "node-sass": "^3.4.2",
+        "node-sass": "^3.10.1",
         "null-loader": "0.1.1",
         "postcss-loader": "^0.9.1",
         "raw-loader": "0.5.1",
