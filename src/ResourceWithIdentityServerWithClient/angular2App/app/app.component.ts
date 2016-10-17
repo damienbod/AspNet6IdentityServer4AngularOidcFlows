@@ -17,7 +17,7 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
 @Component({
     selector: 'my-app',
     template: require('./app.component.html'),
-    styles: [require('./app.component.scss')]
+    styles: [String(require('./app.component.scss'))]
 })
 
 export class AppComponent implements OnInit {
