@@ -55,16 +55,16 @@ webpackJsonp([0],[
 	var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ 21);
 	var app_component_1 = __webpack_require__(/*! ./app.component */ 28);
 	var app_constants_1 = __webpack_require__(/*! ./app.constants */ 33);
-	var app_routes_1 = __webpack_require__(/*! ./app.routes */ 63);
+	var app_routes_1 = __webpack_require__(/*! ./app.routes */ 68);
 	var http_1 = __webpack_require__(/*! @angular/http */ 30);
 	var SecurityService_1 = __webpack_require__(/*! ./services/SecurityService */ 29);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 71);
-	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 64);
-	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 66);
-	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 68);
-	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 70);
-	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 73);
-	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 75);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ./dataeventrecords/DataEventRecordsService */ 76);
+	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 69);
+	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 71);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 73);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 75);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 78);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 80);
 	var AppModule = (function () {
 	    function AppModule() {
 	    }
@@ -108,7 +108,7 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @license Angular v2.0.2
+	 * @license Angular v2.1.0
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -133,74 +133,6 @@ webpackJsonp([0],[
 	    function isArray(obj) {
 	        return Array.isArray(obj);
 	    }
-	    var StringWrapper = (function () {
-	        function StringWrapper() {
-	        }
-	        StringWrapper.fromCharCode = function (code) { return String.fromCharCode(code); };
-	        StringWrapper.charCodeAt = function (s, index) { return s.charCodeAt(index); };
-	        StringWrapper.split = function (s, regExp) { return s.split(regExp); };
-	        StringWrapper.equals = function (s, s2) { return s === s2; };
-	        StringWrapper.stripLeft = function (s, charVal) {
-	            if (s && s.length) {
-	                var pos = 0;
-	                for (var i = 0; i < s.length; i++) {
-	                    if (s[i] != charVal)
-	                        break;
-	                    pos++;
-	                }
-	                s = s.substring(pos);
-	            }
-	            return s;
-	        };
-	        StringWrapper.stripRight = function (s, charVal) {
-	            if (s && s.length) {
-	                var pos = s.length;
-	                for (var i = s.length - 1; i >= 0; i--) {
-	                    if (s[i] != charVal)
-	                        break;
-	                    pos--;
-	                }
-	                s = s.substring(0, pos);
-	            }
-	            return s;
-	        };
-	        StringWrapper.replace = function (s, from, replace) {
-	            return s.replace(from, replace);
-	        };
-	        StringWrapper.replaceAll = function (s, from, replace) {
-	            return s.replace(from, replace);
-	        };
-	        StringWrapper.slice = function (s, from, to) {
-	            if (from === void 0) { from = 0; }
-	            if (to === void 0) { to = null; }
-	            return s.slice(from, to === null ? undefined : to);
-	        };
-	        StringWrapper.replaceAllMapped = function (s, from, cb) {
-	            return s.replace(from, function () {
-	                var matches = [];
-	                for (var _i = 0; _i < arguments.length; _i++) {
-	                    matches[_i - 0] = arguments[_i];
-	                }
-	                // Remove offset & string from the result array
-	                matches.splice(-2, 2);
-	                // The callback receives match, p1, ..., pn
-	                return cb(matches);
-	            });
-	        };
-	        StringWrapper.contains = function (s, substr) { return s.indexOf(substr) != -1; };
-	        StringWrapper.compare = function (a, b) {
-	            if (a < b) {
-	                return -1;
-	            }
-	            else if (a > b) {
-	                return 1;
-	            }
-	            else {
-	                return 0;
-	            }
-	        };
-	        return StringWrapper;
-	    }());
 	    var NumberWrapper = (function () {
 	        function NumberWrapper() {
 	        }
@@ -645,6 +577,9 @@ webpackJsonp([0],[
 	
 	    var isPromise = _angular_core.__core_private__.isPromise;
 	
+	    function isEmptyInputValue(value) {
+	        return value == null || typeof value === 'string' && value.length === 0;
+	    }
 	    /**
 	     * Providers for validators to be used for {@link FormControl}s in a form.
 	     *
@@ -688,20 +623,19 @@ webpackJsonp([0],[
 	         * Validator that requires controls to have a non-empty value.
 	         */
 	        Validators.required = function (control) {
-	            return isBlank(control.value) || (isString(control.value) && control.value == '') ?
-	                { 'required': true } :
-	                null;
+	            return isEmptyInputValue(control.value) ? { 'required': true } : null;
 	        };
 	        /**
 	         * Validator that requires controls to have a value of a minimum length.
 	         */
 	        Validators.minLength = function (minLength) {
 	            return function (control) {
-	                if (isPresent(Validators.required(control)))
-	                    return null;
-	                var v = control.value;
-	                return v.length < minLength ?
-	                    { 'minlength': { 'requiredLength': minLength, 'actualLength': v.length } } :
+	                if (isEmptyInputValue(control.value)) {
+	                    return null; // don't validate empty values to allow optional controls
+	                }
+	                var length = typeof control.value === 'string' ? control.value.length : 0;
+	                return length < minLength ?
+	                    { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
 	                    null;
 	            };
 	        };
@@ -710,11 +644,9 @@ webpackJsonp([0],[
 	         */
 	        Validators.maxLength = function (maxLength) {
 	            return function (control) {
-	                if (isPresent(Validators.required(control)))
-	                    return null;
-	                var v = control.value;
-	                return v.length > maxLength ?
-	                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': v.length } } :
+	                var length = typeof control.value === 'string' ? control.value.length : 0;
+	                return length > maxLength ?
+	                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
 	                    null;
 	            };
 	        };
@@ -723,10 +655,14 @@ webpackJsonp([0],[
 	         */
 	        Validators.pattern = function (pattern) {
 	            return function (control) {
+	                if (isEmptyInputValue(control.value)) {
+	                    return null; // don't validate empty values to allow optional controls
+	                }
 	                var regex = new RegExp("^" + pattern + "$");
-	                var v = control.value;
-	                return regex.test(v) ? null :
-	                    { 'pattern': { 'requiredPattern': "^" + pattern + "$", 'actualValue': v } };
+	                var value = control.value;
+	                return regex.test(value) ?
+	                    null :
+	                    { 'pattern': { 'requiredPattern': "^" + pattern + "$", 'actualValue': value } };
 	            };
 	        };
 	        /**
@@ -1152,7 +1088,7 @@ webpackJsonp([0],[
 	            return "" + value;
 	        if (!isPrimitive(value))
 	            value = 'Object';
-	        return StringWrapper.slice(id + ": " + value, 0, 50);
+	        return (id + ": " + value).slice(0, 50);
 	    }
 	    function _extractId(valueString) {
 	        return valueString.split(':')[0];
@@ -1327,7 +1263,7 @@ webpackJsonp([0],[
 	            value = "'" + value + "'";
 	        if (!isPrimitive(value))
 	            value = 'Object';
-	        return StringWrapper.slice(id + ": " + value, 0, 50);
+	        return (id + ": " + value).slice(0, 50);
 	    }
 	    function _extractId$1(valueString) {
 	        return valueString.split(':')[0];
@@ -1879,9 +1815,9 @@ webpackJsonp([0],[
 	            var errorFn = function (err) { return null; };
 	            var completeFn = function () { return null; };
 	            if (generatorOrNext && typeof generatorOrNext === 'object') {
-	                schedulerFn = this.__isAsync ? function (value /** TODO #9100 */) {
+	                schedulerFn = this.__isAsync ? function (value) {
 	                    setTimeout(function () { return generatorOrNext.next(value); });
-	                } : function (value /** TODO #9100 */) { generatorOrNext.next(value); };
+	                } : function (value) { generatorOrNext.next(value); };
 	                if (generatorOrNext.error) {
 	                    errorFn = this.__isAsync ? function (err) { setTimeout(function () { return generatorOrNext.error(err); }); } :
 	                        function (err) { generatorOrNext.error(err); };
@@ -1892,9 +1828,8 @@ webpackJsonp([0],[
 	                }
 	            }
 	            else {
-	                schedulerFn = this.__isAsync ? function (value /** TODO #9100 */) {
-	                    setTimeout(function () { return generatorOrNext(value); });
-	                } : function (value /** TODO #9100 */) { generatorOrNext(value); };
+	                schedulerFn = this.__isAsync ? function (value) { setTimeout(function () { return generatorOrNext(value); }); } :
+	                    function (value) { generatorOrNext(value); };
 	                if (error) {
 	                    errorFn =
 	                        this.__isAsync ? function (err) { setTimeout(function () { return error(err); }); } : function (err) { error(err); };
@@ -1949,15 +1884,12 @@ webpackJsonp([0],[
 	            return null;
 	        return path.reduce(function (v, name) {
 	            if (v instanceof FormGroup) {
-	                return isPresent(v.controls[name]) ? v.controls[name] : null;
+	                return v.controls[name] || null;
 	            }
-	            else if (v instanceof FormArray) {
-	                var index = name;
-	                return isPresent(v.at(index)) ? v.at(index) : null;
+	            if (v instanceof FormArray) {
+	                return v.at(name) || null;
 	            }
-	            else {
-	                return null;
-	            }
+	            return null;
 	        }, control);
 	    }
 	    function toObservable(r) {
@@ -3257,7 +3189,8 @@ webpackJsonp([0],[
 	     * sub-groups within the form.
 	     *
 	     * You can listen to the directive's `ngSubmit` event to be notified when the user has
-	     * triggered a form submission.
+	     * triggered a form submission. The `ngSubmit` event will be emitted with the original form
+	     * submission event.
 	     *
 	     * {@example forms/ts/simpleForm/simple_form_example.ts region='Component'}
 	     *
@@ -3348,9 +3281,9 @@ webpackJsonp([0],[
 	            });
 	        };
 	        NgForm.prototype.setValue = function (value) { this.control.setValue(value); };
-	        NgForm.prototype.onSubmit = function () {
+	        NgForm.prototype.onSubmit = function ($event) {
 	            this._submitted = true;
-	            this.ngSubmit.emit(null);
+	            this.ngSubmit.emit($event);
 	            return false;
 	        };
 	        NgForm.prototype.onReset = function () { this.resetForm(); };
@@ -3368,7 +3301,7 @@ webpackJsonp([0],[
 	            { type: _angular_core.Directive, args: [{
 	                        selector: 'form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]',
 	                        providers: [formDirectiveProvider],
-	                        host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
+	                        host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
 	                        outputs: ['ngSubmit'],
 	                        exportAs: 'ngForm'
 	                    },] },
@@ -3885,6 +3818,10 @@ webpackJsonp([0],[
 	     * its {@link AbstractControl.statusChanges} event to be notified when the validation status is
 	     * re-calculated.
 	     *
+	     * Furthermore, you can listen to the directive's `ngSubmit` event to be notified when the user has
+	     * triggered a form submission. The `ngSubmit` event will be emitted with the original form
+	     * submission event.
+	     *
 	     * ### Example
 	     *
 	     * In this example, we create form controls for first name and last name.
@@ -3963,9 +3900,9 @@ webpackJsonp([0],[
 	            var ctrl = this.form.get(dir.path);
 	            ctrl.setValue(value);
 	        };
-	        FormGroupDirective.prototype.onSubmit = function () {
+	        FormGroupDirective.prototype.onSubmit = function ($event) {
 	            this._submitted = true;
-	            this.ngSubmit.emit(null);
+	            this.ngSubmit.emit($event);
 	            return false;
 	        };
 	        FormGroupDirective.prototype.onReset = function () { this.resetForm(); };
@@ -4010,7 +3947,7 @@ webpackJsonp([0],[
 	            { type: _angular_core.Directive, args: [{
 	                        selector: '[formGroup]',
 	                        providers: [formDirectiveProvider$1],
-	                        host: { '(submit)': 'onSubmit()', '(reset)': 'onReset()' },
+	                        host: { '(submit)': 'onSubmit($event)', '(reset)': 'onReset()' },
 	                        exportAs: 'ngForm'
 	                    },] },
 	        ];
@@ -4861,8 +4798,8 @@ webpackJsonp([0],[
 	    AppComponent = __decorate([
 	        core_1.Component({
 	            selector: 'my-app',
-	            template: __webpack_require__(/*! ./app.component.html */ 61),
-	            styles: [__webpack_require__(/*! ./app.component.scss */ 62)]
+	            template: __webpack_require__(/*! ./app.component.html */ 63),
+	            styles: [String(__webpack_require__(/*! ./app.component.scss */ 64))]
 	        }), 
 	        __metadata('design:paramtypes', [SecurityService_1.SecurityService])
 	    ], AppComponent);
@@ -5139,7 +5076,9 @@ webpackJsonp([0],[
 /* 58 */,
 /* 59 */,
 /* 60 */,
-/* 61 */
+/* 61 */,
+/* 62 */,
+/* 63 */
 /*!********************************************!*\
   !*** ./angular2App/app/app.component.html ***!
   \********************************************/
@@ -5148,16 +5087,55 @@ webpackJsonp([0],[
 	module.exports = "<div class=\"container\" style=\"margin-top: 15px;\">\r\n    <!-- Static navbar -->\r\n    <nav class=\"navbar navbar-default\">\r\n        <div class=\"container-fluid\">\r\n            <div class=\"navbar-header\">\r\n                <button aria-controls=\"navbar\" aria-expanded=\"false\" data-target=\"#navbar\" data-toggle=\"collapse\" class=\"navbar-toggle collapsed\" type=\"button\">\r\n                    <span class=\"sr-only\">Toggle navigation</span>\r\n                    <span class=\"icon-bar\"></span>\r\n                    <span class=\"icon-bar\"></span>\r\n                    <span class=\"icon-bar\"></span>\r\n                </button>\r\n                <a [routerLink]=\"['/dataeventrecords/list']\" class=\"navbar-brand\"><img src=\"assets/damienbod.jpg\" height=\"40\" style=\"margin-top:-10px;\" /></a>\r\n            </div>\r\n            <div class=\"navbar-collapse collapse\" id=\"navbar\">\r\n                <ul class=\"nav navbar-nav\">\r\n                    <li><a [routerLink]=\"['/dataeventrecords/list']\">DataEventRecords</a></li>\r\n                    <li><a [routerLink]=\"['/dataeventrecords/create']\">Create DataEventRecord</a></li>\r\n\r\n                    <li><a class=\"navigationLinkButton\" *ngIf=\"!securityService.IsAuthorized\" (click)=\"Login()\">Login</a></li>\r\n                    <li><a class=\"navigationLinkButton\" *ngIf=\"securityService.IsAuthorized\" (click)=\"Logout()\">Logout</a></li>\r\n              \r\n                </ul>\r\n            </div><!--/.nav-collapse -->\r\n        </div><!--/.container-fluid -->\r\n    </nav>\r\n\r\n    <router-outlet></router-outlet>\r\n\r\n</div>\r\n\r\n\r\n"
 
 /***/ },
-/* 62 */
+/* 64 */
 /*!********************************************!*\
   !*** ./angular2App/app/app.component.scss ***!
   \********************************************/
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "// style-loader: Adds some css to the DOM by adding a <style> tag\n\n// load the styles\nvar content = require(\"!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.component.scss\");\nif(typeof content === 'string') content = [[module.id, content, '']];\n// add the styles to the DOM\nvar update = require(\"!./../../node_modules/style-loader/addStyles.js\")(content, {});\nif(content.locals) module.exports = content.locals;\n// Hot Module Replacement\nif(module.hot) {\n\t// When the styles change, update the <style> tags\n\tif(!content.locals) {\n\t\tmodule.hot.accept(\"!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.component.scss\", function() {\n\t\t\tvar newContent = require(\"!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.component.scss\");\n\t\t\tif(typeof newContent === 'string') newContent = [[module.id, newContent, '']];\n\t\t\tupdate(newContent);\n\t\t});\n\t}\n\t// When the module is disposed, remove the <style> tags\n\tmodule.hot.dispose(function() { update(); });\n}"
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./app.component.scss */ 65);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 67)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.component.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.component.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
 /***/ },
-/* 63 */
+/* 65 */
+/*!***************************************************************************!*\
+  !*** ./~/css-loader!./~/sass-loader!./angular2App/app/app.component.scss ***!
+  \***************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 66)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "body {\n  padding-top: 50px; }\n\n.starter-template {\n  padding: 40px 15px;\n  text-align: center; }\n\n.navigationLinkButton:hover {\n  cursor: pointer; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 66 */,
+/* 67 */,
+/* 68 */
 /*!***************************************!*\
   !*** ./angular2App/app/app.routes.ts ***!
   \***************************************/
@@ -5165,12 +5143,12 @@ webpackJsonp([0],[
 
 	"use strict";
 	var router_1 = __webpack_require__(/*! @angular/router */ 34);
-	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 64);
-	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 66);
-	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 68);
-	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 70);
-	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 73);
-	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 75);
+	var forbidden_component_1 = __webpack_require__(/*! ./forbidden/forbidden.component */ 69);
+	var home_component_1 = __webpack_require__(/*! ./home/home.component */ 71);
+	var unauthorized_component_1 = __webpack_require__(/*! ./unauthorized/unauthorized.component */ 73);
+	var dataeventrecords_list_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-list.component */ 75);
+	var dataeventrecords_create_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-create.component */ 78);
+	var dataeventrecords_edit_component_1 = __webpack_require__(/*! ./dataeventrecords/dataeventrecords-edit.component */ 80);
 	var appRoutes = [
 	    { path: '', component: home_component_1.HomeComponent },
 	    { path: 'home', component: home_component_1.HomeComponent },
@@ -5196,7 +5174,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 64 */
+/* 69 */
 /*!**********************************************************!*\
   !*** ./angular2App/app/forbidden/forbidden.component.ts ***!
   \**********************************************************/
@@ -5222,7 +5200,7 @@ webpackJsonp([0],[
 	    ForbiddenComponent = __decorate([
 	        core_1.Component({
 	            selector: 'forbidden',
-	            template: __webpack_require__(/*! ./forbidden.component.html */ 65)
+	            template: __webpack_require__(/*! ./forbidden.component.html */ 70)
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], ForbiddenComponent);
@@ -5232,7 +5210,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 65 */
+/* 70 */
 /*!************************************************************!*\
   !*** ./angular2App/app/forbidden/forbidden.component.html ***!
   \************************************************************/
@@ -5241,7 +5219,7 @@ webpackJsonp([0],[
 	module.exports = "<div>403: You have no rights to access this.</div>"
 
 /***/ },
-/* 66 */
+/* 71 */
 /*!************************************************!*\
   !*** ./angular2App/app/home/home.component.ts ***!
   \************************************************/
@@ -5267,7 +5245,7 @@ webpackJsonp([0],[
 	    HomeComponent = __decorate([
 	        core_1.Component({
 	            selector: 'home',
-	            template: __webpack_require__(/*! ./home.component.html */ 67)
+	            template: __webpack_require__(/*! ./home.component.html */ 72)
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], HomeComponent);
@@ -5277,7 +5255,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 67 */
+/* 72 */
 /*!**************************************************!*\
   !*** ./angular2App/app/home/home.component.html ***!
   \**************************************************/
@@ -5286,7 +5264,7 @@ webpackJsonp([0],[
 	module.exports = "<div>Welcome</div>"
 
 /***/ },
-/* 68 */
+/* 73 */
 /*!****************************************************************!*\
   !*** ./angular2App/app/unauthorized/unauthorized.component.ts ***!
   \****************************************************************/
@@ -5312,7 +5290,7 @@ webpackJsonp([0],[
 	    UnauthorizedComponent = __decorate([
 	        core_1.Component({
 	            selector: 'unauthorized',
-	            template: __webpack_require__(/*! ./unauthorized.component.html */ 69)
+	            template: __webpack_require__(/*! ./unauthorized.component.html */ 74)
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], UnauthorizedComponent);
@@ -5322,7 +5300,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 69 */
+/* 74 */
 /*!******************************************************************!*\
   !*** ./angular2App/app/unauthorized/unauthorized.component.html ***!
   \******************************************************************/
@@ -5331,7 +5309,7 @@ webpackJsonp([0],[
 	module.exports = "<div>401: You have no rights to access this. Please Login</div>"
 
 /***/ },
-/* 70 */
+/* 75 */
 /*!*****************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-list.component.ts ***!
   \*****************************************************************************/
@@ -5350,7 +5328,7 @@ webpackJsonp([0],[
 	var core_1 = __webpack_require__(/*! @angular/core */ 3);
 	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 29);
 	var router_1 = __webpack_require__(/*! @angular/router */ 34);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 71);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 76);
 	var DataEventRecordsListComponent = (function () {
 	    function DataEventRecordsListComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -5377,7 +5355,7 @@ webpackJsonp([0],[
 	    DataEventRecordsListComponent = __decorate([
 	        core_1.Component({
 	            selector: 'dataeventrecords-list',
-	            template: __webpack_require__(/*! ./dataeventrecords-list.component.html */ 72)
+	            template: __webpack_require__(/*! ./dataeventrecords-list.component.html */ 77)
 	        }), 
 	        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
 	    ], DataEventRecordsListComponent);
@@ -5387,7 +5365,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 71 */
+/* 76 */
 /*!*********************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/DataEventRecordsService.ts ***!
   \*********************************************************************/
@@ -5465,7 +5443,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 72 */
+/* 77 */
 /*!*******************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-list.component.html ***!
   \*******************************************************************************/
@@ -5474,7 +5452,7 @@ webpackJsonp([0],[
 	module.exports = "<div class=\"col-md-12\" *ngIf=\"securityService.IsAuthorized\" >\r\n    <div class=\"panel panel-default\">\r\n        <div class=\"panel-heading\">\r\n            <h3 class=\"panel-title\">{{message}}</h3>\r\n        </div>\r\n        <div class=\"panel-body\">\r\n            <table class=\"table\">\r\n                <thead>\r\n                    <tr>\r\n                        <th>Name</th>\r\n                        <th>Timestamp</th>\r\n                    </tr>\r\n                </thead>\r\n                <tbody>\r\n                    <tr style=\"height:20px;\" *ngFor=\"let dataEventRecord of DataEventRecords\" >\r\n                        <td>\r\n                            <a *ngIf=\"securityService.HasAdminRole\" href=\"\" [routerLink]=\"['/dataeventrecords/edit/' + dataEventRecord.id]\" >{{dataEventRecord.name}}</a>\r\n                            <span *ngIf=\"!securityService.HasAdminRole\">{{dataEventRecord.name}}</span>\r\n                        </td>\r\n                        <td>{{dataEventRecord.timestamp}}</td>\r\n                        <td><button (click)=\"Delete(dataEventRecord.Id)\">Delete</button></td>\r\n                    </tr>\r\n                </tbody>\r\n            </table>\r\n\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ },
-/* 73 */
+/* 78 */
 /*!*******************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-create.component.ts ***!
   \*******************************************************************************/
@@ -5493,7 +5471,7 @@ webpackJsonp([0],[
 	var core_1 = __webpack_require__(/*! @angular/core */ 3);
 	var router_1 = __webpack_require__(/*! @angular/router */ 34);
 	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 29);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 71);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 76);
 	var DataEventRecordsCreateComponent = (function () {
 	    function DataEventRecordsCreateComponent(_dataEventRecordsService, securityService, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -5515,7 +5493,7 @@ webpackJsonp([0],[
 	    DataEventRecordsCreateComponent = __decorate([
 	        core_1.Component({
 	            selector: 'dataeventrecords-create',
-	            template: __webpack_require__(/*! ./dataeventrecords-create.component.html */ 74)
+	            template: __webpack_require__(/*! ./dataeventrecords-create.component.html */ 79)
 	        }), 
 	        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.Router])
 	    ], DataEventRecordsCreateComponent);
@@ -5525,7 +5503,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 74 */
+/* 79 */
 /*!*********************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-create.component.html ***!
   \*********************************************************************************/
@@ -5534,7 +5512,7 @@ webpackJsonp([0],[
 	module.exports = "<div class=\"panel panel-default col-md-12\" *ngIf=\"securityService.IsAuthorized\" >\r\n    <div class=\"panel-heading\">\r\n        {{message}}\r\n    </div>\r\n    <div class=\"panel-body\">\r\n\r\n        <div class=\"row\" *ngIf=\"DataEventRecord\">\r\n            <div class=\"col-xs-2\">Id</div>\r\n            <div class=\"col-xs-6\"><input type=\"text\" [(ngModel)]=\"DataEventRecord.id\" style=\"width: 100%\" /></div>\r\n        </div>\r\n\r\n        <hr />\r\n        <div class=\"row\">\r\n            <div class=\"col-xs-2\">Name</div>\r\n            <div class=\"col-xs-6\">\r\n                <input type=\"text\" [(ngModel)]=\"DataEventRecord.name\" style=\"width: 100%\" />\r\n            </div>\r\n        </div>\r\n        <hr />\r\n        <div class=\"row\">\r\n            <div class=\"col-xs-2\">Description</div>\r\n            <div class=\"col-xs-6\">\r\n                <input type=\"text\" [(ngModel)]=\"DataEventRecord.description\" style=\"width: 100%\" />\r\n            </div>\r\n        </div>\r\n        <hr />\r\n        <div class=\"row\">\r\n            <div class=\"col-xs-2\">\r\n                <button (click)=\"Create()\">Create</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ },
-/* 75 */
+/* 80 */
 /*!*****************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-edit.component.ts ***!
   \*****************************************************************************/
@@ -5553,7 +5531,7 @@ webpackJsonp([0],[
 	var core_1 = __webpack_require__(/*! @angular/core */ 3);
 	var router_1 = __webpack_require__(/*! @angular/router */ 34);
 	var SecurityService_1 = __webpack_require__(/*! ../services/SecurityService */ 29);
-	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 71);
+	var DataEventRecordsService_1 = __webpack_require__(/*! ../dataeventrecords/DataEventRecordsService */ 76);
 	var DataEventRecordsEditComponent = (function () {
 	    function DataEventRecordsEditComponent(_dataEventRecordsService, securityService, _route, _router) {
 	        this._dataEventRecordsService = _dataEventRecordsService;
@@ -5585,7 +5563,7 @@ webpackJsonp([0],[
 	    DataEventRecordsEditComponent = __decorate([
 	        core_1.Component({
 	            selector: 'dataeventrecords-edit',
-	            template: __webpack_require__(/*! ./dataeventrecords-edit.component.html */ 76)
+	            template: __webpack_require__(/*! ./dataeventrecords-edit.component.html */ 81)
 	        }), 
 	        __metadata('design:paramtypes', [DataEventRecordsService_1.DataEventRecordsService, SecurityService_1.SecurityService, router_1.ActivatedRoute, router_1.Router])
 	    ], DataEventRecordsEditComponent);
@@ -5595,7 +5573,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 76 */
+/* 81 */
 /*!*******************************************************************************!*\
   !*** ./angular2App/app/dataeventrecords/dataeventrecords-edit.component.html ***!
   \*******************************************************************************/
