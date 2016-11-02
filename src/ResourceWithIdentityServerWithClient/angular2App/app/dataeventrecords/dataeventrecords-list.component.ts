@@ -8,7 +8,7 @@ import { DataEventRecord } from './models/DataEventRecord';
 
 @Component({
     selector: 'dataeventrecords-list',
-    template: require('./dataeventrecords-list.component.html')
+    templateUrl: 'dataeventrecords-list.component.html'
 })
 
 export class DataEventRecordsListComponent implements OnInit {
