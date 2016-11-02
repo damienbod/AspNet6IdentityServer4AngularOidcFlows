@@ -5,7 +5,7 @@ import { Observable }       from 'rxjs/Observable';
 
 @Component({
     selector: 'securefiles',
-    template: require('./securefiles.component.html'),
+    templateUrl: 'securefiles.component.html',
     providers: [SecureFileService]
 })
 

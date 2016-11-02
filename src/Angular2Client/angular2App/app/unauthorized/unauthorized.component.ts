@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'unauthorized',
-    template: require('./unauthorized.component.html')
+    templateUrl: 'unauthorized.component.html'
 })
 
 export class UnauthorizedComponent implements OnInit {

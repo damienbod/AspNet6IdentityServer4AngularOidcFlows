@@ -98,7 +98,7 @@ export class SecurityService {
 
         var hash = window.location.hash.substr(1);
 
-        var result: any = hash.split('&').reduce(function (result, item) {
+        var result: any = hash.split('&').reduce(function (result : any, item: string) {
             var parts = item.split('=');
             result[parts[0]] = parts[1];
             return result;
@@ -178,7 +178,7 @@ export class SecurityService {
         }
     }
 
-    private urlBase64Decode(str) {
+    private urlBase64Decode(str: string) {
         var output = str.replace('-', '+').replace('_', '/');
         switch (output.length % 4) {
             case 0:
@@ -196,7 +196,7 @@ export class SecurityService {
         return window.atob(output);
     }
 
-    private getDataFromToken(token) {
+    private getDataFromToken(token: any) {
         var data = {};
         if (typeof token !== 'undefined') {
             var encoded = token.split('.')[1];

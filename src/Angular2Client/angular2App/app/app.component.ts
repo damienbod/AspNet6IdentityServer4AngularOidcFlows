@@ -17,10 +17,11 @@ import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecor
 import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
 import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
 
+import './app.component.css';
+
 @Component({
     selector: 'my-app',
-    template: require('./app.component.html'),
-    styleUrls: ['app/app.component.css']
+    templateUrl: 'app.component.html'
 })
 
 export class AppComponent implements OnInit {
