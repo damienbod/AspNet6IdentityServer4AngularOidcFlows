@@ -187,3 +187,5 @@ src/ResourceWithIdentityServerWithClient/angular2App/polyfills.js.map
 src/ResourceWithIdentityServerWithClient/angular2App/vendor.js
 src/ResourceWithIdentityServerWithClient/angular2App/vendor.js.map
 src/ResourceWithIdentityServerWithClient/node_modules
+src/Angular2Client/aot/node_modules
+src/ResourceWithIdentityServerWithClient/aot
