@@ -189,3 +189,4 @@ src/ResourceWithIdentityServerWithClient/angular2App/vendor.js.map
 src/ResourceWithIdentityServerWithClient/node_modules
 src/Angular2Client/aot/node_modules
 src/ResourceWithIdentityServerWithClient/aot
+src/Angular2Client/aot
