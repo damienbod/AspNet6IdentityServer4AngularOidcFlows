@@ -190,3 +190,5 @@ src/ResourceWithIdentityServerWithClient/node_modules
 src/Angular2Client/aot/node_modules
 src/ResourceWithIdentityServerWithClient/aot
 src/Angular2Client/aot
+src/Angular2Client/angular2App/app/dataeventrecords/dataeventrecords.routes.js
+src/Angular2Client/angular2App/app/dataeventrecords/dataeventrecords.routes.js.map
