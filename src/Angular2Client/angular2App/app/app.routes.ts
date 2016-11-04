@@ -18,21 +18,6 @@ const appRoutes: Routes = [
     { path: 'Unauthorized', component: UnauthorizedComponent },
     { path: 'securefile/securefiles', component: SecureFilesComponent },
     ...DATA_RECORDS_ROUTES,
-    ////{
-    ////    path: 'dataeventrecords', component: DataEventRecordsListComponent
-    ////},
-    ////{
-    ////    path: 'dataeventrecords/create',
-    ////    component: DataEventRecordsCreateComponent
-    ////},
-    ////{
-    ////    path: 'dataeventrecords/edit/:id',
-    ////    component: DataEventRecordsEditComponent
-    ////},
-    ////{
-    ////    path: 'dataeventrecords/list',
-    ////    component: DataEventRecordsListComponent,
-    ////}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);
