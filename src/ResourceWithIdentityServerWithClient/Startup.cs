@@ -81,9 +81,9 @@ namespace ResourceWithIdentityServerWithClient
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-
-            services.AddDeveloperIdentityServer()
-                .SetSigningCredential(cert)
+        
+            services.AddIdentityServer()
+                .AddSigningCredential(cert)
                 .AddInMemoryScopes(Config.GetScopes())
                 .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
