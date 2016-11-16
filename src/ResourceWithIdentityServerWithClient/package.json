@@ -4,14 +4,14 @@
   "main": "wwwroot/index.html",
   "author": "",
   "license": "ISC",
-  "scripts": {
-    "ngc": "ngc -p ./tsconfig-aot.json",
-    "start": "webpack-dev-server --inline --progress --port 8080",
-    "webpack-dev": "set NODE_ENV=development&& webpack",
-    "webpack-prod": "set NODE_ENV=production&& webpack",
-    "build": "npm run webpack-dev",
-    "buildProduction": "npm run ngc && npm run webpack-prod"
-  },
+    "scripts": {
+        "ngc": "ngc -p ./tsconfig-aot.json",
+        "start": "concurrently \"webpack-dev-server --inline --progress --port 8080\" \"dotnet run\" ",
+        "webpack-dev": "set NODE_ENV=development&& webpack",
+        "webpack-prod": "set NODE_ENV=production&& webpack",
+        "build": "npm run webpack-dev",
+        "buildProduction": "npm run ngc && npm run webpack-prod"
+    },
     "dependencies": {
         "@angular/common": "~2.2.0",
         "@angular/compiler": "~2.2.0",
