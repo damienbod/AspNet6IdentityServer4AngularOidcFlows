@@ -21,6 +21,10 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
 
 import { UserManagementComponent } from './user-management/user-management.component';
 
+
+import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
+import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -42,7 +46,9 @@ import { UserManagementComponent } from './user-management/user-management.compo
     providers: [
         SecurityService,
         DataEventRecordsService,
-        Configuration
+        Configuration,
+        HasAdminRoleAuthenticationGuard,
+        HasAdminRoleCanLoadGuard
     ],
     bootstrap:    [AppComponent],
 })

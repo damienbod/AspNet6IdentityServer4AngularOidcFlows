@@ -10,10 +10,17 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
 
 import { UserManagementComponent } from './user-management/user-management.component';
 
+import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
+import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent },
-    { path: 'usermanagement', component: UserManagementComponent },
+    {
+        path: 'usermanagement', component: UserManagementComponent,
+        canActivate: [HasAdminRoleAuthenticationGuard],
+        canLoad: [HasAdminRoleCanLoadGuard]
+    },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent },
     {
