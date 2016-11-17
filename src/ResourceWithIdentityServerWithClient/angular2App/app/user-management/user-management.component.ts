@@ -36,4 +36,8 @@ export class UserManagementComponent implements OnInit {
             () => console.log('User Management Get all completed'));
     }
 
+    public Update(userId: string) {
+        console.log("TODO update... " + userId)
+    }
+
 }

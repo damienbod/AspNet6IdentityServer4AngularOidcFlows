@@ -1,1 +1,34 @@
-<div>UserManagementComponent</div>
+<div class="col-md-12" *ngIf="securityService.IsAuthorized">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{message}}</h3>
+        </div>
+        <div class="panel-body"  *ngIf="Users">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>IsAdmin</th>
+                        <th>IsActive</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="height:20px;" *ngFor="let user of Users">
+                        <td>{{user.name}}</td>
+                        <td>
+                            <input type="checkbox" [(ngModel)]="user.isAdmin" class="form-control" style="box-shadow:none" />
+                        </td>
+                        <td>
+                            <input type="checkbox" [(ngModel)]="user.isActive" class="form-control" style="box-shadow:none" />
+                        </td>
+                        <td>
+                            <button (click)="Update(user.Id)" class="form-control">Update</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
