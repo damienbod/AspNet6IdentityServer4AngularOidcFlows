@@ -103,6 +103,7 @@ namespace ResourceWithIdentityServerWithClient
                 "/dataeventrecords/create",
                 "/dataeventrecords/edit/",
                 "/dataeventrecords/list",
+                "/usermanagement",
                 };
 
             app.Use(async (context, next) =>
