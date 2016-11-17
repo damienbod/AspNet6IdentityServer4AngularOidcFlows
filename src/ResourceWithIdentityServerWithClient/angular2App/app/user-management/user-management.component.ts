@@ -36,8 +36,11 @@ export class UserManagementComponent implements OnInit {
             () => console.log('User Management Get all completed'));
     }
 
-    public Update(userId: string) {
-        console.log("TODO update... " + userId)
+    public Update(user: User) {
+        this._userManagementService.Update(user.id, user)
+            .subscribe((() => console.log("subscribed")),
+            error => this.securityService.HandleError(error),
+            () => console.log("update request sent!"));
     }
 
 }

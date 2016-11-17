@@ -39,7 +39,7 @@ export class UserManagementService {
         return this._http.get(this.actionUrl, options).map(res => res.json());
     }
 
-    public Update = (id: number, itemToUpdate: any): Observable<Response> => {
+    public Update = (id: string, itemToUpdate: User): Observable<Response> => {
         this.setHeaders();
         return this._http
             .put(this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: this.headers });
