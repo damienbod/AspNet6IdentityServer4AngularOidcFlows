@@ -53,7 +53,7 @@ namespace ResourceWithIdentityServerWithClient.Controllers
             {
                 if(user.AccountExpires < DateTime.UtcNow)
                 {
-                    user.AccountExpires.AddDays(7.0);
+                    user.AccountExpires = DateTime.UtcNow.AddDays(7.0);
                 }
             }
             else
