@@ -42,15 +42,28 @@ namespace ResourceWithIdentityServerWithClient.Controllers
 
             return Ok(result);
         }
-
-        [HttpPost]
-        public IActionResult Post([FromBody]string value)
-        {
-            // TODO
-            return NoContent();
-        }
         
-  
-   
+        [HttpPut("{id}")]
+        public void Put(string id, [FromBody]UserDto userDto)
+        {
+            var user = _context.Users.First(t => t.Id == id);
+
+            user.IsAdmin = userDto.IsAdmin;
+            if(userDto.IsActive)
+            {
+                if(user.AccountExpires < DateTime.UtcNow)
+                {
+                    user.AccountExpires.AddDays(7.0);
+                }
+            }
+            else
+            {
+                // deactivate user
+                user.AccountExpires = new DateTime();
+            }
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }   
     }
 }
