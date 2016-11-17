@@ -199,3 +199,7 @@ src/ResourceWithIdentityServerWithClient/angular2App/app/guards/hasAdminRoleCanL
 src/ResourceWithIdentityServerWithClient/angular2App/app/guards/hasAdminRoleCanLoadGuard.js.map
 src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/user-management.component.js
 src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/user-management.component.js.map
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/models/User.js
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/models/User.js.map
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/UserManagementService.js
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/UserManagementService.js.map
