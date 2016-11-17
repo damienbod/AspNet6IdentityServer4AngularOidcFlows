@@ -24,6 +24,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
 
 import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
 import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+import { UserManagementService } from './user-management/UserManagementService';
 
 @NgModule({
     imports: [
@@ -46,6 +47,7 @@ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
     providers: [
         SecurityService,
         DataEventRecordsService,
+        UserManagementService,
         Configuration,
         HasAdminRoleAuthenticationGuard,
         HasAdminRoleCanLoadGuard
