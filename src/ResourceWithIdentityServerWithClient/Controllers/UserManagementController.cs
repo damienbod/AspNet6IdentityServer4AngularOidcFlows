@@ -8,8 +8,7 @@ using ResourceWithIdentityServerWithClient.Model;
 
 namespace ResourceWithIdentityServerWithClient.Controllers
 {
-    // TODO add an admin policy
-    [Authorize]
+    [Authorize("admin")]
     [Produces("application/json")]
     [Route("api/UserManagement")]
     public class UserManagementController : Controller

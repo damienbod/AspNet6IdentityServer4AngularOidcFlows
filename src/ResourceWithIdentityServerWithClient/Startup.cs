@@ -68,6 +68,10 @@ namespace ResourceWithIdentityServerWithClient
                 {
                     policyAdmin.RequireClaim("role", "dataEventRecords.admin");
                 });
+                options.AddPolicy("admin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("role", "admin");
+                });
                 options.AddPolicy("dataEventRecordsUser", policyUser =>
                 {
                     policyUser.RequireClaim("role", "dataEventRecords.user");
