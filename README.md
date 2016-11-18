@@ -15,6 +15,9 @@
 
         <li><a href="https://damienbod.com/2016/09/16/full-server-logout-with-identityserver4-and-openid-connect-implicit-flow/">Full Server logout with IdentityServer4 and OpenID Connect Implicit Flow</a></li>
 	<li><a href="https://damienbod.com/2016/10/01/identityserver4-webapi-and-angular2-in-a-single-asp-net-core-project/">IdentityServer4, WebAPI and Angular2 in a single ASP.NET Core project</a></li>
+	
+	<li><a href="https://damienbod.com/2016/11/18/extending-identity-in-identityserver4-to-manage-users-in-asp-net-core/">Extending Identity in IdentityServer4 to manage users in ASP.NET Core</a></li>
+	
 </ul>
 
 
