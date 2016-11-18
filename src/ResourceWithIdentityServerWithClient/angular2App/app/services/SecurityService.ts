@@ -24,11 +24,13 @@ export class SecurityService {
         if (this.retrieve("IsAuthorized") !== "") {
             this.HasAdminRole = this.retrieve("HasAdminRole");
             this.IsAuthorized = this.retrieve("IsAuthorized");
+            this.HasUserAdminRole = this.retrieve("HasUserAdminRole");
         }
     }
 
     public IsAuthorized: boolean;
     public HasAdminRole: boolean;
+    public HasUserAdminRole: boolean;
 
     public GetToken(): any {
         return this.retrieve("authorizationData");
@@ -40,7 +42,9 @@ export class SecurityService {
 
         this.IsAuthorized = false;
         this.HasAdminRole = false;
+        this.HasUserAdminRole = false;
         this.store("HasAdminRole", false);
+        this.store("HasUserAdminRole", false);
         this.store("IsAuthorized", false);
     }
 
@@ -49,16 +53,25 @@ export class SecurityService {
             this.store("authorizationData", "");
         }
 
+        console.log(token);
+        console.log(id_token);
+        console.log("storing to storage, getting the roles");
         this.store("authorizationData", token);
         this.store("authorizationDataIdToken", id_token);
         this.IsAuthorized = true;
         this.store("IsAuthorized", true);
 
         var data: any = this.getDataFromToken(id_token);
+        console.log(data);
         for (var i = 0; i < data.role.length; i++) {
+            console.log("Role: " + data.role[i]);
             if (data.role[i] === "dataEventRecords.admin") {
                 this.HasAdminRole = true;
                 this.store("HasAdminRole", true)
+            }
+            if (data.role[i] === "admin") {
+                this.HasUserAdminRole = true;
+                this.store("HasUserAdminRole", true)
             }
         }
     }
@@ -130,10 +143,13 @@ export class SecurityService {
                     this.store("authStateControl", "");
 
                     authResponseIsValid = true;
+                    console.log("SSSS:authResponseIsValid:" + authResponseIsValid);
                     console.log("AuthorizedCallback state and nonce validated, returning access token");
                 }
             }
         }
+
+        console.log("SSSS:authResponseIsValid:" + authResponseIsValid);
 
         if (authResponseIsValid) {
             this.SetAuthorizationData(token, id_token);

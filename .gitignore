@@ -192,3 +192,14 @@ src/ResourceWithIdentityServerWithClient/aot
 src/Angular2Client/aot
 src/Angular2Client/angular2App/app/dataeventrecords/dataeventrecords.routes.js
 src/Angular2Client/angular2App/app/dataeventrecords/dataeventrecords.routes.js.map
+src/ResourceWithIdentityServerWithClient/ResourceWithIdentityServerWithClient.xproj.user
+src/ResourceWithIdentityServerWithClient/angular2App/app/guards/hasAdminRoleAuthenticationGuard.js
+src/ResourceWithIdentityServerWithClient/angular2App/app/guards/hasAdminRoleAuthenticationGuard.js.map
+src/ResourceWithIdentityServerWithClient/angular2App/app/guards/hasAdminRoleCanLoadGuard.js
+src/ResourceWithIdentityServerWithClient/angular2App/app/guards/hasAdminRoleCanLoadGuard.js.map
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/user-management.component.js
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/user-management.component.js.map
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/models/User.js
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/models/User.js.map
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/UserManagementService.js
+src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/UserManagementService.js.map

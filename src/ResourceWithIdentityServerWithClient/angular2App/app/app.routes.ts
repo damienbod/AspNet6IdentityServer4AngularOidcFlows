@@ -8,9 +8,19 @@ import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecor
 import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
 import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
 
+import { UserManagementComponent } from './user-management/user-management.component';
+
+import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
+import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent },
+    {
+        path: 'usermanagement', component: UserManagementComponent,
+        canActivate: [HasAdminRoleAuthenticationGuard],
+        canLoad: [HasAdminRoleCanLoadGuard]
+    },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent },
     {

@@ -19,6 +19,13 @@ import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecor
 import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
 import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
 
+import { UserManagementComponent } from './user-management/user-management.component';
+
+
+import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
+import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+import { UserManagementService } from './user-management/UserManagementService';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -34,12 +41,16 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
         UnauthorizedComponent,
         DataEventRecordsListComponent,
         DataEventRecordsCreateComponent,
-        DataEventRecordsEditComponent
+        DataEventRecordsEditComponent,
+        UserManagementComponent
     ],
     providers: [
         SecurityService,
         DataEventRecordsService,
-        Configuration
+        UserManagementService,
+        Configuration,
+        HasAdminRoleAuthenticationGuard,
+        HasAdminRoleCanLoadGuard
     ],
     bootstrap:    [AppComponent],
 })

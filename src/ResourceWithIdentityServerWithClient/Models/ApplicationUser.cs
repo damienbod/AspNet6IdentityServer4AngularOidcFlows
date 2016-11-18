@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IdentityServerWithAspNetIdentity.Models
 {
@@ -8,6 +9,8 @@ namespace IdentityServerWithAspNetIdentity.Models
         public bool IsAdmin { get; set; }
         public string DataEventRecordsRole { get; set; }
         public string SecuredFilesRole { get; set; }
+
+        public DateTime AccountExpires { get; set; }
     }
 }
 
