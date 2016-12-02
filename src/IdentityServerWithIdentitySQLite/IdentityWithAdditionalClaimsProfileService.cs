@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
+    using IdentityServer4;
+
     public class IdentityWithAdditionalClaimsProfileService : IProfileService
     {
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _claimsFactory;
@@ -31,10 +33,10 @@ namespace IdentityServerWithAspNetIdentitySqlite
             var principal = await _claimsFactory.CreateAsync(user);
 
             var claims = principal.Claims.ToList();
-            if (!context.AllClaimsRequested)
-            {
-                claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
-            }
+            //if (!context.AllClaimsRequested)
+            //{
+            //    claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
+            //}
 
             claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
             //new Claim(JwtClaimTypes.Role, "admin"),
@@ -78,8 +80,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
                 claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles"));
             }
 
-            claims.Add(new System.Security.Claims.Claim(StandardScopes.Email.Name, user.Email));
-            
+            claims.Add(new Claim(IdentityServerConstants.StandardScopes.Email, user.Email));
+
 
             context.IssuedClaims = claims;
         }
