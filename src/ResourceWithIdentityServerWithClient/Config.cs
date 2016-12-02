@@ -36,11 +36,7 @@ namespace QuickstartIdentityServer
                         {
                             Name = "dataEventRecords",
                             DisplayName = "Scope for the data event records resource.",
-                            UserClaims =
-                            {
-                                new UserClaim("role"),
-                                new UserClaim("dataEventRecords")
-                            }
+                            UserClaims = { "role", "dataEventRecords"}
                         }
                     }
                 }
