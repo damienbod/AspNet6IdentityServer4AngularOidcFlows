@@ -9,61 +9,45 @@ namespace QuickstartIdentityServer
     public class Config
     {
         public static string HOST_URL =  "https://localhost:44363";
-        // scopes define the resources in your system
-        public static IEnumerable<Scope> GetScopes()
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
         {
-            return new List<Scope>
+            return new List<IdentityResource>
             {
-                 // standard OpenID Connect scopes
-                StandardScopes.OpenId,
-                StandardScopes.ProfileAlwaysInclude,
-                StandardScopes.EmailAlwaysInclude,
-           
-                // API - access token will 
-                // contain roles of user
-                new Scope
-                {
-                    Name = "dataEventRecords",
-                    DisplayName = "Scope for the data event records resource.",
-                    Type = ScopeType.Resource,
-                    ScopeSecrets = new List<Secret>
-                    {
-                        new Secret("dataEventRecordsSecret".Sha256())
-                    },
-                    Claims = new List<ScopeClaim>
-                    {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("dataEventRecords")
-                    }
-                },
-                new Scope
-                {
-                    Name = "aReallyCoolScope",
-                    DisplayName = "A really cool scope",
-                    Type = ScopeType.Resource,
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
+            };
+        }
 
-                    Claims = new List<ScopeClaim>
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource(
+                    "dataEventRecords", 
+                    "Scope for the data event records resource.", new List<string>
                     {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("aReallyCoolScope")
+                        "role",
+                        "dataEventRecords"
                     }
-                },
-                new Scope
-                {
-                    Name = "securedFiles",
-                    DisplayName = "Scope for the secured files resource.",
-                    Type = ScopeType.Resource,
-
-                    ScopeSecrets = new List<Secret>
+                ),
+                new ApiResource(
+                    "aReallyCoolScope",
+                    "A really cool scope", new List<string>
                     {
-                        new Secret("securedFilesSecret".Sha256())
-                    },
-                    Claims = new List<ScopeClaim>
-                    {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("securedFiles")
+                        "role",
+                        "aReallyCoolScope"
                     }
-                }
+                ),
+                new ApiResource(
+                    "securedFiles",
+                    "Scope for the secured files resource.", new List<string>
+                    {
+                        "role",
+                        "securedFiles"
+                    }
+                )
             };
         }
 
