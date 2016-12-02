@@ -8,6 +8,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServerWithAspNetIdentity.Models;
 using Microsoft.AspNetCore.Identity;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace ResourceWithIdentityServerWithClient
 {
@@ -30,10 +31,10 @@ namespace ResourceWithIdentityServerWithClient
             var principal = await _claimsFactory.CreateAsync(user);
 
             var claims = principal.Claims.ToList();
-            if (!context.AllClaimsRequested)
-            {
-                claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
-            }
+            //if (!context.AllClaimsRequested)
+            //{
+            //    claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
+            //}
 
             claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
             //new Claim(JwtClaimTypes.Role, "admin"),
@@ -77,7 +78,7 @@ namespace ResourceWithIdentityServerWithClient
                 claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles"));
             }
 
-            claims.Add(new System.Security.Claims.Claim(StandardScopes.Email.Name, user.Email));
+            claims.Add(new Claim(StandardScopes.Email, user.Email));
             
 
             context.IssuedClaims = claims;
