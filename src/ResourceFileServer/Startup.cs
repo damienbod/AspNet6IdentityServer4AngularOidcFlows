@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ResourceFileServer
 {
+    using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
     using System.IO;
     using Microsoft.AspNetCore.Mvc.Authorization;
@@ -72,9 +73,9 @@ namespace ResourceFileServer
 
             IdentityServerAuthenticationOptions identityServerAuthenticationOptions = new IdentityServerAuthenticationOptions();
             identityServerAuthenticationOptions.Authority = "https://localhost:44318/";
-            identityServerAuthenticationOptions.ScopeName = "securedFiles";
-            identityServerAuthenticationOptions.ScopeSecret = "securedFilesSecret";
-
+            identityServerAuthenticationOptions.AllowedScopes = new List<string> { "securedFiles" };
+            identityServerAuthenticationOptions.ApiSecret = "securedFilesSecret";
+            identityServerAuthenticationOptions.ApiName = "securedFiles";
             identityServerAuthenticationOptions.AutomaticAuthenticate = true;
             // required if you want to return a 403 and not a 401 for forbidden responses
             identityServerAuthenticationOptions.AutomaticChallenge = true;
