@@ -24,14 +24,26 @@ namespace QuickstartIdentityServer
         {
             return new List<ApiResource>
             {
-                new ApiResource(
-                    "dataEventRecords", 
-                    "Scope for the data event records resource.", new List<string>
+                new ApiResource("dataEventRecords")
+                {
+                    ApiSecrets =
                     {
-                        "role",
-                        "dataEventRecords"
+                        new Secret("dataEventRecordsSecret".Sha256())
+                    },
+                    Scopes =
+                    {
+                        new Scope
+                        {
+                            Name = "dataEventRecords",
+                            DisplayName = "Scope for the data event records resource.",
+                            UserClaims =
+                            {
+                                new UserClaim("role"),
+                                new UserClaim("dataEventRecords")
+                            }
+                        }
                     }
-                ),
+                },
                 new ApiResource(
                     "aReallyCoolScope",
                     "A really cool scope", new List<string>
@@ -40,16 +52,29 @@ namespace QuickstartIdentityServer
                         "aReallyCoolScope"
                     }
                 ),
-                new ApiResource(
-                    "securedFiles",
-                    "Scope for the secured files resource.", new List<string>
+                new ApiResource("securedFiles")
+                {
+                    ApiSecrets =
                     {
-                        "role",
-                        "securedFiles"
+                        new Secret("securedFilesSecret".Sha256())
+                    },
+                    Scopes =
+                    {
+                        new Scope
+                        {
+                            Name = "securedFiles",
+                            DisplayName = "Scope for the secured files resource.",
+                            UserClaims =
+                            {
+                                new UserClaim("role"),
+                                new UserClaim("securedFiles")
+                            }
+                        }
                     }
-                )
+                }
             };
         }
+
 
         // clients want to access resources (aka scopes)
         public static IEnumerable<Client> GetClients()
@@ -61,7 +86,7 @@ namespace QuickstartIdentityServer
                 {
                     ClientName = "singleapp",
                     ClientId = "singleapp",
-                    RequireConsent = false,
+                   // RequireConsent = false,
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Implicit,
