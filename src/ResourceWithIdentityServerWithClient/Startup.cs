@@ -88,7 +88,8 @@ namespace ResourceWithIdentityServerWithClient
         
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
-                .AddInMemoryScopes(Config.GetScopes())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
@@ -145,8 +146,7 @@ namespace ResourceWithIdentityServerWithClient
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = Config.HOST_URL + "/",
-                ScopeName = "dataEventRecords",
-                ScopeSecret = "dataEventRecordsSecret",
+                AllowedScopes = new List<string> { "dataEventRecords" },
                 AutomaticAuthenticate = true,
                 SupportedTokens = SupportedTokens.Both,
                 // TokenRetriever = _tokenRetriever,
