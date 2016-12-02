@@ -43,34 +43,6 @@ namespace QuickstartIdentityServer
                             }
                         }
                     }
-                },
-                new ApiResource(
-                    "aReallyCoolScope",
-                    "A really cool scope", new List<string>
-                    {
-                        "role",
-                        "aReallyCoolScope"
-                    }
-                ),
-                new ApiResource("securedFiles")
-                {
-                    ApiSecrets =
-                    {
-                        new Secret("securedFilesSecret".Sha256())
-                    },
-                    Scopes =
-                    {
-                        new Scope
-                        {
-                            Name = "securedFiles",
-                            DisplayName = "Scope for the secured files resource.",
-                            UserClaims =
-                            {
-                                new UserClaim("role"),
-                                new UserClaim("securedFiles")
-                            }
-                        }
-                    }
                 }
             };
         }

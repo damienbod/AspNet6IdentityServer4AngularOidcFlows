@@ -148,6 +148,7 @@ namespace ResourceWithIdentityServerWithClient
                 Authority = Config.HOST_URL + "/",
                 AllowedScopes = new List<string> { "dataEventRecords" },
                 ApiSecret = "dataEventRecordsSecret",
+                ApiName = "dataEventRecords",
                 AutomaticAuthenticate = true,
                 SupportedTokens = SupportedTokens.Both,
                 // TokenRetriever = _tokenRetriever,
