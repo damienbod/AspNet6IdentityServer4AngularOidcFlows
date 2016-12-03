@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 namespace QuickstartIdentityServer
 {
+    using System.Security.Claims;
+
     public class Config
     {
         public static IEnumerable<IdentityResource> GetIdentityResources()
@@ -14,7 +16,8 @@ namespace QuickstartIdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email()
+                new IdentityResources.Email(),
+                //new IdentityResource("role",new []{ "securedFiles", "securedFiles.admin", "securedFiles.user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } )
             };
         }
 
@@ -34,11 +37,7 @@ namespace QuickstartIdentityServer
                         {
                             Name = "dataEventRecords",
                             DisplayName = "Scope for the data event records resource.",
-                            UserClaims =
-                            {
-                                new UserClaim("role"),
-                                new UserClaim("dataEventRecords")
-                            }
+                            UserClaims = { "role", "dataEventRecords" }
                         }
                     }
                 },
@@ -62,11 +61,7 @@ namespace QuickstartIdentityServer
                         {
                             Name = "securedFiles",
                             DisplayName = "Scope for the secured files resource.",
-                            UserClaims =
-                            {
-                                new UserClaim("role"),
-                                new UserClaim("securedFiles")
-                            }
+                            UserClaims = { "role", "securedFiles" }
                         }
                     }
                 }
@@ -133,7 +128,8 @@ namespace QuickstartIdentityServer
                     {
                         "openid",
                         "dataEventRecords",
-                        "securedFiles"
+                        "securedFiles",
+                        "role"
                     }
                 }
             };
