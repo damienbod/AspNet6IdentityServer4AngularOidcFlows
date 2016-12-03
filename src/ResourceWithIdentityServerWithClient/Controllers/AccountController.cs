@@ -18,6 +18,7 @@ using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Http.Authentication;
 using IdentityServer4.Extensions;
+using QuickstartIdentityServer;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -240,7 +241,8 @@ namespace IdentityServerWithAspNetIdentity.Controllers
 
             await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
 
-            return View("LoggedOut", vm);
+            return Redirect(Config.HOST_URL + "/index.html");
+            //return View("LoggedOut", vm);
         }
 
         //

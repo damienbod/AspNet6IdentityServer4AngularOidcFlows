@@ -59,6 +59,7 @@ namespace QuickstartIdentityServer
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Implicit,
+                    RequireConsent = false,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
@@ -67,7 +68,7 @@ namespace QuickstartIdentityServer
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                         HOST_URL + "/Unauthorized"
+                         HOST_URL + "/index.html"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
