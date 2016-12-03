@@ -18,6 +18,8 @@ using IdentityServerWithAspNetIdentity.Services;
 using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Http.Authentication;
+using IdentityServer4.Extensions;
+using QuickstartIdentityServer;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -198,6 +200,8 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
+            var subjectId = HttpContext.User.Identity.GetSubjectId();
+
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
             if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
             {
@@ -236,7 +240,10 @@ namespace IdentityServerWithAspNetIdentity.Controllers
                 SignOutIframeUrl = logout?.SignOutIFrameUrl
             };
 
-            return View("LoggedOut", vm);
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "singleapp");
+
+            return Redirect(Config.HOST_URL + "/Unauthorized");
+            //return View("LoggedOut", vm);
         }
 
         //
@@ -259,7 +266,7 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, IsAdmin = model.IsAdmin };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
