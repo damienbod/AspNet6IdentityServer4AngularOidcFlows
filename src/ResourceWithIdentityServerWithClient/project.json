@@ -4,6 +4,7 @@
     "dependencies": {
         "IdentityServer4": "1.0.0-rc4-update1",
         "IdentityServer4.AspNetIdentity": "1.0.0-rc4-update1",
+        "IdentityServer4.AccessTokenValidation": "1.0.1-rc4",
         "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
         "Microsoft.AspNetCore.Diagnostics": "1.0.0",
         "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",

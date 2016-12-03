@@ -15,6 +15,10 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -52,6 +56,28 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+            var guestPolicy = new AuthorizationPolicyBuilder()
+           .RequireAuthenticatedUser()
+           .RequireClaim("scope", "dataEventRecords")
+           .Build();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("role", "dataEventRecords.admin");
+                });
+                options.AddPolicy("admin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("role", "admin");
+                });
+                options.AddPolicy("dataEventRecordsUser", policyUser =>
+                {
+                    policyUser.RequireClaim("role", "dataEventRecords.user");
+                });
+
+            });
 
             services.AddMvc();
 
@@ -113,6 +139,22 @@ namespace IdentityServerWithAspNetIdentitySqlite
             app.UseIdentity();
             app.UseIdentityServer();
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
+            {
+                Authority = Config.HOST_URL + "/",
+                AllowedScopes = new List<string> { "dataEventRecords" },
+                ApiSecret = "dataEventRecordsSecret",
+                ApiName = "dataEventRecords",
+                AutomaticAuthenticate = true,
+                SupportedTokens = SupportedTokens.Both,
+                // TokenRetriever = _tokenRetriever,
+                // required if you want to return a 403 and not a 401 for forbidden responses
+                AutomaticChallenge = true,
+            };
+
+            app.UseIdentityServerAuthentication(identityServerValidationOptions);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
