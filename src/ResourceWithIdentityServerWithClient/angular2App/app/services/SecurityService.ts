@@ -256,7 +256,7 @@ export class SecurityService {
 
     private getUserData = (): Observable<string[]> => {
         this.setHeaders();
-        return this._http.get('https://localhost:44318/connect/userinfo', {
+        return this._http.get(this._configuration.Server + '/connect/userinfo', {
             headers: this.headers,
             body: ''
         }).map(res => res.json());
