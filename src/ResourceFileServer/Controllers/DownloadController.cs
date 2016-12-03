@@ -34,7 +34,9 @@ namespace ResourceFileServer.Controllers
             return new StatusCodeResult(401);
         }
 
-        [Authorize("securedFilesUser")]
+        // TODO MUST FIX, user claims validation no longer work since identityserver4 rc4
+        [Authorize]
+        //[Authorize("securedFilesUser")]
         [HttpGet("GenerateOneTimeAccessToken/{id}")]
         public IActionResult GenerateOneTimeAccessToken(string id)
         {
