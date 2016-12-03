@@ -13,15 +13,13 @@ namespace IdentityServerWithIdentitySQLite.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1");
+                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
 
             modelBuilder.Entity("IdentityServerWithAspNetIdentity.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
 
                     b.Property<int>("AccessFailedCount");
-
-                    b.Property<DateTime>("AccountExpires");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();

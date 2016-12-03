@@ -18,6 +18,7 @@ using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Http.Authentication;
 using IdentityServer4.Extensions;
+using QuickstartIdentityServer;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -238,9 +239,10 @@ namespace IdentityServerWithAspNetIdentity.Controllers
                 SignOutIframeUrl = logout?.SignOutIFrameUrl
             };
 
-            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "singleapp");
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
 
-            return View("LoggedOut", vm);
+            return Redirect(Config.HOST_URL + "/index.html");
+            //return View("LoggedOut", vm);
         }
 
         //
@@ -263,7 +265,23 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, IsAdmin = model.IsAdmin };
+                var dataEventsRole = "dataEventRecords.user";
+                var securedFilesRole = "securedFiles.user";
+                if (model.IsAdmin)
+                {
+                    dataEventsRole = "dataEventRecords.admin";
+                    securedFilesRole = "securedFiles.admin";
+                }
+
+                var user = new ApplicationUser {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    IsAdmin = model.IsAdmin,
+                    DataEventRecordsRole = dataEventsRole,
+                    SecuredFilesRole = securedFilesRole,
+                    AccountExpires = DateTime.UtcNow.AddDays(7.0)
+                };
+    
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

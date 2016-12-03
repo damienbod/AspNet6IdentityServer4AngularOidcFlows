@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -8,10 +9,11 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServerWithAspNetIdentity.Models;
 using Microsoft.AspNetCore.Identity;
-using static IdentityServer4.IdentityServerConstants;
 
-namespace ResourceWithIdentityServerWithClient
+namespace IdentityServerWithAspNetIdentitySqlite
 {
+    using IdentityServer4;
+
     public class IdentityWithAdditionalClaimsProfileService : IProfileService
     {
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _claimsFactory;
@@ -31,10 +33,9 @@ namespace ResourceWithIdentityServerWithClient
             var principal = await _claimsFactory.CreateAsync(user);
 
             var claims = principal.Claims.ToList();
-            //if (!context.AllClaimsRequested)
-            //{
-            //    claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
-            //}
+
+            claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
+            
 
             claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
             //new Claim(JwtClaimTypes.Role, "admin"),
@@ -59,11 +60,13 @@ namespace ResourceWithIdentityServerWithClient
                 claims.Add(new Claim(JwtClaimTypes.Role, "dataEventRecords.admin"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "dataEventRecords.user"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "dataEventRecords"));
+                claims.Add(new Claim(JwtClaimTypes.Scope, "dataEventRecords"));
             }
             else
             {
                 claims.Add(new Claim(JwtClaimTypes.Role, "dataEventRecords.user"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "dataEventRecords"));
+                claims.Add(new Claim(JwtClaimTypes.Scope, "dataEventRecords"));
             }
 
             if (user.SecuredFilesRole == "securedFiles.admin")
@@ -71,15 +74,17 @@ namespace ResourceWithIdentityServerWithClient
                 claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles.admin"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles.user"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles"));
+                claims.Add(new Claim(JwtClaimTypes.Scope, "securedFiles"));
             }
             else
             {
                 claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles.user"));
                 claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles"));
+                claims.Add(new Claim(JwtClaimTypes.Scope, "securedFiles"));
             }
 
-            claims.Add(new Claim(StandardScopes.Email, user.Email));
-            
+            claims.Add(new Claim(IdentityServerConstants.StandardScopes.Email, user.Email));
+
 
             context.IssuedClaims = claims;
         }
@@ -88,7 +93,7 @@ namespace ResourceWithIdentityServerWithClient
         {
             var sub = context.Subject.GetSubjectId();
             var user = await _userManager.FindByIdAsync(sub);
-            context.IsActive = user != null && user.AccountExpires > DateTime.UtcNow;
+            context.IsActive = user != null;
         }
     }
 }
