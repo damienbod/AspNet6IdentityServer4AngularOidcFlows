@@ -17,7 +17,7 @@ namespace QuickstartIdentityServer
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-                //new IdentityResource("role",new []{ "securedFiles", "securedFiles.admin", "securedFiles.user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } )
+                new IdentityResource("role",new []{ "role", "securedFiles", "securedFiles.admin", "securedFiles.user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } )
             };
         }
 
@@ -37,7 +37,7 @@ namespace QuickstartIdentityServer
                         {
                             Name = "dataEventRecords",
                             DisplayName = "Scope for the data event records resource.",
-                            UserClaims = { "role", "dataEventRecords" }
+                            UserClaims = { "role",  "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" }
                         }
                     }
                 },
@@ -61,7 +61,7 @@ namespace QuickstartIdentityServer
                         {
                             Name = "securedFiles",
                             DisplayName = "Scope for the secured files resource.",
-                            UserClaims = { "role", "securedFiles" }
+                            UserClaims = { "role", "securedFiles", "securedFiles.admin", "securedFiles.user" }
                         }
                     }
                 }

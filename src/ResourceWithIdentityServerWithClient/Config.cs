@@ -16,7 +16,8 @@ namespace QuickstartIdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email()
+                new IdentityResources.Email(),
+                new IdentityResource("role",new []{ "role", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } )
             };
         }
 
@@ -36,7 +37,7 @@ namespace QuickstartIdentityServer
                         {
                             Name = "dataEventRecords",
                             DisplayName = "Scope for the data event records resource.",
-                            UserClaims = { "role", "dataEventRecords"}
+                            UserClaims = { "role", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" }
                         }
                     }
                 }
@@ -54,7 +55,7 @@ namespace QuickstartIdentityServer
                 {
                     ClientName = "singleapp",
                     ClientId = "singleapp",
-                   // RequireConsent = false,
+                    RequireConsent = true,
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Implicit,
@@ -75,7 +76,8 @@ namespace QuickstartIdentityServer
                     AllowedScopes = new List<string>
                     {
                         "openid",
-                        "dataEventRecords"
+                        "dataEventRecords",
+                        "role"
                     }
                 }
             };
