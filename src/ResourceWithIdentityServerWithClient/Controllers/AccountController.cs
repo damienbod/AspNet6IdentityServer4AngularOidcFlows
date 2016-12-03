@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -19,7 +18,6 @@ using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Http.Authentication;
 using IdentityServer4.Extensions;
-using QuickstartIdentityServer;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -200,9 +198,9 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
+            var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
             var subjectId = HttpContext.User.Identity.GetSubjectId();
 
-            var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
             if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
             {
                 if (model.LogoutId == null)
@@ -242,8 +240,7 @@ namespace IdentityServerWithAspNetIdentity.Controllers
 
             await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "singleapp");
 
-            return Redirect(Config.HOST_URL + "/Unauthorized");
-            //return View("LoggedOut", vm);
+            return View("LoggedOut", vm);
         }
 
         //
