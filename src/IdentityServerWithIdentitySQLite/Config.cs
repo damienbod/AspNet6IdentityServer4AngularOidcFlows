@@ -17,7 +17,8 @@ namespace QuickstartIdentityServer
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-                new IdentityResource("role",new []{ "role", "securedFiles", "securedFiles.admin", "securedFiles.user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } )
+                new IdentityResource("dataeventrecordsscope",new []{ "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } ),
+                new IdentityResource("securedfilesscope",new []{ "role", "admin", "user", "securedFiles", "securedFiles.admin", "securedFiles.user"} )
             };
         }
 
@@ -35,20 +36,12 @@ namespace QuickstartIdentityServer
                     {
                         new Scope
                         {
-                            Name = "dataEventRecords",
-                            DisplayName = "Scope for the data event records resource.",
-                            UserClaims = { "role",  "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" }
+                            Name = "dataeventrecordsscope",
+                            DisplayName = "Scope for the dataEventRecords ApiResource"
                         }
-                    }
+                    },
+                    UserClaims = { "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" }
                 },
-                new ApiResource(
-                    "aReallyCoolScope",
-                    "A really cool scope", new List<string>
-                    {
-                        "role",
-                        "aReallyCoolScope"
-                    }
-                ),
                 new ApiResource("securedFiles")
                 {
                     ApiSecrets =
@@ -59,11 +52,11 @@ namespace QuickstartIdentityServer
                     {
                         new Scope
                         {
-                            Name = "securedFiles",
-                            DisplayName = "Scope for the secured files resource.",
-                            UserClaims = { "role", "securedFiles", "securedFiles.admin", "securedFiles.user" }
+                            Name = "securedfilesscope",
+                            DisplayName = "Scope for the securedFiles ApiResource"
                         }
-                    }
+                    },
+                    UserClaims = { "role", "admin", "user", "securedFiles", "securedFiles.admin", "securedFiles.user" }
                 }
             };
         }
@@ -98,8 +91,9 @@ namespace QuickstartIdentityServer
                         "email",
                         "profile",
                         "dataEventRecords",
-                        "aReallyCoolScope",
-                        "securedFiles"
+                        "dataeventrecordsscope",
+                        "securedFiles",
+                        "securedfilesscope",
                     }
                 },
                 new Client
@@ -128,7 +122,9 @@ namespace QuickstartIdentityServer
                     {
                         "openid",
                         "dataEventRecords",
+                        "dataeventrecordsscope",
                         "securedFiles",
+                        "securedfilesscope",
                         "role"
                     }
                 }
