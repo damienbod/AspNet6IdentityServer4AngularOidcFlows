@@ -14,10 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
-using System;
-using Microsoft.IdentityModel.Tokens;
 using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Http;
 
 namespace AspNet5SQLite
 {
