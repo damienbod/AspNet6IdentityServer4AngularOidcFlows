@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -18,6 +17,7 @@ using IdentityServerWithAspNetIdentity.Services;
 using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Http.Authentication;
+using IdentityServer4.Extensions;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -199,6 +199,8 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+            var subjectId = HttpContext.User.Identity.GetSubjectId();
+
             if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
             {
                 if (model.LogoutId == null)
@@ -235,6 +237,8 @@ namespace IdentityServerWithAspNetIdentity.Controllers
                 ClientName = logout?.ClientId,
                 SignOutIframeUrl = logout?.SignOutIFrameUrl
             };
+
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
 
             return View("LoggedOut", vm);
         }
