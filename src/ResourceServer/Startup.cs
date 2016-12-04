@@ -98,13 +98,10 @@ namespace AspNet5SQLite
             loggerFactory.AddDebug();
 
             app.UseExceptionHandler("/Home/Error");
-
             app.UseCors("corsGlobalPolicy");
-
             app.UseStaticFiles();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = "https://localhost:44318/",
@@ -115,49 +112,10 @@ namespace AspNet5SQLite
                 SupportedTokens = SupportedTokens.Both,
                 // TokenRetriever = _tokenRetriever,
                 // required if you want to return a 403 and not a 401 for forbidden responses
-
-                AutomaticChallenge = true,
-                
+                AutomaticChallenge = true,                
             };
 
             app.UseIdentityServerAuthentication(identityServerValidationOptions);
-
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
-
-            //var tokenValidationParameters = new TokenValidationParameters
-            //{
-            //    // The signing key must match!
-            //    //ValidateIssuerSigningKey = true,
-            //    //IssuerSigningKey = signingKey,
-
-            //    // Validate the JWT Issuer (iss) claim
-            //    ValidateIssuer = true,
-            //    ValidIssuer = "https://localhost:44318",
-
-            //    // Validate the JWT Audience (aud) claim
-            //    ValidateAudience = true,
-            //    ValidAudience = "https://localhost:44318/resources",
-
-            //    // Validate the token expiry
-            //    ValidateLifetime = true,
-
-            //    // If you want to allow a certain amount of clock drift, set that here:
-            //    ClockSkew = TimeSpan.Zero
-            //};
-
-            //var jwtBearerOptions = new JwtBearerOptions()
-            //{
-            //    Authority = "https://localhost:44318",
-            //    Audience = "https://localhost:44318/resources",
-            //    AutomaticAuthenticate = true,
-                
-            //    TokenValidationParameters = tokenValidationParameters, 
-               
-            //    // required if you want to return a 403 and not a 401 for forbidden responses
-            //    AutomaticChallenge = true
-            //};
-
-            //app.UseJwtBearerAuthentication(jwtBearerOptions);
 
             app.UseMvc(routes =>
             {

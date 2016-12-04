@@ -239,7 +239,7 @@ namespace IdentityServerWithAspNetIdentity.Controllers
                 SignOutIframeUrl = logout?.SignOutIFrameUrl
             };
 
-            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "singleapp");
 
             return Redirect(Config.HOST_URL + "/index.html");
             //return View("LoggedOut", vm);
