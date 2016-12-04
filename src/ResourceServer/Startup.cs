@@ -14,10 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
-using System;
-using Microsoft.IdentityModel.Tokens;
 using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Http;
 
 namespace AspNet5SQLite
 {
@@ -111,8 +108,9 @@ namespace AspNet5SQLite
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = "https://localhost:44318/",
-                ScopeName = "dataEventRecords",
-                ScopeSecret = "dataEventRecordsSecret",
+                AllowedScopes = new List<string> { "dataEventRecords" },
+                ApiSecret = "dataEventRecordsSecret",
+                ApiName = "dataEventRecords",
                 AutomaticAuthenticate = true,
                 SupportedTokens = SupportedTokens.Both,
                 // TokenRetriever = _tokenRetriever,

@@ -12,15 +12,15 @@ using QuickstartIdentityServer;
 using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System;
-using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
 using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 
-namespace ResourceWithIdentityServerWithClient
+namespace IdentityServerWithAspNetIdentitySqlite
 {
     public class Startup
     {
@@ -58,9 +58,9 @@ namespace ResourceWithIdentityServerWithClient
             .AddDefaultTokenProviders();
 
             var guestPolicy = new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
-            .RequireClaim("scope", "dataEventRecords")
-            .Build();
+           .RequireAuthenticatedUser()
+           .RequireClaim("scope", "dataEventRecords")
+           .Build();
 
             services.AddAuthorization(options =>
             {
@@ -85,10 +85,11 @@ namespace ResourceWithIdentityServerWithClient
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-        
+
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
-                .AddInMemoryScopes(Config.GetScopes())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
@@ -121,8 +122,6 @@ namespace ResourceWithIdentityServerWithClient
                 await next();
             });
 
-            app.UseDefaultFiles();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -135,18 +134,19 @@ namespace ResourceWithIdentityServerWithClient
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseStaticFiles();
+
             app.UseIdentity();
             app.UseIdentityServer();
-
-            app.UseStaticFiles();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             {
                 Authority = Config.HOST_URL + "/",
-                ScopeName = "dataEventRecords",
-                ScopeSecret = "dataEventRecordsSecret",
+                AllowedScopes = new List<string> { "dataEventRecords" },
+                ApiSecret = "dataEventRecordsSecret",
+                ApiName = "dataEventRecords",
                 AutomaticAuthenticate = true,
                 SupportedTokens = SupportedTokens.Both,
                 // TokenRetriever = _tokenRetriever,
@@ -155,8 +155,12 @@ namespace ResourceWithIdentityServerWithClient
             };
 
             app.UseIdentityServerAuthentication(identityServerValidationOptions);
-
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

@@ -48,6 +48,7 @@ export class SecurityService {
         this.store("IsAuthorized", false);
     }
 
+    public UserData: any;
     public SetAuthorizationData(token: any, id_token:any) {
         if (this.retrieve("authorizationData") !== "") {
             this.store("authorizationData", "");
@@ -61,19 +62,36 @@ export class SecurityService {
         this.IsAuthorized = true;
         this.store("IsAuthorized", true);
 
-        var data: any = this.getDataFromToken(id_token);
-        console.log(data);
-        for (var i = 0; i < data.role.length; i++) {
-            console.log("Role: " + data.role[i]);
-            if (data.role[i] === "dataEventRecords.admin") {
-                this.HasAdminRole = true;
-                this.store("HasAdminRole", true)
-            }
-            if (data.role[i] === "admin") {
-                this.HasUserAdminRole = true;
-                this.store("HasUserAdminRole", true)
-            }
-        }
+        this.getUserData()
+            .subscribe(data => this.UserData = data,
+            error => this.HandleError(error),
+            () => {
+                for (var i = 0; i < this.UserData.role.length; i++) {
+                    console.log("Role: " + this.UserData.role[i]);
+                    if (this.UserData.role[i] === "dataEventRecords.admin") {
+                        this.HasAdminRole = true;
+                        this.store("HasAdminRole", true)
+                    }
+                    if (this.UserData.role[i] === "admin") {
+                        this.HasUserAdminRole = true;
+                        this.store("HasUserAdminRole", true)
+                    }
+                }
+            });
+
+        //var data: any = this.getDataFromToken(id_token);
+        //console.log(data);
+        //for (var i = 0; i < data.role.length; i++) {
+        //    console.log("Role: " + data.role[i]);
+        //    if (data.role[i] === "dataEventRecords.admin") {
+        //        this.HasAdminRole = true;
+        //        this.store("HasAdminRole", true)
+        //    }
+        //    if (data.role[i] === "admin") {
+        //        this.HasUserAdminRole = true;
+        //        this.store("HasUserAdminRole", true)
+        //    }
+        //}
     }
 
     public Authorize() {
@@ -83,7 +101,7 @@ export class SecurityService {
 
         var authorizationUrl = this._configuration.Server + '/connect/authorize';
         var client_id = 'singleapp';
-        var redirect_uri = this._configuration.Server;
+        var redirect_uri = this._configuration.Server + '/index.html';
         var response_type = "id_token token";
         var scope = "dataEventRecords openid";
         var nonce = "N" + Math.random() + "" + Date.now();
@@ -236,4 +254,23 @@ export class SecurityService {
         this.storage.setItem(key, JSON.stringify(value));
     }
 
+    private getUserData = (): Observable<string[]> => {
+        this.setHeaders();
+        return this._http.get(this._configuration.Server + '/connect/userinfo', {
+            headers: this.headers,
+            body: ''
+        }).map(res => res.json());
+    }
+
+    private setHeaders() {
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Accept', 'application/json');
+
+        var token = this.GetToken();
+
+        if (token !== "") {
+            this.headers.append('Authorization', 'Bearer ' + token);
+        }
+    }
 }

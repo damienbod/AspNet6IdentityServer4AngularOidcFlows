@@ -1,7 +1,7 @@
 ﻿@using System.Collections.Generic
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Http.Authentication
-@model LoginViewModel
+@model IdentityServer4.Quickstart.UI.Models.LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-md-8">
         <section>
-            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
@@ -26,16 +26,16 @@
                 <div class="form-group">
                     <label asp-for="Password" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
-                        <input asp-for="Password" class="form-control" />
+                        <input asp-for="Password" class="form-control" type="password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">
-                            <label asp-for="RememberMe">
-                                <input asp-for="RememberMe" />
-                                @Html.DisplayNameFor(m => m.RememberMe)
+                            <label asp-for="RememberLogin">
+                                <input asp-for="RememberLogin" />
+                                @Html.DisplayNameFor(m => m.RememberLogin)
                             </label>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <p>
-                    <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
+                    <a asp-action="Register" asp-route-returnurl="@Model.ReturnUrl">Register as a new user?</a>
                 </p>
                 <p>
                     <a asp-action="ForgotPassword">Forgot your password?</a>
@@ -59,8 +59,8 @@
             <h4>Use another service to log in.</h4>
             <hr />
             @{
-                var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
-                if (loginProviders.Count == 0)
+                var loginProviders = Model.ExternalProviders.ToArray();
+                if (loginProviders.Length == 0)
                 {
                     <div>
                         <p>
@@ -71,7 +71,7 @@
                 }
                 else
                 {
-                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
                         <div>
                             <p>
                                 @foreach (var provider in loginProviders)

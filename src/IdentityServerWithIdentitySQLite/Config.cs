@@ -6,62 +6,57 @@ using System.Collections.Generic;
 
 namespace QuickstartIdentityServer
 {
+    using System.Security.Claims;
+
     public class Config
     {
-        // scopes define the resources in your system
-        public static IEnumerable<Scope> GetScopes()
+        public static IEnumerable<IdentityResource> GetIdentityResources()
         {
-            return new List<Scope>
+            return new List<IdentityResource>
             {
-                 // standard OpenID Connect scopes
-                StandardScopes.OpenId,
-                StandardScopes.ProfileAlwaysInclude,
-                StandardScopes.EmailAlwaysInclude,
-           
-                // API - access token will 
-                // contain roles of user
-                new Scope
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResource("dataeventrecordsscope",new []{ "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } ),
+                new IdentityResource("securedfilesscope",new []{ "role", "admin", "user", "securedFiles", "securedFiles.admin", "securedFiles.user"} )
+            };
+        }
+
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("dataEventRecords")
                 {
-                    Name = "dataEventRecords",
-                    DisplayName = "Scope for the data event records resource.",
-                    Type = ScopeType.Resource,
-                    ScopeSecrets = new List<Secret>
+                    ApiSecrets =
                     {
                         new Secret("dataEventRecordsSecret".Sha256())
                     },
-                    Claims = new List<ScopeClaim>
+                    Scopes =
                     {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("dataEventRecords")
-                    }
+                        new Scope
+                        {
+                            Name = "dataeventrecordsscope",
+                            DisplayName = "Scope for the dataEventRecords ApiResource"
+                        }
+                    },
+                    UserClaims = { "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" }
                 },
-                new Scope
+                new ApiResource("securedFiles")
                 {
-                    Name = "aReallyCoolScope",
-                    DisplayName = "A really cool scope",
-                    Type = ScopeType.Resource,
-
-                    Claims = new List<ScopeClaim>
-                    {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("aReallyCoolScope")
-                    }
-                },
-                new Scope
-                {
-                    Name = "securedFiles",
-                    DisplayName = "Scope for the secured files resource.",
-                    Type = ScopeType.Resource,
-
-                    ScopeSecrets = new List<Secret>
+                    ApiSecrets =
                     {
                         new Secret("securedFilesSecret".Sha256())
                     },
-                    Claims = new List<ScopeClaim>
+                    Scopes =
                     {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("securedFiles")
-                    }
+                        new Scope
+                        {
+                            Name = "securedfilesscope",
+                            DisplayName = "Scope for the securedFiles ApiResource"
+                        }
+                    },
+                    UserClaims = { "role", "admin", "user", "securedFiles", "securedFiles.admin", "securedFiles.user" }
                 }
             };
         }
@@ -96,8 +91,9 @@ namespace QuickstartIdentityServer
                         "email",
                         "profile",
                         "dataEventRecords",
-                        "aReallyCoolScope",
-                        "securedFiles"
+                        "dataeventrecordsscope",
+                        "securedFiles",
+                        "securedfilesscope",
                     }
                 },
                 new Client
@@ -126,7 +122,10 @@ namespace QuickstartIdentityServer
                     {
                         "openid",
                         "dataEventRecords",
-                        "securedFiles"
+                        "dataeventrecordsscope",
+                        "securedFiles",
+                        "securedfilesscope",
+                        "role"
                     }
                 }
             };

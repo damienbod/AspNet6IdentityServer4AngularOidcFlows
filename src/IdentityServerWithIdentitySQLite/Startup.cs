@@ -59,7 +59,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
 
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
-                .AddInMemoryScopes(Config.GetScopes())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();

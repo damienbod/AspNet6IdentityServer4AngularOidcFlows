@@ -2,16 +2,10 @@
   "userSecretsId": "aspnet-WebApp_Auth-96d521e3-30ac-4a8f-967f-abc243174dce",
 
     "dependencies": {
-        "Microsoft.EntityFrameworkCore.Sqlite": "1.0.1",
-        "Microsoft.EntityFrameworkCore.Sqlite.Design": "1.0.1",
-        "Microsoft.EntityFrameworkCore.Tools": {
-            "version": "1.0.0-preview2-final",
-            "imports": [
-                "portable-net45+win8+dnxcore50",
-                "portable-net45+win8"
-            ]
-        },
+        "IdentityServer4.AccessTokenValidation": "1.0.1-rc4",
         "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
+        "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
+        "Microsoft.AspNetCore.DataProtection": "1.0.0",
         "Microsoft.AspNetCore.Diagnostics": "1.0.0",
         "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",
         "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
@@ -23,15 +17,24 @@
         "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
         "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
         "Microsoft.AspNetCore.StaticFiles": "1.0.0",
+        "Microsoft.EntityFrameworkCore.Sqlite": "1.0.1",
+        "Microsoft.EntityFrameworkCore.Sqlite.Design": "1.0.1",
+        "Microsoft.EntityFrameworkCore.Tools": {
+            "version": "1.0.0-preview2-final",
+            "imports": [
+                "portable-net45+win8+dnxcore50",
+                "portable-net45+win8"
+            ]
+        },
         "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
         "Microsoft.Extensions.Configuration.Json": "1.0.0",
         "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0",
-        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-        "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
         "Microsoft.Extensions.DependencyModel": "1.0.0-*",
         "Microsoft.Extensions.Logging": "1.0.0",
         "Microsoft.Extensions.Logging.Console": "1.0.0",
         "Microsoft.Extensions.Logging.Debug": "1.0.0",
+        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+        "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
         "Microsoft.VisualStudio.Web.CodeGeneration.Tools": {
             "version": "1.0.0-preview2-final",
@@ -41,10 +44,7 @@
             "version": "1.0.0-preview2-final",
             "type": "build"
         },
-        "Microsoft.AspNetCore.DataProtection": "1.0.0",
-        "System.IdentityModel.Tokens.Jwt": "5.0.0",
-        "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
-        "IdentityServer4.AccessTokenValidation": "1.0.1-rc2"
+        "System.IdentityModel.Tokens.Jwt": "5.0.0"
     },
 
   "tools": {

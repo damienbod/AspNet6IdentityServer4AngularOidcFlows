@@ -6,63 +6,42 @@ using System.Collections.Generic;
 
 namespace QuickstartIdentityServer
 {
+    using System.Security.Claims;
+
     public class Config
     {
-        public static string HOST_URL =  "https://localhost:44363";
-        // scopes define the resources in your system
-        public static IEnumerable<Scope> GetScopes()
+        public static string HOST_URL = "https://localhost:44363";
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
         {
-            return new List<Scope>
+            return new List<IdentityResource>
             {
-                 // standard OpenID Connect scopes
-                StandardScopes.OpenId,
-                StandardScopes.ProfileAlwaysInclude,
-                StandardScopes.EmailAlwaysInclude,
-           
-                // API - access token will 
-                // contain roles of user
-                new Scope
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+                new IdentityResource("dataeventrecordsscope",new []{ "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } ),
+            };
+        }
+
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("dataEventRecords")
                 {
-                    Name = "dataEventRecords",
-                    DisplayName = "Scope for the data event records resource.",
-                    Type = ScopeType.Resource,
-                    ScopeSecrets = new List<Secret>
+                    ApiSecrets =
                     {
                         new Secret("dataEventRecordsSecret".Sha256())
                     },
-                    Claims = new List<ScopeClaim>
+                    Scopes =
                     {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("dataEventRecords")
-                    }
-                },
-                new Scope
-                {
-                    Name = "aReallyCoolScope",
-                    DisplayName = "A really cool scope",
-                    Type = ScopeType.Resource,
-
-                    Claims = new List<ScopeClaim>
-                    {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("aReallyCoolScope")
-                    }
-                },
-                new Scope
-                {
-                    Name = "securedFiles",
-                    DisplayName = "Scope for the secured files resource.",
-                    Type = ScopeType.Resource,
-
-                    ScopeSecrets = new List<Secret>
-                    {
-                        new Secret("securedFilesSecret".Sha256())
+                        new Scope
+                        {
+                            Name = "dataeventrecordsscope",
+                            DisplayName = "Scope for the dataEventRecords ApiResource"
+                        }
                     },
-                    Claims = new List<ScopeClaim>
-                    {
-                        new ScopeClaim("role"),
-                        new ScopeClaim("securedFiles")
-                    }
+                    UserClaims = { "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" }
                 }
             };
         }
@@ -77,28 +56,32 @@ namespace QuickstartIdentityServer
                 {
                     ClientName = "singleapp",
                     ClientId = "singleapp",
-                    RequireConsent = false,
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Implicit,
+                    RequireConsent = false,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        HOST_URL
+                         HOST_URL + "/index.html"
 
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        HOST_URL + "/Unauthorized"
+                         HOST_URL + "/index.html"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        HOST_URL
+                         HOST_URL
                     },
                     AllowedScopes = new List<string>
                     {
                         "openid",
-                        "dataEventRecords"
+                        "dataEventRecords",
+                        "dataeventrecordsscope",
+                        "securedFiles",
+                        "securedfilesscope",
+                        "role"
                     }
                 }
             };
