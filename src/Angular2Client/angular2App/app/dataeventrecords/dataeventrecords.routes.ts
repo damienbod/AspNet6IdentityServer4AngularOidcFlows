@@ -5,9 +5,10 @@ import { DataEventRecordsEditComponent } from './dataeventrecords-edit.component
 
 export const DATA_RECORDS_ROUTES: Routes = [
     {
-        path: 'dataeventrecords',
+        path: 'dataeventrecords', 
+        
         children: [
-            { path: '', redirectTo: 'list'},
+            { path: '', redirectTo: 'list', pathMatch: 'full'},
             {
                 path: 'create',
                 component: DataEventRecordsCreateComponent
