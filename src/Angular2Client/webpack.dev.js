@@ -11,7 +11,9 @@ console.log("@@@@@@@@@ USING DEVELOPMENT @@@@@@@@@@@@@@@");
 module.exports = {
 
     devtool: 'source-map',
-
+    performance: {
+        hints: false
+    },
     entry: {
         'app': './angular2App/main.ts' // JiT compilation
     },

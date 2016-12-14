@@ -26,7 +26,7 @@
         "angular-in-memory-web-api": "~0.1.17",
         "core-js": "^2.4.1",
         "reflect-metadata": "^0.1.8",
-        "rxjs": "5.0.0-rc.5",
+        "rxjs": "5.0.1",
         "zone.js": "^0.7.2",
 
         "@angular/platform-server": "~2.3.0",
@@ -54,7 +54,7 @@
     "ts-helpers": "^1.1.1",
     "typescript": "2.0.3",
     "url-loader": "^0.5.6",
-    "webpack": "2.1.0-beta.27",
+    "webpack": "2.1.0-beta.28",
     "webpack-dev-server": "^1.16.2"
   }
 }
