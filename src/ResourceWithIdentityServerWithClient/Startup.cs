@@ -103,7 +103,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
             var angularRoutes = new[] {
                 "/Unauthorized",
                 "/Forbidden",
-                "/home",
+                "/uihome",
                 "/dataeventrecords/",
                 "/dataeventrecords/create",
                 "/dataeventrecords/edit/",
@@ -122,6 +122,9 @@ namespace IdentityServerWithAspNetIdentitySqlite
                 await next();
             });
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -133,8 +136,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            app.UseStaticFiles();
 
             app.UseIdentity();
             app.UseIdentityServer();

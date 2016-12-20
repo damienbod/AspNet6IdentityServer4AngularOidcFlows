@@ -101,7 +101,7 @@ export class SecurityService {
 
         var authorizationUrl = this._configuration.Server + '/connect/authorize';
         var client_id = 'singleapp';
-        var redirect_uri = this._configuration.Server + '/index.html';
+        var redirect_uri = this._configuration.Server;
         var response_type = "id_token token";
         var scope = "dataEventRecords openid";
         var nonce = "N" + Math.random() + "" + Date.now();
