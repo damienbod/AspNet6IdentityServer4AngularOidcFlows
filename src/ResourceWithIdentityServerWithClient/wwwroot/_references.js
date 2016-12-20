@@ -32,6 +32,7 @@
 /// <reference path="../aot/angular2app/app/user-management/user-management.component.ngfactory.js" />
 /// <reference path="../webpack.config.js" />
 /// <reference path="../webpack.dev.js" />
+/// <reference path="../webpack.helpers.js" />
 /// <reference path="../webpack.prod.js" />
 /// <reference path="dist/app.bundle.js" />
 /// <reference path="js/site.js" />
