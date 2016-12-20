@@ -103,7 +103,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
             var angularRoutes = new[] {
                 "/Unauthorized",
                 "/Forbidden",
-                "/home",
+                "/uihome",
                 "/dataeventrecords/",
                 "/dataeventrecords/create",
                 "/dataeventrecords/edit/",

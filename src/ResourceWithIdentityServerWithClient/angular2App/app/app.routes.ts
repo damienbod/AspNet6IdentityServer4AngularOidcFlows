@@ -15,7 +15,7 @@ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'home', component: HomeComponent },
+    { path: 'uihome', component: HomeComponent },
     {
         path: 'usermanagement', component: UserManagementComponent,
         canActivate: [HasAdminRoleAuthenticationGuard],

@@ -63,12 +63,12 @@ namespace QuickstartIdentityServer
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                         HOST_URL + "/index.html"
+                         HOST_URL
 
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                         HOST_URL + "/index.html"
+                         HOST_URL
                     },
                     AllowedCorsOrigins = new List<string>
                     {
