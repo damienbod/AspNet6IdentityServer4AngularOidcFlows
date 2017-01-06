@@ -38,7 +38,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
                     error => this.securityService.HandleError(error),
                     () => console.log('DataEventRecordsEditComponent:Get by Id complete'));
             }
-        });   
+        });
     }
 
     ngOnDestroy() {

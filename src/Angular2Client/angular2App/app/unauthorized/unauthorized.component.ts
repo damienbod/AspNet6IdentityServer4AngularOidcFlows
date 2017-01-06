@@ -13,8 +13,7 @@ export class UnauthorizedComponent implements OnInit {
     constructor() {
         this.message = 'UnauthorizedComponent constructor';
     }
-    
+
     ngOnInit() {
-        
     }
 }

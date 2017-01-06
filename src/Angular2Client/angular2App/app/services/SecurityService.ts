@@ -112,7 +112,7 @@ export class SecurityService {
 
         let hash = window.location.hash.substr(1);
 
-        let result: any = hash.split('&').reduce(function(result : any, item: string) {
+        let result: any = hash.split('&').reduce(function(result: any, item: string) {
             let parts = item.split('=');
             result[parts[0]] = parts[1];
             return result;
@@ -186,7 +186,7 @@ export class SecurityService {
             this._router.navigate(['/Forbidden']);
         } else if (error.status == 401) {
             this.ResetAuthorizationData();
-            this._router.navigate(['/Unauthorized'])
+            this._router.navigate(['/Unauthorized']);
         }
     }
 
