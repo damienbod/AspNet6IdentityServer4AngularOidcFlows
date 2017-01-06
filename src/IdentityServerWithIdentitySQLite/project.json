@@ -2,8 +2,8 @@
     "userSecretsId": "aspnet-IdentityServerWithAspNetIdentity-1e7bf5d8-6c32-4dd3-b77d-2d7d2e0f5099",
 
     "dependencies": {
-        "IdentityServer4": "1.0.0-rc5",
-        "IdentityServer4.AspNetIdentity": "1.0.0-rc5",
+        "IdentityServer4": "1.0.0",
+        "IdentityServer4.AspNetIdentity": "1.0.0",
         "Microsoft.NETCore.App": {
             "version": "1.1.0",
             "type": "platform"
