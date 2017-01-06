@@ -13,8 +13,8 @@ export class SecureFileService {
     private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
-        this.actionUrl = `${_configuration.FileServer}api/Download/`; 
-        this.fileExplorerUrl = `${_configuration.FileServer }api/FileExplorer/`;    
+        this.actionUrl = `${_configuration.FileServer}api/Download/`;
+        this.fileExplorerUrl = `${_configuration.FileServer }api/FileExplorer/`;
     }
 
     public DownloadFile(id: string) {
@@ -28,7 +28,6 @@ export class SecureFileService {
             ).subscribe(
             data => {
                 oneTimeAccessToken = data;
-                
             },
             error => this._securityService.HandleError(error),
             () => {
@@ -50,7 +49,7 @@ export class SecureFileService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        var token = this._securityService.GetToken();
+        let token = this._securityService.GetToken();
 
         if (token !== '') {
             this.headers.append('Authorization', 'Bearer ' + token);
