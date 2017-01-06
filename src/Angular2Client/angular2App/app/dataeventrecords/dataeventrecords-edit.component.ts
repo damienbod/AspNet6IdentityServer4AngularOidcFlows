@@ -23,12 +23,12 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
         private _route: ActivatedRoute,
         private _router: Router
     ) {
-        this.message = "DataEventRecords Edit";
+        this.message = 'DataEventRecords Edit';
     }
     
     ngOnInit() {     
-        console.log("IsAuthorized:" + this.securityService.IsAuthorized);
-        console.log("HasAdminRole:" + this.securityService.HasAdminRole);
+        console.log('IsAuthorized:' + this.securityService.IsAuthorized);
+        console.log('HasAdminRole:' + this.securityService.HasAdminRole);
 
         this.sub = this._route.params.subscribe(params => {
             let id = +params['id']; // (+) converts string 'id' to a number
@@ -48,7 +48,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
     public Update() {
         // router navigate to DataEventRecordsList
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
-            .subscribe((() => console.log("subscribed")),
+            .subscribe((() => console.log('subscribed')),
             error => this.securityService.HandleError(error),
             () => this._router.navigate(['/dataeventrecords']));
     }

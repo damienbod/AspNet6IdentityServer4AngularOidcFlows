@@ -20,7 +20,7 @@ export class DataEventRecordsListComponent implements OnInit {
         private _dataEventRecordsService: DataEventRecordsService,
         public securityService: SecurityService,
         private _router: Router) {
-        this.message = "DataEventRecords";
+        this.message = 'DataEventRecords';
     }
 
     ngOnInit() {
@@ -28,9 +28,9 @@ export class DataEventRecordsListComponent implements OnInit {
     }
 
     public Delete(id: any) {
-        console.log("Try to delete" + id);
+        console.log('Try to delete' + id);
         this._dataEventRecordsService.Delete(id)
-            .subscribe((() => console.log("subscribed")),
+            .subscribe((() => console.log('subscribed')),
             error => this.securityService.HandleError(error),
             () => this.getData());
     }

@@ -19,7 +19,7 @@ export class SecureFileService {
 
     public DownloadFile(id: string) {
         this.setHeaders();
-        let oneTimeAccessToken = "";
+        let oneTimeAccessToken = '';
         this._http.get(`${this.actionUrl}GenerateOneTimeAccessToken/${id}`, {
             headers: this.headers,
             body: ''
@@ -52,7 +52,7 @@ export class SecureFileService {
 
         var token = this._securityService.GetToken();
 
-        if (token !== "") {
+        if (token !== '') {
             this.headers.append('Authorization', 'Bearer ' + token);
         }
     }
