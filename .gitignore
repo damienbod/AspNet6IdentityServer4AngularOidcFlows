@@ -205,3 +205,6 @@ src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/UserMan
 src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/UserManagementService.js.map
 src/ResourceWithIdentityServerWithClient/wwwroot
 src/Angular2Client/wwwroot
+src/Angular2Client/angular2App/app/dataeventrecords/models/DataEventRecord.js
+src/ResourceServer/Keys
+src/ResourceWithIdentityServerWithClient/wwwroot/_references.js
