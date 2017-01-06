@@ -18,16 +18,16 @@ export class UserManagementService {
 
     private setHeaders() {
 
-        console.log("setHeaders started");
+        console.log('setHeaders started');
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
         var token = this._securityService.GetToken();
-        if (token !== "") {
+        if (token !== '') {
             let tokenValue = 'Bearer ' + token;
-            console.log("tokenValue:" + tokenValue);
+            console.log('tokenValue:' + tokenValue);
             this.headers.append('Authorization', tokenValue);
         }
     }

@@ -11,7 +11,7 @@ export class UnauthorizedComponent implements OnInit {
     public values: any[];
 
     constructor() {
-        this.message = "UnauthorizedComponent constructor";
+        this.message = 'UnauthorizedComponent constructor';
     }
     
     ngOnInit() {

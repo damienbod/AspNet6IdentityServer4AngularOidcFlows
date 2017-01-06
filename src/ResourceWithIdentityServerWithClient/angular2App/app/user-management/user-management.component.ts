@@ -20,7 +20,7 @@ export class UserManagementComponent implements OnInit {
         private _userManagementService: UserManagementService,
         public securityService: SecurityService,
         private _router: Router) {
-        this.message = "user-management";
+        this.message = 'user-management';
     }
     
     ngOnInit() {
@@ -38,9 +38,9 @@ export class UserManagementComponent implements OnInit {
 
     public Update(user: User) {
         this._userManagementService.Update(user.id, user)
-            .subscribe((() => console.log("subscribed")),
+            .subscribe((() => console.log('subscribed')),
             error => this.securityService.HandleError(error),
-            () => console.log("update request sent!"));
+            () => console.log('update request sent!'));
     }
 
 }
