@@ -11,10 +11,9 @@ export class HomeComponent implements OnInit {
     public values: any[];
 
     constructor() {
-        this.message = "HomeComponent constructor";
+        this.message = 'HomeComponent constructor';
     }
-    
+
     ngOnInit() {
-        
     }
 }

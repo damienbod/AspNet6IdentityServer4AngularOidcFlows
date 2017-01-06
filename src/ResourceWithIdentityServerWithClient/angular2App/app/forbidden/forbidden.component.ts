@@ -11,10 +11,9 @@ export class ForbiddenComponent implements OnInit {
     public values: any[];
 
     constructor() {
-        this.message = "ForbiddenComponent constructor";
+        this.message = 'ForbiddenComponent constructor';
     }
-    
+
     ngOnInit() {
-        
     }
 }

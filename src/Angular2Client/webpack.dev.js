@@ -5,8 +5,9 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var helpers = require('./webpack.helpers');
 
-console.log("@@@@@@@@@ USING DEVELOPMENT @@@@@@@@@@@@@@@");
+console.log('@@@@@@@@@ USING DEVELOPMENT @@@@@@@@@@@@@@@');
 
 module.exports = {
 
@@ -15,13 +16,13 @@ module.exports = {
         hints: false
     },
     entry: {
-        'app': './angular2App/main.ts' // JiT compilation
+        'app': './angular2App/main.ts'
     },
 
     output: {
-        path: "./wwwroot/",
+        path: './wwwroot/',
         filename: 'dist/[name].bundle.js',
-        publicPath: "/"
+        publicPath: '/'
     },
 
     resolve: {
@@ -41,23 +42,26 @@ module.exports = {
                 loaders: [
                     'awesome-typescript-loader',
                     'angular2-template-loader',
-                    'source-map-loader'
+                    'source-map-loader',
+                    'tslint-loader'
                 ]
             },
             {
-                test: /\.(png|jpg|gif|ico|woff|woff2|ttf|svg|eot)$/,
-                exclude: /node_modules/,
-                loader: "file-loader?name=assets/[name]-[hash:6].[ext]",
+                test: /\.(png|jpg|gif|woff|woff2|ttf|svg|eot)$/,
+                loader: 'file-loader?name=assets/[name]-[hash:6].[ext]'
+            },
+            {
+                test: /favicon.ico$/,
+                loader: 'file-loader?name=/[name].[ext]'
             },
             {
                 test: /\.css$/,
-                exclude: /node_modules/,
-                loader: "style-loader!css-loader"
+                loader: 'style-loader!css-loader'
             },
             {
                 test: /\.scss$/,
                 exclude: /node_modules/,
-                loaders: ["style-loader", "css-loader", "sass-loader"]
+                loaders: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
                 test: /\.html$/,
@@ -66,12 +70,12 @@ module.exports = {
         ],
         exprContextCritical: false
     },
-
     plugins: [
+        new webpack.optimize.CommonsChunkPlugin({ name: ['app', 'vendor', 'polyfills']}),
+
         new CleanWebpackPlugin(
             [
                 './wwwroot/dist',
-                './wwwroot/fonts',
                 './wwwroot/assets'
             ]
         ),
@@ -83,7 +87,7 @@ module.exports = {
         }),
 
         new CopyWebpackPlugin([
-            { from: './angular2App/images/*.*', to: "assets/", flatten: true }
+            { from: './angular2App/images/*.*', to: 'assets/', flatten: true }
         ])
     ]
 

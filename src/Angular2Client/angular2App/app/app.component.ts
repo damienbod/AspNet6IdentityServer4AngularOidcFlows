@@ -26,24 +26,24 @@ import './app.component.css';
 
 export class AppComponent implements OnInit {
 
-    constructor(public securityService: SecurityService) {  
+    constructor(public securityService: SecurityService) {
     }
 
     ngOnInit() {
-        console.log("ngOnInit _securityService.AuthorizedCallback");
+        console.log('ngOnInit _securityService.AuthorizedCallback');
 
         if (window.location.hash) {
             this.securityService.AuthorizedCallback();
-        }      
+        }
     }
 
     public Login() {
-        console.log("Do login logic");
-        this.securityService.Authorize(); 
+        console.log('Do login logic');
+        this.securityService.Authorize();
     }
 
     public Logout() {
-        console.log("Do logout logic");
+        console.log('Do logout logic');
         this.securityService.Logoff();
     }
 }

@@ -13,9 +13,9 @@ export class SecureFilesComponent implements OnInit {
 
     public message: string;
     public Files: string[];
-   
+
     constructor(private _secureFileService: SecureFileService, public securityService: SecurityService) {
-        this.message = "Secure Files download";
+        this.message = 'Secure Files download';
     }
 
     ngOnInit() {
