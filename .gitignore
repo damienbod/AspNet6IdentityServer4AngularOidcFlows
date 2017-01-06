@@ -203,3 +203,5 @@ src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/models/
 src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/models/User.js.map
 src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/UserManagementService.js
 src/ResourceWithIdentityServerWithClient/angular2App/app/user-management/UserManagementService.js.map
+src/ResourceWithIdentityServerWithClient/wwwroot
+src/Angular2Client/wwwroot
