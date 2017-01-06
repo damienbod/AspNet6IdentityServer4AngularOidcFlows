@@ -25,8 +25,8 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
     ) {
         this.message = 'DataEventRecords Edit';
     }
-    
-    ngOnInit() {     
+
+    ngOnInit() {
         console.log('IsAuthorized:' + this.securityService.IsAuthorized);
         console.log('HasAdminRole:' + this.securityService.HasAdminRole);
 
@@ -37,8 +37,8 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
                     .subscribe(data => this.DataEventRecord = data,
                     error => this.securityService.HandleError(error),
                     () => console.log('DataEventRecordsEditComponent:Get by Id complete'));
-            } 
-        });      
+            }
+        });
     }
 
     ngOnDestroy() {

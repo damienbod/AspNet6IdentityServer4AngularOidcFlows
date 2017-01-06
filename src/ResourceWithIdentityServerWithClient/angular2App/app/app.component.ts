@@ -23,7 +23,7 @@ import './app.component.scss';
 
 export class AppComponent implements OnInit {
 
-    constructor(public securityService: SecurityService) {  
+    constructor(public securityService: SecurityService) {
     }
 
     ngOnInit() {
@@ -31,12 +31,12 @@ export class AppComponent implements OnInit {
 
         if (window.location.hash) {
             this.securityService.AuthorizedCallback();
-        }      
+        }
     }
 
     public Login() {
         console.log('Do login logic');
-        this.securityService.Authorize(); 
+        this.securityService.Authorize();
     }
 
     public Logout() {

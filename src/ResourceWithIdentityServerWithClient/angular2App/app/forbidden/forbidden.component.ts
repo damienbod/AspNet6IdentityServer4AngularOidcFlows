@@ -13,8 +13,7 @@ export class ForbiddenComponent implements OnInit {
     constructor() {
         this.message = 'ForbiddenComponent constructor';
     }
-    
+
     ngOnInit() {
-        
     }
 }

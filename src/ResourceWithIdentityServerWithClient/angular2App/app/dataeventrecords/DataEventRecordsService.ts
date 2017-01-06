@@ -13,7 +13,7 @@ export class DataEventRecordsService {
     private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
-        this.actionUrl = `${_configuration.Server}/api/DataEventRecords/`;   
+        this.actionUrl = `${_configuration.Server}/api/DataEventRecords/`;
     }
 
     private setHeaders() {
@@ -24,7 +24,7 @@ export class DataEventRecordsService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        var token = this._securityService.GetToken();
+        let token = this._securityService.GetToken();
         if (token !== '') {
             let tokenValue = 'Bearer ' + token;
             console.log('tokenValue:' + tokenValue);
@@ -47,7 +47,7 @@ export class DataEventRecordsService {
         }).map(res => res.json());
     }
 
-    public Add = (itemToAdd: any): Observable<Response> => {       
+    public Add = (itemToAdd: any): Observable<Response> => {
         this.setHeaders();
         return this._http.post(this.actionUrl, JSON.stringify(itemToAdd), { headers: this.headers });
     }

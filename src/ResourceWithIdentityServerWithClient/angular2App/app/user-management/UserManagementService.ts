@@ -13,7 +13,7 @@ export class UserManagementService {
     private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
-        this.actionUrl = `${_configuration.Server}/api/UserManagement/`;   
+        this.actionUrl = `${_configuration.Server}/api/UserManagement/`;
     }
 
     private setHeaders() {
@@ -24,7 +24,7 @@ export class UserManagementService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        var token = this._securityService.GetToken();
+        let token = this._securityService.GetToken();
         if (token !== '') {
             let tokenValue = 'Bearer ' + token;
             console.log('tokenValue:' + tokenValue);

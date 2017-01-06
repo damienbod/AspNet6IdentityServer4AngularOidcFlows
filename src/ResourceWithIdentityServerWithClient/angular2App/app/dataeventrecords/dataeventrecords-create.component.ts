@@ -18,7 +18,7 @@ export class DataEventRecordsCreateComponent implements OnInit {
     constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
         this.message = 'DataEventRecords Create';
     }
-    
+
     ngOnInit() {
         this.DataEventRecord = { Id: 0, Name: '', Description: '' };
         console.log('IsAuthorized:' + this.securityService.IsAuthorized);
@@ -33,6 +33,4 @@ export class DataEventRecordsCreateComponent implements OnInit {
             error => this.securityService.HandleError(error),
             () => this._router.navigate(['/dataeventrecords']));
     }
-
-    
 }

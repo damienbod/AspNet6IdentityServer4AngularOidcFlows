@@ -22,7 +22,7 @@ export class UserManagementComponent implements OnInit {
         private _router: Router) {
         this.message = 'user-management';
     }
-    
+
     ngOnInit() {
         this.getData();
     }
