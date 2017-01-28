@@ -8,8 +8,14 @@ import { Router } from '@angular/router';
 @Injectable()
 export class SecurityService {
 
-    public IsAuthorized: boolean;
-    public HasAdminRole: boolean;
+    public get IsAuthorized(): boolean {
+        return this.isTokenExpired('authorizationDataIdToken');
+    };
+
+    private _hasAdminRole: boolean;
+    public get HasAdminRole(): boolean {
+        return this.IsAuthorized && this._hasAdminRole;
+    }
     public UserData: any;
 
     private actionUrl: string;
@@ -25,10 +31,33 @@ export class SecurityService {
         this.headers.append('Accept', 'application/json');
         this.storage = sessionStorage; //localStorage;
 
-        if (this.retrieve('IsAuthorized') !== '') {
-            this.HasAdminRole = this.retrieve('HasAdminRole');
-            this.IsAuthorized = this.retrieve('IsAuthorized');
+        this._hasAdminRole = false;
+    }
+
+    private isTokenExpired(token: string, offsetSeconds?: number): boolean {
+        let tokenExpirationDate = this.getTokenExpirationDate(token);
+        offsetSeconds = offsetSeconds || 0;
+
+        if (tokenExpirationDate == null) {
+            return false;
         }
+
+        // Token expired?
+        return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
+    }
+
+    private getTokenExpirationDate(token: string): Date {
+        let decoded: any;
+        decoded = this.getDataFromToken(token);
+
+        if (!decoded.hasOwnProperty('exp')) {
+            return null;
+        }
+
+        let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
+        date.setUTCSeconds(decoded.exp);
+
+        return date;
     }
 
     public GetToken(): any {
@@ -39,10 +68,7 @@ export class SecurityService {
         this.store('authorizationData', '');
         this.store('authorizationDataIdToken', '');
 
-        this.IsAuthorized = false;
-        this.HasAdminRole = false;
-        this.store('HasAdminRole', false);
-        this.store('IsAuthorized', false);
+        this._hasAdminRole = false;
     }
 
     public SetAuthorizationData(token: any, id_token: any) {
@@ -52,8 +78,6 @@ export class SecurityService {
 
         this.store('authorizationData', token);
         this.store('authorizationDataIdToken', id_token);
-        this.IsAuthorized = true;
-        this.store('IsAuthorized', true);
 
         this.getUserData()
             .subscribe(data => this.UserData = data,
@@ -61,8 +85,7 @@ export class SecurityService {
             () => {
                 for (let i = 0; i < this.UserData.role.length; i++) {
                     if (this.UserData.role[i] === 'dataEventRecords.admin') {
-                        this.HasAdminRole = true;
-                        this.store('HasAdminRole', true);
+                        this._hasAdminRole = true;
                     }
                 }
             });
