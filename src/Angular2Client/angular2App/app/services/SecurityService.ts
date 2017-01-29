@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
 @Injectable()
 export class SecurityService {
 
-    public get IsAuthorized(): boolean {
+    public IsAuthorized(): boolean {
         return this.isTokenExpired('authorizationDataIdToken');
     };
 
     private _hasAdminRole: boolean;
-    public get HasAdminRole(): boolean {
-        return this.IsAuthorized && this._hasAdminRole;
+    public HasAdminRole(): boolean {
+        return this.IsAuthorized() && this._hasAdminRole;
     }
     public UserData: any;
 
