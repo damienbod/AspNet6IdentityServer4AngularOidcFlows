@@ -4,7 +4,7 @@
 
     "dependencies": {
         "BundlerMinifier.Core": "2.2.306",
-        "IdentityServer4.AccessTokenValidation": "1.0.2",
+        "IdentityServer4.AccessTokenValidation": "1.0.4",
         "IdentityServer4.AspNetIdentity": "1.0.0",
         "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
         "Microsoft.AspNetCore.Authentication.Google": "1.1.0",
