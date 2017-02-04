@@ -72,7 +72,7 @@ module.exports = {
                 './wwwroot/assets'
             ]
         ),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
