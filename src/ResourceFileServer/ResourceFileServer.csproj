@@ -5,7 +5,6 @@
     <AssemblyName>ResourceFileServer</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>ResourceFileServer</PackageId>
-    <UserSecretsId>aspnet-WebApp_Auth-96d521e3-30ac-4a8f-967f-abc243174dce</UserSecretsId>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
