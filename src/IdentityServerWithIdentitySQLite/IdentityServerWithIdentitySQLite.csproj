@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <PackageId>IdentityServerWithIdentitySQLite</PackageId>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+	<UserSecretsId>aspnet-IdentityServerWithIdentitySQLite-1e7bf5d8-6c32-4dd3-b77d-2d7d2e0f5083</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Content Update="wwwroot\**\*;Views\**\*;Areas\**\Views;appsettings.json;web.config">
