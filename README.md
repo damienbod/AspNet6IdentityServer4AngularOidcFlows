@@ -11,7 +11,7 @@
 
     <li><a href="http://damienbod.com/2016/03/14/secure-file-download-using-identityserver4-angular2-and-asp-net-core/">Secure file download using IdentityServer4, Angular and ASP.NET Core</a></li>
 
-	<li><a href="http://damienbod.com/2016/04/02/angular2-secure-file-download-without-using-an-access-token-in-url-or-cookies/">Angular2 secure file download without using an access token in URL or cookies</a></li>
+	<li><a href="http://damienbod.com/2016/04/02/angular2-secure-file-download-without-using-an-access-token-in-url-or-cookies/">Angular secure file download without using an access token in URL or cookies</a></li>
 
         <li><a href="https://damienbod.com/2016/09/16/full-server-logout-with-identityserver4-and-openid-connect-implicit-flow/">Full Server logout with IdentityServer4 and OpenID Connect Implicit Flow</a></li>
 	<li><a href="https://damienbod.com/2016/10/01/identityserver4-webapi-and-angular2-in-a-single-asp-net-core-project/">IdentityServer4, WebAPI and Angular in a single ASP.NET Core project</a></li>
