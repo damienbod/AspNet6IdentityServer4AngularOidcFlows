@@ -5,7 +5,7 @@
             "type": "platform"
         },
         "Microsoft.AspNetCore.Diagnostics": "1.1.0",
-        "Microsoft.AspNetCore.Mvc": "1.1.0",
+        "Microsoft.AspNetCore.Mvc": "1.1.1",
         "Microsoft.AspNetCore.Localization": "1.1.0",
         "Microsoft.AspNetCore.Mvc.Localization": "1.1.0",
         "Microsoft.AspNetCore.Routing": "1.1.0",
