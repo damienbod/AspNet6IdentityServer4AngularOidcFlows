@@ -129,8 +129,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                // Does not work with HTTPS
-                //app.UseBrowserLink();
             }
             else
             {
