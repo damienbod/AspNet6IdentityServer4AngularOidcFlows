@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26127.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}"
 EndProject
@@ -10,17 +10,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AngularClient", "src\AngularClient\AngularClient.xproj", "{A408DFD8-2010-40EF-9D7C-8B6B2514C647}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngularClient", "src\AngularClient\AngularClient.csproj", "{A408DFD8-2010-40EF-9D7C-8B6B2514C647}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ResourceServer", "src\ResourceServer\ResourceServer.xproj", "{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceServer", "src\ResourceServer\ResourceServer.csproj", "{27CE53A6-EEEF-4CC8-A463-6915A5F3AFEA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Angular2Client", "src\Angular2Client\Angular2Client.xproj", "{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Angular2Client", "src\Angular2Client\Angular2Client.csproj", "{1C83BAC6-1A38-4261-8BE4-7B0FC9A286B8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ResourceFileServer", "src\ResourceFileServer\ResourceFileServer.xproj", "{3F42D8EE-5E25-443D-8EDD-FA950E63A1D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceFileServer", "src\ResourceFileServer\ResourceFileServer.csproj", "{3F42D8EE-5E25-443D-8EDD-FA950E63A1D3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IdentityServerWithAspNetIdentitySqlite", "src\IdentityServerWithIdentitySQLite\IdentityServerWithAspNetIdentitySqlite.xproj", "{1ECB5581-FFA5-4C11-A491-C85ABD962033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerWithIdentitySQLite", "src\IdentityServerWithIdentitySQLite\IdentityServerWithIdentitySQLite.csproj", "{1ECB5581-FFA5-4C11-A491-C85ABD962033}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ResourceWithIdentityServerWithClient", "src\ResourceWithIdentityServerWithClient\ResourceWithIdentityServerWithClient.xproj", "{37214DB4-F4B3-44A9-ABAD-1F0D63087994}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceWithIdentityServerWithClient", "src\ResourceWithIdentityServerWithClient\ResourceWithIdentityServerWithClient.csproj", "{37214DB4-F4B3-44A9-ABAD-1F0D63087994}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
