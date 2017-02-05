@@ -33,14 +33,16 @@ export class SecurityService {
 
     public IsAuthorized(): boolean {
         if (this._isAuthorized) {
+            console.log("IsAuthorized: _isAuthorized");
             if (this.isTokenExpired) {
+                console.log("IsAuthorized: isTokenExpired");
                 this.ResetAuthorizationData();
                 return false;
             }
-
+            console.log("IsAuthorized: not isTokenExpired");
             return true;
         }
-
+        console.log("IsAuthorized: not _isAuthorized");
         return false;
     }
 
