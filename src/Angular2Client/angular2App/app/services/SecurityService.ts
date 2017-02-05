@@ -33,7 +33,7 @@ export class SecurityService {
 
     public IsAuthorized(): boolean {
         if (this._isAuthorized) {
-            if (this.isTokenExpired) {
+            if (this.isTokenExpired('authorizationDataIdToken')) {
                 console.log('IsAuthorized: isTokenExpired');
                 this.ResetAuthorizationData();
                 return false;
@@ -219,9 +219,7 @@ export class SecurityService {
     private getTokenExpirationDate(token: string): Date {
         let decoded: any;
         decoded = this.getDataFromToken(this.retrieve(token));
-        console.log('getTokenExpirationDate called for:');
-        console.log(token);
-        console.log(decoded);
+
         if (!decoded.hasOwnProperty('exp')) {
             return null;
         }
