@@ -11,6 +11,7 @@ export class SecurityService {
     public UserData: any;
 
     private _hasAdminRole: boolean;
+    private _isAuthorized: boolean;
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
@@ -24,11 +25,18 @@ export class SecurityService {
         this.headers.append('Accept', 'application/json');
         this.storage = sessionStorage; //localStorage;
 
-        this._hasAdminRole = false;
+        if (this.retrieve('IsAuthorized') !== '') {
+            this._isAuthorized = this.retrieve('IsAuthorized');
+        }
     }
 
     public IsAuthorized(): boolean {
-        return this.isTokenExpired('authorizationDataIdToken');
+        if (this._isAuthorized) {
+            console.log('IsAuthorized token exists');
+            return this.isTokenExpired('authorizationDataIdToken');
+        }
+
+        return false;
     };
 
     public HasAdminRole(): boolean {
@@ -43,6 +51,8 @@ export class SecurityService {
         this.store('authorizationData', '');
         this.store('authorizationDataIdToken', '');
 
+        this._isAuthorized = false;
+        this.store('IsAuthorized', false);
         this._hasAdminRole = false;
     }
 
@@ -53,6 +63,8 @@ export class SecurityService {
 
         this.store('authorizationData', token);
         this.store('authorizationDataIdToken', id_token);
+        this.store('IsAuthorized', true);
+        this._isAuthorized = true;
 
         this.getUserData()
             .subscribe(data => this.UserData = data,
@@ -202,8 +214,10 @@ export class SecurityService {
 
     private getTokenExpirationDate(token: string): Date {
         let decoded: any;
-        decoded = this.getDataFromToken(token);
-
+        decoded = this.getDataFromToken(this.retrieve(token));
+        console.log('getTokenExpirationDate called for:');
+        console.log(token);
+        console.log(decoded);
         if (!decoded.hasOwnProperty('exp')) {
             return null;
         }
