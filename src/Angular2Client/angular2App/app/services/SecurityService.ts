@@ -8,16 +8,9 @@ import { Router } from '@angular/router';
 @Injectable()
 export class SecurityService {
 
-    public IsAuthorized(): boolean {
-        return this.isTokenExpired('authorizationDataIdToken');
-    };
-
-    private _hasAdminRole: boolean;
-    public HasAdminRole(): boolean {
-        return this.IsAuthorized() && this._hasAdminRole;
-    }
     public UserData: any;
 
+    private _hasAdminRole: boolean;
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
@@ -34,30 +27,12 @@ export class SecurityService {
         this._hasAdminRole = false;
     }
 
-    private isTokenExpired(token: string, offsetSeconds?: number): boolean {
-        let tokenExpirationDate = this.getTokenExpirationDate(token);
-        offsetSeconds = offsetSeconds || 0;
+    public IsAuthorized(): boolean {
+        return this.isTokenExpired('authorizationDataIdToken');
+    };
 
-        if (tokenExpirationDate == null) {
-            return false;
-        }
-
-        // Token expired?
-        return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
-    }
-
-    private getTokenExpirationDate(token: string): Date {
-        let decoded: any;
-        decoded = this.getDataFromToken(token);
-
-        if (!decoded.hasOwnProperty('exp')) {
-            return null;
-        }
-
-        let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
-        date.setUTCSeconds(decoded.exp);
-
-        return date;
+    public HasAdminRole(): boolean {
+        return this.IsAuthorized() && this._hasAdminRole;
     }
 
     public GetToken(): any {
@@ -211,6 +186,32 @@ export class SecurityService {
             this.ResetAuthorizationData();
             this._router.navigate(['/Unauthorized']);
         }
+    }
+
+    private isTokenExpired(token: string, offsetSeconds?: number): boolean {
+        let tokenExpirationDate = this.getTokenExpirationDate(token);
+        offsetSeconds = offsetSeconds || 0;
+
+        if (tokenExpirationDate == null) {
+            return false;
+        }
+
+        // Token expired?
+        return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
+    }
+
+    private getTokenExpirationDate(token: string): Date {
+        let decoded: any;
+        decoded = this.getDataFromToken(token);
+
+        if (!decoded.hasOwnProperty('exp')) {
+            return null;
+        }
+
+        let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
+        date.setUTCSeconds(decoded.exp);
+
+        return date;
     }
 
     private urlBase64Decode(str: string) {
