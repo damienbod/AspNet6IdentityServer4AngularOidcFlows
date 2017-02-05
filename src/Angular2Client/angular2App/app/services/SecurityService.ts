@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class SecurityService {
 
-    public IsAuthorized: boolean;
+    private _isAuthorized: boolean;
     public HasAdminRole: boolean;
     public UserData: any;
 
@@ -25,10 +25,23 @@ export class SecurityService {
         this.headers.append('Accept', 'application/json');
         this.storage = sessionStorage; //localStorage;
 
-        if (this.retrieve('IsAuthorized') !== '') {
+        if (this.retrieve('_isAuthorized') !== '') {
             this.HasAdminRole = this.retrieve('HasAdminRole');
-            this.IsAuthorized = this.retrieve('IsAuthorized');
+            this._isAuthorized = this.retrieve('_isAuthorized');
         }
+    }
+
+    public IsAuthorized(): boolean {
+        if (this._isAuthorized) {
+            if (this.isTokenExpired) {
+                this.ResetAuthorizationData();
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     public GetToken(): any {
@@ -39,10 +52,10 @@ export class SecurityService {
         this.store('authorizationData', '');
         this.store('authorizationDataIdToken', '');
 
-        this.IsAuthorized = false;
+        this._isAuthorized = false;
         this.HasAdminRole = false;
         this.store('HasAdminRole', false);
-        this.store('IsAuthorized', false);
+        this.store('_isAuthorized', false);
     }
 
     public SetAuthorizationData(token: any, id_token: any) {
@@ -52,8 +65,8 @@ export class SecurityService {
 
         this.store('authorizationData', token);
         this.store('authorizationDataIdToken', id_token);
-        this.IsAuthorized = true;
-        this.store('IsAuthorized', true);
+        this._isAuthorized = true;
+        this.store('_isAuthorized', true);
 
         this.getUserData()
             .subscribe(data => this.UserData = data,
@@ -188,6 +201,34 @@ export class SecurityService {
             this.ResetAuthorizationData();
             this._router.navigate(['/Unauthorized']);
         }
+    }
+
+    private isTokenExpired(token: string, offsetSeconds?: number): boolean {
+        let tokenExpirationDate = this.getTokenExpirationDate(token);
+        offsetSeconds = offsetSeconds || 0;
+
+        if (tokenExpirationDate == null) {
+            return false;
+        }
+
+        // Token expired?
+        return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
+    }
+
+    private getTokenExpirationDate(token: string): Date {
+        let decoded: any;
+        decoded = this.getDataFromToken(this.retrieve(token));
+        console.log('getTokenExpirationDate called for:');
+        console.log(token);
+        console.log(decoded);
+        if (!decoded.hasOwnProperty('exp')) {
+            return null;
+        }
+
+        let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
+        date.setUTCSeconds(decoded.exp);
+
+        return date;
     }
 
     private urlBase64Decode(str: string) {
