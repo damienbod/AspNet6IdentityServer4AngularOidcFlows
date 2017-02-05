@@ -8,10 +8,10 @@ import { Router } from '@angular/router';
 @Injectable()
 export class SecurityService {
 
+    public IsAuthorized: boolean;
+    public HasAdminRole: boolean;
     public UserData: any;
 
-    private _hasAdminRole: boolean;
-    private _isAuthorized: boolean;
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
@@ -26,21 +26,9 @@ export class SecurityService {
         this.storage = sessionStorage; //localStorage;
 
         if (this.retrieve('IsAuthorized') !== '') {
-            this._isAuthorized = this.retrieve('IsAuthorized');
+            this.HasAdminRole = this.retrieve('HasAdminRole');
+            this.IsAuthorized = this.retrieve('IsAuthorized');
         }
-    }
-
-    public IsAuthorized(): boolean {
-        if (this._isAuthorized) {
-            console.log('IsAuthorized token exists');
-            return this.isTokenExpired('authorizationDataIdToken');
-        }
-
-        return false;
-    };
-
-    public HasAdminRole(): boolean {
-        return this.IsAuthorized() && this._hasAdminRole;
     }
 
     public GetToken(): any {
@@ -51,9 +39,10 @@ export class SecurityService {
         this.store('authorizationData', '');
         this.store('authorizationDataIdToken', '');
 
-        this._isAuthorized = false;
+        this.IsAuthorized = false;
+        this.HasAdminRole = false;
+        this.store('HasAdminRole', false);
         this.store('IsAuthorized', false);
-        this._hasAdminRole = false;
     }
 
     public SetAuthorizationData(token: any, id_token: any) {
@@ -63,8 +52,8 @@ export class SecurityService {
 
         this.store('authorizationData', token);
         this.store('authorizationDataIdToken', id_token);
+        this.IsAuthorized = true;
         this.store('IsAuthorized', true);
-        this._isAuthorized = true;
 
         this.getUserData()
             .subscribe(data => this.UserData = data,
@@ -72,7 +61,8 @@ export class SecurityService {
             () => {
                 for (let i = 0; i < this.UserData.role.length; i++) {
                     if (this.UserData.role[i] === 'dataEventRecords.admin') {
-                        this._hasAdminRole = true;
+                        this.HasAdminRole = true;
+                        this.store('HasAdminRole', true);
                     }
                 }
             });
@@ -198,34 +188,6 @@ export class SecurityService {
             this.ResetAuthorizationData();
             this._router.navigate(['/Unauthorized']);
         }
-    }
-
-    private isTokenExpired(token: string, offsetSeconds?: number): boolean {
-        let tokenExpirationDate = this.getTokenExpirationDate(token);
-        offsetSeconds = offsetSeconds || 0;
-
-        if (tokenExpirationDate == null) {
-            return false;
-        }
-
-        // Token expired?
-        return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
-    }
-
-    private getTokenExpirationDate(token: string): Date {
-        let decoded: any;
-        decoded = this.getDataFromToken(this.retrieve(token));
-        console.log('getTokenExpirationDate called for:');
-        console.log(token);
-        console.log(decoded);
-        if (!decoded.hasOwnProperty('exp')) {
-            return null;
-        }
-
-        let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
-        date.setUTCSeconds(decoded.exp);
-
-        return date;
     }
 
     private urlBase64Decode(str: string) {
