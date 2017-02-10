@@ -212,3 +212,4 @@ src/Angular2Client/angular2App/main.js
 src/Angular2Client/angular2App/main.js.map
 src/ResourceWithIdentityServerWithClient/angular2App/main.js
 src/ResourceWithIdentityServerWithClient/angular2App/main.js.map
+.vs/IdentityServerAngularImplicitFlow/v15/.suo
