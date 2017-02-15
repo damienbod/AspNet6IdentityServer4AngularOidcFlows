@@ -13,14 +13,16 @@
       "launchBrowser": true,
       "launchUrl": "https://localhost:44390/api/DataEventRecords",
       "environmentVariables": {
-        "ASPNET_ENV": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "web": {
-      "commandName": "web",
+    "ResourceServer": {
+      "commandName": "Project",
+	  "launchUrl": "https://localhost:44390/api/DataEventRecords",
       "environmentVariables": {
-        "Hosting:Environment": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+	  "applicationUrl": "https://localhost:44390"
     }
   }
 }
