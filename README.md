@@ -5,7 +5,10 @@
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | .NET Core, angular        | [![Build status](https://ci.appveyor.com/api/projects/status/cua2pxkvngv5rfej?svg=true)](https://ci.appveyor.com/project/damienbod/aspnet5identityserverangularimplicitflow)   |
 
+<a href="https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow">VS2017 msbuild</a> | <a href="https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow/tree/VS2015_project_json">VS2015 project.json</a>
 
+
+https://github.com/damienbod/Angular2WebpackVisualStudio/tree/VisualStudio2017
 
 <ul>
 	<li><a href="http://damienbod.com/2015/11/08/oauth2-implicit-flow-with-angular-and-asp-net-5-identity-server/"> OAuth2 Implicit Flow with AngularJS and ASP.NET Core 1.1 IdentityServer4</a></li>
