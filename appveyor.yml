@@ -8,7 +8,7 @@ install:
 build_script:
 - dotnet build
 - npm -g install npm@latest
-- cd src\Angular2Client
+- cd src\AngularClient
 - npm install
 - npm run build-production
 - cd ..\ResourceWithIdentityServerWithClient

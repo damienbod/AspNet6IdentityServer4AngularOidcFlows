@@ -12,13 +12,15 @@ console.log('@@@@@@@@@ USING PRODUCTION @@@@@@@@@@@@@@@');
 module.exports = {
 
     entry: {
-        'vendor': './angular2App/vendor.ts',
-        'app': './angular2App/main-aot.ts' // AoT compilation
+        'vendor': './angularApp/vendor.ts',
+        'polyfills': './angularApp/polyfills.ts',
+        'app': './angularApp/main-aot.ts' // AoT compilation
     },
 
     output: {
         path: './wwwroot/',
         filename: 'dist/[name].[hash].bundle.js',
+        chunkFilename: 'dist/[id].[hash].chunk.js',
         publicPath: '/'
     },
 
@@ -37,7 +39,8 @@ module.exports = {
             {
                 test: /\.ts$/,
                 loaders: [
-                    'awesome-typescript-loader'
+                    'awesome-typescript-loader',
+                    'angular-router-loader?aot=true&genDir=aot/'
                 ]
             },
             {
@@ -84,17 +87,17 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin(
             {
-                name: ['vendor']
+                name: ['vendor', 'polyfills']
             }),
 
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: 'body',
-            template: 'angular2App/index.html'
+            template: 'angularApp/index.html'
         }),
 
         new CopyWebpackPlugin([
-            { from: './angular2App/images/*.*', to: 'assets/', flatten: true }
+            { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
         ])
     ]
 };

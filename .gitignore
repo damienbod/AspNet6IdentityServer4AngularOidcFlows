@@ -224,3 +224,11 @@ src/AngularClient/wwwroot
 src/AngularClient/aot
 src/AngularClient/angularApp/app/**/*.js
 src/AngularClient/angularApp/app/**/*.map
+src/AngularClient/angularApp/main.js.map
+src/AngularClient/angularApp/polyfills.js.map
+src/AngularClient/angularApp/vendor.js.map
+src/ResourceWithIdentityServerWithClient/angularApp/app/**/*.js
+src/ResourceWithIdentityServerWithClient/angularApp/app/**/*.map
+src/ResourceWithIdentityServerWithClient/angularApp/main.js.map
+src/ResourceWithIdentityServerWithClient/angularApp/polyfills.js.map
+src/ResourceWithIdentityServerWithClient/angularApp/vendor.js.map
