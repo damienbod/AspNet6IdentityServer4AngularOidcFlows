@@ -232,3 +232,9 @@ src/ResourceWithIdentityServerWithClient/angularApp/app/**/*.map
 src/ResourceWithIdentityServerWithClient/angularApp/main.js.map
 src/ResourceWithIdentityServerWithClient/angularApp/polyfills.js.map
 src/ResourceWithIdentityServerWithClient/angularApp/vendor.js.map
+src/AngularClient/angularApp/polyfills.js
+src/AngularClient/angularApp/vendor.js
+src/ResourceWithIdentityServerWithClient/angularApp/app/app.routes.js
+src/ResourceWithIdentityServerWithClient/angularApp/app/services/SecurityService.js
+src/ResourceWithIdentityServerWithClient/angularApp/polyfills.js
+src/ResourceWithIdentityServerWithClient/angularApp/vendor.js
