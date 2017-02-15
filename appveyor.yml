@@ -1,0 +1,15 @@
+image: Visual Studio 2017 RC
+init:
+  - git config --global core.autocrlf true
+install:
+  - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
+  - dotnet --version
+  - dotnet restore
+build_script:
+- dotnet build
+- npm -g install npm@latest
+- cd src\Angular2Client
+- npm install
+- npm run build-production
+before_build:
+- appveyor-retry dotnet restore -v Minimal
