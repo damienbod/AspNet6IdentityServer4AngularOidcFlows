@@ -215,3 +215,12 @@ src/ResourceWithIdentityServerWithClient/angular2App/main.js.map
 .vs/IdentityServerAngularImplicitFlow/v15/.suo
 UpgradeLog.htm
 .vs
+src/AngularJSClient/wwwroot
+src/AngularJSClient/node_modules
+src/AngularJSClient/bower_components
+src/AngularJSClient/obj
+src/AngularJSClient/bin
+src/AngularClient/wwwroot
+src/AngularClient/aot
+src/AngularClient/angularApp/app/**/*.js
+src/AngularClient/angularApp/app/**/*.map

@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Http;
 
-namespace Angular2Client
+namespace AngularClient
 {
     public class Startup
     {
@@ -26,6 +26,19 @@ namespace Angular2Client
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add Cors support to the service
+            services.AddCors();
+
+            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
+
+            policy.Headers.Add("*");
+            policy.Methods.Add("*");
+            policy.Origins.Add("*");
+            policy.SupportsCredentials = true;
+
+            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -33,8 +46,10 @@ namespace Angular2Client
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseCors("corsGlobalPolicy");
+
+
             var angularRoutes = new[] {
-                "/home",
                 "/forbidden",
                 "/authorized",
                 "/authorize",
@@ -67,6 +82,7 @@ namespace Angular2Client
             });
         }
 
+        // Entry point for the application.
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()

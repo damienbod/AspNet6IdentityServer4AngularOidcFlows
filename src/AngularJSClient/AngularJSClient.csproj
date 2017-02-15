@@ -2,11 +2,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>Angular2Client</AssemblyName>
+    <AssemblyName>AngularClient</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>Angular2Client</PackageId>
+    <PackageId>AngularClient</PackageId>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
-	<UserSecretsId>aspnet-Angular2Client-1e7bf5d8-6c32-4dd3-b77d-2d7d2e0f5081</UserSecretsId>
+	<UserSecretsId>aspnet-AngularClient-1e7bf5d8-6c32-4dd3-b77d-2d7d2e0f5082</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.0" />
@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.0.0-msbuild3-final" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.0" />
