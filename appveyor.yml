@@ -11,7 +11,7 @@ build_script:
 - cd src\Angular2Client
 - npm install
 - npm run build-production
-- cd src\ResourceWithIdentityServerWithClient
+- cd ..\ResourceWithIdentityServerWithClient
 - npm install
 - npm run build-production
 before_build:
