@@ -1,5 +1,12 @@
 # ASP.NET Core 1.1 IdentityServer4 OpenID Implicit Flow examples Angular, AngularJS
 
+
+|                           | Build                                                                                                                                                                          |       
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| .NET Core, angular        | [![Build status](https://ci.appveyor.com/api/projects/status/cua2pxkvngv5rfej?svg=true)](https://ci.appveyor.com/project/damienbod/aspnet5identityserverangularimplicitflow)   |
+
+
+
 <ul>
 	<li><a href="http://damienbod.com/2015/11/08/oauth2-implicit-flow-with-angular-and-asp-net-5-identity-server/"> OAuth2 Implicit Flow with AngularJS and ASP.NET Core 1.1 IdentityServer4</a></li>
 	
