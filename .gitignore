@@ -239,3 +239,5 @@ src/ResourceWithIdentityServerWithClient/angularApp/app/services/SecurityService
 src/ResourceWithIdentityServerWithClient/angularApp/polyfills.js
 src/ResourceWithIdentityServerWithClient/angularApp/vendor.js
 src/AngularClient/angularApp/main.js
+src/ResourceWithIdentityServerWithClient/angularApp/main.js
+src/ResourceWithIdentityServerWithClient/angularApp/main-aot.js
