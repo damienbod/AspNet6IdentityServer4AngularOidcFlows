@@ -1,6 +1,7 @@
 ﻿// Entry point for JiT compilation.
 declare var System: any;
 
+import './polyfills';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 
