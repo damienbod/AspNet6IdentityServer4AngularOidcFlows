@@ -51,6 +51,14 @@ export class OidcSecurityValidation {
         return true;
     }
 
+    public ValidateStateFromHashCallback(state: any, local_state: any): boolean {
+        if (state !== local_state) {
+            console.log('ValidateStateFromHashCallback failed');
+            return false;
+        }
+
+        return true;
+    }
     private getDataFromToken(token: any) {
         let data = {};
         if (typeof token !== 'undefined') {

@@ -153,7 +153,8 @@ export class OidcSecurityService {
         let authResponseIsValid = false;
         if (!result.error) {
 
-            if (result.state !== this.retrieve('authStateControl')) {
+            // validate state
+            if (this.oidcSecurityValidation.ValidateStateFromHashCallback(result.state, this.retrieve('authStateControl'))) {
                 console.log('AuthorizedCallback incorrect state');
             } else {
 
