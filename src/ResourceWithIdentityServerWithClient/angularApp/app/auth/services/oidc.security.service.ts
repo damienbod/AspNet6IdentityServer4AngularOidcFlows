@@ -15,14 +15,16 @@ export class OidcSecurityService {
     public HasAdminRole: boolean;
     public HasUserAdminRole: boolean;
     public UserData: any;
-
+    
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
+    private oidcSecurityValidation: OidcSecurityValidation;
 
     constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router) {
 
         this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
+        this.oidcSecurityValidation = new OidcSecurityValidation();
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
@@ -37,7 +39,7 @@ export class OidcSecurityService {
 
     public IsAuthorized(): boolean {
         if (this._isAuthorized) {
-            if (this.isTokenExpired('authorizationDataIdToken')) {
+            if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
                 console.log('IsAuthorized: isTokenExpired');
                 this.ResetAuthorizationData();
                 return false;
@@ -158,7 +160,7 @@ export class OidcSecurityService {
                 token = result.access_token;
                 id_token = result.id_token;
 
-                let dataIdToken: any = this.getDataFromToken(id_token);
+                let dataIdToken: any = this.oidcSecurityValidation.GetDataFromToken(this.retrieve(id_token));
                 console.log(dataIdToken);
 
                 // validate nonce
@@ -213,60 +215,6 @@ export class OidcSecurityService {
             this.ResetAuthorizationData();
             this._router.navigate(['/Unauthorized']);
         }
-    }
-
-    private isTokenExpired(token: string, offsetSeconds?: number): boolean {
-        let tokenExpirationDate = this.getTokenExpirationDate(token);
-        offsetSeconds = offsetSeconds || 0;
-
-        if (tokenExpirationDate == null) {
-            return false;
-        }
-
-        // Token expired?
-        return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
-    }
-
-    private getTokenExpirationDate(token: string): Date {
-        let decoded: any;
-        decoded = this.getDataFromToken(this.retrieve(token));
-
-        if (!decoded.hasOwnProperty('exp')) {
-            return null;
-        }
-
-        let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
-        date.setUTCSeconds(decoded.exp);
-
-        return date;
-    }
-
-    private urlBase64Decode(str: string) {
-        let output = str.replace('-', '+').replace('_', '/');
-        switch (output.length % 4) {
-            case 0:
-                break;
-            case 2:
-                output += '==';
-                break;
-            case 3:
-                output += '=';
-                break;
-            default:
-                throw 'Illegal base64url string!';
-        }
-
-        return window.atob(output);
-    }
-
-    private getDataFromToken(token: any) {
-        let data = {};
-        if (typeof token !== 'undefined') {
-            let encoded = token.split('.')[1];
-            data = JSON.parse(this.urlBase64Decode(encoded));
-        }
-
-        return data;
     }
 
     private retrieve(key: string): any {
