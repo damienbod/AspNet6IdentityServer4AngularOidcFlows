@@ -11,7 +11,7 @@
 // id_token C6: The alg value SHOULD be RS256.Validation of tokens using other signing algorithms is described in the OpenID Connect Core 1.0 [OpenID.Core] specification.
 //// id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
 // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time, limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
-// id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
+//// id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
 // id_token C10: If the acr Claim was requested, the Client SHOULD check that the asserted Claim Value is appropriate.The meaning and processing of acr Claim Values is out of scope for this document.
 // id_token C11: When a max_age request is made, the Client SHOULD check the auth_time Claim value and request re- authentication if it determines too much time has elapsed since the last End- User authentication.
 
@@ -37,7 +37,21 @@ export class OidcSecurityValidation {
         return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
     }
 
-    public GetDataFromToken(token: any) {
+    // id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
+    public ValidateNonceFromIdToken(id_token: any, local_nonce: any): boolean {
+
+        let dataIdToken: any = this.getDataFromToken(id_token);
+        console.log(dataIdToken);
+
+        if (dataIdToken.nonce !== local_nonce) {
+            console.log('ValidateNonceFromIdToken failed');
+            return false;
+        } 
+
+        return true;
+    }
+
+    private getDataFromToken(token: any) {
         let data = {};
         if (typeof token !== 'undefined') {
             let encoded = token.split('.')[1];
@@ -49,7 +63,7 @@ export class OidcSecurityValidation {
 
     private getTokenExpirationDate(token: string): Date {
         let decoded: any;
-        decoded = this.GetDataFromToken(token);
+        decoded = this.getDataFromToken(token);
 
         if (!decoded.hasOwnProperty('exp')) {
             return null;

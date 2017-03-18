@@ -160,11 +160,8 @@ export class OidcSecurityService {
                 token = result.access_token;
                 id_token = result.id_token;
 
-                let dataIdToken: any = this.oidcSecurityValidation.GetDataFromToken(this.retrieve(id_token));
-                console.log(dataIdToken);
-
                 // validate nonce
-                if (dataIdToken.nonce !== this.retrieve('authNonce')) {
+                if (this.oidcSecurityValidation.ValidateNonceFromIdToken(this.retrieve(id_token), this.retrieve('authNonce'))) {
                     console.log('AuthorizedCallback incorrect nonce');
                 } else {
                     this.store('authNonce', '');
