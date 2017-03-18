@@ -13,13 +13,14 @@ export class OidcSecurityService {
 
     private _isAuthorized: boolean;
     public HasAdminRole: boolean;
+    public HasUserAdminRole: boolean;
     public UserData: any;
 
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
 
-    constructor(private _http: Http, private _configuration: Configuration, private _router: Router) {
+    constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router) {
 
         this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
 

@@ -7,7 +7,6 @@ import { Configuration } from './app.constants';
 import { routing } from './app.routes';
 import { HttpModule, JsonpModule } from '@angular/http';
 
-import { SecurityService } from './services/SecurityService';
 import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './dataeventrecords/models/DataEventRecord';
 
@@ -25,6 +24,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
 import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 import { UserManagementService } from './user-management/UserManagementService';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
     imports: [
@@ -32,7 +32,8 @@ import { UserManagementService } from './user-management/UserManagementService';
         FormsModule,
         routing,
         HttpModule,
-        JsonpModule
+        JsonpModule,
+        AuthModule.forRoot(),
     ],
     declarations: [
         AppComponent,
@@ -45,7 +46,6 @@ import { UserManagementService } from './user-management/UserManagementService';
         UserManagementComponent
     ],
     providers: [
-        SecurityService,
         DataEventRecordsService,
         UserManagementService,
         Configuration,
