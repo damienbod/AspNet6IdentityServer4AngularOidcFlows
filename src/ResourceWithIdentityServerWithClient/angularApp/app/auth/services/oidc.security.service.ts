@@ -2,8 +2,10 @@
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
-import { Configuration } from '../app.constants';
 import { Router } from '@angular/router';
+
+import { AuthConfiguration } from '../auth.configuration';
+import { OidcSecurityValidation } from './oidc.security.validation';
 
 @Injectable()
 export class OidcSecurityService {
