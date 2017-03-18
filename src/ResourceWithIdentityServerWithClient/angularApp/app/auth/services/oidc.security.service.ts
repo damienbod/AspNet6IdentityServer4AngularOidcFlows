@@ -10,9 +10,9 @@ import { OidcSecurityValidation } from './oidc.security.validation';
 @Injectable()
 export class OidcSecurityService {
 
-    public IsAuthorized: boolean;
+
+    private _isAuthorized: boolean;
     public HasAdminRole: boolean;
-    public HasUserAdminRole: boolean;
     public UserData: any;
 
     private actionUrl: string;
@@ -28,11 +28,24 @@ export class OidcSecurityService {
         this.headers.append('Accept', 'application/json');
         this.storage = sessionStorage; //localStorage;
 
-        if (this.retrieve('IsAuthorized') !== '') {
+        if (this.retrieve('_isAuthorized') !== '') {
             this.HasAdminRole = this.retrieve('HasAdminRole');
-            this.IsAuthorized = this.retrieve('IsAuthorized');
-            this.HasUserAdminRole = this.retrieve('HasUserAdminRole');
+            this._isAuthorized = this.retrieve('_isAuthorized');
         }
+    }
+
+    public IsAuthorized(): boolean {
+        if (this._isAuthorized) {
+            if (this.isTokenExpired('authorizationDataIdToken')) {
+                console.log('IsAuthorized: isTokenExpired');
+                this.ResetAuthorizationData();
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     public GetToken(): any {
@@ -43,12 +56,10 @@ export class OidcSecurityService {
         this.store('authorizationData', '');
         this.store('authorizationDataIdToken', '');
 
-        this.IsAuthorized = false;
+        this._isAuthorized = false;
         this.HasAdminRole = false;
-        this.HasUserAdminRole = false;
         this.store('HasAdminRole', false);
-        this.store('HasUserAdminRole', false);
-        this.store('IsAuthorized', false);
+        this.store('_isAuthorized', false);
     }
 
     public SetAuthorizationData(token: any, id_token: any) {
@@ -61,15 +72,14 @@ export class OidcSecurityService {
         console.log('storing to storage, getting the roles');
         this.store('authorizationData', token);
         this.store('authorizationDataIdToken', id_token);
-        this.IsAuthorized = true;
-        this.store('IsAuthorized', true);
+        this._isAuthorized = true;
+        this.store('_isAuthorized', true);
 
         this.getUserData()
             .subscribe(data => this.UserData = data,
             error => this.HandleError(error),
             () => {
                 for (let i = 0; i < this.UserData.role.length; i++) {
-                    console.log('Role: ' + this.UserData.role[i]);
                     if (this.UserData.role[i] === 'dataEventRecords.admin') {
                         this.HasAdminRole = true;
                         this.store('HasAdminRole', true);
@@ -81,17 +91,12 @@ export class OidcSecurityService {
                 }
             });
 
+        // if the role was returned in the id_token, the roundtrip is not required
         //var data: any = this.getDataFromToken(id_token);
-        //console.log(data);
         //for (var i = 0; i < data.role.length; i++) {
-        //    console.log('Role: ' + data.role[i]);
         //    if (data.role[i] === 'dataEventRecords.admin') {
         //        this.HasAdminRole = true;
         //        this.store('HasAdminRole', true)
-        //    }
-        //    if (data.role[i] === 'admin') {
-        //        this.HasUserAdminRole = true;
-        //        this.store('HasUserAdminRole', true)
         //    }
         //}
     }
@@ -105,7 +110,7 @@ export class OidcSecurityService {
         let client_id = 'singleapp';
         let redirect_uri = this._configuration.Server;
         let response_type = 'id_token token';
-        let scope = 'dataEventRecords openid';
+        let scope = 'dataEventRecords securedFiles openid';
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
@@ -131,7 +136,7 @@ export class OidcSecurityService {
 
         let hash = window.location.hash.substr(1);
 
-        let result: any = hash.split('&').reduce(function(result: any, item: string) {
+        let result: any = hash.split('&').reduce(function (result: any, item: string) {
             let parts = item.split('=');
             result[parts[0]] = parts[1];
             return result;
@@ -163,13 +168,10 @@ export class OidcSecurityService {
                     this.store('authStateControl', '');
 
                     authResponseIsValid = true;
-                    console.log('SSSS:authResponseIsValid:' + authResponseIsValid);
                     console.log('AuthorizedCallback state and nonce validated, returning access token');
                 }
             }
         }
-
-        console.log('SSSS:authResponseIsValid:' + authResponseIsValid);
 
         if (authResponseIsValid) {
             this.SetAuthorizationData(token, id_token);
@@ -210,6 +212,32 @@ export class OidcSecurityService {
             this.ResetAuthorizationData();
             this._router.navigate(['/Unauthorized']);
         }
+    }
+
+    private isTokenExpired(token: string, offsetSeconds?: number): boolean {
+        let tokenExpirationDate = this.getTokenExpirationDate(token);
+        offsetSeconds = offsetSeconds || 0;
+
+        if (tokenExpirationDate == null) {
+            return false;
+        }
+
+        // Token expired?
+        return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
+    }
+
+    private getTokenExpirationDate(token: string): Date {
+        let decoded: any;
+        decoded = this.getDataFromToken(this.retrieve(token));
+
+        if (!decoded.hasOwnProperty('exp')) {
+            return null;
+        }
+
+        let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
+        date.setUTCSeconds(decoded.exp);
+
+        return date;
     }
 
     private urlBase64Decode(str: string) {
