@@ -9,7 +9,7 @@
 // id_token C4: If an azp (authorized party) Claim is present, the Client SHOULD verify that its client_id is the Claim Value.
 // id_token C5: The Client MUST validate the signature of the ID Token according to JWS [JWS] using the algorithm specified in the alg Header Parameter of the JOSE Header.The Client MUST use the keys provided by the Issuer.
 // id_token C6: The alg value SHOULD be RS256.Validation of tokens using other signing algorithms is described in the OpenID Connect Core 1.0 [OpenID.Core] specification.
-// id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
+//// id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
 // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time, limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
 // id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
 // id_token C10: If the acr Claim was requested, the Client SHOULD check that the asserted Claim Value is appropriate.The meaning and processing of acr Claim Values is out of scope for this document.
@@ -24,6 +24,7 @@
 @Injectable()
 export class OidcSecurityValidation {
 
+    // id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
     public IsTokenExpired(token: string, offsetSeconds?: number): boolean {
         let tokenExpirationDate = this.getTokenExpirationDate(token);
         offsetSeconds = offsetSeconds || 0;
@@ -34,6 +35,16 @@ export class OidcSecurityValidation {
 
         // Token expired?
         return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
+    }
+
+    public GetDataFromToken(token: any) {
+        let data = {};
+        if (typeof token !== 'undefined') {
+            let encoded = token.split('.')[1];
+            data = JSON.parse(this.urlBase64Decode(encoded));
+        }
+
+        return data;
     }
 
     private getTokenExpirationDate(token: string): Date {
@@ -50,15 +61,6 @@ export class OidcSecurityValidation {
         return date;
     }
 
-    public GetDataFromToken(token: any) {
-        let data = {};
-        if (typeof token !== 'undefined') {
-            let encoded = token.split('.')[1];
-            data = JSON.parse(this.urlBase64Decode(encoded));
-        }
-
-        return data;
-    }
 
 
     private urlBase64Decode(str: string) {
