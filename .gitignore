@@ -238,3 +238,4 @@ src/ResourceWithIdentityServerWithClient/angularApp/app/app.routes.js
 src/ResourceWithIdentityServerWithClient/angularApp/app/services/SecurityService.js
 src/ResourceWithIdentityServerWithClient/angularApp/polyfills.js
 src/ResourceWithIdentityServerWithClient/angularApp/vendor.js
+src/AngularClient/angularApp/main.js
