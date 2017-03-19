@@ -177,28 +177,30 @@ export class OidcSecurityService {
                         let decoded: any;
                         decoded = this.oidcSecurityValidation.GetPayloadFromToken(id_token, false);
 
-                        this.oidcSecurityValidation.ValidatingSignature_id_token(id_token, this.jwtKeys);
-                        // validate nonce
-                        if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
-                            // validate iss
-                            if (this.oidcSecurityValidation.Validate_id_token_iss(decoded, this._configuration.iss)) {
-                                // validate aud
-                                if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
-                                    this.store('authNonce', '');
-                                    this.store('authStateControl', '');
+                        if (this.oidcSecurityValidation.ValidatingSignature_id_token(id_token, this.jwtKeys)) {
+                            // validate nonce
+                            if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
+                                // validate iss
+                                if (this.oidcSecurityValidation.Validate_id_token_iss(decoded, this._configuration.iss)) {
+                                    // validate aud
+                                    if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
+                                        this.store('authNonce', '');
+                                        this.store('authStateControl', '');
 
-                                    authResponseIsValid = true;
-                                    console.log('AuthorizedCallback state and nonce validated, returning access token');
+                                        authResponseIsValid = true;
+                                        console.log('AuthorizedCallback state and nonce validated, returning access token');
+                                    } else {
+                                        console.log('AuthorizedCallback incorrect aud');
+                                    }
                                 } else {
-                                    console.log('AuthorizedCallback incorrect aud');
+                                    console.log('AuthorizedCallback incorrect iss');
                                 }
                             } else {
-                                console.log('AuthorizedCallback incorrect iss');
+                                console.log('AuthorizedCallback incorrect nonce');
                             }
                         } else {
-                            console.log('AuthorizedCallback incorrect nonce');
+                            console.log('AuthorizedCallback incorrect Signature id_token');
                         }
-
                     } else {
                         console.log('AuthorizedCallback incorrect state');
                     }
