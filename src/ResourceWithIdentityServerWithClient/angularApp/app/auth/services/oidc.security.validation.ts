@@ -138,10 +138,15 @@ export class OidcSecurityValidation {
         let kid = header_data.kid;
         let alg = header_data.alg;
 
-        // TODO validate if the kid matches the key from the list
+        let isValid = false;
 
-        let publickey = KEYUTIL.getKey(jwtkeys.keys[0]);
-        let isValid = KJUR.jws.JWS.verify(id_token, publickey, ['RS256']);
+        for (let key of jwtkeys.keys) {
+            if (key.kid === kid) {
+                let publickey = KEYUTIL.getKey(key);
+                isValid = KJUR.jws.JWS.verify(id_token, publickey, ['RS256']);
+                return isValid;
+            }
+        }
 
         return isValid;
     }
