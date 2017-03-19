@@ -156,29 +156,28 @@ export class OidcSecurityService {
             if (this.oidcSecurityValidation.ValidateStateFromHashCallback(result.state, this.retrieve('authStateControl'))) {
                 token = result.access_token;
                 id_token = result.id_token;
-                let id_token_data = this.retrieve(id_token);
                 let decoded: any;
-                decoded = this.oidcSecurityValidation.GetDataFromToken(id_token_data);
+                decoded = this.oidcSecurityValidation.GetDataFromToken(id_token);
 
                 // validate nonce
                 if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
-                    console.log('AuthorizedCallback incorrect nonce');
-                } else {
                     // validate iss
                     if (this.oidcSecurityValidation.Validate_id_token_iss(decoded, this._configuration.iss)) {
-                        console.log('AuthorizedCallback incorrect iss');
-                    } else {
                         // validate aud
                         if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
-                            console.log('AuthorizedCallback incorrect aud');
-                        } else {
                             this.store('authNonce', '');
                             this.store('authStateControl', '');
 
                             authResponseIsValid = true;
                             console.log('AuthorizedCallback state and nonce validated, returning access token');
+                        } else {
+                            console.log('AuthorizedCallback incorrect aud');
                         }
+                    } else {
+                        console.log('AuthorizedCallback incorrect iss');
                     }
+                } else {
+                    console.log('AuthorizedCallback incorrect nonce');
                 }
 
             } else {
