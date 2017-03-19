@@ -38,15 +38,29 @@ export class OidcSecurityValidation {
     }
 
     // id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
-    public ValidateNonceFromIdToken(id_token: any, local_nonce: any): boolean {
+    public Validate_id_token_nonce(id_token: any, local_nonce: any): boolean {
 
         let dataIdToken: any = this.getDataFromToken(id_token);
         console.log(dataIdToken);
 
         if (dataIdToken.nonce !== local_nonce) {
-            console.log('ValidateNonceFromIdToken failed');
+            console.log('Validate_id_token_nonce failed');
             return false;
         } 
+
+        return true;
+    }
+
+    // id_token C1: The Issuer Identifier for the OpenID Provider (which is typically obtained during Discovery) MUST exactly match the value of the iss (issuer) Claim.
+    public Validate_id_token_iss(id_token: any, client_id: any): boolean {
+
+        let dataIdToken: any = this.getDataFromToken(id_token);
+        console.log(dataIdToken);
+
+        if (dataIdToken.iss !== client_id) {
+            console.log('Validate_id_token_iss failed');
+            return false;
+        }
 
         return true;
     }
