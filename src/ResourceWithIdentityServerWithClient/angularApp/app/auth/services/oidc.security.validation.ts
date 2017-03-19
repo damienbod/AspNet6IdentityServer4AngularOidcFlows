@@ -1,10 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 
-declare module KEYUTIL {
-    function getKey(cert: string): string;
-}
-
 declare var KJUR: any;
+declare var KEYUTIL: any;
 
 // http://openid.net/specs/openid-connect-implicit-1_0.html
 
@@ -128,6 +125,7 @@ export class OidcSecurityValidation {
 
     public ValidatingSignature_id_token(id_token: any, keys: any): boolean {
 
+        // TODO validate if the keys exist
         let header_payload = this.GetHeaderFromToken(id_token, true) + '.' + this.GetPayloadFromToken(id_token, true);
         let signature = this.GetSignatureFromToken(id_token, true);
 
@@ -135,12 +133,12 @@ export class OidcSecurityValidation {
         let kid = header_data.kid;
         let alg = header_data.alg;
 
-        let isValid = KJUR.jws.JWS.verify(id_token, keys.keys[0], ['RS256']);
+        // TODO validate if the kid matches the key from the list
 
-        ////let pubKey = KEYUTIL.getKey(kid);
-        ////let isValid2 = KJUR.jws.JWS.verify(header_payload, pubKey, ['RS256']);
+        let publickey = KEYUTIL.getKey(keys.keys[0]);
+        let isValid = KJUR.jws.JWS.verify(id_token, publickey, ['RS256']);
 
-        return true;
+        return isValid;
     }
 
     private getTokenExpirationDate(dataIdToken: any): Date {

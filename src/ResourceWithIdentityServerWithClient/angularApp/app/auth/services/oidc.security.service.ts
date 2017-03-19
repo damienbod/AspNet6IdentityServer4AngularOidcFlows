@@ -1,12 +1,16 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
+// Import RxJs required methods
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import { Observable } from 'rxjs/Rx';
+
 import { Router } from '@angular/router';
 
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
 import { JwtKeys } from './jwtkeys';
+
 
 @Injectable()
 export class OidcSecurityService {
@@ -20,6 +24,9 @@ export class OidcSecurityService {
     private headers: Headers;
     private storage: any;
     private oidcSecurityValidation: OidcSecurityValidation;
+
+    private errorMessage: string;
+    private jwtKeys: JwtKeys;
 
     constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router) {
 
@@ -151,58 +158,63 @@ export class OidcSecurityService {
         let token = '';
         let id_token = '';
         let authResponseIsValid = false;
-        if (!result.error) {
 
-            // validate state
-            if (this.oidcSecurityValidation.ValidateStateFromHashCallback(result.state, this.retrieve('authStateControl'))) {
-                token = result.access_token;
-                id_token = result.id_token;
-                let decoded: any;
-                decoded = this.oidcSecurityValidation.GetPayloadFromToken(id_token, false);
+        //this.getSigningKeys()
+        //    .subscribe(
+        //    jwtKeys => this.jwtKeys = jwtKeys,
+        //    error => this.errorMessage = <any>error);
 
-                let jwtKeys: JwtKeys;
+        this.getSigningKeys()
+            .subscribe(jwtKeys => {
+                this.jwtKeys = jwtKeys;
 
-                this.GetSigningKeys()
-                    .subscribe(data => jwtKeys = data,
-                    () => console.log('GetSigningKeys completed'));
+                if (!result.error) {
 
-                this.oidcSecurityValidation.ValidatingSignature_id_token(id_token, jwtKeys);
-                // validate nonce
-                if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
-                    // validate iss
-                    if (this.oidcSecurityValidation.Validate_id_token_iss(decoded, this._configuration.iss)) {
-                        // validate aud
-                        if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
-                            this.store('authNonce', '');
-                            this.store('authStateControl', '');
+                    // validate state
+                    if (this.oidcSecurityValidation.ValidateStateFromHashCallback(result.state, this.retrieve('authStateControl'))) {
+                        token = result.access_token;
+                        id_token = result.id_token;
+                        let decoded: any;
+                        decoded = this.oidcSecurityValidation.GetPayloadFromToken(id_token, false);
 
-                            authResponseIsValid = true;
-                            console.log('AuthorizedCallback state and nonce validated, returning access token');
+                        this.oidcSecurityValidation.ValidatingSignature_id_token(id_token, this.jwtKeys);
+                        // validate nonce
+                        if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
+                            // validate iss
+                            if (this.oidcSecurityValidation.Validate_id_token_iss(decoded, this._configuration.iss)) {
+                                // validate aud
+                                if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
+                                    this.store('authNonce', '');
+                                    this.store('authStateControl', '');
+
+                                    authResponseIsValid = true;
+                                    console.log('AuthorizedCallback state and nonce validated, returning access token');
+                                } else {
+                                    console.log('AuthorizedCallback incorrect aud');
+                                }
+                            } else {
+                                console.log('AuthorizedCallback incorrect iss');
+                            }
                         } else {
-                            console.log('AuthorizedCallback incorrect aud');
+                            console.log('AuthorizedCallback incorrect nonce');
                         }
+
                     } else {
-                        console.log('AuthorizedCallback incorrect iss');
+                        console.log('AuthorizedCallback incorrect state');
                     }
-                } else {
-                    console.log('AuthorizedCallback incorrect nonce');
                 }
 
-            } else {
-                console.log('AuthorizedCallback incorrect state');
-            }
-        }
+                if (authResponseIsValid) {
+                    this.SetAuthorizationData(token, id_token);
+                    console.log(this.retrieve('authorizationData'));
 
-        if (authResponseIsValid) {
-            this.SetAuthorizationData(token, id_token);
-            console.log(this.retrieve('authorizationData'));
-
-            // router navigate to DataEventRecordsList
-            this._router.navigate(['/dataeventrecords/list']);
-        } else {
-            this.ResetAuthorizationData();
-            this._router.navigate(['/Unauthorized']);
-        }
+                    // router navigate to DataEventRecordsList
+                    this._router.navigate(['/dataeventrecords/list']);
+                } else {
+                    this.ResetAuthorizationData();
+                    this._router.navigate(['/Unauthorized']);
+                }
+            });
     }
 
     public Logoff() {
@@ -224,9 +236,41 @@ export class OidcSecurityService {
         window.location.href = url;
     }
 
-    private GetSigningKeys = (): Observable<JwtKeys> => {
-        return this._http.get(this._configuration.jwks_url).map(res => res.json());
+    private runGetSigningKeys() {
+        this.getSigningKeys()
+            .subscribe(
+            jwtKeys => this.jwtKeys = jwtKeys,
+            error => this.errorMessage = <any>error);
     }
+
+    private getSigningKeys(): Observable<JwtKeys> {
+        return this._http.get(this._configuration.jwks_url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    private extractData(res: Response) {
+        let body = res.json();
+        return body;
+    }
+
+    private handleError(error: Response | any) {
+        // In a real world app, you might use a remote logging infrastructure
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = error.json() || '';
+            const err = body.error || JSON.stringify(body);
+            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+        return Observable.throw(errMsg);
+    }
+
+    //////private GetSigningKeys = (): Observable<JwtKeys> => {
+    //////    return this._http.get(this._configuration.jwks_url).map(res => res.json());
+    //////}
 
     public HandleError(error: any) {
         console.log(error);
