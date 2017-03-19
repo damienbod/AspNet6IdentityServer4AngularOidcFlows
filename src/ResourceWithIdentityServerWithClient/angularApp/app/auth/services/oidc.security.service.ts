@@ -1,16 +1,12 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-// Import RxJs required methods
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Rx';
-
 import { Router } from '@angular/router';
-
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
 import { JwtKeys } from './jwtkeys';
-
 
 @Injectable()
 export class OidcSecurityService {
@@ -100,15 +96,6 @@ export class OidcSecurityService {
                     }
                 }
             });
-
-        // if the role was returned in the id_token, the roundtrip is not required
-        //var data: any = this.getDataFromToken(id_token);
-        //for (var i = 0; i < data.role.length; i++) {
-        //    if (data.role[i] === 'dataEventRecords.admin') {
-        //        this.HasAdminRole = true;
-        //        this.store('HasAdminRole', true)
-        //    }
-        //}
     }
 
     public Authorize() {
@@ -159,11 +146,6 @@ export class OidcSecurityService {
         let id_token = '';
         let authResponseIsValid = false;
 
-        //this.getSigningKeys()
-        //    .subscribe(
-        //    jwtKeys => this.jwtKeys = jwtKeys,
-        //    error => this.errorMessage = <any>error);
-
         this.getSigningKeys()
             .subscribe(jwtKeys => {
                 this.jwtKeys = jwtKeys;
@@ -177,6 +159,7 @@ export class OidcSecurityService {
                         let decoded: any;
                         decoded = this.oidcSecurityValidation.GetPayloadFromToken(id_token, false);
 
+                        // validate jwt signature
                         if (this.oidcSecurityValidation.ValidatingSignature_id_token(id_token, this.jwtKeys)) {
                             // validate nonce
                             if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
@@ -269,10 +252,6 @@ export class OidcSecurityService {
         console.error(errMsg);
         return Observable.throw(errMsg);
     }
-
-    //////private GetSigningKeys = (): Observable<JwtKeys> => {
-    //////    return this._http.get(this._configuration.jwks_url).map(res => res.json());
-    //////}
 
     public HandleError(error: any) {
         console.log(error);
