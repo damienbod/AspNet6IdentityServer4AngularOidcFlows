@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
-import { SecurityService } from '../services/SecurityService';
+import { OidcSecurityService } from '../auth/services/oidc.security.service';
 import { DataEventRecord } from './models/DataEventRecord';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class DataEventRecordsService {
     private actionUrl: string;
     private headers: Headers;
 
-    constructor(private _http: Http, private _configuration: Configuration, private _securityService: SecurityService) {
+    constructor(private _http: Http, private _configuration: Configuration, private _securityService: OidcSecurityService) {
         this.actionUrl = `${_configuration.Server}/api/DataEventRecords/`;
     }
 

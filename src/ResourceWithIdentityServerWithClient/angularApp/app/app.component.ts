@@ -2,7 +2,7 @@
 import { Router } from '@angular/router';
 import { Configuration } from './app.constants';
 
-import { SecurityService } from './services/SecurityService';
+import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './dataeventrecords/models/DataEventRecord';
 
@@ -23,7 +23,7 @@ import './app.component.scss';
 
 export class AppComponent implements OnInit {
 
-    constructor(public securityService: SecurityService) {
+    constructor(public securityService: OidcSecurityService) {
     }
 
     ngOnInit() {

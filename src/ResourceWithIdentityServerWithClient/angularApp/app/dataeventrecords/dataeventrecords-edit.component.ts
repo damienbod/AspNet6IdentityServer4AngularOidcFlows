@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SecurityService } from '../services/SecurityService';
+import { OidcSecurityService } from '../auth/services/oidc.security.service';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './models/DataEventRecord';
@@ -19,7 +19,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
 
     constructor(
         private _dataEventRecordsService: DataEventRecordsService,
-        public securityService: SecurityService,
+        public securityService: OidcSecurityService,
         private _route: ActivatedRoute,
         private _router: Router
     ) {
