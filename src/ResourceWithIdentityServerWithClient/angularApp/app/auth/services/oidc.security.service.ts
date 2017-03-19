@@ -155,9 +155,6 @@ export class OidcSecurityService {
 
             // validate state
             if (this.oidcSecurityValidation.ValidateStateFromHashCallback(result.state, this.retrieve('authStateControl'))) {
-                console.log('AuthorizedCallback incorrect state');
-            } else {
-
                 token = result.access_token;
                 id_token = result.id_token;
 
@@ -171,6 +168,9 @@ export class OidcSecurityService {
                     authResponseIsValid = true;
                     console.log('AuthorizedCallback state and nonce validated, returning access token');
                 }
+
+            } else {
+                console.log('AuthorizedCallback incorrect state');
             }
         }
 
