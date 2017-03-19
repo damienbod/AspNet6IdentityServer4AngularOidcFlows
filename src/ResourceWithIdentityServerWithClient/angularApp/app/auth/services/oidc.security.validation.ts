@@ -3,7 +3,7 @@
 // http://openid.net/specs/openid-connect-implicit-1_0.html
 
 // id_token
-// id_token C1: The Issuer Identifier for the OpenID Provider (which is typically obtained during Discovery) MUST exactly match the value of the iss (issuer) Claim.
+//// id_token C1: The Issuer Identifier for the OpenID Provider (which is typically obtained during Discovery) MUST exactly match the value of the iss (issuer) Claim.
 // id_token C2: The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
 // id_token C3: If the ID Token contains multiple audiences, the Client SHOULD verify that an azp Claim is present.
 // id_token C4: If an azp (authorized party) Claim is present, the Client SHOULD verify that its client_id is the Claim Value.
@@ -59,6 +59,21 @@ export class OidcSecurityValidation {
 
         if (dataIdToken.iss !== client_id) {
             console.log('Validate_id_token_iss failed');
+            return false;
+        }
+
+        return true;
+    }
+
+    // id_token C2: The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
+    // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
+    public Validate_id_token_aud(id_token: any, aud: any): boolean {
+
+        let dataIdToken: any = this.getDataFromToken(id_token);
+        console.log(dataIdToken);
+
+        if (dataIdToken.aud !== aud) {
+            console.log('Validate_id_token_aud failed');
             return false;
         }
 

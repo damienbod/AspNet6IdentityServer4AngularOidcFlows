@@ -23,7 +23,7 @@ export class OidcSecurityService {
 
     constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router) {
 
-        this.actionUrl = _configuration.Server + 'api/DataEventRecords/';
+        this.actionUrl = _configuration.server + 'api/DataEventRecords/';
         this.oidcSecurityValidation = new OidcSecurityValidation();
 
         this.headers = new Headers();
@@ -109,11 +109,11 @@ export class OidcSecurityService {
 
         console.log('BEGIN Authorize, no auth data');
 
-        let authorizationUrl = this._configuration.Server + '/connect/authorize';
-        let client_id = 'singleapp';
-        let redirect_uri = this._configuration.Server;
-        let response_type = 'id_token token';
-        let scope = 'dataEventRecords openid';
+        let authorizationUrl = this._configuration.server + '/connect/authorize';
+        let client_id = this._configuration.client_id;
+        let redirect_uri = this._configuration.server;
+        let response_type = this._configuration.response_type;
+        let scope = this._configuration.scope;
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
@@ -157,19 +157,26 @@ export class OidcSecurityService {
             if (this.oidcSecurityValidation.ValidateStateFromHashCallback(result.state, this.retrieve('authStateControl'))) {
                 token = result.access_token;
                 id_token = result.id_token;
+                let id_token_data = this.retrieve(id_token);
 
                 // validate nonce
-                if (this.oidcSecurityValidation.Validate_id_token_nonce(this.retrieve(id_token), this.retrieve('authNonce'))) {
+                if (this.oidcSecurityValidation.Validate_id_token_nonce(id_token_data, this.retrieve('authNonce'))) {
                     console.log('AuthorizedCallback incorrect nonce');
                 } else {
-                    if (this.oidcSecurityValidation.Validate_id_token_iss(this.retrieve(id_token), _configuration.Server)) {
-                        console.log('AuthorizedCallback incorrect nonce');
+                    // validate iss
+                    if (this.oidcSecurityValidation.Validate_id_token_iss(id_token_data, this._configuration.iss)) {
+                        console.log('AuthorizedCallback incorrect iss');
                     } else {
-                        this.store('authNonce', '');
-                        this.store('authStateControl', '');
+                        // validate aud
+                        if (this.oidcSecurityValidation.Validate_id_token_aud(id_token_data, this._configuration.client_id)) {
+                            console.log('AuthorizedCallback incorrect aud');
+                        } else {
+                            this.store('authNonce', '');
+                            this.store('authStateControl', '');
 
-                        authResponseIsValid = true;
-                        console.log('AuthorizedCallback state and nonce validated, returning access token');
+                            authResponseIsValid = true;
+                            console.log('AuthorizedCallback state and nonce validated, returning access token');
+                        }
                     }
                 }
 
@@ -194,10 +201,10 @@ export class OidcSecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         console.log('BEGIN Authorize, no auth data');
 
-        let authorizationUrl = this._configuration.Server + '/connect/endsession';
+        let authorizationUrl = this._configuration.server + '/connect/endsession';
 
         let id_token_hint = this.retrieve('authorizationDataIdToken');
-        let post_logout_redirect_uri = this._configuration.Server + '/Unauthorized';
+        let post_logout_redirect_uri = this._configuration.server + '/Unauthorized';
 
         let url =
             authorizationUrl + '?' +
@@ -235,7 +242,7 @@ export class OidcSecurityService {
 
     private getUserData = (): Observable<string[]> => {
         this.setHeaders();
-        return this._http.get(this._configuration.Server + '/connect/userinfo', {
+        return this._http.get(this._configuration.server + '/connect/userinfo', {
             headers: this.headers,
             body: ''
         }).map(res => res.json());
