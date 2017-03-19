@@ -113,7 +113,7 @@ export class OidcSecurityService {
         let client_id = 'singleapp';
         let redirect_uri = this._configuration.Server;
         let response_type = 'id_token token';
-        let scope = 'dataEventRecords securedFiles openid';
+        let scope = 'dataEventRecords openid';
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
