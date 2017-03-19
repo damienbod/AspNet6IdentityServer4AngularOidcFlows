@@ -1,5 +1,11 @@
 ﻿import { Injectable } from '@angular/core';
 
+declare module KEYUTIL {
+    function getKey(cert: string): string;
+}
+
+declare var KJUR: any;
+
 // http://openid.net/specs/openid-connect-implicit-1_0.html
 
 // id_token
@@ -7,7 +13,7 @@
 //// id_token C2: The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
 // id_token C3: If the ID Token contains multiple audiences, the Client SHOULD verify that an azp Claim is present.
 // id_token C4: If an azp (authorized party) Claim is present, the Client SHOULD verify that its client_id is the Claim Value.
-// id_token C5: The Client MUST validate the signature of the ID Token according to JWS [JWS] using the algorithm specified in the alg Header Parameter of the JOSE Header.The Client MUST use the keys provided by the Issuer.
+// id_token C5: The Client MUST validate the signature of the ID Token according to JWS [JWS] using the algorithm specified in the alg Header Parameter of the JOSE Header. The Client MUST use the keys provided by the Issuer.
 // id_token C6: The alg value SHOULD be RS256. Validation of tokens using other signing algorithms is described in the OpenID Connect Core 1.0 [OpenID.Core] specification.
 //// id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
 // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time, limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
@@ -28,7 +34,7 @@ export class OidcSecurityValidation {
     public IsTokenExpired(token: string, offsetSeconds?: number): boolean {
 
         let decoded: any;
-        decoded = this.GetDataFromToken(token);
+        decoded = this.GetPayloadFromToken(token, false);
 
         let tokenExpirationDate = this.getTokenExpirationDate(decoded);
         offsetSeconds = offsetSeconds || 0;
@@ -81,14 +87,60 @@ export class OidcSecurityValidation {
         return true;
     }
 
-    public GetDataFromToken(token: any) {
+    public GetPayloadFromToken(token: any, encode: boolean) {
         let data = {};
         if (typeof token !== 'undefined') {
             let encoded = token.split('.')[1];
+            if (encode) {
+                return encoded;
+            }
             data = JSON.parse(this.urlBase64Decode(encoded));
         }
 
         return data;
+    }
+
+    public GetHeaderFromToken(token: any, encode: boolean) {
+        let data = {};
+        if (typeof token !== 'undefined') {
+            let encoded = token.split('.')[0];
+            if (encode) {
+                return encoded;
+            }
+            data = JSON.parse(this.urlBase64Decode(encoded));
+        }
+
+        return data;
+    }
+
+    public GetSignatureFromToken(token: any, encode: boolean) {
+        let data = {};
+        if (typeof token !== 'undefined') {
+            let encoded = token.split('.')[2];
+            if (encode) {
+                return encoded;
+            }
+            data = JSON.parse(this.urlBase64Decode(encoded));
+        }
+
+        return data;
+    }
+
+    public ValidatingSignature_id_token(id_token: any, keys: any): boolean {
+
+        let header_payload = this.GetHeaderFromToken(id_token, true) + '.' + this.GetPayloadFromToken(id_token, true);
+        let signature = this.GetSignatureFromToken(id_token, true);
+
+        let header_data = this.GetHeaderFromToken(id_token, false);
+        let kid = header_data.kid;
+        let alg = header_data.alg;
+
+        let isValid = KJUR.jws.JWS.verify(id_token, keys.keys[0], ['RS256']);
+
+        ////let pubKey = KEYUTIL.getKey(kid);
+        ////let isValid2 = KJUR.jws.JWS.verify(header_payload, pubKey, ['RS256']);
+
+        return true;
     }
 
     private getTokenExpirationDate(dataIdToken: any): Date {

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
+import { JwtKeys } from './jwtkeys';
 
 @Injectable()
 export class OidcSecurityService {
@@ -157,8 +158,15 @@ export class OidcSecurityService {
                 token = result.access_token;
                 id_token = result.id_token;
                 let decoded: any;
-                decoded = this.oidcSecurityValidation.GetDataFromToken(id_token);
+                decoded = this.oidcSecurityValidation.GetPayloadFromToken(id_token, false);
 
+                let jwtKeys: JwtKeys;
+
+                this.GetSigningKeys()
+                    .subscribe(data => jwtKeys = data,
+                    () => console.log('GetSigningKeys completed'));
+
+                this.oidcSecurityValidation.ValidatingSignature_id_token(id_token, jwtKeys);
                 // validate nonce
                 if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
                     // validate iss
@@ -214,6 +222,10 @@ export class OidcSecurityService {
         this.ResetAuthorizationData();
 
         window.location.href = url;
+    }
+
+    private GetSigningKeys = (): Observable<JwtKeys> => {
+        return this._http.get(this._configuration.jwks_url).map(res => res.json());
     }
 
     public HandleError(error: any) {

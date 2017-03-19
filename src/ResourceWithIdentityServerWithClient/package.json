@@ -38,7 +38,8 @@
     "@angular/compiler-cli": "~2.4.10",
     "@angular/platform-server": "~2.4.10",
     "bootstrap": "^3.3.7",
-    "ie-shim": "~0.1.0"
+    "ie-shim": "~0.1.0",
+    "jsrsasign": "7.1.1"
   },
   "devDependencies": {
     "@types/node": "7.0.8",
