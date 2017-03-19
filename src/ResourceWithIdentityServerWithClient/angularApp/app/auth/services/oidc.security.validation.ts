@@ -46,7 +46,7 @@ export class OidcSecurityValidation {
         if (dataIdToken.nonce !== local_nonce) {
             console.log('Validate_id_token_nonce failed');
             return false;
-        } 
+        }
 
         return true;
     }
@@ -120,6 +120,4 @@ export class OidcSecurityValidation {
 
         return window.atob(output);
     }
-
-   
 }

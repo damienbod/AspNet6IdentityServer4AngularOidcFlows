@@ -10,12 +10,11 @@ import { OidcSecurityValidation } from './oidc.security.validation';
 @Injectable()
 export class OidcSecurityService {
 
-
-    private _isAuthorized: boolean;
     public HasAdminRole: boolean;
     public HasUserAdminRole: boolean;
     public UserData: any;
-    
+
+    private _isAuthorized: boolean;
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
