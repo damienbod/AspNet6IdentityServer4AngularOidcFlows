@@ -26,7 +26,11 @@ export class OidcSecurityValidation {
 
     // id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
     public IsTokenExpired(token: string, offsetSeconds?: number): boolean {
-        let tokenExpirationDate = this.getTokenExpirationDate(token);
+
+        let decoded: any;
+        decoded = this.GetDataFromToken(token);
+
+        let tokenExpirationDate = this.getTokenExpirationDate(decoded);
         offsetSeconds = offsetSeconds || 0;
 
         if (tokenExpirationDate == null) {
@@ -38,11 +42,7 @@ export class OidcSecurityValidation {
     }
 
     // id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
-    public Validate_id_token_nonce(id_token: any, local_nonce: any): boolean {
-
-        let dataIdToken: any = this.getDataFromToken(id_token);
-        console.log(dataIdToken);
-
+    public Validate_id_token_nonce(dataIdToken: any, local_nonce: any): boolean {
         if (dataIdToken.nonce !== local_nonce) {
             console.log('Validate_id_token_nonce failed');
             return false;
@@ -52,11 +52,7 @@ export class OidcSecurityValidation {
     }
 
     // id_token C1: The Issuer Identifier for the OpenID Provider (which is typically obtained during Discovery) MUST exactly match the value of the iss (issuer) Claim.
-    public Validate_id_token_iss(id_token: any, client_id: any): boolean {
-
-        let dataIdToken: any = this.getDataFromToken(id_token);
-        console.log(dataIdToken);
-
+    public Validate_id_token_iss(dataIdToken: any, client_id: any): boolean {
         if (dataIdToken.iss !== client_id) {
             console.log('Validate_id_token_iss failed');
             return false;
@@ -67,11 +63,7 @@ export class OidcSecurityValidation {
 
     // id_token C2: The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
     // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
-    public Validate_id_token_aud(id_token: any, aud: any): boolean {
-
-        let dataIdToken: any = this.getDataFromToken(id_token);
-        console.log(dataIdToken);
-
+    public Validate_id_token_aud(dataIdToken: any, aud: any): boolean {
         if (dataIdToken.aud !== aud) {
             console.log('Validate_id_token_aud failed');
             return false;
@@ -88,7 +80,8 @@ export class OidcSecurityValidation {
 
         return true;
     }
-    private getDataFromToken(token: any) {
+
+    public GetDataFromToken(token: any) {
         let data = {};
         if (typeof token !== 'undefined') {
             let encoded = token.split('.')[1];
@@ -98,20 +91,16 @@ export class OidcSecurityValidation {
         return data;
     }
 
-    private getTokenExpirationDate(token: string): Date {
-        let decoded: any;
-        decoded = this.getDataFromToken(token);
-
-        if (!decoded.hasOwnProperty('exp')) {
+    private getTokenExpirationDate(dataIdToken: any): Date {
+        if (!dataIdToken.hasOwnProperty('exp')) {
             return null;
         }
 
         let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
-        date.setUTCSeconds(decoded.exp);
+        date.setUTCSeconds(dataIdToken.exp);
 
         return date;
     }
-
 
 
     private urlBase64Decode(str: string) {

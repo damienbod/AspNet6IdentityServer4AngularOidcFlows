@@ -158,17 +158,19 @@ export class OidcSecurityService {
                 token = result.access_token;
                 id_token = result.id_token;
                 let id_token_data = this.retrieve(id_token);
+                let decoded: any;
+                decoded = this.oidcSecurityValidation.GetDataFromToken(id_token_data);
 
                 // validate nonce
-                if (this.oidcSecurityValidation.Validate_id_token_nonce(id_token_data, this.retrieve('authNonce'))) {
+                if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
                     console.log('AuthorizedCallback incorrect nonce');
                 } else {
                     // validate iss
-                    if (this.oidcSecurityValidation.Validate_id_token_iss(id_token_data, this._configuration.iss)) {
+                    if (this.oidcSecurityValidation.Validate_id_token_iss(decoded, this._configuration.iss)) {
                         console.log('AuthorizedCallback incorrect iss');
                     } else {
                         // validate aud
-                        if (this.oidcSecurityValidation.Validate_id_token_aud(id_token_data, this._configuration.client_id)) {
+                        if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
                             console.log('AuthorizedCallback incorrect aud');
                         } else {
                             this.store('authNonce', '');
