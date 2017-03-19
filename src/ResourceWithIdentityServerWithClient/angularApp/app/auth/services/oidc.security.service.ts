@@ -171,7 +171,7 @@ export class OidcSecurityService {
                                         this.store('authStateControl', '');
 
                                         authResponseIsValid = true;
-                                        console.log('AuthorizedCallback state and nonce validated, returning access token');
+                                        console.log('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
                                     } else {
                                         console.log('AuthorizedCallback incorrect aud');
                                     }
