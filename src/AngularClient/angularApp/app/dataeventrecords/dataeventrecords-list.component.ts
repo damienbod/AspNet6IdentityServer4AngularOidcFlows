@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SecurityService } from '../services/SecurityService';
+import { OidcSecurityService } from '../auth/services/oidc.security.service';
 import { Observable }       from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -18,7 +18,7 @@ export class DataEventRecordsListComponent implements OnInit {
 
     constructor(
         private _dataEventRecordsService: DataEventRecordsService,
-        public securityService: SecurityService,
+        public securityService: OidcSecurityService,
         private _router: Router) {
         this.message = 'DataEventRecords';
     }

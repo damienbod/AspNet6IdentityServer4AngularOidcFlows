@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SecureFileService } from './SecureFileService';
-import { SecurityService } from '../services/SecurityService';
+import { OidcSecurityService } from '../auth/services/oidc.security.service';
 import { Observable }       from 'rxjs/Observable';
 
 @Component({
@@ -14,7 +14,7 @@ export class SecureFilesComponent implements OnInit {
     public message: string;
     public Files: string[];
 
-    constructor(private _secureFileService: SecureFileService, public securityService: SecurityService) {
+    constructor(private _secureFileService: SecureFileService, public securityService: OidcSecurityService) {
         this.message = 'Secure Files download';
     }
 

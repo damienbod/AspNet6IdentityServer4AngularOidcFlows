@@ -7,7 +7,6 @@ import { Configuration } from './app.constants';
 import { routing } from './app.routes';
 import { HttpModule, JsonpModule } from '@angular/http';
 
-import { SecurityService } from './services/SecurityService';
 import { SecureFileService } from './securefile/SecureFileService';
 import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './dataeventrecords/models/DataEventRecord';
@@ -21,6 +20,7 @@ import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecor
 import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
 import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
 import { AuthModule } from './auth/auth.module';
+import { OidcSecurityService } from './auth/services/oidc.security.service';
 
 @NgModule({
     imports: [
@@ -42,7 +42,7 @@ import { AuthModule } from './auth/auth.module';
         DataEventRecordsEditComponent
     ],
     providers: [
-        SecurityService,
+        OidcSecurityService,
         SecureFileService,
         DataEventRecordsService,
         Configuration
