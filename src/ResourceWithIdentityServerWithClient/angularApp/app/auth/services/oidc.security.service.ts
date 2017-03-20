@@ -105,7 +105,7 @@ export class OidcSecurityService {
 
         let authorizationUrl = this._configuration.server + '/connect/authorize';
         let client_id = this._configuration.client_id;
-        let redirect_uri = this._configuration.server;
+        let redirect_uri = this._configuration.redirect_url;
         let response_type = this._configuration.response_type;
         let scope = this._configuration.scope;
         let nonce = 'N' + Math.random() + '' + Date.now();
