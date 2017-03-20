@@ -206,13 +206,13 @@ export class OidcSecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         console.log('BEGIN Authorize, no auth data');
 
-        let authorizationUrl = this._configuration.server + '/connect/endsession';
+        let authorizationEndsessionUrl = this._configuration.server + '/connect/endsession';
 
         let id_token_hint = this.retrieve('authorizationDataIdToken');
-        let post_logout_redirect_uri = this._configuration.server + '/Unauthorized';
+        let post_logout_redirect_uri = this._configuration.post_logout_redirect_uri;
 
         let url =
-            authorizationUrl + '?' +
+            authorizationEndsessionUrl + '?' +
             'id_token_hint=' + encodeURI(id_token_hint) + '&' +
             'post_logout_redirect_uri=' + encodeURI(post_logout_redirect_uri);
 

@@ -20,4 +20,6 @@ export class AuthConfiguration {
     public response_type = 'id_token token';
 
     public scope = 'dataEventRecords securedFiles openid';
+
+    public post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
 }
