@@ -97,7 +97,7 @@ module.exports = {
         }),
 
         new CopyWebpackPlugin([
-            { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
+            { from: './angularApp/assets/*.*', to: 'assets/', flatten: true }
         ])
     ]
 };
