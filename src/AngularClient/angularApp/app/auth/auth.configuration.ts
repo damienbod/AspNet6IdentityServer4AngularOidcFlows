@@ -8,6 +8,8 @@ export class AuthConfiguration {
 
     public server = 'https://localhost:44318';
 
+    public redirect_url = 'https://localhost:44311';
+
     // This is required to get the signing keys so that the signiture of the Jwt can be validated.
     public jwks_url = 'https://localhost:44318/.well-known/openid-configuration/jwks';
 
