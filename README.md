@@ -7,7 +7,7 @@
 
 <strong>Code: </strong> <a href="https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow">VS2017 msbuild</a> | <a href="https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow/tree/VS2015_project_json">VS2015 project.json</a>
 
-<strong>Posts</strong>
+## Posts
 
 <a href="http://damienbod.com/2015/11/08/oauth2-implicit-flow-with-angular-and-asp-net-5-identity-server/"> OAuth2 Implicit Flow with AngularJS and ASP.NET Core 1.1 IdentityServer4</a>
 	
@@ -29,7 +29,7 @@
 	
 
 
-<strong>History</strong> 
+## History
 
 <strong>2017.03.18: </strong>Updated to angular 2.4.10, odic client validation
 
