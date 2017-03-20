@@ -20,6 +20,7 @@ import { SecureFilesComponent } from './securefile/securefiles.component';
 import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecords-list.component';
 import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
 import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
         FormsModule,
         routing,
         HttpModule,
-        JsonpModule
+        JsonpModule,
+        AuthModule.forRoot(),
     ],
     declarations: [
         AppComponent,
