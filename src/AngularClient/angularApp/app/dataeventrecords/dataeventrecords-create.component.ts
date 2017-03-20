@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SecurityService } from '../services/SecurityService';
+import { OidcSecurityService } from '../auth/services/oidc.security.service';
 
 import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
 import { DataEventRecord } from './models/DataEventRecord';
@@ -15,7 +15,7 @@ export class DataEventRecordsCreateComponent implements OnInit {
     public message: string;
     public DataEventRecord: any;
 
-    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: SecurityService, private _router: Router) {
+    constructor(private _dataEventRecordsService: DataEventRecordsService, public securityService: OidcSecurityService, private _router: Router) {
         this.message = 'DataEventRecords Create';
     }
 
