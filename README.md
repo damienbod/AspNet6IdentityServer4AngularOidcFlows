@@ -31,7 +31,7 @@
 
 ## History
 
-<strong>2017.03.18: </strong>Updated to angular 2.4.10, oidc client validation, IdentityServer4 1.3.1
+<strong>2017.03.20: </strong>Updated to angular 2.4.10, oidc client validation, IdentityServer4 1.3.1
 
 <strong>2017.02.15: </strong>Updated to VS2017 csproj, angular 2.4.7, webpack 2.2.1
 
