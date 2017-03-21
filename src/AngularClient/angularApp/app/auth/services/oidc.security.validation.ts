@@ -1,7 +1,9 @@
 ﻿import { Injectable } from '@angular/core';
 
+// from jsrasiign
 declare var KJUR: any;
 declare var KEYUTIL: any;
+declare var hextob64u: any;
 
 // http://openid.net/specs/openid-connect-implicit-1_0.html
 
@@ -161,12 +163,12 @@ export class OidcSecurityValidation {
 
         let hash = KJUR.crypto.Util.hashString(access_token, 'sha256');
         let first128bits = hash.substr(0, hash.length / 2);
-        let testdata = this.urlBase64Decode(first128bits);
+        let testdata = hextob64u(first128bits);
 
         if (testdata === at_hash) {
             return true; // isValid;
         }
- 
+
         return false;
     }
 
