@@ -18,10 +18,10 @@ declare var KEYUTIL: any;
 // id_token C10: If the acr Claim was requested, the Client SHOULD check that the asserted Claim Value is appropriate.The meaning and processing of acr Claim Values is out of scope for this document.
 // id_token C11: When a max_age request is made, the Client SHOULD check the auth_time Claim value and request re- authentication if it determines too much time has elapsed since the last End- User authentication.
 
-// Access Token Validation
-// access_token C1: Hash the octets of the ASCII representation of the access_token with the hash algorithm specified in JWA[JWA] for the alg Header Parameter of the ID Token's JOSE Header. For instance, if the alg is RS256, the hash algorithm used is SHA-256.
-// access_token C2: Take the left- most half of the hash and base64url- encode it.
-// access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
+//// Access Token Validation
+//// access_token C1: Hash the octets of the ASCII representation of the access_token with the hash algorithm specified in JWA[JWA] for the alg Header Parameter of the ID Token's JOSE Header. For instance, if the alg is RS256, the hash algorithm used is SHA-256.
+//// access_token C2: Take the left- most half of the hash and base64url- encode it.
+//// access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
 
 
 @Injectable()
@@ -153,12 +153,21 @@ export class OidcSecurityValidation {
         return isValid;
     }
 
-    public Validate_id_token_at_hash(access_token: any, at_hash: any, alg: any): boolean {
+    // Access Token Validation
+    // access_token C1: Hash the octets of the ASCII representation of the access_token with the hash algorithm specified in JWA[JWA] for the alg Header Parameter of the ID Token's JOSE Header. For instance, if the alg is RS256, the hash algorithm used is SHA-256.
+    // access_token C2: Take the left- most half of the hash and base64url- encode it.
+    // access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
+    public Validate_id_token_at_hash(access_token: any, at_hash: any): boolean {
 
-        let isValid = false;
+        let hash = KJUR.crypto.Util.hashString(access_token, 'sha256');
+        let first128bits = hash.substr(0, hash.length / 2);
+        let testdata = this.urlBase64Decode(first128bits);
 
-  
-        return true; // isValid;
+        if (testdata === at_hash) {
+            return true; // isValid;
+        }
+ 
+        return false;
     }
 
     private getTokenExpirationDate(dataIdToken: any): Date {

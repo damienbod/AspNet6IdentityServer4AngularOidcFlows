@@ -170,7 +170,7 @@ export class OidcSecurityService {
                                     // validate aud
                                     if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
                                         // valiadate at_hash and access_token
-                                        if (this.oidcSecurityValidation.Validate_id_token_at_hash(token, decoded.at_hash, headerDecoded.alg)) {
+                                        if (this.oidcSecurityValidation.Validate_id_token_at_hash(token, decoded.at_hash) || this._configuration.response_type != 'id_token token') {
                                             this.store('authNonce', '');
                                             this.store('authStateControl', '');
 
