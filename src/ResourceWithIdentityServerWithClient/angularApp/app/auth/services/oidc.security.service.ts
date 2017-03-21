@@ -157,21 +157,28 @@ export class OidcSecurityService {
                         token = result.access_token;
                         id_token = result.id_token;
                         let decoded: any;
+                        let headerDecoded;
                         decoded = this.oidcSecurityValidation.GetPayloadFromToken(id_token, false);
+                        headerDecoded = this.oidcSecurityValidation.GetHeaderFromToken(id_token, false);
 
                         // validate jwt signature
-                        if (this.oidcSecurityValidation.ValidatingSignature_id_token(id_token, this.jwtKeys)) {
+                        if (this.oidcSecurityValidation.Validate_signature_id_token(id_token, this.jwtKeys)) {
                             // validate nonce
                             if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
                                 // validate iss
                                 if (this.oidcSecurityValidation.Validate_id_token_iss(decoded, this._configuration.iss)) {
                                     // validate aud
                                     if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
-                                        this.store('authNonce', '');
-                                        this.store('authStateControl', '');
+                                        // valiadate at_hash and access_token
+                                        if (this.oidcSecurityValidation.Validate_id_token_at_hash(token, decoded.at_hash) || this._configuration.response_type != 'id_token token') {
+                                            this.store('authNonce', '');
+                                            this.store('authStateControl', '');
 
-                                        authResponseIsValid = true;
-                                        console.log('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
+                                            authResponseIsValid = true;
+                                            console.log('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
+                                        } else {
+                                            console.log('AuthorizedCallback incorrect aud');
+                                        }
                                     } else {
                                         console.log('AuthorizedCallback incorrect aud');
                                     }
