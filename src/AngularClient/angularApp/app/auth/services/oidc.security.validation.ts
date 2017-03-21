@@ -125,18 +125,20 @@ export class OidcSecurityValidation {
 
     // id_token C5: The Client MUST validate the signature of the ID Token according to JWS [JWS] using the algorithm specified in the alg Header Parameter of the JOSE Header. The Client MUST use the keys provided by the Issuer.
     // id_token C6: The alg value SHOULD be RS256. Validation of tokens using other signing algorithms is described in the OpenID Connect Core 1.0 [OpenID.Core] specification.
-    public ValidatingSignature_id_token(id_token: any, jwtkeys: any): boolean {
+    public Validate_signature_id_token(id_token: any, jwtkeys: any): boolean {
 
         if (!jwtkeys || !jwtkeys.keys) {
             return false;
         }
 
-        let header_payload = this.GetHeaderFromToken(id_token, true) + '.' + this.GetPayloadFromToken(id_token, true);
-        let signature = this.GetSignatureFromToken(id_token, true);
-
         let header_data = this.GetHeaderFromToken(id_token, false);
         let kid = header_data.kid;
         let alg = header_data.alg;
+
+        if ('RS256' != alg) {
+            console.log('Only RS256 supported');
+            return false;
+        }
 
         let isValid = false;
 
@@ -149,6 +151,14 @@ export class OidcSecurityValidation {
         }
 
         return isValid;
+    }
+
+    public Validate_id_token_at_hash(access_token: any, at_hash: any, alg: any): boolean {
+
+        let isValid = false;
+
+  
+        return true; // isValid;
     }
 
     private getTokenExpirationDate(dataIdToken: any): Date {
