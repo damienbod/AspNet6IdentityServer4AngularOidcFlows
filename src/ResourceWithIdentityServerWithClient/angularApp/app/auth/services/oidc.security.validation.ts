@@ -1,7 +1,9 @@
 ﻿import { Injectable } from '@angular/core';
 
+// from jsrasiign
 declare var KJUR: any;
 declare var KEYUTIL: any;
+declare var hextob64u: any; 
 
 // http://openid.net/specs/openid-connect-implicit-1_0.html
 
@@ -18,10 +20,10 @@ declare var KEYUTIL: any;
 // id_token C10: If the acr Claim was requested, the Client SHOULD check that the asserted Claim Value is appropriate.The meaning and processing of acr Claim Values is out of scope for this document.
 // id_token C11: When a max_age request is made, the Client SHOULD check the auth_time Claim value and request re- authentication if it determines too much time has elapsed since the last End- User authentication.
 
-// Access Token Validation
-// access_token C1: Hash the octets of the ASCII representation of the access_token with the hash algorithm specified in JWA[JWA] for the alg Header Parameter of the ID Token's JOSE Header. For instance, if the alg is RS256, the hash algorithm used is SHA-256.
-// access_token C2: Take the left- most half of the hash and base64url- encode it.
-// access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
+//// Access Token Validation
+//// access_token C1: Hash the octets of the ASCII representation of the access_token with the hash algorithm specified in JWA[JWA] for the alg Header Parameter of the ID Token's JOSE Header. For instance, if the alg is RS256, the hash algorithm used is SHA-256.
+//// access_token C2: Take the left- most half of the hash and base64url- encode it.
+//// access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
 
 
 @Injectable()
@@ -125,18 +127,20 @@ export class OidcSecurityValidation {
 
     // id_token C5: The Client MUST validate the signature of the ID Token according to JWS [JWS] using the algorithm specified in the alg Header Parameter of the JOSE Header. The Client MUST use the keys provided by the Issuer.
     // id_token C6: The alg value SHOULD be RS256. Validation of tokens using other signing algorithms is described in the OpenID Connect Core 1.0 [OpenID.Core] specification.
-    public ValidatingSignature_id_token(id_token: any, jwtkeys: any): boolean {
+    public Validate_signature_id_token(id_token: any, jwtkeys: any): boolean {
 
         if (!jwtkeys || !jwtkeys.keys) {
             return false;
         }
 
-        let header_payload = this.GetHeaderFromToken(id_token, true) + '.' + this.GetPayloadFromToken(id_token, true);
-        let signature = this.GetSignatureFromToken(id_token, true);
-
         let header_data = this.GetHeaderFromToken(id_token, false);
         let kid = header_data.kid;
         let alg = header_data.alg;
+
+        if ('RS256' != alg) {
+            console.log('Only RS256 supported');
+            return false;
+        }
 
         let isValid = false;
 
@@ -149,6 +153,23 @@ export class OidcSecurityValidation {
         }
 
         return isValid;
+    }
+
+    // Access Token Validation
+    // access_token C1: Hash the octets of the ASCII representation of the access_token with the hash algorithm specified in JWA[JWA] for the alg Header Parameter of the ID Token's JOSE Header. For instance, if the alg is RS256, the hash algorithm used is SHA-256.
+    // access_token C2: Take the left- most half of the hash and base64url- encode it.
+    // access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
+    public Validate_id_token_at_hash(access_token: any, at_hash: any): boolean {
+
+        let hash = KJUR.crypto.Util.hashString(access_token, 'sha256');
+        let first128bits = hash.substr(0, hash.length / 2);
+        let testdata = hextob64u(first128bits);
+
+        if (testdata === at_hash) {
+            return true; // isValid;
+        }
+ 
+        return false;
     }
 
     private getTokenExpirationDate(dataIdToken: any): Date {
