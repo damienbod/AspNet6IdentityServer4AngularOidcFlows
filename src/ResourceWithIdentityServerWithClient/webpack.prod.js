@@ -18,7 +18,7 @@ module.exports = {
     },
 
     output: {
-        path: './wwwroot/',
+        path: __dirname + '/wwwroot/',
         filename: 'dist/[name].[hash].bundle.js',
         chunkFilename: 'dist/[id].[hash].chunk.js',
         publicPath: '/'

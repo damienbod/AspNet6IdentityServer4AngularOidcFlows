@@ -3,7 +3,7 @@
 // from jsrasiign
 declare var KJUR: any;
 declare var KEYUTIL: any;
-declare var hextob64u: any; 
+declare var hextob64u: any;
 
 // http://openid.net/specs/openid-connect-implicit-1_0.html
 
@@ -24,7 +24,6 @@ declare var hextob64u: any;
 //// access_token C1: Hash the octets of the ASCII representation of the access_token with the hash algorithm specified in JWA[JWA] for the alg Header Parameter of the ID Token's JOSE Header. For instance, if the alg is RS256, the hash algorithm used is SHA-256.
 //// access_token C2: Take the left- most half of the hash and base64url- encode it.
 //// access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
-
 
 @Injectable()
 export class OidcSecurityValidation {
@@ -168,7 +167,7 @@ export class OidcSecurityValidation {
         if (testdata === at_hash) {
             return true; // isValid;
         }
- 
+
         return false;
     }
 

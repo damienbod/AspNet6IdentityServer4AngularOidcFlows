@@ -25,7 +25,6 @@ declare var hextob64u: any;
 //// access_token C2: Take the left- most half of the hash and base64url- encode it.
 //// access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
 
-
 @Injectable()
 export class OidcSecurityValidation {
 
