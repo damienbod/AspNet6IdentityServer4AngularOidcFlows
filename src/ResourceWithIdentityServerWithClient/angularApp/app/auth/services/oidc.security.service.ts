@@ -213,7 +213,7 @@ export class OidcSecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         console.log('BEGIN Authorize, no auth data');
 
-        let authorizationEndsessionUrl = this._configuration.server + '/connect/endsession';
+        let authorizationEndsessionUrl = this._configuration.logoutEndSession_url;
 
         let id_token_hint = this.retrieve('authorizationDataIdToken');
         let post_logout_redirect_uri = this._configuration.post_logout_redirect_uri;
@@ -286,7 +286,7 @@ export class OidcSecurityService {
 
     private getUserData = (): Observable<string[]> => {
         this.setHeaders();
-        return this._http.get(this._configuration.server + '/connect/userinfo', {
+        return this._http.get(this._configuration.userinfo_url, {
             headers: this.headers,
             body: ''
         }).map(res => res.json());
