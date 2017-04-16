@@ -73,7 +73,7 @@ namespace QuickstartIdentityServer
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44346/authorized"
+                        "https://localhost:44376/authorized"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {

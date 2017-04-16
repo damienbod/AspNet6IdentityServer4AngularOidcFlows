@@ -242,3 +242,4 @@ src/AngularClient/angularApp/main.js
 src/ResourceWithIdentityServerWithClient/angularApp/main.js
 src/ResourceWithIdentityServerWithClient/angularApp/main-aot.js
 src/AngularClient/AngularClient.csproj.user
+src/AngularJSClient/.sass-cache
