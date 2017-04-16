@@ -31,6 +31,9 @@
 
 ## History
 
+
+<strong>2017.04.11: </strong>Updated to IdentityServer4 1.4.2, angular 4.0.1, dev npm packages, angular OpenID Connect Implicit Flow Client configuration 
+
 <strong>2017.03.24: </strong>Updated to angular 4.0.0
 
 <strong>2017.03.20: </strong>Updated to angular 2.4.10, oidc client validation, IdentityServer4 1.3.1
