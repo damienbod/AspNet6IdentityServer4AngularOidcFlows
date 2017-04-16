@@ -70,8 +70,8 @@
             //&state=af0ifjsldkj HTTP/1.1
 
             var authorizationUrl = 'https://localhost:44318/connect/authorize';
-            var client_id = 'angularclient';
-            var redirect_uri = 'https://localhost:44347/authorized';
+            var client_id = 'angularjsclient';
+            var redirect_uri = 'https://localhost:44376/authorized';
             var response_type = "id_token token";
             var scope = "dataEventRecords aReallyCoolScope securedFiles openid";
             var nonce = "N" + Math.random() + "" + Date.now();
@@ -155,12 +155,12 @@
             }
         }
 
-        // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://localhost:44347/unauthorized.html
+        // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://localhost:44346/unauthorized.html
         var Logoff = function () {
             //var id_token = localStorageService.get("authorizationDataIdToken");     
             //var authorizationUrl = 'https://localhost:44318/connect/endsession';
             //var id_token_hint = id_token;
-            //var post_logout_redirect_uri = 'https://localhost:44347/unauthorized.html';
+            //var post_logout_redirect_uri = 'https://localhost:44346/unauthorized.html';
             //var state = Date.now() + "" + Math.random();
 
             //var url =
@@ -174,7 +174,7 @@
 
             // 19.02.2106: temp until connect/endsession is implemented in IdentityServer4 NOT A PROPER SOLUTION!
             ResetAuthorizationData();
-            $window.location = "https://localhost:44347/unauthorized.html";
+            $window.location = "https://localhost:44346/unauthorized.html";
         }
 
         return {

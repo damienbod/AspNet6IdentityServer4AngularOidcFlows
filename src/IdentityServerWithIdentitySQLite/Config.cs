@@ -67,21 +67,21 @@ namespace QuickstartIdentityServer
             {
                 new Client
                 {
-                    ClientName = "angularclient",
-                    ClientId = "angularclient",
+                    ClientName = "angularjsclient",
+                    ClientId = "angularjsclient",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44347/authorized"
+                        "https://localhost:44346/authorized"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:44347/unauthorized.html"
+                        "https://localhost:44346/unauthorized.html"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:44347"
+                        "https://localhost:44346"
                     },
                     AllowedScopes = new List<string>
                     {
