@@ -78,7 +78,7 @@ namespace AngularClient
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("This is server routing, not angular2 routing");
+                await context.Response.WriteAsync("This is server routing, not angularJS routing");
             });
         }
 
