@@ -96,8 +96,8 @@ namespace QuickstartIdentityServer
                 },
                 new Client
                 {
-                    ClientName = "angular2client",
-                    ClientId = "angular2client",
+                    ClientName = "angularclient",
+                    ClientId = "angularclient",
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Implicit,
