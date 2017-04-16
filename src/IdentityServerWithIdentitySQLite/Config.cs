@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 namespace QuickstartIdentityServer
 {
-    using System.Security.Claims;
-
     public class Config
     {
         public static IEnumerable<IdentityResource> GetIdentityResources()
