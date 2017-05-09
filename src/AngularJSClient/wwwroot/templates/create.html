@@ -1,0 +1,33 @@
+﻿<div class="panel panel-default col-md-12"  ng-show="IsAuthorized">
+    <div class="panel-heading">
+        {{message}}
+    </div>
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-xs-2">Id</div>
+            <div class="col-xs-6"><input type="text" ng-model="dataEventRecord.Id" style="width: 100%" /></div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <div class="col-xs-2">Name</div>
+            <div class="col-xs-6">
+                <input type="text" ng-model="dataEventRecord.Name" style="width: 100%" />
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-xs-2">Description</div>
+            <div class="col-xs-6">
+                <input type="text" ng-model="dataEventRecord.Description" style="width: 100%" />
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-xs-2">
+                <button ng-click="Create()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

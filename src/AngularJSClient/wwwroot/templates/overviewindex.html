@@ -1,0 +1,28 @@
+﻿<div class="col-md-12"  ng-show="IsAuthorized">
+    <div class="panel panel-default" >
+        <div class="panel-heading">
+            <h3 class="panel-title">{{message}}</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="height:20px;" ng-repeat="dataEventRecord in dataEventRecords">
+                        <td>
+                            <a ng-if="HasAdminRole" href="/details/{{dataEventRecord.Id}}">{{dataEventRecord.Name}}</a>
+                            <span ng-if="!HasAdminRole">{{dataEventRecord.Name}}</span>
+                        </td>
+                        <td>{{dataEventRecord.Timestamp}}</td>
+                        <td><button ng-click="Delete(dataEventRecord.Id)">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
