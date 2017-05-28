@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
+import { OidcSecuritySilentRenew } from './oidc.security.silent-renew';
 import { JwtKeys } from './jwtkeys';
 
 @Injectable()
@@ -199,6 +200,9 @@ export class OidcSecurityService {
                 if (authResponseIsValid) {
                     this.SetAuthorizationData(token, id_token);
                     console.log(this.retrieve('authorizationData'));
+
+                    let oidcSecuritySilentRenew = new OidcSecuritySilentRenew();
+                    oidcSecuritySilentRenew.start(result.state, 'angularclient');
 
                     // router navigate to DataEventRecordsList
                     this._router.navigate(['/dataeventrecords/list']);
