@@ -26,12 +26,25 @@ namespace Angular2Client
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors("AllowAllOrigins");
 
             var angularRoutes = new[] {
                 "/home",

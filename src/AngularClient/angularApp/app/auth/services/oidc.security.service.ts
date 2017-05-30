@@ -25,7 +25,7 @@ export class OidcSecurityService {
     private errorMessage: string;
     private jwtKeys: JwtKeys;
 
-    constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router) {
+    constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router, private _oidcSecuritySilentRenew: OidcSecuritySilentRenew) {
 
         this.actionUrl = _configuration.server + 'api/DataEventRecords/';
         this.oidcSecurityValidation = new OidcSecurityValidation();
@@ -201,8 +201,27 @@ export class OidcSecurityService {
                     this.SetAuthorizationData(token, id_token);
                     console.log(this.retrieve('authorizationData'));
 
-                    let oidcSecuritySilentRenew = new OidcSecuritySilentRenew();
-                    oidcSecuritySilentRenew.start(result.state, 'angularclient');
+                    this._oidcSecuritySilentRenew.load().then(() => {
+                        this._oidcSecuritySilentRenew.start(result.session_state, 'angularclient');
+
+                        let source = Observable.timer(5000, 3000)
+                            .timeInterval()
+                            .pluck('interval')
+                            .take(10000);
+
+                        let subscription = source.subscribe(() => {
+                            this._oidcSecuritySilentRenew.start(result.session_state, 'angularclient');
+                            if (!this.IsAuthorized()) {
+                                this.Authorize();
+                                }
+                            },
+                            function (err: any) {
+                                console.log('Error: ' + err);
+                            },
+                            function () {
+                                console.log('Completed');
+                            });
+                    });
 
                     // router navigate to DataEventRecordsList
                     this._router.navigate(['/dataeventrecords/list']);
