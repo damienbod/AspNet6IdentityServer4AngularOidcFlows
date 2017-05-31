@@ -12,6 +12,7 @@ using QuickstartIdentityServer;
 using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
+using IdentityServer4;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -41,7 +42,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.Cookies.ApplicationCookie.ExpireTimeSpan = System.TimeSpan.FromSeconds(30))
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -77,6 +78,13 @@ namespace IdentityServerWithAspNetIdentitySqlite
             }
 
             app.UseStaticFiles();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Identity.Application.Session",
+                ExpireTimeSpan = System.TimeSpan.FromSeconds(30),
+                SlidingExpiration = false
+            });
 
             app.UseIdentity();
             app.UseIdentityServer();

@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/timer';
+import { AuthConfiguration } from '../auth.configuration';
 
 // http://openid.net/specs/openid-connect-session-1_0-ID4.html
 
@@ -18,57 +19,35 @@ export class OidcSecuritySilentRenew {
     private authorizationTime: number;
     private renewInSeconds = 30;
 
-    private sessionIframe: any;
-    private frame_origin: any;
-    private _boundMessageEvent: any;
+    private _sessionIframe: any;
+    private _iframeMessageEvent: any;
 
-    public load() {
-        this.sessionIframe = window.document.createElement('iframe');
-        console.log(this.sessionIframe);
-        this.sessionIframe.style.display = 'none';
-        this.sessionIframe.src = 'https://localhost:44318/connect/checksession';
+    constructor(private _configuration: AuthConfiguration) {
+    }
 
-        window.document.body.appendChild(this.sessionIframe);
-        this._boundMessageEvent = this._message.bind(this);
-        window.addEventListener('message', this._boundMessageEvent, false);
+    public init() {
+        this._sessionIframe = window.document.createElement('iframe');
+        console.log(this._sessionIframe);
+        this._sessionIframe.style.display = 'none';
+        this._sessionIframe.src = this._configuration.checksession;
+
+        window.document.body.appendChild(this._sessionIframe);
+        this._iframeMessageEvent = this._messageHandler.bind(this);
+        window.addEventListener('message', this._iframeMessageEvent, false);
 
         return new Promise((resolve) => {
-            this.sessionIframe.onload = () => {
+            this._sessionIframe.onload = () => {
                 resolve();
             }
         });
     }
 
     public start(session_state: any, clientId: any) {
-
-        console.log('start begin iframe worker');
-        let url = 'https://localhost:44318';
-        ////let idx = url.indexOf('/', url.indexOf('//') + 2);
-        ////this.frame_origin = url.substr(0, idx);
-        console.log(this.sessionIframe);
-
-        // tODO quick test
-        this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, url);
-
+        //console.log(this._sessionIframe);
+        this._sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this._configuration.server);
     }
 
-    _message(e: any) {
+    _messageHandler(e: any) {
         console.log(e);
-        //  if ( e.origin === this._frame_origin &&
-        if (
-            e.source === this.sessionIframe.contentWindow
-        ) {
-            if (e.data === 'error') {
-                console.log('error message from check session op iframe');
-                //this.stop();
-            } else if (e.data === 'changed') {
-                console.log('changed message from check session op iframe');
-                //this.stop();
-                // TODO do something with this changed event
-                //this._callback();
-            } else {
-                console.log(e.data + ' message from check session op iframe');
-            }
-        }
     }
 }

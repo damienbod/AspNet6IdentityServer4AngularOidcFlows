@@ -26,4 +26,10 @@ export class AuthConfiguration {
     public scope = 'dataEventRecords securedFiles openid';
 
     public post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
+
+    public autoRefreshTokensIfExpired = true;
+
+    public checksession = 'https://localhost:44318/connect/checksession'
+
+    public startupRoute = '/dataeventrecords/list';
 }

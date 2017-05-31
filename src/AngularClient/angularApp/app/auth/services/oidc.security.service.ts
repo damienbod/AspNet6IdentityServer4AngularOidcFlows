@@ -45,7 +45,10 @@ export class OidcSecurityService {
         if (this._isAuthorized) {
             if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
                 console.log('IsAuthorized: isTokenExpired');
-                this.ResetAuthorizationData();
+                if (!this._configuration.autoRefreshTokensIfExpired) {
+                    this.ResetAuthorizationData();
+                }
+
                 return false;
             }
 
@@ -100,7 +103,9 @@ export class OidcSecurityService {
     }
 
     public Authorize() {
-        this.ResetAuthorizationData();
+        if (!this._configuration.autoRefreshTokensIfExpired) {
+            this.ResetAuthorizationData();
+        }
 
         console.log('BEGIN Authorize, no auth data');
 
@@ -130,7 +135,9 @@ export class OidcSecurityService {
 
     public AuthorizedCallback() {
         console.log('BEGIN AuthorizedCallback, no auth data');
-        this.ResetAuthorizationData();
+        if (!this._configuration.autoRefreshTokensIfExpired) {
+            this.ResetAuthorizationData();
+        }
 
         let hash = window.location.hash.substr(1);
 
@@ -201,30 +208,40 @@ export class OidcSecurityService {
                     this.SetAuthorizationData(token, id_token);
                     console.log(this.retrieve('authorizationData'));
 
-                    this._oidcSecuritySilentRenew.load().then(() => {
-                        this._oidcSecuritySilentRenew.start(result.session_state, 'angularclient');
+                    if (this._configuration.autoRefreshTokensIfExpired) {
+                        this._oidcSecuritySilentRenew.init().then(() => {
+                            let source = Observable.timer(3000, 3000)
+                                .timeInterval()
+                                .pluck('interval')
+                                .take(10000);
 
-                        let source = Observable.timer(5000, 3000)
-                            .timeInterval()
-                            .pluck('interval')
-                            .take(10000);
+                            let subscription = source.subscribe(() => {
+                                
+                                this._oidcSecuritySilentRenew.start(result.session_state, 'angularclient');
+                                if (!this.IsAuthorized()) {
+                                    if (this._router.url) {
+                                        console.log('LastRoute save: ' + this._router.url);
+                                        this.store('LastRoute', this._router.url);
+                                    }
 
-                        let subscription = source.subscribe(() => {
-                            this._oidcSecuritySilentRenew.start(result.session_state, 'angularclient');
-                            if (!this.IsAuthorized()) {
-                                this.Authorize();
+                                    this.Authorize();
                                 }
                             },
-                            function (err: any) {
-                                console.log('Error: ' + err);
-                            },
-                            function () {
-                                console.log('Completed');
-                            });
-                    });
+                                function (err: any) {
+                                    console.log('Error: ' + err);
+                                },
+                                function () {
+                                    console.log('Completed');
+                                });
+                        });
+                    }
 
-                    // router navigate to DataEventRecordsList
-                    this._router.navigate(['/dataeventrecords/list']);
+                    if (this._configuration.autoRefreshTokensIfExpired) {
+                        console.log('going to: ' + this.retrieve('LastRoute'));
+                        this._router.navigate([this.retrieve('LastRoute')]);
+                    } else {
+                        this._router.navigate([this._configuration.startupRoute]);
+                    }
                 } else {
                     this.ResetAuthorizationData();
                     this._router.navigate(['/Unauthorized']);
