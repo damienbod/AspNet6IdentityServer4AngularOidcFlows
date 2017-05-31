@@ -42,7 +42,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.Cookies.ApplicationCookie.ExpireTimeSpan = System.TimeSpan.FromSeconds(30))
+            services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -78,13 +78,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
             }
 
             app.UseStaticFiles();
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = "Identity.Application.Session",
-                ExpireTimeSpan = System.TimeSpan.FromSeconds(30),
-                SlidingExpiration = false
-            });
 
             app.UseIdentity();
             app.UseIdentityServer();
