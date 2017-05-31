@@ -209,31 +209,29 @@ export class OidcSecurityService {
                     console.log(this.retrieve('authorizationData'));
 
                     if (this._configuration.autoRefreshTokensIfExpired) {
-                        this._oidcSecuritySilentRenew.init().then(() => {
-                            let source = Observable.timer(3000, 3000)
-                                .timeInterval()
-                                .pluck('interval')
-                                .take(10000);
+                        let source = Observable.timer(3000, 3000)
+                            .timeInterval()
+                            .pluck('interval')
+                            .take(10000);
 
-                            let subscription = source.subscribe(() => {
-                                
-                                this._oidcSecuritySilentRenew.start(result.session_state, 'angularclient');
-                                if (!this.IsAuthorized()) {
-                                    if (this._router.url) {
-                                        console.log('LastRoute save: ' + this._router.url);
-                                        this.store('LastRoute', this._router.url);
-                                    }
+                        let subscription = source.subscribe(() => {
+                            if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
+                                console.log('sync check: isTokenExpired');
 
-                                    this.Authorize();
+                                if (this._router.url) {
+                                    console.log('LastRoute save: ' + this._router.url);
+                                    this.store('LastRoute', this._router.url);
                                 }
-                            },
-                                function (err: any) {
-                                    console.log('Error: ' + err);
-                                },
-                                function () {
-                                    console.log('Completed');
-                                });
-                        });
+
+                                this.Authorize();
+                            }
+                        },
+                        function (err: any) {
+                            console.log('Error: ' + err);
+                        },
+                        function () {
+                            console.log('Completed');
+                        });                        
                     }
 
                     if (this._configuration.autoRefreshTokensIfExpired) {
