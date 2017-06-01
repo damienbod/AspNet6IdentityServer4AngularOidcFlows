@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
-import { OidcSecuritySilentRenew } from './oidc.security.silent-renew';
+import { OidcSecurityCheckSession } from './oidc.security.check-session';
 import { JwtKeys } from './jwtkeys';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class OidcSecurityService {
     private errorMessage: string;
     private jwtKeys: JwtKeys;
 
-    constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router, private _oidcSecuritySilentRenew: OidcSecuritySilentRenew) {
+    constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router, private _oidcSecurityCheckSession: OidcSecurityCheckSession) {
 
         this.actionUrl = _configuration.server + 'api/DataEventRecords/';
         this.oidcSecurityValidation = new OidcSecurityValidation();
@@ -45,9 +45,7 @@ export class OidcSecurityService {
         if (this._isAuthorized) {
             if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
                 console.log('IsAuthorized: isTokenExpired');
-                if (!this._configuration.autoRefreshTokensIfExpired) {
-                    this.ResetAuthorizationData();
-                }
+                this.ResetAuthorizationData();
 
                 return false;
             }
@@ -103,9 +101,7 @@ export class OidcSecurityService {
     }
 
     public Authorize() {
-        if (!this._configuration.autoRefreshTokensIfExpired) {
-            this.ResetAuthorizationData();
-        }
+        this.ResetAuthorizationData();
 
         console.log('BEGIN Authorize, no auth data');
 
@@ -135,9 +131,7 @@ export class OidcSecurityService {
 
     public AuthorizedCallback() {
         console.log('BEGIN AuthorizedCallback, no auth data');
-        if (!this._configuration.autoRefreshTokensIfExpired) {
-            this.ResetAuthorizationData();
-        }
+        this.ResetAuthorizationData();
 
         let hash = window.location.hash.substr(1);
 
@@ -208,38 +202,15 @@ export class OidcSecurityService {
                     this.SetAuthorizationData(token, id_token);
                     console.log(this.retrieve('authorizationData'));
 
-                    if (this._configuration.autoRefreshTokensIfExpired) {
-                        let source = Observable.timer(3000, 3000)
-                            .timeInterval()
-                            .pluck('interval')
-                            .take(10000);
+                    if (this._configuration.startchecksession) {
+                        this._oidcSecurityCheckSession.init().then(() => {
+                            this._oidcSecurityCheckSession.pollServerSession(result.session_state, 'angularclient');
+                        });
 
-                        let subscription = source.subscribe(() => {
-                            if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
-                                console.log('sync check: isTokenExpired');
-
-                                if (this._router.url) {
-                                    console.log('LastRoute save: ' + this._router.url);
-                                    this.store('LastRoute', this._router.url);
-                                }
-
-                                this.Authorize();
-                            }
-                        },
-                        function (err: any) {
-                            console.log('Error: ' + err);
-                        },
-                        function () {
-                            console.log('Completed');
-                        });                        
+                        
                     }
 
-                    if (this._configuration.autoRefreshTokensIfExpired) {
-                        console.log('going to: ' + this.retrieve('LastRoute'));
-                        this._router.navigate([this.retrieve('LastRoute')]);
-                    } else {
-                        this._router.navigate([this._configuration.startupRoute]);
-                    }
+                    this._router.navigate([this._configuration.startupRoute]);
                 } else {
                     this.ResetAuthorizationData();
                     this._router.navigate(['/Unauthorized']);

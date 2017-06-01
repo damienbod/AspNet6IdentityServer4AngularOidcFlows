@@ -13,7 +13,7 @@ import { AuthConfiguration } from '../auth.configuration';
 // http://openid.net/specs/openid-connect-session-1_0-ID4.html
 
 @Injectable()
-export class OidcSecuritySilentRenew {
+export class OidcSecurityCheckSession {
 
     private expiresIn: number;
     private authorizationTime: number;
@@ -42,12 +42,36 @@ export class OidcSecuritySilentRenew {
         });
     }
 
-    public start(session_state: any, clientId: any) {
-        //console.log(this._sessionIframe);
-        this._sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this._configuration.server);
+    public pollServerSession(session_state: any, clientId: any) {
+        let source = Observable.timer(3000, 3000)
+            .timeInterval()
+            .pluck('interval')
+            .take(10000);
+
+        let subscription = source.subscribe(() => {
+            console.log(this._sessionIframe);
+            this._sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this._configuration.server);
+        },
+            function (err: any) {
+                console.log('Error: ' + err);
+            },
+            function () {
+                console.log('Completed');
+            });
     }
 
-    _messageHandler(e: any) {
+    private _messageHandler(e: any) {
         console.log(e);
+        if (e.origin === this._configuration.server &&
+            e.source === this._sessionIframe.contentWindow
+        ) {
+            if (e.data === 'error') {
+                console.log('error message from check session op iframe');
+            } else if (e.data === 'changed') {
+                console.log('changed message from check session op iframe');
+            } else {
+                console.log(e.data + ' message from check session op iframe');
+            }
+        }
     }
 }
