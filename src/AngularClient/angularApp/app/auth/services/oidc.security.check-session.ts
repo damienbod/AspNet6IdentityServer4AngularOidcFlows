@@ -25,6 +25,8 @@ export class OidcSecurityCheckSession {
     constructor(private _configuration: AuthConfiguration) {
     }
 
+    public onCheckSessionChanged: any;
+
     public init() {
         this._sessionIframe = window.document.createElement('iframe');
         console.log(this._sessionIframe);
@@ -68,7 +70,7 @@ export class OidcSecurityCheckSession {
             if (e.data === 'error') {
                 console.log('error message from check session op iframe');
             } else if (e.data === 'changed') {
-                console.log('changed message from check session op iframe');
+                this.onCheckSessionChanged();
             } else {
                 console.log(e.data + ' message from check session op iframe');
             }

@@ -39,6 +39,8 @@ export class OidcSecurityService {
             this.HasAdminRole = this.retrieve('HasAdminRole');
             this._isAuthorized = this.retrieve('_isAuthorized');
         }
+
+        this._oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => { this.onCheckSessionChanged(); });
     }
 
     public IsAuthorized(): boolean {
@@ -235,6 +237,9 @@ export class OidcSecurityService {
         window.location.href = url;
     }
 
+    private onCheckSessionChanged() {
+        console.log('onCheckSessionChanged');
+    }
     private runGetSigningKeys() {
         this.getSigningKeys()
             .subscribe(
