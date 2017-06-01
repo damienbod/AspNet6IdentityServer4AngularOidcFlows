@@ -19,6 +19,7 @@
 
                     <li><a class="navigationLinkButton" *ngIf="!securityService.IsAuthorized()" (click)="Login()">Login</a></li>
                     <li><a class="navigationLinkButton" *ngIf="securityService.IsAuthorized()" (click)="Logout()">Logout</a></li>
+                    <li><a class="navigationLinkButton" *ngIf="securityService.CheckSessionChanged" (click)="Login()">Refresh Session Changed</a></li>
               
                 </ul>
             </div><!--/.nav-collapse -->

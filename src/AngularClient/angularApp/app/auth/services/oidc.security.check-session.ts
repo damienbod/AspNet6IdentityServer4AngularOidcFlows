@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, EventEmitter, Output } from '@angular/core';
 
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -22,10 +22,10 @@ export class OidcSecurityCheckSession {
     private _sessionIframe: any;
     private _iframeMessageEvent: any;
 
+    @Output() public onCheckSessionChanged: EventEmitter<any> = new EventEmitter<any>(true);
+
     constructor(private _configuration: AuthConfiguration) {
     }
-
-    public onCheckSessionChanged: any;
 
     public init() {
         this._sessionIframe = window.document.createElement('iframe');
@@ -63,16 +63,15 @@ export class OidcSecurityCheckSession {
     }
 
     private _messageHandler(e: any) {
-        console.log(e);
         if (e.origin === this._configuration.server &&
             e.source === this._sessionIframe.contentWindow
         ) {
             if (e.data === 'error') {
-                console.log('error message from check session op iframe');
+                console.log('error _messageHandler from check session op iframe');
             } else if (e.data === 'changed') {
-                this.onCheckSessionChanged();
+                this.onCheckSessionChanged.emit();
             } else {
-                console.log(e.data + ' message from check session op iframe');
+                console.log(e.data + ' _messageHandler from check session op iframe');
             }
         }
     }
