@@ -206,8 +206,6 @@ export class OidcSecurityService {
                         this._oidcSecurityCheckSession.init().then(() => {
                             this._oidcSecurityCheckSession.pollServerSession(result.session_state, 'angularclient');
                         });
-
-                        
                     }
 
                     this._router.navigate([this._configuration.startupRoute]);
