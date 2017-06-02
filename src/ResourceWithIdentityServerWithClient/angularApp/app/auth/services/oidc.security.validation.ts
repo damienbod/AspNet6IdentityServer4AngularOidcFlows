@@ -182,7 +182,6 @@ export class OidcSecurityValidation {
         return date;
     }
 
-
     private urlBase64Decode(str: string) {
         let output = str.replace('-', '+').replace('_', '/');
         switch (output.length % 4) {
