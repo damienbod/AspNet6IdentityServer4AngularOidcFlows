@@ -20,7 +20,6 @@ export class OidcSecuritySilentRenew {
     private renewInSeconds = 30;
 
     private _sessionIframe: any;
-    private _iframeMessageEvent: any;
 
     constructor(private _configuration: AuthConfiguration) {
     }
@@ -31,10 +30,8 @@ export class OidcSecuritySilentRenew {
         this._sessionIframe.style.display = 'none';
 
         window.document.body.appendChild(this._sessionIframe);
-        this._iframeMessageEvent = this._messageHandler.bind(this);
-        window.addEventListener('message', this._iframeMessageEvent, false);
-
     }
+
     public startRenew(url: string) {
         this._sessionIframe.src = url;
 
@@ -43,9 +40,5 @@ export class OidcSecuritySilentRenew {
                 resolve();
             }
         });
-    }
-
-    private _messageHandler(e: any) {
-        console.log(e);
     }
 }
