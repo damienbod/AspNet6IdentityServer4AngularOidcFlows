@@ -25,15 +25,18 @@ export class OidcSecuritySilentRenew {
     constructor(private _configuration: AuthConfiguration) {
     }
 
-    public renewSession(url: string) {
+    public initRenew() {
         this._sessionIframe = window.document.createElement('iframe');
         console.log(this._sessionIframe);
         this._sessionIframe.style.display = 'none';
-        this._sessionIframe.src = url;
 
         window.document.body.appendChild(this._sessionIframe);
         this._iframeMessageEvent = this._messageHandler.bind(this);
         window.addEventListener('message', this._iframeMessageEvent, false);
+
+    }
+    public startRenew(url: string) {
+        this._sessionIframe.src = url;
 
         return new Promise((resolve) => {
             this._sessionIframe.onload = () => {
@@ -42,8 +45,7 @@ export class OidcSecuritySilentRenew {
         });
     }
 
- 
     private _messageHandler(e: any) {
-        
+        console.log(e);
     }
 }

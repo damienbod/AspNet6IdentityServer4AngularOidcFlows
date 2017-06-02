@@ -27,7 +27,9 @@ export class AuthConfiguration {
 
     public post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
 
-    public startchecksession = true;
+    public start_checksession = true;
+
+    public silent_renew = true;
 
     public checksession = 'https://localhost:44318/connect/checksession'
 

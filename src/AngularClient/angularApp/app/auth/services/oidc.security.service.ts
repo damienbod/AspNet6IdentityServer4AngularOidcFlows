@@ -49,9 +49,13 @@ export class OidcSecurityService {
         if (this._isAuthorized) {
             if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
                 console.log('IsAuthorized: isTokenExpired');
-                this.ResetAuthorizationData();
 
-                return false;
+                if (this._configuration.silent_renew) {
+                    this.RefreshSession();
+                } else {
+                    this.ResetAuthorizationData();
+                    return false;
+                }
             }
 
             return true;
@@ -113,7 +117,7 @@ export class OidcSecurityService {
 
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
-        
+
         this.store('authStateControl', state);
         this.store('authNonce', nonce);
         console.log('AuthorizedController created. adding myautostate: ' + this.retrieve('authStateControl'));
@@ -195,10 +199,14 @@ export class OidcSecurityService {
                     this.SetAuthorizationData(token, id_token);
                     console.log(this.retrieve('authorizationData'));
 
-                    if (this._configuration.startchecksession) {
+                    if (this._configuration.start_checksession) {
                         this._oidcSecurityCheckSession.init().then(() => {
                             this._oidcSecurityCheckSession.pollServerSession(result.session_state, 'angularclient');
                         });
+                    }
+
+                    if (this._configuration.silent_renew) {
+                        this._oidcSecuritySilentRenew.initRenew();
                     }
 
                     this._router.navigate([this._configuration.startupRoute]);
@@ -225,21 +233,20 @@ export class OidcSecurityService {
 
         this.ResetAuthorizationData();
 
-        if (this._configuration.startchecksession && this.CheckSessionChanged) {
+        if (this._configuration.start_checksession && this.CheckSessionChanged) {
             console.log('only local login cleaned up, server session has changed');
         } else {
             window.location.href = url;
         }
     }
 
-    private createAuthorizeUrl(nonce: string, state: string) :string {
+    private createAuthorizeUrl(nonce: string, state: string): string {
 
         let authorizationUrl = this._configuration.server + '/connect/authorize';
         let client_id = this._configuration.client_id;
         let redirect_uri = this._configuration.redirect_url;
         let response_type = this._configuration.response_type;
         let scope = this._configuration.scope;
-        
 
         let url =
             authorizationUrl + '?' +
@@ -253,6 +260,7 @@ export class OidcSecurityService {
         return url;
 
     }
+
     private onCheckSessionChanged() {
         console.log('onCheckSessionChanged');
         this.store('CheckSessionChanged', true);
@@ -260,7 +268,7 @@ export class OidcSecurityService {
     }
 
     public RefreshSession() {
-        console.log('BEGIN Authorize refresh session');
+        console.log('BEGIN refresh session Authorize');
 
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
@@ -271,7 +279,7 @@ export class OidcSecurityService {
 
         let url = this.createAuthorizeUrl(nonce, state);
 
-        this._oidcSecuritySilentRenew.renewSession(url);
+        this._oidcSecuritySilentRenew.startRenew(url);
     }
 
     private runGetSigningKeys() {
