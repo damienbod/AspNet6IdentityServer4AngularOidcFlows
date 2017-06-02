@@ -26,7 +26,8 @@
 <a href="https://damienbod.com/2016/10/01/identityserver4-webapi-and-angular2-in-a-single-asp-net-core-project/">IdentityServer4, WebAPI and Angular in a single ASP.NET Core project</a>
 	
 <a href="https://damienbod.com/2016/11/18/extending-identity-in-identityserver4-to-manage-users-in-asp-net-core/">Extending Identity in IdentityServer4 to manage users in ASP.NET Core</a>
-	
+
+<a href="https://damienbod.com/2017/06/02/implementing-a-silent-token-renew-in-angular-for-the-openid-connect-implicit-flow/">Implementing a silent token renew in Angular for the OpenID Connect Implicit flow</a>
 
 
 ## History
