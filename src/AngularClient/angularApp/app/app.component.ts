@@ -42,6 +42,11 @@ export class AppComponent implements OnInit {
         this.securityService.Authorize();
     }
 
+    public RefreshSession() {
+        console.log('Do refresh logic');
+        this.securityService.RefreshSession();
+    }
+
     public Logout() {
         console.log('Do logout logic');
         this.securityService.Logoff();

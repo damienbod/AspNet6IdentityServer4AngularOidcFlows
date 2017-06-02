@@ -12,6 +12,7 @@ using QuickstartIdentityServer;
 using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
+using IdentityServer4;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {

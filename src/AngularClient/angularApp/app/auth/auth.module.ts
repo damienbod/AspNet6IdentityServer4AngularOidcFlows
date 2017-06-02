@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { OidcSecurityService } from './services/oidc.security.service';
 import { AuthConfiguration } from './auth.configuration';
 import { OidcSecurityValidation } from './services/oidc.security.validation';
+import { OidcSecurityCheckSession } from './services/oidc.security.check-session';
+import { OidcSecuritySilentRenew } from './services/oidc.security.silent-renew';
 
 @NgModule({
     imports: [
@@ -22,6 +24,8 @@ export class AuthModule {
             providers: [
                 OidcSecurityService,
                 OidcSecurityValidation,
+                OidcSecurityCheckSession,
+                OidcSecuritySilentRenew,
                 AuthConfiguration
             ]
         };
