@@ -31,6 +31,8 @@
 
 ## History
 
+<strong>2017.06.02: </strong>Implemented silent renew for Angular 4 OpenID Connect Implicit flow and OpenID Connect Session Management
+
 <strong>2017.04.16: </strong>Updated to IdentityServer4 1.5.1, angular 4.1.3 and updated all other nuget packages
 
 <strong>2017.04.16: </strong>Updated to IdentityServer4 1.5.0, angular 4.0.2
