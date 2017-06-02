@@ -1,6 +1,4 @@
 ﻿import { Injectable, EventEmitter, Output } from '@angular/core';
-
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
@@ -14,10 +12,6 @@ import { AuthConfiguration } from '../auth.configuration';
 
 @Injectable()
 export class OidcSecurityCheckSession {
-
-    private expiresIn: number;
-    private authorizationTime: number;
-    private renewInSeconds = 30;
 
     private _sessionIframe: any;
     private _iframeMessageEvent: any;
