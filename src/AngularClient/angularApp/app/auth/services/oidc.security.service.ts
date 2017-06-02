@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
 import { OidcSecurityCheckSession } from './oidc.security.check-session';
+import { OidcSecuritySilentRenew } from './oidc.security.silent-renew';
 import { JwtKeys } from './jwtkeys';
 
 @Injectable()
@@ -26,7 +27,7 @@ export class OidcSecurityService {
     private errorMessage: string;
     private jwtKeys: JwtKeys;
 
-    constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router, private _oidcSecurityCheckSession: OidcSecurityCheckSession) {
+    constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router, private _oidcSecurityCheckSession: OidcSecurityCheckSession, private _oidcSecuritySilentRenew: OidcSecuritySilentRenew) {
 
         this.actionUrl = _configuration.server + 'api/DataEventRecords/';
         this.oidcSecurityValidation = new OidcSecurityValidation();
@@ -110,27 +111,14 @@ export class OidcSecurityService {
 
         console.log('BEGIN Authorize, no auth data');
 
-        let authorizationUrl = this._configuration.server + '/connect/authorize';
-        let client_id = this._configuration.client_id;
-        let redirect_uri = this._configuration.redirect_url;
-        let response_type = this._configuration.response_type;
-        let scope = this._configuration.scope;
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
-
+        
         this.store('authStateControl', state);
         this.store('authNonce', nonce);
         console.log('AuthorizedController created. adding myautostate: ' + this.retrieve('authStateControl'));
 
-        let url =
-            authorizationUrl + '?' +
-            'response_type=' + encodeURI(response_type) + '&' +
-            'client_id=' + encodeURI(client_id) + '&' +
-            'redirect_uri=' + encodeURI(redirect_uri) + '&' +
-            'scope=' + encodeURI(scope) + '&' +
-            'nonce=' + encodeURI(nonce) + '&' +
-            'state=' + encodeURI(state);
-
+        let url = this.createAuthorizeUrl(nonce, state);
         window.location.href = url;
     }
 
@@ -244,11 +232,48 @@ export class OidcSecurityService {
         }
     }
 
+    private createAuthorizeUrl(nonce: string, state: string) :string {
+
+        let authorizationUrl = this._configuration.server + '/connect/authorize';
+        let client_id = this._configuration.client_id;
+        let redirect_uri = this._configuration.redirect_url;
+        let response_type = this._configuration.response_type;
+        let scope = this._configuration.scope;
+        
+
+        let url =
+            authorizationUrl + '?' +
+            'response_type=' + encodeURI(response_type) + '&' +
+            'client_id=' + encodeURI(client_id) + '&' +
+            'redirect_uri=' + encodeURI(redirect_uri) + '&' +
+            'scope=' + encodeURI(scope) + '&' +
+            'nonce=' + encodeURI(nonce) + '&' +
+            'state=' + encodeURI(state);
+
+        return url;
+
+    }
     private onCheckSessionChanged() {
         console.log('onCheckSessionChanged');
         this.store('CheckSessionChanged', true);
         this.CheckSessionChanged = true;
     }
+
+    public RefreshSession() {
+        console.log('BEGIN Authorize refresh session');
+
+        let nonce = 'N' + Math.random() + '' + Date.now();
+        let state = Date.now() + '' + Math.random();
+
+        this.store('authStateControl', state);
+        this.store('authNonce', nonce);
+        console.log('RefreshSession created. adding myautostate: ' + this.retrieve('authStateControl'));
+
+        let url = this.createAuthorizeUrl(nonce, state);
+
+        this._oidcSecuritySilentRenew.renewSession(url);
+    }
+
     private runGetSigningKeys() {
         this.getSigningKeys()
             .subscribe(
