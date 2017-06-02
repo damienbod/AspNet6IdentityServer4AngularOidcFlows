@@ -67,11 +67,11 @@ export class OidcSecurityCheckSession {
             e.source === this._sessionIframe.contentWindow
         ) {
             if (e.data === 'error') {
-                console.log('error _messageHandler from check session op iframe');
+                console.log('error _messageHandler');
             } else if (e.data === 'changed') {
                 this.onCheckSessionChanged.emit();
             } else {
-                console.log(e.data + ' _messageHandler from check session op iframe');
+                console.log(e.data + ' _messageHandler');
             }
         }
     }
