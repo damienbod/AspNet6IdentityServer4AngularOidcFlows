@@ -46,22 +46,7 @@ export class OidcSecurityService {
     }
 
     public IsAuthorized(): boolean {
-        if (this._isAuthorized) {
-            if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
-                console.log('IsAuthorized: isTokenExpired');
-
-                if (this._configuration.silent_renew) {
-                    this.RefreshSession();
-                } else {
-                    this.ResetAuthorizationData();
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        return false;
+        return this._isAuthorized;
     }
 
     public GetToken(): any {
@@ -209,6 +194,7 @@ export class OidcSecurityService {
                         this._oidcSecuritySilentRenew.initRenew();
                     }
 
+                    this.runTokenValidatation();
                     this._router.navigate([this._configuration.startupRoute]);
                 } else {
                     this.ResetAuthorizationData();
@@ -356,5 +342,32 @@ export class OidcSecurityService {
         if (token !== '') {
             this.headers.append('Authorization', 'Bearer ' + token);
         }
+    }
+
+    private runTokenValidatation() {
+        let source = Observable.timer(3000, 3000)
+            .timeInterval()
+            .pluck('interval')
+            .take(10000);
+
+        let subscription = source.subscribe(() => {
+            if (this._isAuthorized) {
+                if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
+                    console.log('IsAuthorized: isTokenExpired');
+
+                    if (this._configuration.silent_renew) {
+                        this.RefreshSession();
+                    } else {
+                        this.ResetAuthorizationData();
+                    }
+                }
+            }
+        },
+        function (err: any) {
+            console.log('Error: ' + err);
+        },
+        function () {
+            console.log('Completed');
+        });
     }
 }
