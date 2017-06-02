@@ -10,8 +10,6 @@ import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/timer';
 import { AuthConfiguration } from '../auth.configuration';
 
-// http://openid.net/specs/openid-connect-session-1_0-ID4.html
-
 @Injectable()
 export class OidcSecuritySilentRenew {
 
