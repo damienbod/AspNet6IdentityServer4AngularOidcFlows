@@ -13,40 +13,40 @@ import { AuthConfiguration } from '../auth.configuration';
 @Injectable()
 export class OidcSecurityCheckSession {
 
-    private _sessionIframe: any;
-    private _iframeMessageEvent: any;
+    private sessionIframe: any;
+    private iframeMessageEvent: any;
 
-    @Output() public onCheckSessionChanged: EventEmitter<any> = new EventEmitter<any>(true);
+    @Output() onCheckSessionChanged: EventEmitter<any> = new EventEmitter<any>(true);
 
-    constructor(private _configuration: AuthConfiguration) {
+    constructor(private authConfiguration: AuthConfiguration) {
     }
 
-    public init() {
-        this._sessionIframe = window.document.createElement('iframe');
-        console.log(this._sessionIframe);
-        this._sessionIframe.style.display = 'none';
-        this._sessionIframe.src = this._configuration.checksession;
+    init() {
+        this.sessionIframe = window.document.createElement('iframe');
+        console.log(this.sessionIframe);
+        this.sessionIframe.style.display = 'none';
+        this.sessionIframe.src = this.authConfiguration.checksession;
 
-        window.document.body.appendChild(this._sessionIframe);
-        this._iframeMessageEvent = this._messageHandler.bind(this);
-        window.addEventListener('message', this._iframeMessageEvent, false);
+        window.document.body.appendChild(this.sessionIframe);
+        this.iframeMessageEvent = this.messageHandler.bind(this);
+        window.addEventListener('message', this.iframeMessageEvent, false);
 
         return new Promise((resolve) => {
-            this._sessionIframe.onload = () => {
+            this.sessionIframe.onload = () => {
                 resolve();
             }
         });
     }
 
-    public pollServerSession(session_state: any, clientId: any) {
+    pollServerSession(session_state: any, clientId: any) {
         let source = Observable.timer(3000, 3000)
             .timeInterval()
             .pluck('interval')
             .take(10000);
 
         let subscription = source.subscribe(() => {
-            console.log(this._sessionIframe);
-            this._sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this._configuration.server);
+            console.log(this.sessionIframe);
+            this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.server);
         },
             function (err: any) {
                 console.log('Error: ' + err);
@@ -56,9 +56,9 @@ export class OidcSecurityCheckSession {
             });
     }
 
-    private _messageHandler(e: any) {
-        if (e.origin === this._configuration.server &&
-            e.source === this._sessionIframe.contentWindow
+    private messageHandler(e: any) {
+        if (e.origin === this.authConfiguration.server &&
+            e.source === this.sessionIframe.contentWindow
         ) {
             if (e.data === 'error') {
                 console.log('error _messageHandler');
