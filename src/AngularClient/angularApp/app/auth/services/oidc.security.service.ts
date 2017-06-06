@@ -18,12 +18,11 @@ export class OidcSecurityService {
     public CheckSessionChanged: boolean;
     public UserData: any;
 
-    private _isAuthorized: boolean;
+    isAuthorized: boolean;
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
     private oidcSecurityValidation: OidcSecurityValidation;
-
     private errorMessage: string;
     private jwtKeys: JwtKeys;
 
@@ -39,14 +38,10 @@ export class OidcSecurityService {
 
         if (this.retrieve('_isAuthorized') !== '') {
             this.HasAdminRole = this.retrieve('HasAdminRole');
-            this._isAuthorized = this.retrieve('_isAuthorized');
+            this.isAuthorized = this.retrieve('_isAuthorized');
         }
 
         this._oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => { this.onCheckSessionChanged(); });
-    }
-
-    public IsAuthorized(): boolean {
-        return this._isAuthorized;
     }
 
     public GetToken(): any {
@@ -57,7 +52,7 @@ export class OidcSecurityService {
         this.store('authorizationData', '');
         this.store('authorizationDataIdToken', '');
 
-        this._isAuthorized = false;
+        this.isAuthorized = false;
         this.HasAdminRole = false;
         this.CheckSessionChanged = false;
         this.store('HasAdminRole', false);
@@ -75,7 +70,7 @@ export class OidcSecurityService {
         console.log('storing to storage, getting the roles');
         this.store('authorizationData', token);
         this.store('authorizationDataIdToken', id_token);
-        this._isAuthorized = true;
+        this.isAuthorized = true;
         this.store('_isAuthorized', true);
 
         this.getUserData()
@@ -352,7 +347,7 @@ export class OidcSecurityService {
             .take(10000);
 
         let subscription = source.subscribe(() => {
-            if (this._isAuthorized) {
+            if (this.isAuthorized) {
                 if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
                     console.log('IsAuthorized: isTokenExpired');
 
