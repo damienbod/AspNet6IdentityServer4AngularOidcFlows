@@ -42,10 +42,10 @@ export class OidcSecurityUserService {
             headers.append('Authorization', 'Bearer ' + access_token);
         }
 
-        if (this.userData) {
-            console.log(this.userData);
-            return Observable.from(this.userData);
-        }
+        //if (this.userData) {
+        //    console.log(this.userData);
+        //    return new Observable(this.userData);
+        //}
 
         return this.http.get(this.authConfiguration.userinfo_url, {
             headers: headers,
