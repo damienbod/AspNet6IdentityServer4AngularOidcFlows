@@ -11,6 +11,6 @@ export class HasAdminRoleCanLoadGuard implements CanLoad {
 
     canLoad(route: Route): boolean {
         console.log('excuting canLoad!');
-        return  this.securityService.HasUserAdminRole && this.securityService.IsAuthorized();
+        return  this.securityService.HasUserAdminRole && this.securityService.isAuthorized;
     }
 }

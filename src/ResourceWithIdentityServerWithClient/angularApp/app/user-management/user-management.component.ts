@@ -32,14 +32,14 @@ export class UserManagementComponent implements OnInit {
         this._userManagementService
             .GetAll()
             .subscribe(data => this.Users = data,
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => console.log('User Management Get all completed'));
     }
 
     public Update(user: User) {
         this._userManagementService.Update(user.id, user)
             .subscribe((() => console.log('subscribed')),
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => console.log('update request sent!'));
     }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
+import { OidcSecurityUserService } from '../auth/services/oidc.security.user-service';
 import { Observable }       from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -15,15 +16,33 @@ export class DataEventRecordsListComponent implements OnInit {
 
     public message: string;
     public DataEventRecords: DataEventRecord[];
+    hasAdminRole = false;
 
     constructor(
         private _dataEventRecordsService: DataEventRecordsService,
         public securityService: OidcSecurityService,
-        private _router: Router) {
+        public oidcSecurityUserService: OidcSecurityUserService,
+        private _router: Router
+    ) {
         this.message = 'DataEventRecords';
     }
 
     ngOnInit() {
+        this.oidcSecurityUserService.getUserData()
+            .subscribe(userData => {
+                for (let i = 0; i < userData.role.length; i++) {
+                    if (userData.role[i] === 'dataEventRecords.admin') {
+                        console.log('user is dataEventRecords.admin');
+                        this.hasAdminRole = true;
+                    }
+                    if (userData.role[i] === 'admin') {
+                        console.log('user is admin');
+                    }
+                }
+
+                console.log(userData);
+            });
+
         this.getData();
     }
 
@@ -31,7 +50,7 @@ export class DataEventRecordsListComponent implements OnInit {
         console.log('Try to delete' + id);
         this._dataEventRecordsService.Delete(id)
             .subscribe((() => console.log('subscribed')),
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => this.getData());
     }
 
@@ -40,7 +59,7 @@ export class DataEventRecordsListComponent implements OnInit {
         this._dataEventRecordsService
             .GetAll()
             .subscribe(data => this.DataEventRecords = data,
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => console.log('Get all completed'));
     }
 
