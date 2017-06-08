@@ -15,7 +15,7 @@ export class OidcSecurityService {
 
     public HasAdminRole: boolean;
     public HasUserAdminRole: boolean;
-    public CheckSessionChanged: boolean;
+    checkSessionChanged: boolean;
     public UserData: any;
 
     isAuthorized: boolean;
@@ -54,7 +54,7 @@ export class OidcSecurityService {
 
         this.isAuthorized = false;
         this.HasAdminRole = false;
-        this.CheckSessionChanged = false;
+        this.checkSessionChanged = false;
         this.store('HasAdminRole', false);
         this.store('_isAuthorized', false);
         this.store('CheckSessionChanged', false);
@@ -215,7 +215,7 @@ export class OidcSecurityService {
 
         this.ResetAuthorizationData();
 
-        if (this._configuration.start_checksession && this.CheckSessionChanged) {
+        if (this._configuration.start_checksession && this.checkSessionChanged) {
             console.log('only local login cleaned up, server session has changed');
         } else {
             window.location.href = url;
@@ -246,7 +246,7 @@ export class OidcSecurityService {
     private onCheckSessionChanged() {
         console.log('onCheckSessionChanged');
         this.store('CheckSessionChanged', true);
-        this.CheckSessionChanged = true;
+        this.checkSessionChanged = true;
     }
 
     public RefreshSession() {
