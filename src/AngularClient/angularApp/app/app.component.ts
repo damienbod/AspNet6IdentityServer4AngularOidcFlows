@@ -33,22 +33,22 @@ export class AppComponent implements OnInit {
         console.log('ngOnInit _securityService.AuthorizedCallback');
 
         if (window.location.hash) {
-            this.securityService.AuthorizedCallback();
+            this.securityService.authorizedCallback();
         }
     }
 
-    public Login() {
+    login() {
         console.log('Do login logic');
-        this.securityService.Authorize();
+        this.securityService.authorize();
     }
 
-    public RefreshSession() {
+    refreshSession() {
         console.log('Do refresh logic');
-        this.securityService.RefreshSession();
+        this.securityService.refreshSession();
     }
 
-    public Logout() {
+    logout() {
         console.log('Do logout logic');
-        this.securityService.Logoff();
+        this.securityService.logoff();
     }
 }

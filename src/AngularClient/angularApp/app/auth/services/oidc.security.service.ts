@@ -90,7 +90,7 @@ export class OidcSecurityService {
             });
     }
 
-    public Authorize() {
+    authorize() {
         this.ResetAuthorizationData();
 
         console.log('BEGIN Authorize, no auth data');
@@ -106,7 +106,7 @@ export class OidcSecurityService {
         window.location.href = url;
     }
 
-    public AuthorizedCallback() {
+    authorizedCallback() {
         console.log('BEGIN AuthorizedCallback, no auth data');
         this.ResetAuthorizationData();
 
@@ -199,7 +199,7 @@ export class OidcSecurityService {
             });
     }
 
-    public Logoff() {
+    logoff() {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         console.log('BEGIN Authorize, no auth data');
 
@@ -220,6 +220,21 @@ export class OidcSecurityService {
         } else {
             window.location.href = url;
         }
+    }
+
+    refreshSession() {
+        console.log('BEGIN refresh session Authorize');
+
+        let nonce = 'N' + Math.random() + '' + Date.now();
+        let state = Date.now() + '' + Math.random();
+
+        this.store('authStateControl', state);
+        this.store('authNonce', nonce);
+        console.log('RefreshSession created. adding myautostate: ' + this.retrieve('authStateControl'));
+
+        let url = this.createAuthorizeUrl(nonce, state);
+
+        this._oidcSecuritySilentRenew.startRenew(url);
     }
 
     private createAuthorizeUrl(nonce: string, state: string): string {
@@ -249,21 +264,7 @@ export class OidcSecurityService {
         this.checkSessionChanged = true;
     }
 
-    public RefreshSession() {
-        console.log('BEGIN refresh session Authorize');
-
-        let nonce = 'N' + Math.random() + '' + Date.now();
-        let state = Date.now() + '' + Math.random();
-
-        this.store('authStateControl', state);
-        this.store('authNonce', nonce);
-        console.log('RefreshSession created. adding myautostate: ' + this.retrieve('authStateControl'));
-
-        let url = this.createAuthorizeUrl(nonce, state);
-
-        this._oidcSecuritySilentRenew.startRenew(url);
-    }
-
+    
     private runGetSigningKeys() {
         this.getSigningKeys()
             .subscribe(
@@ -352,7 +353,7 @@ export class OidcSecurityService {
                     console.log('IsAuthorized: isTokenExpired');
 
                     if (this._configuration.silent_renew) {
-                        this.RefreshSession();
+                        this.refreshSession();
                     } else {
                         this.ResetAuthorizationData();
                     }
