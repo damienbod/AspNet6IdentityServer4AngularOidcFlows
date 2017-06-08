@@ -28,7 +28,7 @@ export class DataEventRecordsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.oidcSecurityUserService.getUserData(this.securityService.getToken())
+        this.oidcSecurityUserService.getUserData()
             .subscribe(userData => {
                 for (let i = 0; i < userData.role.length; i++) {
                     if (userData.role[i] === 'dataEventRecords.admin') {
