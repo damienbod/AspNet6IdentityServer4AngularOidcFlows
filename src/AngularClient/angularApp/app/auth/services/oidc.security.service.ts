@@ -136,22 +136,26 @@ export class OidcSecurityService {
 
                 if (authResponseIsValid) {
                     this.setAuthorizationData(token, id_token);
-                    this.oidcSecurityUserService.initUserData();
-                    console.log(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
+                    this.oidcSecurityUserService.initUserData()
+                        .subscribe(() => {
+                            this.oidcSecurityUserService.onUserDataLoaded.emit();
+                            console.log(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
 
-                    if (this.authConfiguration.start_checksession) {
-                        this.oidcSecurityCheckSession.init().then(() => {
-                            this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
+                            if (this.authConfiguration.start_checksession) {
+                                this.oidcSecurityCheckSession.init().then(() => {
+                                    this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
+                                });
+                            }
+
+                            if (this.authConfiguration.silent_renew) {
+                                this.oidcSecuritySilentRenew.initRenew();
+                            }
+
+                            this.runTokenValidatation();
+
+                            this.router.navigate([this.authConfiguration.startup_route]);
                         });
-                    }
 
-                    if (this.authConfiguration.silent_renew) {
-                        this.oidcSecuritySilentRenew.initRenew();
-                    }
-
-                    this.runTokenValidatation();
-
-                    this.router.navigate([this.authConfiguration.startup_route]);
                 } else {
                     this.resetAuthorizationData();
                     this.router.navigate([this.authConfiguration.unauthorized_route]);
