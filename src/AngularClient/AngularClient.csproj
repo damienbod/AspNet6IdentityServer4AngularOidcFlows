@@ -25,4 +25,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.2" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="angularApp\app\auth\services\oidc.security.common.js">
+      <DependentUpon>oidc.security.common.ts</DependentUpon>
+    </None>
+  </ItemGroup>
 </Project>

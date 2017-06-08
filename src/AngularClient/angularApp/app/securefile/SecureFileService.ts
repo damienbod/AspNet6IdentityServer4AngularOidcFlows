@@ -29,7 +29,7 @@ export class SecureFileService {
             data => {
                 oneTimeAccessToken = data;
             },
-            error => this._securityService.HandleError(error),
+            error => this._securityService.handleError(error),
             () => {
                 console.log(`open DownloadFile for file ${id}: ${this.actionUrl}${oneTimeAccessToken}`);
                 window.open(`${this.actionUrl}${oneTimeAccessToken}`);
@@ -49,7 +49,7 @@ export class SecureFileService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        let token = this._securityService.GetToken();
+        let token = this._securityService.getToken();
 
         if (token !== '') {
             this.headers.append('Authorization', 'Bearer ' + token);
