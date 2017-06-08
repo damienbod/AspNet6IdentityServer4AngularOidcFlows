@@ -8,15 +8,13 @@ import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
 import { OidcSecurityCheckSession } from './oidc.security.check-session';
 import { OidcSecuritySilentRenew } from './oidc.security.silent-renew';
+import { OidcSecurityUserService } from './oidc.security.user-service';
 import { JwtKeys } from './jwtkeys';
 
 @Injectable()
 export class OidcSecurityService {
 
-    public HasAdminRole: boolean;
-    public HasUserAdminRole: boolean;
     checkSessionChanged: boolean;
-    public UserData: any;
     isAuthorized: boolean;
 
     private actionUrl: string;
@@ -30,7 +28,8 @@ export class OidcSecurityService {
         private authConfiguration: AuthConfiguration,
         private _router: Router,
         private oidcSecurityCheckSession: OidcSecurityCheckSession,
-        private oidcSecuritySilentRenew: OidcSecuritySilentRenew
+        private oidcSecuritySilentRenew: OidcSecuritySilentRenew,
+        private oidcSecurityUserService: OidcSecurityUserService
     ) {
 
         this.actionUrl = authConfiguration.server + 'api/DataEventRecords/';
@@ -42,7 +41,6 @@ export class OidcSecurityService {
         this.storage = sessionStorage; //localStorage;
 
         if (this.retrieve('_isAuthorized') !== '') {
-            this.HasAdminRole = this.retrieve('HasAdminRole');
             this.isAuthorized = this.retrieve('_isAuthorized');
         }
 
@@ -223,21 +221,7 @@ export class OidcSecurityService {
         this.isAuthorized = true;
         this.store('_isAuthorized', true);
 
-        this.getUserData()
-            .subscribe(data => this.UserData = data,
-            error => this.handleError(error),
-            () => {
-                for (let i = 0; i < this.UserData.role.length; i++) {
-                    if (this.UserData.role[i] === 'dataEventRecords.admin') {
-                        this.HasAdminRole = true;
-                        this.store('HasAdminRole', true);
-                    }
-                    if (this.UserData.role[i] === 'admin') {
-                        this.HasUserAdminRole = true;
-                        this.store('HasUserAdminRole', true);
-                    }
-                }
-            });
+        this.oidcSecurityUserService.initUserData(this.getToken());
     }
 
     private createAuthorizeUrl(nonce: string, state: string): string {
@@ -266,9 +250,8 @@ export class OidcSecurityService {
         this.store('authorizationDataIdToken', '');
 
         this.isAuthorized = false;
-        this.HasAdminRole = false;
+        this.oidcSecurityUserService.resetUserData();
         this.checkSessionChanged = false;
-        this.store('HasAdminRole', false);
         this.store('_isAuthorized', false);
         this.store('CheckSessionChanged', false);
     }

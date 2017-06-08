@@ -28,7 +28,6 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
 
     ngOnInit() {
         console.log('IsAuthorized:' + this.securityService.isAuthorized);
-        console.log('HasAdminRole:' + this.securityService.HasAdminRole);
 
         this.sub = this._route.params.subscribe(params => {
             let id = +params['id']; // (+) converts string 'id' to a number

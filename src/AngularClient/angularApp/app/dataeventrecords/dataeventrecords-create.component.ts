@@ -22,7 +22,6 @@ export class DataEventRecordsCreateComponent implements OnInit {
     ngOnInit() {
         this.DataEventRecord = { Id: 0, Name: '', Description: '' };
         console.log('IsAuthorized:' + this.securityService.isAuthorized);
-        console.log('HasAdminRole:' + this.securityService.HasAdminRole);
     }
 
     public Create() {
