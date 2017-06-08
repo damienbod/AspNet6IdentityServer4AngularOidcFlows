@@ -18,7 +18,6 @@ export class OidcSecurityService {
     checkSessionChanged: boolean;
     isAuthorized: boolean;
 
-    private actionUrl: string;
     private headers: Headers;
     private oidcSecurityValidation: OidcSecurityValidation;
     private errorMessage: string;
@@ -33,8 +32,6 @@ export class OidcSecurityService {
         private oidcSecurityUserService: OidcSecurityUserService,
         private oidcSecurityCommon: OidcSecurityCommon
     ) {
-
-        this.actionUrl = authConfiguration.server + 'api/DataEventRecords/';
         this.oidcSecurityValidation = new OidcSecurityValidation();
 
         this.headers = new Headers();
@@ -216,7 +213,7 @@ export class OidcSecurityService {
 
     private createAuthorizeUrl(nonce: string, state: string): string {
 
-        let authorizationUrl = this.authConfiguration.server + '/connect/authorize';
+        let authorizationUrl = this.authConfiguration.authorise_url;
         let client_id = this.authConfiguration.client_id;
         let redirect_uri = this.authConfiguration.redirect_url;
         let response_type = this.authConfiguration.response_type;

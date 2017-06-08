@@ -13,6 +13,8 @@ export class AuthConfiguration {
     // This is required to get the signing keys so that the signiture of the Jwt can be validated.
     jwks_url = 'https://localhost:44318/.well-known/openid-configuration/jwks';
 
+    authorise_url = 'https://localhost:44318/connect/authorize';
+
     userinfo_url = 'https://localhost:44318/connect/userinfo';
 
     logoutEndSession_url = 'https://localhost:44318/connect/endsession';
