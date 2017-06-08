@@ -14,8 +14,8 @@
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav">
                     <li><a [routerLink]="['/dataeventrecords/list']" *ngIf="securityService.isAuthorized">dataEventRecords</a></li>
-                    <li><a [routerLink]="['/dataeventrecords/create']" *ngIf="(securityService.isAuthorized)">create dataEventRecord</a></li>
-                    <li><a [routerLink]="['/usermanagement']" *ngIf="(securityService.isAuthorized)">user-management</a></li>
+                    <li><a [routerLink]="['/dataeventrecords/create']" *ngIf="(securityService.isAuthorized && hasDataEventRecordsAdminRole)">create dataEventRecord</a></li>
+                    <li><a [routerLink]="['/usermanagement']" *ngIf="(securityService.isAuthorized && hasAdminRole)">user-management</a></li>
 
                     <li><a class="navigationLinkButton" *ngIf="!securityService.isAuthorized" (click)="Login()">Login</a></li>
                     <li><a class="navigationLinkButton" *ngIf="securityService.isAuthorized" (click)="Logout()">Logout</a></li>
