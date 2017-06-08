@@ -12,7 +12,7 @@ import { AuthConfiguration } from '../auth.configuration';
 @Injectable()
 export class OidcSecurityUserService {
 
-    userData: Observable<any>;
+    private userData: any;
 
     // TODO refactor this to a common
     private storage: any;
@@ -33,7 +33,7 @@ export class OidcSecurityUserService {
             error => this.handleError(error) );
     }
 
-    private getUserData = (access_token: any): Observable<any> => {
+    public getUserData = (access_token: any): Observable<any> => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');

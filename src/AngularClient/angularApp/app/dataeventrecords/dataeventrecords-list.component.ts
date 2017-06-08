@@ -28,9 +28,11 @@ export class DataEventRecordsListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.oidcSecurityUserService.getUserData(this.securityService.getToken())
+            .subscribe(val => console.log(val));
+
         this.getData();
-        let userdata = this.oidcSecurityUserService.userData;
-        console.log(userdata);
+        
         //this.hasAdminRole = userdata.
 
         //for(let i = 0; i < this.userData.role.length; i++) {
