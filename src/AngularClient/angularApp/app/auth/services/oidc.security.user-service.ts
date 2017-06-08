@@ -12,7 +12,7 @@ import { AuthConfiguration } from '../auth.configuration';
 @Injectable()
 export class OidcSecurityUserService {
 
-    userData: any;
+    userData: Observable<any>;
 
     // TODO refactor this to a common
     private storage: any;
@@ -25,7 +25,6 @@ export class OidcSecurityUserService {
         if (this.retrieve('userData') !== '') {
             this.userData = this.retrieve('userData');
         }
-
     }
 
     initUserData(access_token: any) {
@@ -34,7 +33,7 @@ export class OidcSecurityUserService {
             error => this.handleError(error) );
     }
 
-    getUserData = (access_token: any): Observable<any> => {
+    private getUserData = (access_token: any): Observable<any> => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -46,6 +45,7 @@ export class OidcSecurityUserService {
         if (this.userData) {
             return Observable.from(this.userData);
         }
+
         return this.http.get(this.authConfiguration.userinfo_url, {
             headers: headers,
             body: ''
@@ -54,7 +54,7 @@ export class OidcSecurityUserService {
 
     public resetUserData() {
         this.userData = null;
-        this.store('userData', null);
+        this.store('userData', '');
     }
 
     // TODO refactor this to a common

@@ -138,6 +138,7 @@ export class OidcSecurityService {
 
                 if (authResponseIsValid) {
                     this.setAuthorizationData(token, id_token);
+                    this.oidcSecurityUserService.initUserData(this.getToken());
                     console.log(this.retrieve('authorizationData'));
 
                     if (this.authConfiguration.start_checksession) {
@@ -220,8 +221,6 @@ export class OidcSecurityService {
         this.store('authorizationDataIdToken', id_token);
         this.isAuthorized = true;
         this.store('_isAuthorized', true);
-
-        this.oidcSecurityUserService.initUserData(this.getToken());
     }
 
     private createAuthorizeUrl(nonce: string, state: string): string {
@@ -306,14 +305,6 @@ export class OidcSecurityService {
 
     private store(key: string, value: any) {
         this.storage.setItem(key, JSON.stringify(value));
-    }
-
-    private getUserData = (): Observable<string[]> => {
-        this.setHeaders();
-        return this._http.get(this.authConfiguration.userinfo_url, {
-            headers: this.headers,
-            body: ''
-        }).map(res => res.json());
     }
 
     private setHeaders() {
