@@ -17,7 +17,7 @@ export class DataEventRecordsListComponent implements OnInit {
 
     message: string;
     DataEventRecords: DataEventRecord[];
-    hasAdminRole = true;
+    hasAdminRole = false;
 
     constructor(
         private _dataEventRecordsService: DataEventRecordsService,
@@ -29,22 +29,21 @@ export class DataEventRecordsListComponent implements OnInit {
 
     ngOnInit() {
         this.oidcSecurityUserService.getUserData(this.securityService.getToken())
-            .subscribe(val => console.log(val));
+            .subscribe(userData => {
+                for (let i = 0; i < userData.role.length; i++) {
+                    if (userData.role[i] === 'dataEventRecords.admin') {
+                        console.log('user is dataEventRecords.admin');
+                        this.hasAdminRole = true;
+                    }
+                    if (userData.role[i] === 'admin') {
+                        console.log('user is admin');
+                    }
+                }
+
+                console.log(userData);
+            });
 
         this.getData();
-        
-        //this.hasAdminRole = userdata.
-
-        //for(let i = 0; i < this.userData.role.length; i++) {
-        //    if (this.userData.role[i] === 'dataEventRecords.admin') {
-        //        this.hasAdminRole = true;
-        //        this.store('HasAdminRole', true);
-        //    }
-        //    if (this.userData.role[i] === 'admin') {
-        //        this.hasUserAdminRole = true;
-        //        this.store('HasUserAdminRole', true);
-        //    }
-        //}
     }
 
     public Delete(id: any) {

@@ -43,6 +43,7 @@ export class OidcSecurityUserService {
         }
 
         if (this.userData) {
+            console.log(this.userData);
             return Observable.from(this.userData);
         }
 
