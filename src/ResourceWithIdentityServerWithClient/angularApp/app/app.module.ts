@@ -20,6 +20,7 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
 
 import { UserManagementComponent } from './user-management/user-management.component';
 
+import { NavigationComponent } from './navigation/navigation.component';
 
 import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
 import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
@@ -43,7 +44,8 @@ import { AuthModule } from './auth/auth.module';
         DataEventRecordsListComponent,
         DataEventRecordsCreateComponent,
         DataEventRecordsEditComponent,
-        UserManagementComponent
+        UserManagementComponent,
+        NavigationComponent,
     ],
     providers: [
         DataEventRecordsService,

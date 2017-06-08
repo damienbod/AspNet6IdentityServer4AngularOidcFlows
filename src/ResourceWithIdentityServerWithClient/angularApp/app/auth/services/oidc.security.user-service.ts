@@ -13,7 +13,7 @@ import { OidcSecurityCommon } from './oidc.security.common';
 @Injectable()
 export class OidcSecurityUserService {
 
-    private userData: any;
+    public userData: any;
 
     constructor(private http: Http, private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
 
