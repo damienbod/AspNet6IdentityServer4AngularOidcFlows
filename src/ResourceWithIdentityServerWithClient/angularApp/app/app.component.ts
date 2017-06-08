@@ -24,8 +24,8 @@ import './app.component.scss';
 
 export class AppComponent implements OnInit {
 
-    hasAdminRole = false;
-    hasDataEventRecordsAdminRole = false;
+    hasAdminRole = true;
+    hasDataEventRecordsAdminRole = true;
 
     constructor(
         public securityService: OidcSecurityService,
@@ -38,18 +38,6 @@ export class AppComponent implements OnInit {
 
         if (window.location.hash) {
             this.securityService.authorizedCallback();
-
-            this.oidcSecurityUserService.getUserData()
-                .subscribe(userData => {
-                    for (let i = 0; i < userData.role.length; i++) {
-                        if (userData.role[i] === 'dataEventRecords.admin') {
-                            this.hasDataEventRecordsAdminRole = true;
-                        }
-                        if (userData.role[i] === 'admin') {
-                            this.hasAdminRole = true;
-                        }
-                    }
-                });
         }
     }
 
