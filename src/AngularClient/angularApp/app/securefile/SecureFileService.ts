@@ -49,7 +49,7 @@ export class SecureFileService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        let token = this._securityService.GetToken();
+        let token = this._securityService.getToken();
 
         if (token !== '') {
             this.headers.append('Authorization', 'Bearer ' + token);

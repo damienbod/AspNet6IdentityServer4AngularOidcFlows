@@ -44,7 +44,7 @@ export class OidcSecurityService {
         this._oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => { this.onCheckSessionChanged(); });
     }
 
-    public GetToken(): any {
+    getToken(): any {
         return this.retrieve('authorizationData');
     }
 
@@ -333,7 +333,7 @@ export class OidcSecurityService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        let token = this.GetToken();
+        let token = this.getToken();
 
         if (token !== '') {
             this.headers.append('Authorization', 'Bearer ' + token);

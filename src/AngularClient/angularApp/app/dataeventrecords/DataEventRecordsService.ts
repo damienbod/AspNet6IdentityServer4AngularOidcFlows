@@ -24,7 +24,7 @@ export class DataEventRecordsService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        let token = this._securityService.GetToken();
+        let token = this._securityService.getToken();
         if (token !== '') {
             let tokenValue = 'Bearer ' + token;
             console.log('tokenValue:' + tokenValue);
