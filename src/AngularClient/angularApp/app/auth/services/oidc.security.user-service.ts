@@ -17,8 +17,8 @@ export class OidcSecurityUserService {
 
     constructor(private http: Http, private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
 
-        if (this.oidcSecurityCommon.retrieve('userData') !== '') {
-            this.userData = this.oidcSecurityCommon.retrieve('userData');
+        if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_userData) !== '') {
+            this.userData = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_userData);
         }
     }
 
@@ -33,7 +33,7 @@ export class OidcSecurityUserService {
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
 
-        let token = this.oidcSecurityCommon.getToken();
+        let token = this.oidcSecurityCommon.getAccessToken();
 
         if (token !== '') {
             headers.append('Authorization', 'Bearer ' + token);

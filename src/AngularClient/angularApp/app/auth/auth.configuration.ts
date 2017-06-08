@@ -35,7 +35,7 @@ export class AuthConfiguration {
 
     startup_route = '/dataeventrecords/list';
 
-    // HTTP 403 
+    // HTTP 403
     forbidden_route = '/Forbidden';
 
     // HTTP 401

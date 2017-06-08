@@ -77,6 +77,8 @@ export class OidcSecurityValidation {
     }
 
     validateStateFromHashCallback(state: any, local_state: any): boolean {
+        console.log(state);
+        console.log(local_state);
         if (state !== local_state) {
             console.log('ValidateStateFromHashCallback failed');
             return false;
