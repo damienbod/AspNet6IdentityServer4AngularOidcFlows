@@ -35,7 +35,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
             if (!this.DataEventRecord) {
                 this._dataEventRecordsService.GetById(id)
                     .subscribe(data => this.DataEventRecord = data,
-                    error => this.securityService.HandleError(error),
+                    error => this.securityService.handleError(error),
                     () => console.log('DataEventRecordsEditComponent:Get by Id complete'));
             }
         });
@@ -49,7 +49,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
         // router navigate to DataEventRecordsList
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe((() => console.log('subscribed')),
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => this._router.navigate(['/dataeventrecords']));
     }
 }

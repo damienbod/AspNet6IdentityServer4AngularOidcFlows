@@ -29,7 +29,7 @@ export class SecureFileService {
             data => {
                 oneTimeAccessToken = data;
             },
-            error => this._securityService.HandleError(error),
+            error => this._securityService.handleError(error),
             () => {
                 console.log(`open DownloadFile for file ${id}: ${this.actionUrl}${oneTimeAccessToken}`);
                 window.open(`${this.actionUrl}${oneTimeAccessToken}`);

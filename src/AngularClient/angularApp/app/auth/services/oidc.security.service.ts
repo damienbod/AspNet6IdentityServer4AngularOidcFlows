@@ -17,8 +17,8 @@ export class OidcSecurityService {
     public HasUserAdminRole: boolean;
     checkSessionChanged: boolean;
     public UserData: any;
-
     isAuthorized: boolean;
+
     private actionUrl: string;
     private headers: Headers;
     private storage: any;
@@ -26,9 +26,14 @@ export class OidcSecurityService {
     private errorMessage: string;
     private jwtKeys: JwtKeys;
 
-    constructor(private _http: Http, private _configuration: AuthConfiguration, private _router: Router, private _oidcSecurityCheckSession: OidcSecurityCheckSession, private _oidcSecuritySilentRenew: OidcSecuritySilentRenew) {
+    constructor(private _http: Http,
+        private authConfiguration: AuthConfiguration,
+        private _router: Router,
+        private oidcSecurityCheckSession: OidcSecurityCheckSession,
+        private oidcSecuritySilentRenew: OidcSecuritySilentRenew
+    ) {
 
-        this.actionUrl = _configuration.server + 'api/DataEventRecords/';
+        this.actionUrl = authConfiguration.server + 'api/DataEventRecords/';
         this.oidcSecurityValidation = new OidcSecurityValidation();
 
         this.headers = new Headers();
@@ -41,57 +46,15 @@ export class OidcSecurityService {
             this.isAuthorized = this.retrieve('_isAuthorized');
         }
 
-        this._oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => { this.onCheckSessionChanged(); });
+        this.oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => { this.onCheckSessionChanged(); });
     }
 
     getToken(): any {
         return this.retrieve('authorizationData');
     }
 
-    public ResetAuthorizationData() {
-        this.store('authorizationData', '');
-        this.store('authorizationDataIdToken', '');
-
-        this.isAuthorized = false;
-        this.HasAdminRole = false;
-        this.checkSessionChanged = false;
-        this.store('HasAdminRole', false);
-        this.store('_isAuthorized', false);
-        this.store('CheckSessionChanged', false);
-    }
-
-    public SetAuthorizationData(token: any, id_token: any) {
-        if (this.retrieve('authorizationData') !== '') {
-            this.store('authorizationData', '');
-        }
-
-        console.log(token);
-        console.log(id_token);
-        console.log('storing to storage, getting the roles');
-        this.store('authorizationData', token);
-        this.store('authorizationDataIdToken', id_token);
-        this.isAuthorized = true;
-        this.store('_isAuthorized', true);
-
-        this.getUserData()
-            .subscribe(data => this.UserData = data,
-            error => this.HandleError(error),
-            () => {
-                for (let i = 0; i < this.UserData.role.length; i++) {
-                    if (this.UserData.role[i] === 'dataEventRecords.admin') {
-                        this.HasAdminRole = true;
-                        this.store('HasAdminRole', true);
-                    }
-                    if (this.UserData.role[i] === 'admin') {
-                        this.HasUserAdminRole = true;
-                        this.store('HasUserAdminRole', true);
-                    }
-                }
-            });
-    }
-
     authorize() {
-        this.ResetAuthorizationData();
+        this.resetAuthorizationData();
 
         console.log('BEGIN Authorize, no auth data');
 
@@ -108,7 +71,7 @@ export class OidcSecurityService {
 
     authorizedCallback() {
         console.log('BEGIN AuthorizedCallback, no auth data');
-        this.ResetAuthorizationData();
+        this.resetAuthorizationData();
 
         let hash = window.location.hash.substr(1);
 
@@ -145,9 +108,9 @@ export class OidcSecurityService {
                             // validate nonce
                             if (this.oidcSecurityValidation.validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
                                 // validate iss
-                                if (this.oidcSecurityValidation.validate_id_token_iss(decoded, this._configuration.iss)) {
+                                if (this.oidcSecurityValidation.validate_id_token_iss(decoded, this.authConfiguration.iss)) {
                                     // validate aud
-                                    if (this.oidcSecurityValidation.validate_id_token_aud(decoded, this._configuration.client_id)) {
+                                    if (this.oidcSecurityValidation.validate_id_token_aud(decoded, this.authConfiguration.client_id)) {
                                         // valiadate at_hash and access_token
                                         if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded.at_hash) || !token) {
                                             this.store('authNonce', '');
@@ -176,24 +139,24 @@ export class OidcSecurityService {
                 }
 
                 if (authResponseIsValid) {
-                    this.SetAuthorizationData(token, id_token);
+                    this.setAuthorizationData(token, id_token);
                     console.log(this.retrieve('authorizationData'));
 
-                    if (this._configuration.start_checksession) {
-                        this._oidcSecurityCheckSession.init().then(() => {
-                            this._oidcSecurityCheckSession.pollServerSession(result.session_state, 'angularclient');
+                    if (this.authConfiguration.start_checksession) {
+                        this.oidcSecurityCheckSession.init().then(() => {
+                            this.oidcSecurityCheckSession.pollServerSession(result.session_state, 'angularclient');
                         });
                     }
 
-                    if (this._configuration.silent_renew) {
-                        this._oidcSecuritySilentRenew.initRenew();
+                    if (this.authConfiguration.silent_renew) {
+                        this.oidcSecuritySilentRenew.initRenew();
                     }
 
                     this.runTokenValidatation();
 
-                    this._router.navigate([this._configuration.startupRoute]);
+                    this._router.navigate([this.authConfiguration.startupRoute]);
                 } else {
-                    this.ResetAuthorizationData();
+                    this.resetAuthorizationData();
                     this._router.navigate(['/Unauthorized']);
                 }
             });
@@ -203,19 +166,19 @@ export class OidcSecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         console.log('BEGIN Authorize, no auth data');
 
-        let authorizationEndsessionUrl = this._configuration.logoutEndSession_url;
+        let authorizationEndsessionUrl = this.authConfiguration.logoutEndSession_url;
 
         let id_token_hint = this.retrieve('authorizationDataIdToken');
-        let post_logout_redirect_uri = this._configuration.post_logout_redirect_uri;
+        let post_logout_redirect_uri = this.authConfiguration.post_logout_redirect_uri;
 
         let url =
             authorizationEndsessionUrl + '?' +
             'id_token_hint=' + encodeURI(id_token_hint) + '&' +
             'post_logout_redirect_uri=' + encodeURI(post_logout_redirect_uri);
 
-        this.ResetAuthorizationData();
+        this.resetAuthorizationData();
 
-        if (this._configuration.start_checksession && this.checkSessionChanged) {
+        if (this.authConfiguration.start_checksession && this.checkSessionChanged) {
             console.log('only local login cleaned up, server session has changed');
         } else {
             window.location.href = url;
@@ -234,16 +197,56 @@ export class OidcSecurityService {
 
         let url = this.createAuthorizeUrl(nonce, state);
 
-        this._oidcSecuritySilentRenew.startRenew(url);
+        this.oidcSecuritySilentRenew.startRenew(url);
+    }
+
+    handleError(error: any) {
+        console.log(error);
+        if (error.status == 403) {
+            this._router.navigate(['/Forbidden']);
+        } else if (error.status == 401) {
+            this.resetAuthorizationData();
+            this._router.navigate(['/Unauthorized']);
+        }
+    }
+
+    private setAuthorizationData(token: any, id_token: any) {
+        if (this.retrieve('authorizationData') !== '') {
+            this.store('authorizationData', '');
+        }
+
+        console.log(token);
+        console.log(id_token);
+        console.log('storing to storage, getting the roles');
+        this.store('authorizationData', token);
+        this.store('authorizationDataIdToken', id_token);
+        this.isAuthorized = true;
+        this.store('_isAuthorized', true);
+
+        this.getUserData()
+            .subscribe(data => this.UserData = data,
+            error => this.handleError(error),
+            () => {
+                for (let i = 0; i < this.UserData.role.length; i++) {
+                    if (this.UserData.role[i] === 'dataEventRecords.admin') {
+                        this.HasAdminRole = true;
+                        this.store('HasAdminRole', true);
+                    }
+                    if (this.UserData.role[i] === 'admin') {
+                        this.HasUserAdminRole = true;
+                        this.store('HasUserAdminRole', true);
+                    }
+                }
+            });
     }
 
     private createAuthorizeUrl(nonce: string, state: string): string {
 
-        let authorizationUrl = this._configuration.server + '/connect/authorize';
-        let client_id = this._configuration.client_id;
-        let redirect_uri = this._configuration.redirect_url;
-        let response_type = this._configuration.response_type;
-        let scope = this._configuration.scope;
+        let authorizationUrl = this.authConfiguration.server + '/connect/authorize';
+        let client_id = this.authConfiguration.client_id;
+        let redirect_uri = this.authConfiguration.redirect_url;
+        let response_type = this.authConfiguration.response_type;
+        let scope = this.authConfiguration.scope;
 
         let url =
             authorizationUrl + '?' +
@@ -258,13 +261,24 @@ export class OidcSecurityService {
 
     }
 
+    private resetAuthorizationData() {
+        this.store('authorizationData', '');
+        this.store('authorizationDataIdToken', '');
+
+        this.isAuthorized = false;
+        this.HasAdminRole = false;
+        this.checkSessionChanged = false;
+        this.store('HasAdminRole', false);
+        this.store('_isAuthorized', false);
+        this.store('CheckSessionChanged', false);
+    }
+
     private onCheckSessionChanged() {
         console.log('onCheckSessionChanged');
         this.store('CheckSessionChanged', true);
         this.checkSessionChanged = true;
     }
 
-    
     private runGetSigningKeys() {
         this.getSigningKeys()
             .subscribe(
@@ -273,9 +287,9 @@ export class OidcSecurityService {
     }
 
     private getSigningKeys(): Observable<JwtKeys> {
-        return this._http.get(this._configuration.jwks_url)
+        return this._http.get(this.authConfiguration.jwks_url)
             .map(this.extractData)
-            .catch(this.handleError);
+            .catch(this.handleErrorGetSigningKeys);
     }
 
     private extractData(res: Response) {
@@ -283,7 +297,7 @@ export class OidcSecurityService {
         return body;
     }
 
-    private handleError(error: Response | any) {
+    private handleErrorGetSigningKeys(error: Response | any) {
         // In a real world app, you might use a remote logging infrastructure
         let errMsg: string;
         if (error instanceof Response) {
@@ -295,16 +309,6 @@ export class OidcSecurityService {
         }
         console.error(errMsg);
         return Observable.throw(errMsg);
-    }
-
-    public HandleError(error: any) {
-        console.log(error);
-        if (error.status == 403) {
-            this._router.navigate(['/Forbidden']);
-        } else if (error.status == 401) {
-            this.ResetAuthorizationData();
-            this._router.navigate(['/Unauthorized']);
-        }
     }
 
     private retrieve(key: string): any {
@@ -323,7 +327,7 @@ export class OidcSecurityService {
 
     private getUserData = (): Observable<string[]> => {
         this.setHeaders();
-        return this._http.get(this._configuration.userinfo_url, {
+        return this._http.get(this.authConfiguration.userinfo_url, {
             headers: this.headers,
             body: ''
         }).map(res => res.json());
@@ -352,10 +356,10 @@ export class OidcSecurityService {
                 if (this.oidcSecurityValidation.isTokenExpired(this.retrieve('authorizationDataIdToken'))) {
                     console.log('IsAuthorized: isTokenExpired');
 
-                    if (this._configuration.silent_renew) {
+                    if (this.authConfiguration.silent_renew) {
                         this.refreshSession();
                     } else {
-                        this.ResetAuthorizationData();
+                        this.resetAuthorizationData();
                     }
                 }
             }

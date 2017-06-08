@@ -30,7 +30,7 @@ export class DataEventRecordsCreateComponent implements OnInit {
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => this._router.navigate(['/dataeventrecords']));
     }
 }

@@ -29,7 +29,7 @@ export class SecureFilesComponent implements OnInit {
     private getData() {
         this._secureFileService.GetListOfFiles()
             .subscribe(data => this.Files = data,
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => console.log('Get all completed'));
     }
 }

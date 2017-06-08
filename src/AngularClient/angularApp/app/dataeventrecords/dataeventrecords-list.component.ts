@@ -31,7 +31,7 @@ export class DataEventRecordsListComponent implements OnInit {
         console.log('Try to delete' + id);
         this._dataEventRecordsService.Delete(id)
             .subscribe((() => console.log('subscribed')),
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => this.getData());
     }
 
@@ -40,7 +40,7 @@ export class DataEventRecordsListComponent implements OnInit {
         this._dataEventRecordsService
             .GetAll()
             .subscribe(data => this.DataEventRecords = data,
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => console.log('Get all completed'));
     }
 
