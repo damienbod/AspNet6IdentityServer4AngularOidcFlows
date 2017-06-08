@@ -154,7 +154,7 @@ export class OidcSecurityService {
 
                     this.runTokenValidatation();
 
-                    this.router.navigate([this.authConfiguration.startupRoute]);
+                    this.router.navigate([this.authConfiguration.startup_route]);
                 } else {
                     this.resetAuthorizationData();
                     this.router.navigate(['/Unauthorized']);
