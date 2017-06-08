@@ -29,10 +29,10 @@ declare var hextob64u: any;
 export class OidcSecurityValidation {
 
     // id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
-    public IsTokenExpired(token: string, offsetSeconds?: number): boolean {
+    isTokenExpired(token: string, offsetSeconds?: number): boolean {
 
         let decoded: any;
-        decoded = this.GetPayloadFromToken(token, false);
+        decoded = this.getPayloadFromToken(token, false);
 
         let tokenExpirationDate = this.getTokenExpirationDate(decoded);
         offsetSeconds = offsetSeconds || 0;
@@ -46,7 +46,7 @@ export class OidcSecurityValidation {
     }
 
     // id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
-    public Validate_id_token_nonce(dataIdToken: any, local_nonce: any): boolean {
+    validate_id_token_nonce(dataIdToken: any, local_nonce: any): boolean {
         if (dataIdToken.nonce !== local_nonce) {
             console.log('Validate_id_token_nonce failed');
             return false;
@@ -56,7 +56,7 @@ export class OidcSecurityValidation {
     }
 
     // id_token C1: The Issuer Identifier for the OpenID Provider (which is typically obtained during Discovery) MUST exactly match the value of the iss (issuer) Claim.
-    public Validate_id_token_iss(dataIdToken: any, client_id: any): boolean {
+    validate_id_token_iss(dataIdToken: any, client_id: any): boolean {
         if (dataIdToken.iss !== client_id) {
             console.log('Validate_id_token_iss failed');
             return false;
@@ -67,7 +67,7 @@ export class OidcSecurityValidation {
 
     // id_token C2: The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
     // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
-    public Validate_id_token_aud(dataIdToken: any, aud: any): boolean {
+    validate_id_token_aud(dataIdToken: any, aud: any): boolean {
         if (dataIdToken.aud !== aud) {
             console.log('Validate_id_token_aud failed');
             return false;
@@ -76,7 +76,7 @@ export class OidcSecurityValidation {
         return true;
     }
 
-    public ValidateStateFromHashCallback(state: any, local_state: any): boolean {
+    validateStateFromHashCallback(state: any, local_state: any): boolean {
         if (state !== local_state) {
             console.log('ValidateStateFromHashCallback failed');
             return false;
@@ -85,7 +85,7 @@ export class OidcSecurityValidation {
         return true;
     }
 
-    public GetPayloadFromToken(token: any, encode: boolean) {
+    getPayloadFromToken(token: any, encode: boolean) {
         let data = {};
         if (typeof token !== 'undefined') {
             let encoded = token.split('.')[1];
@@ -98,7 +98,7 @@ export class OidcSecurityValidation {
         return data;
     }
 
-    public GetHeaderFromToken(token: any, encode: boolean) {
+    getHeaderFromToken(token: any, encode: boolean) {
         let data = {};
         if (typeof token !== 'undefined') {
             let encoded = token.split('.')[0];
@@ -111,7 +111,7 @@ export class OidcSecurityValidation {
         return data;
     }
 
-    public GetSignatureFromToken(token: any, encode: boolean) {
+    getSignatureFromToken(token: any, encode: boolean) {
         let data = {};
         if (typeof token !== 'undefined') {
             let encoded = token.split('.')[2];
@@ -126,13 +126,13 @@ export class OidcSecurityValidation {
 
     // id_token C5: The Client MUST validate the signature of the ID Token according to JWS [JWS] using the algorithm specified in the alg Header Parameter of the JOSE Header. The Client MUST use the keys provided by the Issuer.
     // id_token C6: The alg value SHOULD be RS256. Validation of tokens using other signing algorithms is described in the OpenID Connect Core 1.0 [OpenID.Core] specification.
-    public Validate_signature_id_token(id_token: any, jwtkeys: any): boolean {
+    validate_signature_id_token(id_token: any, jwtkeys: any): boolean {
 
         if (!jwtkeys || !jwtkeys.keys) {
             return false;
         }
 
-        let header_data = this.GetHeaderFromToken(id_token, false);
+        let header_data = this.getHeaderFromToken(id_token, false);
         let kid = header_data.kid;
         let alg = header_data.alg;
 
@@ -158,7 +158,7 @@ export class OidcSecurityValidation {
     // access_token C1: Hash the octets of the ASCII representation of the access_token with the hash algorithm specified in JWA[JWA] for the alg Header Parameter of the ID Token's JOSE Header. For instance, if the alg is RS256, the hash algorithm used is SHA-256.
     // access_token C2: Take the left- most half of the hash and base64url- encode it.
     // access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
-    public Validate_id_token_at_hash(access_token: any, at_hash: any): boolean {
+    validate_id_token_at_hash(access_token: any, at_hash: any): boolean {
 
         let hash = KJUR.crypto.Util.hashString(access_token, 'sha256');
         let first128bits = hash.substr(0, hash.length / 2);

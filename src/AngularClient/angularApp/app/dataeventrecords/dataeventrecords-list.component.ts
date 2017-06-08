@@ -28,20 +28,19 @@ export class DataEventRecordsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.oidcSecurityUserService.getUserData()
-            .subscribe(userData => {
-                for (let i = 0; i < userData.role.length; i++) {
-                    if (userData.role[i] === 'dataEventRecords.admin') {
-                        console.log('user is dataEventRecords.admin');
-                        this.hasAdminRole = true;
-                    }
-                    if (userData.role[i] === 'admin') {
-                        console.log('user is admin');
-                    }
-                }
+        let userData = this.oidcSecurityUserService.userData;
 
-                console.log(userData);
-            });
+        for (let i = 0; i < userData.role.length; i++) {
+            if (userData.role[i] === 'dataEventRecords.admin') {
+                console.log('user is dataEventRecords.admin');
+                this.hasAdminRole = true;
+            }
+            if (userData.role[i] === 'admin') {
+                console.log('user is admin');
+            }
+        }
+
+        console.log(userData);
 
         this.getData();
     }

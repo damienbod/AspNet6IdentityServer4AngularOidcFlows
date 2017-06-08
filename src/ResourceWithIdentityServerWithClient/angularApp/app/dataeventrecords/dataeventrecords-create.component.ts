@@ -21,8 +21,7 @@ export class DataEventRecordsCreateComponent implements OnInit {
 
     ngOnInit() {
         this.DataEventRecord = { Id: 0, Name: '', Description: '' };
-        console.log('IsAuthorized:' + this.securityService.IsAuthorized);
-        console.log('HasAdminRole:' + this.securityService.HasAdminRole);
+        console.log('IsAuthorized:' + this.securityService.isAuthorized);
     }
 
     public Create() {
@@ -30,7 +29,7 @@ export class DataEventRecordsCreateComponent implements OnInit {
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
-            error => this.securityService.HandleError(error),
+            error => this.securityService.handleError(error),
             () => this._router.navigate(['/dataeventrecords']));
     }
 }

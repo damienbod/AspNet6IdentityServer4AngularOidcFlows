@@ -1,18 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Configuration } from './app.constants';
-
 import { OidcSecurityService } from './auth/services/oidc.security.service';
-import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
-import { DataEventRecord } from './dataeventrecords/models/DataEventRecord';
 
-import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { HomeComponent } from './home/home.component';
-import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-
-import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecords-list.component';
-import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
-import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
 
 import './app.component.scss';
 
@@ -27,20 +17,9 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('ngOnInit _securityService.AuthorizedCallback');
-
         if (window.location.hash) {
-            this.securityService.AuthorizedCallback();
+            console.log('ngOnInit _securityService.AuthorizedCallback');
+            this.securityService.authorizedCallback();
         }
-    }
-
-    public Login() {
-        console.log('Do login logic');
-        this.securityService.Authorize();
-    }
-
-    public Logout() {
-        console.log('Do logout logic');
-        this.securityService.Logoff();
     }
 }

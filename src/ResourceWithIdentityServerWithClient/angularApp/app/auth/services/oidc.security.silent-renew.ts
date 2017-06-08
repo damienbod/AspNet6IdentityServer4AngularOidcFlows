@@ -1,26 +1,22 @@
 ﻿import { Injectable } from '@angular/core';
-import { AuthConfiguration } from '../auth.configuration';
 
 @Injectable()
 export class OidcSecuritySilentRenew {
-    private _sessionIframe: any;
+    private sessionIframe: any;
 
-    constructor(private _configuration: AuthConfiguration) {
+    initRenew() {
+        this.sessionIframe = window.document.createElement('iframe');
+        console.log(this.sessionIframe);
+        this.sessionIframe.style.display = 'none';
+
+        window.document.body.appendChild(this.sessionIframe);
     }
 
-    public initRenew() {
-        this._sessionIframe = window.document.createElement('iframe');
-        console.log(this._sessionIframe);
-        this._sessionIframe.style.display = 'none';
-
-        window.document.body.appendChild(this._sessionIframe);
-    }
-
-    public startRenew(url: string) {
-        this._sessionIframe.src = url;
+    startRenew(url: string) {
+        this.sessionIframe.src = url;
 
         return new Promise((resolve) => {
-            this._sessionIframe.onload = () => {
+            this.sessionIframe.onload = () => {
                 resolve();
             }
         });
