@@ -24,7 +24,8 @@ export class OidcSecurityService {
     private errorMessage: string;
     private jwtKeys: JwtKeys;
 
-    constructor(private http: Http,
+    constructor(
+        private http: Http,
         private authConfiguration: AuthConfiguration,
         private router: Router,
         private oidcSecurityCheckSession: OidcSecurityCheckSession,
@@ -286,19 +287,6 @@ export class OidcSecurityService {
         }
         console.error(errMsg);
         return Observable.throw(errMsg);
-    }
-
-
-    private setHeaders() {
-        this.headers = new Headers();
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('Accept', 'application/json');
-
-        let token = this.getToken();
-
-        if (token !== '') {
-            this.headers.append('Authorization', 'Bearer ' + token);
-        }
     }
 
     private runTokenValidatation() {
