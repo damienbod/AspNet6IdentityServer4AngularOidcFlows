@@ -41,8 +41,8 @@ export class OidcSecurityService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_isAuthorized) !== '') {
-            this.isAuthorized = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_isAuthorized);
+        if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_is_authorized) !== '') {
+            this.isAuthorized = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_is_authorized);
         }
 
         this.oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => { this.onCheckSessionChanged(); });
@@ -60,9 +60,9 @@ export class OidcSecurityService {
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
-        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_authStateControl, state);
-        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_authNonce, nonce);
-        console.log('AuthorizedController created. local state: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_authStateControl));
+        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, state);
+        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, nonce);
+        console.log('AuthorizedController created. local state: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
 
         let url = this.createAuthorizeUrl(nonce, state);
         window.location.href = url;
@@ -94,7 +94,7 @@ export class OidcSecurityService {
                 if (!result.error) {
 
                     // validate state
-                    if (this.oidcSecurityValidation.validateStateFromHashCallback(result.state, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_authStateControl))) {
+                    if (this.oidcSecurityValidation.validateStateFromHashCallback(result.state, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control))) {
                         token = result.access_token;
                         id_token = result.id_token;
                         let decoded: any;
@@ -105,15 +105,15 @@ export class OidcSecurityService {
                         // validate jwt signature
                         if (this.oidcSecurityValidation.validate_signature_id_token(id_token, this.jwtKeys)) {
                             // validate nonce
-                            if (this.oidcSecurityValidation.validate_id_token_nonce(decoded, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_authNonce))) {
+                            if (this.oidcSecurityValidation.validate_id_token_nonce(decoded, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_nonce))) {
                                 // validate iss
                                 if (this.oidcSecurityValidation.validate_id_token_iss(decoded, this.authConfiguration.iss)) {
                                     // validate aud
                                     if (this.oidcSecurityValidation.validate_id_token_aud(decoded, this.authConfiguration.client_id)) {
                                         // valiadate at_hash and access_token
                                         if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded.at_hash) || !token) {
-                                            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_authNonce, '');
-                                            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_authStateControl, '');
+                                            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
+                                            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
 
                                             authResponseIsValid = true;
                                             console.log('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
@@ -191,9 +191,9 @@ export class OidcSecurityService {
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
-        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_authStateControl, state);
-        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_authNonce, nonce);
-        console.log('RefreshSession created. adding myautostate: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_authStateControl));
+        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, state);
+        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, nonce);
+        console.log('RefreshSession created. adding myautostate: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
 
         let url = this.createAuthorizeUrl(nonce, state);
 
@@ -211,7 +211,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_access_token, access_token);
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_id_token, id_token);
         this.isAuthorized = true;
-        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_isAuthorized, true);
+        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_is_authorized, true);
     }
 
     private createAuthorizeUrl(nonce: string, state: string): string {

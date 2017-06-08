@@ -17,8 +17,8 @@ export class OidcSecurityUserService {
 
     constructor(private http: Http, private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
 
-        if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_userData) !== '') {
-            this.userData = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_userData);
+        if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data) !== '') {
+            this.userData = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data);
         }
     }
 

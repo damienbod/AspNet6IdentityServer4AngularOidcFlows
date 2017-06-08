@@ -8,10 +8,10 @@ export class OidcSecurityCommon {
 
     storage_access_token = 'authorizationData';
     storage_id_token = 'authorizationDataIdToken';
-    storage_isAuthorized = '_isAuthorized';
-    storage_userData = 'userData';
-    storage_authNonce = 'authNonce';
-    storage_authStateControl = 'authStateControl';
+    storage_is_authorized = '_isAuthorized';
+    storage_user_data = 'userData';
+    storage_auth_nonce = 'authNonce';
+    storage_auth_state_control = 'authStateControl';
 
     constructor(private authConfiguration: AuthConfiguration) {
         this.storage = sessionStorage; //localStorage;
@@ -44,8 +44,8 @@ export class OidcSecurityCommon {
     resetStorageData() {
         this.store(this.storage_access_token, '');
         this.store(this.storage_id_token, '');
-        this.store(this.storage_isAuthorized, false);
-        this.store(this.storage_userData, '');
+        this.store(this.storage_is_authorized, false);
+        this.store(this.storage_user_data, '');
     }
 
     getAccessToken(): any {
