@@ -13,7 +13,9 @@ import { OidcSecurityCommon } from './oidc.security.common';
 @Injectable()
 export class OidcSecurityUserService {
 
-    public userData: any;
+    userData: any;
+
+    @Output() onUserDataLoaded: EventEmitter<any> = new EventEmitter<any>(true);
 
     constructor(private http: Http, private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
 
@@ -23,12 +25,12 @@ export class OidcSecurityUserService {
     }
 
     initUserData() {
-        this.getUserData()
-            .subscribe(data => this.userData = data,
-            error => this.handleError(error) );
+        return this.getIdentityUserData()
+            .map(data => this.userData = data);
     }
 
-    getUserData = (): Observable<any> => {
+    private getIdentityUserData = (): Observable<any> => {
+
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -37,14 +39,6 @@ export class OidcSecurityUserService {
 
         if (token !== '') {
             headers.append('Authorization', 'Bearer ' + token);
-        }
-
-        if (this.userData) {
-            console.log(this.userData);
-            return Observable.create((observer: Observer<any>) => {
-                observer.next(this.userData);
-                observer.complete();
-            })
         }
 
         return this.http.get(this.authConfiguration.userinfo_url, {

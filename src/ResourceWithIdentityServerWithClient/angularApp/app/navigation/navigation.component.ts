@@ -8,7 +8,7 @@ import { OidcSecurityUserService } from '../auth/services/oidc.security.user-ser
     templateUrl: 'navigation.component.html'
 })
 
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
 
     hasAdminRole = false
     hasDataEventRecordsAdminRole = false;
@@ -16,31 +16,27 @@ export class NavigationComponent implements OnInit {
 
     constructor(
         public securityService: OidcSecurityService,
-        public oidcSecurityUserService: OidcSecurityUserService
+        private oidcSecurityUserService: OidcSecurityUserService
     ) {
-    }
-
-    ngOnInit() {
-        // TODO load the data
+        this.oidcSecurityUserService.onUserDataLoaded.subscribe(() => { this.load(); });
     }
 
     load() {
-        this.oidcSecurityUserService.getUserData()
-            .subscribe(userData => {
-                    for (let i = 0; i < userData.role.length; i++) {
-                        if (userData.role[i] === 'dataEventRecords.admin') {
-                            console.log('user is dataEventRecords.admin');
-                            this.hasDataEventRecordsAdminRole = true;
-                        }
-                        if (userData.role[i] === 'admin') {
-                            console.log('user is admin');
-                            this.hasAdminRole = true;
-                        }
-                    }
+        let userData = this.oidcSecurityUserService.userData;
 
-                    this.loaded = true;
-                    console.log(userData);
-            });
+        for (let i = 0; i < userData.role.length; i++) {
+            if (userData.role[i] === 'dataEventRecords.admin') {
+                console.log('user is dataEventRecords.admin');
+                this.hasDataEventRecordsAdminRole = true;
+            }
+            if (userData.role[i] === 'admin') {
+                console.log('user is admin');
+                this.hasAdminRole = true;
+            }
+        }
+
+        this.loaded = true;
+        console.log(userData);
     }
 
     login() {

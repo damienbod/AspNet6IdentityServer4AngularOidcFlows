@@ -17,14 +17,13 @@ export class HasAdminRoleCanLoadGuard implements CanLoad {
 
     canLoad(route: Route): boolean {
 
-        this.oidcSecurityUserService.getUserData()
-            .subscribe(userData => {
-                for (let i = 0; i < userData.role.length; i++) {
-                    if (userData.role[i] === 'admin') {
-                        this.hasUserAdminRole = true;
-                    }
-                }
-            });
+        let userData = this.oidcSecurityUserService.userData;
+
+        for (let i = 0; i < userData.role.length; i++) {
+            if (userData.role[i] === 'admin') {
+                console.log('user is admin');
+            }
+        }
 
         return this.hasUserAdminRole && this.securityService.isAuthorized;
     }
