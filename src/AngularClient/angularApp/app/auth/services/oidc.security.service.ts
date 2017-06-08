@@ -24,9 +24,9 @@ export class OidcSecurityService {
     private errorMessage: string;
     private jwtKeys: JwtKeys;
 
-    constructor(private _http: Http,
+    constructor(private http: Http,
         private authConfiguration: AuthConfiguration,
-        private _router: Router,
+        private router: Router,
         private oidcSecurityCheckSession: OidcSecurityCheckSession,
         private oidcSecuritySilentRenew: OidcSecuritySilentRenew,
         private oidcSecurityUserService: OidcSecurityUserService,
@@ -153,10 +153,10 @@ export class OidcSecurityService {
 
                     this.runTokenValidatation();
 
-                    this._router.navigate([this.authConfiguration.startupRoute]);
+                    this.router.navigate([this.authConfiguration.startupRoute]);
                 } else {
                     this.resetAuthorizationData();
-                    this._router.navigate(['/Unauthorized']);
+                    this.router.navigate(['/Unauthorized']);
                 }
             });
     }
@@ -243,10 +243,10 @@ export class OidcSecurityService {
     handleError(error: any) {
         console.log(error);
         if (error.status == 403) {
-            this._router.navigate(['/Forbidden']);
+            this.router.navigate(['/Forbidden']);
         } else if (error.status == 401) {
             this.resetAuthorizationData();
-            this._router.navigate(['/Unauthorized']);
+            this.router.navigate(['/Unauthorized']);
         }
     }
 
@@ -264,7 +264,7 @@ export class OidcSecurityService {
     }
 
     private getSigningKeys(): Observable<JwtKeys> {
-        return this._http.get(this.authConfiguration.jwks_url)
+        return this.http.get(this.authConfiguration.jwks_url)
             .map(this.extractData)
             .catch(this.handleErrorGetSigningKeys);
     }
