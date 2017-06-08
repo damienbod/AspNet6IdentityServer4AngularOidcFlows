@@ -132,24 +132,24 @@ export class OidcSecurityService {
                 if (!result.error) {
 
                     // validate state
-                    if (this.oidcSecurityValidation.ValidateStateFromHashCallback(result.state, this.retrieve('authStateControl'))) {
+                    if (this.oidcSecurityValidation.validateStateFromHashCallback(result.state, this.retrieve('authStateControl'))) {
                         token = result.access_token;
                         id_token = result.id_token;
                         let decoded: any;
                         let headerDecoded;
-                        decoded = this.oidcSecurityValidation.GetPayloadFromToken(id_token, false);
-                        headerDecoded = this.oidcSecurityValidation.GetHeaderFromToken(id_token, false);
+                        decoded = this.oidcSecurityValidation.getPayloadFromToken(id_token, false);
+                        headerDecoded = this.oidcSecurityValidation.getHeaderFromToken(id_token, false);
 
                         // validate jwt signature
-                        if (this.oidcSecurityValidation.Validate_signature_id_token(id_token, this.jwtKeys)) {
+                        if (this.oidcSecurityValidation.validate_signature_id_token(id_token, this.jwtKeys)) {
                             // validate nonce
-                            if (this.oidcSecurityValidation.Validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
+                            if (this.oidcSecurityValidation.validate_id_token_nonce(decoded, this.retrieve('authNonce'))) {
                                 // validate iss
-                                if (this.oidcSecurityValidation.Validate_id_token_iss(decoded, this._configuration.iss)) {
+                                if (this.oidcSecurityValidation.validate_id_token_iss(decoded, this._configuration.iss)) {
                                     // validate aud
-                                    if (this.oidcSecurityValidation.Validate_id_token_aud(decoded, this._configuration.client_id)) {
+                                    if (this.oidcSecurityValidation.validate_id_token_aud(decoded, this._configuration.client_id)) {
                                         // valiadate at_hash and access_token
-                                        if (this.oidcSecurityValidation.Validate_id_token_at_hash(token, decoded.at_hash) || !token) {
+                                        if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded.at_hash) || !token) {
                                             this.store('authNonce', '');
                                             this.store('authStateControl', '');
 
@@ -348,7 +348,7 @@ export class OidcSecurityService {
 
         let subscription = source.subscribe(() => {
             if (this.isAuthorized) {
-                if (this.oidcSecurityValidation.IsTokenExpired(this.retrieve('authorizationDataIdToken'))) {
+                if (this.oidcSecurityValidation.isTokenExpired(this.retrieve('authorizationDataIdToken'))) {
                     console.log('IsAuthorized: isTokenExpired');
 
                     if (this._configuration.silent_renew) {
