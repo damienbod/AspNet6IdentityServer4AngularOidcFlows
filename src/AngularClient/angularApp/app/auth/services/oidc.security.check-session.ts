@@ -25,7 +25,7 @@ export class OidcSecurityCheckSession {
         this.sessionIframe = window.document.createElement('iframe');
         console.log(this.sessionIframe);
         this.sessionIframe.style.display = 'none';
-        this.sessionIframe.src = this.authConfiguration.checksession;
+        this.sessionIframe.src = this.authConfiguration.checksession_url;
 
         window.document.body.appendChild(this.sessionIframe);
         this.iframeMessageEvent = this.messageHandler.bind(this);

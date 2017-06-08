@@ -17,6 +17,8 @@ export class AuthConfiguration {
 
     logoutEndSession_url = 'https://localhost:44318/connect/endsession';
 
+    checksession_url = 'https://localhost:44318/connect/checksession'
+
     // The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
     // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
     client_id = 'angularclient';
@@ -31,7 +33,11 @@ export class AuthConfiguration {
 
     silent_renew = true;
 
-    checksession = 'https://localhost:44318/connect/checksession'
+    startup_route = '/dataeventrecords/list';
 
-    startupRoute = '/dataeventrecords/list';
+    // HTTP 403 
+    forbidden_route = '/Forbidden';
+
+    // HTTP 401
+    unauthorized_route = '/Unauthorized';
 }

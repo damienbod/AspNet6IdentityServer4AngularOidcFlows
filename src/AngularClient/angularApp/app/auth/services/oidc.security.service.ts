@@ -244,10 +244,10 @@ export class OidcSecurityService {
     handleError(error: any) {
         console.log(error);
         if (error.status == 403) {
-            this.router.navigate(['/Forbidden']);
+            this.router.navigate([this.authConfiguration.forbidden_route]);
         } else if (error.status == 401) {
             this.resetAuthorizationData();
-            this.router.navigate(['/Unauthorized']);
+            this.router.navigate([this.authConfiguration.unauthorized_route]);
         }
     }
 
