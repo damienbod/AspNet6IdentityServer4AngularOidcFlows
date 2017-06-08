@@ -12,7 +12,6 @@ export class NavigationComponent {
 
     hasAdminRole = false
     hasDataEventRecordsAdminRole = false;
-    loaded = false;
 
     constructor(
         public securityService: OidcSecurityService,
@@ -35,7 +34,6 @@ export class NavigationComponent {
             }
         }
 
-        this.loaded = true;
         console.log(userData);
     }
 

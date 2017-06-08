@@ -11,11 +11,10 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li><a [routerLink]="['/dataeventrecords/list']" *ngIf="securityService.isAuthorized && loaded">dataEventRecords</a></li>
-                <li><a [routerLink]="['/dataeventrecords/create']" *ngIf="(securityService.isAuthorized && hasDataEventRecordsAdminRole && loaded)">create dataEventRecord</a></li>
-                <li><a [routerLink]="['/usermanagement']" *ngIf="(securityService.isAuthorized && hasAdminRole && loaded)">user-management</a></li>
+                <li><a [routerLink]="['/dataeventrecords/list']" *ngIf="securityService.isAuthorized">dataEventRecords</a></li>
+                <li><a [routerLink]="['/dataeventrecords/create']" *ngIf="(securityService.isAuthorized && hasDataEventRecordsAdminRole)">create dataEventRecord</a></li>
+                <li><a [routerLink]="['/usermanagement']" *ngIf="(securityService.isAuthorized && hasAdminRole)">user-management</a></li>
 
-                <li><a class="navigationLinkButton" *ngIf="securityService.isAuthorized && !loaded" (click)="load()">Load</a></li>
                 <li><a class="navigationLinkButton" *ngIf="!securityService.isAuthorized" (click)="login()">Login</a></li>
                 <li><a class="navigationLinkButton" *ngIf="securityService.isAuthorized" (click)="logout()">Logout</a></li>
 
