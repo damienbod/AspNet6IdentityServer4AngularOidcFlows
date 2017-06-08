@@ -21,7 +21,7 @@ export class HasAdminRoleCanLoadGuard implements CanLoad {
 
         for (let i = 0; i < userData.role.length; i++) {
             if (userData.role[i] === 'admin') {
-                console.log('user is admin');
+                this.hasUserAdminRole = true;
             }
         }
 

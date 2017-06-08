@@ -17,26 +17,16 @@ export class HasAdminRoleAuthenticationGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        let url: string = state.url;
 
         let userData = this.oidcSecurityUserService.userData;
 
         for (let i = 0; i < userData.role.length; i++) {
             if (userData.role[i] === 'admin') {
-                console.log('user is admin');
+                this.hasUserAdminRole = true;
             }
         }
 
         return this.securityService.isAuthorized && this.hasUserAdminRole;
 
     }
-
-    //canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
-    //    let url: string = state.url;
-
-    //    return this.oidcSecurityUserService.getUserData().map(userData => {
-    //        return this.securityService.isAuthorized && !!userData.role.filter(role => role === 'admin');
-    //    });
-    //}
 }
