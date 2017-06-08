@@ -144,7 +144,7 @@ export class OidcSecurityService {
 
                     if (this.authConfiguration.start_checksession) {
                         this.oidcSecurityCheckSession.init().then(() => {
-                            this.oidcSecurityCheckSession.pollServerSession(result.session_state, 'angularclient');
+                            this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
                         });
                     }
 
@@ -157,7 +157,7 @@ export class OidcSecurityService {
                     this.router.navigate([this.authConfiguration.startup_route]);
                 } else {
                     this.resetAuthorizationData();
-                    this.router.navigate(['/Unauthorized']);
+                    this.router.navigate([this.authConfiguration.unauthorized_route]);
                 }
             });
     }
