@@ -23,16 +23,12 @@ export class NavigationComponent {
 
         for (let i = 0; i < userData.role.length; i++) {
             if (userData.role[i] === 'dataEventRecords.admin') {
-                console.log('user is dataEventRecords.admin');
                 this.hasDataEventRecordsAdminRole = true;
             }
             if (userData.role[i] === 'admin') {
-                console.log('user is admin');
                 this.hasAdminRole = true;
             }
         }
-
-        console.log(userData);
     }
 
     login() {

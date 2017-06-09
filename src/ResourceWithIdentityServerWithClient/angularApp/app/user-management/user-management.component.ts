@@ -28,7 +28,6 @@ export class UserManagementComponent implements OnInit {
     }
 
     private getData() {
-        console.log('User Management:getData starting...');
         this._userManagementService
             .GetAll()
             .subscribe(data => this.Users = data,

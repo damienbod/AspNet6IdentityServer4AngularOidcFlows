@@ -42,4 +42,8 @@ export class AuthConfiguration {
 
     // HTTP 401
     unauthorized_route = '/Unauthorized';
+
+    log_console_warning_active = true;
+
+    log_console_debug_active = true;
 }
