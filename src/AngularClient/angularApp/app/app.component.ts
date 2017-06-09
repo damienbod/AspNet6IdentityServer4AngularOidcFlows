@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
     refreshSession() {
         console.log('start refreshSession');
-        this.securityService.refreshSession();
+        this.securityService.authorize();
     }
 
     logout() {
