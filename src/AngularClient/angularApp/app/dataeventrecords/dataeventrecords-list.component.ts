@@ -36,8 +36,6 @@ export class DataEventRecordsListComponent implements OnInit {
             }
         }
 
-        // console.log(userData);
-
         this.getData();
     }
 
