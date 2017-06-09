@@ -28,29 +28,55 @@ export class AuthWellKnownEndpoints {
         private authConfiguration: AuthConfiguration,
         private oidcSecurityCommon: OidcSecurityCommon
     ) {
-        this.getWellKnownEndpoints()
-            .subscribe( (data: any) => {
-                this.issuer = data.issuer;
-                this.jwks_uri = data.jwks_uri;
-                this.authorization_endpoint = data.authorization_endpoint;
-                this.token_endpoint = data.token_endpoint;
-                this.userinfo_endpoint = data.userinfo_endpoint;
-                this.end_session_endpoint = data.end_session_endpoint;
+        let data = this.oidcSecurityCommon.retrieve('wellknownendpoints');
+        console.log(data);
+        if (data !== '' && data != 'undefined') {
+            console.log('AuthWellKnownEndpoints already defined');
+            this.issuer = data.issuer;
+            this.jwks_uri = data.jwks_uri;
+            this.authorization_endpoint = data.authorization_endpoint;
+            this.token_endpoint = data.token_endpoint;
+            this.userinfo_endpoint = data.userinfo_endpoint;
+            this.end_session_endpoint = data.end_session_endpoint;
 
-                if (data.check_session_iframe) {
-                    this.check_session_iframe = data.check_session_iframe;
-                };
+            if (data.check_session_iframe) {
+                this.check_session_iframe = data.check_session_iframe;
+            };
 
-                if (data.revocation_endpoint) {
-                    this.revocation_endpoint = data.revocation_endpoint;
-                };
+            if (data.revocation_endpoint) {
+                this.revocation_endpoint = data.revocation_endpoint;
+            };
 
-                if (data.introspection_endpoint) {
-                    this.introspection_endpoint = data.introspection_endpoint;
-                }
+            if (data.introspection_endpoint) {
+                this.introspection_endpoint = data.introspection_endpoint;
+            }
+        } else {
+            console.log('AuthWellKnownEndpoints first time, get from the server');
+            this.getWellKnownEndpoints()
+                .subscribe((data: any) => {
+                    this.issuer = data.issuer;
+                    this.jwks_uri = data.jwks_uri;
+                    this.authorization_endpoint = data.authorization_endpoint;
+                    this.token_endpoint = data.token_endpoint;
+                    this.userinfo_endpoint = data.userinfo_endpoint;
+                    this.end_session_endpoint = data.end_session_endpoint;
 
-                console.log(data);
-            });
+                    if (data.check_session_iframe) {
+                        this.check_session_iframe = data.check_session_iframe;
+                    };
+
+                    if (data.revocation_endpoint) {
+                        this.revocation_endpoint = data.revocation_endpoint;
+                    };
+
+                    if (data.introspection_endpoint) {
+                        this.introspection_endpoint = data.introspection_endpoint;
+                    }
+
+                    this.oidcSecurityCommon.store('wellknownendpoints', data);
+                    console.log(data);
+                });
+        }
     }
 
     private getWellKnownEndpoints = (): Observable<any> => {

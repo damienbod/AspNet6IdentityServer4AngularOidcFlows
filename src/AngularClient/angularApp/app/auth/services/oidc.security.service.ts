@@ -276,6 +276,7 @@ export class OidcSecurityService {
     }
 
     private getSigningKeys(): Observable<JwtKeys> {
+        this.oidcSecurityCommon.logDebug('jwks_uri: ' + this.authWellKnownEndpoints.jwks_uri);
         return this.http.get(this.authWellKnownEndpoints.jwks_uri)
             .map(this.extractData)
             .catch(this.handleErrorGetSigningKeys);
