@@ -34,7 +34,7 @@ export class OidcSecurityService {
         private oidcSecurityUserService: OidcSecurityUserService,
         private oidcSecurityCommon: OidcSecurityCommon
     ) {
-        this.oidcSecurityValidation = new OidcSecurityValidation();
+        this.oidcSecurityValidation = new OidcSecurityValidation(this.oidcSecurityCommon);
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');

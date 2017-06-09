@@ -7,6 +7,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/timer';
 import { AuthConfiguration } from '../auth.configuration';
+import { OidcSecurityCommon } from './oidc.security.common';
 
 // http://openid.net/specs/openid-connect-session-1_0-ID4.html
 
@@ -18,12 +19,12 @@ export class OidcSecurityCheckSession {
 
     @Output() onCheckSessionChanged: EventEmitter<any> = new EventEmitter<any>(true);
 
-    constructor(private authConfiguration: AuthConfiguration) {
+    constructor(private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
     }
 
     init() {
         this.sessionIframe = window.document.createElement('iframe');
-        console.log(this.sessionIframe);
+        this.oidcSecurityCommon.logDebug(this.sessionIframe);
         this.sessionIframe.style.display = 'none';
         this.sessionIframe.src = this.authConfiguration.checksession_url;
 

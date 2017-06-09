@@ -31,16 +31,6 @@ export class OidcSecurityCommon {
         this.storage.setItem(key, JSON.stringify(value));
     }
 
-    //handleError(error: any) {
-    //    console.log(error);
-    //    if (error.status == 403) {
-    //        this._router.navigate(['/Forbidden']);
-    //    } else if (error.status == 401) {
-    //        this.resetAuthorizationData();
-    //        this._router.navigate(['/Unauthorized']);
-    //    }
-    //}
-
     resetStorageData() {
         this.store(this.storage_access_token, '');
         this.store(this.storage_id_token, '');
@@ -50,5 +40,17 @@ export class OidcSecurityCommon {
 
     getAccessToken(): any {
         return this.retrieve(this.storage_access_token);
+    }
+
+    logWarning(message: any) {
+        if (this.authConfiguration.log_console_warning_active) {
+            console.log(message);
+        }
+    }
+
+    logDebug(message: any) {
+        if (this.authConfiguration.log_console_debug_active) {
+            console.log(message);
+        }
     }
 }
