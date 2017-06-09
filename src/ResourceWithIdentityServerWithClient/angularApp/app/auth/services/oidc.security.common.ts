@@ -12,6 +12,7 @@ export class OidcSecurityCommon {
     storage_user_data = 'userData';
     storage_auth_nonce = 'authNonce';
     storage_auth_state_control = 'authStateControl';
+    storage_well_known_endpoints = 'wellknownendpoints';
 
     constructor(private authConfiguration: AuthConfiguration) {
         this.storage = sessionStorage; //localStorage;
