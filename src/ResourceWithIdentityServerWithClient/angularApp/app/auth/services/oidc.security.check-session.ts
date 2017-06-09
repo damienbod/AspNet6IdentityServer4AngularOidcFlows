@@ -7,6 +7,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/timer';
 import { AuthConfiguration } from '../auth.configuration';
+import { OidcSecurityCommon } from './oidc.security.common';
 
 // http://openid.net/specs/openid-connect-session-1_0-ID4.html
 
@@ -18,12 +19,12 @@ export class OidcSecurityCheckSession {
 
     @Output() onCheckSessionChanged: EventEmitter<any> = new EventEmitter<any>(true);
 
-    constructor(private authConfiguration: AuthConfiguration) {
+    constructor(private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
     }
 
     init() {
         this.sessionIframe = window.document.createElement('iframe');
-        console.log(this.sessionIframe);
+        this.oidcSecurityCommon.logDebug(this.sessionIframe);
         this.sessionIframe.style.display = 'none';
         this.sessionIframe.src = this.authConfiguration.checksession_url;
 
@@ -45,15 +46,15 @@ export class OidcSecurityCheckSession {
             .take(10000);
 
         let subscription = source.subscribe(() => {
-            console.log(this.sessionIframe);
+            this.oidcSecurityCommon.logDebug(this.sessionIframe);
             this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.server);
         },
-            function (err: any) {
-                console.log('Error: ' + err);
-            },
-            function () {
-                console.log('Completed');
-            });
+        function (err: any) {
+            this.oidcSecurityCommon.logWarning('Error: ' + err);
+        },
+        function () {
+            this.oidcSecurityCommon.logDebug('Completed');
+        });
     }
 
     private messageHandler(e: any) {
@@ -61,11 +62,11 @@ export class OidcSecurityCheckSession {
             e.source === this.sessionIframe.contentWindow
         ) {
             if (e.data === 'error') {
-                console.log('error _messageHandler');
+                this.oidcSecurityCommon.logWarning('error _messageHandler');
             } else if (e.data === 'changed') {
                 this.onCheckSessionChanged.emit();
             } else {
-                console.log(e.data + ' _messageHandler');
+                this.oidcSecurityCommon.logDebug(e.data + ' _messageHandler');
             }
         }
     }

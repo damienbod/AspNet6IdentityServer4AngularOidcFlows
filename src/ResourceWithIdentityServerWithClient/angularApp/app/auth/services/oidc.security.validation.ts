@@ -1,4 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
+import { OidcSecurityCommon } from './oidc.security.common';
 
 // from jsrasiign
 declare var KJUR: any;
@@ -28,6 +29,9 @@ declare var hextob64u: any;
 @Injectable()
 export class OidcSecurityValidation {
 
+    constructor(private oidcSecurityCommon: OidcSecurityCommon) {
+    }
+
     // id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
     isTokenExpired(token: string, offsetSeconds?: number): boolean {
 
@@ -48,7 +52,7 @@ export class OidcSecurityValidation {
     // id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
     validate_id_token_nonce(dataIdToken: any, local_nonce: any): boolean {
         if (dataIdToken.nonce !== local_nonce) {
-            console.log('Validate_id_token_nonce failed');
+            this.oidcSecurityCommon.logDebug('Validate_id_token_nonce failed, dataIdToken.nonce: ' + dataIdToken.nonce + ' local_nonce:' + local_nonce);
             return false;
         }
 
@@ -58,7 +62,7 @@ export class OidcSecurityValidation {
     // id_token C1: The Issuer Identifier for the OpenID Provider (which is typically obtained during Discovery) MUST exactly match the value of the iss (issuer) Claim.
     validate_id_token_iss(dataIdToken: any, client_id: any): boolean {
         if (dataIdToken.iss !== client_id) {
-            console.log('Validate_id_token_iss failed');
+            this.oidcSecurityCommon.logDebug('Validate_id_token_iss failed, dataIdToken.iss: ' + dataIdToken.iss + ' client_id:' + client_id);
             return false;
         }
 
@@ -69,7 +73,7 @@ export class OidcSecurityValidation {
     // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
     validate_id_token_aud(dataIdToken: any, aud: any): boolean {
         if (dataIdToken.aud !== aud) {
-            console.log('Validate_id_token_aud failed');
+            this.oidcSecurityCommon.logDebug('Validate_id_token_aud failed, dataIdToken.aud: ' + dataIdToken.aud + ' client_id:' + aud);
             return false;
         }
 
@@ -78,7 +82,7 @@ export class OidcSecurityValidation {
 
     validateStateFromHashCallback(state: any, local_state: any): boolean {
         if (state !== local_state) {
-            console.log('ValidateStateFromHashCallback failed');
+            this.oidcSecurityCommon.logDebug('ValidateStateFromHashCallback failed, state: ' + state + ' local_state:' + local_state);
             return false;
         }
 
@@ -137,7 +141,7 @@ export class OidcSecurityValidation {
         let alg = header_data.alg;
 
         if ('RS256' != alg) {
-            console.log('Only RS256 supported');
+            this.oidcSecurityCommon.logWarning('Only RS256 supported');
             return false;
         }
 

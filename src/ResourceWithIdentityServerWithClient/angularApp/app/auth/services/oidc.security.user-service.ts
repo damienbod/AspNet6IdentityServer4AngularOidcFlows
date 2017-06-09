@@ -45,8 +45,7 @@ export class OidcSecurityUserService {
         }).map(res => res.json());
     }
 
-    // TODO refactor this to a common
     private handleError(error: any) {
-        console.log(error);
+        this.oidcSecurityCommon.logError(error);
     }
 }
