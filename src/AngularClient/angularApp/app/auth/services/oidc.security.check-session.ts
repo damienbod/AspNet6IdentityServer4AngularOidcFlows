@@ -8,6 +8,7 @@ import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/timer';
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityCommon } from './oidc.security.common';
+import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
 
 // http://openid.net/specs/openid-connect-session-1_0-ID4.html
 
@@ -19,14 +20,18 @@ export class OidcSecurityCheckSession {
 
     @Output() onCheckSessionChanged: EventEmitter<any> = new EventEmitter<any>(true);
 
-    constructor(private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
+    constructor(
+        private authConfiguration: AuthConfiguration,
+        private oidcSecurityCommon: OidcSecurityCommon,
+        private authWellKnownEndpoints: AuthWellKnownEndpoints
+    ) {
     }
 
     init() {
         this.sessionIframe = window.document.createElement('iframe');
         this.oidcSecurityCommon.logDebug(this.sessionIframe);
         this.sessionIframe.style.display = 'none';
-        this.sessionIframe.src = this.authConfiguration.checksession_url;
+        this.sessionIframe.src = this.authWellKnownEndpoints.check_session_iframe;
 
         window.document.body.appendChild(this.sessionIframe);
         this.iframeMessageEvent = this.messageHandler.bind(this);
@@ -47,18 +52,20 @@ export class OidcSecurityCheckSession {
 
         let subscription = source.subscribe(() => {
             this.oidcSecurityCommon.logDebug(this.sessionIframe);
-            this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.server);
+            this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.stsServer);
         },
-        function (err: any) {
-            this.oidcSecurityCommon.logWarning('Error: ' + err);
-        },
-        function () {
-            this.oidcSecurityCommon.logDebug('Completed');
-        });
+            function (err: any) {
+                console.error('Error: ' + err);
+                //this.oidcSecurityCommon.logError('Error: ' + err);
+            },
+            function () {
+                console.log('Completed');
+                //this.oidcSecurityCommon.logDebug('Completed');
+            });
     }
 
     private messageHandler(e: any) {
-        if (e.origin === this.authConfiguration.server &&
+        if (e.origin === this.authConfiguration.stsServer &&
             e.source === this.sessionIframe.contentWindow
         ) {
             if (e.data === 'error') {
