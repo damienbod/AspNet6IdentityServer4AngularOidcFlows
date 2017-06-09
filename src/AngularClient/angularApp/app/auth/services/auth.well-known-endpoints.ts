@@ -29,9 +29,9 @@ export class AuthWellKnownEndpoints {
         private oidcSecurityCommon: OidcSecurityCommon
     ) {
         let data = this.oidcSecurityCommon.retrieve('wellknownendpoints');
-        console.log(data);
+        this.oidcSecurityCommon.logDebug(data);
         if (data !== '' && data != 'undefined') {
-            console.log('AuthWellKnownEndpoints already defined');
+            this.oidcSecurityCommon.logDebug('AuthWellKnownEndpoints already defined');
             this.issuer = data.issuer;
             this.jwks_uri = data.jwks_uri;
             this.authorization_endpoint = data.authorization_endpoint;
@@ -51,7 +51,7 @@ export class AuthWellKnownEndpoints {
                 this.introspection_endpoint = data.introspection_endpoint;
             }
         } else {
-            console.log('AuthWellKnownEndpoints first time, get from the server');
+            this.oidcSecurityCommon.logDebug('AuthWellKnownEndpoints first time, get from the server');
             this.getWellKnownEndpoints()
                 .subscribe((data: any) => {
                     this.issuer = data.issuer;
@@ -74,7 +74,7 @@ export class AuthWellKnownEndpoints {
                     }
 
                     this.oidcSecurityCommon.store('wellknownendpoints', data);
-                    console.log(data);
+                    this.oidcSecurityCommon.logDebug(data);
                 });
         }
     }
