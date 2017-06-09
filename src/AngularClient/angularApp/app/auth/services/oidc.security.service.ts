@@ -10,6 +10,8 @@ import { OidcSecurityCheckSession } from './oidc.security.check-session';
 import { OidcSecuritySilentRenew } from './oidc.security.silent-renew';
 import { OidcSecurityUserService } from './oidc.security.user-service';
 import { OidcSecurityCommon } from './oidc.security.common';
+import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
+
 import { JwtKeys } from './jwtkeys';
 
 @Injectable()
@@ -32,7 +34,8 @@ export class OidcSecurityService {
         private oidcSecurityCheckSession: OidcSecurityCheckSession,
         private oidcSecuritySilentRenew: OidcSecuritySilentRenew,
         private oidcSecurityUserService: OidcSecurityUserService,
-        private oidcSecurityCommon: OidcSecurityCommon
+        private oidcSecurityCommon: OidcSecurityCommon,
+        private authWellKnownEndpoints: AuthWellKnownEndpoints
     ) {
         this.oidcSecurityValidation = new OidcSecurityValidation(this.oidcSecurityCommon);
 
@@ -114,7 +117,7 @@ export class OidcSecurityService {
                             // validate nonce
                             if (this.oidcSecurityValidation.validate_id_token_nonce(decoded, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_nonce))) {
                                 // validate iss
-                                if (this.oidcSecurityValidation.validate_id_token_iss(decoded, this.authConfiguration.iss)) {
+                                if (this.oidcSecurityValidation.validate_id_token_iss(decoded, this.authWellKnownEndpoints.issuer)) {
                                     // validate aud
                                     if (this.oidcSecurityValidation.validate_id_token_aud(decoded, this.authConfiguration.client_id)) {
                                         // valiadate at_hash and access_token
@@ -177,7 +180,7 @@ export class OidcSecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         this.oidcSecurityCommon.logDebug('BEGIN Authorize, no auth data');
 
-        let authorizationEndsessionUrl = this.authConfiguration.logoutEndSession_url;
+        let authorizationEndsessionUrl = this.authWellKnownEndpoints.end_session_endpoint;
 
         let id_token_hint = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_id_token);
         let post_logout_redirect_uri = this.authConfiguration.post_logout_redirect_uri;
@@ -227,7 +230,7 @@ export class OidcSecurityService {
 
     private createAuthorizeUrl(nonce: string, state: string): string {
 
-        let authorizationUrl = this.authConfiguration.authorise_url;
+        let authorizationUrl = this.authWellKnownEndpoints.authorization_endpoint;
         let client_id = this.authConfiguration.client_id;
         let redirect_uri = this.authConfiguration.redirect_url;
         let response_type = this.authConfiguration.response_type;
@@ -275,7 +278,8 @@ export class OidcSecurityService {
     }
 
     private getSigningKeys(): Observable<JwtKeys> {
-        return this.http.get(this.authConfiguration.jwks_url)
+        this.oidcSecurityCommon.logDebug('jwks_uri: ' + this.authWellKnownEndpoints.jwks_uri);
+        return this.http.get(this.authWellKnownEndpoints.jwks_uri)
             .map(this.extractData)
             .catch(this.handleErrorGetSigningKeys);
     }
@@ -295,7 +299,7 @@ export class OidcSecurityService {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        this.oidcSecurityCommon.logError(errMsg);
+        console.error(errMsg);
         return Observable.throw(errMsg);
     }
 
@@ -318,11 +322,13 @@ export class OidcSecurityService {
                 }
             }
         },
-        function (err: any) {
-            this.oidcSecurityCommon.logError('Error: ' + err);
-        },
-        function () {
-            this.oidcSecurityCommon.logDebug('Completed');
-        });
+            function (err: any) {
+                console.error('Error: ' + err);
+                //this.oidcSecurityCommon.logError('Error: ' + err);
+            },
+                function () {
+                    console.log('Completed');
+                //this.oidcSecurityCommon.logDebug('Completed');
+            });
     }
 }

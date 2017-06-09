@@ -12,7 +12,7 @@ import { OidcSecurityCheckSession } from './services/oidc.security.check-session
 import { OidcSecuritySilentRenew } from './services/oidc.security.silent-renew';
 import { OidcSecurityUserService } from './services/oidc.security.user-service';
 import { OidcSecurityCommon } from './services/oidc.security.common';
-
+import { AuthWellKnownEndpoints } from './services/auth.well-known-endpoints';
 
 @NgModule({
     imports: [
@@ -31,7 +31,8 @@ export class AuthModule {
                 OidcSecuritySilentRenew,
                 OidcSecurityUserService,
                 OidcSecurityCommon,
-                AuthConfiguration
+                AuthConfiguration,
+                AuthWellKnownEndpoints
             ]
         };
     }

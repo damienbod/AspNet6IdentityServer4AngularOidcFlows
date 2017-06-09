@@ -9,13 +9,19 @@ import 'rxjs/add/observable/throw';
 
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityCommon } from './oidc.security.common';
+import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
 
 @Injectable()
 export class OidcSecurityUserService {
 
     userData: any;
 
-    constructor(private http: Http, private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
+    constructor(
+        private http: Http,
+        private authConfiguration: AuthConfiguration,
+        private oidcSecurityCommon: OidcSecurityCommon,
+        private authWellKnownEndpoints: AuthWellKnownEndpoints
+    ) {
 
         if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data) !== '') {
             this.userData = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data);
@@ -39,7 +45,7 @@ export class OidcSecurityUserService {
             headers.append('Authorization', 'Bearer ' + token);
         }
 
-        return this.http.get(this.authConfiguration.userinfo_url, {
+        return this.http.get(this.authWellKnownEndpoints.userinfo_endpoint, {
             headers: headers,
             body: ''
         }).map(res => res.json());
