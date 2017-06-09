@@ -85,7 +85,6 @@ export class AuthWellKnownEndpoints {
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
 
-
         return this.http.get(this.authConfiguration.stsServer + '/.well-known/openid-configuration', {
             headers: headers,
             body: ''
