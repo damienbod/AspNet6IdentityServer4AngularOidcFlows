@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -14,6 +14,8 @@ import { JwtKeys } from './jwtkeys';
 
 @Injectable()
 export class OidcSecurityService {
+
+    @Output() onUserDataLoaded: EventEmitter<any> = new EventEmitter<any>(true);
 
     checkSessionChanged: boolean;
     isAuthorized: boolean;
@@ -146,7 +148,7 @@ export class OidcSecurityService {
                     this.setAuthorizationData(token, id_token);
                     this.oidcSecurityUserService.initUserData()
                         .subscribe(() => {
-                            this.oidcSecurityUserService.onUserDataLoaded.emit();
+                            this.onUserDataLoaded.emit();
                             console.log(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
 
                             if (this.authConfiguration.start_checksession) {
