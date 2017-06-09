@@ -53,7 +53,7 @@ export class OidcSecurityService {
 
     getUserData(): any {
         if (!this.isAuthorized) {
-            console.log('User must be logged in before you can get the user data!')
+            this.oidcSecurityCommon.logError('User must be logged in before you can get the user data!')
         }
 
         return this.oidcSecurityUserService.userData;
@@ -62,21 +62,21 @@ export class OidcSecurityService {
     authorize() {
         this.resetAuthorizationData();
 
-        console.log('BEGIN Authorize, no auth data');
+        this.oidcSecurityCommon.logDebug('BEGIN Authorize, no auth data');
 
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, state);
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, nonce);
-        console.log('AuthorizedController created. local state: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
+        this.oidcSecurityCommon.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
 
         let url = this.createAuthorizeUrl(nonce, state);
         window.location.href = url;
     }
 
     authorizedCallback() {
-        console.log('BEGIN AuthorizedCallback, no auth data');
+        this.oidcSecurityCommon.logDebug('BEGIN AuthorizedCallback, no auth data');
         this.resetAuthorizationData();
 
         let hash = window.location.hash.substr(1);
@@ -87,8 +87,8 @@ export class OidcSecurityService {
             return result;
         }, {});
 
-        console.log(result);
-        console.log('AuthorizedCallback created, begin token validation');
+        this.oidcSecurityCommon.logDebug(result);
+        this.oidcSecurityCommon.logDebug('AuthorizedCallback created, begin token validation');
 
         let token = '';
         let id_token = '';
@@ -123,24 +123,24 @@ export class OidcSecurityService {
                                             this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
 
                                             authResponseIsValid = true;
-                                            console.log('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
+                                            this.oidcSecurityCommon.logDebug('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
                                         } else {
-                                            console.log('AuthorizedCallback incorrect aud');
+                                            this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
                                         }
                                     } else {
-                                        console.log('AuthorizedCallback incorrect aud');
+                                        this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
                                     }
                                 } else {
-                                    console.log('AuthorizedCallback incorrect iss');
+                                    this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect iss');
                                 }
                             } else {
-                                console.log('AuthorizedCallback incorrect nonce');
+                                this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect nonce');
                             }
                         } else {
-                            console.log('AuthorizedCallback incorrect Signature id_token');
+                            this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect Signature id_token');
                         }
                     } else {
-                        console.log('AuthorizedCallback incorrect state');
+                        this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect state');
                     }
                 }
 
@@ -149,8 +149,8 @@ export class OidcSecurityService {
                     this.oidcSecurityUserService.initUserData()
                         .subscribe(() => {
                             this.onUserDataLoaded.emit();
-                            console.log(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
-
+                            this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
+                            this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
                             if (this.authConfiguration.start_checksession) {
                                 this.oidcSecurityCheckSession.init().then(() => {
                                     this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
@@ -175,7 +175,7 @@ export class OidcSecurityService {
 
     logoff() {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
-        console.log('BEGIN Authorize, no auth data');
+        this.oidcSecurityCommon.logDebug('BEGIN Authorize, no auth data');
 
         let authorizationEndsessionUrl = this.authConfiguration.logoutEndSession_url;
 
@@ -190,21 +190,21 @@ export class OidcSecurityService {
         this.resetAuthorizationData();
 
         if (this.authConfiguration.start_checksession && this.checkSessionChanged) {
-            console.log('only local login cleaned up, server session has changed');
+            this.oidcSecurityCommon.logDebug('only local login cleaned up, server session has changed');
         } else {
             window.location.href = url;
         }
     }
 
     refreshSession() {
-        console.log('BEGIN refresh session Authorize');
+        this.oidcSecurityCommon.logDebug('BEGIN refresh session Authorize');
 
         let nonce = 'N' + Math.random() + '' + Date.now();
         let state = Date.now() + '' + Math.random();
 
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, state);
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, nonce);
-        console.log('RefreshSession created. adding myautostate: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
+        this.oidcSecurityCommon.logDebug('RefreshSession created. adding myautostate: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
 
         let url = this.createAuthorizeUrl(nonce, state);
 
@@ -216,9 +216,9 @@ export class OidcSecurityService {
             this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_access_token, '');
         }
 
-        console.log(access_token);
-        console.log(id_token);
-        console.log('storing to storage, getting the roles');
+        this.oidcSecurityCommon.logDebug(access_token);
+        this.oidcSecurityCommon.logDebug(id_token);
+        this.oidcSecurityCommon.logDebug('storing to storage, getting the roles');
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_access_token, access_token);
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_id_token, id_token);
         this.isAuthorized = true;
@@ -253,7 +253,7 @@ export class OidcSecurityService {
     }
 
     handleError(error: any) {
-        console.log(error);
+        this.oidcSecurityCommon.logError(error);
         if (error.status == 403) {
             this.router.navigate([this.authConfiguration.forbidden_route]);
         } else if (error.status == 401) {
@@ -263,7 +263,7 @@ export class OidcSecurityService {
     }
 
     private onCheckSessionChanged() {
-        console.log('onCheckSessionChanged');
+        this.oidcSecurityCommon.logDebug('onCheckSessionChanged');
         this.checkSessionChanged = true;
     }
 
@@ -295,7 +295,7 @@ export class OidcSecurityService {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        console.error(errMsg);
+        this.oidcSecurityCommon.logError(errMsg);
         return Observable.throw(errMsg);
     }
 
@@ -308,7 +308,7 @@ export class OidcSecurityService {
         let subscription = source.subscribe(() => {
             if (this.isAuthorized) {
                 if (this.oidcSecurityValidation.isTokenExpired(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_id_token))) {
-                    console.log('IsAuthorized: isTokenExpired');
+                    this.oidcSecurityCommon.logDebug('IsAuthorized: id_token isTokenExpired, start silent renew if active');
 
                     if (this.authConfiguration.silent_renew) {
                         this.refreshSession();
@@ -319,10 +319,10 @@ export class OidcSecurityService {
             }
         },
         function (err: any) {
-            console.log('Error: ' + err);
+            this.oidcSecurityCommon.logError('Error: ' + err);
         },
         function () {
-            console.log('Completed');
+            this.oidcSecurityCommon.logDebug('Completed');
         });
     }
 }

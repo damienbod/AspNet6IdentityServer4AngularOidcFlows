@@ -17,9 +17,6 @@ export class DataEventRecordsService {
     }
 
     private setHeaders() {
-
-        console.log('setHeaders started');
-
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
@@ -27,7 +24,6 @@ export class DataEventRecordsService {
         let token = this._securityService.getToken();
         if (token !== '') {
             let tokenValue = 'Bearer ' + token;
-            console.log('tokenValue:' + tokenValue);
             this.headers.append('Authorization', tokenValue);
         }
     }

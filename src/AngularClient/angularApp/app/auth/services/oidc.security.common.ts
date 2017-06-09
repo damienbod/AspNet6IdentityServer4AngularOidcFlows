@@ -42,9 +42,13 @@ export class OidcSecurityCommon {
         return this.retrieve(this.storage_access_token);
     }
 
+    logError(message: any) {
+        console.error(message);
+    }
+
     logWarning(message: any) {
         if (this.authConfiguration.log_console_warning_active) {
-            console.log(message);
+            console.warn(message);
         }
     }
 

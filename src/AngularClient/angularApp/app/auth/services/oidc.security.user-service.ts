@@ -46,6 +46,6 @@ export class OidcSecurityUserService {
     }
 
     private handleError(error: any) {
-        this.oidcSecurityCommon.logWarning(error);
+        this.oidcSecurityCommon.logError(error);
     }
 }

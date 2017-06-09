@@ -46,15 +46,15 @@ export class OidcSecurityCheckSession {
             .take(10000);
 
         let subscription = source.subscribe(() => {
-            console.log(this.sessionIframe);
+            this.oidcSecurityCommon.logDebug(this.sessionIframe);
             this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.server);
         },
-            function (err: any) {
-                console.log('Error: ' + err);
-            },
-            function () {
-                console.log('Completed');
-            });
+        function (err: any) {
+            this.oidcSecurityCommon.logWarning('Error: ' + err);
+        },
+        function () {
+            this.oidcSecurityCommon.logDebug('Completed');
+        });
     }
 
     private messageHandler(e: any) {
@@ -62,11 +62,11 @@ export class OidcSecurityCheckSession {
             e.source === this.sessionIframe.contentWindow
         ) {
             if (e.data === 'error') {
-                console.log('error _messageHandler');
+                this.oidcSecurityCommon.logWarning('error _messageHandler');
             } else if (e.data === 'changed') {
                 this.onCheckSessionChanged.emit();
             } else {
-                console.log(e.data + ' _messageHandler');
+                this.oidcSecurityCommon.logDebug(e.data + ' _messageHandler');
             }
         }
     }

@@ -141,7 +141,7 @@ export class OidcSecurityValidation {
         let alg = header_data.alg;
 
         if ('RS256' != alg) {
-            console.log('Only RS256 supported');
+            this.oidcSecurityCommon.logWarning('Only RS256 supported');
             return false;
         }
 

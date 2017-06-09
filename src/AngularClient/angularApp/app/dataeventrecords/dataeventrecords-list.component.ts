@@ -30,15 +30,13 @@ export class DataEventRecordsListComponent implements OnInit {
 
         for (let i = 0; i < userData.role.length; i++) {
             if (userData.role[i] === 'dataEventRecords.admin') {
-                console.log('user is dataEventRecords.admin');
                 this.hasAdminRole = true;
             }
             if (userData.role[i] === 'admin') {
-                console.log('user is admin');
             }
         }
 
-        console.log(userData);
+        // console.log(userData);
 
         this.getData();
     }
@@ -52,12 +50,11 @@ export class DataEventRecordsListComponent implements OnInit {
     }
 
     private getData() {
-        console.log('DataEventRecordsListComponent:getData starting...');
         this._dataEventRecordsService
             .GetAll()
             .subscribe(data => this.DataEventRecords = data,
             error => this.securityService.handleError(error),
-            () => console.log('Get all completed'));
+            () => console.log('getData Get all completed'));
     }
 
 
