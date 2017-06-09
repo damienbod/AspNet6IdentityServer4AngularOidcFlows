@@ -155,7 +155,7 @@ export class OidcSecurityService {
                             this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
                             this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
                             if (this.authConfiguration.start_checksession) {
-                                this.oidcSecurityCheckSession.init().then(() => {
+                                this.oidcSecurityCheckSession.init().subscribe(() => {
                                     this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
                                 });
                             }
@@ -199,7 +199,7 @@ export class OidcSecurityService {
         }
     }
 
-    refreshSession() {
+    private refreshSession() {
         this.oidcSecurityCommon.logDebug('BEGIN refresh session Authorize');
 
         let nonce = 'N' + Math.random() + '' + Date.now();
