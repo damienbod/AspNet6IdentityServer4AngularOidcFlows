@@ -32,6 +32,8 @@
 
 ## History
 
+<strong>2017.06.09: </strong>Logging can be turned off or on for the auto security module
+
 <strong>2017.06.08: </strong>Updated using angular style guide, and refactored code
 
 <strong>2017.06.02: </strong>Implemented silent renew for Angular 4 OpenID Connect Implicit flow and OpenID Connect Session Management
