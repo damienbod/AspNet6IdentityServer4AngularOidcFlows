@@ -30,7 +30,7 @@ export class AuthWellKnownEndpoints {
     ) {
         let data = this.oidcSecurityCommon.retrieve('wellknownendpoints');
         this.oidcSecurityCommon.logDebug(data);
-        if (data !== '' && data != 'undefined') {
+        if (data && data !== '') {
             this.oidcSecurityCommon.logDebug('AuthWellKnownEndpoints already defined');
             this.issuer = data.issuer;
             this.jwks_uri = data.jwks_uri;
