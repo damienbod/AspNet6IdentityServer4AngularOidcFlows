@@ -51,16 +51,14 @@ export class OidcSecurityCheckSession {
             .take(10000);
 
         let subscription = source.subscribe(() => {
-            this.oidcSecurityCommon.logDebug(this.sessionIframe);
-            this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.stsServer);
-        },
-            function (err: any) {
-                console.error('Error: ' + err);
-                //this.oidcSecurityCommon.logError('Error: ' + err);
+                this.oidcSecurityCommon.logDebug(this.sessionIframe);
+                this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.stsServer);
             },
-            function () {
-                console.log('Completed');
-                //this.oidcSecurityCommon.logDebug('Completed');
+            (err: any) => {
+                this.oidcSecurityCommon.logError('Error: ' + err);
+            },
+            () => {
+                this.oidcSecurityCommon.logDebug('Completed');
             });
     }
 

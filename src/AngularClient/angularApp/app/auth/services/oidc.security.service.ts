@@ -290,7 +290,6 @@ export class OidcSecurityService {
     }
 
     private handleErrorGetSigningKeys(error: Response | any) {
-        // In a real world app, you might use a remote logging infrastructure
         let errMsg: string;
         if (error instanceof Response) {
             const body = error.json() || '';
@@ -310,25 +309,23 @@ export class OidcSecurityService {
             .take(10000);
 
         let subscription = source.subscribe(() => {
-            if (this.isAuthorized) {
-                if (this.oidcSecurityValidation.isTokenExpired(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_id_token))) {
-                    this.oidcSecurityCommon.logDebug('IsAuthorized: id_token isTokenExpired, start silent renew if active');
+                if (this.isAuthorized) {
+                    if (this.oidcSecurityValidation.isTokenExpired(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_id_token))) {
+                        this.oidcSecurityCommon.logDebug('IsAuthorized: id_token isTokenExpired, start silent renew if active');
 
-                    if (this.authConfiguration.silent_renew) {
-                        this.refreshSession();
-                    } else {
-                        this.resetAuthorizationData();
+                        if (this.authConfiguration.silent_renew) {
+                            this.refreshSession();
+                        } else {
+                            this.resetAuthorizationData();
+                        }
                     }
                 }
-            }
-        },
-            function (err: any) {
-                console.error('Error: ' + err);
-                //this.oidcSecurityCommon.logError('Error: ' + err);
             },
-                function () {
-                    console.log('Completed');
-                //this.oidcSecurityCommon.logDebug('Completed');
+            (err: any) => {
+                this.oidcSecurityCommon.logError('Error: ' + err);
+            },
+            () => {
+                this.oidcSecurityCommon.logDebug('Completed');
             });
     }
 }
