@@ -49,6 +49,14 @@ export class OidcSecurityService {
         return this.oidcSecurityCommon.getAccessToken();
     }
 
+    getUserData(): any {
+        if (!this.isAuthorized) {
+            console.log('User must be logged in before you can get the user data!')
+        }
+
+        return this.oidcSecurityUserService.userData;
+    }
+
     authorize() {
         this.resetAuthorizationData();
 
