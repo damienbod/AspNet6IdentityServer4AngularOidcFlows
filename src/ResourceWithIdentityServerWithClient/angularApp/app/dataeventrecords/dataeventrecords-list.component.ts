@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
-import { OidcSecurityUserService } from '../auth/services/oidc.security.user-service';
 import { Observable }       from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -21,14 +20,13 @@ export class DataEventRecordsListComponent implements OnInit {
     constructor(
         private _dataEventRecordsService: DataEventRecordsService,
         public securityService: OidcSecurityService,
-        public oidcSecurityUserService: OidcSecurityUserService,
         private _router: Router
     ) {
         this.message = 'DataEventRecords';
     }
 
     ngOnInit() {
-        let userData = this.oidcSecurityUserService.userData;
+        let userData = this.securityService.getUserData();
 
         for (let i = 0; i < userData.role.length; i++) {
             if (userData.role[i] === 'dataEventRecords.admin') {

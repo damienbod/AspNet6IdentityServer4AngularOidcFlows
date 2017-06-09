@@ -21,7 +21,7 @@ export class NavigationComponent {
     }
 
     load() {
-        let userData = this.oidcSecurityUserService.userData;
+        let userData = this.securityService.getUserData();
 
         for (let i = 0; i < userData.role.length; i++) {
             if (userData.role[i] === 'dataEventRecords.admin') {
