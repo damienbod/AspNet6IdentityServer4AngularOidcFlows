@@ -1,4 +1,4 @@
-﻿import { Injectable, EventEmitter, Output } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -14,8 +14,6 @@ import { OidcSecurityCommon } from './oidc.security.common';
 export class OidcSecurityUserService {
 
     userData: any;
-
-    @Output() onUserDataLoaded: EventEmitter<any> = new EventEmitter<any>(true);
 
     constructor(private http: Http, private authConfiguration: AuthConfiguration, private oidcSecurityCommon: OidcSecurityCommon) {
 
