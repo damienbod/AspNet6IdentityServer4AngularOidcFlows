@@ -199,7 +199,7 @@ export class OidcSecurityService {
         }
     }
 
-    refreshSession() {
+    private refreshSession() {
         this.oidcSecurityCommon.logDebug('BEGIN refresh session Authorize');
 
         let nonce = 'N' + Math.random() + '' + Date.now();
