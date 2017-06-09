@@ -9,6 +9,7 @@ import 'rxjs/add/observable/timer';
 import { AuthConfiguration } from '../auth.configuration';
 import { OidcSecurityCommon } from './oidc.security.common';
 import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
+import { Observer } from 'rxjs/Observer';
 
 // http://openid.net/specs/openid-connect-session-1_0-ID4.html
 
@@ -37,9 +38,10 @@ export class OidcSecurityCheckSession {
         this.iframeMessageEvent = this.messageHandler.bind(this);
         window.addEventListener('message', this.iframeMessageEvent, false);
 
-        return new Promise((resolve) => {
+        return Observable.create((observer: Observer<any>) => {
             this.sessionIframe.onload = () => {
-                resolve();
+                observer.next(this);
+                observer.complete();
             }
         });
     }
