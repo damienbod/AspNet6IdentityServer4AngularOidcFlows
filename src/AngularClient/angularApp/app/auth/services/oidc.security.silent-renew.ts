@@ -1,5 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { OidcSecurityCommon } from './oidc.security.common';
+import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class OidcSecuritySilentRenew {
@@ -20,9 +22,10 @@ export class OidcSecuritySilentRenew {
         this.oidcSecurityCommon.logDebug('startRenew for URL:' + url);
         this.sessionIframe.src = url;
 
-        return new Promise((resolve) => {
+        return Observable.create((observer: Observer<any>) => {
             this.sessionIframe.onload = () => {
-                resolve();
+                observer.next(this);
+                observer.complete();
             }
         });
     }
