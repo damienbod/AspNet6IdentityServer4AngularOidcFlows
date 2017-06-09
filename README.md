@@ -32,6 +32,8 @@
 
 ## History
 
+<strong>2017.06.09: </strong>Supporting OpenID well known endpoints
+
 <strong>2017.06.09: </strong>Logging can be turned off or on for the auto security module
 
 <strong>2017.06.08: </strong>Updated using angular style guide, and refactored code
