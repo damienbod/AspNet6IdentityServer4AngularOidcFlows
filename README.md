@@ -33,6 +33,8 @@
 
 ## History
 
+<strong>2017.06.11: </strong>Supporting OpenID Connect Session Management 1.0 
+
 <strong>2017.06.09: </strong>Supporting OpenID well known endpoints
 
 <strong>2017.06.09: </strong>Logging can be turned off or on for the auto security module
