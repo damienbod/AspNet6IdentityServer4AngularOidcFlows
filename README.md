@@ -29,6 +29,7 @@
 
 <a href="https://damienbod.com/2017/06/02/implementing-a-silent-token-renew-in-angular-for-the-openid-connect-implicit-flow/">Implementing a silent token renew in Angular for the OpenID Connect Implicit flow</a>
 
+<a href="https://damienbod.com/2017/06/11/openid-connect-session-management-an-angular-application-using-identityserver4/">OpenID Connect Session Management an Angular application using IdentityServer4</a>
 
 ## History
 
