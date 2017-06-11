@@ -57,10 +57,10 @@ export class OidcSecurityCheckSession {
                 this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.stsServer);
             },
             (err: any) => {
-                this.oidcSecurityCommon.logError('Error: ' + err);
+                this.oidcSecurityCommon.logError('pollServerSession error: ' + err);
             },
             () => {
-                this.oidcSecurityCommon.logDebug('Completed');
+                this.oidcSecurityCommon.logDebug('checksession pollServerSession completed');
             });
     }
 
@@ -69,11 +69,11 @@ export class OidcSecurityCheckSession {
             e.source === this.sessionIframe.contentWindow
         ) {
             if (e.data === 'error') {
-                this.oidcSecurityCommon.logWarning('error _messageHandler');
+                this.oidcSecurityCommon.logWarning('error from checksession messageHandler');
             } else if (e.data === 'changed') {
                 this.onCheckSessionChanged.emit();
             } else {
-                this.oidcSecurityCommon.logDebug(e.data + ' _messageHandler');
+                this.oidcSecurityCommon.logDebug(e.data + ' from checksession messageHandler');
             }
         }
     }
