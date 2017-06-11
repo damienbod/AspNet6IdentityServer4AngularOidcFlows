@@ -33,7 +33,7 @@
 
 ## History
 
-<strong>2017.06.11: </strong>Supporting OpenID Connect Session Management 1.0 
+<strong>2017.06.11: </strong>Supporting OpenID Connect Session Management 1.0 , Angular 4.2.1
 
 <strong>2017.06.09: </strong>Supporting OpenID well known endpoints
 
