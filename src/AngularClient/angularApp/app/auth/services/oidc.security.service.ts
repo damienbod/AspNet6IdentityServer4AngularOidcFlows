@@ -107,34 +107,40 @@ export class OidcSecurityService {
                     if (this.oidcSecurityValidation.validateStateFromHashCallback(result.state, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control))) {
                         token = result.access_token;
                         id_token = result.id_token;
-                        let decoded: any;
+                        let decoded_id_token: any;
                         let headerDecoded;
-                        decoded = this.oidcSecurityValidation.getPayloadFromToken(id_token, false);
+                        decoded_id_token = this.oidcSecurityValidation.getPayloadFromToken(id_token, false);
                         headerDecoded = this.oidcSecurityValidation.getHeaderFromToken(id_token, false);
 
                         // validate jwt signature
                         if (this.oidcSecurityValidation.validate_signature_id_token(id_token, this.jwtKeys)) {
                             // validate nonce
-                            if (this.oidcSecurityValidation.validate_id_token_nonce(decoded, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_nonce))) {
-                                // validate iss
-                                if (this.oidcSecurityValidation.validate_id_token_iss(decoded, this.authWellKnownEndpoints.issuer)) {
-                                    // validate aud
-                                    if (this.oidcSecurityValidation.validate_id_token_aud(decoded, this.authConfiguration.client_id)) {
-                                        // valiadate at_hash and access_token
-                                        if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded.at_hash) || !token) {
-                                            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
-                                            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
+                            if (this.oidcSecurityValidation.validate_id_token_nonce(decoded_id_token, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_nonce))) {
+                                // validate required fields id_token
+                                if (this.oidcSecurityValidation.validate_required_id_token(decoded_id_token)) {
+                                    // validate iss
+                                    if (this.oidcSecurityValidation.validate_id_token_iss(decoded_id_token, this.authWellKnownEndpoints.issuer)) {
+                                        // validate aud
+                                        if (this.oidcSecurityValidation.validate_id_token_aud(decoded_id_token, this.authConfiguration.client_id)) {
+                                            // valiadate at_hash and access_token
+                                            if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded_id_token.at_hash) || !token) {
+                                                this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
+                                                this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
 
-                                            authResponseIsValid = true;
-                                            this.oidcSecurityCommon.logDebug('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
+                                                authResponseIsValid = true;
+                                                this.oidcSecurityCommon.logDebug('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
+                                            } else {
+                                                this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
+                                            }
                                         } else {
                                             this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
                                         }
                                     } else {
-                                        this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
+                                        this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect iss');
                                     }
-                                } else {
-                                    this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect iss');
+                                }
+                                else {
+                                    this.oidcSecurityCommon.logDebug('Validation, one of the REQUIRED properties missing from id_token');
                                 }
                             } else {
                                 this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect nonce');

@@ -49,6 +49,56 @@ export class OidcSecurityValidation {
         return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
     }
 
+    // iss
+    // REQUIRED. Issuer Identifier for the Issuer of the response.The iss value is a case-sensitive URL using the https scheme that contains scheme, host, 
+    // and optionally, port number and path components and no query or fragment components.
+    // 
+    // sub
+    // REQUIRED. Subject Identifier.Locally unique and never reassigned identifier within the Issuer for the End- User, 
+    // which is intended to be consumed by the Client, e.g., 24400320 or AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4.
+    // It MUST NOT exceed 255 ASCII characters in length.The sub value is a case-sensitive string.
+    // 
+    // aud
+    // REQUIRED. Audience(s) that this ID Token is intended for. It MUST contain the OAuth 2.0 client_id of the Relying Party as an audience value.
+    // It MAY also contain identifiers for other audiences.In the general case, the aud value is an array of case-sensitive strings.
+    // In the common special case when there is one audience, the aud value MAY be a single case-sensitive string.
+    //    
+    // exp
+    // REQUIRED. Expiration time on or after which the ID Token MUST NOT be accepted for processing.
+    // The processing of this parameter requires that the current date/ time MUST be before the expiration date/ time listed in the value.
+    // Implementers MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew.
+    // Its value is a JSON [RFC7159] number representing the number of seconds from 1970- 01 - 01T00: 00:00Z as measured in UTC until the date/ time.
+    // See RFC 3339 [RFC3339] for details regarding date/ times in general and UTC in particular.
+    // 
+    // iat
+    // REQUIRED. Time at which the JWT was issued. Its value is a JSON number representing the number of seconds from 1970- 01 - 01T00: 00:00Z as measured 
+    // in UTC until the date/ time. 
+    validate_required_id_token(dataIdToken: any): boolean  {
+
+        let validated = true;
+        if (!dataIdToken.hasOwnProperty('iss')) {
+            this.oidcSecurityCommon.logWarning('iss missing, validatation REQUIRED propeties in id_token');
+        }
+
+        if (!dataIdToken.hasOwnProperty('sub')) {
+            this.oidcSecurityCommon.logWarning('sub missing, validatation REQUIRED propeties in id_token');
+        }
+
+        if (!dataIdToken.hasOwnProperty('aud')) {
+            this.oidcSecurityCommon.logWarning('aud missing, validatation REQUIRED propeties in id_token');
+        }
+
+        if (!dataIdToken.hasOwnProperty('exp')) {
+            this.oidcSecurityCommon.logWarning('exp missing, validatation REQUIRED propeties in id_token');
+        }
+
+        if (!dataIdToken.hasOwnProperty('iat')) {
+            this.oidcSecurityCommon.logWarning('iat missing, validatation REQUIRED propeties in id_token');
+        }
+
+        return validated;
+    }
+
     // id_token C9: The value of the nonce Claim MUST be checked to verify that it is the same value as the one that was sent in the Authentication Request.The Client SHOULD check the nonce value for replay attacks.The precise method for detecting replay attacks is Client specific.
     validate_id_token_nonce(dataIdToken: any, local_nonce: any): boolean {
         if (dataIdToken.nonce !== local_nonce) {
