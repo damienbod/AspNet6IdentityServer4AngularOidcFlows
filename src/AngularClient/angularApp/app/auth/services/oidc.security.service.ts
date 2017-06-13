@@ -118,28 +118,32 @@ export class OidcSecurityService {
                             if (this.oidcSecurityValidation.validate_id_token_nonce(decoded_id_token, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_nonce))) {
                                 // validate required fields id_token
                                 if (this.oidcSecurityValidation.validate_required_id_token(decoded_id_token)) {
-                                    // validate iss
-                                    if (this.oidcSecurityValidation.validate_id_token_iss(decoded_id_token, this.authWellKnownEndpoints.issuer)) {
-                                        // validate aud
-                                        if (this.oidcSecurityValidation.validate_id_token_aud(decoded_id_token, this.authConfiguration.client_id)) {
-                                            // valiadate at_hash and access_token
-                                            if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded_id_token.at_hash) || !token) {
-                                                this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
-                                                this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
+                                    // validate max offset from the id_token issue to now
+                                    if (this.oidcSecurityValidation.validate_id_token_iat_max_offset(decoded_id_token, this.authConfiguration.max_id_token_iat_offset_allowed_in_seconds)) {
+                                        // validate iss
+                                        if (this.oidcSecurityValidation.validate_id_token_iss(decoded_id_token, this.authWellKnownEndpoints.issuer)) {
+                                            // validate aud
+                                            if (this.oidcSecurityValidation.validate_id_token_aud(decoded_id_token, this.authConfiguration.client_id)) {
+                                                // valiadate at_hash and access_token
+                                                if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded_id_token.at_hash) || !token) {
+                                                    this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
+                                                    this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
 
-                                                authResponseIsValid = true;
-                                                this.oidcSecurityCommon.logDebug('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
+                                                    authResponseIsValid = true;
+                                                    this.oidcSecurityCommon.logDebug('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
+                                                } else {
+                                                    this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
+                                                }
                                             } else {
                                                 this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
                                             }
                                         } else {
-                                            this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
+                                            this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect iss');
                                         }
                                     } else {
-                                        this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect iss');
+                                        this.oidcSecurityCommon.logWarning('Validation, iat rejected id_token was issued too far away from the current time');
                                     }
-                                }
-                                else {
+                                } else {
                                     this.oidcSecurityCommon.logDebug('Validation, one of the REQUIRED properties missing from id_token');
                                 }
                             } else {
