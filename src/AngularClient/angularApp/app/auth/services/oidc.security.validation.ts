@@ -38,15 +38,20 @@ export class OidcSecurityValidation {
         let decoded: any;
         decoded = this.getPayloadFromToken(token, false);
 
-        let tokenExpirationDate = this.getTokenExpirationDate(decoded);
+        return !(this.validate_id_token_exp_not_expired(decoded, offsetSeconds));
+    }
+
+     // id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
+    validate_id_token_exp_not_expired(decoded_id_token: string, offsetSeconds?: number): boolean {
+        let tokenExpirationDate = this.getTokenExpirationDate(decoded_id_token);
         offsetSeconds = offsetSeconds || 0;
 
         if (tokenExpirationDate == null) {
             return false;
         }
 
-        // Token expired?
-        return !(tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
+        // Token not expired?
+        return (tokenExpirationDate.valueOf() > (new Date().valueOf() + (offsetSeconds * 1000)));
     }
 
     // iss
@@ -120,9 +125,7 @@ export class OidcSecurityValidation {
             return false;
         }
 
-        this.oidcSecurityCommon.logDebug(dateTime_iat_id_token.valueOf());
-        this.oidcSecurityCommon.logDebug(new Date().valueOf() + (max_offset_allowed_in_seconds * 1000));
-        this.oidcSecurityCommon.logDebug((new Date().valueOf() - dateTime_iat_id_token.valueOf()) < (max_offset_allowed_in_seconds * 1000));
+        this.oidcSecurityCommon.logDebug('validate_id_token_iat_max_offset: ' + (new Date().valueOf() - dateTime_iat_id_token.valueOf()) + ' < ' + (max_offset_allowed_in_seconds * 1000));
         return ( (new Date().valueOf() - dateTime_iat_id_token.valueOf())  < (max_offset_allowed_in_seconds * 1000) );
     }
 

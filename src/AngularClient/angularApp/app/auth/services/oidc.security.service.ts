@@ -124,15 +124,20 @@ export class OidcSecurityService {
                                         if (this.oidcSecurityValidation.validate_id_token_iss(decoded_id_token, this.authWellKnownEndpoints.issuer)) {
                                             // validate aud
                                             if (this.oidcSecurityValidation.validate_id_token_aud(decoded_id_token, this.authConfiguration.client_id)) {
-                                                // valiadate at_hash and access_token
-                                                if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded_id_token.at_hash) || !token) {
-                                                    this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
-                                                    this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
+                                                // validate_id_token_exp_not_expired
+                                                if (this.oidcSecurityValidation.validate_id_token_exp_not_expired(decoded_id_token)) {
+                                                    // valiadate at_hash and access_token
+                                                    if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded_id_token.at_hash) || !token) {
+                                                        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
+                                                        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
 
-                                                    authResponseIsValid = true;
-                                                    this.oidcSecurityCommon.logDebug('AuthorizedCallback state, nonce, iss, aud, signature validated, returning token');
+                                                        authResponseIsValid = true;
+                                                        this.oidcSecurityCommon.logDebug('AuthorizedCallback id_token, access_token validated, returning token');
+                                                    } else {
+                                                        this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
+                                                    }
                                                 } else {
-                                                    this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
+                                                    this.oidcSecurityCommon.logWarning('AuthorizedCallback token expired');
                                                 }
                                             } else {
                                                 this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
