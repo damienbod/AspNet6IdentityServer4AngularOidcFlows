@@ -1,0 +1,9 @@
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\bin\Debug\netcoreapp1.1\Angular2Client.deps.json
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\bin\Debug\netcoreapp1.1\Angular2Client.runtimeconfig.json
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\bin\Debug\netcoreapp1.1\Angular2Client.runtimeconfig.dev.json
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\bin\Debug\netcoreapp1.1\Angular2Client.dll
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\bin\Debug\netcoreapp1.1\Angular2Client.pdb
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\obj\Debug\netcoreapp1.1\AngularClient.AssemblyInfo.cs
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\obj\Debug\netcoreapp1.1\Angular2Client.dll
+C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\AngularClient\obj\Debug\netcoreapp1.1\Angular2Client.pdb
