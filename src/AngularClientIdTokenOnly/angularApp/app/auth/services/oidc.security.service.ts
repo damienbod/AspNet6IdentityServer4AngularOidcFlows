@@ -93,7 +93,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.logDebug(result);
         this.oidcSecurityCommon.logDebug('AuthorizedCallback created, begin token validation');
 
-        let token = '';
+        let access_token = '';
         let id_token = '';
         let authResponseIsValid = false;
 
@@ -105,7 +105,9 @@ export class OidcSecurityService {
 
                     // validate state
                     if (this.oidcSecurityValidation.validateStateFromHashCallback(result.state, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control))) {
-                        token = result.access_token;
+                        if (this.authConfiguration.response_type === 'id_token token') {
+                            access_token = result.access_token;
+                        }
                         id_token = result.id_token;
                         let decoded_id_token: any;
                         let headerDecoded;
@@ -126,15 +128,18 @@ export class OidcSecurityService {
                                             if (this.oidcSecurityValidation.validate_id_token_aud(decoded_id_token, this.authConfiguration.client_id)) {
                                                 // validate_id_token_exp_not_expired
                                                 if (this.oidcSecurityValidation.validate_id_token_exp_not_expired(decoded_id_token)) {
-                                                    // valiadate at_hash and access_token
-                                                    if (this.oidcSecurityValidation.validate_id_token_at_hash(token, decoded_id_token.at_hash) || !token) {
-                                                        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
-                                                        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
-
-                                                        authResponseIsValid = true;
-                                                        this.oidcSecurityCommon.logDebug('AuthorizedCallback id_token, access_token validated, returning token');
+                                                    // flow id_token token
+                                                    if (this.authConfiguration.response_type === 'id_token token') {
+                                                        // valiadate at_hash and access_token
+                                                        if (this.oidcSecurityValidation.validate_id_token_at_hash(access_token, decoded_id_token.at_hash) || !access_token) {
+                                                            authResponseIsValid = true;
+                                                            this.successful_validation();
+                                                        } else {
+                                                            this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect at_hash');
+                                                        }
                                                     } else {
-                                                        this.oidcSecurityCommon.logWarning('AuthorizedCallback incorrect aud');
+                                                        authResponseIsValid = true;
+                                                        this.successful_validation();
                                                     }
                                                 } else {
                                                     this.oidcSecurityCommon.logWarning('AuthorizedCallback token expired');
@@ -163,27 +168,45 @@ export class OidcSecurityService {
                 }
 
                 if (authResponseIsValid) {
-                    this.setAuthorizationData(token, id_token);
-                    this.oidcSecurityUserService.initUserData()
-                        .subscribe(() => {
-                            this.onUserDataLoaded.emit();
-                            this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
-                            this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
-                            if (this.authConfiguration.start_checksession) {
-                                this.oidcSecurityCheckSession.init().subscribe(() => {
-                                    this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
-                                });
-                            }
+                    this.setAuthorizationData(access_token, id_token);
+                    // flow id_token token
+                    if (this.authConfiguration.response_type === 'id_token token') {
+                        this.oidcSecurityUserService.initUserData()
+                            .subscribe(() => {
+                                this.oidcSecurityCommon.logDebug('id_token token flow');
+                                this.onUserDataLoaded.emit();
+                                this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
+                                this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
+                                if (this.authConfiguration.start_checksession) {
+                                    this.oidcSecurityCheckSession.init().subscribe(() => {
+                                        this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
+                                    });
+                                }
 
-                            if (this.authConfiguration.silent_renew) {
-                                this.oidcSecuritySilentRenew.initRenew();
-                            }
+                                if (this.authConfiguration.silent_renew) {
+                                    this.oidcSecuritySilentRenew.initRenew();
+                                }
 
-                            this.runTokenValidatation();
+                                this.runTokenValidatation();
 
-                            this.router.navigate([this.authConfiguration.startup_route]);
-                        });
+                                this.router.navigate([this.authConfiguration.startup_route]);
+                            });
+                    } else {
+                        this.oidcSecurityCommon.logDebug('id_token flow');
+                        this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
+                        if (this.authConfiguration.start_checksession) {
+                            this.oidcSecurityCheckSession.init().subscribe(() => {
+                                this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
+                            });
+                        }
 
+                        if (this.authConfiguration.silent_renew) {
+                            this.oidcSecuritySilentRenew.initRenew();
+                        }
+
+                        this.runTokenValidatation();
+                        this.router.navigate([this.authConfiguration.startup_route]);
+                    }
                 } else {
                     this.resetAuthorizationData();
                     this.router.navigate([this.authConfiguration.unauthorized_route]);
@@ -212,6 +235,12 @@ export class OidcSecurityService {
         } else {
             window.location.href = url;
         }
+    }
+
+    private successful_validation() {
+            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, '');
+            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, '');
+            this.oidcSecurityCommon.logDebug('AuthorizedCallback token(s) validated, continue');
     }
 
     private refreshSession() {
