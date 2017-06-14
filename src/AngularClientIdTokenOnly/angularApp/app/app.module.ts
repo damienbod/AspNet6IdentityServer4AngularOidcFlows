@@ -10,7 +10,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/modules/auth.module';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 
 @NgModule({

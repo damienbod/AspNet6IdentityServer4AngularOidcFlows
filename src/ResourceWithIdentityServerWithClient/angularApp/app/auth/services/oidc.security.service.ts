@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-import { AuthConfiguration } from '../auth.configuration';
+import { AuthConfiguration } from '../modules/auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
 import { OidcSecurityCheckSession } from './oidc.security.check-session';
 import { OidcSecuritySilentRenew } from './oidc.security.silent-renew';
@@ -171,26 +171,33 @@ export class OidcSecurityService {
                 if (authResponseIsValid) {
                     this.setAuthorizationData(access_token, id_token);
                     // flow id_token token
-                    if (this.authConfiguration.response_type === 'authorizedCallback id_token token') {
+                    if (this.authConfiguration.response_type === 'id_token token') {
                         this.oidcSecurityUserService.initUserData()
                             .subscribe(() => {
-                                this.oidcSecurityCommon.logDebug('id_token token flow');
-                                this.onUserDataLoaded.emit();
-                                this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
-                                this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
-                                if (this.authConfiguration.start_checksession) {
-                                    this.oidcSecurityCheckSession.init().subscribe(() => {
-                                        this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
-                                    });
+                                this.oidcSecurityCommon.logDebug('authorizedCallback id_token token flow');
+                                if (this.oidcSecurityValidation.validate_userdata_sub_id_token(decoded_id_token.sub, this.oidcSecurityUserService.userData.sub)) {
+                                    this.onUserDataLoaded.emit();
+                                    this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
+                                    this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
+                                    if (this.authConfiguration.start_checksession) {
+                                        this.oidcSecurityCheckSession.init().subscribe(() => {
+                                            this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
+                                        });
+                                    }
+
+                                    if (this.authConfiguration.silent_renew) {
+                                        this.oidcSecuritySilentRenew.initRenew();
+                                    }
+
+                                    this.runTokenValidatation();
+
+                                    this.router.navigate([this.authConfiguration.startup_route]);
+                                } else { // some went wrong, userdata sub does not match that from id_token
+                                    this.oidcSecurityCommon.logWarning('authorizedCallback, User data sub does not match sub in id_token');
+                                    this.oidcSecurityCommon.logDebug('authorizedCallback, token(s) validation failed, resetting');
+                                    this.resetAuthorizationData();
+                                    this.router.navigate([this.authConfiguration.unauthorized_route]);
                                 }
-
-                                if (this.authConfiguration.silent_renew) {
-                                    this.oidcSecuritySilentRenew.initRenew();
-                                }
-
-                                this.runTokenValidatation();
-
-                                this.router.navigate([this.authConfiguration.startup_route]);
                             });
                     } else { // flow id_token
                         this.oidcSecurityCommon.logDebug('authorizedCallback id_token flow');
