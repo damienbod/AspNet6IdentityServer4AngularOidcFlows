@@ -1,0 +1,30 @@
+<div class="container" style="margin-top: 15px;">
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a [routerLink]="['/dataeventrecords/list']" class="navbar-brand"><img src="assets/damienbod.jpg" height="40" style="margin-top:-10px;" /></a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar">
+                <ul class="nav navbar-nav">
+
+                    <li><a class="navigationLinkButton" *ngIf="!securityService.isAuthorized" (click)="login()">Login</a></li>
+                    <li><a class="navigationLinkButton" *ngIf="securityService.isAuthorized" (click)="logout()">Logout</a></li>
+                    <li><a class="navigationLinkButton" *ngIf="securityService.checkSessionChanged" (click)="refreshSession()">Refresh Session</a></li>
+              
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+    <router-outlet></router-outlet>
+
+</div>
+
+

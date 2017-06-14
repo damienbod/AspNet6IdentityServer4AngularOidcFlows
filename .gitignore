@@ -142,3 +142,14 @@ src/ResourceWithIdentityServerWithClient/angularApp/main.js
 src/ResourceWithIdentityServerWithClient/angularApp/main-aot.js
 src/AngularClient/AngularClient.csproj.user
 src/AngularJSClient/.sass-cache
+src/AngularClientIdTokenOnly/wwwroot
+src/AngularClientIdTokenOnly/aot
+src/AngularClientIdTokenOnly/node_modules
+src/AngularClientIdTokenOnly/angularApp/app/**/*.js
+src/AngularClientIdTokenOnly/angularApp/app/**/*.map
+src/AngularClientIdTokenOnly/angularApp/main.js.map
+src/AngularClientIdTokenOnly/angularApp/polyfills.js.map
+src/AngularClientIdTokenOnly/angularApp/vendor.js.map
+src/AngularClientIdTokenOnly/obj
+src/AngularClientIdTokenOnly/obj
+src/AngularClientIdTokenOnly/bin
