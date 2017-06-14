@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OidcSecurityService } from '../auth/services/oidc.security.service';
 
 @Component({
     selector: 'home',
@@ -7,13 +8,20 @@ import { Component, OnInit } from '@angular/core';
 
 export class HomeComponent implements OnInit {
 
-    public message: string;
-    public values: any[];
+    message: string;
+    name = 'none';
+    email = 'none';
 
-    constructor() {
+    constructor(public securityService: OidcSecurityService) {
         this.message = 'HomeComponent constructor';
     }
 
     ngOnInit() {
+        if (this.securityService.isAuthorized) {
+            let userData = this.securityService.getUserData();
+            console.log(userData);
+            this.name = userData.name;
+            this.email = userData.email;
+        }
     }
 }
