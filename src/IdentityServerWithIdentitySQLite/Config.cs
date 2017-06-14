@@ -124,7 +124,9 @@ namespace QuickstartIdentityServer
                         "dataeventrecordsscope",
                         "securedFiles",
                         "securedfilesscope",
-                        "role"
+                        "role",
+                        "profile",
+                        "email"
                     }
                 }
             };

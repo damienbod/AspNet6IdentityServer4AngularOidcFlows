@@ -25,7 +25,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
 import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 import { UserManagementService } from './user-management/UserManagementService';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/modules/auth.module';
 
 @NgModule({
     imports: [
