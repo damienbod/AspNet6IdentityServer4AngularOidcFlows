@@ -51,7 +51,8 @@ export class OidcSecurityService {
     }
 
     getToken(): any {
-        return this.oidcSecurityCommon.getAccessToken();
+        let token = this.oidcSecurityCommon.getAccessToken();
+        return decodeURIComponent(token);
     }
 
     getUserData(): any {
@@ -63,6 +64,12 @@ export class OidcSecurityService {
     }
 
     authorize() {
+
+        if (!this.oidcSecurityValidation.config_validate_response_type(this.authConfiguration.response_type)) {
+            // invalid response_type
+            return
+        }
+
         this.resetAuthorizationData();
 
         this.oidcSecurityCommon.logDebug('BEGIN Authorize, no auth data');
@@ -149,7 +156,7 @@ export class OidcSecurityService {
                                                 this.oidcSecurityCommon.logWarning('authorizedCallback incorrect aud');
                                             }
                                         } else {
-                                            this.oidcSecurityCommon.logWarning('authorizedCallback incorrect iss');
+                                            this.oidcSecurityCommon.logWarning('authorizedCallback incorrect iss does not match authWellKnownEndpoints issuer');
                                         }
                                     } else {
                                         this.oidcSecurityCommon.logWarning('authorizedCallback Validation, iat rejected id_token was issued too far away from the current time');
@@ -161,7 +168,7 @@ export class OidcSecurityService {
                                 this.oidcSecurityCommon.logWarning('authorizedCallback incorrect nonce');
                             }
                         } else {
-                            this.oidcSecurityCommon.logWarning('authorizedCallback incorrect Signature id_token');
+                            this.oidcSecurityCommon.logDebug('authorizedCallback Signature validation failed id_token');
                         }
                     } else {
                         this.oidcSecurityCommon.logWarning('authorizedCallback incorrect state');
@@ -230,22 +237,27 @@ export class OidcSecurityService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         this.oidcSecurityCommon.logDebug('BEGIN Authorize, no auth data');
 
-        let authorizationEndsessionUrl = this.authWellKnownEndpoints.end_session_endpoint;
+        if (this.authWellKnownEndpoints.end_session_endpoint) {
+            let authorizationEndsessionUrl = this.authWellKnownEndpoints.end_session_endpoint;
 
-        let id_token_hint = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_id_token);
-        let post_logout_redirect_uri = this.authConfiguration.post_logout_redirect_uri;
+            let id_token_hint = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_id_token);
+            let post_logout_redirect_uri = this.authConfiguration.post_logout_redirect_uri;
 
-        let url =
-            authorizationEndsessionUrl + '?' +
-            'id_token_hint=' + encodeURI(id_token_hint) + '&' +
-            'post_logout_redirect_uri=' + encodeURI(post_logout_redirect_uri);
+            let url =
+                authorizationEndsessionUrl + '?' +
+                'id_token_hint=' + encodeURI(id_token_hint) + '&' +
+                'post_logout_redirect_uri=' + encodeURI(post_logout_redirect_uri);
 
-        this.resetAuthorizationData();
+            this.resetAuthorizationData();
 
-        if (this.authConfiguration.start_checksession && this.checkSessionChanged) {
-            this.oidcSecurityCommon.logDebug('only local login cleaned up, server session has changed');
+            if (this.authConfiguration.start_checksession && this.checkSessionChanged) {
+                this.oidcSecurityCommon.logDebug('only local login cleaned up, server session has changed');
+            } else {
+                window.location.href = url;
+            }
         } else {
-            window.location.href = url;
+            this.resetAuthorizationData();
+            this.oidcSecurityCommon.logDebug('only local login cleaned up, no end_session_endpoint');
         }
     }
 

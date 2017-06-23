@@ -17,7 +17,8 @@
   },
   "files": [
     "angularApp/app/app.module.ts",
-    "angularApp/main-aot.ts"
+    "angularApp/main-aot.ts",
+    "angularApp/typings.d.ts"
   ],
   "angularCompilerOptions": {
     "genDir": "aot",
