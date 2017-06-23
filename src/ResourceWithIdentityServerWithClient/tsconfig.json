@@ -19,7 +19,8 @@
   },
   "files": [
     "angularApp/app/app.module.ts",
-    "angularApp/main.ts"
+    "angularApp/main.ts",
+    "angularApp/typings.d.ts"
   ],
   "awesomeTypescriptLoaderOptions": {
     "useWebpackText": true
