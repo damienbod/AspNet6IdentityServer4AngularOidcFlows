@@ -40,7 +40,7 @@ export class AuthConfiguration {
     override_well_known_configuration = false;
 
     override_well_known_configuration_url = 'https://localhost:44386/wellknownconfiguration.json';
-	
+
 	// For some oidc, we require resource identifier to be provided along with the request.
     resource = '';
 }
