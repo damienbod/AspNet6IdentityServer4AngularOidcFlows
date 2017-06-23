@@ -51,7 +51,8 @@ export class OidcSecurityService {
     }
 
     getToken(): any {
-        return this.oidcSecurityCommon.getAccessToken();
+        let token = this.oidcSecurityCommon.getAccessToken();
+        return decodeURIComponent(token);
     }
 
     getUserData(): any {
@@ -63,6 +64,12 @@ export class OidcSecurityService {
     }
 
     authorize() {
+
+        if (!this.oidcSecurityValidation.config_validate_response_type(this.authConfiguration.response_type)) {
+            // invalid response_type
+            return
+        }
+
         this.resetAuthorizationData();
 
         this.oidcSecurityCommon.logDebug('BEGIN Authorize, no auth data');
@@ -149,7 +156,7 @@ export class OidcSecurityService {
                                                 this.oidcSecurityCommon.logWarning('authorizedCallback incorrect aud');
                                             }
                                         } else {
-                                            this.oidcSecurityCommon.logWarning('authorizedCallback incorrect iss');
+                                            this.oidcSecurityCommon.logWarning('authorizedCallback incorrect iss does not match authWellKnownEndpoints issuer');
                                         }
                                     } else {
                                         this.oidcSecurityCommon.logWarning('authorizedCallback Validation, iat rejected id_token was issued too far away from the current time');
@@ -161,7 +168,7 @@ export class OidcSecurityService {
                                 this.oidcSecurityCommon.logWarning('authorizedCallback incorrect nonce');
                             }
                         } else {
-                            this.oidcSecurityCommon.logWarning('authorizedCallback incorrect Signature id_token');
+                            this.oidcSecurityCommon.logDebug('authorizedCallback Signature validation failed id_token');
                         }
                     } else {
                         this.oidcSecurityCommon.logWarning('authorizedCallback incorrect state');

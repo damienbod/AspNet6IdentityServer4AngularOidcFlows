@@ -31,7 +31,7 @@ export class AuthConfiguration {
 
     log_console_warning_active = true;
 
-    log_console_debug_active = false;
+    log_console_debug_active = true;
 
     // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time,
     // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
@@ -40,4 +40,7 @@ export class AuthConfiguration {
     override_well_known_configuration = false;
 
     override_well_known_configuration_url = 'https://localhost:44386/wellknownconfiguration.json';
+	
+	// For some oidc, we require resource identifier to be provided along with the request.
+    resource = '';
 }
