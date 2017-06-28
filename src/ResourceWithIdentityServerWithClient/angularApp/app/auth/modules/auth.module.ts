@@ -1,12 +1,7 @@
-import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Http, Response, Headers } from '@angular/http';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { OidcSecurityService } from '../services/oidc.security.service';
-import { AuthConfiguration } from './auth.configuration';
+import { AuthConfiguration, DefaultConfiguration } from './auth.configuration';
 import { OidcSecurityValidation } from '../services/oidc.security.validation';
 import { OidcSecurityCheckSession } from '../services/oidc.security.check-session';
 import { OidcSecuritySilentRenew } from '../services/oidc.security.silent-renew';
@@ -14,11 +9,7 @@ import { OidcSecurityUserService } from '../services/oidc.security.user-service'
 import { OidcSecurityCommon } from '../services/oidc.security.common';
 import { AuthWellKnownEndpoints } from '../services/auth.well-known-endpoints';
 
-@NgModule({
-    imports: [
-        CommonModule
-    ]
-})
+@NgModule()
 export class AuthModule {
     static forRoot(): ModuleWithProviders {
         return {
@@ -31,6 +22,7 @@ export class AuthModule {
                 OidcSecurityUserService,
                 OidcSecurityCommon,
                 AuthConfiguration,
+                DefaultConfiguration,
                 AuthWellKnownEndpoints
             ]
         };

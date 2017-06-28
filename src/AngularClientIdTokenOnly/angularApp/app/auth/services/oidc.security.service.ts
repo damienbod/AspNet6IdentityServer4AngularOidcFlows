@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-import { AuthConfiguration } from '../modules/auth.configuration';
+import { AuthConfiguration, OpenIDImplicitFlowConfiguration } from '../modules/auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
 import { OidcSecurityCheckSession } from './oidc.security.check-session';
 import { OidcSecuritySilentRenew } from './oidc.security.silent-renew';
@@ -26,6 +26,7 @@ export class OidcSecurityService {
     private oidcSecurityValidation: OidcSecurityValidation;
     private errorMessage: string;
     private jwtKeys: JwtKeys;
+    private authWellKnownEndpointsLoaded = false;
 
     constructor(
         private http: Http,
@@ -37,7 +38,18 @@ export class OidcSecurityService {
         private oidcSecurityCommon: OidcSecurityCommon,
         private authWellKnownEndpoints: AuthWellKnownEndpoints
     ) {
+    }
+
+    setupModule(openIDImplicitFlowConfiguration: OpenIDImplicitFlowConfiguration) {
+
+        this.authConfiguration.init(openIDImplicitFlowConfiguration);
         this.oidcSecurityValidation = new OidcSecurityValidation(this.oidcSecurityCommon);
+
+        this.oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => { this.onCheckSessionChanged(); });
+        this.authWellKnownEndpoints.onWellKnownEndpointsLoaded.subscribe(() => { this.onWellKnownEndpointsLoaded(); });
+
+        this.oidcSecurityCommon.setupModule();
+        this.oidcSecurityUserService.setupModule();
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
@@ -47,7 +59,8 @@ export class OidcSecurityService {
             this.isAuthorized = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_is_authorized);
         }
 
-        this.oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => { this.onCheckSessionChanged(); });
+        this.oidcSecurityCommon.logDebug('STS server: ' + this.authConfiguration.stsServer);
+        this.authWellKnownEndpoints.setupModule();
     }
 
     getToken(): any {
@@ -64,6 +77,16 @@ export class OidcSecurityService {
     }
 
     authorize() {
+
+        let data = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_well_known_endpoints);
+        if (data && data !== '') {
+            this.authWellKnownEndpointsLoaded = true;
+        }
+
+        if (!this.authWellKnownEndpointsLoaded) {
+            this.oidcSecurityCommon.logError('Well known endpoints must be loaded before user can login!')
+            return;
+        }
 
         if (!this.oidcSecurityValidation.config_validate_response_type(this.authConfiguration.response_type)) {
             // invalid response_type
@@ -83,6 +106,12 @@ export class OidcSecurityService {
 
         let url = this.createAuthorizeUrl(nonce, state);
         window.location.href = url;
+    }
+
+    setStorage(storage: any) {
+        this.oidcSecurityCommon.storage = storage;
+        this.authWellKnownEndpointsLoaded = false;
+        this.authWellKnownEndpoints.setupModule();
     }
 
     authorizedCallback() {
@@ -336,6 +365,11 @@ export class OidcSecurityService {
     private onCheckSessionChanged() {
         this.oidcSecurityCommon.logDebug('onCheckSessionChanged');
         this.checkSessionChanged = true;
+    }
+
+    private onWellKnownEndpointsLoaded() {
+        this.oidcSecurityCommon.logDebug('onWellKnownEndpointsLoaded');
+        this.authWellKnownEndpointsLoaded = true;
     }
 
     private runGetSigningKeys() {
