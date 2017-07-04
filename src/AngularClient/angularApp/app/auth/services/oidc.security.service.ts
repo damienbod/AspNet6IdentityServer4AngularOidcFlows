@@ -38,9 +38,6 @@ export class OidcSecurityService {
         private oidcSecurityCommon: OidcSecurityCommon,
         private authWellKnownEndpoints: AuthWellKnownEndpoints
     ) {
-        if (this.authConfiguration.silent_renew) {
-            this.oidcSecuritySilentRenew.initRenew();
-        }
     }
 
     setupModule(openIDImplicitFlowConfiguration: OpenIDImplicitFlowConfiguration) {
@@ -64,6 +61,10 @@ export class OidcSecurityService {
 
         this.oidcSecurityCommon.logDebug('STS server: ' + this.authConfiguration.stsServer);
         this.authWellKnownEndpoints.setupModule();
+
+        if (this.authConfiguration.silent_renew) {
+            this.oidcSecuritySilentRenew.initRenew();
+        }
     }
 
     getToken(): any {
