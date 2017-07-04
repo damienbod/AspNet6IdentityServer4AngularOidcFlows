@@ -38,6 +38,9 @@ export class OidcSecurityService {
         private oidcSecurityCommon: OidcSecurityCommon,
         private authWellKnownEndpoints: AuthWellKnownEndpoints
     ) {
+        if (this.authConfiguration.silent_renew) {
+            this.oidcSecuritySilentRenew.initRenew();
+        }
     }
 
     setupModule(openIDImplicitFlowConfiguration: OpenIDImplicitFlowConfiguration) {
@@ -221,10 +224,6 @@ export class OidcSecurityService {
                                         });
                                     }
 
-                                    if (this.authConfiguration.silent_renew) {
-                                        this.oidcSecuritySilentRenew.initRenew();
-                                    }
-
                                     this.runTokenValidatation();
 
                                     this.router.navigate([this.authConfiguration.startup_route]);
@@ -245,10 +244,6 @@ export class OidcSecurityService {
                             this.oidcSecurityCheckSession.init().subscribe(() => {
                                 this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
                             });
-                        }
-
-                        if (this.authConfiguration.silent_renew) {
-                            this.oidcSecuritySilentRenew.initRenew();
                         }
 
                         this.runTokenValidatation();
