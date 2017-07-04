@@ -29,17 +29,29 @@ export class OidcSecurityCheckSession {
     }
 
     init() {
-        this.sessionIframe = window.document.createElement('iframe');
-        this.oidcSecurityCommon.logDebug(this.sessionIframe);
-        this.sessionIframe.style.display = 'none';
-        this.sessionIframe.src = this.authWellKnownEndpoints.check_session_iframe;
+        let exists = window.parent.document.getElementById('myiFrameForCheckSession');
+        if (!exists) {
+            this.sessionIframe = window.document.createElement('iframe');
 
-        window.document.body.appendChild(this.sessionIframe);
-        this.iframeMessageEvent = this.messageHandler.bind(this);
-        window.addEventListener('message', this.iframeMessageEvent, false);
+            this.sessionIframe.id = 'myiFrameForCheckSession';
+            this.oidcSecurityCommon.logDebug(this.sessionIframe);
+            this.sessionIframe.style.display = 'none';
+            this.sessionIframe.src = this.authWellKnownEndpoints.check_session_iframe;
+
+            window.document.body.appendChild(this.sessionIframe);
+            this.iframeMessageEvent = this.messageHandler.bind(this);
+            window.addEventListener('message', this.iframeMessageEvent, false);
+
+            return Observable.create((observer: Observer<any>) => {
+                this.sessionIframe.onload = () => {
+                    observer.next(this);
+                    observer.complete();
+                }
+            });
+        }
 
         return Observable.create((observer: Observer<any>) => {
-            this.sessionIframe.onload = () => {
+             () => {
                 observer.next(this);
                 observer.complete();
             }
