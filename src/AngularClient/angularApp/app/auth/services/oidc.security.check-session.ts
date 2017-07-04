@@ -46,7 +46,7 @@ export class OidcSecurityCheckSession {
         });
     }
 
-    pollServerSession(session_state: any, clientId: any) {
+    pollServerSession(clientId: any) {
         let source = Observable.timer(3000, 3000)
             .timeInterval()
             .pluck('interval')
@@ -54,7 +54,10 @@ export class OidcSecurityCheckSession {
 
         let subscription = source.subscribe(() => {
                 this.oidcSecurityCommon.logDebug(this.sessionIframe);
-                this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.stsServer);
+                let session_state = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_session_state);
+                if (session_state !== '') {
+                    this.sessionIframe.contentWindow.postMessage(clientId + ' ' + session_state, this.authConfiguration.stsServer);
+                }
             },
             (err: any) => {
                 this.oidcSecurityCommon.logError('pollServerSession error: ' + err);

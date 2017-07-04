@@ -65,7 +65,7 @@ export class AppModule {
         openIDImplicitFlowConfiguration.response_type = 'id_token token';
         openIDImplicitFlowConfiguration.scope = 'dataEventRecords securedFiles openid';
         openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
-        openIDImplicitFlowConfiguration.start_checksession = false;
+        openIDImplicitFlowConfiguration.start_checksession = true;
         openIDImplicitFlowConfiguration.silent_renew = true;
         openIDImplicitFlowConfiguration.startup_route = '/dataeventrecords/list';
         // HTTP 403
@@ -73,7 +73,7 @@ export class AppModule {
         // HTTP 401
         openIDImplicitFlowConfiguration.unauthorized_route = '/Unauthorized';
         openIDImplicitFlowConfiguration.log_console_warning_active = true;
-        openIDImplicitFlowConfiguration.log_console_debug_active = false;
+        openIDImplicitFlowConfiguration.log_console_debug_active = true;
         // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time,
         // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
         openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 3;

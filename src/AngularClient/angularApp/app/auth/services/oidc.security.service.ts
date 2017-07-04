@@ -65,6 +65,12 @@ export class OidcSecurityService {
         if (this.authConfiguration.silent_renew) {
             this.oidcSecuritySilentRenew.initRenew();
         }
+
+        if (this.authConfiguration.start_checksession) {
+            this.oidcSecurityCheckSession.init().subscribe(() => {
+                this.oidcSecurityCheckSession.pollServerSession(this.authConfiguration.client_id);
+            });
+        }
     }
 
     getToken(): any {
@@ -219,11 +225,8 @@ export class OidcSecurityService {
                                     this.onUserDataLoaded.emit();
                                     this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
                                     this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
-                                    if (this.authConfiguration.start_checksession) {
-                                        this.oidcSecurityCheckSession.init().subscribe(() => {
-                                            this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
-                                        });
-                                    }
+
+                                    this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_session_state, result.session_state);
 
                                     this.runTokenValidatation();
 
@@ -241,11 +244,8 @@ export class OidcSecurityService {
 
                         // userData is set to the id_token decoded. No access_token.
                         this.oidcSecurityUserService.userData = decoded_id_token;
-                        if (this.authConfiguration.start_checksession) {
-                            this.oidcSecurityCheckSession.init().subscribe(() => {
-                                this.oidcSecurityCheckSession.pollServerSession(result.session_state, this.authConfiguration.client_id);
-                            });
-                        }
+
+                        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_session_state, result.session_state);
 
                         this.runTokenValidatation();
                         this.router.navigate([this.authConfiguration.startup_route]);

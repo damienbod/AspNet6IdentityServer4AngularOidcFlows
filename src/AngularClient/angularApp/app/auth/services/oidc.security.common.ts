@@ -13,6 +13,7 @@ export class OidcSecurityCommon {
     storage_auth_nonce = 'authNonce';
     storage_auth_state_control = 'authStateControl';
     storage_well_known_endpoints = 'wellknownendpoints';
+    storage_session_state = 'session_state'
 
     constructor(private authConfiguration: AuthConfiguration) {
     }
@@ -44,6 +45,7 @@ export class OidcSecurityCommon {
         this.store(this.storage_id_token, '');
         this.store(this.storage_is_authorized, false);
         this.store(this.storage_user_data, '');
+        this.store(this.storage_session_state, '');
     }
 
     getAccessToken(): any {
