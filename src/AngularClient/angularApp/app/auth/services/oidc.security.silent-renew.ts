@@ -11,11 +11,16 @@ export class OidcSecuritySilentRenew {
     }
 
     initRenew() {
-        this.sessionIframe = window.document.createElement('iframe');
-        this.oidcSecurityCommon.logDebug(this.sessionIframe);
-        this.sessionIframe.style.display = 'none';
+        let existsparent = window.parent.document.getElementById('myiFrameForSilentRenew');
+        let exists = window.document.getElementById('myiFrameForSilentRenew');
+        if (!exists && !existsparent) {
+            this.sessionIframe = window.document.createElement('iframe');
+            this.sessionIframe.id = 'myiFrameForSilentRenew';
+            this.oidcSecurityCommon.logDebug(this.sessionIframe);
+            this.sessionIframe.style.display = 'none';
 
-        window.document.body.appendChild(this.sessionIframe);
+            window.document.body.appendChild(this.sessionIframe);
+        }
     }
 
     startRenew(url: string) {
