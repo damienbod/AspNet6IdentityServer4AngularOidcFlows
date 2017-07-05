@@ -14,8 +14,8 @@ import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecor
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent },
-    { path: 'Forbidden', component: ForbiddenComponent },
-    { path: 'Unauthorized', component: UnauthorizedComponent },
+    { path: 'forbidden', component: ForbiddenComponent },
+    { path: 'unauthorized', component: UnauthorizedComponent },
     { path: 'securefiles', component: SecureFilesComponent },
     ...DATA_RECORDS_ROUTES,
 ];

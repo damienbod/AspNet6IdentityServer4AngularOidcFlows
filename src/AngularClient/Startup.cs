@@ -48,10 +48,10 @@ namespace Angular2Client
 
             var angularRoutes = new[] {
                 "/home",
-                "/Forbidden",
+                "/forbidden",
                 "/authorized",
                 "/authorize",
-                "/Unauthorized",
+                "/unauthorized",
                 "/dataeventrecords",
                 "/dataeventrecords/list",
                 "/dataeventrecords/create",
