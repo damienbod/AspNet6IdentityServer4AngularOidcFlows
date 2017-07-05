@@ -223,26 +223,30 @@ export class OidcSecurityService {
                     this.setAuthorizationData(access_token, id_token);
                     // flow id_token token
                     if (this.authConfiguration.response_type === 'id_token token') {
-                        this.oidcSecurityUserService.initUserData()
-                            .subscribe(() => {
-                                this.oidcSecurityCommon.logDebug('authorizedCallback id_token token flow');
-                                if (this.oidcSecurityValidation.validate_userdata_sub_id_token(decoded_id_token.sub, this.oidcSecurityUserService.userData.sub)) {
-                                    this.onUserDataLoaded.emit();
-                                    this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
-                                    this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
+                        if (isRenewProcess) {
+                            this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_session_state, result.session_state);
+                        } else {
+                            this.oidcSecurityUserService.initUserData()
+                                .subscribe(() => {
+                                    this.oidcSecurityCommon.logDebug('authorizedCallback id_token token flow');
+                                    if (this.oidcSecurityValidation.validate_userdata_sub_id_token(decoded_id_token.sub, this.oidcSecurityUserService.userData.sub)) {
+                                        this.onUserDataLoaded.emit();
+                                        this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
+                                        this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
 
-                                    this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_session_state, result.session_state);
+                                        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_session_state, result.session_state);
 
-                                    this.runTokenValidatation();
+                                        this.runTokenValidatation();
 
-                                    this.router.navigate([this.authConfiguration.startup_route]);
-                                } else { // some went wrong, userdata sub does not match that from id_token
-                                    this.oidcSecurityCommon.logWarning('authorizedCallback, User data sub does not match sub in id_token');
-                                    this.oidcSecurityCommon.logDebug('authorizedCallback, token(s) validation failed, resetting');
-                                    this.resetAuthorizationData(false);
-                                    this.router.navigate([this.authConfiguration.unauthorized_route]);
-                                }
-                            });
+                                        this.router.navigate([this.authConfiguration.startup_route]);
+                                    } else { // some went wrong, userdata sub does not match that from id_token
+                                        this.oidcSecurityCommon.logWarning('authorizedCallback, User data sub does not match sub in id_token');
+                                        this.oidcSecurityCommon.logDebug('authorizedCallback, token(s) validation failed, resetting');
+                                        this.resetAuthorizationData(false);
+                                        this.router.navigate([this.authConfiguration.unauthorized_route]);
+                                    }
+                                });
+                        }
                     } else { // flow id_token
                         this.oidcSecurityCommon.logDebug('authorizedCallback id_token flow');
                         this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
@@ -252,7 +256,10 @@ export class OidcSecurityService {
 
                         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_session_state, result.session_state);
 
-                        this.runTokenValidatation();
+                        if (!isRenewProcess) {
+                            this.runTokenValidatation();
+                        }
+
                         this.router.navigate([this.authConfiguration.startup_route]);
                     }
                 } else { // some went wrong
@@ -349,7 +356,7 @@ export class OidcSecurityService {
     }
 
     private resetAuthorizationData(isRenewProcess: boolean) {
-        if (isRenewProcess) {
+        if (!isRenewProcess) {
             this.isAuthorized = false;
             this.oidcSecurityCommon.resetStorageData(isRenewProcess);
             this.checkSessionChanged = false;
