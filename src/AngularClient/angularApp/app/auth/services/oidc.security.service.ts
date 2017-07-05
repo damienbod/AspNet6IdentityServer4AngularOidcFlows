@@ -312,7 +312,7 @@ export class OidcSecurityService {
 
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, state);
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, nonce);
-        this.oidcSecurityCommon.logWarning('RefreshSession created. adding myautostate: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
+        this.oidcSecurityCommon.logDebug('RefreshSession created. adding myautostate: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
 
         let url = this.createAuthorizeUrl(nonce, state);
 
