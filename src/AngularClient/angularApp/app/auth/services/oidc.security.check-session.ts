@@ -51,8 +51,10 @@ export class OidcSecurityCheckSession {
         }
 
         return Observable.create((observer: Observer<any>) => {
+            () => {
                 observer.next(this);
                 observer.complete();
+            }
         });
     }
 

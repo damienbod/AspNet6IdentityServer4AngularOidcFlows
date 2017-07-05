@@ -14,6 +14,7 @@ export class OidcSecurityCommon {
     storage_auth_state_control = 'authStateControl';
     storage_well_known_endpoints = 'wellknownendpoints';
     storage_session_state = 'session_state';
+    storage_silent_renew_running = 'storage_silent_renew_running';
 
     constructor(private authConfiguration: AuthConfiguration) {
     }
@@ -40,12 +41,15 @@ export class OidcSecurityCommon {
         }
     }
 
-    resetStorageData() {
-        this.store(this.storage_access_token, '');
-        this.store(this.storage_id_token, '');
-        this.store(this.storage_is_authorized, false);
-        this.store(this.storage_user_data, '');
-        this.store(this.storage_session_state, '');
+    resetStorageData(isRenewProcess: boolean) {
+        if (!isRenewProcess) {
+            this.store(this.storage_session_state, '');
+            this.store(this.storage_silent_renew_running, '');
+            this.store(this.storage_is_authorized, false);
+            this.store(this.storage_access_token, '');
+            this.store(this.storage_id_token, '');
+            this.store(this.storage_user_data, '');
+        }
     }
 
     getAccessToken(): any {
