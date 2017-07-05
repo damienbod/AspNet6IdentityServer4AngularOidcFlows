@@ -53,11 +53,11 @@ namespace Angular2Client
                 "/authorize",
                 "/unauthorized",
                 "/dataeventrecords",
+                "/dataeventrecords/list",
                 "/dataeventrecords/create",
                 "/dataeventrecords/edit",
                 "/logoff",
-                "/securefile",
-                "/securefile/securefiles",
+                "/securefiles",
             };
 
             app.Use(async (context, next) =>

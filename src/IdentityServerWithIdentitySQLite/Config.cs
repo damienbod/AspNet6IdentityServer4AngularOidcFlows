@@ -99,8 +99,8 @@ namespace QuickstartIdentityServer
                     ClientName = "angularclient",
                     ClientId = "angularclient",
                     AccessTokenType = AccessTokenType.Reference,
-                    AccessTokenLifetime = 120,// 120 seconds, default 60 minutes
-                    IdentityTokenLifetime = 90,
+                    AccessTokenLifetime = 15,// 120 seconds, default 60 minutes
+                    IdentityTokenLifetime = 5,
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
@@ -110,7 +110,7 @@ namespace QuickstartIdentityServer
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "https://localhost:44311/Unauthorized"
+                        "https://localhost:44311/unauthorized"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
