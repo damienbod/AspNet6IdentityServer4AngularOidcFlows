@@ -30,6 +30,14 @@ export class OidcSecuritySilentRenew {
     }
 
     startRenew(url: string) {
+        let existsparent = window.parent.document.getElementById('myiFrameForSilentRenew');
+        let exists = window.document.getElementById('myiFrameForSilentRenew');
+        if (existsparent) {
+            this.sessionIframe = existsparent;
+        } else if (exists) {
+            this.sessionIframe = exists;
+        }
+
         this.oidcSecurityCommon.logDebug('startRenew for URL:' + url);
         this.sessionIframe.src = url;
 
