@@ -57,8 +57,7 @@ namespace Angular2Client
                 "/dataeventrecords/create",
                 "/dataeventrecords/edit",
                 "/logoff",
-                "/securefile",
-                "/securefile/securefiles",
+                "/securefiles",
             };
 
             app.Use(async (context, next) =>

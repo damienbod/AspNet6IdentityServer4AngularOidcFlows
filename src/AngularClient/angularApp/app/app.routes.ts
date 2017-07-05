@@ -16,7 +16,7 @@ const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent },
-    { path: 'securefile/securefiles', component: SecureFilesComponent },
+    { path: 'securefiles', component: SecureFilesComponent },
     ...DATA_RECORDS_ROUTES,
 ];
 
