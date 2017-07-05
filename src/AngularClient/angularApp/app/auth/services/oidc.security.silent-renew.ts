@@ -13,6 +13,12 @@ export class OidcSecuritySilentRenew {
     initRenew() {
         let existsparent = window.parent.document.getElementById('myiFrameForSilentRenew');
         let exists = window.document.getElementById('myiFrameForSilentRenew');
+        if (existsparent) {
+            this.sessionIframe = existsparent;
+        } else if (exists) {
+            this.sessionIframe = exists;
+        }
+
         if (!exists && !existsparent) {
             this.sessionIframe = window.document.createElement('iframe');
             this.sessionIframe.id = 'myiFrameForSilentRenew';
