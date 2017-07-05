@@ -44,7 +44,7 @@
     "jsrsasign": "7.2.1"
   },
   "devDependencies": {
-    "@types/node": "7.0.22",
+    "@types/node": "8.0.7",
     "@types/jasmine": "2.5.47",
     "angular2-template-loader": "0.6.2",
     "angular-router-loader": "^0.6.0",
@@ -66,7 +66,7 @@
     "ts-helpers": "^1.1.2",
     "tslint": "^5.1.0",
     "tslint-loader": "^3.5.2",
-    "typescript": "2.3.4",
+    "typescript": "2.4.1",
     "url-loader": "^0.5.8",
     "webpack": "2.6.1",
     "webpack-dev-server": "2.4.2",
