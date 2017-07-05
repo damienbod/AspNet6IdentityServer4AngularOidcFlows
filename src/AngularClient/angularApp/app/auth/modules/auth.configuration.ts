@@ -13,7 +13,7 @@ export class DefaultConfiguration {
     post_logout_redirect_uri = 'https://localhost:44311/unauthorized';
     start_checksession = false;
     silent_renew = true;
-    startup_route = '/dataeventrecords/list';
+    startup_route = '/dataeventrecords';
     // HTTP 403
     forbidden_route = '/forbidden';
     // HTTP 401

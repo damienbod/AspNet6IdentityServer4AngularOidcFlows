@@ -8,7 +8,6 @@ export const DATA_RECORDS_ROUTES: Routes = [
         path: 'dataeventrecords',
 
         children: [
-            { path: '', redirectTo: 'list', pathMatch: 'full'},
             {
                 path: 'create',
                 component: DataEventRecordsCreateComponent
@@ -18,7 +17,7 @@ export const DATA_RECORDS_ROUTES: Routes = [
                 component: DataEventRecordsEditComponent
             },
             {
-                path: 'list',
+                path: '',
                 component: DataEventRecordsListComponent,
             }
         ]

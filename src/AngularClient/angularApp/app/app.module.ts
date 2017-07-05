@@ -67,7 +67,7 @@ export class AppModule {
         openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'https://localhost:44311/unauthorized';
         openIDImplicitFlowConfiguration.start_checksession = true;
         openIDImplicitFlowConfiguration.silent_renew = true;
-        openIDImplicitFlowConfiguration.startup_route = '/dataeventrecords/list';
+        openIDImplicitFlowConfiguration.startup_route = '/dataeventrecords';
         // HTTP 403
         openIDImplicitFlowConfiguration.forbidden_route = '/forbidden';
         // HTTP 401
@@ -78,6 +78,7 @@ export class AppModule {
         // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
         openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 10;
 
+        // this.oidcSecurityService.setStorage(localStorage);
         this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration);
     }
 }
