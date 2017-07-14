@@ -5,7 +5,7 @@
   "main": "wwwroot/index.html",
   "author": "",
   "license": "ISC",
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/damienbod/Angular2WebpackVisualStudio.git"
   },
