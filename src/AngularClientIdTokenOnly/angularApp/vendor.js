@@ -1,5 +1,6 @@
 import 'jquery/src/jquery';
 import 'bootstrap/dist/js/bootstrap';
-import './css/bootstrap.css';
-import './css/bootstrap-theme.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
+import '../favicon.ico';
 //# sourceMappingURL=vendor.js.map

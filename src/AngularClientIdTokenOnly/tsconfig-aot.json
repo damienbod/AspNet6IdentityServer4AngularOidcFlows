@@ -15,13 +15,9 @@
       "dom"
     ]
   },
-  "files": [
-    "angularApp/app/app.module.ts",
-    "angularApp/main-aot.ts",
-    "angularApp/typings.d.ts"
-  ],
   "angularCompilerOptions": {
-    "genDir": "aot",
+    "genDir": "./aot",
+    "entryModule": "./angularApp/app/app.module#AppModule",
     "skipMetadataEmit": true
   },
   "compileOnSave": false,
