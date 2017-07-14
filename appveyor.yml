@@ -1,8 +1,11 @@
 image: Visual Studio 2017
 init:
   - git config --global core.autocrlf true
+environment:
+  nodejs_version: "6"
 install:
   - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
+  - ps: Install-Product node $env:nodejs_version
   - dotnet --version
   - dotnet restore
 build_script:
