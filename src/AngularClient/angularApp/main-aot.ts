@@ -1,6 +1,8 @@
 ﻿// Entry point for AoT compilation.
-
 declare var System: any;
+
+// Styles.
+import './styles.scss';
 
 import { platformBrowser } from '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
