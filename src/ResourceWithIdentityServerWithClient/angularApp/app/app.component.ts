@@ -6,7 +6,7 @@ import { Configuration } from './app.constants';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 
 
-import './app.component.css';
+import './app.component.scss';
 
 @Component({
     selector: 'my-app',
