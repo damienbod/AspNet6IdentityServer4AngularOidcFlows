@@ -34,16 +34,18 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
             (isAuthorized: boolean) => {
                 this.isAuthorized = isAuthorized;
 
-                //let userData = this.oidcSecurityService.getUserData();
-
-                //for (let i = 0; i < userData.role.length; i++) {
-                //    if (userData.role[i] === 'dataEventRecords.admin') {
-                //        this.hasAdminRole = true;
-                //    }
-                //    if (userData.role[i] === 'admin') {
-                //    }
-                //}
                 if (this.isAuthorized) {
+                    let userData = this.oidcSecurityService.getUserData();
+                    if (userData != '') {
+                        for (let i = 0; i < userData.role.length; i++) {
+                            if (userData.role[i] === 'dataEventRecords.admin') {
+                                this.hasAdminRole = true;
+                            }
+                            if (userData.role[i] === 'admin') {
+                            }
+                        }
+                    }
+
                     console.log('isAuthorized getting data');
                     this.getData();
                 }

@@ -14,7 +14,7 @@ import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
 @Injectable()
 export class OidcSecurityUserService {
 
-    userData: any;
+    userData: any = '';
 
     constructor(
         private http: Http,
