@@ -34,6 +34,8 @@
 ## History
 
 
+<strong>2017.07.21: </strong> bugfix refresh isAuthorized, bugfix refresh user data,  Angular 4.3.1,
+
 <strong>2017.07.14: </strong>Updated auth module to version 1.2.1 , Angular 4.2.6, Webpack 3.2.1, typescript 2.4.1
 
 <strong>2017.06.23: </strong>Updated auth module to version 1.0.3 , Angular 4.2.4, Webpack 2.6.1, typescript 2.3.4
