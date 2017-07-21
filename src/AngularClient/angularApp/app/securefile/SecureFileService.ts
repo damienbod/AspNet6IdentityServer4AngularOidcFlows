@@ -12,7 +12,7 @@ export class SecureFileService {
     private fileExplorerUrl: string;
     private headers: Headers;
 
-    constructor(private _http: Http, private _configuration: Configuration, private _securityService: OidcSecurityService) {
+    constructor(private _http: Http, private _configuration: Configuration, private oidcSecurityService: OidcSecurityService) {
         this.actionUrl = `${_configuration.FileServer}api/Download/`;
         this.fileExplorerUrl = `${_configuration.FileServer }api/FileExplorer/`;
     }
@@ -29,7 +29,7 @@ export class SecureFileService {
             data => {
                 oneTimeAccessToken = data;
             },
-            error => this._securityService.handleError(error),
+            error => this.oidcSecurityService.handleError(error),
             () => {
                 console.log(`open DownloadFile for file ${id}: ${this.actionUrl}${oneTimeAccessToken}`);
                 window.open(`${this.actionUrl}${oneTimeAccessToken}`);
@@ -49,7 +49,7 @@ export class SecureFileService {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
-        let token = this._securityService.getToken();
+        let token = this.oidcSecurityService.getToken();
 
         if (token !== '') {
             this.headers.append('Authorization', 'Bearer ' + token);

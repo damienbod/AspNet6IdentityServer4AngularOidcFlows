@@ -5,6 +5,7 @@ import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Router } from '@angular/router';
 import { AuthConfiguration, OpenIDImplicitFlowConfiguration } from '../modules/auth.configuration';
 import { OidcSecurityValidation } from './oidc.security.validation';
@@ -19,10 +20,14 @@ import { JwtKeys } from './jwtkeys';
 @Injectable()
 export class OidcSecurityService {
 
-    @Output() onUserDataLoaded: EventEmitter<any> = new EventEmitter<any>(true);
+    @Output() onModuleSetup: EventEmitter<any> = new EventEmitter<any>(true);
 
     checkSessionChanged: boolean;
-    isAuthorized: boolean;
+    private _isAuthorized = new BehaviorSubject<boolean>(false);
+    private _isAuthorizedValue: boolean;
+
+    private _userData = new BehaviorSubject<any>('');
+    private _userDataValue: boolean;
 
     private headers: Headers;
     private oidcSecurityValidation: OidcSecurityValidation;
@@ -52,14 +57,19 @@ export class OidcSecurityService {
         this.authWellKnownEndpoints.onWellKnownEndpointsLoaded.subscribe(() => { this.onWellKnownEndpointsLoaded(); });
 
         this.oidcSecurityCommon.setupModule();
-        this.oidcSecurityUserService.setupModule();
+
+        console.log('check userdata from storage');
+        if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data) !== '') {
+            console.log('userdata from storage');
+            this.setUserData(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data));
+        }
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
 
         if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_is_authorized) !== '') {
-            this.isAuthorized = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_is_authorized);
+            this.setIsAuthorized(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_is_authorized));
         }
 
         this.oidcSecurityCommon.logDebug('STS server: ' + this.authConfiguration.stsServer);
@@ -79,23 +89,34 @@ export class OidcSecurityService {
             }
         }
 
+		 this.onModuleSetup.emit();
+    }
+
+    getUserData(): Observable<any> {
+        return this._userData.asObservable();
+    }
+
+    private setUserData(userData: any) {
+        this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_user_data, userData);
+        this._userData.next(userData);
+    }
+
+    getIsAuthorized(): Observable<boolean> {
+        return this._isAuthorized.asObservable();
+    }
+
+    private setIsAuthorized(isAuthorized: boolean) {
+        this._isAuthorizedValue = isAuthorized;
+        this._isAuthorized.next(isAuthorized);
     }
 
     getToken(): any {
+        if (!this._isAuthorizedValue) {
+            return '';
+        }
+
         let token = this.oidcSecurityCommon.getAccessToken();
         return decodeURIComponent(token);
-    }
-
-    getUserData(): any {
-        if (!this.isAuthorized) {
-            this.oidcSecurityCommon.logError('User must be logged in before you can get the user data!')
-        }
-
-        if (!this.oidcSecurityUserService.userData) {
-            this.oidcSecurityUserService.userData = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data);
-        }
-
-        return this.oidcSecurityUserService.userData;
     }
 
     authorize() {
@@ -236,7 +257,7 @@ export class OidcSecurityService {
                                 .subscribe(() => {
                                     this.oidcSecurityCommon.logDebug('authorizedCallback id_token token flow');
                                     if (this.oidcSecurityValidation.validate_userdata_sub_id_token(decoded_id_token.sub, this.oidcSecurityUserService.userData.sub)) {
-                                        this.onUserDataLoaded.emit();
+                                        this.setUserData(this.oidcSecurityUserService.userData);
                                         this.oidcSecurityCommon.logDebug(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_access_token));
                                         this.oidcSecurityCommon.logDebug(this.oidcSecurityUserService.userData);
 
@@ -259,6 +280,7 @@ export class OidcSecurityService {
 
                         // userData is set to the id_token decoded. No access_token.
                         this.oidcSecurityUserService.userData = decoded_id_token;
+                        this.setUserData(this.oidcSecurityUserService.userData);
 
                         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_session_state, result.session_state);
 
@@ -336,7 +358,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.logDebug('storing to storage, getting the roles');
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_access_token, access_token);
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_id_token, id_token);
-        this.isAuthorized = true;
+        this.setIsAuthorized(true);
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_is_authorized, true);
     }
 
@@ -363,7 +385,7 @@ export class OidcSecurityService {
 
     private resetAuthorizationData(isRenewProcess: boolean) {
         if (!isRenewProcess) {
-            this.isAuthorized = false;
+            this.setIsAuthorized(false);
             this.oidcSecurityCommon.resetStorageData(isRenewProcess);
             this.checkSessionChanged = false;
         }
@@ -429,7 +451,7 @@ export class OidcSecurityService {
             .take(10000);
 
         let subscription = source.subscribe(() => {
-            if (this.isAuthorized) {
+            if (this._isAuthorizedValue) {
                 if (this.oidcSecurityValidation.isTokenExpired(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_id_token))) {
                     this.oidcSecurityCommon.logDebug('IsAuthorized: id_token isTokenExpired, start silent renew if active');
 
