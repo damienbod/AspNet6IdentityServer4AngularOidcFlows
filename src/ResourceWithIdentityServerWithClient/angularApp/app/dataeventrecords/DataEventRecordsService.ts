@@ -13,7 +13,7 @@ export class DataEventRecordsService {
     private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: OidcSecurityService) {
-        this.actionUrl = `${_configuration.Server}/api/DataEventRecords/`;
+        this.actionUrl = `${_configuration.Server}api/DataEventRecords/`;
     }
 
     private setHeaders() {

@@ -1,4 +1,4 @@
-<div class="col-md-12" *ngIf="securityService.isAuthorized" >
+<div class="col-md-12" *ngIf="isAuthorized" >
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">{{message}}</h3>
@@ -7,27 +7,27 @@
             <div  *ngIf="DataEventRecord">
                 <div class="row" >
                     <div class="col-xs-2">Id</div>
-                    <div class="col-xs-6">{{DataEventRecord.id}}</div>
+                    <div class="col-xs-6">{{DataEventRecord.Id}}</div>
                 </div>
 
                 <hr />
                 <div class="row">
                     <div class="col-xs-2">Name</div>
                     <div class="col-xs-6">
-                        <input type="text" [(ngModel)]="DataEventRecord.name" style="width: 100%" />
+                        <input type="text" [(ngModel)]="DataEventRecord.Name" style="width: 100%" />
                     </div>
                 </div>
                 <hr />
                 <div class="row">
                     <div class="col-xs-2">Description</div>
                     <div class="col-xs-6">
-                        <input type="text" [(ngModel)]="DataEventRecord.description" style="width: 100%" />
+                        <input type="text" [(ngModel)]="DataEventRecord.Description" style="width: 100%" />
                     </div>
                 </div>
                 <hr />
                 <div class="row">
                     <div class="col-xs-2">Timestamp</div>
-                    <div class="col-xs-6">{{DataEventRecord.timestamp}}</div>
+                    <div class="col-xs-6">{{DataEventRecord.Timestamp}}</div>
                 </div>
                 <hr />
                 <div class="row">

@@ -1,4 +1,4 @@
-<div class="col-md-12" *ngIf="securityService.isAuthorized" >
+<div class="col-md-12" *ngIf="isAuthorized" >
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">{{message}}</h3>
@@ -14,10 +14,10 @@
                 <tbody>
                     <tr style="height:20px;" *ngFor="let dataEventRecord of DataEventRecords" >
                         <td>
-                            <a *ngIf="hasAdminRole" href="" [routerLink]="['/dataeventrecords/edit/' + dataEventRecord.id]" >{{dataEventRecord.name}}</a>
-                            <span *ngIf="!hasAdminRole">{{dataEventRecord.name}}</span>
+                            <a *ngIf="hasAdminRole" href="" [routerLink]="['/dataeventrecords/edit/' + dataEventRecord.Id]" >{{dataEventRecord.Name}}</a>
+                            <span *ngIf="!hasAdminRole">{{dataEventRecord.Name}}</span>
                         </td>
-                        <td>{{dataEventRecord.timestamp}}</td>
+                        <td>{{dataEventRecord.Timestamp}}</td>
                         <td><button (click)="Delete(dataEventRecord.Id)">Delete</button></td>
                     </tr>
                 </tbody>
