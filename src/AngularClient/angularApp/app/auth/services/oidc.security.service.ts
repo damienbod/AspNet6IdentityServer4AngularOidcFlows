@@ -58,9 +58,7 @@ export class OidcSecurityService {
 
         this.oidcSecurityCommon.setupModule();
 
-        console.log('check userdata from storage');
         if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data) !== '') {
-            console.log('userdata from storage');
             this.setUserData(this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data));
         }
 
