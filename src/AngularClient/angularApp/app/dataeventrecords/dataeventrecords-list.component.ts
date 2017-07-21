@@ -43,7 +43,8 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
                 //    if (userData.role[i] === 'admin') {
                 //    }
                 //}
-                if (isAuthorized) {
+                if (this.isAuthorized) {
+                    console.log('isAuthorized getting data');
                     this.getData();
                 }
             });

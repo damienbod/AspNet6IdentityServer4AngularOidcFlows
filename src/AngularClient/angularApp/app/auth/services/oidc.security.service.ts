@@ -96,6 +96,10 @@ export class OidcSecurityService {
 
 
     getToken(): any {
+        if (!this._isAuthorizedValue) {
+            return '';
+        }
+
         let token = this.oidcSecurityCommon.getAccessToken();
         return decodeURIComponent(token);
     }
