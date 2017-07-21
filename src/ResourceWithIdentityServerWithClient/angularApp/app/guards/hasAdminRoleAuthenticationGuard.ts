@@ -11,20 +11,20 @@ export class HasAdminRoleAuthenticationGuard implements CanActivate {
 
     constructor(
         private router: Router,
-        private securityService: OidcSecurityService
+        private oidcSecurityService: OidcSecurityService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-        let userData = this.securityService.getUserData();
+        //let userData = this.securityService.getUserData();
 
-        for (let i = 0; i < userData.role.length; i++) {
-            if (userData.role[i] === 'admin') {
-                this.hasUserAdminRole = true;
-            }
-        }
+        //for (let i = 0; i < userData.role.length; i++) {
+        //    if (userData.role[i] === 'admin') {
+        //        this.hasUserAdminRole = true;
+        //    }
+        //}
 
-        return this.securityService.isAuthorized && this.hasUserAdminRole;
+        return true; // this.securityService.isAuthorized && this.hasUserAdminRole;
 
     }
 }

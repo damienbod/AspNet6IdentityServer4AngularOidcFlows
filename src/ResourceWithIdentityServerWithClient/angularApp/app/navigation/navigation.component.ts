@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
 
 @Component({
@@ -7,37 +8,60 @@ import { OidcSecurityService } from '../auth/services/oidc.security.service';
     templateUrl: 'navigation.component.html'
 })
 
-export class NavigationComponent {
+export class NavigationComponent implements OnInit, OnDestroy {
 
     hasAdminRole = false
     hasDataEventRecordsAdminRole = false;
 
-    constructor(
-        public securityService: OidcSecurityService
-    ) {
-        this.securityService.onUserDataLoaded.subscribe(() => { this.load(); });
+    isAuthorizedSubscription: Subscription;
+    isAuthorized: boolean;
+
+    userDataSubscription: Subscription;
+    userData: boolean;
+
+    constructor(public oidcSecurityService: OidcSecurityService) {
     }
 
-    load() {
-        let userData = this.securityService.getUserData();
+    ngOnInit() {
+        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
+            (isAuthorized: boolean) => {
+                this.isAuthorized = isAuthorized;
 
-        for (let i = 0; i < userData.role.length; i++) {
-            if (userData.role[i] === 'dataEventRecords.admin') {
-                this.hasDataEventRecordsAdminRole = true;
-            }
-            if (userData.role[i] === 'admin') {
-                this.hasAdminRole = true;
-            }
-        }
+                if (this.isAuthorized) {
+                    console.log('isAuthorized getting data');
+                }
+            });
+
+        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
+            (userData: any) => {
+
+                if (userData != '') {
+                    for (let i = 0; i < userData.role.length; i++) {
+                        if (userData.role[i] === 'dataEventRecords.admin') {
+                            this.hasDataEventRecordsAdminRole = true;
+                        }
+                        if (userData.role[i] === 'admin') {
+                            this.hasAdminRole = true;
+                        }
+                    }
+                }
+
+                console.log('userData getting data');
+            });
+    }
+
+    ngOnDestroy(): void {
+        this.isAuthorizedSubscription.unsubscribe();
+        this.userDataSubscription.unsubscribe();
     }
 
     login() {
         console.log('Do login logic');
-        this.securityService.authorize();
+        this.oidcSecurityService.authorize();
     }
 
     logout() {
         console.log('Do logout logic');
-        this.securityService.logoff();
+        this.oidcSecurityService.logoff();
     }
 }
