@@ -21,6 +21,9 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     isAuthorizedSubscription: Subscription;
     isAuthorized: boolean;
 
+    userDataSubscription: Subscription;
+    userData: boolean;
+
     constructor(
 
         private _dataEventRecordsService: DataEventRecordsService,
@@ -35,25 +38,31 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
                 this.isAuthorized = isAuthorized;
 
                 if (this.isAuthorized) {
-                    let userData = this.oidcSecurityService.getUserData();
-                    if (userData != '') {
-                        for (let i = 0; i < userData.role.length; i++) {
-                            if (userData.role[i] === 'dataEventRecords.admin') {
-                                this.hasAdminRole = true;
-                            }
-                            if (userData.role[i] === 'admin') {
-                            }
-                        }
-                    }
-
                     console.log('isAuthorized getting data');
                     this.getData();
                 }
+            });
+
+        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
+            (userData: any) => {
+
+                if (userData != '') {
+                    for (let i = 0; i < userData.role.length; i++) {
+                        if (userData.role[i] === 'dataEventRecords.admin') {
+                            this.hasAdminRole = true;
+                        }
+                        if (userData.role[i] === 'admin') {
+                        }
+                    }
+                }
+
+                console.log('userData getting data');
             });
     }
 
     ngOnDestroy(): void {
         this.isAuthorizedSubscription.unsubscribe();
+        this.userDataSubscription.unsubscribe();
     }
 
     public Delete(id: any) {

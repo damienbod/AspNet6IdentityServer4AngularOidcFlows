@@ -24,12 +24,6 @@ export class OidcSecurityUserService {
     ) {
     }
 
-    setupModule() {
-        if (this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data) !== '') {
-            this.userData = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_user_data);
-        }
-    }
-
     initUserData() {
         return this.getIdentityUserData()
             .map(data => this.userData = data);
