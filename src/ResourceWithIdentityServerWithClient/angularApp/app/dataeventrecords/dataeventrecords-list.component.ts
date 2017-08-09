@@ -22,7 +22,7 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     isAuthorized: boolean;
 
     userDataSubscription: Subscription;
-    userData: boolean;
+    userData: any;
 
     constructor(
 
@@ -43,10 +43,11 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
                 }
             });
 
+        console.log('userData getting data beginning');
         this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
-                if (userData != '') {
+                if (userData != '' && userData.role) {
                     for (let i = 0; i < userData.role.length; i++) {
                         if (userData.role[i] === 'dataEventRecords.admin') {
                             this.hasAdminRole = true;
@@ -56,7 +57,7 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
                     }
                 }
 
-                console.log('userData getting data');
+                console.log('userData getting data completed');
             });
     }
 
@@ -74,6 +75,7 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     }
 
     private getData() {
+        console.log('getData Get all begin')
         this._dataEventRecordsService
             .GetAll()
             .subscribe(data => this.DataEventRecords = data,

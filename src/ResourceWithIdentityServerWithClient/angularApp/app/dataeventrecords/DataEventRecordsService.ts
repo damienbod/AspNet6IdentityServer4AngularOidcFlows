@@ -13,7 +13,7 @@ export class DataEventRecordsService {
     private headers: Headers;
 
     constructor(private _http: Http, private _configuration: Configuration, private _securityService: OidcSecurityService) {
-        this.actionUrl = `${_configuration.Server}api/DataEventRecords/`;
+        this.actionUrl = `${_configuration.Server}/api/DataEventRecords/`;
     }
 
     private setHeaders() {
@@ -31,7 +31,7 @@ export class DataEventRecordsService {
     public GetAll = (): Observable<DataEventRecord[]> => {
         this.setHeaders();
         let options = new RequestOptions({ headers: this.headers, body: '' });
-
+        console.log('url:' + this.actionUrl);
         return this._http.get(this.actionUrl, options).map(res => res.json());
     }
 
