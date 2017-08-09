@@ -5,6 +5,7 @@ import { OidcSecurityStorage } from './oidc.security.storage';
 @Injectable()
 export class OidcSecurityCommon {
 
+    storage_auth_result = 'authorizationResult';
     storage_access_token = 'authorizationData';
     storage_id_token = 'authorizationDataIdToken';
     storage_is_authorized = '_isAuthorized';
@@ -14,6 +15,7 @@ export class OidcSecurityCommon {
     storage_well_known_endpoints = 'wellknownendpoints';
     storage_session_state = 'session_state';
     storage_silent_renew_running = 'storage_silent_renew_running';
+    storage_custom_request_params = 'storage_custom_request_params';
 
     constructor(private authConfiguration: AuthConfiguration, private oidcSecurityStorage: OidcSecurityStorage) {
     }
@@ -30,6 +32,7 @@ export class OidcSecurityCommon {
 
     resetStorageData(isRenewProcess: boolean) {
         if (!isRenewProcess) {
+            this.store(this.storage_auth_result, '');
             this.store(this.storage_session_state, '');
             this.store(this.storage_silent_renew_running, '');
             this.store(this.storage_is_authorized, false);
@@ -41,6 +44,10 @@ export class OidcSecurityCommon {
 
     getAccessToken(): any {
         return this.retrieve(this.storage_access_token);
+    }
+
+    getIdToken(): any {
+        return this.retrieve(this.storage_id_token);
     }
 
     logError(message: any) {
