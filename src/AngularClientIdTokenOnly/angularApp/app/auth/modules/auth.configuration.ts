@@ -18,6 +18,7 @@ export class DefaultConfiguration {
     forbidden_route = '/forbidden';
     // HTTP 401
     unauthorized_route = '/unauthorized';
+    auto_userinfo = true;
     log_console_warning_active = true;
     log_console_debug_active = false;
 
@@ -45,6 +46,7 @@ export class OpenIDImplicitFlowConfiguration {
     startup_route: string;
     forbidden_route: string;
     unauthorized_route: string;
+    auto_userinfo: boolean;
     log_console_warning_active: boolean;
     log_console_debug_active: boolean;
     max_id_token_iat_offset_allowed_in_seconds: number;
@@ -86,11 +88,11 @@ export class AuthConfiguration {
     }
 
     get start_checksession(): boolean {
-        return this.openIDImplicitFlowConfiguration.start_checksession || this.defaultConfig.start_checksession;
+        return this.openIDImplicitFlowConfiguration.start_checksession !== undefined ? this.openIDImplicitFlowConfiguration.start_checksession : this.defaultConfig.start_checksession;
     }
 
     get silent_renew(): boolean {
-        return this.openIDImplicitFlowConfiguration.silent_renew || this.defaultConfig.silent_renew;
+        return this.openIDImplicitFlowConfiguration.silent_renew !== undefined ? this.openIDImplicitFlowConfiguration.silent_renew : this.defaultConfig.silent_renew;
     }
 
     get startup_route(): string {
@@ -105,12 +107,16 @@ export class AuthConfiguration {
         return this.openIDImplicitFlowConfiguration.unauthorized_route || this.defaultConfig.unauthorized_route;
     }
 
+    get auto_userinfo(): boolean {
+        return this.openIDImplicitFlowConfiguration.auto_userinfo !== undefined ? this.openIDImplicitFlowConfiguration.auto_userinfo : this.defaultConfig.auto_userinfo;
+    }
+
     get log_console_warning_active(): boolean {
-        return this.openIDImplicitFlowConfiguration.log_console_warning_active || this.defaultConfig.log_console_warning_active;
+        return this.openIDImplicitFlowConfiguration.log_console_warning_active !== undefined ? this.openIDImplicitFlowConfiguration.log_console_warning_active : this.defaultConfig.log_console_warning_active;
     }
 
     get log_console_debug_active(): boolean {
-        return this.openIDImplicitFlowConfiguration.log_console_debug_active || this.defaultConfig.log_console_debug_active;
+        return this.openIDImplicitFlowConfiguration.log_console_debug_active !== undefined ? this.openIDImplicitFlowConfiguration.log_console_debug_active : this.defaultConfig.log_console_debug_active;
     }
 
     get max_id_token_iat_offset_allowed_in_seconds(): number {
@@ -118,7 +124,7 @@ export class AuthConfiguration {
     }
 
     get override_well_known_configuration(): boolean {
-        return this.openIDImplicitFlowConfiguration.override_well_known_configuration || this.defaultConfig.override_well_known_configuration;
+        return this.openIDImplicitFlowConfiguration.override_well_known_configuration !== undefined ? this.openIDImplicitFlowConfiguration.override_well_known_configuration : this.defaultConfig.override_well_known_configuration;
     }
 
     get override_well_known_configuration_url(): string {

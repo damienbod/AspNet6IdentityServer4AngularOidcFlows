@@ -31,7 +31,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
                 this.isAuthorized = isAuthorized;
-                this.getData() 
+                this.getData()
             });
     }
 

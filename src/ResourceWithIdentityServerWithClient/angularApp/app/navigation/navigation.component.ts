@@ -17,7 +17,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     isAuthorized: boolean;
 
     userDataSubscription: Subscription;
-    userData: boolean;
+    userData: any;
 
     constructor(public oidcSecurityService: OidcSecurityService) {
     }
@@ -35,7 +35,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
-                if (userData != '') {
+                if (userData && userData != '' && userData.role) {
                     for (let i = 0; i < userData.role.length; i++) {
                         if (userData.role[i] === 'dataEventRecords.admin') {
                             this.hasDataEventRecordsAdminRole = true;
