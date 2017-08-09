@@ -71,7 +71,7 @@ export class AppModule {
         openIDImplicitFlowConfiguration.client_id = 'singleapp';
         openIDImplicitFlowConfiguration.response_type = 'id_token token';
         openIDImplicitFlowConfiguration.scope = 'dataEventRecords openid';
-        openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'https://localhost:44311/Unauthorized';
+        openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'https://localhost:44363/Unauthorized';
         openIDImplicitFlowConfiguration.start_checksession = false;
         openIDImplicitFlowConfiguration.silent_renew = true;
         openIDImplicitFlowConfiguration.startup_route = '/dataeventrecords/list';
