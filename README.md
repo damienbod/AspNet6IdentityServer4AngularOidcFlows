@@ -33,6 +33,7 @@
 
 ## History
 
+<strong>2017.08.09: </strong> update auth module and Angular 4.3.3
 
 <strong>2017.07.21: </strong> bugfix refresh isAuthorized, bugfix refresh user data,  Angular 4.3.1,
 
