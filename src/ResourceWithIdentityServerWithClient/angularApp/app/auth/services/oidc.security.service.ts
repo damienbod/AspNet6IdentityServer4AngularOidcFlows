@@ -1,7 +1,7 @@
 ﻿import { PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Rx';
@@ -160,7 +160,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, nonce);
         this.oidcSecurityCommon.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
 
-        let url = this.createAuthorizeUrl(nonce, state);
+        let url = this.createAuthorizeUrl(nonce, state, this.authWellKnownEndpoints.authorization_endpoint);
         window.location.href = url;
     }
 
@@ -379,7 +379,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_nonce, nonce);
         this.oidcSecurityCommon.logDebug('RefreshSession created. adding myautostate: ' + this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control));
 
-        let url = this.createAuthorizeUrl(nonce, state);
+        let url = this.createAuthorizeUrl(nonce, state, this.authWellKnownEndpoints.authorization_endpoint);
 
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_silent_renew_running, 'running');
         this.oidcSecuritySilentRenew.startRenew(url);
@@ -399,24 +399,25 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_is_authorized, true);
     }
 
-    private createAuthorizeUrl(nonce: string, state: string) {
+    private createAuthorizeUrl(nonce: string, state: string, authorization_endpoint: string): string {
 
-        let authorizationUrl = new URL(this.authWellKnownEndpoints.authorization_endpoint);
-        
-        let params = authorizationUrl.searchParams;
+        let urlParts = authorization_endpoint.split('?');
+        let authorizationUrl = urlParts[0];
+        let params = new URLSearchParams(urlParts[1]);
         params.set('client_id', this.authConfiguration.client_id);
         params.set('redirect_uri', this.authConfiguration.redirect_url);
         params.set('response_type', this.authConfiguration.response_type);
         params.set('scope', this.authConfiguration.scope);
         params.set('nonce', nonce);
         params.set('state', state);
+       
+        let customParams = Object.assign({}, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_custom_request_params));
 
-        let customParams = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_custom_request_params);
         Object.keys(customParams).forEach(key => {
             params.set(key, customParams[key]);
         });
 
-        return authorizationUrl.toString();            
+        return `${authorizationUrl}?${params}`;
     }
 
     private resetAuthorizationData(isRenewProcess: boolean) {
