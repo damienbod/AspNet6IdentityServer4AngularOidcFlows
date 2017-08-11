@@ -14,8 +14,8 @@
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav">
 
-                    <li><a class="navigationLinkButton" *ngIf="!securityService.isAuthorized" (click)="login()">Login</a></li>
-                    <li><a class="navigationLinkButton" *ngIf="securityService.isAuthorized" (click)="logout()">Logout</a></li>
+                    <li><a class="navigationLinkButton" *ngIf="!isAuthorized" (click)="login()">Login</a></li>
+                    <li><a class="navigationLinkButton" *ngIf="isAuthorized" (click)="logout()">Logout</a></li>
                     <li><a class="navigationLinkButton" *ngIf="securityService.checkSessionChanged" (click)="refreshSession()">Refresh Session</a></li>
               
                 </ul>
