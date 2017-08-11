@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class HasAdminRoleAuthenticationGuard implements CanActivate {
 
     private hasUserAdminRole = false;
+    private isAuthorizedSubscription: Subscription;
+    private isAuthorized: boolean;
+
+    private userDataSubscription: Subscription;
+    private userData: boolean;
 
     constructor(
         private router: Router,
@@ -15,16 +19,24 @@ export class HasAdminRoleAuthenticationGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
+            (isAuthorized: boolean) => {
+                this.isAuthorized = isAuthorized;
+            });
 
-        //let userData = this.securityService.getUserData();
+        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
+            (userData: any) => {
 
-        //for (let i = 0; i < userData.role.length; i++) {
-        //    if (userData.role[i] === 'admin') {
-        //        this.hasUserAdminRole = true;
-        //    }
-        //}
+                if (userData && userData != '') {
+                    for (let i = 0; i < userData.role.length; i++) {
+                        if (userData.role[i] === 'admin') {
+                            this.hasUserAdminRole = true;
+                        }
+                    }
+                }
+            });
 
-        return true; // this.securityService.isAuthorized && this.hasUserAdminRole;
+        return this.hasUserAdminRole && this.isAuthorized;
 
     }
 }
