@@ -16,5 +16,7 @@
         public string log_console_warning_active { get; set; }
         public string log_console_debug_active { get; set; }
         public string max_id_token_iat_offset_allowed_in_seconds { get; set; }
+        public string apiServer { get; set; }
+        public string apiFileServer { get; set; }
     }
 }
