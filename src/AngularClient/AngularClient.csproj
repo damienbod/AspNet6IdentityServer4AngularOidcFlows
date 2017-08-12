@@ -30,4 +30,7 @@
       <DependentUpon>oidc.security.common.ts</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\" />
+  </ItemGroup>
 </Project>
