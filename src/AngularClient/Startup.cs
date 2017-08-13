@@ -7,8 +7,9 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System;
+using AngularClient.ViewModel;
 
-namespace Angular2Client
+namespace AngularClient
 {
     public class Startup
     {
@@ -26,6 +27,8 @@ namespace Angular2Client
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ClientAppSettings>(Configuration.GetSection("ClientAppSettings"));
+            services.AddMvc();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins",
@@ -73,6 +76,13 @@ namespace Angular2Client
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.Run(async (context) =>
             {
