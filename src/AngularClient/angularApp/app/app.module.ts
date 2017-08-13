@@ -56,7 +56,7 @@ export class AppModule {
 
     clientConfiguration: any;
 
-    constructor(public oidcSecurityService: OidcSecurityService, private http: Http) {
+    constructor(public oidcSecurityService: OidcSecurityService, private http: Http, private configuration: Configuration) {
 
         console.log('APP STARTING');
         this.configClient().subscribe(config => {
@@ -84,6 +84,9 @@ export class AppModule {
             openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = this.clientConfiguration.max_id_token_iat_offset_allowed_in_seconds;
 
             this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration);
+
+            configuration.FileServer = this.clientConfiguration.apiFileServer;
+            configuration.Server = this.clientConfiguration.apiServer;
         });
     }
 
