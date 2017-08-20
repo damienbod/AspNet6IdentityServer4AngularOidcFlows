@@ -39,7 +39,7 @@
     "ie-shim": "0.1.0",
     "rxjs": "5.4.2",
     "zone.js": "0.8.12",
-    "jsrsasign": "7.2.1"
+    "jsrsasign": "8.0.3"
   },
   "devDependencies": {
     "@ngtools/webpack": "^1.5.1",
