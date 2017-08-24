@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServerWithAspNetIdentity.Models
 {
