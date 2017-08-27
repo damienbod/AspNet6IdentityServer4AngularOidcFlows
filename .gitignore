@@ -153,3 +153,8 @@ src/AngularClientIdTokenOnly/angularApp/vendor.js.map
 src/AngularClientIdTokenOnly/obj
 src/AngularClientIdTokenOnly/obj
 src/AngularClientIdTokenOnly/bin
+src/AngularClientIdTokenOnly/angularApp/main.js
+src/AngularClientIdTokenOnly/angularApp/polyfills.js
+src/AngularClientIdTokenOnly/angularApp/vendor.js
+src/AngularClientIdTokenOnly/AngularClientIdTokenOnly.csproj.user
+src/ResourceWithIdentityServerWithClient/ResourceWithIdentityServerWithClient.csproj.user
