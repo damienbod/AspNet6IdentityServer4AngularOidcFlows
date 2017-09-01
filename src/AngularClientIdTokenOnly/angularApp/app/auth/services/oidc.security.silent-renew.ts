@@ -13,12 +13,12 @@ export class OidcSecuritySilentRenew {
     initRenew() {
         let existsparent = undefined;
         try {
-            let parentdoc = window.parent.document;
-            if (!parentdoc) {
-                throw new Error('Unaccessible');
-            }
+          let parentdoc = window.parent.document;
+          if (!parentdoc) {
+              throw new Error('Unaccessible');
+          }
 
-            existsparent = parentdoc.getElementById('myiFrameForSilentRenew');
+          existsparent =  parentdoc.getElementById('myiFrameForSilentRenew');
         } catch (e) {
             // not accessible
         }
@@ -42,12 +42,12 @@ export class OidcSecuritySilentRenew {
     startRenew(url: string) {
         let existsparent = undefined;
         try {
-            let parentdoc = window.parent.document;
-            if (!parentdoc) {
-                throw new Error('Unaccessible');
-            }
+          let parentdoc = window.parent.document;
+          if (!parentdoc) {
+              throw new Error('Unaccessible');
+          }
 
-            existsparent = parentdoc.getElementById('myiFrameForSilentRenew');
+          existsparent =  parentdoc.getElementById('myiFrameForSilentRenew');
         } catch (e) {
             // not accessible
         }
