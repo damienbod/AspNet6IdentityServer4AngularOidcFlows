@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +12,7 @@ using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using IdentityServer4;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
