@@ -44,7 +44,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddIdentityServer();
 
             services.AddMvc();
 
@@ -79,7 +80,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
 
             app.UseStaticFiles();
 
-            app.UseIdentity();
+            app.UseAuthentication();
             app.UseIdentityServer();
 
             app.UseMvc(routes =>
