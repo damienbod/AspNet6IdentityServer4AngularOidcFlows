@@ -13,13 +13,15 @@ export class DefaultConfiguration {
     post_logout_redirect_uri = 'https://localhost:44311/unauthorized';
     start_checksession = false;
     silent_renew = true;
+    silent_renew_offset_in_seconds = 0;
     startup_route = '/dataeventrecords';
     // HTTP 403
     forbidden_route = '/forbidden';
     // HTTP 401
     unauthorized_route = '/unauthorized';
     auto_userinfo = true;
-    auto_clean_state_after_authentication: true;
+	auto_clean_state_after_authentication: true;
+	trigger_authorization_result_event: false;
     log_console_warning_active = true;
     log_console_debug_active = false;
 
@@ -44,11 +46,13 @@ export class OpenIDImplicitFlowConfiguration {
     post_logout_redirect_uri: string;
     start_checksession: boolean;
     silent_renew: boolean;
+    silent_renew_offset_in_seconds: number;
     startup_route: string;
     forbidden_route: string;
     unauthorized_route: string;
     auto_userinfo: boolean;
-    auto_clean_state_after_authentication: boolean;
+	auto_clean_state_after_authentication: boolean;
+	trigger_authorization_result_event: boolean;
     log_console_warning_active: boolean;
     log_console_debug_active: boolean;
     max_id_token_iat_offset_allowed_in_seconds: number;
@@ -97,6 +101,10 @@ export class AuthConfiguration {
         return this.openIDImplicitFlowConfiguration.silent_renew !== undefined ? this.openIDImplicitFlowConfiguration.silent_renew : this.defaultConfig.silent_renew;
     }
 
+    get silent_renew_offset_in_seconds(): number {
+        return this.openIDImplicitFlowConfiguration.silent_renew_offset_in_seconds || this.defaultConfig.silent_renew_offset_in_seconds;
+    }
+
     get startup_route(): string {
         return this.openIDImplicitFlowConfiguration.startup_route || this.defaultConfig.startup_route;
     }
@@ -115,6 +123,10 @@ export class AuthConfiguration {
 
     get auto_clean_state_after_authentication(): boolean {
         return this.openIDImplicitFlowConfiguration.auto_clean_state_after_authentication !== undefined ? this.openIDImplicitFlowConfiguration.auto_clean_state_after_authentication : this.defaultConfig.auto_clean_state_after_authentication;
+	}
+
+	get trigger_authorization_result_event(): boolean {
+        return this.openIDImplicitFlowConfiguration.trigger_authorization_result_event !== undefined ? this.openIDImplicitFlowConfiguration.trigger_authorization_result_event : this.defaultConfig.trigger_authorization_result_event;
     }
 
     get log_console_warning_active(): boolean {
