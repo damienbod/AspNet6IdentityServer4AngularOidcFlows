@@ -8,7 +8,7 @@ using ResourceWithIdentityServerWithClient.Model;
 
 namespace ResourceWithIdentityServerWithClient.Controllers
 {
-    [Authorize("admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Policy ="admin")]
     [Produces("application/json")]
     [Route("api/UserManagement")]
     public class UserManagementController : Controller
