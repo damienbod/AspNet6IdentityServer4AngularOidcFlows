@@ -19,6 +19,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -45,17 +46,49 @@ namespace IdentityServerWithAspNetIdentitySqlite
         {
             var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
 
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAuthentication();
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddIdentityServer();
 
             var guestPolicy = new AuthorizationPolicyBuilder()
            .RequireAuthenticatedUser()
            .RequireClaim("scope", "dataEventRecords")
            .Build();
+
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+              .AddIdentityServerAuthentication(options =>
+              {
+                  options.Authority = Config.HOST_URL + "/";
+                  options.AllowedScopes = new List<string> { "dataEventRecords" };
+                  options.ApiName = "dataEventRecords";
+                  options.ApiSecret = "dataEventRecordsSecret";
+                  options.SupportedTokens = SupportedTokens.Both;
+              });
+
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            //IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
+            //{
+            //    Authority = Config.HOST_URL + "/",
+            //    AllowedScopes = new List<string> { "dataEventRecords" },
+            //    ApiSecret = "dataEventRecordsSecret",
+            //    ApiName = "dataEventRecords",
+            //    AutomaticAuthenticate = true,
+            //    SupportedTokens = SupportedTokens.Both,
+            //    // TokenRetriever = _tokenRetriever,
+            //    // required if you want to return a 403 and not a 401 for forbidden responses
+            //    AutomaticChallenge = true,
+            //};
+
+            //app.UseIdentityServerAuthentication(identityServerValidationOptions);
 
             services.AddAuthorization(options =>
             {
@@ -130,25 +163,9 @@ namespace IdentityServerWithAspNetIdentitySqlite
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseIdentity();
             app.UseIdentityServer();
+            app.UseAuthentication();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
-            {
-                Authority = Config.HOST_URL + "/",
-                AllowedScopes = new List<string> { "dataEventRecords" },
-                ApiSecret = "dataEventRecordsSecret",
-                ApiName = "dataEventRecords",
-                AutomaticAuthenticate = true,
-                SupportedTokens = SupportedTokens.Both,
-                // TokenRetriever = _tokenRetriever,
-                // required if you want to return a 403 and not a 401 for forbidden responses
-                AutomaticChallenge = true,
-            };
-
-            app.UseIdentityServerAuthentication(identityServerValidationOptions);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
