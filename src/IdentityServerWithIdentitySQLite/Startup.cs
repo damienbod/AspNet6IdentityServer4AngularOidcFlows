@@ -45,16 +45,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
 
             services.AddAuthentication();
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultScheme = "Identity.Application";
-            //    options.DefaultAuthenticateScheme = "Identity.Application";
-            //    options.DefaultForbidScheme = "Identity.Application";
-            //    options.DefaultSignInScheme = "Identity.Application";
-            //    options.DefaultSignOutScheme = "Identity.Application";
-            //    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            //});
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()

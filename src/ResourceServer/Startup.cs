@@ -77,23 +77,6 @@ namespace AspNet5SQLite
                   options.ApiSecret = "dataEventRecordsSecret";
               });
 
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            //IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
-            //{
-            //    Authority = "https://localhost:44318/",
-            //    AllowedScopes = new List<string> { "dataEventRecords" },
-            //    ApiSecret = "dataEventRecordsSecret",
-            //    ApiName = "dataEventRecords",
-            //    AutomaticAuthenticate = true,
-            //    SupportedTokens = SupportedTokens.Both,
-            //    // TokenRetriever = _tokenRetriever,
-            //    // required if you want to return a 403 and not a 401 for forbidden responses
-            //    AutomaticChallenge = true,
-            //};
-
-            //app.UseIdentityServerAuthentication(identityServerValidationOptions);
-
-
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
