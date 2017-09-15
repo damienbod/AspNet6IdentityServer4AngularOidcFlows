@@ -7,7 +7,7 @@ using System;
 
 namespace ResourceWithIdentityServerWithClient.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     public class DataEventRecordsController : Controller
     {

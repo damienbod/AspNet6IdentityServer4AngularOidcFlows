@@ -20,8 +20,8 @@ namespace ResourceFileServer.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{accessId}")]
-        public IActionResult Get(string accessId)
+        [HttpGet("{accessId}/{id}")]
+        public IActionResult Get(string accessId, string id)
         {
             var filePath = _securedFileProvider.GetFileIdForUseOnceAccessId(accessId);
             if(!string.IsNullOrEmpty(filePath))
@@ -56,7 +56,7 @@ namespace ResourceFileServer.Controllers
             {
                 // TODO generate a one time access token
                 var oneTimeToken = _securedFileProvider.AddFileIdForUseOnceAccessId(filePath);
-                return Ok(oneTimeToken);
+                return Ok(new DownloadToken { OneTimeToken = oneTimeToken });
             }
 
             // returning a HTTP Forbidden result.

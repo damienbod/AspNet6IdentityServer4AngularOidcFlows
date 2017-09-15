@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using IdentityServerWithAspNetIdentity.Models;
 using IdentityServerWithAspNetIdentity.Models.ManageViewModels;
 using IdentityServerWithAspNetIdentity.Services;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http.Authentication;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -285,12 +287,13 @@ namespace IdentityServerWithAspNetIdentity.Controllers
                 return View("Error");
             }
             var userLogins = await _userManager.GetLoginsAsync(user);
-            var otherLogins = _signInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+            var result = await _signInManager.GetExternalAuthenticationSchemesAsync();
+            var otherLogins = result.Where(auth => userLogins.All(ul => auth.Name != ul.LoginProvider)).ToList();
             ViewData["ShowRemoveButton"] = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
             {
                 CurrentLogins = userLogins,
-                OtherLogins = otherLogins
+                OtherLogins = new List<AuthenticationDescription>() // otherLogins
             });
         }
 

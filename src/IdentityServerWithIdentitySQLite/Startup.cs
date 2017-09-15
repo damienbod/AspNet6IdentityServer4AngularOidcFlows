@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +11,9 @@ using QuickstartIdentityServer;
 using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
-using IdentityServer4;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -42,9 +43,22 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAuthentication();
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultScheme = "Identity.Application";
+            //    options.DefaultAuthenticateScheme = "Identity.Application";
+            //    options.DefaultForbidScheme = "Identity.Application";
+            //    options.DefaultSignInScheme = "Identity.Application";
+            //    options.DefaultSignOutScheme = "Identity.Application";
+            //    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            //});
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddIdentityServer();
 
             services.AddMvc();
 
@@ -79,8 +93,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
 
             app.UseStaticFiles();
 
-            app.UseIdentity();
             app.UseIdentityServer();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

@@ -20,19 +20,18 @@ export class SecureFileService {
     public DownloadFile(id: string) {
         this.setHeaders();
         let oneTimeAccessToken = '';
+
         this._http.get(`${this.actionUrl}GenerateOneTimeAccessToken/${id}`, {
             headers: this.headers,
             body: ''
-        }).map(
-            res => res.text()
-            ).subscribe(
-            data => {
-                oneTimeAccessToken = data;
+        }).map(  res => res.json()).subscribe(
+            (data: any) => {
+                oneTimeAccessToken = data.oneTimeToken;
             },
             error => this.oidcSecurityService.handleError(error),
             () => {
-                console.log(`open DownloadFile for file ${id}: ${this.actionUrl}${oneTimeAccessToken}`);
-                window.open(`${this.actionUrl}${oneTimeAccessToken}`);
+                console.log(`open DownloadFile for file ${id}: ${this.actionUrl}${oneTimeAccessToken}/${id}`);
+                window.open(`${this.actionUrl}${oneTimeAccessToken}/${id}`);
             });
     }
 
