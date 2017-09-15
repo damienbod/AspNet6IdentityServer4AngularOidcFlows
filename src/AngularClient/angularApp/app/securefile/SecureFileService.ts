@@ -24,7 +24,7 @@ export class SecureFileService {
             headers: this.headers,
             body: ''
         }).map(
-            res => res.text()
+            res => res.toString()
             ).subscribe(
             data => {
                 oneTimeAccessToken = data;
