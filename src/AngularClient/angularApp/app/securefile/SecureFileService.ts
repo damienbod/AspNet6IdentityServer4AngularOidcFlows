@@ -30,8 +30,8 @@ export class SecureFileService {
             },
             error => this.oidcSecurityService.handleError(error),
             () => {
-                console.log(`open DownloadFile for file ${id}: ${this.actionUrl}${oneTimeAccessToken}`);
-                window.open(`${this.actionUrl}${oneTimeAccessToken}`);
+                console.log(`open DownloadFile for file ${id}: ${this.actionUrl}${oneTimeAccessToken}/${id}`);
+                window.open(`${this.actionUrl}${oneTimeAccessToken}/${id}`);
             });
     }
 

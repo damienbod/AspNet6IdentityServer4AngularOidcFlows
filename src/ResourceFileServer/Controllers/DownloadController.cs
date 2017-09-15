@@ -20,8 +20,8 @@ namespace ResourceFileServer.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{accessId}")]
-        public IActionResult Get(string accessId)
+        [HttpGet("{accessId}/{id}")]
+        public IActionResult Get(string accessId, string id)
         {
             var filePath = _securedFileProvider.GetFileIdForUseOnceAccessId(accessId);
             if(!string.IsNullOrEmpty(filePath))
