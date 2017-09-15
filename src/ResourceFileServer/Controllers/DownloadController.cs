@@ -56,7 +56,7 @@ namespace ResourceFileServer.Controllers
             {
                 // TODO generate a one time access token
                 var oneTimeToken = _securedFileProvider.AddFileIdForUseOnceAccessId(filePath);
-                return Ok(oneTimeToken);
+                return Ok(new DownloadToken { OneTimeToken = oneTimeToken });
             }
 
             // returning a HTTP Forbidden result.
