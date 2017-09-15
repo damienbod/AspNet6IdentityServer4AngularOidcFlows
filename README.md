@@ -33,61 +33,63 @@
 
 ## History
 
-<strong>2017.08.11: </strong> update auth module version 1.3.6
+<strong>2017-09-15: </strong> Updated to ASP.NET 2.0
 
-<strong>2017.08.09: </strong> update auth module and Angular 4.3.3
+<strong>2017-08-11: </strong> update auth module version 1.3.6
 
-<strong>2017.07.21: </strong> bugfix refresh isAuthorized, bugfix refresh user data,  Angular 4.3.1,
+<strong>2017-08-09: </strong> update auth module and Angular 4.3.3
 
-<strong>2017.07.14: </strong>Updated auth module to version 1.2.1 , Angular 4.2.6, Webpack 3.2.1, typescript 2.4.1
+<strong>2017-07-21: </strong> bugfix refresh isAuthorized, bugfix refresh user data,  Angular 4.3.1,
 
-<strong>2017.06.23: </strong>Updated auth module to version 1.0.3 , Angular 4.2.4, Webpack 2.6.1, typescript 2.3.4
+<strong>2017-07-14: </strong>Updated auth module to version 1.2.1 , Angular 4.2.6, Webpack 3.2.1, typescript 2.4.1
 
-<strong>2017.06.11: </strong>Supporting OpenID Connect Session Management 1.0 , Angular 4.2.1
+<strong>2017-06-23: </strong>Updated auth module to version 1.0.3 , Angular 4.2.4, Webpack 2.6.1, typescript 2.3.4
 
-<strong>2017.06.09: </strong>Supporting OpenID well known endpoints
+<strong>2017-06-11: </strong>Supporting OpenID Connect Session Management 1.0 , Angular 4.2.1
 
-<strong>2017.06.09: </strong>Logging can be turned off or on for the auto security module
+<strong>2017-06-09: </strong>Supporting OpenID well known endpoints
 
-<strong>2017.06.08: </strong>Updated using angular style guide, and refactored code
+<strong>2017-06-09: </strong>Logging can be turned off or on for the auto security module
 
-<strong>2017.06.02: </strong>Implemented silent renew for Angular 4 OpenID Connect Implicit flow and OpenID Connect Session Management
+<strong>2017-06-08: </strong>Updated using angular style guide, and refactored code
 
-<strong>2017.04.16: </strong>Updated to IdentityServer4 1.5.1, angular 4.1.3 and updated all other nuget packages
+<strong>2017-06-02: </strong>Implemented silent renew for Angular 4 OpenID Connect Implicit flow and OpenID Connect Session Management
 
-<strong>2017.04.16: </strong>Updated to IdentityServer4 1.5.0, angular 4.0.2
+<strong>2017-04-16: </strong>Updated to IdentityServer4 1.5.1, angular 4.1.3 and updated all other nuget packages
 
-<strong>2017.04.11: </strong>Updated to IdentityServer4 1.4.2, angular 4.0.1, dev npm packages, angular OpenID Connect Implicit Flow Client configuration 
+<strong>2017-04-16: </strong>Updated to IdentityServer4 1.5.0, angular 4.0.2
 
-<strong>2017.03.24: </strong>Updated to angular 4.0.0
+<strong>2017-04-11: </strong>Updated to IdentityServer4 1.4.2, angular 4.0.1, dev npm packages, angular OpenID Connect Implicit Flow Client configuration 
 
-<strong>2017.03.20: </strong>Updated to angular 2.4.10, oidc client validation, IdentityServer4 1.3.1
+<strong>2017-03-24: </strong>Updated to angular 4.0.0
 
-<strong>2017.02.15: </strong>Updated to VS2017 csproj, angular 2.4.7, webpack 2.2.1
+<strong>2017-03-20: </strong>Updated to angular 2.4.10, oidc client validation, IdentityServer4 1.3.1
 
-<strong>2017.01.07: </strong>Updated to IdentityServer4 1.0.0
+<strong>2017-02-15: </strong>Updated to VS2017 csproj, angular 2.4.7, webpack 2.2.1
 
-<strong>2016.12.18: </strong>Updated to IdentityServer4 rc5, ASP.NET Core 1.1
+<strong>2017-01-07: </strong>Updated to IdentityServer4 1.0.0
 
-<strong>2016.12.04: </strong>Updated to IdentityServer4 rc4
+<strong>2016-12-18: </strong>Updated to IdentityServer4 rc5, ASP.NET Core 1.1
 
-<strong>2016.11.18: </strong>Updated to Angular 2.2.0, IdentityServer4 rc3
+<strong>2016-12-04: </strong>Updated to IdentityServer4 rc4
 
-<strong>2016.10.08: </strong>Updated to IdentityServer4 rc2
+<strong>2016-11-18: </strong>Updated to Angular 2.2.0, IdentityServer4 rc3
 
-<strong>2016.09.18: </strong> ASP.NET Core 1.0.1
+<strong>2016-10-08: </strong>Updated to IdentityServer4 rc2
 
-<strong>2016.09.13:</strong> Updated to IdentityServer4 RC1 with ASP.NET Core Identity and SQLite
+<strong>2016-09-18: </strong> ASP.NET Core 1.0.1
 
-<strong>2016.08.11:</strong> Updated to IdentityServer4 1.0.0-beta5
+<strong>2016-09-13:</strong> Updated to IdentityServer4 RC1 with ASP.NET Core Identity and SQLite
 
-<strong>2016.07.03:</strong> Updated to ASP.NET Core RTM and IdentityServer4 1.0.0-beta4-update1
+<strong>2016-08-11:</strong> Updated to IdentityServer4 1.0.0-beta5
 
-<strong>2016.06.26:</strong> Updated IdentityServer4 beta 3</a>
+<strong>2016-07-03:</strong> Updated to ASP.NET Core RTM and IdentityServer4 1.0.0-beta4-update1
 
-<strong>22.05.2016:</strong> Updated to ASP.NET Core 1.0 RC2 dotnet
+<strong>2016-06-26:</strong> Updated IdentityServer4 beta 3</a>
 
-<strong>2016.01.15:</strong> Updated to IdentityServer4
+<strong>2016-05-22:</strong> Updated to ASP.NET Core 1.0 RC2 dotnet
 
-<strong>2015.11.18:</strong> Updated to ASP.NET Core 1.0 RC1
+<strong>2016-01-15:</strong> Updated to IdentityServer4
+
+<strong>2015-11-18:</strong> Updated to ASP.NET Core 1.0 RC1
 
