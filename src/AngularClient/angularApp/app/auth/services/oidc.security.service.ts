@@ -72,6 +72,11 @@ export class OidcSecurityService {
 
         if (isPlatformBrowser(this.platformId)) {
             // Client only code.
+            this.authWellKnownEndpoints.onWellKnownEndpointsLoaded.subscribe(() => {
+                this.moduleSetup = true;
+                this.onModuleSetup.emit();
+            });
+
             this.authWellKnownEndpoints.setupModule();
 
             if (this.authConfiguration.silent_renew) {
@@ -83,10 +88,10 @@ export class OidcSecurityService {
                     this.oidcSecurityCheckSession.pollServerSession(this.authConfiguration.client_id);
                 });
             }
+        } else {
+            this.moduleSetup = true;
+            this.onModuleSetup.emit();
         }
-
-        this.moduleSetup = true;
-        this.onModuleSetup.emit();
     }
 
     getUserData(): Observable<any> {
@@ -292,6 +297,7 @@ export class OidcSecurityService {
                             }
                         });
                     } else {
+                        this.runTokenValidatation();
                         if (this.authConfiguration.trigger_authorization_result_event) {
 							this.onAuthorizationResult.emit(AuthorizationResult.authorized);
 						} else {
