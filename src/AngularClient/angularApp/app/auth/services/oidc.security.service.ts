@@ -104,9 +104,7 @@ export class OidcSecurityService {
     }
 
     getIsAuthorized(): Observable<boolean> {
-		if (this.moduleSetup) {
-            return this._isAuthorized.asObservable();
-		}
+        return this._isAuthorized.asObservable();
     }
 
     private setIsAuthorized(isAuthorized: boolean): void {
