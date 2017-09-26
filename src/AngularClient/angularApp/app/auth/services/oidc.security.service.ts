@@ -88,9 +88,7 @@ export class OidcSecurityService {
                     this.oidcSecurityCheckSession.pollServerSession(this.authConfiguration.client_id);
                 });
             }
-        }
-        else
-        {
+        } else {
             this.moduleSetup = true;
             this.onModuleSetup.emit();
         }
@@ -106,7 +104,7 @@ export class OidcSecurityService {
     }
 
     getIsAuthorized(): Observable<boolean> {
-		if(this.moduleSetup) {
+		if (this.moduleSetup) {
             return this._isAuthorized.asObservable();
 		}
     }
