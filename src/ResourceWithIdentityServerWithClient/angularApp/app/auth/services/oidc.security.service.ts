@@ -72,6 +72,11 @@ export class OidcSecurityService {
 
         if (isPlatformBrowser(this.platformId)) {
             // Client only code.
+            this.authWellKnownEndpoints.onWellKnownEndpointsLoaded.subscribe(() => {
+                this.moduleSetup = true;
+                this.onModuleSetup.emit();
+            });
+
             this.authWellKnownEndpoints.setupModule();
 
             if (this.authConfiguration.silent_renew) {
@@ -84,9 +89,11 @@ export class OidcSecurityService {
                 });
             }
         }
-
-        this.moduleSetup = true;
-        this.onModuleSetup.emit();
+        else
+        {
+            this.moduleSetup = true;
+            this.onModuleSetup.emit();
+        }
     }
 
     getUserData(): Observable<any> {
@@ -99,7 +106,9 @@ export class OidcSecurityService {
     }
 
     getIsAuthorized(): Observable<boolean> {
-        return this._isAuthorized.asObservable();
+		if(this.moduleSetup) {
+            return this._isAuthorized.asObservable();
+		}
     }
 
     private setIsAuthorized(isAuthorized: boolean): void {
@@ -292,6 +301,7 @@ export class OidcSecurityService {
                             }
                         });
                     } else {
+                        this.runTokenValidatation();
                         if (this.authConfiguration.trigger_authorization_result_event) {
 							this.onAuthorizationResult.emit(AuthorizationResult.authorized);
 						} else {
