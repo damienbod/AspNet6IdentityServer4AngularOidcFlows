@@ -50,9 +50,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders()
-            .AddIdentityServer();
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var guestPolicy = new AuthorizationPolicyBuilder()
            .RequireAuthenticatedUser()

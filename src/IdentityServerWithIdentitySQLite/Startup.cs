@@ -12,8 +12,6 @@ using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -46,9 +44,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddAuthentication();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders()
-            .AddIdentityServer();
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc();
 
