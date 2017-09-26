@@ -119,12 +119,13 @@ namespace IdentityServerWithAspNetIdentity.Controllers
 
         async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl, AuthorizationRequest context)
         {
-            var providers = HttpContext.Authentication.GetAuthenticationSchemes()
+            var loginProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            var providers = loginProviders
                 .Where(x => x.DisplayName != null)
                 .Select(x => new ExternalProvider
                 {
                     DisplayName = x.DisplayName,
-                    AuthenticationScheme = x.AuthenticationScheme
+                    AuthenticationScheme = x.Name
                 });
 
             var allowLocal = true;
@@ -214,8 +215,8 @@ namespace IdentityServerWithAspNetIdentity.Controllers
                 string url = "/Account/Logout?logoutId=" + model.LogoutId;
                 try
                 {
-                    // hack: try/catch to handle social providers that throw
-                    await HttpContext.Authentication.SignOutAsync(idp, new AuthenticationProperties { RedirectUri = url });
+                    await _signInManager.SignOutAsync();
+                    // await HttpContext.Authentication.SignOutAsync(idp, new AuthenticationProperties { RedirectUri = url });
                 }
                 catch(NotSupportedException)
                 {
