@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNet5SQLite.Controllers
 {
-    [Authorize]
+    [Authorize("dataEventRecords")]
     [Route("api/[controller]")]
     public class DataEventRecordsController : Controller
     {

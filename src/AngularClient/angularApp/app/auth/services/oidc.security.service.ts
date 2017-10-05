@@ -545,7 +545,6 @@ export class OidcSecurityService {
             return;
         }
         this.runTokenValidatationRunning = true;
-        console.log('runTokenValidatation');
         let source = Observable.timer(5000, 3000)
             .timeInterval()
             .pluck('interval')
