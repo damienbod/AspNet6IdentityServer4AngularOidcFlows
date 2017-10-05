@@ -5,7 +5,7 @@ using ResourceFileServer.Providers;
 
 namespace ResourceFileServer.Controllers
 {
-    [Authorize]
+    [Authorize("securedFiles")]
     [Route("api/[controller]")]
     public class FileExplorerController : Controller
     {
