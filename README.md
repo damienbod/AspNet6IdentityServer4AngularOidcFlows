@@ -33,6 +33,8 @@
 
 ## History
 
+<strong>2017-10-05: </strong> Updated to IdentityServer4 2.0 and Angular oidc 1.3.18
+
 <strong>2017-09-15: </strong> Updated to ASP.NET 2.0
 
 <strong>2017-08-11: </strong> update auth module version 1.3.6
