@@ -74,7 +74,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
               .AddIdentityServerAuthentication(options =>
               {
                   options.Authority = Config.HOST_URL + "/";
-                  options.AllowedScopes = new List<string> { "dataEventRecords" };
                   options.ApiName = "dataEventRecords";
                   options.ApiSecret = "dataEventRecordsSecret";
                   options.SupportedTokens = SupportedTokens.Both;
@@ -111,7 +110,10 @@ namespace IdentityServerWithAspNetIdentitySqlite
                 {
                     policyUser.RequireClaim("role", "dataEventRecords.user");
                 });
-
+                options.AddPolicy("dataEventRecords", policyUser =>
+                {
+                    policyUser.RequireClaim("scope", "dataEventRecords");
+                });
             });
 
             services.AddMvc();

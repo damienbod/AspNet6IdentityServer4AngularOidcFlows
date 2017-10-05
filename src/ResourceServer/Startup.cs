@@ -72,7 +72,6 @@ namespace AspNet5SQLite
               .AddIdentityServerAuthentication(options =>
               {
                   options.Authority = "https://localhost:44318/";
-                  options.AllowedScopes = new List<string> { "dataEventRecords" };
                   options.ApiName = "dataEventRecords";
                   options.ApiSecret = "dataEventRecordsSecret";
               });
@@ -87,7 +86,10 @@ namespace AspNet5SQLite
                 {
                     policyUser.RequireClaim("role",  "dataEventRecords.user");
                 });
-
+                options.AddPolicy("dataEventRecords", policyUser =>
+                {
+                    policyUser.RequireClaim("scope", "dataEventRecords");
+                });
             });
 
             services.AddMvc(options =>

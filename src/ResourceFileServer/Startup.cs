@@ -74,7 +74,6 @@ namespace ResourceFileServer
                .AddIdentityServerAuthentication(options =>
                {
                    options.Authority = "https://localhost:44318/";
-                   options.AllowedScopes = new List<string> { "securedFiles" };
                    options.ApiName = "securedFiles";
                    options.ApiSecret = "securedFilesSecret";
                });
@@ -98,6 +97,10 @@ namespace ResourceFileServer
                 options.AddPolicy("securedFilesUser", policyUser =>
                 {
                     policyUser.RequireClaim("role", "securedFiles.user");
+                });
+                options.AddPolicy("securedFiles", policyUser =>
+                {
+                    policyUser.RequireClaim("scope", "securedFiles");
                 });
             });
 
