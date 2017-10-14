@@ -4,7 +4,12 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/timeInterval';
+import 'rxjs/add/operator/pluck';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/observable/timer';
+import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Router } from '@angular/router';
 import { AuthConfiguration, OpenIDImplicitFlowConfiguration } from '../modules/auth.configuration';
@@ -173,7 +178,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.logDebug('BEGIN Authorize, no auth data');
 
         let state = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control);
-        if (state === '') {
+        if (state === '' || state === null) {
             state = Date.now() + '' + Math.random();
             this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, state);
         }
@@ -409,7 +414,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.logDebug('BEGIN refresh session Authorize');
 
         let state = this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_auth_state_control);
-        if (state === '') {
+        if (state === '' || state === null) {
             state = Date.now() + '' + Math.random();
             this.oidcSecurityCommon.store(this.oidcSecurityCommon.storage_auth_state_control, state);
         }
@@ -449,6 +454,9 @@ export class OidcSecurityService {
         params.set('scope', this.authConfiguration.scope);
         params.set('nonce', nonce);
         params.set('state', state);
+        if (this.authConfiguration.hd_param) {
+          params.set('hd', this.authConfiguration.hd_param);
+        }
 
         let customParams = Object.assign({}, this.oidcSecurityCommon.retrieve(this.oidcSecurityCommon.storage_custom_request_params));
 
