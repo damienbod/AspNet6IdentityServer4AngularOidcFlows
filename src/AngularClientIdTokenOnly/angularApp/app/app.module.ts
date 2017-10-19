@@ -52,7 +52,7 @@ export class AppModule {
         openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'https://localhost:44372/Unauthorized';
         openIDImplicitFlowConfiguration.start_checksession = false;
         openIDImplicitFlowConfiguration.silent_renew = true;
-        openIDImplicitFlowConfiguration.login_route = '/home';
+        openIDImplicitFlowConfiguration.post_login_route = '/home';
         // HTTP 403
         openIDImplicitFlowConfiguration.forbidden_route = '/Forbidden';
         // HTTP 401
