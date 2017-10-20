@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { OidcSecurityService } from '../auth/services/oidc.security.service';
-import { Observable }       from 'rxjs/Observable';
-
+import { OidcSecurityService } from '../../auth/services/oidc.security.service';
 import { Observable } from 'rxjs/Observable';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';

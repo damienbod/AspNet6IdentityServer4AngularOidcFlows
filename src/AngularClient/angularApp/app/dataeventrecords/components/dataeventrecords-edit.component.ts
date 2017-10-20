@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
-import { OidcSecurityService } from '../auth/services/oidc.security.service';
+import { OidcSecurityService } from '../../auth/services/oidc.security.service';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';
 import { DataEventRecord } from '../models/DataEventRecord';

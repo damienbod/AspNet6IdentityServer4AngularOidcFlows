@@ -40,7 +40,6 @@ import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.modu
     providers: [
         OidcSecurityService,
         SecureFileService,
-        DataEventRecordsService,
         Configuration
     ],
     bootstrap:    [AppComponent],
