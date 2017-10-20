@@ -76,20 +76,21 @@ export class AppModule {
             // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
             openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = this.clientConfiguration.max_id_token_iat_offset_allowed_in_seconds;
 
-            this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration);
-
             configuration.FileServer = this.clientConfiguration.apiFileServer;
             configuration.Server = this.clientConfiguration.apiServer;
+
+            this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration);
         });
     }
 
     configClient() {
 
-        // console.log('window.location', window.location);
-        // console.log('window.location.href', window.location.href);
-        // console.log('window.location.origin', window.location.origin);
+        console.log('window.location', window.location);
+        console.log('window.location.href', window.location.href);
+        console.log('window.location.origin', window.location.origin);
+        console.log(`${window.location.origin}/api/ClientAppSettings`);
 
-        return this.http.get(window.location.origin + window.location.pathname + '/api/ClientAppSettings').map(res => {
+        return this.http.get(`${window.location.origin}/api/ClientAppSettings`).map(res => {
             this.clientConfiguration = res.json();
         });
     }
