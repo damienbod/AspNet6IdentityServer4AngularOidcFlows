@@ -13,6 +13,8 @@ export class DataEventRecordsService {
     private headers: HttpHeaders;
 
     constructor(private http: HttpClient, private _configuration: Configuration, private _securityService: OidcSecurityService) {
+        console.log(this.actionUrl);
+        console.log('----------------');
         this.actionUrl = `${_configuration.Server}api/DataEventRecords/`;
     }
 
