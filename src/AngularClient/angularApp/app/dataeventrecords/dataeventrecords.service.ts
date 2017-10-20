@@ -24,7 +24,7 @@ export class DataEventRecordsService {
         const token = this._securityService.getToken();
         if (token !== '') {
             const tokenValue = 'Bearer ' + token;
-            this.headers = this.headers.append('Authorization', tokenValue);
+            this.headers = this.headers.set('Authorization', tokenValue);
         }
     }
 
