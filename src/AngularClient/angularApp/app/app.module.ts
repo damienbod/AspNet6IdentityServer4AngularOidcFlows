@@ -5,7 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { Configuration } from './app.constants';
 import { routing } from './app.routes';
-import { HttpModule, JsonpModule, Http } from '@angular/http';
+
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { SecureFileService } from './securefile/SecureFileService';
 
@@ -25,8 +27,7 @@ import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.modu
         BrowserModule,
         FormsModule,
         routing,
-        HttpModule,
-        JsonpModule,
+        HttpClientModule,
 		DataEventRecordsModule,
         AuthModule.forRoot(),
     ],
@@ -49,10 +50,10 @@ export class AppModule {
 
     clientConfiguration: any;
 
-    constructor(public oidcSecurityService: OidcSecurityService, private http: Http, private configuration: Configuration) {
+    constructor(public oidcSecurityService: OidcSecurityService, private http: HttpClient, private configuration: Configuration) {
 
         console.log('APP STARTING');
-        this.configClient().subscribe(config => {
+        this.configClient().subscribe((config: any) => {
 
             let openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
             openIDImplicitFlowConfiguration.stsServer = this.clientConfiguration.stsServer;
@@ -90,7 +91,7 @@ export class AppModule {
         console.log('window.location.origin', window.location.origin);
         console.log(`${window.location.origin}/api/ClientAppSettings`);
 
-        return this.http.get(`${window.location.origin}/api/ClientAppSettings`).map(res => {
+        return this.http.get(`${window.location.origin}/api/ClientAppSettings`).map((res: any) => {
             this.clientConfiguration = res.json();
         });
     }
