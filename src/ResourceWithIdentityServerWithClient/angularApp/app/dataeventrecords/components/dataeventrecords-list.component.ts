@@ -1,15 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { OidcSecurityService } from '../auth/services/oidc.security.service';
-import { Observable }       from 'rxjs/Observable';
+import { OidcSecurityService } from '../../auth/services/oidc.security.service';
+import { Observable } from 'rxjs/Observable';
 
-import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
-import { DataEventRecord } from './models/DataEventRecord';
-
+import { DataEventRecordsService } from '../dataeventrecords.service';
+import { DataEventRecord } from '../models/DataEventRecord';
 
 @Component({
-    selector: 'dataeventrecords-list',
+    selector: 'app-dataeventrecords-list',
     templateUrl: 'dataeventrecords-list.component.html'
 })
 
@@ -22,7 +21,7 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     isAuthorized: boolean;
 
     userDataSubscription: Subscription;
-    userData: any;
+    userData: boolean;
 
     constructor(
 
@@ -43,11 +42,10 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
                 }
             });
 
-        console.log('userData getting data beginning');
         this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
-                if (userData != '' && userData.role) {
+                if (userData !== '') {
                     for (let i = 0; i < userData.role.length; i++) {
                         if (userData.role[i] === 'dataEventRecords.admin') {
                             this.hasAdminRole = true;
@@ -57,7 +55,7 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
                     }
                 }
 
-                console.log('userData getting data completed');
+                console.log('userData getting data');
             });
     }
 
@@ -75,7 +73,6 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     }
 
     private getData() {
-        console.log('getData Get all begin')
         this._dataEventRecordsService
             .GetAll()
             .subscribe(data => this.DataEventRecords = data,
