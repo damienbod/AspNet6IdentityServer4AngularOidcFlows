@@ -5,7 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { Configuration } from './app.constants';
 import { routing } from './app.routes';
-import { HttpModule, JsonpModule } from '@angular/http';
+
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
@@ -30,9 +32,8 @@ import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.modu
         BrowserModule,
         FormsModule,
         routing,
-        HttpModule,
+        HttpClientModule,
         DataEventRecordsModule,
-        JsonpModule,
         AuthModule.forRoot(),
     ],
     declarations: [
