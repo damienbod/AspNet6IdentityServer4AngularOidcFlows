@@ -54,6 +54,7 @@ export class AppModule {
 
         console.log('APP STARTING');
         this.configClient().subscribe((config: any) => {
+            this.clientConfiguration = config;
 
             let openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
             openIDImplicitFlowConfiguration.stsServer = this.clientConfiguration.stsServer;
@@ -91,8 +92,6 @@ export class AppModule {
         console.log('window.location.origin', window.location.origin);
         console.log(`${window.location.origin}/api/ClientAppSettings`);
 
-        return this.http.get(`${window.location.origin}/api/ClientAppSettings`).map((res: any) => {
-            this.clientConfiguration = res.json();
-        });
+        return this.http.get(`${window.location.origin}/api/ClientAppSettings`);
     }
 }
