@@ -128,6 +128,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
                 "/Unauthorized",
                 "/Forbidden",
                 "/uihome",
+                "/dataeventrecords",
                 "/dataeventrecords/",
                 "/dataeventrecords/create",
                 "/dataeventrecords/edit/",
