@@ -8,21 +8,17 @@ import { routing } from './app.routes';
 import { HttpModule, JsonpModule, Http } from '@angular/http';
 
 import { SecureFileService } from './securefile/SecureFileService';
-import { DataEventRecordsService } from './dataeventrecords/DataEventRecordsService';
-import { DataEventRecord } from './dataeventrecords/models/DataEventRecord';
 
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { SecureFilesComponent } from './securefile/securefiles.component';
 
-import { DataEventRecordsListComponent } from './dataeventrecords/dataeventrecords-list.component';
-import { DataEventRecordsCreateComponent } from './dataeventrecords/dataeventrecords-create.component';
-import { DataEventRecordsEditComponent } from './dataeventrecords/dataeventrecords-edit.component';
-
 import { AuthModule } from './auth/modules/auth.module';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configuration';
+
+import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
 
 @NgModule({
     imports: [
@@ -31,6 +27,7 @@ import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configurati
         routing,
         HttpModule,
         JsonpModule,
+		DataEventRecordsModule,
         AuthModule.forRoot(),
     ],
     declarations: [
@@ -38,10 +35,7 @@ import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configurati
         ForbiddenComponent,
         HomeComponent,
         UnauthorizedComponent,
-        SecureFilesComponent,
-        DataEventRecordsListComponent,
-        DataEventRecordsCreateComponent,
-        DataEventRecordsEditComponent
+        SecureFilesComponent
     ],
     providers: [
         OidcSecurityService,

@@ -4,12 +4,13 @@ import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
 import { Observable }       from 'rxjs/Observable';
 
-import { DataEventRecordsService } from '../dataeventrecords/DataEventRecordsService';
-import { DataEventRecord } from './models/DataEventRecord';
+import { Observable } from 'rxjs/Observable';
 
+import { DataEventRecordsService } from '../dataeventrecords.service';
+import { DataEventRecord } from '../models/DataEventRecord';
 
 @Component({
-    selector: 'dataeventrecords-list',
+    selector: 'app-dataeventrecords-list',
     templateUrl: 'dataeventrecords-list.component.html'
 })
 
@@ -46,7 +47,7 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
         this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
-                if (userData != '') {
+                if (userData !== '') {
                     for (let i = 0; i < userData.role.length; i++) {
                         if (userData.role[i] === 'dataEventRecords.admin') {
                             this.hasAdminRole = true;
