@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
@@ -10,9 +10,9 @@ export class SecureFileService {
 
     private actionUrl: string;
     private fileExplorerUrl: string;
-    private headers: Headers;
+    private headers: HttpHeaders;
 
-    constructor(private _http: Http, private _configuration: Configuration, private oidcSecurityService: OidcSecurityService) {
+    constructor(private http: HttpClient, private _configuration: Configuration, private oidcSecurityService: OidcSecurityService) {
         this.actionUrl = `${_configuration.FileServer}api/Download/`;
         this.fileExplorerUrl = `${_configuration.FileServer }api/FileExplorer/`;
     }
@@ -21,10 +21,9 @@ export class SecureFileService {
         this.setHeaders();
         let oneTimeAccessToken = '';
 
-        this._http.get(`${this.actionUrl}GenerateOneTimeAccessToken/${id}`, {
-            headers: this.headers,
-            body: ''
-        }).map(  res => res.json()).subscribe(
+        this.http.get(`${this.actionUrl}GenerateOneTimeAccessToken/${id}`, {
+            headers: this.headers
+        }).subscribe(
             (data: any) => {
                 oneTimeAccessToken = data.oneTimeToken;
             },
@@ -37,21 +36,19 @@ export class SecureFileService {
 
     public GetListOfFiles = (): Observable<string[]> => {
         this.setHeaders();
-        return this._http.get(this.fileExplorerUrl, {
-            headers: this.headers,
-            body: ''
-        }).map(res => res.json());
+
+        return this.http.get<string[]>(this.fileExplorerUrl, { headers: this.headers });
     }
 
     private setHeaders() {
-        this.headers = new Headers();
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('Accept', 'application/json');
+        this.headers = new HttpHeaders();
+        this.headers = this.headers.set('Content-Type', 'application/json');
+        this.headers = this.headers.set('Accept', 'application/json');
 
-        let token = this.oidcSecurityService.getToken();
-
+        const token = this.oidcSecurityService.getToken();
         if (token !== '') {
-            this.headers.append('Authorization', 'Bearer ' + token);
+            const tokenValue = 'Bearer ' + token;
+            this.headers = this.headers.set('Authorization', tokenValue);
         }
     }
 }
