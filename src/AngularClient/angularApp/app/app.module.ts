@@ -82,6 +82,9 @@ export class AppModule {
             configuration.Server = this.clientConfiguration.apiServer;
 
             this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration);
+
+            // if you need custom parameters
+            // oidcSecurityService.setCustomRequestParameters({ 't4': 'ABC abc 123', 't3': 'wo');
         });
     }
 
