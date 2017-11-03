@@ -33,6 +33,8 @@
 
 ## History
 
+<strong>2017-11-03: </strong> Updated to Angular 5, Typescript 2.6.1
+
 <strong>2017-10-20: </strong> Updated to Angular 4.4.6, Angular oidc 3.0.0 and HttpClient
 
 <strong>2017-10-15: </strong> Updated to IdentityServer4 2.0 and Angular oidc 1.3.19
