@@ -12,7 +12,7 @@ export class SecureFileService {
     private fileExplorerUrl: string;
     private headers: HttpHeaders;
 
-    constructor(private http: HttpClient, private _configuration: Configuration, private oidcSecurityService: OidcSecurityService) {
+    constructor(private http: HttpClient, _configuration: Configuration, private oidcSecurityService: OidcSecurityService) {
         this.actionUrl = `${_configuration.FileServer}api/Download/`;
         this.fileExplorerUrl = `${_configuration.FileServer }api/FileExplorer/`;
     }

@@ -7,7 +7,7 @@ import { Configuration } from './app.constants';
 import { routing } from './app.routes';
 
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { SecureFileService } from './securefile/SecureFileService';
 
@@ -50,7 +50,7 @@ export class AppModule {
 
     clientConfiguration: any;
 
-    constructor(public oidcSecurityService: OidcSecurityService, private http: HttpClient, private configuration: Configuration) {
+    constructor(public oidcSecurityService: OidcSecurityService, private http: HttpClient, configuration: Configuration) {
 
         console.log('APP STARTING');
         this.configClient().subscribe((config: any) => {

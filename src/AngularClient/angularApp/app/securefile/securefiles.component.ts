@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SecureFileService } from './SecureFileService';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
-import { Observable }       from 'rxjs/Observable';
 
 @Component({
     selector: 'securefiles',
