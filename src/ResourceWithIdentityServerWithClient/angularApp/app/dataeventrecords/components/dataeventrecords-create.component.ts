@@ -2,9 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from '../../auth/services/oidc.security.service';
-
 import { DataEventRecordsService } from '../dataeventrecords.service';
-import { DataEventRecord } from '../models/DataEventRecord';
 
 @Component({
     selector: 'app-dataeventrecords-create',

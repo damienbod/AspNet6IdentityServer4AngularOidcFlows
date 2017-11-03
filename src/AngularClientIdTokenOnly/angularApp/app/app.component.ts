@@ -1,11 +1,6 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { Configuration } from './app.constants';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { HomeComponent } from './home/home.component';
-import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 import './app.component.css';
 

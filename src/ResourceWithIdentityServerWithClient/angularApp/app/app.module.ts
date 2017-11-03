@@ -7,7 +7,6 @@ import { Configuration } from './app.constants';
 import { routing } from './app.routes';
 
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';

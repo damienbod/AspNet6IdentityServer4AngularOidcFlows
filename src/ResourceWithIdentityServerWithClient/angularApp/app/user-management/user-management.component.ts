@@ -1,9 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription'
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
-import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
-
 import { UserManagementService } from '../user-management/UserManagementService';
 import { User } from './models/User';
 
@@ -23,7 +20,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     constructor(
         private _userManagementService: UserManagementService,
         public oidcSecurityService: OidcSecurityService,
-        private _router: Router) {
+    ) {
         this.message = 'user-management';
     }
 

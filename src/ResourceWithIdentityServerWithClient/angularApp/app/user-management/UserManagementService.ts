@@ -12,8 +12,8 @@ export class UserManagementService {
     private actionUrl: string;
     private headers: HttpHeaders;
 
-    constructor(private _http: HttpClient, private _configuration: Configuration, private _securityService: OidcSecurityService) {
-        this.actionUrl = `${_configuration.Server}/api/UserManagement/`;
+    constructor(private _http: HttpClient, configuration: Configuration, private _securityService: OidcSecurityService) {
+        this.actionUrl = `${configuration.Server}/api/UserManagement/`;
     }
 
     private setHeaders() {

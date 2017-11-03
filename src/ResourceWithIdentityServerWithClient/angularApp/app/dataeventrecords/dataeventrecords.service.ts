@@ -12,10 +12,10 @@ export class DataEventRecordsService {
     private actionUrl: string;
     private headers: HttpHeaders;
 
-    constructor(private http: HttpClient, private _configuration: Configuration, private _securityService: OidcSecurityService) {
+    constructor(private http: HttpClient, configuration: Configuration, private _securityService: OidcSecurityService) {
         console.log(this.actionUrl);
         console.log('----------------');
-        this.actionUrl = `${_configuration.Server}api/DataEventRecords/`;
+        this.actionUrl = `${configuration.Server}api/DataEventRecords/`;
     }
 
     private setHeaders() {
