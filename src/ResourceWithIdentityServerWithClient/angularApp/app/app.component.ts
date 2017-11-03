@@ -3,12 +3,10 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 
-
-import './app.component.scss';
-
 @Component({
     selector: 'my-app',
-    templateUrl: 'app.component.html'
+    templateUrl: 'app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 
 export class AppComponent implements OnInit, OnDestroy {

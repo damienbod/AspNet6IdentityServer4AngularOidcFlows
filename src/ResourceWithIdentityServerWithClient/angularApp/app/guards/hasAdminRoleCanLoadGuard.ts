@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanLoad } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
 
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
 
@@ -8,10 +7,7 @@ import { OidcSecurityService } from '../auth/services/oidc.security.service';
 export class HasAdminRoleCanLoadGuard implements CanLoad {
 
     private hasUserAdminRole = false;
-    private isAuthorizedSubscription: Subscription;
     private isAuthorized: boolean;
-
-    private userDataSubscription: Subscription;
 
     constructor(
         private oidcSecurityService: OidcSecurityService
@@ -19,12 +15,12 @@ export class HasAdminRoleCanLoadGuard implements CanLoad {
     }
 
     canLoad(): boolean {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
+        this.oidcSecurityService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
                 this.isAuthorized = isAuthorized;
             });
 
-        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
+        this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
                 if (userData && userData != '') {
