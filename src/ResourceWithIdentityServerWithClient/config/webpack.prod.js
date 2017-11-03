@@ -1,12 +1,10 @@
 const path = require('path');
-
 const webpack = require('webpack');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ngToolsWebpack = require('@ngtools/webpack');
-
+const webpackTools = require('@ngtools/webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const helpers = require('./webpack.helpers');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -16,9 +14,9 @@ console.log('@@@@@@@@@ USING PRODUCTION @@@@@@@@@@@@@@@');
 module.exports = {
 
     entry: {
-        'vendor': './angularApp/vendor.ts',
         'polyfills': './angularApp/polyfills.ts',
-        'app': './angularApp/main-aot.ts' // AoT compilation
+        'vendor': './angularApp/vendor.ts',
+        'app': './angularApp/main-aot.ts'
     },
 
     output: {
@@ -41,7 +39,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
                 use: '@ngtools/webpack'
             },
             {
@@ -83,12 +81,15 @@ module.exports = {
         ],
         exprContextCritical: false
     },
-
     plugins: [
-        // AoT plugin.
-        new ngToolsWebpack.AotPlugin({
+        //new BundleAnalyzerPlugin({
+        //    analyzerMode: 'static'
+        //}),
+        new webpackTools.AngularCompilerPlugin({
             tsConfigPath: './tsconfig-aot.json'
+            // entryModule: './angularApp/app/app.module#AppModule'
         }),
+
         new CleanWebpackPlugin(
             [
                 './wwwroot/dist',
@@ -110,7 +111,6 @@ module.exports = {
             {
                 name: ['vendor', 'polyfills']
             }),
-
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: 'body',
@@ -121,5 +121,6 @@ module.exports = {
             { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
         ])
     ]
+
 };
 

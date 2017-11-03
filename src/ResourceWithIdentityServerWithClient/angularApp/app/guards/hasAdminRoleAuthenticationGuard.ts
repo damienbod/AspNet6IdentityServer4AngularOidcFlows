@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { CanActivate} from '@angular/router';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
-import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class HasAdminRoleAuthenticationGuard implements CanActivate {
 
     private hasUserAdminRole = false;
-    private isAuthorizedSubscription: Subscription;
     private isAuthorized: boolean;
-
-    private userDataSubscription: Subscription;
 
     constructor(
         private oidcSecurityService: OidcSecurityService
     ) { }
 
     canActivate(): boolean {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
+        this.oidcSecurityService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
                 this.isAuthorized = isAuthorized;
             });
 
-        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
+        this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
                 if (userData && userData != '') {
