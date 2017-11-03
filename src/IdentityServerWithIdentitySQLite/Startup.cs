@@ -45,6 +45,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.AddAuthentication();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
