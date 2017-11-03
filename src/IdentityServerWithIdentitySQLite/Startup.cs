@@ -12,6 +12,10 @@ using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -46,6 +50,23 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.Configure<RequestLocalizationOptions>(
+                options =>
+                {
+                    var supportedCultures = new List<CultureInfo>
+                        {
+                            new CultureInfo("en-US"),
+                            new CultureInfo("de-CH"),
+                            new CultureInfo("fr-CH"),
+                            new CultureInfo("it-CH")
+                        };
+
+                    options.DefaultRequestCulture = new RequestCulture(culture: "de-CH", uiCulture: "de-CH");
+                    options.SupportedCultures = supportedCultures;
+                    options.SupportedUICultures = supportedCultures;
+
+                    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+                });
             services.AddMvc();
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
@@ -76,6 +97,9 @@ namespace IdentityServerWithAspNetIdentitySqlite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
 
             app.UseStaticFiles();
 
