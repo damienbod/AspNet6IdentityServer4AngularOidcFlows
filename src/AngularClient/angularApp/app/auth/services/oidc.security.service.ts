@@ -158,6 +158,10 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.customRequestParams = params;
     }
 
+    setCustomLogoffParameters(params: { [key: string]: string | number | boolean }) {
+        this.oidcSecurityCommon.customLogoffParams = params;
+    }
+
     authorize() {
 
         let data = this.oidcSecurityCommon.wellKnownEndpoints;
@@ -478,6 +482,12 @@ export class OidcSecurityService {
         let params = new HttpParams({ fromString: urlParts[1], encoder: new UriEncoder() });
         params = params.set('id_token_hint', id_token_hint);
         params = params.append('post_logout_redirect_uri', this.authConfiguration.post_logout_redirect_uri);
+
+        let customParams = Object.assign({}, this.oidcSecurityCommon.customLogoffParams);
+
+        Object.keys(customParams).forEach(key => {
+            params = params.append(key, customParams[key].toString());
+        });
 
         return `${authorizationEndsessionUrl}?${params}`;
     }

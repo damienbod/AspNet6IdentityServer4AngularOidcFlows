@@ -84,7 +84,7 @@ export class AppModule {
             this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration);
 
             // if you need custom parameters
-            // oidcSecurityService.setCustomRequestParameters({ 't4': 'ABC abc 123', 't3': 'wo' });
+            this.oidcSecurityService.setCustomRequestParameters({ 'culture': 'en-US', 'ui-culture': 'en-US' });
         });
     }
 
