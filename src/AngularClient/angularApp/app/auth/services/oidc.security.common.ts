@@ -120,16 +120,6 @@ export class OidcSecurityCommon {
         this.store(this.storage_custom_request_params, value);
     }
 
-    private storage_custom_logoff_params = 'storage_custom_logoff_params';
-
-    public get customLogoffParams(): { [key: string]: string | number | boolean } {
-        return this.retrieve(this.storage_custom_logoff_params);
-    }
-
-    public set customLogoffParams(value: { [key: string]: string | number | boolean }) {
-        this.store(this.storage_custom_logoff_params, value);
-    }
-
     constructor(private authConfiguration: AuthConfiguration, private oidcSecurityStorage: OidcSecurityStorage) {
     }
 

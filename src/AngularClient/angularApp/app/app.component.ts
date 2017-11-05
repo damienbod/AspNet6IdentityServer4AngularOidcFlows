@@ -67,8 +67,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     logout() {
         console.log('start logoff');
-
-        this.oidcSecurityService.setCustomLogoffParameters({ 'culture': 'fr-CH', 'ui-culture': 'fr-CH', 'ui_locales': 'fr-CH' });
         this.oidcSecurityService.logoff();
     }
 
