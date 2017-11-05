@@ -16,6 +16,9 @@ using System.Globalization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using IdentityServerWithAspNetIdentity.Filters;
+using System.Reflection;
+using IdentityServerWithAspNetIdentity.Resources;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -45,6 +48,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<LanguageActionFilter>();
+            services.AddSingleton<LocService>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddAuthentication();
@@ -67,9 +72,18 @@ namespace IdentityServerWithAspNetIdentitySqlite
                     options.SupportedCultures = supportedCultures;
                     options.SupportedUICultures = supportedCultures;
 
-                    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
                 });
-            services.AddMvc();
+
+            services.AddMvc()
+             .AddViewLocalization()
+             .AddDataAnnotationsLocalization(options =>
+             {
+                 options.DataAnnotationLocalizerProvider = (type, factory) =>
+                 {
+                     var assemblyName = new AssemblyName(typeof(SharedResource).GetTypeInfo().Assembly.FullName);
+                     return factory.Create("SharedResource", assemblyName.Name);
+                 };
+             });
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
 

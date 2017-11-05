@@ -19,10 +19,12 @@ using IdentityServer4;
 using IdentityServer4.Extensions;
 using System.Globalization;
 using Microsoft.AspNetCore.WebUtilities;
+using IdentityServerWithAspNetIdentity.Filters;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
     [Authorize]
+    [LanguageActionFilter]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -60,15 +62,6 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
-            // hack because Identityserver4 does some magic here...
-            // Need to set the culture manually
-            Uri uri = new Uri("http://faketopreventexception" + returnUrl);
-            var query = QueryHelpers.ParseQuery(uri.Query);
-            var culture = query.FirstOrDefault(t => t.Key == "culture").Value;
-
-            CultureInfo.CurrentCulture = new CultureInfo(culture);
-            CultureInfo.CurrentUICulture = new CultureInfo(culture);
-
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (context?.IdP != null)
             {
