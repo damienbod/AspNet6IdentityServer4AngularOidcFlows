@@ -19,6 +19,9 @@ using Microsoft.Extensions.Options;
 using IdentityServerWithAspNetIdentity.Filters;
 using System.Reflection;
 using IdentityServerWithAspNetIdentity.Resources;
+using System.Linq;
+using System.Threading.Tasks;
+using IdentityServerWithIdentitySQLite;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -48,7 +51,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<LanguageActionFilter>();
             services.AddSingleton<LocService>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -72,6 +74,13 @@ namespace IdentityServerWithAspNetIdentitySqlite
                     options.SupportedCultures = supportedCultures;
                     options.SupportedUICultures = supportedCultures;
 
+                    var requestProvider = options.RequestCultureProviders.OfType<AcceptLanguageHeaderRequestCultureProvider>().First();
+                    options.RequestCultureProviders.Clear();
+                    var provider = new LocalizationCookieProvider
+                    {
+                        CookieName = "defaultLocale"
+                    };
+                    options.RequestCultureProviders.Insert(0, provider);
                 });
 
             services.AddMvc()

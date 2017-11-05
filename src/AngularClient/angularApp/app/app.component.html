@@ -19,8 +19,14 @@
 
                     <li><a class="navigationLinkButton" *ngIf="!isAuthorized" (click)="login()">Login</a></li>
                     <li><a class="navigationLinkButton" *ngIf="isAuthorized" (click)="logout()">Logout</a></li>
+
+                    <li><a class="navigationLinkButton"  (click)="changeCulture('de','CH')">DE</a></li>
+                    <li><a class="navigationLinkButton"  (click)="changeCulture('fr','CH')">FR</a></li>
+                    <li><a class="navigationLinkButton"  (click)="changeCulture('it','CH')">IT</a></li>
+                    <li><a class="navigationLinkButton"  (click)="changeCulture('en','US')">EN</a></li>
+
                     <li><a class="navigationLinkButton" *ngIf="oidcSecurityService.checkSessionChanged" (click)="refreshSession()">Refresh Session</a></li>
-              
+
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

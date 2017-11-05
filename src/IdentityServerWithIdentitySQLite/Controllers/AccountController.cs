@@ -18,13 +18,11 @@ using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Extensions;
 using System.Globalization;
-using Microsoft.AspNetCore.WebUtilities;
 using IdentityServerWithAspNetIdentity.Filters;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
     [Authorize]
-    [LanguageActionFilter]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
