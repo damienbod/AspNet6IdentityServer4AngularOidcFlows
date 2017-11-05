@@ -1,4 +1,5 @@
 const path = require('path');
+const rxPaths = require('rxjs/_esm5/path-mapping');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -6,6 +7,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpackTools = require('@ngtools/webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const helpers = require('./webpack.helpers');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -27,7 +29,8 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.json'],
+        alias: rxPaths()
     },
 
     devServer: {
@@ -90,6 +93,8 @@ module.exports = {
             // entryModule: './angularApp/app/app.module#AppModule'
         }),
 
+        new webpack.optimize.ModuleConcatenationPlugin(),
+
         new CleanWebpackPlugin(
             [
                 './wwwroot/dist',
@@ -98,15 +103,11 @@ module.exports = {
             { root: ROOT }
         ),
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            output: {
-                comments: false
-            },
-            sourceMap: false
+
+        new UglifyJSPlugin({
+            parallel: 2
         }),
+        
         new webpack.optimize.CommonsChunkPlugin(
             {
                 name: ['vendor', 'polyfills']
