@@ -127,7 +127,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
             app.UseStaticFiles();
 
             app.UseIdentityServer();
-            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

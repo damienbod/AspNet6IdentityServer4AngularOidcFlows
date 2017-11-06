@@ -161,7 +161,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
             }
 
             app.UseIdentityServer();
-            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
