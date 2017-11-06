@@ -16,11 +16,9 @@ using System.Globalization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
-using IdentityServerWithAspNetIdentity.Filters;
 using System.Reflection;
 using IdentityServerWithAspNetIdentity.Resources;
 using System.Linq;
-using System.Threading.Tasks;
 using IdentityServerWithIdentitySQLite;
 
 namespace IdentityServerWithAspNetIdentitySqlite
