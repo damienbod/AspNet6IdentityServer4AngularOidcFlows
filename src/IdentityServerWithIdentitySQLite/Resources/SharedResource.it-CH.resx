@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="about" xml:space="preserve">
+    <value>Panoramica</value>
+  </data>
+  <data name="accessCode" xml:space="preserve">
+    <value>Access Code it</value>
+  </data>
+  <data name="accessCodeRequired" xml:space="preserve">
+    <value>accessCode required it</value>
+  </data>
+  <data name="applicationAccess" xml:space="preserve">
+    <value>Application Access it</value>
+  </data>
+  <data name="associationForm" xml:space="preserve">
+    <value>Association Form it</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Confermare la password</value>
+  </data>
+  <data name="confirmPasswordNotMatching" xml:space="preserve">
+    <value>La password di conferma non corrisponde.</value>
+  </data>
+  <data name="consentNoDoNotAllow" xml:space="preserve">
+    <value>No, Do Not Allow it</value>
+  </data>
+  <data name="consentRequired" xml:space="preserve">
+    <value>(required) it</value>
+  </data>
+  <data name="consentYesAllow" xml:space="preserve">
+    <value>Yes, Allow it</value>
+  </data>
+  <data name="contact" xml:space="preserve">
+    <value>Contattaci</value>
+  </data>
+  <data name="createNewAccount" xml:space="preserve">
+    <value>Creare un nuovo account</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="emailInvalid" xml:space="preserve">
+    <value>Email is invalid.</value>
+  </data>
+  <data name="emailRequired" xml:space="preserve">
+    <value>Indicare un indirizzo e-mail</value>
+  </data>
+  <data name="externalProviderAssociate" xml:space="preserve">
+    <value>Associate your account: it</value>
+  </data>
+  <data name="externalProviderSuccessRegisterText1" xml:space="preserve">
+    <value>You've successfully authenticated with it</value>
+  </data>
+  <data name="externalProviderSuccessRegisterText2" xml:space="preserve">
+    <value>Please enter an email address for this site below and click the Register button to finish
+ logging in. it</value>
+  </data>
+  <data name="forgotYourPassword" xml:space="preserve">
+    <value>Hai dimenticato la password</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="isAdmin" xml:space="preserve">
+    <value>Amministratore</value>
+  </data>
+  <data name="isRequestingYourPermission" xml:space="preserve">
+    <value>is requesting your permission it</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="logoutClickToReturn" xml:space="preserve">
+    <value>Click  the link to return to the application: it</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="passwordHasBeenReset" xml:space="preserve">
+    <value>Your password has been reset. Please click here to log in:  it</value>
+  </data>
+  <data name="passwordRequired" xml:space="preserve">
+    <value>Indicare un indirizzo password</value>
+  </data>
+  <data name="passwordStringLength" xml:space="preserve">
+    <value>La password deve essere composta da almeno 8 e al massimo 100 caratteri.</value>
+  </data>
+  <data name="personalInformation" xml:space="preserve">
+    <value>Personal Information it</value>
+  </data>
+  <data name="phoneNumber" xml:space="preserve">
+    <value>Phone Number it</value>
+  </data>
+  <data name="phoneNumberRequired" xml:space="preserve">
+    <value>Phone Number required it</value>
+  </data>
+  <data name="register" xml:space="preserve">
+    <value>Effettuare la registrazione </value>
+  </data>
+  <data name="registerAsNewUser" xml:space="preserve">
+    <value>Registrarsi come nuovo utente?</value>
+  </data>
+  <data name="registerExistingUser" xml:space="preserve">
+    <value>Effettuare la registrazione</value>
+  </data>
+  <data name="registerUserError" xml:space="preserve">
+    <value>Errore nella registrazione dell'utente</value>
+  </data>
+  <data name="registerUserSucceeded" xml:space="preserve">
+    <value>Utente registrato</value>
+  </data>
+  <data name="rememberMe" xml:space="preserve">
+    <value>Ricorda l'accesso</value>
+  </data>
+  <data name="rememberMyDecision" xml:space="preserve">
+    <value>Remember My Decision it</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Reset it</value>
+  </data>
+  <data name="resetPassword" xml:space="preserve">
+    <value>Reset Password it</value>
+  </data>
+  <data name="resetPasswordConfirmation" xml:space="preserve">
+    <value>Reset password confirmation it</value>
+  </data>
+  <data name="resetYourPassword" xml:space="preserve">
+    <value>Reset your password it</value>
+  </data>
+  <data name="uncheckPermissions" xml:space="preserve">
+    <value>Uncheck the permissions you do not wish to grant. it</value>
+  </data>
+  <data name="youAreNowLoggedOut" xml:space="preserve">
+    <value>You are now logged out it</value>
+  </data>
+</root>

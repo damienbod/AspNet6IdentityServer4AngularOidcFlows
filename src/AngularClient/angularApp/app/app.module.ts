@@ -22,12 +22,35 @@ import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configurati
 
 import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
 
+import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
+
+const l10nConfig: L10nConfig = {
+    locale: {
+        languages: [
+            { code: 'en', dir: 'ltr' },
+            { code: 'it', dir: 'ltr' },
+            { code: 'fr', dir: 'ltr' },
+            { code: 'de', dir: 'ltr' }
+        ],
+        language: 'en',
+        storage: StorageStrategy.Cookie
+    },
+    translation: {
+        providers: [
+            { type: ProviderType.Static, prefix: './i18n/locale-' }
+        ],
+        caching: true,
+        missingValue: 'No key'
+    }
+};
+
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         routing,
         HttpClientModule,
+        TranslationModule.forRoot(l10nConfig),
 		DataEventRecordsModule,
         AuthModule.forRoot(),
     ],
@@ -50,7 +73,13 @@ export class AppModule {
 
     clientConfiguration: any;
 
-    constructor(public oidcSecurityService: OidcSecurityService, private http: HttpClient, configuration: Configuration) {
+    constructor(
+        public oidcSecurityService: OidcSecurityService,
+        private http: HttpClient,
+        configuration: Configuration,
+        public l10nLoader: L10nLoader
+    ) {
+        this.l10nLoader.load();
 
         console.log('APP STARTING');
         this.configClient().subscribe((config: any) => {
@@ -84,7 +113,7 @@ export class AppModule {
             this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration);
 
             // if you need custom parameters
-            // oidcSecurityService.setCustomRequestParameters({ 't4': 'ABC abc 123', 't3': 'wo' });
+            // this.oidcSecurityService.setCustomRequestParameters({ 'culture': 'fr-CH', 'ui-culture': 'fr-CH', 'ui_locales': 'fr-CH' });
         });
     }
 

@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
-
+import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
 
 @Component({
@@ -11,10 +11,18 @@ import './app.component.css';
 
 export class AppComponent implements OnInit, OnDestroy {
 
+    @Language() lang: string;
+
+    title: string;
+
     isAuthorizedSubscription: Subscription;
     isAuthorized: boolean;
 
-    constructor(public oidcSecurityService: OidcSecurityService) {
+    constructor(
+        public oidcSecurityService: OidcSecurityService,
+        public locale: LocaleService,
+        public translation: TranslationService
+    ) {
         if (this.oidcSecurityService.moduleSetup) {
             this.doCallbackLogicIfRequired();
         } else {
@@ -30,6 +38,12 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.isAuthorized = isAuthorized;
             });
     }
+
+    changeCulture(language: string, country: string) {
+        this.locale.setDefaultLocale(language, country);
+        console.log('set language: ' + language);
+    }
+
 
     ngOnDestroy(): void {
         this.isAuthorizedSubscription.unsubscribe();

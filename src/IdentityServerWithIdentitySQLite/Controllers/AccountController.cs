@@ -16,8 +16,9 @@ using IdentityServerWithAspNetIdentity.Models;
 using IdentityServerWithAspNetIdentity.Services;
 using IdentityModel;
 using IdentityServer4;
-using Microsoft.AspNetCore.Http.Authentication;
 using IdentityServer4.Extensions;
+using System.Globalization;
+using IdentityServerWithAspNetIdentity.Filters;
 
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
@@ -168,6 +169,9 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Logout(string logoutId)
         {
+            var item = CultureInfo.CurrentCulture;
+            var item2 = CultureInfo.CurrentUICulture;
+
             if (User.Identity.IsAuthenticated == false)
             {
                 // if the user is not authenticated, then just show logged out page
@@ -199,6 +203,9 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
+            var item = CultureInfo.CurrentCulture;
+            var item2 = CultureInfo.CurrentUICulture;
+
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
             var subjectId = HttpContext.User.Identity.GetSubjectId();
 
