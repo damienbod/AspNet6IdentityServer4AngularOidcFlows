@@ -2,7 +2,6 @@
 import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
-
 import './app.component.css';
 
 @Component({
@@ -38,10 +37,6 @@ export class AppComponent implements OnInit, OnDestroy {
             (isAuthorized: boolean) => {
                 this.isAuthorized = isAuthorized;
             });
-
-        this.translation.translationChanged().subscribe(
-            () => { this.title = this.translation.translate('Title'); }
-        );
     }
 
     changeCulture(language: string, country: string) {

@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using IdentityServerWithAspNetIdentity.Models
+@using System.Globalization
+@using IdentityServerWithAspNetIdentity.Resources
+@inject LocService SharedLocalizer
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -20,7 +23,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Register">@SharedLocalizer.GetLocalizedHtmlString("register")</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Login">@SharedLocalizer.GetLocalizedHtmlString("login")</a></li>
     </ul>
 }

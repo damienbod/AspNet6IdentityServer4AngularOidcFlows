@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Language, LocaleService } from 'angular-l10n';
+
 @Component({
     selector: 'home',
     templateUrl: 'home.component.html'
@@ -7,11 +9,9 @@ import { Component, OnInit } from '@angular/core';
 
 export class HomeComponent implements OnInit {
 
-    public message: string;
-    public values: any[];
+    @Language() lang: string;
 
-    constructor() {
-        this.message = 'HomeComponent constructor';
+    constructor(public locale: LocaleService) {
     }
 
     ngOnInit() {

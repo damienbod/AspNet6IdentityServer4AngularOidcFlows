@@ -229,4 +229,31 @@
   <data name="youAreNowLoggedOut" xml:space="preserve">
     <value>You are now logged out</value>
   </data>
+  <data name="forgotYourPassword" xml:space="preserve">
+    <value>Forgot your password</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Log  in</value>
+  </data>
+  <data name="registerAsNewUser" xml:space="preserve">
+    <value>Als neuer Benutzer/in registrieren?</value>
+  </data>
+  <data name="registerUserError" xml:space="preserve">
+    <value>Fehler beim Registrieren einer Benutzerin/eines Benutzers</value>
+  </data>
+  <data name="registerUserSucceeded" xml:space="preserve">
+    <value>Registrierung der Benutzerin/des Benutzers erfolgreich</value>
+  </data>
+  <data name="rememberMyLogin" xml:space="preserve">
+    <value>Logindaten merken</value>
+  </data>
+  <data name="about" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>Home</value>
+  </data>
 </root>

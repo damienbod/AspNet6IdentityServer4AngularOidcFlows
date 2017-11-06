@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="about" xml:space="preserve">
+    <value>Übersicht</value>
+  </data>
   <data name="accessCode" xml:space="preserve">
     <value>Access Code de</value>
   </data>
@@ -144,6 +147,9 @@
   <data name="consentYesAllow" xml:space="preserve">
     <value>Yes, Allow de</value>
   </data>
+  <data name="contact" xml:space="preserve">
+    <value>Kontakt</value>
+  </data>
   <data name="createNewAccount" xml:space="preserve">
     <value>Neues Konto erstellen</value>
   </data>
@@ -166,14 +172,26 @@
     <value>Please enter an email address for this site below and click the Register button to finish
  logging in. de</value>
   </data>
+  <data name="forgotYourPassword" xml:space="preserve">
+    <value>Haben Sie Ihr Passwort vergessen</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>Startseite</value>
+  </data>
   <data name="isAdmin" xml:space="preserve">
     <value>Administrator</value>
   </data>
   <data name="isRequestingYourPermission" xml:space="preserve">
     <value>is requesting your permission de</value>
   </data>
+  <data name="language" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Einloggen</value>
+  </data>
   <data name="logout" xml:space="preserve">
-    <value>Logout de</value>
+    <value>Logout</value>
   </data>
   <data name="logoutClickToReturn" xml:space="preserve">
     <value>Click  the link to return to the application: de</value>
@@ -202,14 +220,26 @@
   <data name="register" xml:space="preserve">
     <value>Registrieren</value>
   </data>
+  <data name="registerAsNewUser" xml:space="preserve">
+    <value>Als neuer Benutzer/in registrieren?</value>
+  </data>
   <data name="registerExistingUser" xml:space="preserve">
     <value>Registrieren</value>
   </data>
+  <data name="registerUserError" xml:space="preserve">
+    <value>Fehler beim Registrieren einer Benutzerin/eines Benutzers</value>
+  </data>
+  <data name="registerUserSucceeded" xml:space="preserve">
+    <value>Registrierung der Benutzerin/des Benutzers erfolgreich</value>
+  </data>
   <data name="rememberMe" xml:space="preserve">
-    <value>Remember me de</value>
+    <value>Login merken</value>
   </data>
   <data name="rememberMyDecision" xml:space="preserve">
     <value>Remember My Decision de</value>
+  </data>
+  <data name="rememberMyLogin" xml:space="preserve">
+    <value>Logindaten merken</value>
   </data>
   <data name="reset" xml:space="preserve">
     <value>Reset de</value>
