@@ -1,4 +1,5 @@
 const path = require('path');
+const rxPaths = require('rxjs/_esm5/path-mapping');
 
 const webpack = require('webpack');
 
@@ -32,7 +33,8 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.json'],
+        alias: rxPaths()
     },
 
     devServer: {
@@ -96,6 +98,8 @@ module.exports = {
         exprContextCritical: false
     },
     plugins: [
+        new webpack.optimize.ModuleConcatenationPlugin(),
+
         new webpack.optimize.CommonsChunkPlugin({ name: ['vendor', 'polyfills'] }),
 
         new CleanWebpackPlugin(

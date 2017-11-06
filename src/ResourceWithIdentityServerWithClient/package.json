@@ -39,8 +39,8 @@
     "core-js": "2.5.1",
     "ie-shim": "0.1.0",
     "rxjs": "5.5.2",
-    "zone.js": "0.8.18",
-    "jsrsasign": "8.0.3"
+    "jsrsasign": "8.0.4",
+    "zone.js": "0.8.18"
   },
   "devDependencies": {
     "@ngtools/webpack": "^1.8.0",
@@ -75,6 +75,7 @@
     "tslint": "^5.8.0",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.6.1",
+    "uglifyjs-webpack-plugin": "^1.0.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.8.1",
     "webpack-bundle-analyzer": "^2.9.0",
