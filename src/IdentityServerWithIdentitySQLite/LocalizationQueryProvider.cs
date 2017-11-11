@@ -49,6 +49,18 @@ namespace IdentityServerWithIdentitySQLite
 
             var providerResultCulture = ParseDefaultParamterValue(culture);
 
+            // Use this cookie for following requests, so that for example the logout request will work
+            if (!string.IsNullOrEmpty(culture.ToString()))
+            {
+                var cookie = httpContext.Request.Cookies[".AspNetCore.Culture"];
+                var newCookieValue = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture));
+
+                if (string.IsNullOrEmpty(cookie) || cookie != newCookieValue)
+                {
+                    httpContext.Response.Cookies.Append(".AspNetCore.Culture", newCookieValue);
+                }
+            }
+
             return Task.FromResult(providerResultCulture);
         }
 
