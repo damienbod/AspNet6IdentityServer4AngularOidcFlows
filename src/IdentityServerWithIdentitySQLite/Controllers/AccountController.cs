@@ -23,7 +23,6 @@ using IdentityServerWithAspNetIdentity.Filters;
 namespace IdentityServerWithAspNetIdentity.Controllers
 {
     [Authorize]
-    [LanguageActionFilter]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
