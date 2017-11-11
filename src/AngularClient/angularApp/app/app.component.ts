@@ -52,7 +52,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     login() {
         console.log('start login');
-        this.oidcSecurityService.setCustomRequestParameters({ 'culture': 'fr-CH', 'ui-culture': 'fr-CH', 'ui_locales': 'fr-CH' });
+
+        let culture = 'de-CH';
+        if (this.locale.getCurrentCountry()) {
+            culture = this.locale.getCurrentLanguage() + '-' + this.locale.getCurrentCountry();
+        }
+
+        this.oidcSecurityService.setCustomRequestParameters({ 'ui_locales': culture});
 
         this.oidcSecurityService.authorize();
     }
