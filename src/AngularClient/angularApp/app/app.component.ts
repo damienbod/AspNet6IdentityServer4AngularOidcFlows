@@ -52,6 +52,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     login() {
         console.log('start login');
+        this.oidcSecurityService.setCustomRequestParameters({ 'culture': 'fr-CH', 'ui-culture': 'fr-CH', 'ui_locales': 'fr-CH' });
+
         this.oidcSecurityService.authorize();
     }
 
