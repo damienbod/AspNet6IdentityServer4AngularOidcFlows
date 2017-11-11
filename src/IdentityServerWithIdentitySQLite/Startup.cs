@@ -74,13 +74,19 @@ namespace IdentityServerWithAspNetIdentitySqlite
                     options.SupportedCultures = supportedCultures;
                     options.SupportedUICultures = supportedCultures;
 
-                    var requestProvider = options.RequestCultureProviders.OfType<AcceptLanguageHeaderRequestCultureProvider>().First();
-                    options.RequestCultureProviders.Clear();
-                    var provider = new LocalizationQueryProvider
+                    var providerQuery = new LocalizationQueryProvider
                     {
                         QureyParamterName = "ui_locales"
                     };
-                    options.RequestCultureProviders.Insert(0, provider);
+
+                    // Cookie is required for the logout, query parameters at not supported with the endsession endpoint
+                    // Only works in the same domain
+                    var providerCookie = new LocalizationCookieProvider
+                    {
+                        CookieName = "defaultLocale"
+                    };
+                    // options.RequestCultureProviders.Insert(0, providerCookie);
+                    options.RequestCultureProviders.Insert(0, providerQuery);
                 });
 
             services.AddMvc()
