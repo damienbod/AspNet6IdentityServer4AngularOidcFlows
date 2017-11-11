@@ -44,7 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('set language: ' + language);
     }
 
-
     ngOnDestroy(): void {
         this.isAuthorizedSubscription.unsubscribe();
         this.oidcSecurityService.onModuleSetup.unsubscribe();
