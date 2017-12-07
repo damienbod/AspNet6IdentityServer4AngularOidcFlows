@@ -51,7 +51,7 @@ const l10nConfig: L10nConfig = {
         routing,
         HttpClientModule,
         TranslationModule.forRoot(l10nConfig),
-		DataEventRecordsModule,
+        DataEventRecordsModule,
         AuthModule.forRoot(),
     ],
     declarations: [
@@ -66,7 +66,7 @@ const l10nConfig: L10nConfig = {
         SecureFileService,
         Configuration
     ],
-    bootstrap:    [AppComponent],
+    bootstrap: [AppComponent],
 })
 
 export class AppModule {
@@ -85,11 +85,13 @@ export class AppModule {
         this.configClient().subscribe((config: any) => {
             this.clientConfiguration = config;
 
-            let openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
+            const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
             openIDImplicitFlowConfiguration.stsServer = this.clientConfiguration.stsServer;
             openIDImplicitFlowConfiguration.redirect_url = this.clientConfiguration.redirect_url;
-            // The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
-            // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
+            // The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer
+            // identified by the iss (issuer) Claim as an audience.
+            // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience,
+            // or if it contains additional audiences not trusted by the Client.
             openIDImplicitFlowConfiguration.client_id = this.clientConfiguration.client_id;
             openIDImplicitFlowConfiguration.response_type = this.clientConfiguration.response_type;
             openIDImplicitFlowConfiguration.scope = this.clientConfiguration.scope;
@@ -105,7 +107,8 @@ export class AppModule {
             openIDImplicitFlowConfiguration.log_console_debug_active = this.clientConfiguration.log_console_debug_active;
             // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time,
             // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
-            openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = this.clientConfiguration.max_id_token_iat_offset_allowed_in_seconds;
+            openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds =
+                this.clientConfiguration.max_id_token_iat_offset_allowed_in_seconds;
 
             configuration.FileServer = this.clientConfiguration.apiFileServer;
             configuration.Server = this.clientConfiguration.apiServer;

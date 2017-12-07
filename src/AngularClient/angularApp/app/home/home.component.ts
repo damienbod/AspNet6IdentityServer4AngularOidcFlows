@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Language, LocaleService } from 'angular-l10n';
 
 @Component({
-    selector: 'home',
+    selector: 'app-home',
     templateUrl: 'home.component.html'
 })
 

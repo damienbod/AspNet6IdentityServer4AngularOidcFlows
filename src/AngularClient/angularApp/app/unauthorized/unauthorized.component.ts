@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'unauthorized',
+    selector: 'app-unauthorized',
     templateUrl: 'unauthorized.component.html'
 })
 
