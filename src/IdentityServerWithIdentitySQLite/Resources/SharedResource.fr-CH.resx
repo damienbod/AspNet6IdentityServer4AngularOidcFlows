@@ -142,7 +142,7 @@
     <value>No, Do Not Allow fr</value>
   </data>
   <data name="consentRequired" xml:space="preserve">
-    <value>(required) fr</value>
+    <value>Champs obligatoires</value>
   </data>
   <data name="consentYesAllow" xml:space="preserve">
     <value>Yes, Allow fr</value>
