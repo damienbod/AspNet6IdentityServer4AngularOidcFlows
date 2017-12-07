@@ -4,7 +4,7 @@ import { SecureFileService } from './SecureFileService';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
 
 @Component({
-    selector: 'securefiles',
+    selector: 'app-securefiles',
     templateUrl: 'securefiles.component.html',
     providers: [SecureFileService]
 })
