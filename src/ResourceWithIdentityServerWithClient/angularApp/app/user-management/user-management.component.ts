@@ -5,7 +5,7 @@ import { UserManagementService } from '../user-management/UserManagementService'
 import { User } from './models/User';
 
 @Component({
-    selector: 'user-management',
+    selector: 'app-user-management',
     templateUrl: 'user-management.component.html'
 })
 

@@ -55,7 +55,7 @@ import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.modu
 export class AppModule {
     constructor(public oidcSecurityService: OidcSecurityService) {
 
-        let openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
+        const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
         openIDImplicitFlowConfiguration.stsServer = 'https://localhost:44363';
         openIDImplicitFlowConfiguration.redirect_url = 'https://localhost:44363';
         // The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.

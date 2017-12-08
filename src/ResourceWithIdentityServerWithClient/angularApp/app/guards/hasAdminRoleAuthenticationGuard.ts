@@ -21,7 +21,7 @@ export class HasAdminRoleAuthenticationGuard implements CanActivate {
         this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
-                if (userData && userData != '') {
+                if (userData && userData !== '') {
                     for (let i = 0; i < userData.role.length; i++) {
                         if (userData.role[i] === 'admin') {
                             this.hasUserAdminRole = true;

@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 
 @Component({
-    selector: 'my-app',
+    selector: 'app-component',
     templateUrl: 'app.component.html',
     styleUrls: ['./app.component.scss'],
 })

@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
 
 @Component({
-    selector: 'navigation',
+    selector: 'app-navigation',
     templateUrl: 'navigation.component.html'
 })
 
@@ -34,7 +34,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
-                if (userData && userData != '' && userData.role) {
+                if (userData && userData !== '' && userData.role) {
                     for (let i = 0; i < userData.role.length; i++) {
                         if (userData.role[i] === 'dataEventRecords.admin') {
                             this.hasDataEventRecordsAdminRole = true;
