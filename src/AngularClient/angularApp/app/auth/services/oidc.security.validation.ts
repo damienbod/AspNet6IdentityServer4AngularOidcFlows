@@ -65,7 +65,7 @@ export class OidcSecurityValidation {
         const tokenExpirationDate = this.getTokenExpirationDate(decoded_id_token);
         offsetSeconds = offsetSeconds || 0;
 
-        if (tokenExpirationDate == null) {
+        if (!tokenExpirationDate) {
             return false;
         }
 

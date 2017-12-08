@@ -100,7 +100,7 @@ namespace QuickstartIdentityServer
                     ClientId = "angularclient",
                     AccessTokenType = AccessTokenType.Reference,
                     AccessTokenLifetime = 330,// 330 seconds, default 60 minutes
-                    IdentityTokenLifetime = 20,
+                    IdentityTokenLifetime = 300,
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
@@ -135,8 +135,8 @@ namespace QuickstartIdentityServer
                     ClientName = "angularclientidtokenonly",
                     ClientId = "angularclientidtokenonly",
                     AccessTokenType = AccessTokenType.Reference,
-                    AccessTokenLifetime = 120,// 120 seconds, default 60 minutes
-                    IdentityTokenLifetime = 90,
+                    AccessTokenLifetime = 360,// 120 seconds, default 60 minutes
+                    IdentityTokenLifetime = 300,
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
