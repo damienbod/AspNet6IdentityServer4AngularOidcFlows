@@ -40,7 +40,7 @@ export class OidcSecurityValidation {
 
     // id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
     validate_id_token_exp_not_expired(decoded_id_token: string, offsetSeconds?: number): boolean {
-        let tokenExpirationDate = this.getTokenExpirationDate(decoded_id_token);
+        const tokenExpirationDate = this.getTokenExpirationDate(decoded_id_token);
         offsetSeconds = offsetSeconds || 0;
 
         if (tokenExpirationDate == null) {
@@ -113,7 +113,7 @@ export class OidcSecurityValidation {
             return false;
         }
 
-        let dateTime_iat_id_token = new Date(0); // The 0 here is the key, which sets the date to the epoch
+        const dateTime_iat_id_token = new Date(0); // The 0 here is the key, which sets the date to the epoch
         dateTime_iat_id_token.setUTCSeconds(dataIdToken.iat);
 
         max_offset_allowed_in_seconds = max_offset_allowed_in_seconds || 0;
@@ -138,7 +138,7 @@ export class OidcSecurityValidation {
 
     // id_token C1: The Issuer Identifier for the OpenID Provider (which is typically obtained during Discovery) MUST exactly match the value of the iss (issuer) Claim.
     validate_id_token_iss(dataIdToken: any, authWellKnownEndpoints_issuer: any): boolean {
-        if (dataIdToken.iss != authWellKnownEndpoints_issuer) {
+        if (dataIdToken.iss as string !== authWellKnownEndpoints_issuer as string) {
             this.oidcSecurityCommon.logDebug('Validate_id_token_iss failed, dataIdToken.iss: ' + dataIdToken.iss + ' authWellKnownEndpoints issuer:' + authWellKnownEndpoints_issuer);
             return false;
         }
@@ -149,7 +149,7 @@ export class OidcSecurityValidation {
     // id_token C2: The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
     // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
     validate_id_token_aud(dataIdToken: any, aud: any): boolean {
-        if (dataIdToken.aud != aud) {
+        if (dataIdToken.aud as string !== aud as string) {
             this.oidcSecurityCommon.logDebug('Validate_id_token_aud failed, dataIdToken.aud: ' + dataIdToken.aud + ' client_id:' + aud);
             return false;
         }
@@ -158,7 +158,7 @@ export class OidcSecurityValidation {
     }
 
     validateStateFromHashCallback(state: any, local_state: any): boolean {
-        if (state != local_state) {
+        if (state as string !== local_state as string) {
             this.oidcSecurityCommon.logDebug('ValidateStateFromHashCallback failed, state: ' + state + ' local_state:' + local_state);
             return false;
         }
@@ -167,7 +167,7 @@ export class OidcSecurityValidation {
     }
 
     validate_userdata_sub_id_token(id_token_sub: any, userdata_sub: any): boolean {
-        if (id_token_sub != userdata_sub) {
+        if (id_token_sub as string !== userdata_sub as string) {
             this.oidcSecurityCommon.logDebug('validate_userdata_sub_id_token failed, id_token_sub: ' + id_token_sub + ' userdata_sub:' + userdata_sub);
             return false;
         }
@@ -178,7 +178,7 @@ export class OidcSecurityValidation {
     getPayloadFromToken(token: any, encode: boolean) {
         let data = {};
         if (typeof token !== 'undefined') {
-            let encoded = token.split('.')[1];
+            const encoded = token.split('.')[1];
             if (encode) {
                 return encoded;
             }
@@ -191,7 +191,7 @@ export class OidcSecurityValidation {
     getHeaderFromToken(token: any, encode: boolean) {
         let data = {};
         if (typeof token !== 'undefined') {
-            let encoded = token.split('.')[0];
+            const encoded = token.split('.')[0];
             if (encode) {
                 return encoded;
             }
@@ -204,7 +204,7 @@ export class OidcSecurityValidation {
     getSignatureFromToken(token: any, encode: boolean) {
         let data = {};
         if (typeof token !== 'undefined') {
-            let encoded = token.split('.')[2];
+            const encoded = token.split('.')[2];
             if (encode) {
                 return encoded;
             }
@@ -222,17 +222,17 @@ export class OidcSecurityValidation {
             return false;
         }
 
-        let header_data = this.getHeaderFromToken(id_token, false);
+        const header_data = this.getHeaderFromToken(id_token, false);
 
         if ((Object.keys(header_data).length === 0 && header_data.constructor === Object)) {
             this.oidcSecurityCommon.logWarning('id token has no header data');
             return false;
         }
 
-        let kid = header_data.kid;
-        let alg = header_data.alg;
+        const kid = header_data.kid;
+        const alg = header_data.alg;
 
-        if ('RS256' != alg) {
+        if ('RS256' !== alg as string) {
             this.oidcSecurityCommon.logWarning('Only RS256 supported');
             return false;
         }
@@ -243,22 +243,22 @@ export class OidcSecurityValidation {
             // exactly 1 key in the jwtkeys and no kid in the Jose header
             // kty	"RSA" use "sig"
             let amountOfMatchingKeys = 0;
-            for (let key of jwtkeys.keys) {
-                if (key.kty == 'RSA' && key.use == 'sig') {
+            for (const key of jwtkeys.keys) {
+                if (key.kty as string === 'RSA' && key.use as string === 'sig') {
                     amountOfMatchingKeys = amountOfMatchingKeys + 1;
                 }
             }
 
-            if (amountOfMatchingKeys == 0) {
+            if (amountOfMatchingKeys === 0) {
                 this.oidcSecurityCommon.logWarning('no keys found, incorrect Signature, validation failed for id_token');
                 return false;
             } else if (amountOfMatchingKeys > 1) {
                 this.oidcSecurityCommon.logWarning('no ID Token kid claim in JOSE header and multiple supplied in jwks_uri');
                 return false;
             } else {
-                for (let key of jwtkeys.keys) {
-                    if (key.kty == 'RSA' && key.use == 'sig') {
-                        let publickey = KEYUTIL.getKey(key);
+                for (const key of jwtkeys.keys) {
+                    if (key.kty as string === 'RSA' && key.use as string === 'sig') {
+                        const publickey = KEYUTIL.getKey(key);
                         isValid = KJUR.jws.JWS.verify(id_token, publickey, ['RS256']);
                         if (!isValid) {
                             this.oidcSecurityCommon.logWarning('incorrect Signature, validation failed for id_token');
@@ -269,9 +269,9 @@ export class OidcSecurityValidation {
             }
         } else {
             // kid in the Jose header of id_token
-            for (let key of jwtkeys.keys) {
-                if (key.kid == kid) {
-                    let publickey = KEYUTIL.getKey(key);
+            for (const key of jwtkeys.keys) {
+                if (key.kid as string === kid as string) {
+                    const publickey = KEYUTIL.getKey(key);
                     isValid = KJUR.jws.JWS.verify(id_token, publickey, ['RS256']);
                     if (!isValid) {
                         this.oidcSecurityCommon.logWarning('incorrect Signature, validation failed for id_token');
@@ -313,14 +313,14 @@ export class OidcSecurityValidation {
     // access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash is present in the ID Token.
     validate_id_token_at_hash(access_token: any, at_hash: any): boolean {
         this.oidcSecurityCommon.logDebug('From the server:' + at_hash);
-        let testdata = this.generate_at_hash('' + access_token);
+        const testdata = this.generate_at_hash('' + access_token);
         this.oidcSecurityCommon.logDebug('client validation not decoded:' + testdata);
-        if (testdata == at_hash) {
+        if (testdata === at_hash as string) {
             return true; // isValid;
         } else {
-            let testValue = this.generate_at_hash('' + decodeURIComponent(access_token));
+            const testValue = this.generate_at_hash('' + decodeURIComponent(access_token));
             this.oidcSecurityCommon.logDebug('-gen access--' + testValue);
-            if (testValue == at_hash) {
+            if (testValue === at_hash as string) {
                 return true; // isValid
             }
         }
@@ -329,9 +329,9 @@ export class OidcSecurityValidation {
     }
 
     private generate_at_hash(access_token: any): string {
-        let hash = KJUR.crypto.Util.hashString(access_token, 'sha256');
-        let first128bits = hash.substr(0, hash.length / 2);
-        let testdata = hextob64u(first128bits);
+        const hash = KJUR.crypto.Util.hashString(access_token, 'sha256');
+        const first128bits = hash.substr(0, hash.length / 2);
+        const testdata = hextob64u(first128bits);
 
         return testdata;
     }
@@ -341,7 +341,7 @@ export class OidcSecurityValidation {
             return new Date();
         }
 
-        let date = new Date(0); // The 0 here is the key, which sets the date to the epoch
+        const date = new Date(0); // The 0 here is the key, which sets the date to the epoch
         date.setUTCSeconds(dataIdToken.exp);
 
         return date;
@@ -359,7 +359,7 @@ export class OidcSecurityValidation {
                 output += '=';
                 break;
             default:
-                throw 'Illegal base64url string!';
+                throw Error('Illegal base64url string!');
         }
 
         return window.atob(output);
