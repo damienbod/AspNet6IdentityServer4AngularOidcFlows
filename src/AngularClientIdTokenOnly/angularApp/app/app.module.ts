@@ -41,7 +41,7 @@ import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configurati
 export class AppModule {
     constructor(public oidcSecurityService: OidcSecurityService) {
 
-        let openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
+        const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
 
         openIDImplicitFlowConfiguration.stsServer = 'https://localhost:44318';
         openIDImplicitFlowConfiguration.redirect_url = 'https://localhost:44372';

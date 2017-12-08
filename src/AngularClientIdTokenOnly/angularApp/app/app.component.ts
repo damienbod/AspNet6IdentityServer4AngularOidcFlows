@@ -5,7 +5,7 @@ import { OidcSecurityService } from './auth/services/oidc.security.service';
 import './app.component.css';
 
 @Component({
-    selector: 'my-app',
+    selector: 'app-component',
     templateUrl: 'app.component.html'
 })
 

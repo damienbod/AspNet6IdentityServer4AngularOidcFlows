@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-    selector: 'home',
+    selector: 'app-home',
     templateUrl: 'home.component.html'
 })
 
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
 
-                if (userData != '') {
+                if (userData !== '') {
                     this.name = userData.name;
                     this.email = userData.email;
                 }
