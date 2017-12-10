@@ -60,13 +60,21 @@ export class OidcSecurityCheckSession {
 
         source.subscribe(
             () => {
-                this.oidcSecurityCommon.logDebug(this.sessionIframe);
-                const session_state = this.oidcSecurityCommon.sessionState;
-                if (session_state && session_state !== '') {
-                    this.sessionIframe.contentWindow.postMessage(
-                        clientId + ' ' + session_state,
-                        this.authConfiguration.stsServer
+                if (this.sessionIframe && clientId) {
+                    this.oidcSecurityCommon.logDebug(this.sessionIframe);
+                    const session_state = this.oidcSecurityCommon.sessionState;
+                    if (session_state && session_state !== '') {
+                        this.sessionIframe.contentWindow.postMessage(
+                            clientId + ' ' + session_state,
+                            this.authConfiguration.stsServer
+                        );
+                    }
+                } else {
+                    this.oidcSecurityCommon.logWarning(
+                        'OidcSecurityCheckSession pollServerSession sessionIframe does not exist'
                     );
+                    this.oidcSecurityCommon.logDebug(clientId);
+                    this.oidcSecurityCommon.logDebug(this.sessionIframe);
                 }
             },
             (err: any) => {
@@ -83,7 +91,7 @@ export class OidcSecurityCheckSession {
     }
 
     private messageHandler(e: any) {
-        if (
+        if (this.sessionIframe &&
             e.origin === this.authConfiguration.stsServer &&
             e.source === this.sessionIframe.contentWindow
         ) {
