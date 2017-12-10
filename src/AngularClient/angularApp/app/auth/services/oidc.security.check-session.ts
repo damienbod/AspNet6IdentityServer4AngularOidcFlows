@@ -12,7 +12,7 @@ import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
 
 @Injectable()
 export class OidcSecurityCheckSession {
-    private sessionIframe: any;
+    public sessionIframe: any;
     private iframeMessageEvent: any;
 
     @Output()
@@ -25,9 +25,33 @@ export class OidcSecurityCheckSession {
     ) {}
 
     init() {
-        const exists = window.parent.document.getElementById(
-            'myiFrameForCheckSession'
-        );
+        let existsparent = undefined;
+        try {
+            const parentdoc = window.parent.document;
+            if (!parentdoc) {
+                throw new Error('Unaccessible');
+            }
+
+            existsparent = parentdoc.getElementById('myiFrameForCheckSession');
+        } catch (e) {
+            // not accessible
+        }
+        const exists = window.document.getElementById('myiFrameForCheckSession');
+        if (existsparent) {
+            this.sessionIframe = existsparent;
+        } else if (exists) {
+            this.sessionIframe = exists;
+        }
+
+        if (!exists && !existsparent) {
+            this.sessionIframe = window.document.createElement('iframe');
+            this.sessionIframe.id = 'myiFrameForCheckSession';
+            this.oidcSecurityCommon.logDebug(this.sessionIframe);
+            this.sessionIframe.style.display = 'none';
+
+            window.document.body.appendChild(this.sessionIframe);
+        }
+
         if (!exists) {
             this.sessionIframe = window.document.createElement('iframe');
 
@@ -75,6 +99,7 @@ export class OidcSecurityCheckSession {
                     );
                     this.oidcSecurityCommon.logDebug(clientId);
                     this.oidcSecurityCommon.logDebug(this.sessionIframe);
+                   // this.init();
                 }
             },
             (err: any) => {
