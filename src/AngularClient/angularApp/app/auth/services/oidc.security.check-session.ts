@@ -1,6 +1,5 @@
 ﻿import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { timer } from 'rxjs/observable/timer';
 import { pluck, take, timeInterval } from 'rxjs/operators';
 import { Observer } from 'rxjs/Observer';
@@ -24,7 +23,7 @@ export class OidcSecurityCheckSession {
         private authWellKnownEndpoints: AuthWellKnownEndpoints
     ) {}
 
-    init() {
+    doesSessionExist(): boolean {
         let existsparent = undefined;
         try {
             const parentdoc = window.parent.document;
@@ -43,36 +42,30 @@ export class OidcSecurityCheckSession {
             this.sessionIframe = exists;
         }
 
-        if (!exists && !existsparent) {
-            this.sessionIframe = window.document.createElement('iframe');
-            this.sessionIframe.id = 'myiFrameForCheckSession';
-            this.oidcSecurityCommon.logDebug(this.sessionIframe);
-            this.sessionIframe.style.display = 'none';
-
-            window.document.body.appendChild(this.sessionIframe);
+        if (existsparent || exists) {
+            return true;
         }
 
-        if (!exists) {
-            this.sessionIframe = window.document.createElement('iframe');
+        return false;
+    }
 
-            this.sessionIframe.id = 'myiFrameForCheckSession';
-            this.oidcSecurityCommon.logDebug(this.sessionIframe);
-            this.sessionIframe.style.display = 'none';
-            this.sessionIframe.src = this.authWellKnownEndpoints.check_session_iframe;
+    init() {
+        this.sessionIframe = window.document.createElement('iframe');
+        this.sessionIframe.id = 'myiFrameForCheckSession';
+        this.oidcSecurityCommon.logDebug(this.sessionIframe);
+        this.sessionIframe.style.display = 'none';
+        window.document.body.appendChild(this.sessionIframe);
+        this.sessionIframe.src = this.authWellKnownEndpoints.check_session_iframe;
 
-            window.document.body.appendChild(this.sessionIframe);
-            this.iframeMessageEvent = this.messageHandler.bind(this);
-            window.addEventListener('message', this.iframeMessageEvent, false);
+        this.iframeMessageEvent = this.messageHandler.bind(this);
+        window.addEventListener('message', this.iframeMessageEvent, false);
 
-            return Observable.create((observer: Observer<any>) => {
-                this.sessionIframe.onload = () => {
-                    observer.next(this);
-                    observer.complete();
-                };
-            });
-        }
-
-        return of('');
+        return Observable.create((observer: Observer<any>) => {
+            this.sessionIframe.onload = () => {
+                observer.next(this);
+                observer.complete();
+            };
+        });
     }
 
     pollServerSession(clientId: any) {
