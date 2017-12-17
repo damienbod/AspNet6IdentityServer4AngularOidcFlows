@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 if (userData !== '') {
                     this.name = userData.name;
                     this.email = userData.email;
+                    console.log(userData);
                 }
 
                 console.log('userData getting data');
