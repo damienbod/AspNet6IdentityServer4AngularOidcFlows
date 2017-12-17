@@ -44,6 +44,7 @@ export class AppModule {
         const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
 
         const flowType = 'id_token';
+
         // const flowType = 'id_token token';
         // openIDImplicitFlowConfiguration.auto_userinfo = false;
 
