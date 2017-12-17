@@ -138,6 +138,7 @@ namespace QuickstartIdentityServer
                     AccessTokenLifetime = 360,// 120 seconds, default 60 minutes
                     IdentityTokenLifetime = 300,
                     AllowedGrantTypes = GrantTypes.Implicit,
+                    AlwaysIncludeUserClaimsInIdToken = true,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
