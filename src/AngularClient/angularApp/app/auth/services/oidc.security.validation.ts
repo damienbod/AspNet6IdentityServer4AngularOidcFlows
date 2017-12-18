@@ -2,6 +2,8 @@
 import { OidcSecurityCommon } from './oidc.security.common';
 
 import { KJUR, KEYUTIL, hextob64u } from 'jsrsasign';
+import { ArrayHelperService } from './oidc-array-helper.service';
+import { TokenHelperService } from './oidc-token-helper.service';
 
 // http://openid.net/specs/openid-connect-implicit-1_0.html
 
@@ -47,12 +49,16 @@ import { KJUR, KEYUTIL, hextob64u } from 'jsrsasign';
 
 @Injectable()
 export class OidcSecurityValidation {
-    constructor(private oidcSecurityCommon: OidcSecurityCommon) {}
+    constructor(
+        private oidcSecurityCommon: OidcSecurityCommon,
+        private arrayHelperService: ArrayHelperService,
+        private tokenHelperService: TokenHelperService
+    ) {}
 
     // id_token C7: The current time MUST be before the time represented by the exp Claim (possibly allowing for some small leeway to account for clock skew).
     isTokenExpired(token: string, offsetSeconds?: number): boolean {
         let decoded: any;
-        decoded = this.getPayloadFromToken(token, false);
+        decoded = this.tokenHelperService.getPayloadFromToken(token, false);
 
         return !this.validate_id_token_exp_not_expired(decoded, offsetSeconds);
     }
@@ -62,7 +68,7 @@ export class OidcSecurityValidation {
         decoded_id_token: string,
         offsetSeconds?: number
     ): boolean {
-        const tokenExpirationDate = this.getTokenExpirationDate(
+        const tokenExpirationDate = this.tokenHelperService.getTokenExpirationDate(
             decoded_id_token
         );
         offsetSeconds = offsetSeconds || 0;
@@ -218,7 +224,11 @@ export class OidcSecurityValidation {
     // not trusted by the Client.
     validate_id_token_aud(dataIdToken: any, aud: any): boolean {
         if (dataIdToken.aud instanceof Array) {
-            const result = this.arraysEqual(dataIdToken.aud, aud);
+            const result = this.arrayHelperService.arraysEqual(
+                dataIdToken.aud,
+                aud
+            );
+
             if (!result) {
                 this.oidcSecurityCommon.logDebug(
                     'Validate_id_token_aud  array failed, dataIdToken.aud: ' +
@@ -239,20 +249,6 @@ export class OidcSecurityValidation {
             );
 
             return false;
-        }
-
-        return true;
-    }
-
-    private arraysEqual(arr1: Array<string>, arr2: Array<string>) {
-        if (arr1.length !== arr2.length) {
-            return false;
-        }
-
-        for (let i = arr1.length; i--; ) {
-            if (arr1[i] !== arr2[i]) {
-                return false;
-            }
         }
 
         return true;
@@ -289,45 +285,6 @@ export class OidcSecurityValidation {
         return true;
     }
 
-    getPayloadFromToken(token: any, encode: boolean) {
-        let data = {};
-        if (typeof token !== 'undefined') {
-            const encoded = token.split('.')[1];
-            if (encode) {
-                return encoded;
-            }
-            data = JSON.parse(this.urlBase64Decode(encoded));
-        }
-
-        return data;
-    }
-
-    getHeaderFromToken(token: any, encode: boolean) {
-        let data = {};
-        if (typeof token !== 'undefined') {
-            const encoded = token.split('.')[0];
-            if (encode) {
-                return encoded;
-            }
-            data = JSON.parse(this.urlBase64Decode(encoded));
-        }
-
-        return data;
-    }
-
-    getSignatureFromToken(token: any, encode: boolean) {
-        let data = {};
-        if (typeof token !== 'undefined') {
-            const encoded = token.split('.')[2];
-            if (encode) {
-                return encoded;
-            }
-            data = JSON.parse(this.urlBase64Decode(encoded));
-        }
-
-        return data;
-    }
-
     // id_token C5: The Client MUST validate the signature of the ID Token according to JWS [JWS] using the algorithm specified in the alg
     // Header Parameter of the JOSE Header.The Client MUST use the keys provided by the Issuer.
     // id_token C6: The alg value SHOULD be RS256. Validation of tokens using other signing algorithms is described in the
@@ -337,7 +294,10 @@ export class OidcSecurityValidation {
             return false;
         }
 
-        const header_data = this.getHeaderFromToken(id_token, false);
+        const header_data = this.tokenHelperService.getHeaderFromToken(
+            id_token,
+            false
+        );
 
         if (
             Object.keys(header_data).length === 0 &&
@@ -481,34 +441,5 @@ export class OidcSecurityValidation {
         const testdata = hextob64u(first128bits);
 
         return testdata;
-    }
-
-    private getTokenExpirationDate(dataIdToken: any): Date {
-        if (!dataIdToken.hasOwnProperty('exp')) {
-            return new Date();
-        }
-
-        const date = new Date(0); // The 0 here is the key, which sets the date to the epoch
-        date.setUTCSeconds(dataIdToken.exp);
-
-        return date;
-    }
-
-    private urlBase64Decode(str: string) {
-        let output = str.replace('-', '+').replace('_', '/');
-        switch (output.length % 4) {
-            case 0:
-                break;
-            case 2:
-                output += '==';
-                break;
-            case 3:
-                output += '=';
-                break;
-            default:
-                throw Error('Illegal base64url string!');
-        }
-
-        return window.atob(output);
     }
 }

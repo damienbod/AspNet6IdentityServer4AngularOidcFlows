@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
@@ -23,6 +23,8 @@ import { OidcSecuritySilentRenew } from './oidc.security.silent-renew';
 import { OidcSecurityUserService } from './oidc.security.user-service';
 import { OidcSecurityValidation } from './oidc.security.validation';
 import { UriEncoder } from './uri-encoder';
+import { OidcDataService } from './oidc-data.service';
+import { TokenHelperService } from './oidc-token-helper.service';
 
 @Injectable()
 export class OidcSecurityService {
@@ -43,7 +45,7 @@ export class OidcSecurityService {
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: Object,
-        private http: HttpClient,
+        private oidcDataService: OidcDataService,
         private stateValidationService: StateValidationService,
         private authConfiguration: AuthConfiguration,
         private router: Router,
@@ -52,7 +54,8 @@ export class OidcSecurityService {
         private oidcSecurityUserService: OidcSecurityUserService,
         private oidcSecurityCommon: OidcSecurityCommon,
         private authWellKnownEndpoints: AuthWellKnownEndpoints,
-        private oidcSecurityValidation: OidcSecurityValidation
+        private oidcSecurityValidation: OidcSecurityValidation,
+        private tokenHelperService: TokenHelperService
     ) {}
 
     setupModule(
@@ -149,7 +152,7 @@ export class OidcSecurityService {
 
     getPayloadFromIdToken(encode = false): any {
         const token = this.getIdToken();
-        return this.oidcSecurityValidation.getPayloadFromToken(token, encode);
+        return this.tokenHelperService.getPayloadFromToken(token, encode);
     }
 
     setState(state: string): void {
@@ -288,9 +291,12 @@ export class OidcSecurityService {
                     });
                 } else {
                     // userData is set to the id_token decoded, auto get user data set to false
-                    this.oidcSecurityUserService.userData =
-                        validationResult.decoded_id_token;
-                    this.setUserData(this.oidcSecurityUserService.userData);
+                    this.oidcSecurityUserService.setUserData(
+                        validationResult.decoded_id_token
+                    );
+                    this.setUserData(
+                        this.oidcSecurityUserService.getUserData()
+                    );
                     this.runTokenValidation();
                     if (
                         this.authConfiguration
@@ -334,7 +340,7 @@ export class OidcSecurityService {
         id_token = id_token ? id_token : this.oidcSecurityCommon.idToken;
         decoded_id_token = decoded_id_token
             ? decoded_id_token
-            : this.oidcSecurityValidation.getPayloadFromToken(id_token, false);
+            : this.tokenHelperService.getPayloadFromToken(id_token, false);
 
         return new Observable<boolean>(observer => {
             // flow id_token token
@@ -350,20 +356,21 @@ export class OidcSecurityService {
                             this.oidcSecurityCommon.logDebug(
                                 'authorizedCallback id_token token flow'
                             );
+
+                            const userData = this.oidcSecurityUserService.getUserData();
+
                             if (
                                 this.oidcSecurityValidation.validate_userdata_sub_id_token(
                                     decoded_id_token.sub,
-                                    this.oidcSecurityUserService.userData.sub
+                                    userData.sub
                                 )
                             ) {
-                                this.setUserData(
-                                    this.oidcSecurityUserService.userData
-                                );
+                                this.setUserData(userData);
                                 this.oidcSecurityCommon.logDebug(
                                     this.oidcSecurityCommon.accessToken
                                 );
                                 this.oidcSecurityCommon.logDebug(
-                                    this.oidcSecurityUserService.userData
+                                    this.oidcSecurityUserService.getUserData()
                                 );
 
                                 this.oidcSecurityCommon.sessionState =
@@ -395,8 +402,8 @@ export class OidcSecurityService {
                 );
 
                 // userData is set to the id_token decoded. No access_token.
-                this.oidcSecurityUserService.userData = decoded_id_token;
-                this.setUserData(this.oidcSecurityUserService.userData);
+                this.oidcSecurityUserService.setUserData(decoded_id_token);
+                this.setUserData(this.oidcSecurityUserService.getUserData());
 
                 this.oidcSecurityCommon.sessionState = result.session_state;
 
@@ -642,7 +649,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.logDebug(
             'jwks_uri: ' + this.authWellKnownEndpoints.jwks_uri
         );
-        return this.http
+        return this.oidcDataService
             .get<JwtKeys>(this.authWellKnownEndpoints.jwks_uri)
             .pipe(catchError(this.handleErrorGetSigningKeys));
     }
