@@ -314,7 +314,7 @@ export class OidcSecurityService {
             } else {
                 this.oidcSecurityCommon.silentRenewRunning = '';
                 // something went wrong
-                this.loggerService.logDebug(
+                this.loggerService.logWarning(
                     'authorizedCallback, token(s) validation failed, resetting'
                 );
                 this.resetAuthorizationData(false);
