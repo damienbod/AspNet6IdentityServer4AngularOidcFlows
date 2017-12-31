@@ -247,13 +247,13 @@ export class OidcSecurityService {
                 jwtKeys
             );
 
-            this.oidcSecurityCommon.silentRenewRunning = '';
-
             if (validationResult.authResponseIsValid) {
                 this.setAuthorizationData(
                     validationResult.access_token,
                     validationResult.id_token
                 );
+                this.oidcSecurityCommon.silentRenewRunning = '';
+
                 if (this.authConfiguration.auto_userinfo) {
                     this.getUserinfo(
                         isRenewProcess,
@@ -312,6 +312,7 @@ export class OidcSecurityService {
                     }
                 }
             } else {
+                this.oidcSecurityCommon.silentRenewRunning = '';
                 // something went wrong
                 this.loggerService.logDebug(
                     'authorizedCallback, token(s) validation failed, resetting'
@@ -675,12 +676,10 @@ export class OidcSecurityService {
 
         source.subscribe(
             () => {
-                if (this._userData.value) {
-                    if (
-                        this.oidcSecurityValidation.isTokenExpired(
+                if (this._userData.value && (this.oidcSecurityCommon.silentRenewRunning !== 'running')) {
+                    if (this.oidcSecurityValidation.isTokenExpired(
                             this.oidcSecurityCommon.idToken,
-                            this.authConfiguration
-                                .silent_renew_offset_in_seconds
+                            this.authConfiguration.silent_renew_offset_in_seconds
                         )
                     ) {
                         this.loggerService.logDebug(
