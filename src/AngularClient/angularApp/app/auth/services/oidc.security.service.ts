@@ -316,6 +316,7 @@ export class OidcSecurityService {
                 this.loggerService.logWarning(
                     'authorizedCallback, token(s) validation failed, resetting'
                 );
+                this.loggerService.logWarning(window.location.hash);
                 this.resetAuthorizationData(false);
                 this.oidcSecurityCommon.silentRenewRunning = '';
                 if (this.authConfiguration.trigger_authorization_result_event) {
