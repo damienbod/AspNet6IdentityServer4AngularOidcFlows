@@ -676,7 +676,7 @@ export class OidcSecurityService {
 
         source.subscribe(
             () => {
-                if (this._userData.value && (this.oidcSecurityCommon.silentRenewRunning !== 'running')) {
+                if (this._userData.value && (this.oidcSecurityCommon.silentRenewRunning !== 'running') && this.getIdToken()) {
                     if (this.oidcSecurityValidation.isTokenExpired(
                             this.oidcSecurityCommon.idToken,
                             this.authConfiguration.silent_renew_offset_in_seconds
