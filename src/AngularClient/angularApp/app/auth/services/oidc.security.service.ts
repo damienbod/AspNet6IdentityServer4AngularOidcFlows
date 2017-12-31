@@ -312,12 +312,12 @@ export class OidcSecurityService {
                     }
                 }
             } else {
-                this.oidcSecurityCommon.silentRenewRunning = '';
                 // something went wrong
                 this.loggerService.logWarning(
                     'authorizedCallback, token(s) validation failed, resetting'
                 );
                 this.resetAuthorizationData(false);
+                this.oidcSecurityCommon.silentRenewRunning = '';
                 if (this.authConfiguration.trigger_authorization_result_event) {
                     this.onAuthorizationResult.emit(
                         AuthorizationResult.unauthorized
