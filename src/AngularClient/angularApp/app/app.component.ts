@@ -97,5 +97,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
     private onAuthorizationResultComplete(authorizationResult: AuthorizationResult) {
         console.log('Auth result received:' + authorizationResult);
+        if (authorizationResult === AuthorizationResult.unauthorized) {
+            if (window.parent) {
+                // sent from the child iframe, for example the silent renew
+                window.parent.location.href = '/unauthorized';
+            } else {
+                // sent from the main window
+                window.location.href = '/unauthorized';
+            }
+        }
     }
 }
