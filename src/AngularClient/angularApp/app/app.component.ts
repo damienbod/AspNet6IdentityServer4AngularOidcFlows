@@ -18,6 +18,9 @@ export class AppComponent implements OnInit, OnDestroy {
     isAuthorizedSubscription: Subscription;
     isAuthorized: boolean;
 
+    onChecksessionChanged: Subscription;
+    checksession = false;
+
     constructor(
         public oidcSecurityService: OidcSecurityService,
         public locale: LocaleService,
@@ -30,6 +33,12 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.doCallbackLogicIfRequired();
             });
         }
+
+        this.oidcSecurityService.onCheckSessionChanged.subscribe(
+            (checksession: boolean) => {
+                console.log('...recieved a check session event');
+                this.checksession = checksession;
+            });
     }
 
     ngOnInit() {
@@ -47,6 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.isAuthorizedSubscription.unsubscribe();
         this.oidcSecurityService.onModuleSetup.unsubscribe();
+        this.oidcSecurityService.onCheckSessionChanged.unsubscribe();
     }
 
     login() {
