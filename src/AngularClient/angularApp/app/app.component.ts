@@ -39,9 +39,6 @@ export class AppComponent implements OnInit, OnDestroy {
             (checksession: boolean) => {
                 console.log('...recieved a check session event');
                 this.checksession = checksession;
-                if (window.parent) {
-                    // window.parent.location.href = '/do_something';
-                }
             });
 
         this.oidcSecurityService.onAuthorizationResult.subscribe(
