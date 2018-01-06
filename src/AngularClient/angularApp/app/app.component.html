@@ -25,7 +25,7 @@
                     <li><a class="navigationLinkButton"  (click)="changeCulture('it','CH')">IT</a></li>
                     <li><a class="navigationLinkButton"  (click)="changeCulture('en','US')">EN</a></li>
 
-                    <li><a class="navigationLinkButton" *ngIf="oidcSecurityService.checkSessionChanged" (click)="refreshSession()">Refresh Session</a></li>
+                    <li><a class="navigationLinkButton" *ngIf="checksession" (click)="refreshSession()">Refresh Session</a></li>
 
                 </ul>
             </div><!--/.nav-collapse -->

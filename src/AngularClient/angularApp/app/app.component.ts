@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
+import { AuthorizationResult } from './auth/models/authorization-result.enum';
 
 @Component({
     selector: 'app-component',
@@ -18,6 +19,9 @@ export class AppComponent implements OnInit, OnDestroy {
     isAuthorizedSubscription: Subscription;
     isAuthorized: boolean;
 
+    onChecksessionChanged: Subscription;
+    checksession = false;
+
     constructor(
         public oidcSecurityService: OidcSecurityService,
         public locale: LocaleService,
@@ -30,6 +34,20 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.doCallbackLogicIfRequired();
             });
         }
+
+        this.oidcSecurityService.onCheckSessionChanged.subscribe(
+            (checksession: boolean) => {
+                console.log('...recieved a check session event');
+                this.checksession = checksession;
+                if (window.parent) {
+                    // window.parent.location.href = '/do_something';
+                }
+            });
+
+        this.oidcSecurityService.onAuthorizationResult.subscribe(
+            (authorizationResult: AuthorizationResult) => {
+                this.onAuthorizationResultComplete(authorizationResult);
+            });
     }
 
     ngOnInit() {
@@ -47,6 +65,8 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.isAuthorizedSubscription.unsubscribe();
         this.oidcSecurityService.onModuleSetup.unsubscribe();
+        this.oidcSecurityService.onCheckSessionChanged.unsubscribe();
+        this.oidcSecurityService.onAuthorizationResult.unsubscribe();
     }
 
     login() {
@@ -75,6 +95,19 @@ export class AppComponent implements OnInit, OnDestroy {
     private doCallbackLogicIfRequired() {
         if (window.location.hash) {
             this.oidcSecurityService.authorizedCallback();
+        }
+    }
+
+    private onAuthorizationResultComplete(authorizationResult: AuthorizationResult) {
+        console.log('Auth result received:' + authorizationResult);
+        if (authorizationResult === AuthorizationResult.unauthorized) {
+            if (window.parent) {
+                // sent from the child iframe, for example the silent renew
+                window.parent.location.href = '/unauthorized';
+            } else {
+                // sent from the main window
+                window.location.href = '/unauthorized';
+            }
         }
     }
 }
