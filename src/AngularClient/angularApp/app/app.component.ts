@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
+import { AuthorizationResult } from './auth/models/authorization-result.enum';
 
 @Component({
     selector: 'app-component',
@@ -39,6 +40,11 @@ export class AppComponent implements OnInit, OnDestroy {
                 console.log('...recieved a check session event');
                 this.checksession = checksession;
             });
+
+        this.oidcSecurityService.onAuthorizationResult.subscribe(
+            (authorizationResult: AuthorizationResult) => {
+                this.onAuthorizationResultComplete(authorizationResult);
+            });
     }
 
     ngOnInit() {
@@ -57,6 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isAuthorizedSubscription.unsubscribe();
         this.oidcSecurityService.onModuleSetup.unsubscribe();
         this.oidcSecurityService.onCheckSessionChanged.unsubscribe();
+        this.oidcSecurityService.onAuthorizationResult.unsubscribe();
     }
 
     login() {
@@ -86,5 +93,9 @@ export class AppComponent implements OnInit, OnDestroy {
         if (window.location.hash) {
             this.oidcSecurityService.authorizedCallback();
         }
+    }
+
+    private onAuthorizationResultComplete(authorizationResult: AuthorizationResult) {
+        console.log('Auth result received:' + authorizationResult);
     }
 }
