@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -24,6 +24,8 @@ import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.modu
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
 
+import { OidcConfigService } from './auth/services/oidc.security.config.service';
+
 const l10nConfig: L10nConfig = {
     locale: {
         languages: [
@@ -44,6 +46,11 @@ const l10nConfig: L10nConfig = {
     }
 };
 
+export function loadConfig(oidcConfigService: OidcConfigService) {
+    console.log('APP_INITIALIZER STARTING');
+    return () => oidcConfigService.load();
+}
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -62,6 +69,13 @@ const l10nConfig: L10nConfig = {
         SecureFilesComponent
     ],
     providers: [
+        OidcConfigService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: loadConfig,
+            deps: [OidcConfigService, HttpClient],
+            multi: true
+        },
         OidcSecurityService,
         SecureFileService,
         Configuration
@@ -83,6 +97,9 @@ export class AppModule {
 
         console.log('APP STARTING');
         this.configClient().subscribe((config: any) => {
+
+            console.log('APP READY')
+            console.log(config)
             this.clientConfiguration = config;
 
             const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
