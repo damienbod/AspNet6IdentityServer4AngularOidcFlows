@@ -48,7 +48,7 @@ const l10nConfig: L10nConfig = {
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
     console.log('APP_INITIALIZER STARTING');
-    return () => oidcConfigService.load();
+    return () => oidcConfigService.load(`${window.location.origin}/api/ClientAppSettings`);
 }
 
 @NgModule({
@@ -88,6 +88,7 @@ export class AppModule {
     clientConfiguration: any;
 
     constructor(
+        private oidcConfigService: OidcConfigService,
         public oidcSecurityService: OidcSecurityService,
         private http: HttpClient,
         configuration: Configuration,
@@ -95,6 +96,10 @@ export class AppModule {
     ) {
         this.l10nLoader.load();
 
+        console.log('-- AppModule constructor --');
+        console.log(this.oidcConfigService.config);
+        console.log(this.oidcConfigService.wellKnown);
+        console.log('----');
         console.log('APP STARTING');
         this.configClient().subscribe((config: any) => {
 

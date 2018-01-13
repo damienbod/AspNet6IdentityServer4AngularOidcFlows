@@ -1,5 +1,5 @@
-﻿import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+﻿import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class OidcConfigService {
@@ -9,9 +9,9 @@ export class OidcConfigService {
     constructor(private http: HttpClient) {
     }
 
-    load() {
+    load(configUrl: string) {
         return new Promise((resolve, reject) => {
-            this.http.get(`${window.location.origin}/api/ClientAppSettings`)
+            this.http.get(configUrl)
                 .subscribe(config => {
                     this.config = config;
                     console.log('APP_INITIALIZER CONFIG FINISHED LOAD');
