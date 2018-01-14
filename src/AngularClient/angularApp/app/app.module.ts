@@ -98,7 +98,6 @@ export class AppModule {
         this.l10nLoader.load();
 
         this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
-            console.log('APPAPPAPP oidcConfigService.onConfigurationLoaded.subscribe');
 
             const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
             openIDImplicitFlowConfiguration.stsServer = this.oidcConfigService.clientConfiguration.stsServer;
@@ -132,6 +131,6 @@ export class AppModule {
 
         });
 
-        console.log('APP STARTING');      
-    } 
+        console.log('APP STARTING');
+    }
 }
