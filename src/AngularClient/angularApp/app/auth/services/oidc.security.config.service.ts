@@ -1,8 +1,9 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, EventEmitter, Output } from '@angular/core';
 import { OpenIDImplicitFlowConfiguration } from '../modules/auth.configuration';
 
 @Injectable()
 export class OidcConfigService {
+    @Output() onConfigurationLoaded = new EventEmitter<boolean>();
     clientConfiguration: any;
     wellKnownEndpoints: any;
 
@@ -48,5 +49,6 @@ export class OidcConfigService {
 
         console.log(this.wellKnownEndpoints);
         console.log(this.clientConfiguration);
+        this.onConfigurationLoaded.emit();
     }
 }

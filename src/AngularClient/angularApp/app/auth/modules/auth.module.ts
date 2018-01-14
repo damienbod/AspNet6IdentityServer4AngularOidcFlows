@@ -17,6 +17,7 @@ import { StateValidationService } from '../services/oidc-security-state-validati
 import { OidcDataService } from '../services/oidc-data.service';
 import { TokenHelperService } from '../services/oidc-token-helper.service';
 import { LoggerService } from '../services/oidc.logger.service';
+import { OidcConfigService } from '../services/oidc.security.config.service';
 
 @NgModule()
 export class AuthModule {
@@ -24,6 +25,7 @@ export class AuthModule {
         return {
             ngModule: AuthModule,
             providers: [
+                OidcConfigService,
                 OidcSecurityService,
                 OidcSecurityValidation,
                 OidcSecurityCheckSession,
