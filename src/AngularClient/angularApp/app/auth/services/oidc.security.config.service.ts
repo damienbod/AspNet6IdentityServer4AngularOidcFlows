@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 export class OidcConfigService {
     config: any;
     wellKnown: any;
+    loaded = false;
 
     constructor(private http: HttpClient) {
     }
@@ -21,7 +22,7 @@ export class OidcConfigService {
                             console.log('APP_INITIALIZER WELL KNOWN FINISHED LOAD');
                             console.log(this.config);
                             console.log(this.wellKnown);
-
+                            this.loaded = true;
                             resolve(true);
                         },
                         _ => {

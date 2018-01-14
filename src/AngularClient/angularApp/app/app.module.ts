@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -70,6 +70,20 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     ],
     providers: [
         OidcConfigService,
+        OidcSecurityService,
+        //{
+        //    provide: APP_INITIALIZER,
+        //    useFactory: () => {
+        //        return () => {
+        //            return new Promise((resolve) => {
+        //                setTimeout(() => {
+        //                    resolve();
+        //                }, 10000);
+        //            });
+        //        }
+        //    },
+        //    multi: true
+        //},
         {
             provide: APP_INITIALIZER,
             useFactory: loadConfig,
@@ -87,8 +101,8 @@ export class AppModule {
 
     clientConfiguration: any;
 
-    constructor(
-        private oidcConfigService: OidcConfigService,
+    constructor(injector: Injector,
+        //private oidcConfigService: OidcConfigService,
         public oidcSecurityService: OidcSecurityService,
         private http: HttpClient,
         configuration: Configuration,
@@ -96,9 +110,11 @@ export class AppModule {
     ) {
         this.l10nLoader.load();
 
+        const oidcConfigService = injector.get(OidcConfigService);
+
         console.log('-- AppModule constructor --');
-        console.log(this.oidcConfigService.config);
-        console.log(this.oidcConfigService.wellKnown);
+        console.log(oidcConfigService.config);
+        console.log(oidcConfigService.wellKnown);
         console.log('----');
         console.log('APP STARTING');
         this.configClient().subscribe((config: any) => {
