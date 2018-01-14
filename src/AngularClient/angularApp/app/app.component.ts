@@ -30,10 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
         public translation: TranslationService
     ) {
         console.log('AppComponent STARTING');
-        console.log(this.oidcConfigService.config);
-        console.log(this.oidcConfigService.wellKnown);
+        console.log(this.oidcConfigService.clientConfiguration);
+        console.log(this.oidcConfigService.wellKnownEndpoints);
         console.log('----');
-        
+
         if (this.oidcSecurityService.moduleSetup) {
             this.doCallbackLogicIfRequired();
         } else {
