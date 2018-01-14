@@ -23,6 +23,8 @@ import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configurati
 import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
+import { AuthorizationGuard } from './authorization.guard';
+import { AuthorizationCanGuard } from './authorization.can.guard';
 
 import { OidcConfigService } from './auth/services/oidc.security.config.service';
 
@@ -91,6 +93,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
             multi: true
         },
         OidcSecurityService,
+        AuthorizationGuard,
+        AuthorizationCanGuard,
         SecureFileService,
         Configuration
     ],

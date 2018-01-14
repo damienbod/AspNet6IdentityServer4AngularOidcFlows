@@ -65,9 +65,6 @@ export class OidcSecurityService {
         openIDImplicitFlowConfiguration: OpenIDImplicitFlowConfiguration
     ): void {
         this.authConfiguration.init(openIDImplicitFlowConfiguration);
-        // this.oidcSecurityValidation = new OidcSecurityValidation(
-        //     this.oidcSecurityCommon
-        // );
 
         this.oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => {
             this.loggerService.logDebug('onCheckSessionChanged');
@@ -76,9 +73,11 @@ export class OidcSecurityService {
                 this.checkSessionChanged
             );
         });
+
         this.authWellKnownEndpoints.onWellKnownEndpointsLoaded.subscribe(() => {
             this.onWellKnownEndpointsLoaded();
         });
+
         this._userData.subscribe(() => {
             this.onUserDataChanged();
         });
@@ -90,10 +89,18 @@ export class OidcSecurityService {
 
         const isAuthorized = this.oidcSecurityCommon.isAuthorized;
         if (isAuthorized) {
-            this.setIsAuthorized(isAuthorized);
-
-            // Start the silent renew
-            this.runTokenValidation();
+            this.loggerService.logDebug('IsAuthorized setup module');
+            this.loggerService.logDebug(this.oidcSecurityCommon.idToken);
+            if (this.oidcSecurityValidation.isTokenExpired(
+                    this.oidcSecurityCommon.idToken,
+                    this.authConfiguration.silent_renew_offset_in_seconds)
+            ) {
+                this.loggerService.logDebug('IsAuthorized setup module; id_token isTokenExpired');
+            } else {
+                this.loggerService.logDebug('IsAuthorized setup module; id_token is valid');
+                this.setIsAuthorized(isAuthorized);
+                this.runTokenValidation();
+            }
         }
 
         this.loggerService.logDebug(
