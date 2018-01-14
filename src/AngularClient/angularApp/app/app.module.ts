@@ -26,6 +26,7 @@ import { AuthorizationGuard } from './authorization.guard';
 import { AuthorizationCanGuard } from './authorization.can.guard';
 
 import { OidcConfigService } from './auth/services/oidc.security.config.service';
+import { AuthWellKnownEndpoints } from './auth/models/auth.well-known-endpoints';
 
 const l10nConfig: L10nConfig = {
     locale: {
@@ -127,7 +128,10 @@ export class AppModule {
             configuration.FileServer = this.oidcConfigService.clientConfiguration.apiFileServer;
             configuration.Server = this.oidcConfigService.clientConfiguration.apiServer;
 
-            this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration);
+            const authWellKnownEndpoints = new AuthWellKnownEndpoints();
+            authWellKnownEndpoints.setWellKnownEndpoints(this.oidcConfigService.wellKnownEndpoints);
+
+            this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration, authWellKnownEndpoints);
 
         });
 

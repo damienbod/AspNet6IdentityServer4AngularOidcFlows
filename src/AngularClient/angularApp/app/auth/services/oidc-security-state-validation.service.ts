@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { OidcSecurityCommon } from './oidc.security.common';
 import { OidcSecurityValidation } from './oidc.security.validation';
 import { AuthConfiguration } from '../modules/auth.configuration';
-import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
 import { ValidateStateResult } from '../models/validate-state-result.model';
 import { JwtKeys } from '../models/jwtkeys';
 import { TokenHelperService } from './oidc-token-helper.service';
 import { LoggerService } from './oidc.logger.service';
+import { AuthWellKnownEndpoints } from '../models/auth.well-known-endpoints';
 
 @Injectable()
 export class StateValidationService {

@@ -2,8 +2,8 @@
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { OidcSecurityCommon } from './oidc.security.common';
-import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
 import { OidcDataService } from './oidc-data.service';
+import { AuthWellKnownEndpoints } from '../models/auth.well-known-endpoints';
 
 @Injectable()
 export class OidcSecurityUserService {

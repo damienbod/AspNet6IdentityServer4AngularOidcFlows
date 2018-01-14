@@ -5,8 +5,8 @@ import { pluck, take, timeInterval } from 'rxjs/operators';
 import { Observer } from 'rxjs/Observer';
 import { AuthConfiguration } from '../modules/auth.configuration';
 import { OidcSecurityCommon } from './oidc.security.common';
-import { AuthWellKnownEndpoints } from './auth.well-known-endpoints';
 import { LoggerService } from './oidc.logger.service';
+import { AuthWellKnownEndpoints } from '../models/auth.well-known-endpoints';
 
 // http://openid.net/specs/openid-connect-session-1_0-ID4.html
 
