@@ -23,6 +23,8 @@ import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configurati
 import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
+import { AuthorizationGuard } from './authorization.guard';
+import { AuthorizationCanGuard } from './authorization.can.guard';
 
 const l10nConfig: L10nConfig = {
     locale: {
@@ -63,6 +65,8 @@ const l10nConfig: L10nConfig = {
     ],
     providers: [
         OidcSecurityService,
+        AuthorizationGuard,
+        AuthorizationCanGuard,
         SecureFileService,
         Configuration
     ],
