@@ -92,7 +92,7 @@ export class AppModule {
 
     constructor(
         private oidcSecurityService: OidcSecurityService,
-        public oidcConfigService: OidcConfigService,
+        private oidcConfigService: OidcConfigService,
         configuration: Configuration,
         public l10nLoader: L10nLoader
     ) {

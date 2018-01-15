@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -25,13 +25,7 @@ import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configuration';
 
 import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
-import { OidcConfigService } from './auth/services/oidc.security.config.service';
 import { AuthWellKnownEndpoints } from './auth/models/auth.well-known-endpoints';
-
-export function loadConfig(oidcConfigService: OidcConfigService) {
-    console.log('APP_INITIALIZER STARTING');
-    return () => oidcConfigService.load_using_stsServer('https://localhost:44363');
-}
 
 @NgModule({
     imports: [
@@ -51,14 +45,7 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
         NavigationComponent,
     ],
     providers: [
-        OidcConfigService,
         OidcSecurityService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: loadConfig,
-            deps: [OidcConfigService],
-            multi: true
-        },
         UserManagementService,
         Configuration,
         HasAdminRoleAuthenticationGuard,
@@ -69,11 +56,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
 
 export class AppModule {
     constructor(
-        public oidcSecurityService: OidcSecurityService,
-        public oidcConfigService: OidcConfigService
+        public oidcSecurityService: OidcSecurityService
     ) {
-
-        this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
             const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
 
             openIDImplicitFlowConfiguration.stsServer = 'https://localhost:44363';
@@ -98,9 +82,17 @@ export class AppModule {
             openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 10;
 
             const authWellKnownEndpoints = new AuthWellKnownEndpoints();
-            authWellKnownEndpoints.setWellKnownEndpoints(this.oidcConfigService.wellKnownEndpoints);
+            authWellKnownEndpoints.issuer = 'https://localhost:44363';
+            authWellKnownEndpoints.jwks_uri = 'https://localhost:44363/.well-known/openid-configuration/jwks';
+            authWellKnownEndpoints.authorization_endpoint = 'https://localhost:44363/connect/authorize';
+            authWellKnownEndpoints.token_endpoint = 'https://localhost:44363/connect/token';
+            authWellKnownEndpoints.userinfo_endpoint = 'https://localhost:44363/connect/userinfo';
+            authWellKnownEndpoints.end_session_endpoint = 'https://localhost:44363/connect/endsession';
+            authWellKnownEndpoints.check_session_iframe = 'https://localhost:44363/connect/checksession';
+            authWellKnownEndpoints.revocation_endpoint = 'https://localhost:44363/connect/revocation';
+            authWellKnownEndpoints.introspection_endpoint = 'https://localhost:44363/connect/introspect';
 
             this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration, authWellKnownEndpoints);
-        });
     }
 }
+

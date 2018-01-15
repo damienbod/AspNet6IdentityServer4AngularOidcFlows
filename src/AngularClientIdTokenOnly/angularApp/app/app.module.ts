@@ -54,8 +54,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
 
 export class AppModule {
     constructor(
-        public oidcSecurityService: OidcSecurityService,
-        public oidcConfigService: OidcConfigService
+        private oidcSecurityService: OidcSecurityService,
+        private oidcConfigService: OidcConfigService,
     ) {
 
         this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
