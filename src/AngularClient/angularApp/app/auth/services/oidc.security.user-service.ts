@@ -8,12 +8,16 @@ import { AuthWellKnownEndpoints } from '../models/auth.well-known-endpoints';
 @Injectable()
 export class OidcSecurityUserService {
     private userData: any = '';
+    private authWellKnownEndpoints: AuthWellKnownEndpoints;
 
     constructor(
         private oidcDataService: OidcDataService,
         private oidcSecurityCommon: OidcSecurityCommon,
-        private authWellKnownEndpoints: AuthWellKnownEndpoints
     ) { }
+
+    setupModule(authWellKnownEndpoints: AuthWellKnownEndpoints) {
+        this.authWellKnownEndpoints = Object.assign({}, authWellKnownEndpoints);
+    }
 
     initUserData() {
         return this.getIdentityUserData().pipe(

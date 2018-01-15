@@ -35,7 +35,7 @@ export class OidcSecurityService {
 
     checkSessionChanged: boolean;
     moduleSetup = false;
-
+    private authWellKnownEndpoints: AuthWellKnownEndpoints;
     private _isAuthorized = new BehaviorSubject<boolean>(false);
     private _isAuthorizedValue: boolean;
 
@@ -55,7 +55,6 @@ export class OidcSecurityService {
         private oidcSecuritySilentRenew: OidcSecuritySilentRenew,
         private oidcSecurityUserService: OidcSecurityUserService,
         private oidcSecurityCommon: OidcSecurityCommon,
-        private authWellKnownEndpoints: AuthWellKnownEndpoints,
         private oidcSecurityValidation: OidcSecurityValidation,
         private tokenHelperService: TokenHelperService,
         private loggerService: LoggerService
@@ -67,6 +66,12 @@ export class OidcSecurityService {
     ): void {
         this.authWellKnownEndpoints = Object.assign({}, authWellKnownEndpoints);
         this.authConfiguration.init(openIDImplicitFlowConfiguration);
+        this.stateValidationService.setupModule(authWellKnownEndpoints);
+        this.oidcSecurityCheckSession.setupModule(authWellKnownEndpoints);
+        this.oidcSecurityUserService.setupModule(authWellKnownEndpoints);
+
+        console.log('this.authWellKnownEndpoints');
+        console.log(this.authWellKnownEndpoints);
 
         this.oidcSecurityCheckSession.onCheckSessionChanged.subscribe(() => {
             this.loggerService.logDebug('onCheckSessionChanged');
@@ -222,6 +227,9 @@ export class OidcSecurityService {
     }
 
     authorizedCallback(hash?: string) {
+        console.log('this.authorizedCallback');
+        console.log('this.authWellKnownEndpoints');
+        console.log(this.authWellKnownEndpoints);
         const silentRenew = this.oidcSecurityCommon.silentRenewRunning;
         const isRenewProcess = silentRenew === 'running';
 

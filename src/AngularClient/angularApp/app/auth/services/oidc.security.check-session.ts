@@ -14,6 +14,7 @@ import { AuthWellKnownEndpoints } from '../models/auth.well-known-endpoints';
 export class OidcSecurityCheckSession {
     private sessionIframe: any;
     private iframeMessageEvent: any;
+    private authWellKnownEndpoints: AuthWellKnownEndpoints;
 
     @Output()
     onCheckSessionChanged: EventEmitter<any> = new EventEmitter<any>(true);
@@ -21,9 +22,12 @@ export class OidcSecurityCheckSession {
     constructor(
         private authConfiguration: AuthConfiguration,
         private oidcSecurityCommon: OidcSecurityCommon,
-        private authWellKnownEndpoints: AuthWellKnownEndpoints,
         private loggerService: LoggerService
     ) {}
+
+    setupModule(authWellKnownEndpoints: AuthWellKnownEndpoints) {
+        this.authWellKnownEndpoints = Object.assign({}, authWellKnownEndpoints);
+    }
 
     doesSessionExist(): boolean {
         let existsparent = undefined;

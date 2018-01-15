@@ -10,14 +10,18 @@ import { AuthWellKnownEndpoints } from '../models/auth.well-known-endpoints';
 
 @Injectable()
 export class StateValidationService {
+    private authWellKnownEndpoints: AuthWellKnownEndpoints;
     constructor(
         private authConfiguration: AuthConfiguration,
         public oidcSecurityCommon: OidcSecurityCommon,
-        private authWellKnownEndpoints: AuthWellKnownEndpoints,
         private oidcSecurityValidation: OidcSecurityValidation,
         private tokenHelperService: TokenHelperService,
         private loggerService: LoggerService
     ) {}
+
+    setupModule(authWellKnownEndpoints: AuthWellKnownEndpoints) {
+        this.authWellKnownEndpoints = Object.assign({}, authWellKnownEndpoints);
+    }
 
     validateState(result: any, jwtKeys: JwtKeys): ValidateStateResult {
         const toReturn = new ValidateStateResult('', '', false, {});
