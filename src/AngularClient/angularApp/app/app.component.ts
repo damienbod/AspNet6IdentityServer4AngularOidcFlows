@@ -4,7 +4,6 @@ import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
 import { AuthorizationResult } from './auth/models/authorization-result.enum';
-import { OidcConfigService } from './auth/services/oidc.security.config.service';
 
 @Component({
     selector: 'app-component',
@@ -24,15 +23,11 @@ export class AppComponent implements OnInit, OnDestroy {
     checksession = false;
 
     constructor(
-        private oidcConfigService: OidcConfigService,
         public oidcSecurityService: OidcSecurityService,
         public locale: LocaleService,
         public translation: TranslationService
     ) {
         console.log('AppComponent STARTING');
-        console.log(this.oidcConfigService.clientConfiguration);
-        console.log(this.oidcConfigService.wellKnownEndpoints);
-        console.log('----');
 
         if (this.oidcSecurityService.moduleSetup) {
             this.doCallbackLogicIfRequired();
