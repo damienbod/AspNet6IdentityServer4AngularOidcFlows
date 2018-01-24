@@ -33,7 +33,7 @@
 
 ## History
 
-<strong>2017-01-15: </strong> support for auth using APP_INITIALIZER and Guards, Updated to Angular 5.2.0, reset to Typescript 2.6.2
+<strong>2018-01-15: </strong> support for auth using APP_INITIALIZER and Guards, Updated to Angular 5.2.0, reset to Typescript 2.6.2
 
 <strong>2017-12-31: </strong> Updated to Angular 5.1.2, reset to Typescript 2.5.3
 
