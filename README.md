@@ -33,6 +33,8 @@
 
 ## History
 
+<strong>2018-02-23: </strong> updated security angular module, update npm packages, nuget packages
+
 <strong>2018-02-02: </strong> updated security angular module, update npm packages, nuget packages
 
 <strong>2018-01-15: </strong> support for auth using APP_INITIALIZER and Guards, Updated to Angular 5.2.0, reset to Typescript 2.6.2
