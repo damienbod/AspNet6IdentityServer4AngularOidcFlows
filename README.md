@@ -33,6 +33,8 @@
 
 ## History
 
+<strong>2018-03-15: </strong> updated security angular module, update npm packages, nuget packages
+
 <strong>2018-02-23: </strong> updated security angular module, update npm packages, nuget packages
 
 <strong>2018-02-02: </strong> updated security angular module, update npm packages, nuget packages
