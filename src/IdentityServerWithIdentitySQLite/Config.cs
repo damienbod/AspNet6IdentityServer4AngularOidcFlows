@@ -100,12 +100,13 @@ namespace QuickstartIdentityServer
                     ClientId = "angularclient",
                     AccessTokenType = AccessTokenType.Reference,
                     AccessTokenLifetime = 330,// 330 seconds, default 60 minutes
-                    IdentityTokenLifetime = 300,
+                    IdentityTokenLifetime = 30,
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "https://localhost:44311"
+                        "https://localhost:44311",
+                        "https://localhost:44311/silent-renew.html"
 
                     },
                     PostLogoutRedirectUris = new List<string>
