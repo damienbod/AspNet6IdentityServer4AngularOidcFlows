@@ -63,7 +63,8 @@ namespace QuickstartIdentityServer
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                         HOST_URL
+                         HOST_URL,
+                         HOST_URL + "/silent-renew.html"
 
                     },
                     PostLogoutRedirectUris = new List<string>
