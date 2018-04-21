@@ -12,12 +12,12 @@ import { AuthorizationResult } from './auth/models/authorization-result.enum';
 
 export class AppComponent implements OnInit, OnDestroy {
 
-    @Language() lang: string;
+    @Language() lang = '';
 
-    title: string;
+    title = '';
 
     isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    isAuthorized = false;
 
     onChecksessionChanged: Subscription;
     checksession = false;
