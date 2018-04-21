@@ -16,10 +16,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     title = '';
 
-    isAuthorizedSubscription: Subscription;
+    isAuthorizedSubscription: Subscription | undefined;
     isAuthorized = false;
 
-    onChecksessionChanged: Subscription;
+    onChecksessionChanged: Subscription | undefined;
     checksession = false;
 
     constructor(
@@ -62,7 +62,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
         this.oidcSecurityService.onModuleSetup.unsubscribe();
         this.oidcSecurityService.onCheckSessionChanged.unsubscribe();
         this.oidcSecurityService.onAuthorizationResult.unsubscribe();
