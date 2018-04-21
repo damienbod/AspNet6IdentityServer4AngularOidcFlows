@@ -37,7 +37,7 @@ namespace QuickstartIdentityServer
                     {
                         new Scope
                         {
-                            Name = "dataEventRecords",
+                            Name = "dataeventrecords",
                             DisplayName = "Scope for the dataEventRecords ApiResource"
                         }
                     },
