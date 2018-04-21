@@ -11,8 +11,8 @@ import './app.component.css';
 
 export class AppComponent implements OnInit, OnDestroy {
 
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
     constructor(public securityService: OidcSecurityService) {
     }
@@ -29,7 +29,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
     }
 
     login() {

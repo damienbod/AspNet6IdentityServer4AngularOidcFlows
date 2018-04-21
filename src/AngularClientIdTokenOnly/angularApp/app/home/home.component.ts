@@ -12,10 +12,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     message: string;
     name = 'none';
     email = 'none';
-    userDataSubscription: Subscription;
-    userData: boolean;
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    userDataSubscription: Subscription | undefined;
+    userData = false;
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
     constructor(public oidcSecurityService: OidcSecurityService) {
         this.message = 'HomeComponent constructor';
@@ -41,7 +41,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.userDataSubscription.unsubscribe();
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.userDataSubscription) {
+            this.userDataSubscription.unsubscribe();
+        }
+
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
     }
 }
