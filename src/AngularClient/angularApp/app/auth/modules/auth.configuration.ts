@@ -60,7 +60,7 @@ export class OpenIDImplicitFlowConfiguration {
     log_console_warning_active = false;
     log_console_debug_active = false;
     max_id_token_iat_offset_allowed_in_seconds = 60;
-    storage: any;
+    storage: any = sessionStorage;
 }
 
 @Injectable()
