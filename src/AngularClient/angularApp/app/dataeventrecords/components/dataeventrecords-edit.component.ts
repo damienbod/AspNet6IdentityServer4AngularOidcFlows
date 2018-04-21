@@ -44,7 +44,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
         this.sub = this._route.params.subscribe(params => {
             const id = +params['id']; // (+) converts string 'id' to a number
             this.id = id;
-            if (!this.DataEventRecord) {
+            if (this.DataEventRecord.Id === 0) {
                 this._dataEventRecordsService.GetById(id)
                     .subscribe(data => this.DataEventRecord = data,
                     error => this.oidcSecurityService.handleError(error),
@@ -61,7 +61,6 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
     }
 
     public Update() {
-        // router navigate to DataEventRecordsList
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe((() => console.log('subscribed')),
             error => this.oidcSecurityService.handleError(error),
