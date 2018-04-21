@@ -9,7 +9,7 @@ import { Language, LocaleService } from 'angular-l10n';
 
 export class HomeComponent implements OnInit {
 
-    @Language() lang: string;
+    @Language() lang = 'en';
 
     constructor(public locale: LocaleService) {
     }

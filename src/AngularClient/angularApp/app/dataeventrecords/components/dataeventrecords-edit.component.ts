@@ -13,12 +13,17 @@ import { DataEventRecord } from '../models/DataEventRecord';
 
 export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
 
-    private id: number;
+    private id = 0;
     public message: string;
     private sub: any;
-    public DataEventRecord: DataEventRecord;
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    public DataEventRecord: DataEventRecord = {
+        Id: 0,
+        Name: '',
+        Description: '',
+        Timestamp: ''
+    }
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
     constructor(
         private _dataEventRecordsService: DataEventRecordsService,
@@ -50,7 +55,9 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
 
     ngOnDestroy() {
         this.sub.unsubscribe();
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
     }
 
     public Update() {

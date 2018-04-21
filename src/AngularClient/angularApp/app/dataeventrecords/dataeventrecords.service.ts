@@ -10,7 +10,7 @@ import { DataEventRecord } from './models/DataEventRecord';
 export class DataEventRecordsService {
 
     private actionUrl: string;
-    private headers: HttpHeaders;
+    private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private http: HttpClient, configuration: Configuration, private _securityService: OidcSecurityService) {
         this.actionUrl = `${configuration.Server}api/DataEventRecords/`;

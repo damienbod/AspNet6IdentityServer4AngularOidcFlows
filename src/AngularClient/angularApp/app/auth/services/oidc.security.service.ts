@@ -491,7 +491,7 @@ export class OidcSecurityService {
         } else {
             this.loggerService.logWarning('authWellKnownEndpoints is undefined');
         }
-    
+
         this.oidcSecurityCommon.silentRenewRunning = 'running';
         return this.oidcSecuritySilentRenew.startRenew(url);
     }
