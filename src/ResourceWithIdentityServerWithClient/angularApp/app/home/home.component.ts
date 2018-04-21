@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
     public message: string;
-    public values: any[];
+    public values: any[] = [];
 
     constructor() {
         this.message = 'HomeComponent constructor';

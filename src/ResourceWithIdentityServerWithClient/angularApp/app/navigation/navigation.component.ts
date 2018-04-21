@@ -12,10 +12,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
     hasAdminRole = false
     hasDataEventRecordsAdminRole = false;
 
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
-    userDataSubscription: Subscription;
+    userDataSubscription: Subscription | undefined;
     userData: any;
 
     constructor(public oidcSecurityService: OidcSecurityService) {
@@ -50,8 +50,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
-        this.userDataSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
+
+        if (this.userDataSubscription) {
+            this.userDataSubscription.unsubscribe();
+        }
     }
 
     login() {

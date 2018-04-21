@@ -13,13 +13,13 @@ import { DataEventRecord } from '../models/DataEventRecord';
 export class DataEventRecordsListComponent implements OnInit, OnDestroy {
 
     message: string;
-    DataEventRecords: DataEventRecord[];
+    DataEventRecords: DataEventRecord[] = [];
     hasAdminRole = false;
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
-    userDataSubscription: Subscription;
-    userData: boolean;
+    userDataSubscription: Subscription | undefined;
+    userData = false;
 
     constructor(
 
@@ -58,8 +58,13 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
-        this.userDataSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
+
+        if (this.userDataSubscription) {
+            this.userDataSubscription.unsubscribe();
+        }
     }
 
     public Delete(id: any) {
