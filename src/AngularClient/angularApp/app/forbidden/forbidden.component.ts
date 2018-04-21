@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ForbiddenComponent implements OnInit {
 
     public message: string;
-    public values: any[];
+    public values: any[] = [];
 
     constructor() {
         this.message = 'ForbiddenComponent constructor';

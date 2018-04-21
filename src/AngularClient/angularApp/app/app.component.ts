@@ -12,14 +12,14 @@ import { AuthorizationResult } from './auth/models/authorization-result.enum';
 
 export class AppComponent implements OnInit, OnDestroy {
 
-    @Language() lang: string;
+    @Language() lang = '';
 
-    title: string;
+    title = '';
 
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
-    onChecksessionChanged: Subscription;
+    onChecksessionChanged: Subscription | undefined;
     checksession = false;
 
     constructor(
@@ -62,7 +62,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
         this.oidcSecurityService.onModuleSetup.unsubscribe();
         this.oidcSecurityService.onCheckSessionChanged.unsubscribe();
         this.oidcSecurityService.onAuthorizationResult.unsubscribe();

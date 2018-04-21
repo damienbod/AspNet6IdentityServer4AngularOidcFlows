@@ -1,14 +1,12 @@
 <div class="col-md-12" *ngIf="isAuthorized" >
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{message}}</h3>
-        </div>
         <div class="panel-body">
             <table class="table">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Timestamp</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,7 +16,7 @@
                             <span *ngIf="!hasAdminRole">{{dataEventRecord.Name}}</span>
                         </td>
                         <td>{{dataEventRecord.Timestamp}}</td>
-                        <td><button (click)="Delete(dataEventRecord.Id)">Delete</button></td>
+                        <td><button class="btn btn-primary" (click)="Delete(dataEventRecord.Id)">Delete</button></td>
                     </tr>
                 </tbody>
             </table>

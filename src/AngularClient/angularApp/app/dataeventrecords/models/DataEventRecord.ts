@@ -1,6 +1,6 @@
 ﻿export class DataEventRecord {
-    Id: number;
-    Name: string;
-    Description: string;
-    Timestamp: string;
+    Id = 0;
+    Name = '';
+    Description = '';
+    Timestamp = '';
 }

@@ -12,7 +12,7 @@
                 </thead>
                 <tbody>
                     <tr style="height:20px;" *ngFor="let file of Files" >
-                        <td><a (click)="DownloadFileById(file)">Download {{file}}</a></td>
+                        <td><a class="btn btn-link" (click)="DownloadFileById(file)">Download {{file}}</a></td>
                     </tr>
                 </tbody>
             </table>

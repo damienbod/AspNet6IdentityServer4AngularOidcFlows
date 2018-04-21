@@ -12,9 +12,9 @@ import { OidcSecurityService } from '../auth/services/oidc.security.service';
 export class SecureFilesComponent implements OnInit, OnDestroy {
 
     public message: string;
-    public Files: string[];
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    public Files: string[] = [];
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
     constructor(private _secureFileService: SecureFileService, public oidcSecurityService: OidcSecurityService) {
         this.message = 'Secure Files download';
@@ -32,7 +32,9 @@ export class SecureFilesComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
     }
 
     public DownloadFileById(id: any) {

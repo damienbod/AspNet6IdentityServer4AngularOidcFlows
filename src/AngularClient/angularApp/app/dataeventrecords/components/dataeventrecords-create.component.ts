@@ -14,8 +14,8 @@ export class DataEventRecordsCreateComponent implements OnInit, OnDestroy {
 
     public message: string;
     public DataEventRecord: any;
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
     constructor(private _dataEventRecordsService: DataEventRecordsService,
         public oidcSecurityService: OidcSecurityService,
@@ -34,7 +34,9 @@ export class DataEventRecordsCreateComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
     }
 
     public Create() {
