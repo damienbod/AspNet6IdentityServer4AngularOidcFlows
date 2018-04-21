@@ -11,18 +11,18 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:44390/api/DataEventRecords",
+      "launchUrl": "https://localhost:44390/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "ResourceServer": {
       "commandName": "Project",
-	  "launchUrl": "https://localhost:44390/api/DataEventRecords",
+      "launchUrl": "https://localhost:44390/api/DataEventRecords",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-	  "applicationUrl": "https://localhost:44390"
+      "applicationUrl": "https://localhost:44390"
     }
   }
 }
