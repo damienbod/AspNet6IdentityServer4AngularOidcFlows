@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/download",
+      "launchUrl": "https://localhost:44378/Index.html",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
