@@ -11,11 +11,11 @@ import { User } from './models/User';
 
 export class UserManagementComponent implements OnInit, OnDestroy {
 
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
     public message: string;
-    public Users: User[];
+    public Users: User[] = [];
 
     constructor(
         private _userManagementService: UserManagementService,
@@ -33,7 +33,9 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
     }
 
 

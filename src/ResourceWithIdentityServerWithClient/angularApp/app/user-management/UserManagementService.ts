@@ -10,7 +10,7 @@ import { User } from './models/User';
 export class UserManagementService {
 
     private actionUrl: string;
-    private headers: HttpHeaders;
+    private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private _http: HttpClient, configuration: Configuration, private _securityService: OidcSecurityService) {
         this.actionUrl = `${configuration.Server}/api/UserManagement/`;
