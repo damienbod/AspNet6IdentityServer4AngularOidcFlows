@@ -13,7 +13,7 @@ export class UserManagementService {
     private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private _http: HttpClient, configuration: Configuration, private _securityService: OidcSecurityService) {
-        this.actionUrl = `${configuration.Server}/api/UserManagement/`;
+        this.actionUrl = `${configuration.Server}/api/UserManagement`;
     }
 
     private setHeaders() {

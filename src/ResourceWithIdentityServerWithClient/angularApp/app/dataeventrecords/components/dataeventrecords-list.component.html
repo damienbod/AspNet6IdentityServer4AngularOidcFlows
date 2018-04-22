@@ -12,11 +12,11 @@
                 <tbody>
                     <tr style="height:20px;" *ngFor="let dataEventRecord of DataEventRecords" >
                         <td>
-                            <a *ngIf="hasAdminRole" href="" [routerLink]="['/dataeventrecords/edit/' + dataEventRecord.Id]" >{{dataEventRecord.Name}}</a>
-                            <span *ngIf="!hasAdminRole">{{dataEventRecord.Name}}</span>
+                            <a *ngIf="hasAdminRole" href="" [routerLink]="['/dataeventrecords/edit/' + dataEventRecord.id]" >{{dataEventRecord.name}}</a>
+                            <span *ngIf="!hasAdminRole">{{dataEventRecord.name}}</span>
                         </td>
-                        <td>{{dataEventRecord.Timestamp}}</td>
-                        <td><button class="btn btn-primary" (click)="Delete(dataEventRecord.Id)">Delete</button></td>
+                        <td>{{dataEventRecord.timestamp}}</td>
+                        <td><button class="btn btn-primary" (click)="Delete(dataEventRecord.id)">Delete</button></td>
                     </tr>
                 </tbody>
             </table>
