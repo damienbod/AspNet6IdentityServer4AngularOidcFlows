@@ -75,7 +75,7 @@
     "style-loader": "^0.20.3",
     "tslint": "^5.9.1",
     "tslint-loader": "^3.6.0",
-    "typescript": "2.7.2",
+    "typescript": "2.6.2",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
     "webpack": "3.11.0",
