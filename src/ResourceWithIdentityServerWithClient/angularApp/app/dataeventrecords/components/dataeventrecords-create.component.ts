@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { OidcSecurityService } from '../../auth/services/oidc.security.service';
+
 import { DataEventRecordsService } from '../dataeventrecords.service';
 
 @Component({
@@ -13,8 +14,8 @@ export class DataEventRecordsCreateComponent implements OnInit, OnDestroy {
 
     public message: string;
     public DataEventRecord: any;
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+    isAuthorizedSubscription: Subscription | undefined;
+    isAuthorized = false;
 
     constructor(private _dataEventRecordsService: DataEventRecordsService,
         public oidcSecurityService: OidcSecurityService,
@@ -33,7 +34,9 @@ export class DataEventRecordsCreateComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.isAuthorizedSubscription.unsubscribe();
+        if (this.isAuthorizedSubscription) {
+            this.isAuthorizedSubscription.unsubscribe();
+        }
     }
 
     public Create() {

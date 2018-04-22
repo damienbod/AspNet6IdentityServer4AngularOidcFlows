@@ -17,10 +17,10 @@
                     <tr style="height:20px;" *ngFor="let user of Users">
                         <td>{{user.name}}</td>
                         <td>
-                            <input type="checkbox" [(ngModel)]="user.isAdmin" class="form-control" style="box-shadow:none" />
+                            <input type="checkbox" [(ngModel)]="user.isAdmin" class="form-check-input" style="box-shadow:none;width: 1.5rem;height: 1.5rem;" />
                         </td>
                         <td>
-                            <input type="checkbox" [(ngModel)]="user.isActive" class="form-control" style="box-shadow:none" />
+                            <input type="checkbox" [(ngModel)]="user.isActive" class="form-check-input" style="box-shadow:none;width: 1.5rem;height: 1.5rem;" />
                         </td>
                         <td>
                             <button (click)="Update(user)" class="form-control">Update</button>

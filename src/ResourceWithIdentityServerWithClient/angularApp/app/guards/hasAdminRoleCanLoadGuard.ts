@@ -7,7 +7,7 @@ import { OidcSecurityService } from '../auth/services/oidc.security.service';
 export class HasAdminRoleCanLoadGuard implements CanLoad {
 
     private hasUserAdminRole = false;
-    private isAuthorized: boolean;
+    private isAuthorized = false;
 
     constructor(
         private oidcSecurityService: OidcSecurityService
