@@ -1,24 +1,18 @@
-<nav class="navbar navbar-default">
+<nav class="bg-dark mb-4 navbar navbar-dark navbar-expand-md">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a [routerLink]="['/dataeventrecords']" class="navbar-brand"><img src="assets/damienbod.jpg" height="40" style="margin-top:-10px;" /></a>
         </div>
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li><a [routerLink]="['/dataeventrecords']" *ngIf="isAuthorized">dataEventRecords</a></li>
-                <li><a [routerLink]="['/dataeventrecords/create']" *ngIf="(isAuthorized && hasDataEventRecordsAdminRole)">create dataEventRecord</a></li>
-                <li><a [routerLink]="['/usermanagement']" *ngIf="(isAuthorized && hasAdminRole)">user-management</a></li>
+                <li class="nav-item"><a class="nav-link" [routerLink]="['/dataeventrecords']" *ngIf="isAuthorized">dataEventRecords</a></li>
+                <li class="nav-item"><a class="nav-link" [routerLink]="['/dataeventrecords/create']" *ngIf="(isAuthorized && hasDataEventRecordsAdminRole)">create dataEventRecord</a></li>
+                <li class="nav-item"><a class="nav-link" [routerLink]="['/usermanagement']" *ngIf="(isAuthorized && hasAdminRole)">user-management</a></li>
 
-                <li><a class="navigationLinkButton" *ngIf="!isAuthorized" (click)="login()">Login</a></li>
-                <li><a class="navigationLinkButton" *ngIf="isAuthorized" (click)="logout()">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" *ngIf="!isAuthorized" (click)="login()">Login</a></li>
+                <li class="nav-item"><a class="nav-link" *ngIf="isAuthorized" (click)="logout()">Logout</a></li>
 
             </ul>
-        </div><!--/.nav-collapse -->
-    </div><!--/.container-fluid -->
+        </div>
+    </div>
 </nav>
