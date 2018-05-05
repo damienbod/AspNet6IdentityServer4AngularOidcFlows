@@ -1,5 +1,5 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
