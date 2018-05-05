@@ -1,6 +1,6 @@
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-home',
