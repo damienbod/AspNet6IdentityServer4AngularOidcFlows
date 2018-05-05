@@ -42,7 +42,6 @@
     "ie-shim": "0.1.0",
     "jsrsasign": "8.0.11",
     "rxjs": "6.1.0",
-    "rxjs-compat": "6.1.0",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
