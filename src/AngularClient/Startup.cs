@@ -28,7 +28,9 @@ namespace AngularClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ClientAppSettings>(Configuration.GetSection("ClientAppSettings"));
-            services.AddMvc();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins",
@@ -88,18 +90,6 @@ namespace AngularClient
             {
                 await context.Response.WriteAsync("This is server routing, not angular2 routing");
             });
-        }
-
-        public static void Main(string[] args)
-        {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
-
-            host.Run();
         }
     }
 }
