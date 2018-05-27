@@ -33,6 +33,8 @@
 
 ## History
 
+<strong>2018-05-27: </strong> Updated to ASP.NET Core 2.1
+
 <strong>2018-05-04: </strong> Updated to Angular 6, rxjs 6.1.0, Webpack 4
 
 <strong>2018-04-21: </strong> update npm packages, nuget packages
