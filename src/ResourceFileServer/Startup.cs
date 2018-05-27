@@ -4,14 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using ResourceFileServer.Providers;
 using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ResourceFileServer
 {
@@ -109,7 +106,7 @@ namespace ResourceFileServer
                 options.Filters.Add(new AuthorizeFilter(securedFilesPolicy));
             });
 
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddTransient<ISecuredFileProvider, SecuredFileProvider>();
             services.AddSingleton<UseOnceAccessIdService>();
@@ -126,18 +123,6 @@ namespace ResourceFileServer
 
             app.UseAuthentication();
             app.UseMvc();
-        }
-
-        public static void Main(string[] args)
-        {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
-
-            host.Run();
         }
     }
 }
