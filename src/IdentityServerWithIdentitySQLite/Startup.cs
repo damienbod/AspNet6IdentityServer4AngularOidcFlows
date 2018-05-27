@@ -21,6 +21,7 @@ using IdentityServerWithAspNetIdentity.Resources;
 using System.Linq;
 using IdentityServerWithIdentitySQLite;
 using IdentityServerWithAspNetIdentity.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -88,7 +89,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
                     options.RequestCultureProviders.Insert(0, providerQuery);
                 });
 
-            services.AddMvc()
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
              .AddViewLocalization()
              .AddDataAnnotationsLocalization(options =>
              {
