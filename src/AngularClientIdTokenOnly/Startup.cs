@@ -74,17 +74,5 @@ namespace Angular2Client
                 await context.Response.WriteAsync("This is server routing, not angular2 routing");
             });
         }
-
-        public static void Main(string[] args)
-        {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
-
-            host.Run();
-        }
     }
 }

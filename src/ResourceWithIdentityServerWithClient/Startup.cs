@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -116,7 +117,7 @@ namespace IdentityServerWithAspNetIdentitySqlite
                 });
             });
 
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

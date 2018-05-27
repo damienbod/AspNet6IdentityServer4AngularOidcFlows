@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
-namespace AspNet5SQLite
+namespace ResourceFileServer
 {
     public class Program
     {
