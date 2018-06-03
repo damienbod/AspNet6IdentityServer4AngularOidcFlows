@@ -18,9 +18,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 using IdentityServerWithAspNetIdentity.Resources;
-using System.Linq;
 using IdentityServerWithIdentitySQLite;
-using IdentityServerWithAspNetIdentity.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServerWithAspNetIdentitySqlite
