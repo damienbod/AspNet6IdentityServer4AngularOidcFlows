@@ -35,7 +35,7 @@
     "@angular/platform-server": "6.0.3",
     "@angular/router": "6.0.3",
     "@angular/upgrade": "6.0.3",
-    "@angular-devkit/core": "0.6.5",
+    "@angular-devkit/core": "0.7.0-beta.1",
     "bootstrap": "4.1.1",
     "core-js": "2.5.7",
     "ie-shim": "0.1.0",
@@ -44,9 +44,9 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@ngtools/webpack": "^6.0.5",
-    "@types/jasmine": "^2.8.7",
-    "@types/node": "^10.1.2",
+    "@ngtools/webpack": "^6.1.0-beta.1",
+    "@types/jasmine": "^2.8.8",
+    "@types/node": "^10.3.0",
     "angular-router-loader": "0.8.5",
     "angular2-template-loader": "^0.6.2",
     "awesome-typescript-loader": "^5.0.0",
@@ -70,7 +70,7 @@
     "node-sass": "^4.9.0",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.6.2",
-    "sass-loader": "^7.0.1",
+    "sass-loader": "^7.0.2",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.21.0",
     "tslint": "^5.10.0",
@@ -78,9 +78,9 @@
     "typescript": "2.7.2",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
-    "webpack": "^4.9.1",
+    "webpack": "^4.10.2",
     "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-cli": "2.1.4",
+    "webpack-cli": "3.0.1",
     "webpack-dev-server": "^3.1.4"
   },
   "-vs-binding": {
