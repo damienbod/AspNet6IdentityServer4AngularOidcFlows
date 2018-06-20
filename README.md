@@ -33,6 +33,8 @@
 
 ## History
 
+<strong>2018-06-20: </strong> Updated to ASP.NET Core Identity 2.1, Add Email Serivce, support for Cert deployments, support for 2FA Authenticator
+
 <strong>2018-05-27: </strong> Updated to ASP.NET Core 2.1
 
 <strong>2018-05-04: </strong> Updated to Angular 6, rxjs 6.1.0, Webpack 4
@@ -119,3 +121,14 @@
 
 <strong>2015-11-18:</strong> Updated to ASP.NET Core 1.0 RC1
 
+
+
+## dotnet Migrations
+
+### open the cmd in project folder:
+
+dotnet restore
+
+dotnet ef migrations add sts_init --context ApplicationDbContext --verbose
+
+dotnet ef database update  --verbose

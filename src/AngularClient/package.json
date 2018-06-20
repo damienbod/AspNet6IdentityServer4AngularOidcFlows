@@ -49,8 +49,8 @@
   "devDependencies": {
     "@ngtools/webpack": "^6.1.0-beta.1",
     "@types/jasmine": "^2.8.8",
-    "angular-router-loader": "0.8.5",
     "@types/node": "^10.3.0",
+    "angular-router-loader": "0.8.5",
     "angular2-template-loader": "^0.6.2",
     "awesome-typescript-loader": "^5.0.0",
     "clean-webpack-plugin": "^0.1.19",
@@ -83,8 +83,8 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.10.2",
     "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-dev-server": "^3.1.4",
-    "webpack-cli": "3.0.1"
+    "webpack-cli": "3.0.1",
+    "webpack-dev-server": "^3.1.4"
   },
   "-vs-binding": {
     "ProjectOpened": [
