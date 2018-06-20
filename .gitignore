@@ -159,3 +159,5 @@ src/AngularClientIdTokenOnly/angularApp/vendor.js
 src/AngularClientIdTokenOnly/AngularClientIdTokenOnly.csproj.user
 src/ResourceWithIdentityServerWithClient/ResourceWithIdentityServerWithClient.csproj.user
 /src/AngularClient/angularApp/main-aot.js
+/src/StsServerIdentity/obj
+/src/StsServerIdentity/bin

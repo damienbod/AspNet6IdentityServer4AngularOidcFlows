@@ -1,0 +1,23 @@
+﻿@using Microsoft.Extensions.Options
+@using StsServerIdentity.Models
+@{
+    ViewData["Title"] = "StsServerIdentity Home";
+}
+@inject IOptions<StsConfig> OptionsStsConfig
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>Hi @User.Identity.Name</h1>
+}
+else
+{
+    <br />
+}
+
+<a href="@OptionsStsConfig.Value.AngularClientUrl">
+    AngularClientUrl
+</a>
+
+<a href="@OptionsStsConfig.Value.AngularClientIdTokenOnlyUrl">
+    AngularClientIdTokenOnlyUrl
+</a>
