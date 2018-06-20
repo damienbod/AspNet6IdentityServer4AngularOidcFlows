@@ -33,6 +33,8 @@
 
 ## History
 
+<strong>2018-06-20: </strong> Updated to ASP.NET Core Identity 2.1, Add Email Serivce, support for Cert deployments, support for 2FA Authenticator
+
 <strong>2018-05-27: </strong> Updated to ASP.NET Core 2.1
 
 <strong>2018-05-04: </strong> Updated to Angular 6, rxjs 6.1.0, Webpack 4
