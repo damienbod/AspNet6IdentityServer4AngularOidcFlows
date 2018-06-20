@@ -269,9 +269,7 @@ namespace StsServerIdentity.Controllers
                 var user = new ApplicationUser {
                     UserName = model.Email,
                     Email = model.Email,
-                    IsAdmin = false,
-                    Nachname = model.Nachname,
-                    Vorname = model.Vorname
+                    IsAdmin = false
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -434,7 +432,7 @@ namespace StsServerIdentity.Controllers
                    model.Email, 
                    "Reset Password",
                    $"Please reset your password by clicking here: {callbackUrl}", 
-                   $"{user.Vorname} {user.Nachname}");
+                   "Hi Sir");
 
                 return View("ForgotPasswordConfirmation");
             }
@@ -540,7 +538,7 @@ namespace StsServerIdentity.Controllers
             var message = "Your security code is: " + code;
             if (model.SelectedProvider == "Email")
             {
-                await _emailSender.SendEmail(await _userManager.GetEmailAsync(user), "Security Code", message, $"{user.Vorname} {user.Nachname}");
+                await _emailSender.SendEmail(await _userManager.GetEmailAsync(user), "Security Code", message, "Hi Sir");
             }
 
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });

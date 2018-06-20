@@ -126,7 +126,7 @@ namespace StsServerIdentity.Controllers
                model.Email,
                "StsServerIdentity Verification Email",
                $"Please verify by clicking here: {callbackUrl}",
-               $"{user.Vorname} {user.Nachname}");
+               "Hi Sir");
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(Index));
