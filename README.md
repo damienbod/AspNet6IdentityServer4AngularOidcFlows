@@ -121,3 +121,14 @@
 
 <strong>2015-11-18:</strong> Updated to ASP.NET Core 1.0 RC1
 
+
+
+## dotnet Migrations
+
+### open the cmd in project folder:
+
+dotnet restore
+
+dotnet ef migrations add sts_init --context ApplicationDbContext --verbose
+
+dotnet ef database update  --verbose
