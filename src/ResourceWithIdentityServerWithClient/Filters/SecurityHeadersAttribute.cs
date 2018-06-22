@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace IdentityServerWithAspNetIdentity.Filters
+namespace ResourceWithIdentityServerWithClient.Filters
 {
     public class SecurityHeadersAttribute : ActionFilterAttribute
     {

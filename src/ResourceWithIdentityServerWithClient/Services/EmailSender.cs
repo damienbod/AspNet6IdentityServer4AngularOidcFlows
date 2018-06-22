@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
+using ResourceWithIdentityServerWithClient.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using StsServerIdentity.Models;
 using System.Threading.Tasks;
 
-namespace StsServerIdentity.Services
+namespace ResourceWithIdentityServerWithClient.Services
 {
     public class EmailSender : IEmailSender
     {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using IdentityServer4.Services;
 using IdentityServer4.Quickstart.UI.Models;
 
-namespace IdentityServerWithAspNetIdentity.Controllers
+namespace ResourceWithIdentityServerWithClient.Controllers
 {
     public class HomeController : Controller
     {

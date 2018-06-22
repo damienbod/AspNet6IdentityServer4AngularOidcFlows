@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace StsServerIdentity.Services.Certificate
+namespace ResourceWithIdentityServerWithClient.Services.Certificate
 {
     public class KeyVaultCertificateService : ICertificateService
     {

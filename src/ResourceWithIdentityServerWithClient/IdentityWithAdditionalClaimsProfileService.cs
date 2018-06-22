@@ -7,10 +7,10 @@ using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using IdentityServerWithAspNetIdentity.Models;
+using ResourceWithIdentityServerWithClient.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace IdentityServerWithAspNetIdentitySqlite
+namespace ResourceWithIdentityServerWithClient
 {
     using IdentityServer4;
 

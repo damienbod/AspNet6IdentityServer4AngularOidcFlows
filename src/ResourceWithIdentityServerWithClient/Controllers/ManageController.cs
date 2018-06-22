@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using StsServerIdentity.Models.ManageViewModels;
-using StsServerIdentity.Models;
-using StsServerIdentity.Services;
+using ResourceWithIdentityServerWithClient.Models.ManageViewModels;
+using ResourceWithIdentityServerWithClient.Models;
+using ResourceWithIdentityServerWithClient.Services;
 
-namespace StsServerIdentity.Controllers
+namespace ResourceWithIdentityServerWithClient.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -124,7 +124,7 @@ namespace StsServerIdentity.Controllers
             var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
             await _emailSender.SendEmail(
                model.Email,
-               "StsServerIdentity Verification Email",
+               "ResourceWithIdentityServerWithClient Verification Email",
                $"Please verify by clicking here: {callbackUrl}",
                "Hi Sir");
 
@@ -524,7 +524,7 @@ namespace StsServerIdentity.Controllers
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("StsServerIdentity"),
+                _urlEncoder.Encode("ResourceWithIdentityServerWithClient"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using IdentityServerWithAspNetIdentity.Data;
+using ResourceWithIdentityServerWithClient.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResourceWithIdentityServerWithClient.Model;
