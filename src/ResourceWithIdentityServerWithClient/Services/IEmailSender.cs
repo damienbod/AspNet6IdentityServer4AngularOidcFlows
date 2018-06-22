@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServerWithAspNetIdentity.Services
+namespace ResourceWithIdentityServerWithClient.Services
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(string email, string subject, string message);
+        Task SendEmail(string email, string subject, string message, string toUsername);
     }
 }

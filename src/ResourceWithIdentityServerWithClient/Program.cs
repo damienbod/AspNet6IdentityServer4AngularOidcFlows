@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace IdentityServerWithAspNetIdentitySqlite
+namespace ResourceWithIdentityServerWithClient
 {
     public class Program
     {

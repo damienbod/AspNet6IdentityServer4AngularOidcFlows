@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using IdentityServerWithAspNetIdentity.Data;
-using IdentityServerWithAspNetIdentity.Models;
-using IdentityServerWithAspNetIdentity.Services;
+using ResourceWithIdentityServerWithClient.Data;
+using ResourceWithIdentityServerWithClient.Models;
 using QuickstartIdentityServer;
 using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
@@ -15,14 +13,14 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Collections.Generic;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ResourceWithIdentityServerWithClient.Services.Certificate;
+using ResourceWithIdentityServerWithClient.Services;
 
-namespace IdentityServerWithAspNetIdentitySqlite
+namespace ResourceWithIdentityServerWithClient
 {
     public class Startup
     {
@@ -45,7 +43,40 @@ namespace IdentityServerWithAspNetIdentitySqlite
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
+            var useLocalCertStore = Convert.ToBoolean(Configuration["UseLocalCertStore"]);
+            var certificateThumbprint = Configuration["CertificateThumbprint"];
+
+            X509Certificate2 cert;
+
+            if (_environment.IsProduction())
+            {
+                if (useLocalCertStore)
+                {
+                    using (X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+                    {
+                        store.Open(OpenFlags.ReadOnly);
+                        var certs = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
+                        cert = certs[0];
+                        store.Close();
+                    }
+                }
+                else
+                {
+                    // Azure deployment, will be used if deployed to Azure
+                    var vaultConfigSection = Configuration.GetSection("Vault");
+                    var keyVaultService = new KeyVaultCertificateService(vaultConfigSection["Url"], vaultConfigSection["ClientId"], vaultConfigSection["ClientSecret"]);
+                    cert = keyVaultService.GetCertificateFromKeyVault(vaultConfigSection["CertificateName"]);
+                }
+            }
+            else
+            {
+                cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
+            }
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -59,9 +90,6 @@ namespace IdentityServerWithAspNetIdentitySqlite
            .Build();
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
-
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
 
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
@@ -81,6 +109,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
               });
 
             //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddTransient<IEmailSender, EmailSender>();
 
             //IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
             //{

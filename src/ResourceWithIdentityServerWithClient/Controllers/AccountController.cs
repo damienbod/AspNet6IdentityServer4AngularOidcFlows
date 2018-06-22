@@ -7,20 +7,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using IdentityServerWithAspNetIdentity.Models.AccountViewModels;
+using ResourceWithIdentityServerWithClient.Models.AccountViewModels;
 using IdentityServer4.Quickstart.UI.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Models;
-using IdentityServerWithAspNetIdentity.Models;
-using IdentityServerWithAspNetIdentity.Services;
+using ResourceWithIdentityServerWithClient.Models;
+using ResourceWithIdentityServerWithClient.Services;
 using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Http.Authentication;
 using IdentityServer4.Extensions;
 using QuickstartIdentityServer;
 
-namespace IdentityServerWithAspNetIdentity.Controllers
+namespace ResourceWithIdentityServerWithClient.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -28,7 +28,6 @@ namespace IdentityServerWithAspNetIdentity.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
@@ -39,7 +38,6 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             IPersistedGrantService persistedGrantService,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ISmsSender smsSender,
             ILoggerFactory loggerFactory,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore)
@@ -48,7 +46,6 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             _persistedGrantService = persistedGrantService;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _interaction = interaction;
             _clientStore = clientStore;
@@ -545,11 +542,7 @@ namespace IdentityServerWithAspNetIdentity.Controllers
             var message = "Your security code is: " + code;
             if (model.SelectedProvider == "Email")
             {
-                await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
-            }
-            else if (model.SelectedProvider == "Phone")
-            {
-                await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
+                await _emailSender.SendEmail(await _userManager.GetEmailAsync(user), "Security Code", message, "Hi Sir");
             }
 
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
