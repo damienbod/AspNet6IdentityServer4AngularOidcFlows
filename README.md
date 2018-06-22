@@ -8,16 +8,10 @@
 <strong>Code: </strong> https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow
 
 ## Posts
-
-<a href="http://damienbod.com/2015/11/08/oauth2-implicit-flow-with-angular-and-asp-net-5-identity-server/"> OAuth2 Implicit Flow with AngularJS and ASP.NET Core 2.1 IdentityServer4</a>
 	
 <a href="http://damienbod.com/2016/02/14/authorization-policies-and-data-protection-with-identityserver4-in-asp-net-core/">Authorization Policies and Data Protection with IdentityServer4 in ASP.NET Core</a>
 
-<a href="http://damienbod.com/2016/02/26/angular-openid-connect-implicit-flow-with-identityserver4/">AngularJS OpenID Connect Implicit Flow with IdentityServer4</a>
-
 <a href="http://damienbod.com/2016/03/02/angular2-openid-connect-implicit-flow-with-identityserver4/">Angular OpenID Connect Implicit Flow with IdentityServer4</a>
-
-<a href="http://damienbod.com/2016/03/14/secure-file-download-using-identityserver4-angular2-and-asp-net-core/">Secure file download using IdentityServer4, Angular and ASP.NET Core</a>
 
 <a href="http://damienbod.com/2016/04/02/angular2-secure-file-download-without-using-an-access-token-in-url-or-cookies/">Angular secure file download without using an access token in URL or cookies</a>
 
@@ -30,6 +24,14 @@
 <a href="https://damienbod.com/2017/06/02/implementing-a-silent-token-renew-in-angular-for-the-openid-connect-implicit-flow/">Implementing a silent token renew in Angular for the OpenID Connect Implicit flow</a>
 
 <a href="https://damienbod.com/2017/06/11/openid-connect-session-management-an-angular-application-using-identityserver4/">OpenID Connect Session Management using an Angular application and IdentityServer4</a>
+
+## Older Posts which are no longer maintained
+
+<a href="http://damienbod.com/2015/11/08/oauth2-implicit-flow-with-angular-and-asp-net-5-identity-server/"> OAuth2 Implicit Flow with AngularJS and ASP.NET Core 2.1 IdentityServer4</a>
+
+<a href="http://damienbod.com/2016/02/26/angular-openid-connect-implicit-flow-with-identityserver4/">AngularJS OpenID Connect Implicit Flow with IdentityServer4</a>
+
+<a href="http://damienbod.com/2016/03/14/secure-file-download-using-identityserver4-angular2-and-asp-net-core/">Secure file download using IdentityServer4, Angular and ASP.NET Core</a>
 
 ## History
 
