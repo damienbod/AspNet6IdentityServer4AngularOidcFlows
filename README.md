@@ -1,4 +1,4 @@
-# ASP.NET Core 2.0 IdentityServer4 OpenID Implicit Flow examples Angular, AngularJS
+# ASP.NET Core 2.1 IdentityServer4 OpenID Implicit Flow examples Angular, AngularJS
 
 
 |                           | Build                                                                                                                                                                          |       
@@ -9,7 +9,7 @@
 
 ## Posts
 
-<a href="http://damienbod.com/2015/11/08/oauth2-implicit-flow-with-angular-and-asp-net-5-identity-server/"> OAuth2 Implicit Flow with AngularJS and ASP.NET Core 1.1 IdentityServer4</a>
+<a href="http://damienbod.com/2015/11/08/oauth2-implicit-flow-with-angular-and-asp-net-5-identity-server/"> OAuth2 Implicit Flow with AngularJS and ASP.NET Core 2.1 IdentityServer4</a>
 	
 <a href="http://damienbod.com/2016/02/14/authorization-policies-and-data-protection-with-identityserver4-in-asp-net-core/">Authorization Policies and Data Protection with IdentityServer4 in ASP.NET Core</a>
 
@@ -32,6 +32,8 @@
 <a href="https://damienbod.com/2017/06/11/openid-connect-session-management-an-angular-application-using-identityserver4/">OpenID Connect Session Management using an Angular application and IdentityServer4</a>
 
 ## History
+
+<strong>2018-06-22: </strong> Updated to ASP.NET Core 2.1.1, Angular 6.0.6
 
 <strong>2018-06-20: </strong> Updated to ASP.NET Core Identity 2.1, Add Email Serivce, support for Cert deployments, support for 2FA Authenticator
 
