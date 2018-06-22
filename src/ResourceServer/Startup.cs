@@ -14,6 +14,9 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Mvc;
+using ResourceServer.DataProtection;
+using System;
+using ResourceServer.Certificate;
 
 namespace AspNet5SQLite
 {
@@ -28,29 +31,64 @@ namespace AspNet5SQLite
             _env = env;
             var builder = new ConfigurationBuilder()
                  .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("config.json");
+                .AddJsonFile("appsettings.json");
             Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["Production:SqliteConnectionString"];
-            var folderForKeyStore = Configuration["Production:KeyStoreFolderWhichIsBacked"];
-          
-            var cert = new X509Certificate2(Path.Combine(_env.ContentRootPath, "damienbodserver.pfx"), "");
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+            var useLocalCertStore = Convert.ToBoolean(Configuration["UseLocalCertStore"]);
+            var certificateThumbprint = Configuration["CertificateThumbprint"];
+
+            X509Certificate2 cert;
+
+            if (_env.IsProduction())
+            {
+                if (useLocalCertStore)
+                {
+                    using (X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+                    {
+                        store.Open(OpenFlags.ReadOnly);
+                        var certs = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
+                        cert = certs[0];
+                        store.Close();
+                    }
+                }
+                else
+                {
+                    // Azure deployment, will be used if deployed to Azure
+                    var vaultConfigSection = Configuration.GetSection("Vault");
+                    var keyVaultService = new KeyVaultCertificateService(vaultConfigSection["Url"], vaultConfigSection["ClientId"], vaultConfigSection["ClientSecret"]);
+                    cert = keyVaultService.GetCertificateFromKeyVault(vaultConfigSection["CertificateName"]);
+                }
+            }
+            else
+            {
+                cert = new X509Certificate2(Path.Combine(_env.ContentRootPath, "damienbodserver.pfx"), "");
+            }
 
             // Important The folderForKeyStore needs to be backed up.
-            services.AddDataProtection()
-                .SetApplicationName("AspNet5IdentityServerAngularImplicitFlow")
-                .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore))
-                .ProtectKeysWithCertificate(cert);
+            // services.AddDataProtection()
+            //    .SetApplicationName("ResourceServer")
+            //    .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore))
+            //    .ProtectKeysWithCertificate(cert);
 
+            services.AddDataProtection()
+                .SetApplicationName("ResourceServer")
+                .ProtectKeysWithCertificate(cert)
+                .AddKeyManagementOptions(options =>
+                    options.XmlRepository = new SqlXmlRepository(
+                        new DataProtectionDbContext(
+                            new DbContextOptionsBuilder<DataProtectionDbContext>().UseSqlite(connection).Options
+                        )
+                    )
+                );
 
             services.AddDbContext<DataEventRecordContext>(options =>
                 options.UseSqlite(connection)
             );
 
-            //Add Cors support to the service
             services.AddCors();
 
             var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
