@@ -97,7 +97,7 @@ namespace ResourceWithIdentityServerWithClient.Controllers
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberLogin });
+                    return RedirectToAction(nameof(VerifyCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberLogin });
                 }
                 if (result.IsLockedOut)
                 {
@@ -560,6 +560,12 @@ namespace ResourceWithIdentityServerWithClient.Controllers
             {
                 return View("Error");
             }
+
+            if (string.IsNullOrEmpty(provider))
+            {
+                provider = "Authenticator";
+            }
+
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
@@ -573,6 +579,11 @@ namespace ResourceWithIdentityServerWithClient.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
+            }
+
+            if (string.IsNullOrEmpty(model.Provider))
+            {
+                model.Provider = "Authenticator";
             }
 
             // The following code protects for brute force attacks against the two factor codes.
