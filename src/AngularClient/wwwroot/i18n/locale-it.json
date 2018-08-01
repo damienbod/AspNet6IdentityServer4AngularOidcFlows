@@ -1,0 +1,15 @@
+﻿{
+  "HELLO": "Ciao",
+  "NAV_MENU_HOME": "Attualità",
+  "NAV_MENU_SHOP": "Boutique",
+  "NAV_MENU_SHOP_ADMIN": "Boutique Admin",
+  "ADD_PRODUCT_NAME": "Name it",
+  "ADD_PRODUCT_PRICE_EUR": "Price EUR it",
+  "ADD_PRODUCT_PRICE_CHF": "Price CHF it",
+  "ADD_PRODUCT_DESCRIPTION": "Description it",
+  "ADD_PRODUCT_LOCALIZED_NAME": "Localized Name it",
+  "ADD_PRODUCT_LOCALIZED_DESCRIPTION": "Localized Description it",
+  "ADD_PRODUCT_CREATE_NEW_PRODUCT": "Create new Product it",
+  "LOGIN": "Login it",
+  "LOGOUT": "Logout it"
+}
