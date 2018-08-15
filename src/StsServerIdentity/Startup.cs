@@ -20,6 +20,7 @@ using StsServerIdentity.Models;
 using StsServerIdentity.Data;
 using StsServerIdentity.Resources;
 using StsServerIdentity.Services;
+using Microsoft.IdentityModel.Tokens;
 
 namespace StsServerIdentity
 {
@@ -84,7 +85,14 @@ namespace StsServerIdentity
             services.AddSingleton<LocService>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            services.AddAuthentication();
+            services.AddAuthentication()
+                 .AddOpenIdConnect("aad", "Login with Azure AD", options =>
+                 {
+                     options.Authority = $"https://login.microsoftonline.com/common";
+                     options.TokenValidationParameters = new TokenValidationParameters { ValidateIssuer = false };
+                     options.ClientId = "99eb0b9d-ca40-476e-b5ac-6f4c32bfb530";
+                     options.CallbackPath = "/signin-oidc";
+                 });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
