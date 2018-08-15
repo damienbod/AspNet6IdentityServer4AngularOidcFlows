@@ -25,6 +25,8 @@
 
 <a href="https://damienbod.com/2017/06/11/openid-connect-session-management-an-angular-application-using-identityserver4/">OpenID Connect Session Management using an Angular application and IdentityServer4</a>
 
+<a href="https://damienbod.com/2018/08/15/implementing-a-multi-tenant-oidc-azure-ad-external-login-for-identityserver4/">Implementing a multi-tenant OIDC Azure AD external login for IdentityServer4</a>
+
 ## Older Posts which are no longer maintained
 
 <a href="http://damienbod.com/2015/11/08/oauth2-implicit-flow-with-angular-and-asp-net-5-identity-server/"> OAuth2 Implicit Flow with AngularJS and ASP.NET Core 2.1 IdentityServer4</a>
