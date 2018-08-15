@@ -292,9 +292,10 @@ namespace StsServerIdentity.Controllers
 
         //
         // POST: /Account/ExternalLogin
+        //[ValidateAntiForgeryToken]
         [HttpPost]
+        [HttpGet]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
