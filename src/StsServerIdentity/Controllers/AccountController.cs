@@ -527,7 +527,12 @@ namespace StsServerIdentity.Controllers
             {
                 return View("Error");
             }
+            if (model.SelectedProvider == "Authenticator")
+            {
+                return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            }
 
+            // Email used
             // Generate the token and send it
             var code = await _userManager.GenerateTwoFactorTokenAsync(user, model.SelectedProvider);
             if (string.IsNullOrWhiteSpace(code))
