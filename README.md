@@ -35,6 +35,8 @@
 
 ## History
 
+<strong>2018-08-15: </strong> Updated to Angular 6.1.2, fixed 2FA bug for TOTP
+
 <strong>2018-08-01: </strong> Updated to ASP.NET Core 2.1.2, Angular 6.1.0
 
 <strong>2018-06-22: </strong> Updated to ASP.NET Core 2.1.1, Angular 6.0.6
