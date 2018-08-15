@@ -35,6 +35,8 @@
 
 ## History
 
+<strong>2018-08-15: </strong> Added support for OIDC external login with Azure AD
+
 <strong>2018-08-15: </strong> Updated to Angular 6.1.2, fixed 2FA bug for TOTP
 
 <strong>2018-08-01: </strong> Updated to ASP.NET Core 2.1.2, Angular 6.1.0
