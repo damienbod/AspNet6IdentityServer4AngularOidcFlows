@@ -53,6 +53,28 @@
     </div>
 </div>
 
+
+@if (Model.ExternalProviders.Any())
+{
+    <div class="row">
+        <div class="panel-body">
+            <ul class="list-inline">
+                @foreach (var provider in Model.ExternalProviders)
+                {
+                    <li>
+                        <a class="btn btn-default"
+                           asp-action="ExternalLogin"
+                           asp-route-provider="@provider.AuthenticationScheme"
+                           asp-route-returnUrl="@Model.ReturnUrl">
+                            @provider.DisplayName
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
