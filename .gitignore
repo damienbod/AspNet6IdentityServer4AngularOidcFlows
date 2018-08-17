@@ -161,3 +161,4 @@ src/ResourceWithIdentityServerWithClient/ResourceWithIdentityServerWithClient.cs
 /src/AngularClient/angularApp/main-aot.js
 /src/StsServerIdentity/obj
 /src/StsServerIdentity/bin
+/src/StsServerIdentity/node_modules
