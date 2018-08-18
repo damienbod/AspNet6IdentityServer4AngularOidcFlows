@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2018-08-18: </strong> Updated npm packages, small angular fixes in the auth lib, removed bower
+
 <strong>2018-08-15: </strong> Added support for OIDC external login with Azure AD
 
 <strong>2018-08-15: </strong> Updated to Angular 6.1.2, fixed 2FA bug for TOTP
