@@ -162,3 +162,4 @@ src/ResourceWithIdentityServerWithClient/ResourceWithIdentityServerWithClient.cs
 /src/StsServerIdentity/obj
 /src/StsServerIdentity/bin
 /src/StsServerIdentity/node_modules
+/src/StsServerIdentity/package-lock.json
