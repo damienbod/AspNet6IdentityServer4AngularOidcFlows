@@ -1,4 +1,6 @@
-﻿@{
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@{
     ViewData["Title"] = "Generate two-factor authentication (2FA) recovery codes";
     ViewData.AddActivePage(ManageNavPages.TwoFactorAuthentication);
 }

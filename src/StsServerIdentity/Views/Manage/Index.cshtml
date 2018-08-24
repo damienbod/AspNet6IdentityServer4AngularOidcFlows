@@ -1,4 +1,6 @@
-﻿@model IndexViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model IndexViewModel
 @{
     ViewData["Title"] = "Profile";
     ViewData.AddActivePage(ManageNavPages.Index);

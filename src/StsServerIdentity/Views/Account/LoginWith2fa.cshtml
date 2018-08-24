@@ -1,4 +1,6 @@
-﻿@model LoginWith2faViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model LoginWith2faViewModel
 @{
     ViewData["Title"] = "Two-factor authentication";
 }
@@ -31,7 +33,7 @@
     </div>
 </div>
 <p>
-    Don't have access to your authenticator device? You can 
+    Don't have access to your authenticator device? You can
     <a asp-action="LoginWithRecoveryCode" asp-route-returnUrl="@ViewData["ReturnUrl"]">log in with a recovery code</a>.
 </p>
 

@@ -1,11 +1,11 @@
-﻿@model StsServerIdentity.Models.LoggedOutViewModel
-
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model StsServerIdentity.Models.LoggedOutViewModel
 <div class="page-header">
     <h1>
         Logout
         <small>You are now logged out</small>
     </h1>
-
     @if (Model.PostLogoutRedirectUri != null)
     {
         <div>
@@ -13,7 +13,6 @@
             <span>@Model.ClientName</span> application.
         </div>
     }
-
     @if (Model.SignOutIframeUrl != null)
     {
         <iframe style="display:none" width="0" height="0" class="signout" src="@Model.SignOutIframeUrl"></iframe>

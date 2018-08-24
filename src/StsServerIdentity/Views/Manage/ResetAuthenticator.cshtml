@@ -1,4 +1,6 @@
-﻿@{
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@{
     ViewData["Title"] = "Reset authenticator key";
     ViewData.AddActivePage(ManageNavPages.TwoFactorAuthentication);
 }

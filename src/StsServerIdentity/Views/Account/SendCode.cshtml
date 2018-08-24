@@ -1,10 +1,10 @@
-﻿@model SendCodeViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model SendCodeViewModel
 @{
     ViewData["Title"] = "Send Verification Code";
 }
-
 <h2>@ViewData["Title"].</h2>
-
 <form asp-controller="Account" asp-action="SendCode" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
     <input asp-for="RememberMe" type="hidden" />
     <div class="row">
@@ -15,7 +15,6 @@
         </div>
     </div>
 </form>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

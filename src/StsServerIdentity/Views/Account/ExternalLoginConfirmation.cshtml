@@ -1,16 +1,15 @@
-﻿@model ExternalLoginConfirmationViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model ExternalLoginConfirmationViewModel
 @{
     ViewData["Title"] = "Register";
 }
-
 <h2>@ViewData["Title"].</h2>
 <h3>Associate your @ViewData["LoginProvider"] account.</h3>
-
 <form asp-controller="Account" asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <h4>Association Form</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
-
     <p class="text-info">
         You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.
         Please enter an email address for this site below and click the Register button to finish
@@ -29,7 +28,6 @@
         </div>
     </div>
 </form>
-
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

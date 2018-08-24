@@ -1,4 +1,6 @@
-﻿@model EnableAuthenticatorViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model EnableAuthenticatorViewModel
 @{
     ViewData["Title"] = "Enable authenticator";
     ViewData.AddActivePage(ManageNavPages.TwoFactorAuthentication);

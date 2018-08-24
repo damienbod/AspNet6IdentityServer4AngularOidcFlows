@@ -1,10 +1,10 @@
-﻿@model VerifyCodeViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model VerifyCodeViewModel
 @{
     ViewData["Title"] = "Verify";
 }
-
 <h2>@ViewData["Title"].</h2>
-
 <form asp-controller="Account" asp-action="VerifyCode" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <div asp-validation-summary="All" class="text-danger"></div>
     <input asp-for="Provider" type="hidden" />
@@ -32,7 +32,6 @@
         </div>
     </div>
 </form>
-
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
