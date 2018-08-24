@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="container">
+    <div>
         <nav class="bg-dark mb-4 navbar navbar-dark navbar-expand-md">
-            <a asp-page="/Index" class="navbar-brand">
-                <em>IdentityServer4 Identity ASP.NET Core MVC</em>
+            <a  asp-controller="Home" asp-action="Index" class="navbar-brand">
+                <em>ID4 Identity</em>
             </a>
             <button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#topNavbarCollapse" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
@@ -25,21 +25,8 @@
                     <li class="nav-item">
                         <a  asp-controller="Home" asp-action="Index" class="nav-link">@SharedLocalizer.GetLocalizedHtmlString("HOME")</a>
                     </li>
-                    <li class="nav-item">
-                        <a asp-page="/About" class="nav-link">@SharedLocalizer.GetLocalizedHtmlString("ABOUT")</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-page="/Contact" class="nav-link">@SharedLocalizer.GetLocalizedHtmlString("CONTACT")</a>
-                    </li>
                 </ul>
                 <partial name="_LoginPartial" />
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://twitter.com/damien_bod">
-                            <img height="30" src="~/assets/damienbod.jpg" />
-                        </a>
-                    </li>
-                </ul>
             </div>
         </nav>
 
