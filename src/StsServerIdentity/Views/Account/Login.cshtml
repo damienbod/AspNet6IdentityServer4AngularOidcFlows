@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
-                        <button type="submit" class="btn btn-default">@SharedLocalizer.GetLocalizedHtmlString("login")</button>
+                        <button type="submit" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("login")</button>
                     </div>
                 </div>
                 <p>
@@ -62,7 +62,7 @@
                 @foreach (var provider in Model.ExternalProviders)
                 {
                     <li>
-                        <a class="btn btn-default"
+                        <a class="btn btn-primary"
                            asp-action="ExternalLogin"
                            asp-route-provider="@provider.AuthenticationScheme"
                            asp-route-returnUrl="@Model.ReturnUrl">
