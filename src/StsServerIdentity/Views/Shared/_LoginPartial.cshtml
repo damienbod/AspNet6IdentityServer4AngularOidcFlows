@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using StsServerIdentity.Models
-@using System.Globalization
 @using StsServerIdentity.Resources
 @inject LocService SharedLocalizer
 
@@ -15,7 +14,7 @@
                 <a class="nav-link" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
             <li class="nav-item">
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">@SharedLocalizer.GetLocalizedHtmlString("LOGOUT")</button>
             </li>
         </ul>
     </form>
@@ -23,7 +22,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">@SharedLocalizer.GetLocalizedHtmlString("register")</a></li>
-        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">@SharedLocalizer.GetLocalizedHtmlString("login")</a></li>
+        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">@SharedLocalizer.GetLocalizedHtmlString("REGISTER")</a></li>
+        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">@SharedLocalizer.GetLocalizedHtmlString("ACCOUNT_LOGIN")</a></li>
     </ul>
 }
