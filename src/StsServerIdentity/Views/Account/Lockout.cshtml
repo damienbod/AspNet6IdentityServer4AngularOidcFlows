@@ -1,9 +1,10 @@
 ﻿@using StsServerIdentity.Resources
 @inject LocService SharedLocalizer
 @{
-    ViewData["Title"] = "Locked out";
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("LOCKED_OUT");
 }
 <header>
-    <h1 class="text-danger">Locked out.</h1>
-    <p class="text-danger">This account has been locked out, please try again later.</p>
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">@SharedLocalizer.GetLocalizedHtmlString("LOCKED_OUT_TEXT")</p>
 </header>
+
