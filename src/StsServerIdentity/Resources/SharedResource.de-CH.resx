@@ -579,4 +579,7 @@
   <data name="LOGOUT_RETURN_TO" xml:space="preserve">
     <value>Return to DE</value>
   </data>
+  <data name="WOULD_YOU_LIKE_TO_LOGOUT" xml:space="preserve">
+    <value>Möchten Sie sich von IdentityServer abmelden?</value>
+  </data>
 </root>
