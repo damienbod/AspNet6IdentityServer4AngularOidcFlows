@@ -1,7 +1,7 @@
 ﻿@using StsServerIdentity.Resources
 @inject LocService SharedLocalizer
 @{
-    ViewData["Title"] = "Generate two-factor authentication (2FA) recovery codes";
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("GENERATE_2FA_RECOVERY_CODES");
     ViewData.AddActivePage(ManageNavPages.TwoFactorAuthentication);
 }
 
@@ -10,19 +10,19 @@
 <div class="alert alert-warning" role="alert">
     <p>
         <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>This action generates new recovery codes.</strong>
+        <strong>@SharedLocalizer.GetLocalizedHtmlString("GENERATE_2FA_RECOVERY_CODES_SAFE_PLACE")</strong>
     </p>
     <p>
-        If you lose your device and don't have the recovery codes you will lose access to your account.
+        @SharedLocalizer.GetLocalizedHtmlString("GENERATE_2FA_RECOVERY_CODES_INFO_LOSE")
     </p>
     <p>
-        Generating new recovery codes does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-action="ResetAuthenticatorWarning">reset your authenticator keys.</a>
+        @SharedLocalizer.GetLocalizedHtmlString("GENERATE_2FA_RECOVERY_CODES_TEXT")
+        <a asp-action="ResetAuthenticatorWarning">@SharedLocalizer.GetLocalizedHtmlString("GENERATE_2FA_RECOVERY_CODES_TEXT_LINK")</a>
     </p>
 </div>
 
 <div>
     <form asp-action="GenerateRecoveryCodes" method="post" class="form-group">
-        <button class="btn btn-danger" type="submit">Generate Recovery Codes</button>
+        <button class="btn btn-danger" type="submit">@SharedLocalizer.GetLocalizedHtmlString("GENERATE_RECOVERY_CODES")</button>
     </form>
 </div>
