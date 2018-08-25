@@ -540,4 +540,43 @@
   <data name="VERIFY" xml:space="preserve">
     <value>Überprüfen</value>
   </data>
+  <data name="ACCOUNT_CLICK_LOGIN_LINK" xml:space="preserve">
+    <value>Klicken Sie auf die Login-Link</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_WITH_AZURE_AD" xml:space="preserve">
+    <value>Einloggen mit Azure AD</value>
+  </data>
+  <data name="REMEMBER_BROWSER" xml:space="preserve">
+    <value>Browser merken</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="CONSENT_APPLICATION_ACCESS" xml:space="preserve">
+    <value>Applikation Zugriff</value>
+  </data>
+  <data name="CONSENT_IS_CHECK_UNREQUIRED" xml:space="preserve">
+    <value>Uncheck the permissions you do not wish to grant. DE</value>
+  </data>
+  <data name="CONSENT_IS_REQUESTING_YOUR_PERMISSION" xml:space="preserve">
+    <value>is requesting your permission DE</value>
+  </data>
+  <data name="CONSENT_NO_NOT_ALLOWED" xml:space="preserve">
+    <value>No, Do Not Allow DE</value>
+  </data>
+  <data name="CONSENT_PERSONAL_INFORMATION" xml:space="preserve">
+    <value>Personal Information DE</value>
+  </data>
+  <data name="CONSENT_REMEMBER_MY_DECISION" xml:space="preserve">
+    <value>Remember My Decision DE</value>
+  </data>
+  <data name="CONSENT_REQUIRED" xml:space="preserve">
+    <value>(required DE)</value>
+  </data>
+  <data name="CONSENT_YES_ALLOWED" xml:space="preserve">
+    <value>Ja, ist Ok</value>
+  </data>
+  <data name="LOGOUT_RETURN_TO" xml:space="preserve">
+    <value>Return to DE</value>
+  </data>
 </root>

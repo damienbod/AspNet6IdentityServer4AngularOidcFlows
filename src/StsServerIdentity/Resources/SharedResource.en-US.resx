@@ -543,4 +543,43 @@
   <data name="USERNAME" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="ACCOUNT_CLICK_LOGIN_LINK" xml:space="preserve">
+    <value>Click the login button</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_WITH_AZURE_AD" xml:space="preserve">
+    <value>Login with Azure AD</value>
+  </data>
+  <data name="REMEMBER_BROWSER" xml:space="preserve">
+    <value>Remember Browser</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="CONSENT_APPLICATION_ACCESS" xml:space="preserve">
+    <value>Application Access</value>
+  </data>
+  <data name="CONSENT_IS_CHECK_UNREQUIRED" xml:space="preserve">
+    <value>Uncheck the permissions you do not wish to grant.</value>
+  </data>
+  <data name="CONSENT_IS_REQUESTING_YOUR_PERMISSION" xml:space="preserve">
+    <value>is requesting your permission</value>
+  </data>
+  <data name="CONSENT_NO_NOT_ALLOWED" xml:space="preserve">
+    <value>No, Do Not Allow</value>
+  </data>
+  <data name="CONSENT_PERSONAL_INFORMATION" xml:space="preserve">
+    <value>Personal Information</value>
+  </data>
+  <data name="CONSENT_REMEMBER_MY_DECISION" xml:space="preserve">
+    <value>Remember My Decision</value>
+  </data>
+  <data name="CONSENT_REQUIRED" xml:space="preserve">
+    <value>(required)</value>
+  </data>
+  <data name="CONSENT_YES_ALLOWED" xml:space="preserve">
+    <value>Yes, Allow</value>
+  </data>
+  <data name="LOGOUT_RETURN_TO" xml:space="preserve">
+    <value>Return to</value>
+  </data>
 </root>
