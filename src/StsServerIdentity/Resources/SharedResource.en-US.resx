@@ -609,4 +609,13 @@
   <data name="CODE_REQUIRED" xml:space="preserve">
     <value>Code is required</value>
   </data>
+  <data name="INVALID_CODE" xml:space="preserve">
+    <value>Invalid code.</value>
+  </data>
+  <data name="INVALID_CONSENT_PERMISSION" xml:space="preserve">
+    <value>You must pick at least one permission.</value>
+  </data>
+  <data name="INVALID_CONSENT_SELECTION" xml:space="preserve">
+    <value>Invalid Selection</value>
+  </data>
 </root>

@@ -17,6 +17,9 @@ using IdentityServer4;
 using IdentityServer4.Extensions;
 using System.Globalization;
 using StsServerIdentity.Services;
+using Microsoft.Extensions.Localization;
+using StsServerIdentity.Resources;
+using System.Reflection;
 
 namespace StsServerIdentity.Controllers
 {
@@ -30,6 +33,7 @@ namespace StsServerIdentity.Controllers
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IPersistedGrantService _persistedGrantService;
+        private readonly IStringLocalizer _sharedLocalizer;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -38,7 +42,8 @@ namespace StsServerIdentity.Controllers
             IEmailSender emailSender,
             ILoggerFactory loggerFactory,
             IIdentityServerInteractionService interaction,
-            IClientStore clientStore)
+            IClientStore clientStore,
+            IStringLocalizerFactory factory)
         {
             _userManager = userManager;
             _persistedGrantService = persistedGrantService;
@@ -47,6 +52,10 @@ namespace StsServerIdentity.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
             _interaction = interaction;
             _clientStore = clientStore;
+
+            var type = typeof(SharedResource);
+            var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+            _sharedLocalizer = factory.Create("SharedResource", assemblyName.Name);
         }
 
         //
@@ -104,7 +113,7 @@ namespace StsServerIdentity.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, _sharedLocalizer["INVALID_LOGIN_ATTEMPT"]);
                     return View(await BuildLoginViewModelAsync(model));
                 }
             }
@@ -274,7 +283,6 @@ namespace StsServerIdentity.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // TODO @Thomas Do all emails need to be validated
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
@@ -312,7 +320,7 @@ namespace StsServerIdentity.Controllers
         {
             if (remoteError != null)
             {
-                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                ModelState.AddModelError(string.Empty, _sharedLocalizer["EXTERNAL_PROVIDER_ERROR", remoteError]);
                 return View(nameof(Login));
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -603,7 +611,7 @@ namespace StsServerIdentity.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid code.");
+                ModelState.AddModelError(string.Empty, _sharedLocalizer["INVALID_CODE"]);
                 return View(model);
             }
         }
