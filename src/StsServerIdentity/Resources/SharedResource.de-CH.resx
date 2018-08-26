@@ -609,4 +609,10 @@
   <data name="INVALID_CODE" xml:space="preserve">
     <value>Ungültiger Code</value>
   </data>
+  <data name="INVALID_CONSENT_PERMISSION" xml:space="preserve">
+    <value>Sie müssen mindestens eine Berechtigung auswählen.</value>
+  </data>
+  <data name="INVALID_CONSENT_SELECTION" xml:space="preserve">
+    <value>Ungültige Auswahl</value>
+  </data>
 </root>

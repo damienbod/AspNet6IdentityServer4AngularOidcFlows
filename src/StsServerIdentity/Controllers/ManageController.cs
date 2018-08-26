@@ -416,7 +416,7 @@ namespace StsServerIdentity.Controllers
 
             if (!is2faTokenValid)
             {
-                ModelState.AddModelError("Code", "Verification code is invalid.");
+                ModelState.AddModelError("Code", _sharedLocalizer["INVALID_VERFICATION_CODE"]);
                 await LoadSharedKeyAndQrCodeUriAsync(user, model);
                 return View(model);
             }

@@ -7,6 +7,9 @@ using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using StsServerIdentity.Models;
 using StsServerIdentity.Filters;
+using Microsoft.Extensions.Localization;
+using StsServerIdentity.Resources;
+using System.Reflection;
 
 namespace StsServerIdentity.Controllers
 {
@@ -20,17 +23,23 @@ namespace StsServerIdentity.Controllers
         private readonly IClientStore _clientStore;
         private readonly IResourceStore _resourceStore;
         private readonly IIdentityServerInteractionService _interaction;
-        
+        private readonly IStringLocalizer _sharedLocalizer;
+
         public ConsentController(
             ILogger<ConsentController> logger,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
-            IResourceStore resourceStore)
+            IResourceStore resourceStore,
+            IStringLocalizerFactory factory)
         {
             _logger = logger;
             _interaction = interaction;
             _clientStore = clientStore;
             _resourceStore = resourceStore;
+
+            var type = typeof(SharedResource);
+            var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+            _sharedLocalizer = factory.Create("SharedResource", assemblyName.Name);
         }
 
         /// <summary>
@@ -80,12 +89,12 @@ namespace StsServerIdentity.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "You must pick at least one permission.");
+                    ModelState.AddModelError("", _sharedLocalizer["INVALID_CONSENT_PERMISSION"]);
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Invalid Selection");
+                ModelState.AddModelError("", _sharedLocalizer["INVALID_CONSENT_SELECTION"]);
             }
 
             if (response != null)
