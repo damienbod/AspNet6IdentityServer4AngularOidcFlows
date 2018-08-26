@@ -588,6 +588,12 @@
   <data name="LANGUAGE" xml:space="preserve">
     <value>Sprache</value>
   </data>
+  <data name="RESET_PASSWORD_CLICK_HERE_TO_LOGIN" xml:space="preserve">
+    <value>Klicken Sie hier, um sich einzuloggen</value>
+  </data>
+  <data name="RESET_PASSWORD_YOUR_PASSWORD_HAS_BEEN_RESET" xml:space="preserve">
+    <value>Dein Passwort wurde zurück gesetzt.</value>
+  </data>
   <data name="UNSUCCESSFUL_LOGIN_WITH_SERVICE" xml:space="preserve">
     <value>Nicht erfolgreiche Anmeldung mit Service.</value>
   </data>
