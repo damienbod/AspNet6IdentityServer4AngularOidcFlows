@@ -606,4 +606,7 @@
   <data name="CODE_REQUIRED" xml:space="preserve">
     <value>Code ist erforderlich</value>
   </data>
+  <data name="INVALID_CODE" xml:space="preserve">
+    <value>Ungültiger Code</value>
+  </data>
 </root>

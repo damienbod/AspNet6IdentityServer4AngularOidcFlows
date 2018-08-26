@@ -113,7 +113,7 @@ namespace StsServerIdentity.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, _sharedLocalizer["INVALID_LOGIN_ATTEMPT"]);
                     return View(await BuildLoginViewModelAsync(model));
                 }
             }
@@ -321,7 +321,7 @@ namespace StsServerIdentity.Controllers
         {
             if (remoteError != null)
             {
-                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                ModelState.AddModelError(string.Empty, _sharedLocalizer["EXTERNAL_PROVIDER_ERROR", remoteError]);
                 return View(nameof(Login));
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -612,7 +612,7 @@ namespace StsServerIdentity.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid code.");
+                ModelState.AddModelError(string.Empty, _sharedLocalizer["INVALID_CODE"]);
                 return View(model);
             }
         }

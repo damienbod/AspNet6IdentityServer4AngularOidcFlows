@@ -609,4 +609,7 @@
   <data name="CODE_REQUIRED" xml:space="preserve">
     <value>Code is required</value>
   </data>
+  <data name="INVALID_CODE" xml:space="preserve">
+    <value>Invalid code.</value>
+  </data>
 </root>
