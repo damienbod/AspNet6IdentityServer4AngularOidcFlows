@@ -1,12 +1,9 @@
-﻿@using System.Globalization
-@using StsServerIdentity.Resources
+﻿@using StsServerIdentity.Resources
 @model StsServerIdentity.Models.LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
-
 @inject LocService SharedLocalizer
-
 @{
-    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("login");
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("ACCOUNT_LOGIN");
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -16,35 +13,35 @@
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label">@SharedLocalizer.GetLocalizedHtmlString("email")</label>
+                    <label class="col-md-4 control-label">@SharedLocalizer.GetLocalizedHtmlString("EMAIL")</label>
                     <div class="col-md-8">
                         <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label">@SharedLocalizer.GetLocalizedHtmlString("password")</label>
+                    <label class="col-md-4 control-label">@SharedLocalizer.GetLocalizedHtmlString("PASSWORD")</label>
                     <div class="col-md-8">
                         <input asp-for="Password" class="form-control" type="password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label">@SharedLocalizer.GetLocalizedHtmlString("rememberMe")</label>
+                    <label class="col-md-4 control-label">@SharedLocalizer.GetLocalizedHtmlString("REMEMBER_ME")</label>
                     <div class="checkbox col-md-8">
                         <input asp-for="RememberLogin" />
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-4 col-md-8">
-                        <button type="submit" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("login")</button>
+                        <button type="submit" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("ACCOUNT_LOGIN")</button>
                     </div>
                 </div>
                 <p>
-                    <a asp-action="Register" asp-route-returnurl="@Model.ReturnUrl">@SharedLocalizer.GetLocalizedHtmlString("registerAsNewUser")</a>
+                    <a asp-action="Register" asp-route-returnurl="@Model.ReturnUrl">@SharedLocalizer.GetLocalizedHtmlString("REGISTER_AS_NEW_USER")</a>
                 </p>
                 <p>
-                    <a asp-action="ForgotPassword">@SharedLocalizer.GetLocalizedHtmlString("forgotYourPassword")</a>
+                    <a asp-action="ForgotPassword">@SharedLocalizer.GetLocalizedHtmlString("FORGOT_YOUR_PASSWORD")</a>
                 </p>
             </form>
         </section>

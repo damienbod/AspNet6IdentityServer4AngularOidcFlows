@@ -1,4 +1,6 @@
-﻿@model ShowRecoveryCodesViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model ShowRecoveryCodesViewModel
 @{
     ViewData["Title"] = "Recovery codes";
     ViewData.AddActivePage(ManageNavPages.TwoFactorAuthentication);

@@ -1,11 +1,13 @@
-﻿@{ 
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage your account</h2>
+<h2>@SharedLocalizer.GetLocalizedHtmlString("MANAGE_YOUR_ACCOUNT")</h2>
 
 <div>
-    <h4>Change your account settings</h4>
+    <h4>@SharedLocalizer.GetLocalizedHtmlString("MANAGE_CHANGE_ACCOUNT_SETTINGS")</h4>
     <hr />
     <div class="row">
         <div class="col-md-3">
@@ -20,4 +22,4 @@
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
-        
+

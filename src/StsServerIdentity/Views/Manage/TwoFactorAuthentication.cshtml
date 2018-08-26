@@ -1,6 +1,8 @@
+@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
 @model TwoFactorAuthenticationViewModel
 @{
-    ViewData["Title"] = "Two-factor authentication";
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("2FA_AUTHENTICATION_TITLE");
     ViewData.AddActivePage(ManageNavPages.TwoFactorAuthentication);
 }
 
@@ -10,38 +12,39 @@
     if (Model.RecoveryCodesLeft == 0)
     {
         <div class="alert alert-danger">
-            <strong>You have no recovery codes left.</strong>
+            <strong>@SharedLocalizer.GetLocalizedHtmlString("2FA_NO_CODES_LEFT")</strong>
             <p>You must <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+            <p>@SharedLocalizer.GetLocalizedHtmlString("2FA_NO_CODES_LEFT_TEXT") <a asp-action="GenerateRecoveryCodes">@SharedLocalizer.GetLocalizedHtmlString("GENERATE")</a></p>
         </div>
     }
     else if (Model.RecoveryCodesLeft == 1)
     {
         <div class="alert alert-danger">
-            <strong>You have 1 recovery code left.</strong>
-            <p>You can <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+            <strong>@SharedLocalizer.GetLocalizedHtmlString("2FA_ONE_CODES_LEFT")</strong>
+            <p>@SharedLocalizer.GetLocalizedHtmlString("2FA_ONE_CODES_LEFT_TEXT")  You can generate a new set of recovery codes. <a asp-action="GenerateRecoveryCodes">@SharedLocalizer.GetLocalizedHtmlString("GENERATE")</a></p>
         </div>
     }
     else if (Model.RecoveryCodesLeft <= 3)
     {
         <div class="alert alert-warning">
-            <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
-            <p>You should <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+            <strong>@SharedLocalizer.GetLocalizedHtmlString("2FA_N_CODES_LEFT", @Model.RecoveryCodesLeft.ToString())</strong>
+            <p>@SharedLocalizer.GetLocalizedHtmlString("2FA_N_CODES_LEFT_TEXT") <a asp-action="GenerateRecoveryCodes">@SharedLocalizer.GetLocalizedHtmlString("GENERATE")</a></p>
         </div>
     }
 
-    <a asp-action="Disable2faWarning" class="btn btn-primary">Disable 2FA</a>
-    <a asp-action="GenerateRecoveryCodesWarning" class="btn btn-primary">Reset recovery codes</a>
+    <a asp-action="Disable2faWarning" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("DISABLE_2FA_BUTTON")</a>
+    <a asp-action="GenerateRecoveryCodesWarning" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("RESET_RECOVERY_CODES")</a>
 }
 
-<h5>Authenticator app</h5>
+<h5>@SharedLocalizer.GetLocalizedHtmlString("AUTHENTICATOR_APP")</h5>
 @if (!Model.HasAuthenticator)
 {
-    <a asp-action="EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
+    <a id="enable-authenticator"  asp-action="EnableAuthenticator" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("2FA_AUTHENTICATION_ADD_AUTHENTICATOR_APP")</a>
 }
 else
 {
-    <a asp-action="EnableAuthenticator" class="btn btn-primary">Configure authenticator app</a>
-    <a asp-action="ResetAuthenticatorWarning" class="btn btn-primary">Reset authenticator key</a>
+    <a id="enable-authenticator" asp-action="EnableAuthenticator" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("2FA_AUTHENTICATION_ADD_SETUP_APP")</a>
+    <a id="reset-authenticator" asp-action="ResetAuthenticatorWarning" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("2FA_AUTHENTICATION_ADD_RESET_APP")</a>
 }
 
 @section Scripts {

@@ -1,30 +1,32 @@
-﻿@model RegisterViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("REGISTER");
 }
 
 <h2>@ViewData["Title"].</h2>
 
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-    <h4>Create a new account.</h4>
+    <h4>@SharedLocalizer.GetLocalizedHtmlString("CREATE_A_NEW_ACCOUNT")</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
+        <label asp-for="Email" class="col-md-2 control-label">@SharedLocalizer.GetLocalizedHtmlString("EMAIL")</label>
         <div class="col-md-10">
             <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label"></label>
+        <label asp-for="Password" class="col-md-2 control-label">@SharedLocalizer.GetLocalizedHtmlString("PASSWORD")</label>
         <div class="col-md-10">
             <input asp-for="Password" class="form-control" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+        <label asp-for="ConfirmPassword" class="col-md-2 control-label">@SharedLocalizer.GetLocalizedHtmlString("CONFIRM_PASSWORD")</label>
         <div class="col-md-10">
             <input asp-for="ConfirmPassword" class="form-control" />
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
@@ -32,7 +34,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("REGISTER")</button>
         </div>
     </div>
 </form>

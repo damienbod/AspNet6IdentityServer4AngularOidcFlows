@@ -18,5 +18,10 @@ namespace StsServerIdentity.Resources
         {
             return _localizer[key];
         }
+
+        public LocalizedString GetLocalizedHtmlString(string key, string parameter)
+        {
+            return _localizer[key, parameter];
+        }
     }
 }

@@ -1,16 +1,16 @@
-﻿@model StsServerIdentity.Models.LoggedOutViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model StsServerIdentity.Models.LoggedOutViewModel
 
 <div class="page-header">
     <h1>
-        Logout
-        <small>You are now logged out</small>
+        <small>@SharedLocalizer.GetLocalizedHtmlString("LOGOUT_TEXT")</small>
     </h1>
 
     @if (Model.PostLogoutRedirectUri != null)
     {
         <div>
-            Click <a href="@Model.PostLogoutRedirectUri">here</a> to return to the
-            <span>@Model.ClientName</span> application.
+            @SharedLocalizer.GetLocalizedHtmlString("LOGOUT_RETURN_TO") <a href="@Model.PostLogoutRedirectUri">@Model.ClientName</a>
         </div>
     }
 

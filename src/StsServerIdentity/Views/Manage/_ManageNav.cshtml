@@ -8,12 +8,12 @@
 
 <nav class="navbar navbar-light">
     <ul class="mr-auto navbar-nav">
-        <li class="nav-item @ManageNavPages.IndexNavClass(ViewContext)"><a class="nav-link" asp-action="Index">Profile</a></li>
-        <li class="nav-item @ManageNavPages.ChangePasswordNavClass(ViewContext)"><a class="nav-link" id="change-password" asp-action="ChangePassword">Password</a></li>
+        <li class="nav-item @ManageNavPages.IndexNavClass(ViewContext)"><a class="nav-link" asp-action="Index">@SharedLocalizer.GetLocalizedHtmlString("PROFILE")</a></li>
+        <li class="nav-item @ManageNavPages.ChangePasswordNavClass(ViewContext)"><a class="nav-link" id="change-password" asp-action="ChangePassword">@SharedLocalizer.GetLocalizedHtmlString("PASSWORD")</a></li>
         @if (hasExternalLogins)
         {
-            <li class="nav-item @ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a class="nav-link" id="external-login" asp-action="ExternalLogins">External logins</a></li>
+            <li class="nav-item @ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a class="nav-link" id="external-login" asp-action="ExternalLogins">@SharedLocalizer.GetLocalizedHtmlString("EXTERNAL_LOGINS")</a></li>
         }
-        <li class="nav-item @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a class="nav-link" asp-action="TwoFactorAuthentication">Two-factor authentication</a></li>
+        <li class="nav-item @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a class="nav-link" asp-action="TwoFactorAuthentication">@SharedLocalizer.GetLocalizedHtmlString("2FA")</a></li>
     </ul>
 </nav>
