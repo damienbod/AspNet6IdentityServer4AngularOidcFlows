@@ -476,12 +476,59 @@ namespace StsServerIdentity.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> DeletePersonalData()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
+            }
+
+            var deletePersonalDataViewModel = new DeletePersonalDataViewModel();
+            deletePersonalDataViewModel.RequirePassword = await _userManager.HasPasswordAsync(user);
+            return View(deletePersonalDataViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePersonalData(DeletePersonalDataViewModel deletePersonalDataViewModel)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
+            }
+
+            deletePersonalDataViewModel.RequirePassword = await _userManager.HasPasswordAsync(user);
+            if (deletePersonalDataViewModel.RequirePassword)
+            {
+                if (!await _userManager.CheckPasswordAsync(user, deletePersonalDataViewModel.Password))
+                {
+                    ModelState.AddModelError(string.Empty, _sharedLocalizer["INCORRECT_PASSWORD"]);
+                    return View(deletePersonalDataViewModel);
+                }
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            var userId = await _userManager.GetUserIdAsync(user);
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{userId}'.");
+            }
+
+            await _signInManager.SignOutAsync();
+
+            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+
+            return Redirect("~/");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GenerateRecoveryCodesWarning()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
             }
 
             if (!user.TwoFactorEnabled)
