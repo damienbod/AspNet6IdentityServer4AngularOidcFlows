@@ -478,6 +478,7 @@ namespace StsServerIdentity.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DownloadPersonalData()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -516,6 +517,7 @@ namespace StsServerIdentity.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePersonalData(DeletePersonalDataViewModel deletePersonalDataViewModel)
         {
             var user = await _userManager.GetUserAsync(User);
