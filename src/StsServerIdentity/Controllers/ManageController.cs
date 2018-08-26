@@ -112,7 +112,7 @@ namespace StsServerIdentity.Controllers
                 }
             }
 
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = _sharedLocalizer["STATUS_MESSAGE_PROFILE_HAS_BEEN_RESET"];
             return RedirectToAction(nameof(Index));
         }
 
