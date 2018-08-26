@@ -15,5 +15,6 @@
             <li class="nav-item @ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a class="nav-link" id="external-login" asp-action="ExternalLogins">@SharedLocalizer.GetLocalizedHtmlString("EXTERNAL_LOGINS")</a></li>
         }
         <li class="nav-item @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a class="nav-link" asp-action="TwoFactorAuthentication">@SharedLocalizer.GetLocalizedHtmlString("2FA")</a></li>
+        <li class="nav-item @ManageNavPages.PersonalDataNavClass(ViewContext)"><a class="nav-link" asp-action="PersonalData">@SharedLocalizer.GetLocalizedHtmlString("PERSONAL_DATA")</a></li>
     </ul>
 </nav>
