@@ -1,6 +1,6 @@
 ﻿@using StsServerIdentity.Resources
 @inject LocService SharedLocalizer
-@model PersonalDataModel
+@model PersonalDataViewModel
 @{
     ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("PERSONAL_DATA");
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
@@ -18,7 +18,7 @@
             <button class="btn btn-primary" type="submit">@SharedLocalizer.GetLocalizedHtmlString("DOWNLOAD")</button>
         </form>
         <p>
-            <a asp-page="DeletePersonalData" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("DELETE")</a>
+            <a asp-action="DeletePersonalData" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("DELETE")</a>
         </p>
     </div>
 </div>

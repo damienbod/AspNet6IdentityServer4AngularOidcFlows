@@ -18,6 +18,10 @@ namespace StsServerIdentity.Views.Manage
 
         public static string PersonalData => "PersonalData";
 
+        public static string DownloadPersonalData => "DownloadPersonalData";
+
+        public static string DeletePersonalData => "DeletePersonalData";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
@@ -27,6 +31,10 @@ namespace StsServerIdentity.Views.Manage
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
+
+        public static string DownloadPersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, DownloadPersonalData);
+
+        public static string DeletePersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, DeletePersonalData);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

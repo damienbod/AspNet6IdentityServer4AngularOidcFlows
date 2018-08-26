@@ -1,0 +1,13 @@
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model DownloadPersonalDataViewModel
+@{
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("DOWNLOAD_YOUR_DATA");
+    ViewData["ActivePage"] = ManageNavPages.DownloadPersonalData;
+}
+
+<h4>@ViewData["Title"]</h4>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
