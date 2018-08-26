@@ -14,6 +14,8 @@ using StsServerIdentity.Services;
 using Microsoft.Extensions.Localization;
 using StsServerIdentity.Resources;
 using System.Reflection;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace StsServerIdentity.Controllers
 {
@@ -473,6 +475,30 @@ namespace StsServerIdentity.Controllers
             }
 
             return View(new PersonalDataViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DownloadPersonalData()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
+            }
+
+            _logger.LogInformation("User with ID '{UserId}' asked for their personal data.", _userManager.GetUserId(User));
+
+            // Only include personal data for download
+            var personalData = new Dictionary<string, string>();
+            var personalDataProps = typeof(IdentityUser).GetProperties().Where(
+                            prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
+            foreach (var p in personalDataProps)
+            {
+                personalData.Add(p.Name, p.GetValue(user)?.ToString() ?? "null");
+            }
+
+            Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
+            return new FileContentResult(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(personalData)), "text/json");
         }
 
         [HttpGet]
