@@ -9,5 +9,5 @@ namespace StsServerIdentity.Models.ManageViewModels
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "PASSWORD_REQUIRED")]
         public string Password { get; set; }
-}
+    }
 }

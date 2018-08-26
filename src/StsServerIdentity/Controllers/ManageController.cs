@@ -474,7 +474,7 @@ namespace StsServerIdentity.Controllers
                 return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
             }
 
-            return View(new PersonalDataViewModel());
+            return View();
         }
 
         [HttpPost]
