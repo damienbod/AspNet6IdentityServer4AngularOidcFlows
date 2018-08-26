@@ -2,22 +2,22 @@
 @inject LocService SharedLocalizer
 @model IndexViewModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("PROFILE");
     ViewData.AddActivePage(ManageNavPages.Index);
 }
 
 <h4>@ViewData["Title"]</h4>
-@Html.Partial("_StatusMessage", Model.StatusMessage)
+@Html.PartialAsync("_StatusMessage", Model.StatusMessage)
 <div class="row">
     <div class="col-md-6">
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Username"></label>
+                <label asp-for="Username">@SharedLocalizer.GetLocalizedHtmlString("USERNAME")</label>
                 <input asp-for="Username" class="form-control" disabled />
             </div>
             <div class="form-group">
-                <label asp-for="Email"></label>
+                <label asp-for="Email">@SharedLocalizer.GetLocalizedHtmlString("EMAIL")</label>
                 @if (Model.IsEmailConfirmed)
                 {
                     <div class="input-group">
@@ -28,16 +28,16 @@
                 else
                 {
                     <input asp-for="Email" class="form-control" />
-                    <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                    <button asp-action="SendVerificationEmail" class="btn btn-link">@SharedLocalizer.GetLocalizedHtmlString("SEND_VERIFICATION_EMAIL")</button>
                 }
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber"></label>
+                <label asp-for="PhoneNumber">@SharedLocalizer.GetLocalizedHtmlString("PHONE_NUMBER")</label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("SAVE")</button>
         </form>
     </div>
 </div>
