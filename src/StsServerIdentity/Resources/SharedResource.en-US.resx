@@ -618,4 +618,7 @@
   <data name="INVALID_CONSENT_SELECTION" xml:space="preserve">
     <value>Invalid Selection</value>
   </data>
+  <data name="STATUS_MESSAGE_PROFILE_HAS_BEEN_RESET" xml:space="preserve">
+    <value>Your profile has been updated</value>
+  </data>
 </root>
