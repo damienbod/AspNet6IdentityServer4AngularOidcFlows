@@ -8,8 +8,8 @@ namespace StsServerIdentity.Models.ManageViewModels
 
         public bool IsEmailConfirmed { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "EMAIL_REQUIRED")]
+        [EmailAddress(ErrorMessage = "EMAIL_INVALID")]
         public string Email { get; set; }
 
         [Phone]

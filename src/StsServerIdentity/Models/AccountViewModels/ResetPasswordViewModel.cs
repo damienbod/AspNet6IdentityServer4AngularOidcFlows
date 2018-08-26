@@ -4,8 +4,8 @@ namespace StsServerIdentity.Models.AccountViewModels
 {
     public class ResetPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "EMAIL_REQUIRED")]
+        [EmailAddress(ErrorMessage = "EMAIL_INVALID")]
         public string Email { get; set; }
 
         [Required]
