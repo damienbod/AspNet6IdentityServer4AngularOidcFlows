@@ -11,6 +11,11 @@ using Microsoft.Extensions.Logging;
 using StsServerIdentity.Models.ManageViewModels;
 using StsServerIdentity.Models;
 using StsServerIdentity.Services;
+using Microsoft.Extensions.Localization;
+using StsServerIdentity.Resources;
+using System.Reflection;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace StsServerIdentity.Controllers
 {
@@ -27,18 +32,25 @@ namespace StsServerIdentity.Controllers
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
+        private readonly IStringLocalizer _sharedLocalizer;
+
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          IStringLocalizerFactory factory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+
+            var type = typeof(SharedResource);
+            var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+            _sharedLocalizer = factory.Create("SharedResource", assemblyName.Name);
         }
 
         [TempData]
@@ -454,12 +466,95 @@ namespace StsServerIdentity.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> PersonalData()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DownloadPersonalData()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
+            }
+
+            _logger.LogInformation("User with ID '{UserId}' asked for their personal data.", _userManager.GetUserId(User));
+
+            // Only include personal data for download
+            var personalData = new Dictionary<string, string>();
+            var personalDataProps = typeof(IdentityUser).GetProperties().Where(
+                            prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
+            foreach (var p in personalDataProps)
+            {
+                personalData.Add(p.Name, p.GetValue(user)?.ToString() ?? "null");
+            }
+
+            Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
+            return new FileContentResult(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(personalData)), "text/json");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeletePersonalData()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
+            }
+
+            var deletePersonalDataViewModel = new DeletePersonalDataViewModel();
+            deletePersonalDataViewModel.RequirePassword = await _userManager.HasPasswordAsync(user);
+            return View(deletePersonalDataViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletePersonalData(DeletePersonalDataViewModel deletePersonalDataViewModel)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
+            }
+
+            deletePersonalDataViewModel.RequirePassword = await _userManager.HasPasswordAsync(user);
+            if (deletePersonalDataViewModel.RequirePassword)
+            {
+                if (!await _userManager.CheckPasswordAsync(user, deletePersonalDataViewModel.Password))
+                {
+                    ModelState.AddModelError(string.Empty, _sharedLocalizer["INCORRECT_PASSWORD"]);
+                    return View(deletePersonalDataViewModel);
+                }
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            var userId = await _userManager.GetUserIdAsync(user);
+            if (!result.Succeeded)
+            {
+                throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{userId}'.");
+            }
+
+            await _signInManager.SignOutAsync();
+
+            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+
+            return Redirect("~/");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GenerateRecoveryCodesWarning()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
             }
 
             if (!user.TwoFactorEnabled)
