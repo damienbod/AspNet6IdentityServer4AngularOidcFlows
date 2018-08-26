@@ -303,7 +303,7 @@
   <data name="EXTERNAL_LOGINS" xml:space="preserve">
     <value>Externe Logins</value>
   </data>
-  <data name="MANAGE_CAHNGE_ACCOUNT_SETTINGS" xml:space="preserve">
+  <data name="MANAGE_CHANGE_ACCOUNT_SETTINGS" xml:space="preserve">
     <value>Ändern Sie Ihre Benutzereinstellungen</value>
   </data>
   <data name="MANAGE_YOUR_ACCOUNT" xml:space="preserve">
