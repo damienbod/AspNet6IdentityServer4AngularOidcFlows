@@ -140,7 +140,7 @@ namespace StsServerIdentity.Controllers
                $"Please verify by clicking here: {callbackUrl}",
                "Hi Sir");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = _sharedLocalizer["STATUS_UPDATE_PROFILE_EMAIL_SEND"];
             return RedirectToAction(nameof(Index));
         }
 
@@ -187,7 +187,7 @@ namespace StsServerIdentity.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = _sharedLocalizer["CHANGE_PASSWORD_STATUS"];
 
             return RedirectToAction(nameof(ChangePassword));
         }
@@ -235,7 +235,7 @@ namespace StsServerIdentity.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            StatusMessage = "Your password has been set.";
+            StatusMessage = _sharedLocalizer["SET_PASSWORD_STATUS"];
 
             return RedirectToAction(nameof(SetPassword));
         }
@@ -296,7 +296,7 @@ namespace StsServerIdentity.Controllers
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            StatusMessage = "The external login was added.";
+            StatusMessage = _sharedLocalizer["STATUS_EXTERNAL_LOGIN_ADDED"];
             return RedirectToAction(nameof(ExternalLogins));
         }
 
