@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2018-08-26: </strong> Added localization support to STS 
+
 <strong>2018-08-18: </strong> Updated npm packages, small angular fixes in the auth lib, removed bower
 
 <strong>2018-08-15: </strong> Added support for OIDC external login with Azure AD
@@ -47,7 +49,7 @@
 
 <strong>2018-06-22: </strong> Updated to ASP.NET Core 2.1.1, Angular 6.0.6
 
-<strong>2018-06-20: </strong> Updated to ASP.NET Core Identity 2.1, Add Email Serivce, support for Cert deployments, support for 2FA Authenticator
+<strong>2018-06-20: </strong> Updated to ASP.NET Core Identity 2.1, Add Email Service, support for Cert deployments, support for 2FA Authenticator
 
 <strong>2018-05-27: </strong> Updated to ASP.NET Core 2.1
 

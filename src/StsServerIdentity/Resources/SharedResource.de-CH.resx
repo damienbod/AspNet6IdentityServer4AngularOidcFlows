@@ -603,4 +603,7 @@
   <data name="UNSUCCESSFUL_LOGIN_WITH_SERVICE" xml:space="preserve">
     <value>Nicht erfolgreiche Anmeldung mit Service.</value>
   </data>
+  <data name="CODE_REQUIRED" xml:space="preserve">
+    <value>Code ist erforderlich</value>
+  </data>
 </root>
