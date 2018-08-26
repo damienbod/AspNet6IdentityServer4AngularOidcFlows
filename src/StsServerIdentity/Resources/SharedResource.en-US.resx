@@ -591,4 +591,7 @@
   <data name="LANGUAGE" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="UNSUCCESSFUL_LOGIN_WITH_SERVICE" xml:space="preserve">
+    <value>Unsuccessful login with service.</value>
+  </data>
 </root>
