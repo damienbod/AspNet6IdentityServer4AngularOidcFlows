@@ -585,4 +585,7 @@
   <data name="EXTERNAL_LOGINS_ADD_ANOTHER_SERVICE_TO_LOGIN" xml:space="preserve">
     <value>Fügen Sie einen weiteren Dienst hinzu, um sich anzumelden.</value>
   </data>
+  <data name="LANGUAGE" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
 </root>
