@@ -14,7 +14,7 @@
         <p>
             <strong>@SharedLocalizer.GetLocalizedHtmlString("PERSONAL_DATA_DELETEINFO")</strong>
         </p>
-        <form asp-page="DownloadPersonalData" method="post" class="form-group">
+        <form asp-action="DownloadPersonalData" method="post" class="form-group">
             <button class="btn btn-primary" type="submit">@SharedLocalizer.GetLocalizedHtmlString("DOWNLOAD")</button>
         </form>
         <p>
