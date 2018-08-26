@@ -11,7 +11,7 @@
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a class="nav-link" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)</a>
             </li>
             <li class="nav-item">
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">@SharedLocalizer.GetLocalizedHtmlString("LOGOUT")</button>
