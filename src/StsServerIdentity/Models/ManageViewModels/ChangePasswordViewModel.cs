@@ -4,11 +4,11 @@ namespace StsServerIdentity.Models.ManageViewModels
 {
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "CURRENT_PASSWORD_REQUIRED")]
         [DataType(DataType.Password)]
         public string OldPassword { get; set; }
 
-        [Required(ErrorMessage = "PASSWORD_REQUIRED")]
+        [Required(ErrorMessage = "NEW_PASSWORD_REQUIRED")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
