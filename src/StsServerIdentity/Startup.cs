@@ -116,13 +116,6 @@ namespace StsServerIdentity
                         QureyParamterName = "ui_locales"
                     };
 
-                    // Cookie is required for the logout, query parameters at not supported with the endsession endpoint
-                    // Only works in the same domain
-                    var providerCookie = new LocalizationCookieProvider
-                    {
-                        CookieName = "defaultLocale"
-                    };
-                    // options.RequestCultureProviders.Insert(0, providerCookie);
                     options.RequestCultureProviders.Insert(0, providerQuery);
                 });
 
