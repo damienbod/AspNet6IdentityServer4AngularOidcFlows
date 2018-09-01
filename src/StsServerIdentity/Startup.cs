@@ -105,7 +105,7 @@ namespace StsServerIdentity
                         {
                             new CultureInfo("en-US"),
                             new CultureInfo("de-CH"),
-							new CultureInfo("fr-CH").
+							new CultureInfo("fr-CH"),
 							new CultureInfo("it-CH")
                         };
 
