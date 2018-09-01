@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ACCESS_DENIED" xml:space="preserve">
-    <value>Zugriff abgelehnt</value>
+    <value>Zugriff verweigert</value>
   </data>
   <data name="ACCESS_DENIED_TEXT" xml:space="preserve">
     <value>Sie haben keinen Zugriff auf diese Ressource.</value>
@@ -136,10 +136,10 @@
     <value>Verwenden Sie einen lokalen Benutzer um sich anzumelden.</value>
   </data>
   <data name="CONFIRM_EMAIL" xml:space="preserve">
-    <value>E-Mail-Adresse Bestätigung</value>
+    <value>E-Mail-Adresse verifizieren</value>
   </data>
   <data name="CONFIRM_EMAIL_TEXT" xml:space="preserve">
-    <value>Vielen Dank für die Bestätigung Ihrer E-Mail-Adresse.</value>
+    <value>Vielen Dank für die Verifizierung Ihrer E-Mail-Adresse.</value>
   </data>
   <data name="CONFIRM_PASSWORD" xml:space="preserve">
     <value>Passwort bestätigen</value>
@@ -160,19 +160,19 @@
     <value>E-Mail</value>
   </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
-    <value>E-Mail-Adresse ungültig.</value>
+    <value>Ungültige E-Mail-Adresse</value>
   </data>
   <data name="EMAIL_REQUIRED" xml:space="preserve">
     <value>E-Mail-Adresse erforderlich</value>
   </data>
   <data name="FORGOT_PASSWORD_CONFIRMATION" xml:space="preserve">
-    <value>Bestätigung Passwort vergessen</value>
+    <value>Passwort-Bestätigung vergessen</value>
   </data>
   <data name="FORGOT_PASSWORD_CONFIRMATION_TEXT" xml:space="preserve">
     <value>Bitte überprüfen Sie Ihre E-Mail-Adresse, um Ihr Passwort zurückzusetzen.</value>
   </data>
   <data name="FORGOT_YOUR_PASSWORD" xml:space="preserve">
-    <value>Passwort vergessen</value>
+    <value>Passwort vergessen?</value>
   </data>
   <data name="FORGOT_YOUR_PASSWORD_ENTER_EMAIL" xml:space="preserve">
     <value>Geben Sie Ihre E-Mail-Adresse ein.</value>
@@ -223,7 +223,7 @@
     <value>Verbinden Sie Ihr {0} Konto</value>
   </data>
   <data name="EXTERNAL_LOGIN_TEXT" xml:space="preserve">
-    <value>Sie haben sich erfolgreich mit {0} authentifiziert. Bitte geben Sie unten eine E-Mail-Adresse für diese Seite ein und klicken Sie auf die Registrierenknopf, um die Anmeldung abzuschließen.</value>
+    <value>Sie haben sich erfolgreich mit {0} authentifiziert. Bitte geben Sie unten eine E-Mail-Adresse für diese Seite ein und klicken Sie auf die Registrierenknopf, um die Anmeldung abzuschliessen.</value>
   </data>
   <data name="EXTERNAL_PROVIDER_ERROR" xml:space="preserve">
     <value>Fehler von externem Anbieter: {0}</value>
@@ -247,7 +247,7 @@
     <value>Gerät merken</value>
   </data>
   <data name="ACCOUNT_LOGIN_2FA_TEXT" xml:space="preserve">
-    <value>Ihr Login ist mit einer Authenticator App geschützt. Geben Sie unten Ihren Authentifizierungscode ein.</value>
+    <value>Ihr Login ist mit einer Authentifizierungs-App geschützt. Geben Sie unten Ihren Authentifizierungscode ein.</value>
   </data>
   <data name="ACCOUNT_LOGIN_AUTHENTICATOR_CODE" xml:space="preserve">
     <value>Authentifizierungscode</value>
@@ -274,7 +274,7 @@
     <value>Sie haben sich erfolgreich von der Anwendung abgemeldet.</value>
   </data>
   <data name="RESET_PASSWORD_CONFIRMATION" xml:space="preserve">
-    <value>Passwort zurücksetzen Bestätigung</value>
+    <value>Bestätigung fürs Passwort zurücksetzen</value>
   </data>
   <data name="RESET_PASSWORD_CONFIRMATION_CLICK_HERE" xml:space="preserve">
     <value>Klicken Sie hier, um sich einzuloggen</value>
@@ -307,7 +307,7 @@
     <value>Ändern Sie Ihre Benutzereinstellungen</value>
   </data>
   <data name="MANAGE_YOUR_ACCOUNT" xml:space="preserve">
-    <value>Ändern Sie Ihre Benutzereinstellungen</value>
+    <value>Benutzereinstellungen ändern</value>
   </data>
   <data name="NEW_PASSWORD" xml:space="preserve">
     <value>Neues Passwort</value>
@@ -322,7 +322,7 @@
     <value>Profil</value>
   </data>
   <data name="TWOFACTORCODE_REQUIRED" xml:space="preserve">
-    <value>Zwei-Faktor-Code ist erforderlich</value>
+    <value>Zwei-Faktor-Authentifizierungs-Code ist erforderlich</value>
   </data>
   <data name="UPDATE_PASSWORD" xml:space="preserve">
     <value>Passwort aktualisieren</value>
@@ -334,10 +334,10 @@
     <value>und</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP" xml:space="preserve">
-    <value>Konfigurieren Sie die Authentifikator-App</value>
+    <value>Authentifizierungs-App konfigurieren</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_DOWNLOAD_TEXT" xml:space="preserve">
-    <value>Laden Sie eine Zwei-Faktor-Authentifizierungsanwendung wie Microsoft Authenticator für</value>
+    <value>Laden Sie eine Zwei-Faktor-Authentifizierungs-App wie Microsoft Authenticator für</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_GOOGLE_TEXT" xml:space="preserve">
     <value>Google Authenticator für</value>
@@ -346,7 +346,7 @@
     <value>Scannen Sie den QR-Code oder geben Sie diesen Schlüssel </value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN2" xml:space="preserve">
-    <value>in Ihre Zwei-Faktor-Authenticator-App ein. Leerzeichen, Groß- und Kleinschreibung spielen keine Rolle.</value>
+    <value>in Ihre Zwei-Faktor-Authentifizierungs-App ein. Leerzeichen, Gross- und Kleinschreibung spielen keine Rolle.</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT" xml:space="preserve">
     <value>Zur Aktivierung der QR-Code-Generierung lesen Sie bitte unsere </value>
@@ -358,22 +358,22 @@
     <value>Dokumentation</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_STEPS" xml:space="preserve">
-    <value>Führen Sie die folgenden Schritte aus, um eine Authenticator-App zu verwenden:</value>
+    <value>Führen Sie die folgenden Schritte aus, um eine Authentifizierungs-App zu verwenden:</value>
   </data>
   <data name="DELETE_PERSONAL_DATA" xml:space="preserve">
-    <value>Löschen Sie persönliche Daten</value>
+    <value>Persönliche Daten löschen</value>
   </data>
   <data name="DELETE_PERSONAL_DATA_AND_CLOSE" xml:space="preserve">
-    <value>Löschen Sie Daten und schließen Sie mein Konto</value>
+    <value>Daten löschen und mein Konto schliessen</value>
   </data>
   <data name="DELETE_PERSONAL_DATA_TEXT" xml:space="preserve">
     <value>Durch das Löschen dieser Daten wird Ihr Konto dauerhaft gelöscht. Dies kann nicht wiederhergestellt werden.</value>
   </data>
   <data name="DISABLE_2FA" xml:space="preserve">
-    <value>Deaktivieren Sie die Zwei-Faktor-Authentifizierung (2FA)</value>
+    <value>Zwei-Faktor-Authentifizierung (2FA) deaktivieren</value>
   </data>
   <data name="DISABLE_2FA_BUTTON" xml:space="preserve">
-    <value>Deaktivieren Sie 2FA</value>
+    <value>2FA deaktivieren</value>
   </data>
   <data name="DISABLE_2FA_STATUS" xml:space="preserve">
     <value>2FA wurde deaktiviert. Sie können 2FA aktivieren, wenn Sie eine Authenticator-App einrichten</value>
@@ -391,7 +391,7 @@
     <value>Laden Sie Ihre Daten herunter</value>
   </data>
   <data name="INCORRECT_PASSWORD" xml:space="preserve">
-    <value>Das Passwort ist nicht korrekt</value>
+    <value>Das eingegebene Passwort ist nicht korrekt</value>
   </data>
   <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
     <value>Der Bestätigungscode ist ungültig.</value>
@@ -400,16 +400,16 @@
     <value>oder</value>
   </data>
   <data name="USER_NOTFOUND" xml:space="preserve">
-    <value>Benutzer konnte nicht mit ID  '{0}' geladen werden.</value>
+    <value>Benutzer mit ID  '{0}' konnte nicht geladen werden.</value>
   </data>
   <data name="VERIFICATION_CODE" xml:space="preserve">
-    <value>Bestätigungscode</value>
+    <value>Verifizierungscode</value>
   </data>
   <data name="2FA_AUTHENTICATION_ADD_AUTHENTICATOR_APP" xml:space="preserve">
-    <value>Fügen Sie die Authentifizierungs-App hinzu</value>
+    <value>Fügen Sie eine Authentifizierungs-App hinzu</value>
   </data>
   <data name="2FA_AUTHENTICATION_ADD_RESET_APP" xml:space="preserve">
-    <value>Authenticator-App zurücksetzen</value>
+    <value>Authentifizierungs-App zurücksetzen</value>
   </data>
   <data name="2FA_AUTHENTICATION_ADD_SETUP_APP" xml:space="preserve">
     <value>Authentifizierungs-App einrichten</value>
@@ -436,10 +436,10 @@
     <value>Sie können einen neuen Satz von Wiederherstellungscodes generieren.</value>
   </data>
   <data name="2FA_STATUS_BROWSER_FORGET" xml:space="preserve">
-    <value>Der aktuelle Browser wurde vergessen. Wenn Sie sich erneut von diesem Browser aus anmelden, werden Sie aufgefordert, Ihren 2fa-Code einzugeben.</value>
+    <value>Der aktuelle Browser wurde vergessen. Wenn Sie sich erneut von diesem Browser aus anmelden, werden Sie aufgefordert, Ihren 2FA-Code einzugeben.</value>
   </data>
   <data name="AUTHENTICATOR_APP" xml:space="preserve">
-    <value>Authenticator-App</value>
+    <value>Authentifizierungs-App</value>
   </data>
   <data name="DELETE" xml:space="preserve">
     <value>Löschen</value>
@@ -451,13 +451,13 @@
     <value>Registrierte Anmeldungen</value>
   </data>
   <data name="EXTERNAL_LOGINS_TITLE" xml:space="preserve">
-    <value>Verwalten Sie Ihre externen Logins</value>
+    <value>Externen Logins verwalten</value>
   </data>
   <data name="GENERATE" xml:space="preserve">
     <value>Generieren</value>
   </data>
   <data name="GENERATE_2FA_RECOVERY_CODES" xml:space="preserve">
-    <value>Generieren Sie Wiederherstellungscodes für 2-Faktor-Authentifizierung (2FA)</value>
+    <value>Wiederherstellungscodes für 2-Faktor-Authentifizierung (2FA) generieren</value>
   </data>
   <data name="GENERATE_2FA_RECOVERY_CODES_INFO_LOSE" xml:space="preserve">
     <value>Wenn Sie Ihr Gerät verlieren und keine Wiederherstellungscodes haben, verlieren Sie den Zugriff auf Ihr Konto.</value>
@@ -496,43 +496,43 @@
     <value>Ihr Authentifikator-App-Schlüssel wurde zurückgesetzt. Sie müssen Ihre Authentifikator-App mit dem neuen Schlüssel konfigurieren.</value>
   </data>
   <data name="RESET_AUTHENTICATOR_TEXT" xml:space="preserve">
-    <value>Dieser Prozess deaktiviert 2FA, bis Sie Ihre Authentifikator-App überprüft haben. Wenn Sie Ihre Authentifikator-App-Konfiguration nicht abschließen, verlieren Sie möglicherweise den Zugriff auf Ihr Konto.</value>
+    <value>Dieser Prozess deaktiviert 2FA, bis Sie Ihre Authentifikator-App überprüft haben. Wenn Sie Ihre Authentifikator-App-Konfiguration nicht abschliessen, verlieren Sie möglicherweise den Zugriff auf Ihr Konto.</value>
   </data>
   <data name="RESET_RECOVERY_CODES" xml:space="preserve">
-    <value>Setzen Sie die Wiederherstellungscodes zurück</value>
+    <value>Wiederherstellungscodes zurücksetzen</value>
   </data>
   <data name="SAVE" xml:space="preserve">
     <value>Speichern</value>
   </data>
   <data name="SEND_VERIFICATION_EMAIL" xml:space="preserve">
-    <value>E-Mail-Verifizierung senden</value>
+    <value>Verifizierung-E-Mail senden</value>
   </data>
   <data name="SET_PASSWORD" xml:space="preserve">
     <value>Passwort festlegen</value>
   </data>
   <data name="SET_PASSWORD_STATUS" xml:space="preserve">
-    <value>Ihr Passwort wurde festgelegt.</value>
+    <value>Ihr Passwort wurde festgelegt</value>
   </data>
   <data name="SET_PASSWORD_TEXT" xml:space="preserve">
     <value>Sie haben keinen lokalen Benutzernamen / Passwort für diese Seite. Fügen Sie ein lokales Konto hinzu, damit Sie sich ohne externe Anmeldung anmelden können.</value>
   </data>
   <data name="SET_YOUR_PASSWORD" xml:space="preserve">
-    <value>Lege Sie ein Passwort fest</value>
+    <value>Passwort festlegen</value>
   </data>
   <data name="STATUS_EXTERNAL_LOGIN_ADDED" xml:space="preserve">
-    <value>Die externe Anmeldung wurde hinzugefügt.</value>
+    <value>Die externe Anmeldung wurde hinzugefügt</value>
   </data>
   <data name="STATUS_EXTERNAL_LOGIN_REMOVED" xml:space="preserve">
-    <value>Die externe Anmeldung wurde entfernt.</value>
+    <value>Die externe Anmeldung wurde entfernt</value>
   </data>
   <data name="STATUS_GENERATE_CODES" xml:space="preserve">
-    <value>Sie haben neue Wiederherstellungscodes generiert.</value>
+    <value>Sie haben neue Wiederherstellungscodes generiert</value>
   </data>
   <data name="STATUS_PROFILE_UPDATED" xml:space="preserve">
     <value>Ihr Profil wurde aktualisiert</value>
   </data>
   <data name="STATUS_UPDATE_PROFILE_EMAIL_SEND" xml:space="preserve">
-    <value>Bestätigungs-E-Mail gesendet Bitte überprüfen Sie Ihre E-Mails.</value>
+    <value>Verifizierungs-E-Mail gesendet Bitte überprüfen Sie Ihre E-Mails.</value>
   </data>
   <data name="USERNAME" xml:space="preserve">
     <value>Benutzername</value>
@@ -541,10 +541,10 @@
     <value>Überprüfen</value>
   </data>
   <data name="ACCOUNT_CLICK_LOGIN_LINK" xml:space="preserve">
-    <value>Klicken Sie auf die Login-Link</value>
+    <value>Klicken Sie auf den Login-Link</value>
   </data>
   <data name="ACCOUNT_LOGIN_WITH_AZURE_AD" xml:space="preserve">
-    <value>Einloggen mit Azure AD</value>
+    <value>Mit Azure AD einloggen</value>
   </data>
   <data name="REMEMBER_BROWSER" xml:space="preserve">
     <value>Browser merken</value>
@@ -562,7 +562,7 @@
     <value>erfordert Ihre Berechtigung</value>
   </data>
   <data name="CONSENT_NO_NOT_ALLOWED" xml:space="preserve">
-    <value>Nein, nicht erlauben</value>
+    <value>Nein, verweigern</value>
   </data>
   <data name="CONSENT_PERSONAL_INFORMATION" xml:space="preserve">
     <value>Persönliche Informationen</value>
@@ -595,19 +595,19 @@
     <value>Ihr Passwort wurde zurückgesetzt.</value>
   </data>
   <data name="SEND_VERIFICATION_CODE" xml:space="preserve">
-    <value>Bestätigungscode senden</value>
+    <value>Verifizierungscode senden</value>
   </data>
   <data name="SEND_VERIFICATION_CODE_SELECT" xml:space="preserve">
     <value>Wählen Sie den Zwei-Faktor-Authentifizierungsanbieter aus:</value>
   </data>
   <data name="UNSUCCESSFUL_LOGIN_WITH_SERVICE" xml:space="preserve">
-    <value>Nicht erfolgreiche Anmeldung mit Dienst.</value>
+    <value>Nicht erfolgreiche Anmeldung mit Authentifizierungsanbieter.</value>
   </data>
   <data name="CODE_REQUIRED" xml:space="preserve">
     <value>Code ist erforderlich</value>
   </data>
   <data name="INVALID_CODE" xml:space="preserve">
-    <value>Ungültiger Code</value>
+    <value>Ungültiger Code.</value>
   </data>
   <data name="INVALID_CONSENT_PERMISSION" xml:space="preserve">
     <value>Sie müssen mindestens eine Berechtigung auswählen.</value>
@@ -617,5 +617,8 @@
   </data>
   <data name="STATUS_MESSAGE_PROFILE_HAS_BEEN_RESET" xml:space="preserve">
     <value>Ihr Profil wurde aktualisiert</value>
+  </data>
+  <data name="FORGET_THIS_BROWSER" xml:space="preserve">
+    <value>Browser vergessen</value>
   </data>
 </root>
