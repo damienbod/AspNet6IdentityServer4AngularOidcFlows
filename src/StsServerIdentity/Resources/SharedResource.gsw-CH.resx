@@ -172,7 +172,7 @@
     <value>Bitte chegg dini Emailadrässe zum ds Passwort prüefe. Chunsch drus?</value>
   </data>
   <data name="FORGOT_YOUR_PASSWORD" xml:space="preserve">
-    <value>Passwort verlaueret</value>
+    <value>Passwort verlaueret?</value>
   </data>
   <data name="FORGOT_YOUR_PASSWORD_ENTER_EMAIL" xml:space="preserve">
     <value>Bitte dini Email Adrässe iitöggele. Aber tifig.</value>
@@ -617,5 +617,8 @@
   </data>
   <data name="INVALID_RECOVERY_CODE" xml:space="preserve">
     <value>Ungüutigi Wiederherschtelligscode iigäh</value>
+  </data>
+  <data name="FORGET_THIS_BROWSER" xml:space="preserve">
+    <value>Vergiss dä Browsär</value>
   </data>
 </root>

@@ -160,7 +160,7 @@
     <value>Remember me</value>
   </data>
   <data name="FORGOT_YOUR_PASSWORD" xml:space="preserve">
-    <value>Forgot your password</value>
+    <value>Forgot your password?</value>
   </data>
   <data name="ACCOUNT_LOGIN" xml:space="preserve">
     <value>Log  in</value>
