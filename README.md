@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2018-09-07: </strong> Updated npm packages Angular 6.1.7
+
 <strong>2018-08-29: </strong> Updated localizations, npm packages Angular 6.1.5
 
 <strong>2018-08-26: </strong> Added localization support to STS, Adding Personal data menu to the profile of the Identity
