@@ -41,7 +41,6 @@
     "core-js": "2.5.7",
     "es6-promise": "^4.2.4",
     "ie-shim": "0.1.0",
-    "isomorphic-fetch": "^2.2.1",
     "jsrsasign": "8.0.12",
     "rxjs": "6.3.2",
     "zone.js": "0.8.26"
