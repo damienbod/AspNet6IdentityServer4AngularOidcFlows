@@ -37,6 +37,9 @@
 
 ## History
 
+
+<strong>2018-09-09: </strong> Removing fetch dependency 
+
 <strong>2018-09-07: </strong> Updated npm packages Angular 6.1.7
 
 <strong>2018-08-29: </strong> Updated localizations, npm packages Angular 6.1.5
