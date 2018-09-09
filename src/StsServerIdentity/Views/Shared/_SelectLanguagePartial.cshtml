@@ -15,11 +15,23 @@
 }
 
 <div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
-    <form class="form-inline" id="selectLanguage" asp-controller="SetLanguage" asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path" method="post" class="form-horizontal" role="form">
+    @{ 
+        var location = new Uri($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}");
+
+        var url = location.AbsoluteUri;
+        var returnUrlForLanguageSwitch = Context.Request.Path;
+
+        if (Context.Request.QueryString.HasValue)
+        {
+            returnUrlForLanguageSwitch = $"{Context.Request.Path}{Context.Request.QueryString.Value}";
+        }
+    }
+    <form class="form-inline" id="selectLanguage" asp-controller="SetLanguage" asp-action="SetLanguage" asp-route-returnUrl="@returnUrlForLanguageSwitch" method="post" role="form">
         <label class="form-label" style="padding-right:5px">@SharedLocalizer.GetLocalizedHtmlString("LANGUAGE"): </label>
         <div class="input-group">
 
             <select class="custom-select" name="culture" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
+            <input type="hidden" name="returnUrlForLanguageSwitch" id="returnUrlForLanguageSwitch" value="@url"/>
             <div class="input-group-append">
                 <button type="submit" class="btn btn-outline-secondary">@SharedLocalizer.GetLocalizedHtmlString("SAVE")</button>
             </div>
