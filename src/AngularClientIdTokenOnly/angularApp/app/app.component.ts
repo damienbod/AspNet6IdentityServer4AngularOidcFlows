@@ -15,6 +15,13 @@ export class AppComponent implements OnInit, OnDestroy {
     isAuthorized = false;
 
     constructor(public securityService: OidcSecurityService) {
+        if (this.securityService.moduleSetup) {
+            this.doCallbackLogicIfRequired();
+        } else {
+            this.securityService.onModuleSetup.subscribe(() => {
+                this.doCallbackLogicIfRequired();
+            });
+        }
     }
 
     ngOnInit() {
@@ -22,10 +29,6 @@ export class AppComponent implements OnInit, OnDestroy {
             (isAuthorized: boolean) => {
                 this.isAuthorized = isAuthorized;
             });
-
-        if (window.location.hash) {
-            this.securityService.authorizedCallback();
-        }
     }
 
     ngOnDestroy(): void {
@@ -37,6 +40,12 @@ export class AppComponent implements OnInit, OnDestroy {
     login() {
         console.log('start login');
         this.securityService.authorize();
+    }
+
+    private doCallbackLogicIfRequired() {
+        if (window.location.hash) {
+            this.securityService.authorizedCallback();
+        }
     }
 
     refreshSession() {
