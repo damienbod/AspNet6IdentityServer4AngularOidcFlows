@@ -27,7 +27,7 @@
         }
     }
     <form class="form-inline" id="selectLanguage" asp-controller="SetLanguage" asp-action="SetLanguage" asp-route-returnUrl="@returnUrlForLanguageSwitch" method="post" role="form">
-        <label class="form-label" style="padding-right:5px">@SharedLocalizer.GetLocalizedHtmlString("LANGUAGE"): </label>
+        <label class="form-label paddingright5px" >@SharedLocalizer.GetLocalizedHtmlString("LANGUAGE"): </label>
         <div class="input-group">
 
             <select class="custom-select" name="culture" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
