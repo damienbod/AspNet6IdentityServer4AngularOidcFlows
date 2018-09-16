@@ -76,3 +76,8 @@ textarea {
 .paddingright5px {
     padding-right: 5px;
 }
+
+.big_checkbox {
+    width: 30px !important;
+    height: 30px !important;
+}
