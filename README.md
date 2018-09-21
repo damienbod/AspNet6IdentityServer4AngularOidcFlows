@@ -37,6 +37,7 @@
 
 ## History
 
+<strong>2018-09-21: </strong> Adding STS Identity fixes from template
 
 <strong>2018-09-09: </strong> Removing fetch dependency 
 
