@@ -170,7 +170,6 @@ namespace StsServerIdentity.Controllers
         /// Show logout page
         /// </summary>
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> Logout(string logoutId)
         {
             var item = CultureInfo.CurrentCulture;
@@ -204,7 +203,6 @@ namespace StsServerIdentity.Controllers
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AllowAnonymous]
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
             var item = CultureInfo.CurrentCulture;
