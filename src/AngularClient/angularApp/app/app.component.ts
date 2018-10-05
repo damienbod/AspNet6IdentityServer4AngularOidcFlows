@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(
         public oidcSecurityService: OidcSecurityService,
         public locale: LocaleService,
+        private router: Router,
         public translation: TranslationService
     ) {
         console.log('AppComponent STARTING');
@@ -104,7 +106,8 @@ export class AppComponent implements OnInit, OnDestroy {
         if (authorizationResult === AuthorizationResult.unauthorized) {
             if (window.parent) {
                 // sent from the child iframe, for example the silent renew
-                window.parent.location.href = '/unauthorized';
+                this.router.navigate(['/unauthorized']);
+                //window.parent.location.href = '/unauthorized';
             } else {
                 // sent from the main window
                 window.location.href = '/unauthorized';
