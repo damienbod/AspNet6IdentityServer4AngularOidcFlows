@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { OidcSecurityService } from './auth/services/oidc.security.service';
 
@@ -27,7 +27,8 @@ export class AuthorizationGuard implements CanActivate {
 
                 this.router.navigate(['/unauthorized']);
                 return false;
-            })
+            }),
+            take(1)
         );
     }
 }
