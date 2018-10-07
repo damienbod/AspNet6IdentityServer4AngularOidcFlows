@@ -86,7 +86,6 @@ export class OidcSecurityService {
                         )
                 ));
 
-                this.loggerService.logDebug('NONCE:' + this.oidcSecurityCommon.authNonce);
                 // Only check or refresh the session if the silent_renew is active
                 if (this.authConfiguration.silent_renew) {
                     this.loggerService.logDebug('Silent Renew is active, check if token in storage is active')
