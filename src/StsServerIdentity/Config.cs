@@ -75,7 +75,7 @@ namespace StsServerIdentity
                     ClientName = "angularclient",
                     ClientId = "angularclient",
                     AccessTokenType = AccessTokenType.Reference,
-                    RequireConsent = false,
+                    // RequireConsent = false,
                     AccessTokenLifetime = 330,// 330 seconds, default 60 minutes
                     IdentityTokenLifetime = 30,
                     AllowedGrantTypes = GrantTypes.Implicit,

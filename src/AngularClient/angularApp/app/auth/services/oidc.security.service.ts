@@ -86,7 +86,15 @@ export class OidcSecurityService {
                         )
                 ));
 
-                //this.refreshSession();
+                // Only check or refresh the session if the silent_renew is active
+                if (this.authConfiguration.silent_renew) {
+                    this.loggerService.logDebug('Silent Renew is active, check if token in storage is active')
+                    if (this.oidcSecurityCommon.authNonce === '' || this.oidcSecurityCommon.authNonce === undefined) {
+                        // login not running, or a second silent renew, user must login first before this will work.
+                        this.loggerService.logDebug('Silent Renew or login not running, try to refresh the session')
+                        this.refreshSession();
+                    }
+                } 
 
                 return race$;
             }),
