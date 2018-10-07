@@ -107,7 +107,7 @@ export class AppComponent implements OnInit, OnDestroy {
             if (window.parent) {
                 // sent from the child iframe, for example the silent renew
                 this.router.navigate(['/unauthorized']);
-                //window.parent.location.href = '/unauthorized';
+                // window.parent.location.href = '/unauthorized';
             } else {
                 // sent from the main window
                 window.location.href = '/unauthorized';
