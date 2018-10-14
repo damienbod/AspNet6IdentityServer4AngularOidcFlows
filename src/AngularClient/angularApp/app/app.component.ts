@@ -6,7 +6,7 @@ import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
 import { AuthorizationResult } from './auth/models/authorization-result';
 import { AuthorizationState } from './auth/models/authorization-state.enum';
-// import { ValidationResult } from './auth/models/validation-result.enum';
+//import { ValidationResult } from './auth/models/validation-result.enum';
 
 @Component({
     selector: 'app-component',
@@ -104,14 +104,16 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private onAuthorizationResultComplete(authorizationResult: AuthorizationResult) {
-        console.log('Auth result received AuthorizationState:' + authorizationResult.authorizationState + ' validationResult:' + authorizationResult.validationResult);
+
+        console.log('Auth result received AuthorizationState:'
+            + authorizationResult.authorizationState
+            + ' validationResult:' + authorizationResult.validationResult);
+
         if (authorizationResult.authorizationState === AuthorizationState.unauthorized) {
             if (window.parent) {
                 // sent from the child iframe, for example the silent renew
                 this.router.navigate(['/unauthorized']);
-                // window.parent.location.href = '/unauthorized';
             } else {
-                // sent from the main window
                 window.location.href = '/unauthorized';
             }
         }
