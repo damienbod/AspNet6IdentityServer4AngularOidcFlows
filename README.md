@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2018-10-14: </strong> bug fixes in check session, updating the oidc lib
+
 <strong>2018-10-03: </strong> updating oidc lib fixes, updating npm packages
 
 <strong>2018-09-21: </strong> Adding STS Identity fixes from template, updating npm packages
