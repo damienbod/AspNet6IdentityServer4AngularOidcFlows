@@ -28,7 +28,7 @@
                 @if (Model.IdentityScopes.Any())
                 {
                     <div class="panel panel-default consent-buttons">
-                        <div class="panel-heading">
+                        <div class="panel-heading consent-title-spacing-bottom">
                             <span class="fas fa-user"></span>
                             @SharedLocalizer.GetLocalizedHtmlString("CONSENT_PERSONAL_INFORMATION")
                         </div>
@@ -44,7 +44,7 @@
                 @if (Model.ResourceScopes.Any())
                 {
                     <div class="panel panel-default">
-                        <div class="panel-heading">
+                        <div class="panel-heading consent-title-spacing-bottom consent-title-spacing-top">
                             <span class="fas fa-tasks"></span>
                             @SharedLocalizer.GetLocalizedHtmlString("CONSENT_APPLICATION_ACCESS")
                         </div>
@@ -57,26 +57,28 @@
                     </div>
                 }
 
-                @if (Model.AllowRememberConsent)
-                {
-                    <div class="consent-remember">
-                        <label>
-                            <input class="consent-scopecheck big_checkbox" asp-for="RememberConsent" />
-                            <strong>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REMEMBER_MY_DECISION")</strong>
-                        </label>
-                    </div>
-                }
-
-                <div class="consent-buttons">
-                    <button name="button" value="yes" class="btn btn-primary" autofocus>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_YES_ALLOWED")</button>
-                    <button name="button" value="no" class="btn">@SharedLocalizer.GetLocalizedHtmlString("CONSENT_NO_NOT_ALLOWED")</button>
-                    @if (Model.ClientUrl != null)
+                <div class="consent-remember">
+                    @if (Model.AllowRememberConsent)
                     {
-                        <a class="pull-right btn btn-primary" target="_blank" href="@Model.ClientUrl">
-                            <span class="fas fa-info-circle"></span>
-                            <strong>@Model.ClientName</strong>
-                        </a>
+                        <div class="consent-title-spacing consent-title-spacing-top">
+                            <label>
+                                <input class="consent-scopecheck big_checkbox" asp-for="RememberConsent" />
+                                <strong>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REMEMBER_MY_DECISION")</strong>
+                            </label>
+                        </div>
                     }
+
+                    <div class="consent-buttons">
+                        <button name="button" value="yes" class="btn btn-primary" autofocus>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_YES_ALLOWED")</button>
+                        <button name="button" value="no" class="btn">@SharedLocalizer.GetLocalizedHtmlString("CONSENT_NO_NOT_ALLOWED")</button>
+                        @if (Model.ClientUrl != null)
+                        {
+                            <a class="pull-right btn btn-primary" target="_blank" href="@Model.ClientUrl">
+                                <span class="fas fa-info-circle"></span>
+                                <strong>@Model.ClientName</strong>
+                            </a>
+                        }
+                    </div>
                 </div>
             </form>
         </div>
