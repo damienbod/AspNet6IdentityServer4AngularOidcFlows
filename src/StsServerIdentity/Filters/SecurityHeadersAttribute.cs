@@ -22,7 +22,7 @@ namespace StsServerIdentity.Filters
                     context.HttpContext.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
                 }
 
-                var csp = "default-src 'self'";
+                var csp = "default-src 'self'; img-src 'self' data:";
                 // once for standards compliant browsers
                 if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))
                 {
