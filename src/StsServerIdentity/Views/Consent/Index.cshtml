@@ -63,7 +63,7 @@
                         <div class="consent-title-spacing consent-title-spacing-top">
                             <label>
                                 <input class="consent-scopecheck big_checkbox" asp-for="RememberConsent" />
-                                <strong>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REMEMBER_MY_DECISION")</strong>
+                                <strong class="consent-middle">@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REMEMBER_MY_DECISION")</strong>
                             </label>
                         </div>
                     }
@@ -75,7 +75,7 @@
                         {
                             <a class="pull-right btn btn-primary" target="_blank" href="@Model.ClientUrl">
                                 <span class="fas fa-info-circle"></span>
-                                <strong>@Model.ClientName</strong>
+                                <strong class="consent-middle">@Model.ClientName</strong>
                             </a>
                         }
                     </div>

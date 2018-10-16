@@ -11,16 +11,16 @@
         {
             <input type="hidden" name="ScopesConsented" value="@Model.Name" />
         }
-        <strong>@Model.DisplayName</strong>
+        <strong class="consent-middle">@Model.DisplayName</strong>
         @if (Model.Emphasize)
         {
-            <span class="fas fa-exclamation"></span>
+            <span class="fas fa-exclamation consent-middle"></span>
         }
     </label>
 
     @if (Model.Required)
     {
-        <span><em>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REQUIRED")</em></span>
+        <span class="consent-middle"><em>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REQUIRED")</em></span>
     }
     @if (Model.Description != null)
     {

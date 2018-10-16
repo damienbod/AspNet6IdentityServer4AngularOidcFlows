@@ -94,3 +94,7 @@ textarea {
 .consent-title-spacing-bottom {
     margin-bottom: 10px;
 }
+
+.consent-middle {
+    vertical-align: super;
+}
