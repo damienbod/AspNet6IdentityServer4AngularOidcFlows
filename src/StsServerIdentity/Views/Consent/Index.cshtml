@@ -29,7 +29,7 @@
                 {
                     <div class="panel panel-default consent-buttons">
                         <div class="panel-heading">
-                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="fas fa-user"></span>
                             @SharedLocalizer.GetLocalizedHtmlString("CONSENT_PERSONAL_INFORMATION")
                         </div>
                         <ul class="list-group">
@@ -45,7 +45,7 @@
                 {
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <span class="glyphicon glyphicon-tasks"></span>
+                            <span class="fas fa-tasks"></span>
                             @SharedLocalizer.GetLocalizedHtmlString("CONSENT_APPLICATION_ACCESS")
                         </div>
                         <ul class="list-group">
@@ -73,7 +73,7 @@
                     @if (Model.ClientUrl != null)
                     {
                         <a class="pull-right btn btn-primary" target="_blank" href="@Model.ClientUrl">
-                            <span class="glyphicon glyphicon-info-sign"></span>
+                            <span class="fas fa-info-circle"></span>
                             <strong>@Model.ClientName</strong>
                         </a>
                     }
