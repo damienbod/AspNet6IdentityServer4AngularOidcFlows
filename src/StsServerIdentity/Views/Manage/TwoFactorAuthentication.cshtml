@@ -13,7 +13,6 @@
     {
         <div class="alert alert-danger">
             <strong>@SharedLocalizer.GetLocalizedHtmlString("2FA_NO_CODES_LEFT")</strong>
-            <p>You must <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
             <p>@SharedLocalizer.GetLocalizedHtmlString("2FA_NO_CODES_LEFT_TEXT") <a asp-action="GenerateRecoveryCodes">@SharedLocalizer.GetLocalizedHtmlString("GENERATE")</a></p>
         </div>
     }
