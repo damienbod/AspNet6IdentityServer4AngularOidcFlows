@@ -6,7 +6,7 @@ import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
 import { AuthorizationResult } from './auth/models/authorization-result';
 import { AuthorizationState } from './auth/models/authorization-state.enum';
-//import { ValidationResult } from './auth/models/validation-result.enum';
+// import { ValidationResult } from './auth/models/validation-result.enum';
 
 @Component({
     selector: 'app-component',
