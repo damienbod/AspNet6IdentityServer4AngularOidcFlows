@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2018-10-18: </strong> updating angular 6.1.10 updating the oidc lib
+
 <strong>2018-10-14: </strong> bug fixes in check session, updating the oidc lib
 
 <strong>2018-10-03: </strong> updating oidc lib fixes, updating npm packages
