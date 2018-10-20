@@ -39,7 +39,8 @@
         "rxjs": "~6.3.3",
         "rxjs-compat": "^6.3.3",
         "zone.js": "~0.8.26",
-        "jsrsasign": "8.0.12"
+        "jsrsasign": "8.0.12",
+        "angular-l10n": "^6.0.0"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "~0.10.0",
