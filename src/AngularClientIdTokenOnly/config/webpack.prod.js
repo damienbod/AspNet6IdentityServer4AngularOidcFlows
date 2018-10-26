@@ -9,6 +9,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const helpers = require('./webpack.helpers');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -134,6 +135,10 @@ module.exports = {
 
     new CopyWebpackPlugin([
       { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
-    ])
+    ]),
+
+    new FilterWarningsPlugin({
+      exclude: /System.import/
+    })
   ]
 };

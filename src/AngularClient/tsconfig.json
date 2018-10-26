@@ -10,7 +10,6 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,
-    "strict":  true,
     "noUnusedParameters": true,
     "lib": [
       "es2015",

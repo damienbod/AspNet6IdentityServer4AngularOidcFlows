@@ -9,7 +9,7 @@ import { OidcSecurityService } from '../auth/services/oidc.security.service';
 
 export class NavigationComponent implements OnInit, OnDestroy {
 
-    hasAdminRole = false
+    hasAdminRole = false;
     hasDataEventRecordsAdminRole = false;
 
     isAuthorizedSubscription: Subscription | undefined;

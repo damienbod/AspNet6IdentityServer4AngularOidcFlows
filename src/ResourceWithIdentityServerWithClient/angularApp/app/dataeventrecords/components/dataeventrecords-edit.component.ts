@@ -21,7 +21,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
         name: '',
         description: '',
         timestamp: ''
-    }
+    };
     isAuthorizedSubscription: Subscription | undefined;
     isAuthorized = false;
 

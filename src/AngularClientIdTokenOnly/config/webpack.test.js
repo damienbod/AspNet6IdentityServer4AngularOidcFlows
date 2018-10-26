@@ -1,5 +1,7 @@
 ﻿const path = require('path');
 
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
+
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
@@ -42,5 +44,10 @@ module.exports = {
       }
     ],
     exprContextCritical: false
-  }
+  },
+  plugins: [
+    new FilterWarningsPlugin({
+        exclude: /System.import/
+    })
+  ]
 };

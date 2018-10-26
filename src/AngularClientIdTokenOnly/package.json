@@ -1,6 +1,6 @@
 {
     "name": "angular-webpack-visualstudio",
-    "version": "5.0.9",
+    "version": "5.0.10",
     "description": "An Angular VS template",
     "main": "wwwroot/index.html",
     "author": "",
@@ -21,7 +21,7 @@
         "publish-for-iis": "npm run build-production && dotnet publish -c Release",
         "test": "karma start",
         "test-ci": "karma start --single-run --browsers ChromeHeadless",
-        "lint": "tslint ./angularApp"
+        "lint": "tslint -p tsconfig.json angularApp/**/*.ts"
     },
     "dependencies": {
         "@angular/animations": "~7.0.0",
@@ -83,13 +83,14 @@
         "sass-loader": "^7.1.0",
         "source-map-loader": "^0.2.4",
         "style-loader": "^0.23.1",
-        "tslint-loader": "^3.6.0",
+        "tslint-loader": "^3.5.4",
         "uglifyjs-webpack-plugin": "^2.0.1",
         "url-loader": "^1.1.2",
         "webpack": "^4.20.2",
         "webpack-bundle-analyzer": "^3.0.2",
         "webpack-cli": "3.1.2",
-        "webpack-dev-server": "^3.1.9"
+        "webpack-dev-server": "^3.1.9",
+        "webpack-filter-warnings-plugin": "^1.2.0"
     },
     "-vs-binding": {
         "ProjectOpened": [

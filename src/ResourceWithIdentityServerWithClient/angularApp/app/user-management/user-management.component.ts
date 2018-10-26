@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs'
+import { Subscription } from 'rxjs';
 import { OidcSecurityService } from '../auth/services/oidc.security.service';
 import { UserManagementService } from '../user-management/UserManagementService';
 import { User } from './models/User';
@@ -28,7 +28,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
                 this.isAuthorized = isAuthorized;
-                this.getData()
+                this.getData();
             });
     }
 
