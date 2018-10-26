@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 const helpers = require('./webpack.helpers');
 
@@ -88,8 +89,8 @@ module.exports = {
     exprContextCritical: false
   },
   plugins: [
-    function() {
-      this.plugin('watch-run', function(watching, callback) {
+    function () {
+      this.plugin('watch-run', function (watching, callback) {
         console.log(
           '\x1b[33m%s\x1b[0m',
           `Begin compile at ${new Date().toTimeString()}`
@@ -120,6 +121,10 @@ module.exports = {
 
     new CopyWebpackPlugin([
       { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
-    ])
+    ]),
+
+    new FilterWarningsPlugin({
+      exclude: /System.import/
+    })
   ]
 };
