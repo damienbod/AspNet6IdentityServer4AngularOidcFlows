@@ -37,7 +37,9 @@
 
 ## History
 
-<strong>2018-10-30: </strong> updating angular 7.0.^1
+<strong>2018-11-02: </strong> Updating Angular OIDC lib, updating angular 7.0.2
+
+<strong>2018-10-30: </strong> updating angular 7.0.1
 
 <strong>2018-10-26: </strong> updating build, oidc lib
 
