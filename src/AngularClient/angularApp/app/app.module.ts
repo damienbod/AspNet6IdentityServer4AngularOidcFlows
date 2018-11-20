@@ -128,6 +128,7 @@ export class AppModule {
             openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds =
                 this.oidcConfigService.clientConfiguration.max_id_token_iat_offset_allowed_in_seconds;
 
+            // openIDImplicitFlowConfiguration.iss_validation_off = false;
             configuration.FileServer = this.oidcConfigService.clientConfiguration.apiFileServer;
             configuration.Server = this.oidcConfigService.clientConfiguration.apiServer;
 
