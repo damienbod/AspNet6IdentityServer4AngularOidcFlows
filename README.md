@@ -37,7 +37,7 @@
 
 ## History
 
-<strong>2018-11-20: </strong> Updating Angular OIDC lib 8.0.3, updating angular 7.0.4
+<strong>2018-11-20: </strong> Updating Angular OIDC lib 8.0.3, updating angular 7.0.4, nuget packages
 
 <strong>2018-11-09: </strong> Updating Angular OIDC lib 8.0.2, updating angular 7.0.3
 
