@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2018-11-27: </strong> Added Identity Error message localizations
+
 <strong>2018-11-22: </strong> Updated angular 7.1.0
 
 <strong>2018-11-20: </strong> Updating Angular OIDC lib 8.0.3, updating angular 7.0.4, nuget packages
