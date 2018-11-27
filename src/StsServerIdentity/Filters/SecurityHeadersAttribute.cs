@@ -13,6 +13,13 @@ namespace StsServerIdentity.Filters
             var result = context.Result;
             if (result is ViewResult)
             {
+                var featurePolicy = "accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'";
+
+                if (!context.HttpContext.Response.Headers.ContainsKey("feature-policy"))
+                {
+                    context.HttpContext.Response.Headers.Add("feature-policy", featurePolicy);
+                }
+
                 if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Type-Options"))
                 {
                     context.HttpContext.Response.Headers.Add("X-Content-Type-Options", "nosniff");
@@ -22,7 +29,7 @@ namespace StsServerIdentity.Filters
                     context.HttpContext.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
                 }
 
-                var csp = "default-src 'self'; img-src 'self' data:";
+                var csp = "script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self' data:;font-src 'self';form-action 'self';frame-ancestors 'self';block-all-mixed-content";
                 // once for standards compliant browsers
                 if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))
                 {
