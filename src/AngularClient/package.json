@@ -40,11 +40,11 @@
         "rxjs-compat": "^6.3.3",
         "zone.js": "~0.8.26",
         "jsrsasign": "8.0.12",
-        "angular-l10n": "^6.5.0"
+        "angular-l10n": "^6.6.1"
     },
     "devDependencies": {
-        "@angular-devkit/build-angular": "~0.10.6",
-        "@angular/cli": "~7.0.6",
+        "@angular-devkit/build-angular": "~0.11.0",
+        "@angular/cli": "~7.1.0",
         "@angular/compiler-cli": "~7.1.0",
         "@angular/language-service": "~7.1.0",
         "@types/node": "~10.12.10",
@@ -86,11 +86,11 @@
         "tslint-loader": "^3.5.4",
         "uglifyjs-webpack-plugin": "^2.0.1",
         "url-loader": "^1.1.2",
-        "webpack": "^4.26.0",
+        "webpack": "^4.26.1",
         "webpack-bundle-analyzer": "^3.0.3",
         "webpack-cli": "3.1.2",
         "webpack-dev-server": "^3.1.10",
-        "webpack-filter-warnings-plugin": "^1.2.0"
+        "webpack-filter-warnings-plugin": "^1.2.1"
     },
     "-vs-binding": {
         "ProjectOpened": [
