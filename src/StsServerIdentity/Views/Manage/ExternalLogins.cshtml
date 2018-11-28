@@ -6,7 +6,7 @@
     ViewData.AddActivePage(ManageNavPages.ExternalLogins);
 }
 
-@Html.Partial("_StatusMessage", Model.StatusMessage)
+@await Html.PartialAsync("_StatusMessage", Model.StatusMessage)
 @if (Model.CurrentLogins?.Count > 0)
 {
     <h4>@SharedLocalizer.GetLocalizedHtmlString("EXTERNAL_LOGINS_REGISTERED_LOGIN")</h4>
