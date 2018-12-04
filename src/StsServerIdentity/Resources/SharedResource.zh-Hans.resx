@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConcurrencyFailure" xml:space="preserve">
-    <value>Optimistic并发失败，对象已被更改。</value>
+    <value>乐观并发失败，对象已被更改。</value>
     <comment>Error when optimistic concurrency fails</comment>
   </data>
   <data name="DefaultError" xml:space="preserve">
@@ -314,511 +314,511 @@
     <comment>Error when the store does not implement this interface</comment>
   </data>
   <data name="NoPersonalDataProtector" xml:space="preserve">
-    <value>No IPersonalDataProtector service was registered, this is required when ProtectPersonalData = true.</value>
+    <value>IPersonalDataProtector服务没有注册，这在ProtectPersonalData = true时是必需的。</value>
     <comment>Error when there is no IPersonalDataProtector</comment>
   </data>
   <data name="2FA" xml:space="preserve">
-    <value>Two-factor authentication</value>
+    <value>双因素认证</value>
   </data>
   <data name="2FA_AUTHENTICATION_ADD_AUTHENTICATOR_APP" xml:space="preserve">
-    <value>Add authenticator app</value>
+    <value>添加身份认证应用</value>
   </data>
   <data name="2FA_AUTHENTICATION_ADD_RESET_APP" xml:space="preserve">
-    <value>Reset authenticator app</value>
+    <value>重置身份认证应用</value>
   </data>
   <data name="2FA_AUTHENTICATION_ADD_SETUP_APP" xml:space="preserve">
-    <value>Setup authenticator app</value>
+    <value>设置身份认证应用</value>
   </data>
   <data name="2FA_AUTHENTICATION_TITLE" xml:space="preserve">
-    <value>Two-factor authentication (2FA)</value>
+    <value>双因素认证 (2FA)</value>
   </data>
   <data name="2FA_NO_CODES_LEFT" xml:space="preserve">
-    <value>You have no recovery codes left.</value>
+    <value>您已经没有恢复代码了。</value>
   </data>
   <data name="2FA_NO_CODES_LEFT_TEXT" xml:space="preserve">
-    <value>You must generate a new set of recovery codes before you can log in with a recovery code.</value>
+    <value>您必须生成一组新的恢复代码才能继续使用恢复代码登录。</value>
   </data>
   <data name="2FA_N_CODES_LEFT" xml:space="preserve">
-    <value>You have {0} recovery codes left.</value>
+    <value>您还剩{0}个恢复代码。</value>
   </data>
   <data name="2FA_N_CODES_LEFT_TEXT" xml:space="preserve">
-    <value>You should generate a new set of recovery codes.</value>
+    <value>您应当创建一组新的恢复代码。</value>
   </data>
   <data name="2FA_ONE_CODES_LEFT" xml:space="preserve">
-    <value>You have 1 recovery code left.</value>
+    <value>您当前只剩一个恢复代码了。</value>
   </data>
   <data name="2FA_ONE_CODES_LEFT_TEXT" xml:space="preserve">
-    <value>You can generate a new set of recovery codes.</value>
+    <value>您可以产生一组新的恢复代码。</value>
   </data>
   <data name="2FA_STATUS_BROWSER_FORGET" xml:space="preserve">
-    <value>The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code.</value>
+    <value>当前浏览器已被忘记。当您下次使用此浏览器登录时将会提示您输入双因素认证代码。</value>
   </data>
   <data name="ACCESS_DENIED" xml:space="preserve">
-    <value>Access denied</value>
+    <value>访问被拒绝</value>
   </data>
   <data name="ACCESS_DENIED_TEXT" xml:space="preserve">
-    <value>You do not have access to this resource.</value>
+    <value>您没有访问此资源的权限。</value>
   </data>
   <data name="ACCOUNT_CLICK_LOGIN_LINK" xml:space="preserve">
-    <value>Click the login button</value>
+    <value>点击登录按钮</value>
   </data>
   <data name="ACCOUNT_LOGIN" xml:space="preserve">
-    <value>Log  in</value>
+    <value>登录</value>
   </data>
   <data name="ACCOUNT_LOGIN_2FA" xml:space="preserve">
-    <value>Two-factor authentication</value>
+    <value>双因素认证</value>
   </data>
   <data name="ACCOUNT_LOGIN_2FA_NO_AUTHENTICATOR_DEVICE" xml:space="preserve">
-    <value>Don't have access to your authenticator device? You can</value>
+    <value>无法使用您的认证设备？您可以</value>
   </data>
   <data name="ACCOUNT_LOGIN_2FA_RECOVERY_CODE_TEXT" xml:space="preserve">
-    <value>log in with a recovery code</value>
+    <value>使用恢复代码登录</value>
   </data>
   <data name="ACCOUNT_LOGIN_2FA_REMEMBER_MC" xml:space="preserve">
-    <value>Remember this machine</value>
+    <value>记住这台电脑</value>
   </data>
   <data name="ACCOUNT_LOGIN_2FA_TEXT" xml:space="preserve">
-    <value>Your login is protected with an authenticator app. Enter your authenticator code below.</value>
+    <value>您的登录受身份认证应用保护。请在下面输入您的身份认证代码。</value>
   </data>
   <data name="ACCOUNT_LOGIN_AUTHENTICATOR_CODE" xml:space="preserve">
-    <value>Authenticator code</value>
+    <value>身份认证代码</value>
   </data>
   <data name="ACCOUNT_LOGIN_WITH_AZURE_AD" xml:space="preserve">
-    <value>Login with Azure AD</value>
+    <value>使用Azure AD登录</value>
   </data>
   <data name="ACCOUNT_NO_EXTERNAL_LOGINS" xml:space="preserve">
-    <value>There are no external authentication services configured. See this article https://go.microsoft.com/fwlink/?LinkID=532715 for details on setting up this ASP.NET application to support logging in via external services.</value>
+    <value>当前没有配置认证服务。关于设置此ASP.NET应用以支持外部服务的细节可参考https://go.microsoft.com/fwlink/?LinkID=532715。</value>
   </data>
   <data name="ACCOUNT_RECOVERY_CODE" xml:space="preserve">
-    <value>Recovery code</value>
+    <value>恢复代码</value>
   </data>
   <data name="ACCOUNT_RECOVERY_CODE_REQUIRED" xml:space="preserve">
-    <value>Recovery code required</value>
+    <value>必须填写恢复代码</value>
   </data>
   <data name="ACCOUNT_RECOVERY_CODE_VERIFICATION" xml:space="preserve">
-    <value>Recovery code verification</value>
+    <value>恢复代码验证</value>
   </data>
   <data name="ACCOUNT_RECOVERY_CODE_VERIFICATION_TEXT" xml:space="preserve">
-    <value>You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again.</value>
+    <value>您已经使用了恢复代码登录。在您登录时提供身份认证应用代码或禁用双因素认证并再次登录之前不会记住这次登录。</value>
   </data>
   <data name="ACCOUNT_USE_ANOTHER_SERVICE_LOG_IN" xml:space="preserve">
-    <value>Use another service to log in.</value>
+    <value>使用其他服务登录。</value>
   </data>
   <data name="ACCOUNT_USE_LOCAL_ACCOUNT_TO_LOG_IN" xml:space="preserve">
-    <value>Use a local account to log in.</value>
+    <value>使用本地账号登录。</value>
   </data>
   <data name="AND" xml:space="preserve">
-    <value>and</value>
+    <value>与</value>
   </data>
   <data name="AUTHENTICATOR_APP" xml:space="preserve">
-    <value>Authenticator app</value>
+    <value>身份认证应用</value>
   </data>
   <data name="CHANGE_PASSWORD" xml:space="preserve">
-    <value>Change password</value>
+    <value>修改密码</value>
   </data>
   <data name="CHANGE_PASSWORD_STATUS" xml:space="preserve">
-    <value>Your password has been changed.</value>
+    <value>您的密码已修改成功。</value>
   </data>
   <data name="CODE_REQUIRED" xml:space="preserve">
-    <value>Code is required</value>
+    <value>必须输入代码</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP" xml:space="preserve">
-    <value>Configure authenticator app</value>
+    <value>配置身份认证应用</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_DOWNLOAD_TEXT" xml:space="preserve">
-    <value>Download a two-factor authenticator app like Microsoft Authenticator for</value>
+    <value>下载适用于以下设备的身份认证应用（例如Microsoft Authenticator）：</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_GOOGLE_TEXT" xml:space="preserve">
-    <value>Google Authenticator for</value>
+    <value>或适用于以下设备的Google Authenticator：</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN1" xml:space="preserve">
-    <value>Scan the QR Code or enter this key</value>
+    <value>扫描二维码或将该秘钥</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN2" xml:space="preserve">
-    <value>into your two factor authenticator app. Spaces and casing do not matter.</value>
+    <value>在您的双因素认证应用中输入。空格与大小写都不会影响认证。</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT" xml:space="preserve">
-    <value>To enable QR code generation please read our</value>
+    <value>要启用二维码生成，请阅读我们的</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT_DETAILS" xml:space="preserve">
-    <value>Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below.</value>
+    <value>一旦您扫描了二维码或输入了以上秘钥，您的身份认证应用将会给您提供一个唯一代码。请在下面的确认框中输入此代码。</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT_LINK" xml:space="preserve">
-    <value>documentation</value>
+    <value>文档</value>
   </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP_STEPS" xml:space="preserve">
-    <value>To use an authenticator app go through the following steps:</value>
+    <value>要使用身份认证应用，请按以下步骤进行：</value>
   </data>
   <data name="CONFIRM_EMAIL" xml:space="preserve">
-    <value>Confirm email</value>
+    <value>确认电子邮箱</value>
   </data>
   <data name="CONFIRM_EMAIL_TEXT" xml:space="preserve">
-    <value>Thank you for confirming your email.</value>
+    <value>感谢您确认电子邮箱。</value>
   </data>
   <data name="CONFIRM_PASSWORD" xml:space="preserve">
-    <value>Confirm Password</value>
+    <value>确认密码</value>
   </data>
   <data name="CONFIRM_PASSWORD_NOT_MATCHING" xml:space="preserve">
-    <value>The password and confirmation password do not match.</value>
+    <value>密码与确认密码不匹配。</value>
   </data>
   <data name="CONFIRM_YOUR_EMAIL" xml:space="preserve">
-    <value>Confirm your email</value>
+    <value>确认您的电子邮箱</value>
   </data>
   <data name="CONFIRM_YOUR_EMAIL_TEXT" xml:space="preserve">
-    <value>Please confirm your account by &lt;a href='{0}'&gt;clicking here&lt;/a&gt;.</value>
+    <value>请&lt;a href='{0}'&gt;点击此处&lt;/a&gt;确认您的账号。</value>
   </data>
   <data name="CONSENT_APPLICATION_ACCESS" xml:space="preserve">
-    <value>Application Access</value>
+    <value>应用访问</value>
   </data>
   <data name="CONSENT_IS_CHECK_UNREQUIRED" xml:space="preserve">
-    <value>Uncheck the permissions you do not wish to grant.</value>
+    <value>取消选择您不希望授予的权限。</value>
   </data>
   <data name="CONSENT_IS_REQUESTING_YOUR_PERMISSION" xml:space="preserve">
-    <value>is requesting your permission</value>
+    <value>正在请求您的权限</value>
   </data>
   <data name="CONSENT_NO_NOT_ALLOWED" xml:space="preserve">
-    <value>No, Do Not Allow</value>
+    <value>否，不允许</value>
   </data>
   <data name="CONSENT_PERSONAL_INFORMATION" xml:space="preserve">
-    <value>Personal Information</value>
+    <value>个人信息</value>
   </data>
   <data name="CONSENT_REMEMBER_MY_DECISION" xml:space="preserve">
-    <value>Remember My Decision</value>
+    <value>记住我的选择</value>
   </data>
   <data name="CONSENT_REQUIRED" xml:space="preserve">
-    <value>(required)</value>
+    <value>（必需）</value>
   </data>
   <data name="CONSENT_YES_ALLOWED" xml:space="preserve">
-    <value>Yes, Allow</value>
+    <value>是的，允许</value>
   </data>
   <data name="CREATE_A_NEW_ACCOUNT" xml:space="preserve">
-    <value>Create a new account.</value>
+    <value>创建一个新账号。</value>
   </data>
   <data name="CURRENT_PASSWORD" xml:space="preserve">
-    <value>Current password</value>
+    <value>当前密码</value>
   </data>
   <data name="CURRENT_PASSWORD_REQUIRED" xml:space="preserve">
-    <value>Current password required</value>
+    <value>必须填写当前密码</value>
   </data>
   <data name="DELETE" xml:space="preserve">
-    <value>Delete</value>
+    <value>删除</value>
   </data>
   <data name="DELETE_PERSONAL_DATA" xml:space="preserve">
-    <value>Delete Personal Data</value>
+    <value>删除个人数据</value>
   </data>
   <data name="DELETE_PERSONAL_DATA_AND_CLOSE" xml:space="preserve">
-    <value>Delete data and close my account</value>
+    <value>删除数据并关闭我的账号</value>
   </data>
   <data name="DELETE_PERSONAL_DATA_TEXT" xml:space="preserve">
-    <value>Deleting this data will permanently remove your account, and this cannot be recovered.</value>
+    <value>删除此数据将永久删除您的账号，且此操作无法恢复。</value>
   </data>
   <data name="DISABLE_2FA" xml:space="preserve">
-    <value>Disable two-factor authentication (2FA)</value>
+    <value>禁用双因素认证（2FA）</value>
   </data>
   <data name="DISABLE_2FA_BUTTON" xml:space="preserve">
-    <value>Disable 2FA</value>
+    <value>禁用双因素认证</value>
   </data>
   <data name="DISABLE_2FA_STATUS" xml:space="preserve">
-    <value>2fa has been disabled. You can reenable 2fa when you setup an authenticator app</value>
+    <value>双因素认证已被禁用。您可以通过设置身份认证应用来重新启用双因素认证。</value>
   </data>
   <data name="DISABLE_2FA_TEXT_DETAILS" xml:space="preserve">
-    <value>Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key used in an authenticator app you should</value>
+    <value>禁用双因素认证不会改变在身份认证应用中的秘钥。如果您希望修改身份认证应用中的秘钥，您应当</value>
   </data>
   <data name="DISABLE_2FA_TEXT_DETAILS_LINK" xml:space="preserve">
-    <value>reset your authenticator keys.</value>
+    <value>重置您的认证秘钥。</value>
   </data>
   <data name="DISABLE_2FA_TEXT_HEADER" xml:space="preserve">
-    <value>This action only disables 2FA.</value>
+    <value>此操作仅禁用双因素认证。</value>
   </data>
   <data name="DOWNLOAD" xml:space="preserve">
-    <value>Download</value>
+    <value>下载</value>
   </data>
   <data name="DOWNLOAD_YOUR_DATA" xml:space="preserve">
-    <value>Download Your Data</value>
+    <value>下载您的数据</value>
   </data>
   <data name="EMAIL" xml:space="preserve">
-    <value>E-Mail</value>
+    <value>电子邮箱</value>
   </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
-    <value>invalid Email</value>
+    <value>电子邮箱不合法</value>
   </data>
   <data name="EMAIL_REQUIRED" xml:space="preserve">
-    <value>Email required</value>
+    <value>必须输入电子邮箱</value>
   </data>
   <data name="EXTERNAL_LOGINS" xml:space="preserve">
-    <value>External logins</value>
+    <value>外部登录</value>
   </data>
   <data name="EXTERNAL_LOGINS_ADD_ANOTHER_SERVICE_TO_LOGIN" xml:space="preserve">
-    <value>Add another service to log in.</value>
+    <value>新增其他登录服务。</value>
   </data>
   <data name="EXTERNAL_LOGINS_REGISTERED_LOGIN" xml:space="preserve">
-    <value>Registered Logins</value>
+    <value>已注册的登录服务</value>
   </data>
   <data name="EXTERNAL_LOGINS_TITLE" xml:space="preserve">
-    <value>Manage your external logins</value>
+    <value>管理您的外部登录服务</value>
   </data>
   <data name="EXTERNAL_LOGIN_ASSOCIATE_ACCOUNT" xml:space="preserve">
-    <value>Associate your {0} account</value>
+    <value>关联您的{0}账号</value>
   </data>
   <data name="EXTERNAL_LOGIN_TEXT" xml:space="preserve">
-    <value>You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in.</value>
+    <value>您已通过{0}成功认证。请在下面输入您用于当前网站的电子邮箱，并点击“注册”按钮完成登录。</value>
   </data>
   <data name="EXTERNAL_PROVIDER_ERROR" xml:space="preserve">
-    <value>Error from external provider: {0}</value>
+    <value>外部服务出错：{0}</value>
   </data>
   <data name="EXTERNAL_PROVIDER_ERROR_CONFIRMATION" xml:space="preserve">
-    <value>Error loading external login information during confirmation.</value>
+    <value>在确认过程中加载外部登录信息错误。</value>
   </data>
   <data name="EXTERNAL_PROVIDER_ERROR_INFO" xml:space="preserve">
-    <value>Error loading external login information.</value>
+    <value>加载外部登录信息发生错误。</value>
   </data>
   <data name="FORGET_THIS_BROWSER" xml:space="preserve">
-    <value>Forget this browser</value>
+    <value>忘记此浏览器</value>
   </data>
   <data name="FORGOT_PASSWORD_CONFIRMATION" xml:space="preserve">
-    <value>Forgot password confirmation</value>
+    <value>忘记密码确认</value>
   </data>
   <data name="FORGOT_PASSWORD_CONFIRMATION_TEXT" xml:space="preserve">
-    <value>Please check your email to reset your password.</value>
+    <value>请检查您的电子邮箱以重置密码。</value>
   </data>
   <data name="FORGOT_YOUR_PASSWORD" xml:space="preserve">
-    <value>Forgot your password?</value>
+    <value>忘记了密码？</value>
   </data>
   <data name="FORGOT_YOUR_PASSWORD_ENTER_EMAIL" xml:space="preserve">
-    <value>Enter your email.</value>
+    <value>输入您的电子邮箱。</value>
   </data>
   <data name="GENERATE" xml:space="preserve">
-    <value>Generate</value>
+    <value>生成</value>
   </data>
   <data name="GENERATE_2FA_RECOVERY_CODES" xml:space="preserve">
-    <value>Generate two-factor authentication (2FA) recovery codes</value>
+    <value>生成双因素认证（2FA）恢复代码</value>
   </data>
   <data name="GENERATE_2FA_RECOVERY_CODES_INFO_LOSE" xml:space="preserve">
-    <value>If you lose your device and don't have the recovery codes you will lose access to your account.</value>
+    <value>如果您丢失了您的设备并且没有恢复代码，您将无法再次登录您的账号。</value>
   </data>
   <data name="GENERATE_2FA_RECOVERY_CODES_SAFE_PLACE" xml:space="preserve">
-    <value>Put these codes in a safe place.</value>
+    <value>将这些代码放在一个安全的场所。</value>
   </data>
   <data name="GENERATE_2FA_RECOVERY_CODES_TEXT" xml:space="preserve">
-    <value>Generating new recovery codes does not change the keys used in authenticator apps. If you wish to change the key used in an authenticator app you should</value>
+    <value>生成新的恢复代码不会改变在身份认证应用中使用的秘钥。如果您希望改变身份认证应用中使用的秘钥，您应当</value>
   </data>
   <data name="GENERATE_2FA_RECOVERY_CODES_TEXT_LINK" xml:space="preserve">
-    <value>reset your authenticator keys.</value>
+    <value>重置您的认证秘钥。</value>
   </data>
   <data name="GENERATE_RECOVERY_CODES" xml:space="preserve">
-    <value>Generate Recovery Codes</value>
+    <value>生成恢复代码</value>
   </data>
   <data name="INCORRECT_PASSWORD" xml:space="preserve">
-    <value>Password is not correct</value>
+    <value>密码不正确</value>
   </data>
   <data name="INVALID_AUTHENTICATOR_CODE" xml:space="preserve">
-    <value>Invalid authenticator code.</value>
+    <value>身份认证代码不合法。</value>
   </data>
   <data name="INVALID_CODE" xml:space="preserve">
-    <value>Invalid code.</value>
+    <value>代码不合法。</value>
   </data>
   <data name="INVALID_CONSENT_PERMISSION" xml:space="preserve">
-    <value>You must pick at least one permission.</value>
+    <value>您必须选择至少一项权限。</value>
   </data>
   <data name="INVALID_CONSENT_SELECTION" xml:space="preserve">
-    <value>Invalid Selection</value>
+    <value>选择不合法</value>
   </data>
   <data name="INVALID_LOGIN_ATTEMPT" xml:space="preserve">
-    <value>Invalid login attempt.</value>
+    <value>登录尝试不合法。</value>
   </data>
   <data name="INVALID_RECOVERY_CODE" xml:space="preserve">
-    <value>Invalid recovery code entered.</value>
+    <value>您输入的恢复代码不合法。</value>
   </data>
   <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
-    <value>Verification code is invalid.</value>
+    <value>验证码不合法。</value>
   </data>
   <data name="LANGUAGE" xml:space="preserve">
-    <value>Language</value>
+    <value>语言</value>
   </data>
   <data name="LOCKED_OUT" xml:space="preserve">
-    <value>Locked out</value>
+    <value>已锁定</value>
   </data>
   <data name="LOCKED_OUT_TEXT" xml:space="preserve">
-    <value>This account has been locked out, please try again later.</value>
+    <value>此账号已被锁定，请稍后再试。</value>
   </data>
   <data name="LOGOUT" xml:space="preserve">
-    <value>Logout</value>
+    <value>注销登录</value>
   </data>
   <data name="LOGOUT_RETURN_TO" xml:space="preserve">
-    <value>Return to</value>
+    <value>返回</value>
   </data>
   <data name="LOGOUT_TEXT" xml:space="preserve">
-    <value>You have successfully logged out of the application.</value>
+    <value>您已经从当前应用注销登录。</value>
   </data>
   <data name="MANAGE_CHANGE_ACCOUNT_SETTINGS" xml:space="preserve">
-    <value>Change your account settings</value>
+    <value>修改您的账号设置</value>
   </data>
   <data name="MANAGE_YOUR_ACCOUNT" xml:space="preserve">
-    <value>Manage your account</value>
+    <value>管理您的账号</value>
   </data>
   <data name="NEW_PASSWORD" xml:space="preserve">
-    <value>New password</value>
+    <value>新密码</value>
   </data>
   <data name="NEW_PASSWORD_REQUIRED" xml:space="preserve">
-    <value>New password required</value>
+    <value>必须输入新密码</value>
   </data>
   <data name="OR" xml:space="preserve">
-    <value>or</value>
+    <value>或</value>
   </data>
   <data name="PASSWORD" xml:space="preserve">
-    <value>Password</value>
+    <value>密码</value>
   </data>
   <data name="PASSWORD_REQUIRED" xml:space="preserve">
-    <value>Password required</value>
+    <value>必须输入密码</value>
   </data>
   <data name="PERSONAL_DATA" xml:space="preserve">
-    <value>Personal data</value>
+    <value>个人数据</value>
   </data>
   <data name="PERSONAL_DATA_DELETEINFO" xml:space="preserve">
-    <value>Deleting this data will permanently remove your account, and this cannot be recovered.</value>
+    <value>删除此数据将永久删除您的账号，且此操作无法恢复。</value>
   </data>
   <data name="PERSONAL_DATA_INFO" xml:space="preserve">
-    <value>Your account contains personal data that you have given us. This page allows you to download or delete that data.</value>
+    <value>您的账号包含您提供给我们的个人数据。此页面允许您下载或删除这些数据。</value>
   </data>
   <data name="PHONE_NUMBER" xml:space="preserve">
-    <value>Phone number</value>
+    <value>电话号码</value>
   </data>
   <data name="PROFILE" xml:space="preserve">
-    <value>Profile</value>
+    <value>个人信息</value>
   </data>
   <data name="REGISTER" xml:space="preserve">
-    <value>Register</value>
+    <value>注册</value>
   </data>
   <data name="REGISTER_AS_NEW_USER" xml:space="preserve">
-    <value>Register as a new user</value>
+    <value>注册新用户</value>
   </data>
   <data name="REMEMBER_BROWSER" xml:space="preserve">
-    <value>Remember Browser</value>
+    <value>记住浏览器</value>
   </data>
   <data name="REMEMBER_ME" xml:space="preserve">
-    <value>Remember me</value>
+    <value>记住我</value>
   </data>
   <data name="REMOVE" xml:space="preserve">
-    <value>Remove</value>
+    <value>删除</value>
   </data>
   <data name="RESET" xml:space="preserve">
-    <value>Reset</value>
+    <value>重置</value>
   </data>
   <data name="RESET_AUTHENTICATOR_INFO" xml:space="preserve">
-    <value>If you reset your authenticator key your authenticator app will not work until you reconfigure it.</value>
+    <value>如果您重置了身份认证应用的秘钥，您必须重新配置身份认证应用才可以正常工作。</value>
   </data>
   <data name="RESET_AUTHENTICATOR_KEY" xml:space="preserve">
-    <value>Reset authenticator key</value>
+    <value>重置身份认证秘钥</value>
   </data>
   <data name="RESET_AUTHENTICATOR_STATUS" xml:space="preserve">
-    <value>Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.</value>
+    <value>您的身份认证应用秘钥已被重置。您需要使用新的秘钥重新配置身份认证应用。</value>
   </data>
   <data name="RESET_AUTHENTICATOR_TEXT" xml:space="preserve">
-    <value>This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account.</value>
+    <value>在您完成验证身份认证应用之前将会禁用双因素认证。如果您没有将身份认证应用配置完毕，您可能会无法再次访问您的账号。</value>
   </data>
   <data name="RESET_PASSWORD" xml:space="preserve">
-    <value>Reset Password</value>
+    <value>重置密码</value>
   </data>
   <data name="RESET_PASSWORD_CLICK_HERE_TO_LOGIN" xml:space="preserve">
-    <value>Click here to log in</value>
+    <value>单击此处登录</value>
   </data>
   <data name="RESET_PASSWORD_CONFIRMATION" xml:space="preserve">
-    <value>Reset password confirmation</value>
+    <value>重置密码确认</value>
   </data>
   <data name="RESET_PASSWORD_CONFIRMATION_CLICK_HERE" xml:space="preserve">
-    <value>click here to log in</value>
+    <value>点击此处登录</value>
   </data>
   <data name="RESET_PASSWORD_CONFIRMATION_TEXT1" xml:space="preserve">
-    <value>Your password has been reset. Please</value>
+    <value>您的密码已被重置。请</value>
   </data>
   <data name="RESET_PASSWORD_EMAIL_TEXT" xml:space="preserve">
-    <value>Please reset your password by &lt;a href='{0}'&gt;clicking here&lt;/a&gt;.</value>
+    <value>请&lt;a href='{0}'&gt;点击此处&lt;/a&gt;重置密码。</value>
   </data>
   <data name="RESET_PASSWORD_YOUR_PASSWORD_HAS_BEEN_RESET" xml:space="preserve">
-    <value>Your password has been reset.</value>
+    <value>您的密码已被重置。</value>
   </data>
   <data name="RESET_RECOVERY_CODES" xml:space="preserve">
-    <value>Reset recovery codes</value>
+    <value>重置恢复代码</value>
   </data>
   <data name="RESET_YOUR_PASSWORD" xml:space="preserve">
-    <value>Reset your password</value>
+    <value>重置您的密码</value>
   </data>
   <data name="SAVE" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
   </data>
   <data name="SEND_VERIFICATION_CODE" xml:space="preserve">
-    <value>Send Verification Code</value>
+    <value>发送验证码</value>
   </data>
   <data name="SEND_VERIFICATION_CODE_SELECT" xml:space="preserve">
-    <value>Select Two-Factor Authentication Provider:</value>
+    <value>选择双因素认证提供程序：</value>
   </data>
   <data name="SEND_VERIFICATION_EMAIL" xml:space="preserve">
-    <value>Send verification email</value>
+    <value>发送验证邮件</value>
   </data>
   <data name="SET_PASSWORD" xml:space="preserve">
-    <value>Set password</value>
+    <value>设置密码</value>
   </data>
   <data name="SET_PASSWORD_STATUS" xml:space="preserve">
-    <value>Your password has been set.</value>
+    <value>您的密码设置成功。</value>
   </data>
   <data name="SET_PASSWORD_TEXT" xml:space="preserve">
-    <value>You do not have a local username/password for this site. Add a local account so you can log in without an external login.</value>
+    <value>您还没有设置当前网站的用户名和密码。您先要创建一个本地账号才能在不使用外部服务的情况下登录。</value>
   </data>
   <data name="SET_YOUR_PASSWORD" xml:space="preserve">
-    <value>Set your password</value>
+    <value>设置您的密码</value>
   </data>
   <data name="STATUS_EXTERNAL_LOGIN_ADDED" xml:space="preserve">
-    <value>The external login was added.</value>
+    <value>外部登录添加成功。</value>
   </data>
   <data name="STATUS_EXTERNAL_LOGIN_REMOVED" xml:space="preserve">
-    <value>The external login was removed.</value>
+    <value>外部登录已被删除。</value>
   </data>
   <data name="STATUS_GENERATE_CODES" xml:space="preserve">
-    <value>You have generated new recovery codes.</value>
+    <value>您已生成了新的恢复代码。</value>
   </data>
   <data name="STATUS_MESSAGE_PROFILE_HAS_BEEN_RESET" xml:space="preserve">
-    <value>Your profile has been updated</value>
+    <value>您的个人信息更新成功</value>
   </data>
   <data name="STATUS_PROFILE_UPDATED" xml:space="preserve">
-    <value>Your profile has been updated</value>
+    <value>您的个人信息更新成功</value>
   </data>
   <data name="STATUS_UPDATE_PROFILE_EMAIL_SEND" xml:space="preserve">
-    <value>Verification email sent. Please check your email.</value>
+    <value>已发送验证邮件，请检查您的电子邮箱。</value>
   </data>
   <data name="SUBMIT" xml:space="preserve">
-    <value>Submit</value>
+    <value>提交</value>
   </data>
   <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
-    <value>The {0} must be at least {2} and at max {1} characters long.</value>
+    <value>{0}的长度必须在{2}-{1}个字符之间。</value>
   </data>
   <data name="TWOFACTORCODE_REQUIRED" xml:space="preserve">
-    <value>Two-factor code is required</value>
+    <value>必须填写双因素代码</value>
   </data>
   <data name="UNSUCCESSFUL_LOGIN_WITH_SERVICE" xml:space="preserve">
-    <value>Unsuccessful login with service.</value>
+    <value>外部登录服务未成功。</value>
   </data>
   <data name="UPDATE_PASSWORD" xml:space="preserve">
-    <value>Update password</value>
+    <value>更新密码</value>
   </data>
   <data name="USERNAME" xml:space="preserve">
-    <value>Username</value>
+    <value>用户名</value>
   </data>
   <data name="USER_NOTFOUND" xml:space="preserve">
-    <value>Unable to load user with ID '{0}'.</value>
+    <value>无法加载ID为'{0}'的用户。</value>
   </data>
   <data name="VERIFICATION_CODE" xml:space="preserve">
-    <value>Verification code</value>
+    <value>验证码</value>
   </data>
   <data name="VERIFICATION_CODE_REQUIRED" xml:space="preserve">
-    <value>Verification code is required</value>
+    <value>必须填写验证码</value>
   </data>
   <data name="VERIFY" xml:space="preserve">
-    <value>Verify</value>
+    <value>验证</value>
   </data>
   <data name="WOULD_YOU_LIKE_TO_LOGOUT" xml:space="preserve">
-    <value>Would you like to logout of IdentityServer?</value>
+    <value>确定要注销IdentityServer吗？</value>
   </data>
   <data name="YES" xml:space="preserve">
-    <value>Yes</value>
+    <value>是的</value>
   </data>
 </root>
