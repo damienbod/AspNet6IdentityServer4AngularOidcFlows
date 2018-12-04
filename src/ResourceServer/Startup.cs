@@ -132,7 +132,7 @@ namespace AspNet5SQLite
             services.AddMvc(options =>
             {
                options.Filters.Add(new AuthorizeFilter(guestPolicy));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options =>
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options =>
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
@@ -140,11 +140,8 @@ namespace AspNet5SQLite
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole();
-            loggerFactory.AddDebug();
-
             app.UseExceptionHandler("/Home/Error");
             app.UseCors("corsGlobalPolicy");
             app.UseStaticFiles();

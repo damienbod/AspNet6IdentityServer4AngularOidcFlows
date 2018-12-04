@@ -105,17 +105,14 @@ namespace ResourceFileServer
                 options.Filters.Add(new AuthorizeFilter(securedFilesPolicy));
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddTransient<ISecuredFileProvider, SecuredFileProvider>();
             services.AddSingleton<UseOnceAccessIdService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             app.UseCors("corsGlobalPolicy");
 
             app.UseStaticFiles();

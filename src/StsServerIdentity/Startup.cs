@@ -128,7 +128,7 @@ namespace StsServerIdentity
             services.AddMvc(options =>
             {
                 options.Filters.Add(new SecurityHeadersAttribute());
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization(options =>
                 {
@@ -152,7 +152,7 @@ namespace StsServerIdentity
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -169,12 +169,19 @@ namespace StsServerIdentity
             app.UseReferrerPolicy(opts => opts.NoReferrer());
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
 
+            var stsConfig = Configuration.GetSection("StsConfig");
+            var angularClientIdTokenOnlyUrl = stsConfig["AngularClientIdTokenOnlyUrl"];
+            var angularClientUrl = stsConfig["AngularClientUrl"];
+
             app.UseCsp(opts => opts
                 .BlockAllMixedContent()
                 .StyleSources(s => s.Self())
                 .StyleSources(s => s.UnsafeInline())
                 .FontSources(s => s.Self())
                 .FrameAncestors(s => s.Self())
+                .FrameAncestors(s => s.CustomSources(
+                    angularClientUrl, angularClientIdTokenOnlyUrl)
+                 )
                 .ImageSources(imageSrc => imageSrc.Self())
                 .ImageSources(imageSrc => imageSrc.CustomSources("data:"))
                 .ScriptSources(s => s.Self())
