@@ -1,4 +1,4 @@
-# ASP.NET Core 2.1 IdentityServer4 OpenID Implicit Flow examples Angular
+# ASP.NET Core 2.2 IdentityServer4 OpenID Implicit Flow examples Angular
 
 
 |                           | Build                                                                                                                                                                          |       
