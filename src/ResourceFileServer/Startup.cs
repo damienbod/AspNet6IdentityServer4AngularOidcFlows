@@ -111,11 +111,8 @@ namespace ResourceFileServer
             services.AddSingleton<UseOnceAccessIdService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             app.UseCors("corsGlobalPolicy");
 
             app.UseStaticFiles();
