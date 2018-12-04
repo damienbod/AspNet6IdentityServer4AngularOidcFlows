@@ -128,7 +128,7 @@ namespace StsServerIdentity
             services.AddMvc(options =>
             {
                 options.Filters.Add(new SecurityHeadersAttribute());
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization(options =>
                 {

@@ -30,7 +30,7 @@ namespace AngularClient
         {
             services.Configure<ClientAppSettings>(Configuration.GetSection("ClientAppSettings"));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddCors(options =>
             {
@@ -45,11 +45,8 @@ namespace AngularClient
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             app.UseCors("AllowAllOrigins");
 
             var angularRoutes = new[] {

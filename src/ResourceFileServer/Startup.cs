@@ -105,7 +105,7 @@ namespace ResourceFileServer
                 options.Filters.Add(new AuthorizeFilter(securedFilesPolicy));
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddTransient<ISecuredFileProvider, SecuredFileProvider>();
             services.AddSingleton<UseOnceAccessIdService>();
