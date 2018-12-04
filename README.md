@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2018-12-04: </strong>Update to .NET Core 2.2
+
 <strong>2018-11-27: </strong> Added Identity Error message localizations
 
 <strong>2018-11-22: </strong> Updated angular 7.1.0
