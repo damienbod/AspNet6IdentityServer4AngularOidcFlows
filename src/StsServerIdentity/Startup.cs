@@ -169,12 +169,19 @@ namespace StsServerIdentity
             app.UseReferrerPolicy(opts => opts.NoReferrer());
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
 
+            var stsConfig = Configuration.GetSection("StsConfig");
+            var angularClientIdTokenOnlyUrl = stsConfig["AngularClientIdTokenOnlyUrl"];
+            var angularClientUrl = stsConfig["AngularClientUrl"];
+
             app.UseCsp(opts => opts
                 .BlockAllMixedContent()
                 .StyleSources(s => s.Self())
                 .StyleSources(s => s.UnsafeInline())
                 .FontSources(s => s.Self())
                 .FrameAncestors(s => s.Self())
+                .FrameAncestors(s => s.CustomSources(
+                    angularClientUrl, angularClientIdTokenOnlyUrl)
+                 )
                 .ImageSources(imageSrc => imageSrc.Self())
                 .ImageSources(imageSrc => imageSrc.CustomSources("data:"))
                 .ScriptSources(s => s.Self())
