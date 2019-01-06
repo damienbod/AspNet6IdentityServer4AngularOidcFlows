@@ -292,7 +292,11 @@ export class OidcSecurityService {
     }
 
     // Code Flow with PCKE
-    requestTokensWithCode(code: string) {
+    requestTokensWithCode(code: string, state: string, session_state: string) {
+        // TODO Validate session_state
+        console.log('state' + state);
+        console.log('session_state' + session_state);
+
         const tokenRequestUrl = `${this.authWellKnownEndpoints.token_endpoint}`;
 
         let headers: HttpHeaders = new HttpHeaders();
@@ -303,9 +307,13 @@ export class OidcSecurityService {
         this.httpClient
             .post(tokenRequestUrl, data, { headers: headers })
             .pipe(
-                map(response => {
-                console.warn(response);
-                // TODO get the tokens and validate
+            map(response => {
+                    let obj: any = new Object;
+                    obj = response;
+                    obj.state = state;
+                    console.warn(obj);
+
+                    this.authorizedCodeFlowCallbackProcedure(obj);
                     // this._onConfigurationLoaded.next(true);
                 }),
                 catchError(error => {
@@ -315,6 +323,103 @@ export class OidcSecurityService {
                 })
             )
             .subscribe();
+    }
+
+    // Code Flow
+    private authorizedCodeFlowCallbackProcedure(result: any) {
+        const silentRenew = this.oidcSecurityCommon.silentRenewRunning;
+        const isRenewProcess = silentRenew === 'running';
+
+        this.loggerService.logDebug('BEGIN authorized Code Flow Callback, no auth data');
+        this.resetAuthorizationData(isRenewProcess);
+
+        this.oidcSecurityCommon.authResult = result;
+
+        // reset the history to remove the tokens
+        window.history.replaceState({}, window.document.title, window.location.origin + window.location.pathname);
+
+        if (result.error) {
+            this.loggerService.logWarning(result);
+            if ((result.error as string) === 'login_required') {
+                this._onAuthorizationResult.next(new AuthorizationResult(AuthorizationState.unauthorized, ValidationResult.LoginRequired));
+            } else {
+                this._onAuthorizationResult.next(new AuthorizationResult(AuthorizationState.unauthorized, ValidationResult.SecureTokenServerError));
+            }
+
+            if (!this.authConfiguration.trigger_authorization_result_event && !isRenewProcess) {
+                this.router.navigate([this.authConfiguration.unauthorized_route]);
+            }
+        } else {
+            this.loggerService.logDebug(result);
+
+            this.loggerService.logDebug('authorizedCallback created, begin token validation');
+
+            this.getSigningKeys().subscribe(
+                jwtKeys => {
+                    const validationResult = this.getValidatedStateResult(result, jwtKeys);
+
+                    if (validationResult.authResponseIsValid) {
+                        this.setAuthorizationData(validationResult.access_token, validationResult.id_token);
+                        this.oidcSecurityCommon.silentRenewRunning = '';
+
+                        if (this.authConfiguration.auto_userinfo) {
+                            this.getUserinfo(isRenewProcess, result, validationResult.id_token, validationResult.decoded_id_token).subscribe(
+                                response => {
+                                    if (response) {
+                                        this._onAuthorizationResult.next(
+                                            new AuthorizationResult(AuthorizationState.authorized, validationResult.state)
+                                        );
+                                        if (!this.authConfiguration.trigger_authorization_result_event && !isRenewProcess) {
+                                            this.router.navigate([this.authConfiguration.post_login_route]);
+                                        }
+                                    } else {
+                                        this._onAuthorizationResult.next(
+                                            new AuthorizationResult(AuthorizationState.unauthorized, validationResult.state)
+                                        );
+                                        if (!this.authConfiguration.trigger_authorization_result_event && !isRenewProcess) {
+                                            this.router.navigate([this.authConfiguration.unauthorized_route]);
+                                        }
+                                    }
+                                },
+                                err => {
+                                    /* Something went wrong while getting signing key */
+                                    this.loggerService.logWarning('Failed to retreive user info with error: ' + JSON.stringify(err));
+                                }
+                            );
+                        } else {
+                            if (!isRenewProcess) {
+                                // userData is set to the id_token decoded, auto get user data set to false
+                                this.oidcSecurityUserService.setUserData(validationResult.decoded_id_token);
+                                this.setUserData(this.oidcSecurityUserService.getUserData());
+                            }
+
+                            this.runTokenValidation();
+
+                            this._onAuthorizationResult.next(new AuthorizationResult(AuthorizationState.authorized, validationResult.state));
+                            if (!this.authConfiguration.trigger_authorization_result_event && !isRenewProcess) {
+                                this.router.navigate([this.authConfiguration.post_login_route]);
+                            }
+                        }
+                    } else {
+                        // something went wrong
+                        this.loggerService.logWarning('authorizedCallback, token(s) validation failed, resetting');
+                        this.loggerService.logWarning(window.location.hash);
+                        this.resetAuthorizationData(false);
+                        this.oidcSecurityCommon.silentRenewRunning = '';
+
+                        this._onAuthorizationResult.next(new AuthorizationResult(AuthorizationState.unauthorized, validationResult.state));
+                        if (!this.authConfiguration.trigger_authorization_result_event && !isRenewProcess) {
+                            this.router.navigate([this.authConfiguration.unauthorized_route]);
+                        }
+                    }
+                },
+                err => {
+                    /* Something went wrong while getting signing key */
+                    this.loggerService.logWarning('Failed to retreive siging key with error: ' + JSON.stringify(err));
+                    this.oidcSecurityCommon.silentRenewRunning = '';
+                }
+            );
+        }
     }
 
     // Implicit Flow

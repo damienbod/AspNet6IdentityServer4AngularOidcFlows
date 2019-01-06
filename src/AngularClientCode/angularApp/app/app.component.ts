@@ -96,16 +96,18 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private doCallbackLogicIfRequired() {
-        console.warn(window.location);
+        console.log(window.location);
 
         const urlParts = window.location.toString().split('?');
         const params = new HttpParams({
             fromString: urlParts[1]
         });
         const code = params.get('code');
+        const state = params.get('state');
+        const session_state = params.get('session_state');
 
         if (code) {
-            this.oidcSecurityService.requestTokensWithCode(code);
+            this.oidcSecurityService.requestTokensWithCode(code, state, session_state);
         }
     }
 
