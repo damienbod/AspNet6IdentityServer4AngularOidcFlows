@@ -268,13 +268,13 @@ export class OidcSecurityService {
         this.loggerService.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.authStateControl);
 
         // code_challenge with "S256"
-        const code_verifier = 'C' + Math.random() + '' + Date.now();
+        const code_verifier = 'C' + Math.random() + '' + Date.now() + '' + Date.now() + Math.random();
         const code_challenge = this.oidcSecurityValidation.generate_code_verifier(code_verifier);
 
         this.oidcSecurityCommon.code_verifier = code_verifier;
 
         if (this.authWellKnownEndpoints) {
-            const url = this.createAuthorizeUrl(true, code_challenge, 
+            const url = this.createAuthorizeUrl(true, code_challenge,
                 this.authConfiguration.redirect_url,
                 nonce,
                 state,
@@ -298,12 +298,14 @@ export class OidcSecurityService {
         let headers: HttpHeaders = new HttpHeaders();
         headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
-        const data = `grant_type=authorization_code&client_id=${this.authConfiguration.client_id}&code_verifier=${this.oidcSecurityCommon.code_verifier}&code=${code}&redirect_uri=${this.authConfiguration.redirect_url}`
+        const data = `grant_type=authorization_code&client_id=${this.authConfiguration.client_id}`
+            + `&code_verifier=${this.oidcSecurityCommon.code_verifier}&code=${code}&redirect_uri=${this.authConfiguration.redirect_url}`;
         this.httpClient
             .post(tokenRequestUrl, data, { headers: headers })
             .pipe(
                 map(response => {
                 console.warn(response);
+                // TODO get the tokens and validate
                     // this._onConfigurationLoaded.next(true);
                 }),
                 catchError(error => {

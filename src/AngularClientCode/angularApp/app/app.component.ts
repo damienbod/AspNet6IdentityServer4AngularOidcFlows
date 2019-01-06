@@ -99,7 +99,7 @@ export class AppComponent implements OnInit, OnDestroy {
         console.warn(window.location);
 
         const urlParts = window.location.toString().split('?');
-        let params = new HttpParams({
+        const params = new HttpParams({
             fromString: urlParts[1]
         });
         const code = params.get('code');
