@@ -6,6 +6,7 @@ import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
 import { AuthorizationResult } from './auth/models/authorization-result';
 import { AuthorizationState } from './auth/models/authorization-state.enum';
+import { HttpParams } from '@angular/common/http';
 // import { ValidationResult } from './auth/models/validation-result.enum';
 
 @Component({
@@ -95,8 +96,16 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private doCallbackLogicIfRequired() {
-        if (window.location.hash) {
-            this.oidcSecurityService.authorizedImplicitFlowCallback();
+        console.warn(window.location);
+
+        const urlParts = window.location.toString().split('?');
+        let params = new HttpParams({
+            fromString: urlParts[1]
+        });
+        const code = params.get('code');
+
+        if (code) {
+            this.oidcSecurityService.requestTokensWithCode(code);
         }
     }
 

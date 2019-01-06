@@ -74,6 +74,7 @@ var AppComponent = (function () {
         this.oidcSecurityService.logoff();
     };
     AppComponent.prototype.doCallbackLogicIfRequired = function () {
+        console.warn(window.location);
         if (window.location.hash) {
             this.oidcSecurityService.authorizedImplicitFlowCallback();
         }

@@ -1,7 +1,7 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, from, Observable, Subject, throwError as observableThrowError, timer } from 'rxjs';
+import { BehaviorSubject, from, Observable, Subject, throwError as observableThrowError, timer, of } from 'rxjs';
 import { catchError, filter, map, race, shareReplay, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { OidcDataService } from '../data-services/oidc-data.service';
 import { AuthWellKnownEndpoints } from '../models/auth.well-known-endpoints';
@@ -70,7 +70,8 @@ export class OidcSecurityService {
         private oidcSecurityValidation: OidcSecurityValidation,
         private tokenHelperService: TokenHelperService,
         private loggerService: LoggerService,
-        private zone: NgZone
+        private zone: NgZone,
+        private readonly httpClient: HttpClient
     ) {
         this.onModuleSetup.pipe(take(1)).subscribe(() => {
             this.moduleSetup = true;
@@ -236,7 +237,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.customRequestParams = params;
     }
 
-    // Implicit Flow
+    // Code Flow with PCKE
     authorizeCodeFlow(urlHandler?: (url: string) => any) {
         if (this.authWellKnownEndpoints) {
             this.authWellKnownEndpointsLoaded = true;
@@ -266,21 +267,20 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.authNonce = nonce;
         this.loggerService.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.authStateControl);
 
-        //code_challenge with "S256"
-        const code_challenge = 'C' + Math.random() + '' + Date.now();
-        const code_verifier = this.oidcSecurityValidation.generate_code_verifier(code_challenge);
-        //
+        // code_challenge with "S256"
+        const code_verifier = 'C' + Math.random() + '' + Date.now();
+        const code_challenge = this.oidcSecurityValidation.generate_code_verifier(code_verifier);
+
         this.oidcSecurityCommon.code_verifier = code_verifier;
 
         if (this.authWellKnownEndpoints) {
-            const url = this.createAuthorizeUrl(
+            const url = this.createAuthorizeUrl(true, code_challenge, 
                 this.authConfiguration.redirect_url,
                 nonce,
                 state,
                 this.authWellKnownEndpoints.authorization_endpoint
             );
 
-            // TODO send request for Code with PCKE
             if (urlHandler) {
                 urlHandler(url);
             } else {
@@ -289,6 +289,26 @@ export class OidcSecurityService {
         } else {
             this.loggerService.logError('authWellKnownEndpoints is undefined');
         }
+    }
+
+    // Code Flow with PCKE
+    requestTokensWithCode(code: string) {
+        const tokenRequestUrl = `${this.authWellKnownEndpoints.token_endpoint}?code=${code}&code_verifier=${this.oidcSecurityCommon.code_verifier}`;
+
+        this.httpClient
+            .get(tokenRequestUrl)
+            .pipe(
+                map(response => {
+                console.warn(response);
+                    //this._onConfigurationLoaded.next(true);
+                }),
+                catchError(error => {
+                    console.error(`OidcService code request ${this.authConfiguration.stsServer}`, error);
+                    //this._onConfigurationLoaded.next(false);
+                    return of(false);
+                })
+            )
+            .subscribe();
     }
 
     // Implicit Flow
@@ -322,7 +342,7 @@ export class OidcSecurityService {
         this.loggerService.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.authStateControl);
 
         if (this.authWellKnownEndpoints) {
-            const url = this.createAuthorizeUrl(
+            const url = this.createAuthorizeUrl(false, '',
                 this.authConfiguration.redirect_url,
                 nonce,
                 state,
@@ -563,7 +583,7 @@ export class OidcSecurityService {
 
         let url = '';
         if (this.authWellKnownEndpoints) {
-            url = this.createAuthorizeUrl(
+            url = this.createAuthorizeUrl( false, '',
                 this.authConfiguration.silent_redirect_url,
                 nonce,
                 state,
@@ -665,7 +685,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.isAuthorized = true;
     }
 
-    private createAuthorizeUrl(redirect_url: string, nonce: string, state: string, authorization_endpoint: string, prompt?: string): string {
+    private createAuthorizeUrl(isCodeFlow: boolean, code_challenge: string, redirect_url: string, nonce: string, state: string, authorization_endpoint: string, prompt?: string): string {
         const urlParts = authorization_endpoint.split('?');
         const authorizationUrl = urlParts[0];
         let params = new HttpParams({
@@ -678,6 +698,12 @@ export class OidcSecurityService {
         params = params.append('scope', this.authConfiguration.scope);
         params = params.append('nonce', nonce);
         params = params.append('state', state);
+
+        if (isCodeFlow) {
+
+            params = params.append('code_challenge', code_challenge);
+            params = params.append('code_challenge_method', 'S256');
+        }
 
         if (prompt) {
             params = params.append('prompt', prompt);
