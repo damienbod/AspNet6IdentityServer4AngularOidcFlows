@@ -186,6 +186,9 @@ var OidcSecurityValidation = (function () {
         if (response_type === 'id_token token' || response_type === 'id_token') {
             return true;
         }
+        if (response_type === 'code') {
+            return true;
+        }
         this.loggerService.logWarning('module configure incorrect, invalid response_type:' + response_type);
         return false;
     };
@@ -209,6 +212,11 @@ var OidcSecurityValidation = (function () {
         var hash = KJUR.crypto.Util.hashString(access_token, 'sha256');
         var first128bits = hash.substr(0, hash.length / 2);
         var testdata = hextob64u(first128bits);
+        return testdata;
+    };
+    OidcSecurityValidation.prototype.generate_code_verifier = function (code_challenge) {
+        var hash = KJUR.crypto.Util.hashString(code_challenge, 'sha256');
+        var testdata = hextob64u(hash);
         return testdata;
     };
     OidcSecurityValidation = __decorate([

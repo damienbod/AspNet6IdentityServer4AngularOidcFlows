@@ -190,7 +190,44 @@ var OidcSecurityService = (function () {
     OidcSecurityService.prototype.setCustomRequestParameters = function (params) {
         this.oidcSecurityCommon.customRequestParams = params;
     };
-    OidcSecurityService.prototype.authorize = function (urlHandler) {
+    OidcSecurityService.prototype.authorizeCodeFlow = function (urlHandler) {
+        if (this.authWellKnownEndpoints) {
+            this.authWellKnownEndpointsLoaded = true;
+        }
+        if (!this.authWellKnownEndpointsLoaded) {
+            this.loggerService.logError('Well known endpoints must be loaded before user can login!');
+            return;
+        }
+        if (!this.oidcSecurityValidation.config_validate_response_type(this.authConfiguration.response_type)) {
+            return;
+        }
+        this.resetAuthorizationData(false);
+        this.loggerService.logDebug('BEGIN Authorize Code Flow, no auth data');
+        var state = this.oidcSecurityCommon.authStateControl;
+        if (!state) {
+            state = Date.now() + '' + Math.random();
+            this.oidcSecurityCommon.authStateControl = state;
+        }
+        var nonce = 'N' + Math.random() + '' + Date.now();
+        this.oidcSecurityCommon.authNonce = nonce;
+        this.loggerService.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.authStateControl);
+        var code_challenge = 'C' + Math.random() + '' + Date.now();
+        var code_verifier = this.oidcSecurityValidation.generate_code_verifier(code_challenge);
+        this.oidcSecurityCommon.code_verifier = code_verifier;
+        if (this.authWellKnownEndpoints) {
+            var url = this.createAuthorizeUrl(this.authConfiguration.redirect_url, nonce, state, this.authWellKnownEndpoints.authorization_endpoint);
+            if (urlHandler) {
+                urlHandler(url);
+            }
+            else {
+                this.redirectTo(url);
+            }
+        }
+        else {
+            this.loggerService.logError('authWellKnownEndpoints is undefined');
+        }
+    };
+    OidcSecurityService.prototype.authorizeImplicitFlow = function (urlHandler) {
         if (this.authWellKnownEndpoints) {
             this.authWellKnownEndpointsLoaded = true;
         }
@@ -224,18 +261,18 @@ var OidcSecurityService = (function () {
             this.loggerService.logError('authWellKnownEndpoints is undefined');
         }
     };
-    OidcSecurityService.prototype.authorizedCallback = function (hash) {
+    OidcSecurityService.prototype.authorizedImplicitFlowCallback = function (hash) {
         var _this = this;
         this._isModuleSetup
             .pipe(filter(function (isModuleSetup) { return isModuleSetup; }), take(1))
             .subscribe(function () {
-            _this.authorizedCallbackProcedure(hash);
+            _this.authorizedImplicitFlowCallbackProcedure(hash);
         });
     };
     OidcSecurityService.prototype.redirectTo = function (url) {
         window.location.href = url;
     };
-    OidcSecurityService.prototype.authorizedCallbackProcedure = function (hash) {
+    OidcSecurityService.prototype.authorizedImplicitFlowCallbackProcedure = function (hash) {
         var _this = this;
         var silentRenew = this.oidcSecurityCommon.silentRenewRunning;
         var isRenewProcess = silentRenew === 'running';
@@ -583,7 +620,7 @@ var OidcSecurityService = (function () {
     };
     OidcSecurityService.prototype.silentRenewEventHandler = function (e) {
         this.loggerService.logDebug('silentRenewEventHandler');
-        this.authorizedCallback(e.detail);
+        this.authorizedImplicitFlowCallback(e.detail);
     };
     OidcSecurityService = __decorate([
         Injectable(),

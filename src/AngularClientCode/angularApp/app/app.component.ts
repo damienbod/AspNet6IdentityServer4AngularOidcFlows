@@ -81,12 +81,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.oidcSecurityService.setCustomRequestParameters({ 'ui_locales': culture});
 
-        this.oidcSecurityService.authorize();
+        this.oidcSecurityService.authorizeCodeFlow();
     }
 
     refreshSession() {
         console.log('start refreshSession');
-        this.oidcSecurityService.authorize();
+        this.oidcSecurityService.authorizeCodeFlow();
     }
 
     logout() {
@@ -96,7 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     private doCallbackLogicIfRequired() {
         if (window.location.hash) {
-            this.oidcSecurityService.authorizedCallback();
+            this.oidcSecurityService.authorizedImplicitFlowCallback();
         }
     }
 

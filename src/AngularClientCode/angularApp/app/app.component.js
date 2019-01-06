@@ -63,11 +63,11 @@ var AppComponent = (function () {
             culture = this.locale.getCurrentLanguage() + '-' + this.locale.getCurrentCountry();
         }
         this.oidcSecurityService.setCustomRequestParameters({ 'ui_locales': culture });
-        this.oidcSecurityService.authorize();
+        this.oidcSecurityService.authorizeCodeFlow();
     };
     AppComponent.prototype.refreshSession = function () {
         console.log('start refreshSession');
-        this.oidcSecurityService.authorize();
+        this.oidcSecurityService.authorizeCodeFlow();
     };
     AppComponent.prototype.logout = function () {
         console.log('start logoff');
@@ -75,7 +75,7 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.doCallbackLogicIfRequired = function () {
         if (window.location.hash) {
-            this.oidcSecurityService.authorizedCallback();
+            this.oidcSecurityService.authorizedImplicitFlowCallback();
         }
     };
     AppComponent.prototype.onAuthorizationResultComplete = function (authorizationResult) {

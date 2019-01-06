@@ -18,6 +18,7 @@ var OidcSecurityCommon = (function () {
         this.storage_is_authorized = '_isAuthorized';
         this.storage_user_data = 'userData';
         this.storage_auth_nonce = 'authNonce';
+        this.storage_code_verifier = 'code_verifier';
         this.storage_auth_state_control = 'authStateControl';
         this.storage_session_state = 'session_state';
         this.storage_silent_renew_running = 'storage_silent_renew_running';
@@ -83,6 +84,16 @@ var OidcSecurityCommon = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(OidcSecurityCommon.prototype, "code_verifier", {
+        get: function () {
+            return this.retrieve(this.storage_code_verifier) || '';
+        },
+        set: function (value) {
+            this.store(this.storage_code_verifier, value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(OidcSecurityCommon.prototype, "authStateControl", {
         get: function () {
             return this.retrieve(this.storage_auth_state_control) || '';
@@ -138,6 +149,7 @@ var OidcSecurityCommon = (function () {
             this.store(this.storage_access_token, '');
             this.store(this.storage_id_token, '');
             this.store(this.storage_user_data, '');
+            this.store(this.storage_code_verifier, '');
         }
     };
     OidcSecurityCommon.prototype.getAccessToken = function () {
