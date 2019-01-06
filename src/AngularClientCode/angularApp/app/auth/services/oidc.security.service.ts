@@ -236,7 +236,57 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.customRequestParams = params;
     }
 
-    authorize(urlHandler?: (url: string) => any) {
+    // Implicit Flow
+    authorizeCodeFlow(urlHandler?: (url: string) => any) {
+        if (this.authWellKnownEndpoints) {
+            this.authWellKnownEndpointsLoaded = true;
+        }
+
+        if (!this.authWellKnownEndpointsLoaded) {
+            this.loggerService.logError('Well known endpoints must be loaded before user can login!');
+            return;
+        }
+
+        if (!this.oidcSecurityValidation.config_validate_response_type(this.authConfiguration.response_type)) {
+            // invalid response_type
+            return;
+        }
+
+        this.resetAuthorizationData(false);
+
+        this.loggerService.logDebug('BEGIN Authorize Code Flow, no auth data');
+
+        let state = this.oidcSecurityCommon.authStateControl;
+        if (!state) {
+            state = Date.now() + '' + Math.random();
+            this.oidcSecurityCommon.authStateControl = state;
+        }
+
+        const nonce = 'N' + Math.random() + '' + Date.now();
+        this.oidcSecurityCommon.authNonce = nonce;
+        this.loggerService.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.authStateControl);
+
+        if (this.authWellKnownEndpoints) {
+            const url = this.createAuthorizeUrl(
+                this.authConfiguration.redirect_url,
+                nonce,
+                state,
+                this.authWellKnownEndpoints.authorization_endpoint
+            );
+
+            // TODO send request for Code with PCKE
+            if (urlHandler) {
+                urlHandler(url);
+            } else {
+                this.redirectTo(url);
+            }
+        } else {
+            this.loggerService.logError('authWellKnownEndpoints is undefined');
+        }
+    }
+
+    // Implicit Flow
+    authorizeImplicitFlow(urlHandler?: (url: string) => any) {
         if (this.authWellKnownEndpoints) {
             this.authWellKnownEndpointsLoaded = true;
         }
@@ -283,14 +333,15 @@ export class OidcSecurityService {
         }
     }
 
-    authorizedCallback(hash?: string) {
+    // Implicit Flow
+    authorizedImplicitFlowCallback(hash?: string) {
         this._isModuleSetup
             .pipe(
                 filter((isModuleSetup: boolean) => isModuleSetup),
                 take(1)
             )
             .subscribe(() => {
-                this.authorizedCallbackProcedure(hash);
+                this.authorizedImplicitFlowCallbackProcedure(hash);
             });
     }
 
@@ -298,7 +349,8 @@ export class OidcSecurityService {
         window.location.href = url;
     }
 
-    private authorizedCallbackProcedure(hash?: string) {
+    // Implicit Flow
+    private authorizedImplicitFlowCallbackProcedure(hash?: string) {
         const silentRenew = this.oidcSecurityCommon.silentRenewRunning;
         const isRenewProcess = silentRenew === 'running';
 
@@ -733,6 +785,8 @@ export class OidcSecurityService {
 
     private silentRenewEventHandler(e: CustomEvent) {
         this.loggerService.logDebug('silentRenewEventHandler');
-        this.authorizedCallback(e.detail);
+
+        // TODO ImplicitFlow of Code switch
+        this.authorizedImplicitFlowCallback(e.detail);
     }
 }

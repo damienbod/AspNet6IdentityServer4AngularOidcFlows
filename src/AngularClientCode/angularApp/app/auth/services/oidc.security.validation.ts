@@ -305,6 +305,10 @@ export class OidcSecurityValidation {
             return true;
         }
 
+        if (response_type === 'code') {
+            return true;
+        }
+
         this.loggerService.logWarning('module configure incorrect, invalid response_type:' + response_type);
         return false;
     }
