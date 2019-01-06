@@ -293,10 +293,11 @@ export class OidcSecurityService {
 
     // Code Flow with PCKE
     requestTokensWithCode(code: string) {
-        const tokenRequestUrl = `${this.authWellKnownEndpoints.token_endpoint}?code=${code}&code_verifier=${this.oidcSecurityCommon.code_verifier}`;
+        const tokenRequestUrl = `${this.authWellKnownEndpoints.token_endpoint}`;
 
+        const data = `{"grant_type":"authorization_code","client_id": ${this.authConfiguration.client_id},"code_verifier": ${this.oidcSecurityCommon.code_verifier},"code": ${code},"redirect_uri": ${this.authConfiguration.redirect_url} }`
         this.httpClient
-            .get(tokenRequestUrl)
+            .post(tokenRequestUrl, data)
             .pipe(
                 map(response => {
                 console.warn(response);
