@@ -144,7 +144,48 @@ namespace StsServerIdentity
                         "profile",
                         "email"
                     }
-},
+                },
+                new Client
+                {
+                    ClientName = "angular_code_client",
+                    ClientId = "angular_code_client",
+                    AccessTokenType = AccessTokenType.Reference,
+                    // RequireConsent = false,
+                    AccessTokenLifetime = 330,// 330 seconds, default 60 minutes
+                    IdentityTokenLifetime = 30,
+
+                    RequireClientSecret = false,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = new List<string>
+                    {
+                        "https://localhost:44773",
+                        "https://localhost:44773/silent-renew.html"
+
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "https://localhost:44773/unauthorized",
+                        "https://localhost:44773"
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "https://localhost:44773"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        "openid",
+                        "dataEventRecords",
+                        "dataeventrecordsscope",
+                        "securedFiles",
+                        "securedfilesscope",
+                        "role",
+                        "profile",
+                        "email"
+                    }
+                },
                 new Client
                 {
                     ClientName = "angularjsclient",

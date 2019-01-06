@@ -163,3 +163,8 @@ src/ResourceWithIdentityServerWithClient/ResourceWithIdentityServerWithClient.cs
 /src/StsServerIdentity/bin
 /src/StsServerIdentity/node_modules
 /src/StsServerIdentity/package-lock.json
+/src/AngularClientCode/node_modules
+/src/AngularClientCode/obj
+/src/AngularClientCode/bin
+/src/AngularClientCode/wwwroot/dist
+/src/AngularClientCode/wwwroot/dist
