@@ -311,6 +311,7 @@ export class OidcSecurityService {
                     let obj: any = new Object;
                     obj = response;
                     obj.state = state;
+                    obj.session_state = session_state;
                     console.warn(obj);
 
                     this.authorizedCodeFlowCallbackProcedure(obj);
@@ -358,6 +359,8 @@ export class OidcSecurityService {
                 jwtKeys => {
                     const validationResult = this.getValidatedStateResult(result, jwtKeys);
 
+                    console.log('-------');
+                    console.log(validationResult);
                     if (validationResult.authResponseIsValid) {
                         this.setAuthorizationData(validationResult.access_token, validationResult.id_token);
                         this.oidcSecurityCommon.silentRenewRunning = '';
