@@ -59,7 +59,7 @@
         "karma-jasmine": "~2.0.1",
         "ts-node": "~7.0.1",
         "karma-jasmine-html-reporter": "^1.4.0",
-        "@ngtools/webpack": "^6.2.5",
+        "@ngtools/webpack": "^7.1.4",
         "protractor": "~5.4.2",
         "tslint": "~5.12.0",
         "typescript": "~3.1.6",
@@ -89,7 +89,7 @@
         "webpack": "^4.28.3",
         "webpack-bundle-analyzer": "^3.0.3",
         "webpack-cli": "3.2.0",
-        "webpack-dev-server": "^3.1.14",
+        "webpack-dev-server": "3.1.14",
         "webpack-filter-warnings-plugin": "^1.2.1"
     },
     "-vs-binding": {
