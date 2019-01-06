@@ -621,4 +621,213 @@
   <data name="STATUS_MESSAGE_PROFILE_HAS_BEEN_RESET" xml:space="preserve">
     <value>Il tuo profilo è stato aggiornato.</value>
   </data>
+  <data name="ConcurrencyFailure" xml:space="preserve">
+    <value>La concorrenza ottimistica è fallita, l'oggetto è stato modificato.</value>
+    <comment>Errore quando la concorrenza ottimistica fallisce</comment>
+  </data>
+  <data name="DefaultError" xml:space="preserve">
+    <value>Si è verificato un errore imprevisto.</value>
+    <comment>Errore di default</comment>
+  </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>La mail '{0}' è giù stata usata.</value>
+    <comment>Errore di duplicazione email</comment>
+  </data>
+  <data name="DuplicateRoleName" xml:space="preserve">
+    <value>Il ruolo '{0}' è già stato usato.</value>
+    <comment>Errore di duplicazione ruolo</comment>
+  </data>
+  <data name="DuplicateUserName" xml:space="preserve">
+    <value>Lo user name '{0}' è già stato usato.</value>
+    <comment>Errore di duplicazione user name</comment>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Email '{0}' non valida.</value>
+    <comment>Email non valida</comment>
+  </data>
+  <data name="InvalidManagerType" xml:space="preserve">
+    <value>Il tipo {0} deve derivare da {1}&lt;{2}&gt;.</value>
+    <comment>Errore di tipo manager non corretto</comment>
+  </data>
+  <data name="InvalidPasswordHasherCompatibilityMode" xml:space="preserve">
+    <value>Il PasswordHasherCompatibilityMode non è valido.</value>
+    <comment>Errore avvenuto quando il password hasher non è riuscito a recuperare il formato.</comment>
+  </data>
+  <data name="InvalidPasswordHasherIterationCount" xml:space="preserve">
+    <value>L'iterazione deve contenere un valore positivo.</value>
+    <comment>Errore quando l'iterazione è &lt; di 1.</comment>
+  </data>
+  <data name="InvalidRoleName" xml:space="preserve">
+    <value>Il nome del ruolo '{0}' non è alido.</value>
+    <comment>Errore sulla validazione dei ruoli</comment>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Token non valido.</value>
+    <comment>Token non riconosciuto</comment>
+  </data>
+  <data name="InvalidUserName" xml:space="preserve">
+    <value>User name '{0}' non valido, può contenere solo lettere o numeri.</value>
+    <comment>User names può contenere solo lettere o numeri</comment>
+  </data>
+  <data name="LoginAlreadyAssociated" xml:space="preserve">
+    <value>Utente con lo stesso login già esistente.</value>
+    <comment>Login già esistente</comment>
+  </data>
+  <data name="MustCallAddIdentity" xml:space="preserve">
+    <value>AddIdentity deve essere chiamato durante l'inizializzazione dei servizi.</value>
+    <comment>AddIdentity non inizializzato</comment>
+  </data>
+  <data name="NoPersonalDataProtector" xml:space="preserve">
+    <value>Nessun servizio IPersonalDataProtector è stato registrato, è richiesto quando ProtectPersonalData = true.</value>
+    <comment>Non è presente nessun IPersonalDataProtector</comment>
+  </data>
+  <data name="NoRoleType" xml:space="preserve">
+    <value>Nessun RoleType specificato, provare AddRoles&lt;TRole&gt;().</value>
+    <comment>IdentityBuilder.RoleType non specificato</comment>
+  </data>
+  <data name="NoTokenProvider" xml:space="preserve">
+    <value>Nessun IUserTwoFactorTokenProvider&lt;{0}&gt; denominato '{1}' è registrato.</value>
+    <comment>Nessun IUserTwoFactorTokenProvider specificato</comment>
+  </data>
+  <data name="NullSecurityStamp" xml:space="preserve">
+    <value>User security stamp non può essere nullo.</value>
+    <comment>Errore quando lo user security stamp è nullo.</comment>
+  </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Password non corretta.</value>
+    <comment>Errore quando le password non corrispondono</comment>
+  </data>
+  <data name="PasswordRequiresDigit" xml:space="preserve">
+    <value>Le password devono contenere almeno un numero ('0'-'9').</value>
+    <comment>Password senza numeri</comment>
+  </data>
+  <data name="PasswordRequiresLower" xml:space="preserve">
+    <value>Le password devono contenere almeno una lettera minuscola ('a'-'z').</value>
+    <comment>Password senza lettera minuscola</comment>
+  </data>
+  <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+    <value>Le password devono contenere almeno un carattere non alfanumerico.</value>
+    <comment>Password senza carattere alfanumerico</comment>
+  </data>
+  <data name="PasswordRequiresUniqueChars" xml:space="preserve">
+    <value>Le passoword devono contenere almeno {0} caratteri differenti.</value>
+    <comment>Password non troppi caratteri simili</comment>
+  </data>
+  <data name="PasswordRequiresUpper" xml:space="preserve">
+    <value>Le password devono contenere almeno una lettera maiuscola ('A'-'Z').</value>
+    <comment>Password senza lettera maiuscola</comment>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>Le password devono essere almeno di {0} caratteri.</value>
+    <comment>Password troppo corta</comment>
+  </data>
+  <data name="RecoveryCodeRedemptionFailed" xml:space="preserve">
+    <value>Creazione Codice di Recupero non riuscito.</value>
+    <comment>Errore su creazione codice di recupero.</comment>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Il ruolo {0} non esiste.</value>
+    <comment>Ruolo non esistente</comment>
+  </data>
+  <data name="StoreNotIProtectedUserStore" xml:space="preserve">
+    <value>Lo Store non implementa IProtectedUserStore&lt;TUser&gt; che è richiesta quando ProtectPersonalData = true.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIQueryableRoleStore" xml:space="preserve">
+    <value>Lo Store non implementa IQueryableRoleStore&lt;TRole&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIQueryableUserStore" xml:space="preserve">
+    <value>Lo Store non implementa IQueryableUserStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIRoleClaimStore" xml:space="preserve">
+    <value>Lo Store non implementa IRoleClaimStore&lt;TRole&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserAuthenticationTokenStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserAuthenticationTokenStore&lt;User&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserAuthenticatorKeyStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserAuthenticatorKeyStore&lt;User&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserClaimStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserClaimStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserConfirmationStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserConfirmationStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserEmailStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserEmailStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserLockoutStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserLockoutStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserLoginStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserLoginStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserPasswordStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserPasswordStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserPhoneNumberStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserPhoneNumberStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserRoleStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserRoleStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserSecurityStampStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserSecurityStampStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserTwoFactorRecoveryCodeStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserTwoFactorRecoveryCodeStore&lt;User&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="StoreNotIUserTwoFactorStore" xml:space="preserve">
+    <value>Lo Store non implementa IUserTwoFactorStore&lt;TUser&gt;.</value>
+    <comment>Interfaccia non implementata</comment>
+  </data>
+  <data name="UserAlreadyHasPassword" xml:space="preserve">
+    <value>L'utente ha già una password assegnata.</value>
+    <comment>AddPasswordAsync chiamata quando l'utente ha già la password</comment>
+  </data>
+  <data name="UserAlreadyInRole" xml:space="preserve">
+    <value>L'utente ha già il ruolo '{0}'.</value>
+    <comment>Ruolo già assegnato all'utente</comment>
+  </data>
+  <data name="UserLockedOut" xml:space="preserve">
+    <value>L'utente è bloccato.</value>
+    <comment>Utente bloccato</comment>
+  </data>
+  <data name="UserLockoutNotEnabled" xml:space="preserve">
+    <value>Lockout non abilitato per questo utente.</value>
+    <comment>Lockout non abilitato</comment>
+  </data>
+  <data name="UserNameNotFound" xml:space="preserve">
+    <value>User {0} non esistente.</value>
+    <comment>Utente non esistente</comment>
+  </data>
+  <data name="UserNotInRole" xml:space="preserve">
+    <value>L'utente non ha il ruolo '{0}'.</value>
+    <comment>Utente senza ruolo corretto</comment>
+  </data>
+  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
+    <value>If you lose your device and don't have the recovery codes you will lose access to your account.</value>
+  </data>
+  <data name="Put these codes in a safe place." xml:space="preserve">
+    <value>Put these codes in a safe place.</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Recovery codes</value>
+  </data>
 </root>
