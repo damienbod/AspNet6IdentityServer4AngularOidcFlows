@@ -266,6 +266,12 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.authNonce = nonce;
         this.loggerService.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.authStateControl);
 
+        //code_challenge with "S256"
+        const code_challenge = 'C' + Math.random() + '' + Date.now();
+        const code_verifier = this.oidcSecurityValidation.generate_code_verifier(code_challenge);
+        //
+        this.oidcSecurityCommon.code_verifier = code_verifier;
+
         if (this.authWellKnownEndpoints) {
             const url = this.createAuthorizeUrl(
                 this.authConfiguration.redirect_url,

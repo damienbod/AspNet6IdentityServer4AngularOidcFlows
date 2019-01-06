@@ -357,4 +357,11 @@ export class OidcSecurityValidation {
 
         return testdata;
     }
+
+    generate_code_verifier(code_challenge: any): string {
+        const hash = KJUR.crypto.Util.hashString(code_challenge, 'sha256');
+        const testdata = hextob64u(hash);
+
+        return testdata;
+    }
 }
