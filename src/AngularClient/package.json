@@ -62,7 +62,7 @@
         "@ngtools/webpack": "^6.2.5",
         "protractor": "~5.4.2",
         "tslint": "~5.12.0",
-        "typescript": "~3.2.2",
+        "typescript": "~3.1.6",
         "angular-router-loader": "0.8.5",
         "angular2-template-loader": "^0.6.2",
         "awesome-typescript-loader": "^5.2.1",
