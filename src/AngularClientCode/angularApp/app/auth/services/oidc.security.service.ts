@@ -1,4 +1,4 @@
-import { HttpParams, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, from, Observable, Subject, throwError as observableThrowError, timer, of } from 'rxjs';
@@ -295,17 +295,20 @@ export class OidcSecurityService {
     requestTokensWithCode(code: string) {
         const tokenRequestUrl = `${this.authWellKnownEndpoints.token_endpoint}`;
 
-        const data = `{"grant_type":"authorization_code","client_id": ${this.authConfiguration.client_id},"code_verifier": ${this.oidcSecurityCommon.code_verifier},"code": ${code},"redirect_uri": ${this.authConfiguration.redirect_url} }`
+        let headers: HttpHeaders = new HttpHeaders();
+        headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        const data = `grant_type=authorization_code&client_id=${this.authConfiguration.client_id}&code_verifier=${this.oidcSecurityCommon.code_verifier}&code=${code}&redirect_uri=${this.authConfiguration.redirect_url}`
         this.httpClient
-            .post(tokenRequestUrl, data)
+            .post(tokenRequestUrl, data, { headers: headers })
             .pipe(
                 map(response => {
                 console.warn(response);
-                    //this._onConfigurationLoaded.next(true);
+                    // this._onConfigurationLoaded.next(true);
                 }),
                 catchError(error => {
                     console.error(`OidcService code request ${this.authConfiguration.stsServer}`, error);
-                    //this._onConfigurationLoaded.next(false);
+                    // this._onConfigurationLoaded.next(false);
                     return of(false);
                 })
             )
