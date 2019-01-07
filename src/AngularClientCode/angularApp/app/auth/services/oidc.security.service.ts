@@ -238,7 +238,7 @@ export class OidcSecurityService {
     }
 
     // Code Flow with PCKE
-    authorizeCodeFlow(urlHandler?: (url: string) => any) {
+    authorize(urlHandler?: (url: string) => any) {
         if (this.authWellKnownEndpoints) {
             this.authWellKnownEndpointsLoaded = true;
         }
@@ -267,27 +267,44 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.authNonce = nonce;
         this.loggerService.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.authStateControl);
 
-        // code_challenge with "S256"
-        const code_verifier = 'C' + Math.random() + '' + Date.now() + '' + Date.now() + Math.random();
-        const code_challenge = this.oidcSecurityValidation.generate_code_verifier(code_verifier);
+        let url = '';
+        // Code Flow
+        if (this.authConfiguration.response_type === 'code') {
 
-        this.oidcSecurityCommon.code_verifier = code_verifier;
+            // code_challenge with "S256"
+            const code_verifier = 'C' + Math.random() + '' + Date.now() + '' + Date.now() + Math.random();
+            const code_challenge = this.oidcSecurityValidation.generate_code_verifier(code_verifier);
 
-        if (this.authWellKnownEndpoints) {
-            const url = this.createAuthorizeUrl(true, code_challenge,
-                this.authConfiguration.redirect_url,
-                nonce,
-                state,
-                this.authWellKnownEndpoints.authorization_endpoint
-            );
+            this.oidcSecurityCommon.code_verifier = code_verifier;
 
-            if (urlHandler) {
-                urlHandler(url);
+            if (this.authWellKnownEndpoints) {
+                url = this.createAuthorizeUrl(true, code_challenge,
+                    this.authConfiguration.redirect_url,
+                    nonce,
+                    state,
+                    this.authWellKnownEndpoints.authorization_endpoint
+                );
             } else {
-                this.redirectTo(url);
+                this.loggerService.logError('authWellKnownEndpoints is undefined');
             }
+        } else { // Implicit Flow
+
+            if (this.authWellKnownEndpoints) {
+                url = this.createAuthorizeUrl(false, '',
+                    this.authConfiguration.redirect_url,
+                    nonce,
+                    state,
+                    this.authWellKnownEndpoints.authorization_endpoint
+                );
+            } else {
+                this.loggerService.logError('authWellKnownEndpoints is undefined');
+            }
+        }
+
+        if (urlHandler) {
+            urlHandler(url);
         } else {
-            this.loggerService.logError('authWellKnownEndpoints is undefined');
+            this.redirectTo(url);
         }
     }
 
@@ -417,54 +434,6 @@ export class OidcSecurityService {
                     this.oidcSecurityCommon.silentRenewRunning = '';
                 }
             );
-        }
-    }
-
-    // Implicit Flow
-    authorizeImplicitFlow(urlHandler?: (url: string) => any) {
-        if (this.authWellKnownEndpoints) {
-            this.authWellKnownEndpointsLoaded = true;
-        }
-
-        if (!this.authWellKnownEndpointsLoaded) {
-            this.loggerService.logError('Well known endpoints must be loaded before user can login!');
-            return;
-        }
-
-        if (!this.oidcSecurityValidation.config_validate_response_type(this.authConfiguration.response_type)) {
-            // invalid response_type
-            return;
-        }
-
-        this.resetAuthorizationData(false);
-
-        this.loggerService.logDebug('BEGIN Authorize, no auth data');
-
-        let state = this.oidcSecurityCommon.authStateControl;
-        if (!state) {
-            state = Date.now() + '' + Math.random();
-            this.oidcSecurityCommon.authStateControl = state;
-        }
-
-        const nonce = 'N' + Math.random() + '' + Date.now();
-        this.oidcSecurityCommon.authNonce = nonce;
-        this.loggerService.logDebug('AuthorizedController created. local state: ' + this.oidcSecurityCommon.authStateControl);
-
-        if (this.authWellKnownEndpoints) {
-            const url = this.createAuthorizeUrl(false, '',
-                this.authConfiguration.redirect_url,
-                nonce,
-                state,
-                this.authWellKnownEndpoints.authorization_endpoint
-            );
-
-            if (urlHandler) {
-                urlHandler(url);
-            } else {
-                this.redirectTo(url);
-            }
-        } else {
-            this.loggerService.logError('authWellKnownEndpoints is undefined');
         }
     }
 
@@ -691,16 +660,39 @@ export class OidcSecurityService {
         this.loggerService.logDebug('RefreshSession created. adding myautostate: ' + this.oidcSecurityCommon.authStateControl);
 
         let url = '';
-        if (this.authWellKnownEndpoints) {
-            url = this.createAuthorizeUrl( false, '',
-                this.authConfiguration.silent_redirect_url,
-                nonce,
-                state,
-                this.authWellKnownEndpoints.authorization_endpoint,
-                'none'
-            );
+
+        // Code Flow
+        if (this.authConfiguration.response_type === 'code') {
+
+            // code_challenge with "S256"
+            const code_verifier = 'C' + Math.random() + '' + Date.now() + '' + Date.now() + Math.random();
+            const code_challenge = this.oidcSecurityValidation.generate_code_verifier(code_verifier);
+
+            this.oidcSecurityCommon.code_verifier = code_verifier;
+
+            if (this.authWellKnownEndpoints) {
+                url = this.createAuthorizeUrl(true, code_challenge,
+                    this.authConfiguration.silent_redirect_url,
+                    nonce,
+                    state,
+                    this.authWellKnownEndpoints.authorization_endpoint,
+                    'none'
+                );
+            } else {
+                this.loggerService.logWarning('authWellKnownEndpoints is undefined');
+            }
         } else {
-            this.loggerService.logWarning('authWellKnownEndpoints is undefined');
+            if (this.authWellKnownEndpoints) {
+                url = this.createAuthorizeUrl(false, '',
+                    this.authConfiguration.silent_redirect_url,
+                    nonce,
+                    state,
+                    this.authWellKnownEndpoints.authorization_endpoint,
+                    'none'
+                );
+            } else {
+                this.loggerService.logWarning('authWellKnownEndpoints is undefined');
+            }
         }
 
         this.oidcSecurityCommon.silentRenewRunning = 'running';

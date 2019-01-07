@@ -82,12 +82,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.oidcSecurityService.setCustomRequestParameters({ 'ui_locales': culture});
 
-        this.oidcSecurityService.authorizeCodeFlow();
+        this.oidcSecurityService.authorize();
     }
 
     refreshSession() {
         console.log('start refreshSession');
-        this.oidcSecurityService.authorizeCodeFlow();
+        this.oidcSecurityService.authorize();
     }
 
     logout() {
