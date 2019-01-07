@@ -168,3 +168,8 @@ src/ResourceWithIdentityServerWithClient/ResourceWithIdentityServerWithClient.cs
 /src/AngularClientCode/bin
 /src/AngularClientCode/wwwroot/dist
 /src/AngularClientCode/wwwroot/dist
+**/*.js.map
+/src/AngularClientCode/angularApp/app/**/*.js
+/src/AngularClientCode/angularApp/main.js
+/src/AngularClientCode/angularApp/polyfills.js
+/src/AngularClientCode/angularApp/vendor.js
