@@ -115,7 +115,7 @@ export class AppModule {
 
             openIDImplicitFlowConfiguration.silent_renew = this.oidcConfigService.clientConfiguration.silent_renew;
             openIDImplicitFlowConfiguration.silent_renew_url = this.oidcConfigService.clientConfiguration.redirect_url + '/silent-renew.html';
-            ..
+
             openIDImplicitFlowConfiguration.post_login_route = this.oidcConfigService.clientConfiguration.startup_route;
             // HTTP 403
             openIDImplicitFlowConfiguration.forbidden_route = this.oidcConfigService.clientConfiguration.forbidden_route;
