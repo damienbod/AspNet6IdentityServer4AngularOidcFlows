@@ -821,13 +821,4 @@
     <value>User is not in role '{0}'.</value>
     <comment>Error when a user is not in the role</comment>
   </data>
-  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
-    <value>If you lose your device and don't have the recovery codes you will lose access to your account.</value>
-  </data>
-  <data name="Put these codes in a safe place." xml:space="preserve">
-    <value>Put these codes in a safe place.</value>
-  </data>
-  <data name="Recovery codes" xml:space="preserve">
-    <value>Recovery codes</value>
-  </data>
 </root>
