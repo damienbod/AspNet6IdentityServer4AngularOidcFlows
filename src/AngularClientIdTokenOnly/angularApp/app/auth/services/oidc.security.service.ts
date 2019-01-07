@@ -334,8 +334,8 @@ export class OidcSecurityService {
         if (this.oidcSecurityCommon.silentRenewRunning === 'running') {
             data = `grant_type=authorization_code&client_id=${this.authConfiguration.client_id}`
                 + `&code_verifier=${this.oidcSecurityCommon.code_verifier}&code=${code}&redirect_uri=${this.authConfiguration.silent_redirect_url}`;
-        } 
-        
+        }
+
         this.httpClient
             .post(tokenRequestUrl, data, { headers: headers })
             .pipe(
@@ -946,8 +946,14 @@ export class OidcSecurityService {
             const code = params.get('code');
             const state = params.get('state');
             const session_state = params.get('session_state');
+            const error = params.get('error');
+            if (code) {
+                this.requestTokensWithCodeProcedure(code, state, session_state);
+            }
+            if (error) {
+                this.loggerService.logDebug(e.detail.toString());
+            }
 
-            this.requestTokensWithCodeProcedure(code, state, session_state);
         } else {
             // ImplicitFlow
             this.authorizedImplicitFlowCallback(e.detail);
