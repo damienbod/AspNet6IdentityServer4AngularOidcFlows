@@ -106,7 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
         const state = params.get('state');
         const session_state = params.get('session_state');
 
-        if (code && state) {
+        if (code && state && session_state) {
             this.oidcSecurityService.requestTokensWithCode(code, state, session_state);
         }
     }
