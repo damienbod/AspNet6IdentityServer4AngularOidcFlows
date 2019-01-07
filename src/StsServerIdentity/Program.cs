@@ -41,8 +41,10 @@ namespace StsServerIdentity
                 .UseKestrel(c => c.AddServerHeader = false)
                 .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                     .ReadFrom.Configuration(hostingContext.Configuration)
+                    .MinimumLevel.Debug()
                     .Enrich.FromLogContext()
                     .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+                    //.WriteTo.RollingFile("Log")
                 );
     }
 }

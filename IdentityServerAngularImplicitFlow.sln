@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngularClientIdTokenOnly", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StsServerIdentity", "src\StsServerIdentity\StsServerIdentity.csproj", "{19DF053D-2D66-4502-A5C2-341EF981D0C0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngularClientCode", "src\AngularClientCode\AngularClientCode.csproj", "{D97F476C-CD83-432E-AC15-077C91F78B79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{19DF053D-2D66-4502-A5C2-341EF981D0C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19DF053D-2D66-4502-A5C2-341EF981D0C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19DF053D-2D66-4502-A5C2-341EF981D0C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D97F476C-CD83-432E-AC15-077C91F78B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D97F476C-CD83-432E-AC15-077C91F78B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D97F476C-CD83-432E-AC15-077C91F78B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D97F476C-CD83-432E-AC15-077C91F78B79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{37214DB4-F4B3-44A9-ABAD-1F0D63087994} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 		{93DB1A95-88E1-4B5C-909B-012D64350251} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 		{19DF053D-2D66-4502-A5C2-341EF981D0C0} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
+		{D97F476C-CD83-432E-AC15-077C91F78B79} = {A0F6C07F-188D-4F86-B43F-4A3EAD0D2C30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {269BE43F-2664-4A83-931C-2EC5E886B8AB}

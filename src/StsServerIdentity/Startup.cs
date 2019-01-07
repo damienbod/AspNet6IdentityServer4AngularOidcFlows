@@ -180,7 +180,7 @@ namespace StsServerIdentity
                 .FontSources(s => s.Self())
                 .FrameAncestors(s => s.Self())
                 .FrameAncestors(s => s.CustomSources(
-                    angularClientUrl, angularClientIdTokenOnlyUrl)
+                    angularClientUrl, angularClientIdTokenOnlyUrl, "https://localhost:44352")
                  )
                 .ImageSources(imageSrc => imageSrc.Self())
                 .ImageSources(imageSrc => imageSrc.CustomSources("data:"))
