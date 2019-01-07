@@ -237,7 +237,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.customRequestParams = params;
     }
 
-    // Code Flow with PCKE
+    // Code Flow with PCKE or Implicit Flow
     authorize(urlHandler?: (url: string) => any) {
         if (this.authWellKnownEndpoints) {
             this.authWellKnownEndpointsLoaded = true;
@@ -308,8 +308,20 @@ export class OidcSecurityService {
         }
     }
 
-    // Code Flow with PCKE
+    // Code Flow
     requestTokensWithCode(code: string, state: string, session_state: string) {
+        this._isModuleSetup
+            .pipe(
+                filter((isModuleSetup: boolean) => isModuleSetup),
+                take(1)
+            )
+            .subscribe(() => {
+                this.requestTokensWithCodeProcedure(code, state, session_state);
+            });
+    }
+
+    // Code Flow with PCKE
+    requestTokensWithCodeProcedure(code: string, state: string, session_state: string) {
         const tokenRequestUrl = `${this.authWellKnownEndpoints.token_endpoint}`;
 
         // TODO validate state early instead of waiting for the callback with the tokens
@@ -919,7 +931,20 @@ export class OidcSecurityService {
     private silentRenewEventHandler(e: CustomEvent) {
         this.loggerService.logDebug('silentRenewEventHandler');
 
-        // TODO ImplicitFlow of Code switch
-        this.authorizedImplicitFlowCallback(e.detail);
+        if (this.authConfiguration.response_type === 'code') {
+
+            const urlParts = e.detail.split('?');
+            const params = new HttpParams({
+                fromString: urlParts[1]
+            });
+            const code = params.get('code');
+            const state = params.get('state');
+            const session_state = params.get('session_state');
+
+            this.requestTokensWithCodeProcedure(code, state, session_state);
+        } else {
+            // ImplicitFlow
+            this.authorizedImplicitFlowCallback(e.detail);
+        }
     }
 }
