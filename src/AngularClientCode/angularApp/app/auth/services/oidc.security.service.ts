@@ -334,8 +334,8 @@ export class OidcSecurityService {
         if (this.oidcSecurityCommon.silentRenewRunning === 'running') {
             data = `grant_type=authorization_code&client_id=${this.authConfiguration.client_id}`
                 + `&code_verifier=${this.oidcSecurityCommon.code_verifier}&code=${code}&redirect_uri=${this.authConfiguration.silent_redirect_url}`;
-        } 
-        
+        }
+
         this.httpClient
             .post(tokenRequestUrl, data, { headers: headers })
             .pipe(
