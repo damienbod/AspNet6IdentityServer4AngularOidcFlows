@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     private doCallbackLogicIfRequired() {
         if (window.location.hash) {
-            this.securityService.authorizedCallback();
+            this.securityService.authorizedImplicitFlowCallback();
         }
     }
 
