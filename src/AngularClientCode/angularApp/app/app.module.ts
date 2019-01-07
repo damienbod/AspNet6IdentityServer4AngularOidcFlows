@@ -114,7 +114,7 @@ export class AppModule {
             openIDImplicitFlowConfiguration.start_checksession = this.oidcConfigService.clientConfiguration.start_checksession;
 
             openIDImplicitFlowConfiguration.silent_renew = this.oidcConfigService.clientConfiguration.silent_renew;
-            openIDImplicitFlowConfiguration.silent_renew_url = 'https://localhost:44311/silent-renew.html';
+            openIDImplicitFlowConfiguration.silent_renew_url = 'https://localhost:44352/silent-renew.html';
 
             openIDImplicitFlowConfiguration.post_login_route = this.oidcConfigService.clientConfiguration.startup_route;
             // HTTP 403

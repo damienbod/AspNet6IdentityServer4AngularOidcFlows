@@ -329,8 +329,13 @@ export class OidcSecurityService {
         let headers: HttpHeaders = new HttpHeaders();
         headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
-        const data = `grant_type=authorization_code&client_id=${this.authConfiguration.client_id}`
+        let data = `grant_type=authorization_code&client_id=${this.authConfiguration.client_id}`
             + `&code_verifier=${this.oidcSecurityCommon.code_verifier}&code=${code}&redirect_uri=${this.authConfiguration.redirect_url}`;
+        if (this.oidcSecurityCommon.silentRenewRunning === 'running') {
+            data = `grant_type=authorization_code&client_id=${this.authConfiguration.client_id}`
+                + `&code_verifier=${this.oidcSecurityCommon.code_verifier}&code=${code}&redirect_uri=${this.authConfiguration.silent_redirect_url}`;
+        } 
+        
         this.httpClient
             .post(tokenRequestUrl, data, { headers: headers })
             .pipe(
@@ -343,7 +348,8 @@ export class OidcSecurityService {
                     this.authorizedCodeFlowCallbackProcedure(obj);
                     // this._onConfigurationLoaded.next(true);
                 }),
-                catchError(error => {
+            catchError(error => {
+                    console.error(error);
                     console.error(`OidcService code request ${this.authConfiguration.stsServer}`, error);
                     // this._onConfigurationLoaded.next(false);
                     return of(false);
@@ -933,7 +939,7 @@ export class OidcSecurityService {
 
         if (this.authConfiguration.response_type === 'code') {
 
-            const urlParts = e.detail.split('?');
+            const urlParts = e.detail.toString().split('?');
             const params = new HttpParams({
                 fromString: urlParts[1]
             });
