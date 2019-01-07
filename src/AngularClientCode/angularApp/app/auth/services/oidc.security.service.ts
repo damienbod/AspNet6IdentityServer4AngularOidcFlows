@@ -293,11 +293,9 @@ export class OidcSecurityService {
 
     // Code Flow with PCKE
     requestTokensWithCode(code: string, state: string, session_state: string) {
-        // TODO Validate session_state
-        console.log('state' + state);
-        console.log('session_state' + session_state);
-
         const tokenRequestUrl = `${this.authWellKnownEndpoints.token_endpoint}`;
+
+        // TODO validate state early instead of waiting for the callback with the tokens
 
         let headers: HttpHeaders = new HttpHeaders();
         headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
@@ -312,7 +310,6 @@ export class OidcSecurityService {
                     obj = response;
                     obj.state = state;
                     obj.session_state = session_state;
-                    console.warn(obj);
 
                     this.authorizedCodeFlowCallbackProcedure(obj);
                     // this._onConfigurationLoaded.next(true);
@@ -359,8 +356,6 @@ export class OidcSecurityService {
                 jwtKeys => {
                     const validationResult = this.getValidatedStateResult(result, jwtKeys);
 
-                    console.log('-------');
-                    console.log(validationResult);
                     if (validationResult.authResponseIsValid) {
                         this.setAuthorizationData(validationResult.access_token, validationResult.id_token);
                         this.oidcSecurityCommon.silentRenewRunning = '';
@@ -601,14 +596,14 @@ export class OidcSecurityService {
 
         return new Observable<boolean>(observer => {
             // flow id_token token
-            if (this.authConfiguration.response_type === 'id_token token') {
+            if (this.authConfiguration.response_type === 'id_token token' || this.authConfiguration.response_type === 'code') {
                 if (isRenewProcess && this._userData.value) {
                     this.oidcSecurityCommon.sessionState = result.session_state;
                     observer.next(true);
                     observer.complete();
                 } else {
                     this.oidcSecurityUserService.initUserData().subscribe(() => {
-                        this.loggerService.logDebug('authorizedCallback id_token token flow');
+                        this.loggerService.logDebug('authorizedCallback (id_token token || code) flow');
 
                         const userData = this.oidcSecurityUserService.getUserData();
 
