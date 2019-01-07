@@ -946,8 +946,14 @@ export class OidcSecurityService {
             const code = params.get('code');
             const state = params.get('state');
             const session_state = params.get('session_state');
+            const error = params.get('error');
+            if (code) {
+                this.requestTokensWithCodeProcedure(code, state, session_state);
+            }
+            if (error) {
+                this.loggerService.logDebug(e.detail.toString());
+            }
 
-            this.requestTokensWithCodeProcedure(code, state, session_state);
         } else {
             // ImplicitFlow
             this.authorizedImplicitFlowCallback(e.detail);
