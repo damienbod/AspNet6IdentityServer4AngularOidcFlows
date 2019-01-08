@@ -79,7 +79,6 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
             deps: [OidcConfigService],
             multi: true
         },
-        OidcSecurityService,
         AuthorizationGuard,
         AuthorizationCanGuard,
         SecureFileService,
