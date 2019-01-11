@@ -131,6 +131,8 @@ export class AppModule {
             configuration.FileServer = this.oidcConfigService.clientConfiguration.apiFileServer;
             configuration.Server = this.oidcConfigService.clientConfiguration.apiServer;
 
+            openIDImplicitFlowConfiguration.history_cleanup_off = true;
+
             const authWellKnownEndpoints = new AuthWellKnownEndpoints();
             authWellKnownEndpoints.setWellKnownEndpoints(this.oidcConfigService.wellKnownEndpoints);
 
