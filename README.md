@@ -37,6 +37,9 @@
 
 ## History
 
+
+<strong>2019-01-30: </strong>updated npm packages, at_hash is optional for code flow
+
 <strong>2019-01-07: </strong>Angular OIDC lib, support for Code Flow with PKCE and sample project
 
 <strong>2019-01-06: </strong>Update npm packages, UI fixes in the STS
