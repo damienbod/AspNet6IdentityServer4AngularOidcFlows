@@ -334,7 +334,7 @@ export class OidcSecurityValidation {
     // access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash
     // is present in the ID Token.
     validate_id_token_at_hash(access_token: any, at_hash: any, isCodeFlow: boolean): boolean {
-        this.loggerService.logDebug('From the server:' + at_hash);
+        this.loggerService.logDebug('at_hash from the server:' + at_hash);
 
         // The at_hash is optional for the code flow
         if (isCodeFlow) {
@@ -345,7 +345,7 @@ export class OidcSecurityValidation {
         }
 
         const testdata = this.generate_at_hash('' + access_token);
-        this.loggerService.logDebug('client validation not decoded:' + testdata);
+        this.loggerService.logDebug('at_hash client validation not decoded:' + testdata);
         if (testdata === (at_hash as string)) {
             return true; // isValid;
         } else {
