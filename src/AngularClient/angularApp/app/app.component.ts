@@ -106,6 +106,12 @@ export class AppComponent implements OnInit, OnDestroy {
             + authorizationResult.authorizationState
             + ' validationResult:' + authorizationResult.validationResult);
 
+        this.oidcSecurityService.getUserData().subscribe(
+            (data: any) => {
+                console.warn(data);
+            });
+        
+
         if (authorizationResult.authorizationState === AuthorizationState.unauthorized) {
             if (window.parent) {
                 // sent from the child iframe, for example the silent renew
