@@ -821,4 +821,46 @@
     <value>User is not in role '{0}'.</value>
     <comment>Error when a user is not in the role</comment>
   </data>
+  <data name="Access to your applications and resources, even when you are offline" xml:space="preserve">
+    <value>Access to your applications and resources, even when you are offline</value>
+  </data>
+  <data name="CONSENT_CONFIRM_AUTH_REQUEST_QUOTES" xml:space="preserve">
+    <value>Please confirm that the authorization request quotes the code:</value>
+  </data>
+  <data name="DEVICE_ENTER_CODE_DISPLAYED_ON_DEVICE" xml:space="preserve">
+    <value>Please enter the code displayed on your device</value>
+  </data>
+  <data name="DEVICE_SUCCESS" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="DEVICE_SUCCESS_AUTHORIZE" xml:space="preserve">
+    <value>You have successfully authorized the device</value>
+  </data>
+  <data name="DEVICE_USER_CODE" xml:space="preserve">
+    <value>User Code</value>
+  </data>
+  <data name="Invalid selection" xml:space="preserve">
+    <value>Invalid selection</value>
+  </data>
+  <data name="Offline Access" xml:space="preserve">
+    <value>Offline Access</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Recovery codes</value>
+  </data>
+  <data name="User profile" xml:space="preserve">
+    <value>User profile</value>
+  </data>
+  <data name="You must pick at least one permission" xml:space="preserve">
+    <value>You must pick at least one permission</value>
+  </data>
+  <data name="Your email address" xml:space="preserve">
+    <value>Your email address</value>
+  </data>
+  <data name="Your user identifier" xml:space="preserve">
+    <value>Your user identifier</value>
+  </data>
+  <data name="Your user profile information (first name, last name, etc.)" xml:space="preserve">
+    <value>Your user profile information (first name, last name, etc.)</value>
+  </data>
 </root>

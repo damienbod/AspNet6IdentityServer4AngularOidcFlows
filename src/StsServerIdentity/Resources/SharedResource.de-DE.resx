@@ -821,4 +821,46 @@
     <value>Der Benutzer hat die Rolle '{0}' nicht.</value>
     <comment>Error when a user is not in the role</comment>
   </data>
+  <data name="Access to your applications and resources, even when you are offline" xml:space="preserve">
+    <value>Zugriff auf Ihre Anwendungen und Ressourcen, auch wenn Sie offline sind</value>
+  </data>
+  <data name="CONSENT_CONFIRM_AUTH_REQUEST_QUOTECONSENT_CONFIRM_AUTH_REQUEST_QUOTE" xml:space="preserve">
+    <value>Bitte bestätigen Sie, dass die Autorisierungsanfrage den Code enthält:</value>
+  </data>
+  <data name="DEVICE_ENTER_CODE_DISPLAYED_ON_DEVICE" xml:space="preserve">
+    <value>Bitte geben Sie den Code ein, der auf Ihrem Gerät angezeigt wird</value>
+  </data>
+  <data name="DEVICE_SUCCESS" xml:space="preserve">
+    <value>Erfolgreich</value>
+  </data>
+  <data name="DEVICE_SUCCESS_AUTHORIZE" xml:space="preserve">
+    <value>Sie haben das Gerät erfolgreich autorisiert</value>
+  </data>
+  <data name="DEVICE_USER_CODE" xml:space="preserve">
+    <value>Benutzer Code</value>
+  </data>
+  <data name="Invalid selection" xml:space="preserve">
+    <value>Ungültige Auswahl</value>
+  </data>
+  <data name="Offline Access" xml:space="preserve">
+    <value>Offline-Zugriff</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Wiederherstellungscodes</value>
+  </data>
+  <data name="User profile" xml:space="preserve">
+    <value>Benutzerprofil</value>
+  </data>
+  <data name="You must pick at least one permission" xml:space="preserve">
+    <value>Sie müssen mindestens eine Erlaubnis auswählen</value>
+  </data>
+  <data name="Your email address" xml:space="preserve">
+    <value>Ihre Emailadresse</value>
+  </data>
+  <data name="Your user identifier" xml:space="preserve">
+    <value>Ihre Benutzerkennung</value>
+  </data>
+  <data name="Your user profile information (first name, last name, etc.)" xml:space="preserve">
+    <value>Ihre Benutzerprofilinformationen (Vorname, Nachname usw.)</value>
+  </data>
 </root>
