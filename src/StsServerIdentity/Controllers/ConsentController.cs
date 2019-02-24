@@ -16,7 +16,6 @@ namespace StsServerIdentity.Controllers
     /// <summary>
     /// This controller implements the consent logic
     /// </summary>
-    [SecurityHeaders]
     public class ConsentController : Controller
     {
         private readonly ILogger<ConsentController> _logger;
