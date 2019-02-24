@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2019-02-24: </strong> Updated angular 7.2.6
+
 <strong>2019-02-11: </strong>updated npm packages
 
 <strong>2019-01-30: </strong>updated npm packages, at_hash is optional for code flow
