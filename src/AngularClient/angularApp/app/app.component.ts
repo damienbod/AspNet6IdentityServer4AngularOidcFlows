@@ -110,7 +110,6 @@ export class AppComponent implements OnInit, OnDestroy {
             (data: any) => {
                 console.warn(data);
             });
-        
 
         if (authorizationResult.authorizationState === AuthorizationState.unauthorized) {
             if (window.parent) {
