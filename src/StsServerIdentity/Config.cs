@@ -162,17 +162,21 @@ namespace StsServerIdentity
                     RedirectUris = new List<string>
                     {
                         "https://localhost:44352",
-                        "https://localhost:44352/silent-renew.html"
-
+                        "https://localhost:44352/silent-renew.html",
+                        "https://localhost:4200",
+                        "https://localhost:4200/silent-renew.html"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
                         "https://localhost:44352/unauthorized",
-                        "https://localhost:44352"
+                        "https://localhost:44352",
+                        "https://localhost:4200/unauthorized",
+                        "https://localhost:4200"
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "https://localhost:44352"
+                        "https://localhost:44352",
+                        "https://localhost:4200"
                     },
                     AllowedScopes = new List<string>
                     {
