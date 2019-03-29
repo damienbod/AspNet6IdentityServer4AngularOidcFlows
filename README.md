@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2019-03-29: </strong> Updated angular 7.2.11, Nuget packages
+
 <strong>2019-03-15: </strong> Updated angular 7.2.9, Nuget packages
 
 <strong>2019-02-24: </strong> Updated angular 7.2.6, Nuget packages
