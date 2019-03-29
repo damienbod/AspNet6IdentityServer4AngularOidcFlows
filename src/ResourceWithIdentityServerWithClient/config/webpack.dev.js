@@ -109,7 +109,8 @@ module.exports = {
 
     // new webpack.optimize.CommonsChunkPlugin({ name: ['vendor', 'polyfills'] }),
 
-    new CleanWebpackPlugin(['./wwwroot/dist', './wwwroot/assets'], {
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['./wwwroot/dist', './wwwroot/assets'],
       root: ROOT
     }),
 
