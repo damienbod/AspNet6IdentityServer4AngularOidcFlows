@@ -117,6 +117,7 @@ export class AppModule {
                 this.oidcConfigService.clientConfiguration.max_id_token_iat_offset_allowed_in_seconds;
             config.history_cleanup_off = true;
             // config.iss_validation_off = false;
+            // config.disable_iat_offset_validation = true;
 
             configuration.FileServer = this.oidcConfigService.clientConfiguration.apiFileServer;
             configuration.Server = this.oidcConfigService.clientConfiguration.apiServer;
