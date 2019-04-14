@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2019-04-14: </strong> Updated OIDC lib code
+
 <strong>2019-04-13: </strong> Updated angular 7.2.13, Nuget packages
 
 <strong>2019-03-29: </strong> Updated angular 7.2.11, Nuget packages
