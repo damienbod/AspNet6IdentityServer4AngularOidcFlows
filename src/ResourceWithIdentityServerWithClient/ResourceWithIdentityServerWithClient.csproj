@@ -15,7 +15,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.4" />
     <PackageReference Include="Microsoft.Azure.KeyVault" Version="3.0.3" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="4.5.1" />
-    <PackageReference Include="Sendgrid" Version="9.10.0" />
+    <PackageReference Include="Sendgrid" Version="9.11.0" />
   </ItemGroup>
 
   <ItemGroup>
