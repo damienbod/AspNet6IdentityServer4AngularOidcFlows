@@ -37,6 +37,8 @@
 
 ## History
 
+<strong>2019-04-28: </strong> Increased length of the state for OIDC authorize, silent renew fix for code flow
+
 <strong>2019-04-26: </strong> Updated npm packages
 
 <strong>2019-04-14: </strong> Updated OIDC lib code
