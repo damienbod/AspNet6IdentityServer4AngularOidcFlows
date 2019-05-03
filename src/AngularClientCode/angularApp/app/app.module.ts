@@ -17,7 +17,7 @@ import { SecureFilesComponent } from './securefile/securefiles.component';
 
 import { AuthModule } from './auth/modules/auth.module';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
-import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configuration';
+
 
 import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
 
@@ -25,7 +25,8 @@ import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderTyp
 import { AuthorizationGuard } from './authorization.guard';
 import { AuthorizationCanGuard } from './authorization.can.guard';
 
-import { OidcConfigService } from './auth/services/oidc.security.config.service';
+import { OidcConfigService, ConfigResult } from './auth/services/oidc.security.config.service';
+import { OpenIdConfiguration } from './auth/models/auth.configuration';
 
 const l10nConfig: L10nConfig = {
     locale: {
@@ -96,33 +97,55 @@ export class AppModule {
     ) {
         this.l10nLoader.load();
 
-        this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
+        //this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
+        //    const config: OpenIdConfiguration = {
+        //        stsServer: configResult.customConfig.stsServer,
+        //        redirect_url: 'https://localhost:4200',
+        //        client_id: 'angularClient',
+        //        scope: 'openid profile email',
+        //        response_type: 'code',
+        //        silent_renew: true,
+        //        silent_renew_url: 'https://localhost:4200/silent-renew.html',
+        //        log_console_debug_active: true,
+        //    };
 
-            const config = new OpenIDImplicitFlowConfiguration();
-            config.stsServer = this.oidcConfigService.clientConfiguration.stsServer;
-            config.redirect_url = this.oidcConfigService.clientConfiguration.redirect_url;
-            config.client_id = this.oidcConfigService.clientConfiguration.client_id;
-            config.response_type = this.oidcConfigService.clientConfiguration.response_type;
-            config.scope = this.oidcConfigService.clientConfiguration.scope;
-            config.post_logout_redirect_uri = this.oidcConfigService.clientConfiguration.post_logout_redirect_uri;
-            config.start_checksession = this.oidcConfigService.clientConfiguration.start_checksession;
-            config.silent_renew = this.oidcConfigService.clientConfiguration.silent_renew;
-            config.silent_renew_url = this.oidcConfigService.clientConfiguration.redirect_url + '/silent-renew.html';
-            config.post_login_route = this.oidcConfigService.clientConfiguration.startup_route;
-            config.forbidden_route = this.oidcConfigService.clientConfiguration.forbidden_route;
-            config.unauthorized_route = this.oidcConfigService.clientConfiguration.unauthorized_route;
-            config.log_console_warning_active = this.oidcConfigService.clientConfiguration.log_console_warning_active;
-            config.log_console_debug_active = this.oidcConfigService.clientConfiguration.log_console_debug_active;
-            config.max_id_token_iat_offset_allowed_in_seconds =
-                this.oidcConfigService.clientConfiguration.max_id_token_iat_offset_allowed_in_seconds;
-            config.history_cleanup_off = true;
-            // config.iss_validation_off = false;
-            // config.disable_iat_offset_validation = true;
+        //    //config.start_checksession = true;
+        //    //config.post_login_route = '/home';
+        //    //config.forbidden_route = '/home';
+        //    //config.unauthorized_route = '/home';
+        //    //config.max_id_token_iat_offset_allowed_in_seconds = 5;
+        //    //config.history_cleanup_off = true;
 
-            configuration.FileServer = this.oidcConfigService.clientConfiguration.apiFileServer;
-            configuration.Server = this.oidcConfigService.clientConfiguration.apiServer;
+        //    this.oidcSecurityService.setupModule(config, configResult.customAuthWellknownEndpoints);
+        //});
 
-            this.oidcSecurityService.setupModule(config, this.oidcConfigService.wellKnownEndpoints);
+        this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
+
+            const config: OpenIdConfiguration = {
+                stsServer: configResult.customConfig.stsServer,
+                redirect_url: configResult.customConfig.redirect_url,
+                client_id: configResult.customConfig.client_id,
+                response_type: configResult.customConfig.response_type,
+                scope: configResult.customConfig.scope,
+                post_logout_redirect_uri: configResult.customConfig.post_logout_redirect_uri,
+                start_checksession: configResult.customConfig.start_checksession,
+                silent_renew: configResult.customConfig.silent_renew,
+                silent_renew_url: configResult.customConfig.redirect_url + '/silent-renew.html',
+                post_login_route: configResult.customConfig.startup_route,
+                forbidden_route: configResult.customConfig.forbidden_route,
+                unauthorized_route: configResult.customConfig.unauthorized_route,
+                log_console_warning_active: configResult.customConfig.log_console_warning_active,
+                log_console_debug_active: configResult.customConfig.log_console_debug_active,
+                max_id_token_iat_offset_allowed_in_seconds: configResult.customConfig.max_id_token_iat_offset_allowed_in_seconds,
+                history_cleanup_off: true
+                // iss_validation_off: false
+                // disable_iat_offset_validation: true
+
+            }
+            configuration.FileServer = configResult.customConfig.apiFileServer;
+            configuration.Server = configResult.customConfig.apiServer;
+
+            this.oidcSecurityService.setupModule(config, configResult.customAuthWellknownEndpoints);
 
         });
 
