@@ -7,26 +7,22 @@ import { Configuration } from './app.constants';
 import { routing } from './app.routes';
 
 import { HttpClientModule } from '@angular/common/http';
-
 import { SecureFileService } from './securefile/SecureFileService';
 
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { SecureFilesComponent } from './securefile/securefiles.component';
+import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
 
 import { AuthModule } from './auth/modules/auth.module';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
-
-
-import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
+import { OidcConfigService, ConfigResult } from './auth/services/oidc.security.config.service';
+import { OpenIdConfiguration } from './auth/models/auth.configuration';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
 import { AuthorizationGuard } from './authorization.guard';
 import { AuthorizationCanGuard } from './authorization.can.guard';
-
-import { OidcConfigService, ConfigResult } from './auth/services/oidc.security.config.service';
-import { OpenIdConfiguration } from './auth/models/auth.configuration';
 
 const l10nConfig: L10nConfig = {
     locale: {
