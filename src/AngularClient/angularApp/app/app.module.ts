@@ -114,15 +114,15 @@ export class AppModule {
                 history_cleanup_off: true
                 // iss_validation_off: false
                 // disable_iat_offset_validation: true
+            };
 
-            }
             configuration.FileServer = configResult.customConfig.apiFileServer;
             configuration.Server = configResult.customConfig.apiServer;
 
             this.oidcSecurityService.setupModule(config, configResult.customAuthWellknownEndpoints);
-
         });
-        //this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
+
+        // this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
 
         //    const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
         //    openIDImplicitFlowConfiguration.stsServer = this.oidcConfigService.clientConfiguration.stsServer;
@@ -161,7 +161,7 @@ export class AppModule {
 
         //    this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration, authWellKnownEndpoints);
 
-        //});
+        // });
 
         console.log('APP STARTING');
     }

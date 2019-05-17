@@ -22,8 +22,6 @@ import { OidcSecurityService } from './auth/services/oidc.security.service';
 import { AuthWellKnownEndpoints } from './auth/models/auth.well-known-endpoints';
 import { OpenIdConfiguration } from './auth/models/auth.configuration';
 
-
-
 @NgModule({
     imports: [
         BrowserModule,
@@ -83,7 +81,7 @@ export class AppModule {
             check_session_iframe: 'https://localhost:44363/connect/checksession',
             revocation_endpoint: 'https://localhost:44363/connect/revocation',
             introspection_endpoint: 'https://localhost:44363/connect/introspect'
-        }
+        };
 
         this.oidcSecurityService.setupModule(config, authWellKnownEndpoints);
     }

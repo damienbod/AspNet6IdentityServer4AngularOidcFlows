@@ -93,7 +93,7 @@ export class AppModule {
     ) {
         this.l10nLoader.load();
 
-        //this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
+        // this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
         //    const config: OpenIdConfiguration = {
         //        stsServer: configResult.customConfig.stsServer,
         //        redirect_url: 'https://localhost:4200',
@@ -113,7 +113,7 @@ export class AppModule {
         //    //config.history_cleanup_off = true;
 
         //    this.oidcSecurityService.setupModule(config, configResult.customAuthWellknownEndpoints);
-        //});
+        // });
 
         this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
 
@@ -136,13 +136,12 @@ export class AppModule {
                 history_cleanup_off: true
                 // iss_validation_off: false
                 // disable_iat_offset_validation: true
+            };
 
-            }
             configuration.FileServer = configResult.customConfig.apiFileServer;
             configuration.Server = configResult.customConfig.apiServer;
 
             this.oidcSecurityService.setupModule(config, configResult.customAuthWellknownEndpoints);
-
         });
 
         console.log('APP STARTING');

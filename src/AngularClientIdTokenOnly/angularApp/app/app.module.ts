@@ -63,7 +63,6 @@ export class AppModule {
             const flowType = 'id_token';
 
             // const flowType = 'id_token token';
-            
 
             const config: OpenIdConfiguration = {
                 // auto_userinfo: false,
@@ -84,16 +83,15 @@ export class AppModule {
                 log_console_debug_active: false,
                 max_id_token_iat_offset_allowed_in_seconds: 3,
                 auto_clean_state_after_authentication: false
+            };
 
-            }
             configuration.FileServer = configResult.customConfig.apiFileServer;
             configuration.Server = configResult.customConfig.apiServer;
 
             this.oidcSecurityService.setupModule(config, configResult.customAuthWellknownEndpoints);
-
         });
 
-        //this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
+        // this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
         //    const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
 
         //    const flowType = 'id_token';
@@ -129,6 +127,6 @@ export class AppModule {
 
         //    this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration, authWellKnownEndpoints);
 
-        //});
+        // });
     }
 }
