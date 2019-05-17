@@ -35,6 +35,7 @@
 
 <a href="http://damienbod.com/2016/03/14/secure-file-download-using-identityserver4-angular2-and-asp-net-core/">Secure file download using IdentityServer4, Angular and ASP.NET Core</a>
 
+
 ## History
 
 <strong>2019-05-17: </strong> Updated angular 7.2.15, Nuget packages
