@@ -75,6 +75,7 @@ export class AppModule {
                 post_logout_redirect_uri: 'https://localhost:44372/Unauthorized',
                 start_checksession: false,
                 silent_renew: true,
+                silent_redirect_url: configResult.customConfig.redirect_url,
                 silent_renew_url: 'https://localhost:44372/silent-renew.html',
                 post_login_route: '/home',
                 forbidden_route: '/Forbidden',
