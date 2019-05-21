@@ -126,7 +126,7 @@ export class AppModule {
                 post_logout_redirect_uri: configResult.customConfig.post_logout_redirect_uri,
                 start_checksession: configResult.customConfig.start_checksession,
                 silent_renew: configResult.customConfig.silent_renew,
-                silent_redirect_url: configResult.customConfig.redirect_url,
+                silent_redirect_url: configResult.customConfig.redirect_url + '/silent-renew.html',
                 silent_renew_url: configResult.customConfig.redirect_url + '/silent-renew.html',
                 post_login_route: configResult.customConfig.startup_route,
                 forbidden_route: configResult.customConfig.forbidden_route,
