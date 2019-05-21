@@ -98,6 +98,7 @@ export class OidcSecurityService {
                         timer(5000).pipe(
                             // backup, if nothing happens after 5 seconds stop waiting and emit
                             tap(() => {
+                                this.resetAuthorizationData(false);
                                 this.oidcSecurityCommon.authNonce = '';
                                 this.loggerService.logWarning('IsAuthorizedRace: Timeout reached. Emitting.')
                             }),
@@ -897,6 +898,9 @@ export class OidcSecurityService {
                 this.requestTokensWithCodeProcedure(code, state, session_state);
             }
             if (error) {
+                console.error('shit');
+                this.resetAuthorizationData(false);
+                this.oidcSecurityCommon.authNonce = '';
                 this.loggerService.logDebug(e.detail.toString());
             }
 
