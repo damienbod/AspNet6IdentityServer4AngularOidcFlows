@@ -100,7 +100,7 @@ export class OidcSecurityService {
                             tap(() => {
                                 this.resetAuthorizationData(false);
                                 this.oidcSecurityCommon.authNonce = '';
-                                this.loggerService.logWarning('IsAuthorizedRace: Timeout reached. Emitting.')
+                                this.loggerService.logWarning('IsAuthorizedRace: Timeout reached. Emitting.');
                             }),
                             map(() => true)
                         )
@@ -898,7 +898,7 @@ export class OidcSecurityService {
                 this.requestTokensWithCodeProcedure(code, state, session_state);
             }
             if (error) {
-                console.error('shit');
+                this._onAuthorizationResult.next(new AuthorizationResult(AuthorizationState.unauthorized, ValidationResult.LoginRequired));
                 this.resetAuthorizationData(false);
                 this.oidcSecurityCommon.authNonce = '';
                 this.loggerService.logDebug(e.detail.toString());
