@@ -98,7 +98,11 @@ export class OidcSecurityService {
                         ),
                         timer(5000).pipe(
                             // backup, if nothing happens after 5 seconds stop waiting and emit
-                            tap(() => this.loggerService.logWarning('IsAuthorizedRace: Timeout reached. Emitting.')),
+                            tap(() => {
+                                this.resetAuthorizationData(false);
+                                this.oidcSecurityCommon.authNonce = '';
+                                this.loggerService.logWarning('IsAuthorizedRace: Timeout reached. Emitting.');
+                            }),
                             map(() => true)
                         )
                     )
@@ -450,15 +454,24 @@ export class OidcSecurityService {
         }
 
         if (result.error) {
-            this.loggerService.logWarning(result);
+            if (isRenewProcess) {
+                this.loggerService.logDebug(result);
+            } else {
+                this.loggerService.logWarning(result);
+            }
+
             if ((result.error as string) === 'login_required') {
                 this._onAuthorizationResult.next(new AuthorizationResult(AuthorizationState.unauthorized, ValidationResult.LoginRequired));
             } else {
                 this._onAuthorizationResult.next(new AuthorizationResult(AuthorizationState.unauthorized, ValidationResult.SecureTokenServerError));
             }
 
-            if (!this.configurationProvider.openIDConfiguration.trigger_authorization_result_event && !isRenewProcess) {
-                this.router.navigate([this.configurationProvider.openIDConfiguration.unauthorized_route]);
+            this.resetAuthorizationData(false);
+            this.oidcSecurityCommon.authNonce = '';
+            
+            this.resetAuthorizationData(false);
+            this.oidcSecurityCommon.authNonce = '';
+
             }
         } else {
             this.loggerService.logDebug(result);
@@ -925,6 +938,9 @@ export class OidcSecurityService {
                 this.requestTokensWithCodeProcedure(code, state, session_state);
             }
             if (error) {
+                this._onAuthorizationResult.next(new AuthorizationResult(AuthorizationState.unauthorized, ValidationResult.LoginRequired));
+                this.resetAuthorizationData(false);
+                this.oidcSecurityCommon.authNonce = '';
                 this.loggerService.logDebug(e.detail.toString());
             }
         } else {

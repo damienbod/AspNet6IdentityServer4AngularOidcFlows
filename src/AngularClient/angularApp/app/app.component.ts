@@ -108,7 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.oidcSecurityService.getUserData().subscribe(
             (data: any) => {
-                console.warn(data);
+                console.debug(data);
             });
 
         if (authorizationResult.authorizationState === AuthorizationState.unauthorized) {
