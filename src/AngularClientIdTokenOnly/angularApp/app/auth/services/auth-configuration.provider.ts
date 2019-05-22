@@ -46,6 +46,7 @@ export class ConfigurationProvider {
         revocation_endpoint: '',
         introspection_endpoint: ''
     };
+
     private onConfigurationChangeInternal = new Subject<OpenIdConfiguration>();
 
     get openIDConfiguration(): OpenIdInternalConfiguration {

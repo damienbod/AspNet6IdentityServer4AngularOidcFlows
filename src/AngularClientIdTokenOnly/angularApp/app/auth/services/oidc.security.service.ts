@@ -403,7 +403,6 @@ export class OidcSecurityService {
 
         this.loggerService.logDebug('BEGIN authorized Code Flow Callback, no auth data');
         this.resetAuthorizationData(isRenewProcess);
-        console.log('--------------------- > authorizedCallbackProcedure');
         this.authorizedCallbackProcedure(result, isRenewProcess);
     }
 
@@ -422,7 +421,6 @@ export class OidcSecurityService {
             resultData[<string>parts.shift()] = parts.join('=');
             return resultData;
         }, {});
-        console.log('--------------------- > authorizedCallbackProcedure');
         this.authorizedCallbackProcedure(result, isRenewProcess);
     }
 
@@ -468,10 +466,9 @@ export class OidcSecurityService {
 
             this.resetAuthorizationData(false);
             this.oidcSecurityCommon.authNonce = '';
-            
+
             if (!this.configurationProvider.openIDConfiguration.trigger_authorization_result_event && !isRenewProcess) {
                 this.router.navigate([this.configurationProvider.openIDConfiguration.unauthorized_route]);
-
             }
         } else {
             this.loggerService.logDebug(result);
