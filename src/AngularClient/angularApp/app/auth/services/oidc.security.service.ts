@@ -372,7 +372,7 @@ export class OidcSecurityService {
             data =
                 `grant_type=authorization_code&client_id=${this.configurationProvider.openIDConfiguration.client_id}` +
                 `&code_verifier=${this.oidcSecurityCommon.code_verifier}&code=${code}&redirect_uri=${
-            this.configurationProvider.openIDConfiguration.silent_renew_url
+                    this.configurationProvider.openIDConfiguration.silent_renew_url
                 }`;
         }
 
