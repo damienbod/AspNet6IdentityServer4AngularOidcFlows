@@ -19,11 +19,8 @@ export class OpenIDImplicitFlowConfiguration {
     silent_renew = false;
     silent_renew_url = 'https://localhost:44311';
     silent_renew_offset_in_seconds = 0;
-    silent_redirect_url = 'https://localhost:44311';
     post_login_route = '/';
-    // HTTP 403
     forbidden_route = '/forbidden';
-    // HTTP 401
     unauthorized_route = '/unauthorized';
     auto_userinfo = true;
     auto_clean_state_after_authentication = true;
@@ -60,14 +57,6 @@ export class AuthConfiguration {
         }
 
         return this.defaultConfig.redirect_url;
-    }
-
-    get silent_redirect_url(): string {
-        if (this.openIDImplicitFlowConfiguration) {
-            return this.openIDImplicitFlowConfiguration.silent_renew_url;
-        }
-
-        return this.defaultConfig.silent_renew_url;
     }
 
     get client_id(): string {
@@ -132,6 +121,14 @@ export class AuthConfiguration {
         }
 
         return this.defaultConfig.silent_renew;
+    }
+
+    get silent_renew_url(): string {
+        if (this.openIDImplicitFlowConfiguration) {
+            return this.openIDImplicitFlowConfiguration.silent_renew_url;
+        }
+
+        return this.defaultConfig.silent_renew_url;
     }
 
     get silent_renew_offset_in_seconds(): number {
