@@ -48,9 +48,9 @@
     "outputFileName": "wwwroot/js/vendor-validation.min.js",
     "inputFiles": [
       "node_modules/jquery-validation/dist/jquery.validate.min.js",
-      "node_modules/jquery-validation/dist/additional-methods.js",
+      "node_modules/jquery-validation/dist/additional-methods.min.js",
       "node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js",
-      "node_modules//jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"
+      "node_modules/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"
     ],
     "minify": {
       "enabled": true,

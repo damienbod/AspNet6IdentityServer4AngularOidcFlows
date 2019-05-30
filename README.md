@@ -38,7 +38,9 @@
 
 ## History
 
-<strong>2019-05-17: </strong> Updated angular 7.2.15, Nuget packages
+<strong>2019-05-30: </strong> Updated to angular 8.0.0, typescript 3.4.5
+
+<strong>2019-05-17: </strong> Updated to angular 7.2.15, Nuget packages
 
 <strong>2019-04-28: </strong> Increased length of the state for OIDC authorize, silent renew fix for code flow
 

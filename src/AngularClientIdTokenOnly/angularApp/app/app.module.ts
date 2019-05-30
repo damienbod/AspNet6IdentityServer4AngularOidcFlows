@@ -14,9 +14,8 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 import { AuthModule } from './auth/modules/auth.module';
 import { OidcSecurityService } from './auth/services/oidc.security.service';
-import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configuration';
-import { OidcConfigService } from './auth/services/oidc.security.config.service';
-import { AuthWellKnownEndpoints } from './auth/models/auth.well-known-endpoints';
+import { OidcConfigService, ConfigResult } from './auth/services/oidc.security.config.service';
+import { OpenIdConfiguration } from './auth/models/auth.configuration';
 
 export function loadConfig(oidcConfigService: OidcConfigService) {
     console.log('APP_INITIALIZER STARTING');
@@ -56,44 +55,78 @@ export class AppModule {
     constructor(
         private oidcSecurityService: OidcSecurityService,
         private oidcConfigService: OidcConfigService,
+        configuration: Configuration
     ) {
 
-        this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
-            const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
+        this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
 
             const flowType = 'id_token';
 
             // const flowType = 'id_token token';
-            // openIDImplicitFlowConfiguration.auto_userinfo = false;
 
-            openIDImplicitFlowConfiguration.stsServer = 'https://localhost:44318';
-            openIDImplicitFlowConfiguration.redirect_url = 'https://localhost:44372';
-            // The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
-            // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
-            openIDImplicitFlowConfiguration.client_id = 'angularclientidtokenonly';
-            openIDImplicitFlowConfiguration.response_type = flowType;
-            openIDImplicitFlowConfiguration.scope = 'openid profile email';
-            openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'https://localhost:44372/Unauthorized';
-            openIDImplicitFlowConfiguration.start_checksession = false;
-            openIDImplicitFlowConfiguration.silent_renew = true;
-            openIDImplicitFlowConfiguration.silent_renew_url = 'https://localhost:44372/silent-renew.html';
-            openIDImplicitFlowConfiguration.post_login_route = '/home';
-            // HTTP 403
-            openIDImplicitFlowConfiguration.forbidden_route = '/Forbidden';
-            // HTTP 401
-            openIDImplicitFlowConfiguration.unauthorized_route = '/Unauthorized';
-            openIDImplicitFlowConfiguration.log_console_warning_active = true;
-            openIDImplicitFlowConfiguration.log_console_debug_active = true;
-            // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time,
-            // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
-            openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 3;
-            openIDImplicitFlowConfiguration.auto_clean_state_after_authentication = false;
+            const config: OpenIdConfiguration = {
+                // auto_userinfo: false,
 
-            const authWellKnownEndpoints = new AuthWellKnownEndpoints();
-            authWellKnownEndpoints.setWellKnownEndpoints(this.oidcConfigService.wellKnownEndpoints);
+                stsServer: 'https://localhost:44318',
+                redirect_url: 'https://localhost:44372',
+                client_id: 'angularclientidtokenonly',
+                response_type: flowType,
+                scope: 'openid profile email',
+                post_logout_redirect_uri: 'https://localhost:44372/Unauthorized',
+                start_checksession: false,
+                silent_renew: true,
+                silent_renew_url: 'https://localhost:44372/silent-renew.html',
+                post_login_route: '/home',
+                forbidden_route: '/Forbidden',
+                unauthorized_route: '/Unauthorized',
+                log_console_warning_active: true,
+                log_console_debug_active: false,
+                max_id_token_iat_offset_allowed_in_seconds: 3,
+                auto_clean_state_after_authentication: false
+            };
 
-            this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration, authWellKnownEndpoints);
+            configuration.FileServer = configResult.customConfig.apiFileServer;
+            configuration.Server = configResult.customConfig.apiServer;
 
+            this.oidcSecurityService.setupModule(config, configResult.customAuthWellknownEndpoints);
         });
+
+        // this.oidcConfigService.onConfigurationLoaded.subscribe(() => {
+        //    const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
+
+        //    const flowType = 'id_token';
+
+        //    // const flowType = 'id_token token';
+        //    // openIDImplicitFlowConfiguration.auto_userinfo = false;
+
+        //    openIDImplicitFlowConfiguration.stsServer = 'https://localhost:44318';
+        //    openIDImplicitFlowConfiguration.redirect_url = 'https://localhost:44372';
+        //    // The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
+        //    // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
+        //    openIDImplicitFlowConfiguration.client_id = 'angularclientidtokenonly';
+        //    openIDImplicitFlowConfiguration.response_type = flowType;
+        //    openIDImplicitFlowConfiguration.scope = 'openid profile email';
+        //    openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'https://localhost:44372/Unauthorized';
+        //    openIDImplicitFlowConfiguration.start_checksession = false;
+        //    openIDImplicitFlowConfiguration.silent_renew = true;
+        //    openIDImplicitFlowConfiguration.silent_renew_url = 'https://localhost:44372/silent-renew.html';
+        //    openIDImplicitFlowConfiguration.post_login_route = '/home';
+        //    // HTTP 403
+        //    openIDImplicitFlowConfiguration.forbidden_route = '/Forbidden';
+        //    // HTTP 401
+        //    openIDImplicitFlowConfiguration.unauthorized_route = '/Unauthorized';
+        //    openIDImplicitFlowConfiguration.log_console_warning_active = true;
+        //    openIDImplicitFlowConfiguration.log_console_debug_active = false;
+        //    // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time,
+        //    // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
+        //    openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 3;
+        //    openIDImplicitFlowConfiguration.auto_clean_state_after_authentication = false;
+
+        //    const authWellKnownEndpoints = new AuthWellKnownEndpoints();
+        //    authWellKnownEndpoints.setWellKnownEndpoints(this.oidcConfigService.wellKnownEndpoints);
+
+        //    this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration, authWellKnownEndpoints);
+
+        // });
     }
 }
