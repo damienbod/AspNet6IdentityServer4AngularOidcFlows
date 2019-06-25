@@ -1,8 +1,8 @@
-image: Visual Studio 2017 Preview
+image: Visual Studio 2019
 init:
   - git config --global core.autocrlf true
 environment:
-  nodejs_version: "6"
+  nodejs_version: "12"
 install:
   - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
   - ps: Install-Product node $env:nodejs_version
