@@ -7,6 +7,7 @@
 
 <strong>Code: </strong> https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow
 
+
 ## Posts
 	
 <a href="http://damienbod.com/2016/02/14/authorization-policies-and-data-protection-with-identityserver4-in-asp-net-core/">Authorization Policies and Data Protection with IdentityServer4 in ASP.NET Core</a>
