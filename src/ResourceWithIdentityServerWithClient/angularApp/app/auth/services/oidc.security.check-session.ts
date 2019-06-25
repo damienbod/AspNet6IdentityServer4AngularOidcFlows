@@ -55,7 +55,12 @@ export class OidcSecurityCheckSession {
             window.addEventListener('message', this.iframeMessageEvent, false);
         }
 
-        if (this.configurationProvider.wellKnownEndpoints) {
+        if (!this.configurationProvider.wellKnownEndpoints) {
+            this.loggerService.logWarning('init check session: authWellKnownEndpoints is undefined. Returning.');
+            return;
+        }
+
+        if (this.configurationProvider.wellKnownEndpoints.check_session_iframe) {
             this.sessionIframe.contentWindow.location.replace(this.configurationProvider.wellKnownEndpoints.check_session_iframe);
         } else {
             this.loggerService.logWarning('init check session: authWellKnownEndpoints is undefined');
