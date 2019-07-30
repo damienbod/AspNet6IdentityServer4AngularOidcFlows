@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2019-07-30: </strong> Updated to angular 8.1.3
+
 <strong>2019-05-30: </strong> Updated to angular 8.0.2, OIDC libs
 
 <strong>2019-05-30: </strong> Updated to angular 8.0.0, typescript 3.4.5
