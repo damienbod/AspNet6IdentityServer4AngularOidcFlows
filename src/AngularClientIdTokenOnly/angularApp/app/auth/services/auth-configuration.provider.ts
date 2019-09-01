@@ -76,6 +76,7 @@ export class ConfigurationProvider {
         if (!this.platformProvider.isBrowser) {
             currentConfig.start_checksession = false;
             currentConfig.silent_renew = false;
+            currentConfig.use_refresh_token = false;
         }
     }
 }
