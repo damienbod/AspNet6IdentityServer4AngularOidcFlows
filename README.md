@@ -38,6 +38,9 @@
 
 
 ## History
+
+<strong>2019-09-01: </strong> Updated to angular 8.2.4, nuget packages
+
 <strong>2019-08-20: </strong> Updated to angular 8.2.2, nuget packages
 
 <strong>2019-07-30: </strong> Updated to angular 8.1.3
