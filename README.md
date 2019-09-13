@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2019-09-13: </strong> Updated to angular 8.2.6, Ability to change the amount of seconds for the IsAuthorizedRace to timeout
+
 <strong>2019-09-01: </strong> Updated to angular 8.2.4, nuget packages
 
 <strong>2019-08-20: </strong> Updated to angular 8.2.2, nuget packages
