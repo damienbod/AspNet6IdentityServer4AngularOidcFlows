@@ -19,27 +19,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ResourceWithIdentityServerWithClient.Services.Certificate;
 using ResourceWithIdentityServerWithClient.Services;
+using Microsoft.Extensions.Hosting;
 
 namespace ResourceWithIdentityServerWithClient
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _environment;
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
+            Configuration = configuration;
             _environment = env;
-
-            builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
         }
-
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment _environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -105,24 +97,7 @@ namespace ResourceWithIdentityServerWithClient
                   options.SupportedTokens = SupportedTokens.Both;
               });
 
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
             services.AddTransient<IEmailSender, EmailSender>();
-
-            //IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
-            //{
-            //    Authority = Config.HOST_URL + "/",
-            //    AllowedScopes = new List<string> { "dataEventRecords" },
-            //    ApiSecret = "dataEventRecordsSecret",
-            //    ApiName = "dataEventRecords",
-            //    AutomaticAuthenticate = true,
-            //    SupportedTokens = SupportedTokens.Both,
-            //    // TokenRetriever = _tokenRetriever,
-            //    // required if you want to return a 403 and not a 401 for forbidden responses
-            //    AutomaticChallenge = true,
-            //};
-
-            //app.UseIdentityServerAuthentication(identityServerValidationOptions);
 
             services.AddAuthorization(options =>
             {
@@ -144,11 +119,15 @@ namespace ResourceWithIdentityServerWithClient
                 });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllersWithViews()
+               .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+               .AddViewLocalization();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             var angularRoutes = new[] {
                 "/Unauthorized",
                 "/Forbidden",
@@ -172,26 +151,18 @@ namespace ResourceWithIdentityServerWithClient
                 await next();
             });
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
             app.UseIdentityServer();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

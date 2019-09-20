@@ -16,7 +16,6 @@ using ResourceWithIdentityServerWithClient.Models;
 using ResourceWithIdentityServerWithClient.Services;
 using IdentityModel;
 using IdentityServer4;
-using Microsoft.AspNetCore.Http.Authentication;
 using IdentityServer4.Extensions;
 using QuickstartIdentityServer;
 
