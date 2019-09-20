@@ -84,16 +84,24 @@ namespace AspNet5SQLite
                 options.UseSqlite(connection)
             );
 
-            services.AddCors();
-
-            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
-
-            policy.Headers.Add("*");
-            policy.Methods.Add("*");
-            policy.Origins.Add("*");
-            policy.SupportsCredentials = true;
-
-            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder
+                            .AllowCredentials()
+                            .WithOrigins(
+                                "https://localhost:44311",
+                                "https://localhost:44352",
+                                "https://localhost:44372",
+                                "https://localhost:44378",
+                                "https://localhost:44390")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
             var guestPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
@@ -125,11 +133,6 @@ namespace AspNet5SQLite
             });
 
             services.AddControllers()
-               .AddNewtonsoftJson()
-               .AddJsonOptions(options =>
-               {
-                    //options.JsonSerializerOptions.ContractResolver = new DefaultContractResolver();
-                })
                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddScoped<IDataEventRecordRepository, DataEventRecordRepository>();
@@ -138,7 +141,7 @@ namespace AspNet5SQLite
         public void Configure(IApplicationBuilder app)
         {
             app.UseExceptionHandler("/Home/Error");
-            app.UseCors("corsGlobalPolicy");
+            app.UseCors("AllowAllOrigins");
             app.UseStaticFiles();
 
             app.UseAuthentication();
