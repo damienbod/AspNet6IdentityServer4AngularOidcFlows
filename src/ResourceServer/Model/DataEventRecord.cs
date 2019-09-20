@@ -1,7 +1,5 @@
-﻿namespace AspNet5SQLite.Model
+﻿namespace ResourceServer.Model
 {
-    // >dnx . ef migration add testMigration
-
     public class DataEventRecord
     {
         public long Id { get; set; }

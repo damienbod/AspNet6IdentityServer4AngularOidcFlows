@@ -1,10 +1,9 @@
-using AspNet5SQLite.Model;
-using AspNet5SQLite.Repositories;
-
+using ResourceServer.Model;
+using ResourceServer.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNet5SQLite.Controllers
+namespace ResourceServer.Controllers
 {
     [Authorize("dataEventRecords")]
     [Route("api/[controller]")]

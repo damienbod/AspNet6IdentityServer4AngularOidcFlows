@@ -1,5 +1,5 @@
-using AspNet5SQLite.Model;
-using AspNet5SQLite.Repositories;
+using ResourceServer.Model;
+using ResourceServer.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +16,7 @@ using System;
 using ResourceServer.Certificate;
 using Microsoft.Extensions.Hosting;
 
-namespace AspNet5SQLite
+namespace ResourceServer
 {
     public class Startup
     {

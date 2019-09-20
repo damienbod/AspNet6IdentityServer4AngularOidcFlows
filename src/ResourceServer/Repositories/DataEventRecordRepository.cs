@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AspNet5SQLite.Model;
+using ResourceServer.Model;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace AspNet5SQLite.Repositories
+namespace ResourceServer.Repositories
 {
     public class DataEventRecordRepository : IDataEventRecordRepository
     {
