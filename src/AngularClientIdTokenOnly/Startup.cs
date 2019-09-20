@@ -1,28 +1,21 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Angular2Client
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -32,14 +25,24 @@ namespace Angular2Client
                     builder =>
                     {
                         builder
-                            .AllowAnyOrigin()
+                            .AllowCredentials()
+                            .WithOrigins(
+                                "https://localhost:44311",
+                                "https://localhost:44352",
+                                "https://localhost:44372",
+                                "https://localhost:44378",
+                                "https://localhost:44390")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
             });
+
+            services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddRazorPages().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseCors("AllowAllOrigins");
 
@@ -66,9 +69,14 @@ namespace Angular2Client
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            app.Run(async (context) =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                await context.Response.WriteAsync("This is server routing, not angular2 routing");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
