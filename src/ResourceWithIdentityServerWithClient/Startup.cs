@@ -73,6 +73,25 @@ namespace ResourceWithIdentityServerWithClient
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder
+                            .AllowCredentials()
+                            .WithOrigins(
+                                "https://localhost:44311",
+                                "https://localhost:44352",
+                                "https://localhost:44372",
+                                "https://localhost:44378",
+                                "https://localhost:44390")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             var guestPolicy = new AuthorizationPolicyBuilder()
            .RequireAuthenticatedUser()
            .RequireClaim("scope", "dataEventRecords")
@@ -119,14 +138,18 @@ namespace ResourceWithIdentityServerWithClient
                 });
             });
 
+            services.AddControllers()
+                .AddNewtonsoftJson()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddControllersWithViews()
-               .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                .AddViewLocalization();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            app.UseCors("AllowAllOrigins");
 
             var angularRoutes = new[] {
                 "/Unauthorized",
@@ -151,15 +174,17 @@ namespace ResourceWithIdentityServerWithClient
                 await next();
             });
 
-            app.UseIdentityServer();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

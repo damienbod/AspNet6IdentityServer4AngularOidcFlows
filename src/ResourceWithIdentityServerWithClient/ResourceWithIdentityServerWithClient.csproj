@@ -5,7 +5,8 @@
     <UserSecretsId>b346772f-b2c2-4fff-9b4b-f1bb91d84523</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-rc1.19457.4" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.0" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.0.415" />
     <PackageReference Include="IdentityServer4" Version="3.0.0" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.0.0" />
