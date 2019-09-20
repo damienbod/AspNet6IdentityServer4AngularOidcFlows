@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -21,7 +22,7 @@ namespace StsServerIdentity
             try
             {
                 Log.Information("Starting web host");
-                CreateWebHostBuilder(args).Build().Run();
+                CreateHostBuilder(args).Build().Run();
                 return 0;
             }
             catch (Exception ex)
@@ -35,16 +36,17 @@ namespace StsServerIdentity
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseKestrel(c => c.AddServerHeader = false)
-                .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>()
+                    .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                     .ReadFrom.Configuration(hostingContext.Configuration)
-                    .MinimumLevel.Debug()
                     .Enrich.FromLogContext()
+                    .WriteTo.File("../StsLogs.txt")
                     .WriteTo.Console(theme: AnsiConsoleTheme.Code)
-                    //.WriteTo.RollingFile("Log")
                 );
+            });
     }
 }
