@@ -10,10 +10,10 @@ namespace ResourceFileServer.Controllers
     [Route("api/[controller]")]
     public class DownloadController : Controller
     {
-        private readonly IHostingEnvironment _appEnvironment;
+        private readonly IWebHostEnvironment _appEnvironment;
         private readonly ISecuredFileProvider _securedFileProvider;
 
-        public DownloadController(ISecuredFileProvider securedFileProvider, IHostingEnvironment appEnvironment)
+        public DownloadController(ISecuredFileProvider securedFileProvider, IWebHostEnvironment appEnvironment)
         {
             _securedFileProvider = securedFileProvider;
             _appEnvironment = appEnvironment;

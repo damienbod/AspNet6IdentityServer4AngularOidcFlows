@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using AspNet5SQLite.Model;
+using ResourceServer.Model;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace AspNet5SQLite.Repositories
+namespace ResourceServer.Repositories
 {
     public class DataEventRecordRepository : IDataEventRecordRepository
     {
@@ -42,6 +43,10 @@ namespace AspNet5SQLite.Repositories
         [HttpPost]
         public void Post(DataEventRecord dataEventRecord )
         {
+            if(string.IsNullOrWhiteSpace(dataEventRecord.Timestamp))
+            {
+                dataEventRecord.Timestamp = DateTime.UtcNow.ToString("o");
+            };
             protectDescription(dataEventRecord);
             _context.DataEventRecords.Add(dataEventRecord);
             _context.SaveChanges();
@@ -49,6 +54,7 @@ namespace AspNet5SQLite.Repositories
 
         public void Put(long id, [FromBody]DataEventRecord dataEventRecord)
         {
+            dataEventRecord.Timestamp = DateTime.UtcNow.ToString("o");
             protectDescription(dataEventRecord);
             _context.DataEventRecords.Update(dataEventRecord);
             _context.SaveChanges();

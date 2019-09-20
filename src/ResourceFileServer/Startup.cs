@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using ResourceFileServer.Providers;
 using IdentityServer4.AccessTokenValidation;
@@ -13,58 +12,40 @@ namespace ResourceFileServer
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
-            var builder = new ConfigurationBuilder()
-                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json");
-            Configuration = builder.Build();
+            Configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public IConfiguration Configuration { get; }
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //Add Cors support to the service
-            services.AddCors();
-
-            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
-
-            policy.Headers.Add("*");
-            policy.Methods.Add("*");
-            policy.Origins.Add("*");
-            policy.SupportsCredentials = true;
-
-            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder
+                            .AllowCredentials()
+                            .WithOrigins(
+                                "https://localhost:44311",
+                                "https://localhost:44352",
+                                "https://localhost:44372",
+                                "https://localhost:44378",
+                                "https://localhost:44390")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
             var securedFilesPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .RequireClaim("scope", "securedFiles")
                 .Build();
-
-            //services.AddAuthentication((options) =>
-            //{
-            //    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //})
-            //.AddJwtBearer(options =>
-            //{
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuer = true, 
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-
-            //        ValidIssuer = "Fiver.Security.Bearer",
-            //        ValidAudience = "Fiver.Security.Bearer",
-            //        IssuerSigningKey = JwtSecurityKey.Create("fiversecret ")
-            //    }; ;
-            //    options.Authority = "https://localhost:44318/";
-            //    options. = new List<string> { "securedFiles" };
-            //    options.ApiName = "securedFiles";
-            //    options.ApiSecret = "securedFilesSecret";
-            //});
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                .AddIdentityServerAuthentication(options =>
@@ -73,20 +54,6 @@ namespace ResourceFileServer
                    options.ApiName = "securedFiles";
                    options.ApiSecret = "securedFilesSecret";
                });
-
-            //IdentityServerAuthenticationOptions identityServerAuthenticationOptions = new IdentityServerAuthenticationOptions()
-            //{
-            //    Authority = "https://localhost:44318/",
-            //    AllowedScopes = new List<string> { "securedFiles" },
-            //    ApiSecret = "securedFilesSecret",
-            //    ApiName = "securedFiles",
-            //    AutomaticAuthenticate = true,
-            //    // required if you want to return a 403 and not a 401 for forbidden responses
-            //    AutomaticChallenge = true
-            //};
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            //app.UseIdentityServerAuthentication(identityServerAuthenticationOptions);
-
 
             services.AddAuthorization(options =>
             {
@@ -100,25 +67,33 @@ namespace ResourceFileServer
                 });
             });
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new AuthorizeFilter(securedFilesPolicy));
-            });
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers(
+                options =>
+                {
+                    options.Filters.Add(new AuthorizeFilter(securedFilesPolicy));
+                })
+                .AddNewtonsoftJson()
+               .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddTransient<ISecuredFileProvider, SecuredFileProvider>();
             services.AddSingleton<UseOnceAccessIdService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            app.UseCors("corsGlobalPolicy");
-
+            app.UseExceptionHandler("/Home/Error");
+            app.UseCors("AllowAllOrigins");
             app.UseStaticFiles();
 
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseAuthorization();
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

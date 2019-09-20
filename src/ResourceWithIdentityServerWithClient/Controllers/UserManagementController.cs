@@ -21,6 +21,7 @@ namespace ResourceWithIdentityServerWithClient.Controllers
         }
 
         [HttpGet]
+        [Route("")]
         public IActionResult Get()
         {
             var users = _context.Users.ToList();
@@ -43,6 +44,7 @@ namespace ResourceWithIdentityServerWithClient.Controllers
         }
         
         [HttpPut("{id}")]
+        [Route("{id}")]
         public void Put(string id, [FromBody]UserDto userDto)
         {
             var user = _context.Users.First(t => t.Id == id);

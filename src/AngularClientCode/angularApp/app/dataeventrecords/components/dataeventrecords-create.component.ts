@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { OidcSecurityService } from '../../auth/services/oidc.security.service';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';
+import { DataEventRecord } from '../models/DataEventRecord';
 
 @Component({
     selector: 'app-dataeventrecords-create',
@@ -13,7 +14,9 @@ import { DataEventRecordsService } from '../dataeventrecords.service';
 export class DataEventRecordsCreateComponent implements OnInit, OnDestroy {
 
     public message: string;
-    public DataEventRecord: any;
+    public DataEventRecord: DataEventRecord = {
+        id: 0, name: '', description: '', timestamp: ''
+    };
     isAuthorizedSubscription: Subscription | undefined;
     isAuthorized = false;
 
@@ -29,7 +32,7 @@ export class DataEventRecordsCreateComponent implements OnInit, OnDestroy {
             (isAuthorized: boolean) => {
                 this.isAuthorized = isAuthorized;
             });
-        this.DataEventRecord = { Id: 0, Name: '', Description: '' };
+        this.DataEventRecord = { id: 0, name: '', description: '', timestamp: '' };
         console.log('IsAuthorized:' + this.isAuthorized);
     }
 

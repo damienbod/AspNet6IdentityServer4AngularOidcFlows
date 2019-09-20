@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AspNet5SQLite.Model
+﻿namespace ResourceServer.Model
 {
-    // >dnx . ef migration add testMigration
-
     public class DataEventRecord
     {
         public long Id { get; set; }
@@ -14,6 +7,6 @@ namespace AspNet5SQLite.Model
 
         public string Description { get; set; }
 
-        public DateTime Timestamp { get; set; }
+        public string Timestamp { get; set; }
     }
 }
