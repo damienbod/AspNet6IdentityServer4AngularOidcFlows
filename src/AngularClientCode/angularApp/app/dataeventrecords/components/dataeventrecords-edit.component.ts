@@ -17,10 +17,10 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
     public message: string;
     private sub: any;
     public DataEventRecord: DataEventRecord = {
-        Id: 0,
-        Name: '',
-        Description: '',
-        Timestamp: ''
+        id: 0,
+        name: '',
+        description: '',
+        timestamp: ''
     };
 
     isAuthorizedSubscription: Subscription | undefined;
@@ -45,7 +45,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
         this.sub = this._route.params.subscribe(params => {
             const id = +params['id']; // (+) converts string 'id' to a number
             this.id = id;
-            if (this.DataEventRecord.Id === 0) {
+            if (this.DataEventRecord.id === 0) {
                 this._dataEventRecordsService.GetById(id)
                     .subscribe(data => this.DataEventRecord = data,
                     error => this.oidcSecurityService.handleError(error),
