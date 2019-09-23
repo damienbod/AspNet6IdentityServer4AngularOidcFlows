@@ -39,7 +39,9 @@
 
 ## History
 
-<strong>2019-09-20: </strong> Updated to .NET Core 3.0
+<strong>2019-09-23: </strong> Updated to .NET Core 3.0
+
+<strong>2019-09-20: </strong> Updated to .NET Core 3.0 RC1
 
 <strong>2019-09-13: </strong> Updated to angular 8.2.6, Ability to change the amount of seconds for the IsAuthorizedRace to timeout
 
