@@ -145,10 +145,10 @@ namespace ResourceServer
             app.UseCors("AllowAllOrigins");
             app.UseStaticFiles();
 
+            app.UseRouting();
+			
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
