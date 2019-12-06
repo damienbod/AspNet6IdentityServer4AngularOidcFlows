@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2019-12-06: </strong> Updated to ASP.NET Core 3.1
+
 <strong>2019-11-17: </strong> Updated OIDC 10.0.10, Angular 8.2.14, Nuget packages
 
 <strong>2019-10-05: </strong> Updated OIDC 10.0.9, Angular 8.2.9, IdentityServer4 3.0.1, Nuget packages
