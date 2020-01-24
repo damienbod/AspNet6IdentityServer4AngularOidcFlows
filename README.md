@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2020-01-24 </strong> Update Nuget packages, OIDC lib
+
 <strong>2020-01-04 </strong> Added same site fixes
 
 <strong>2020-01-03: </strong> Updated npm packages, OIDC lib, nuget packages
