@@ -1,7 +1,7 @@
 ﻿{
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
+    "target": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -12,7 +12,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "lib": [
-      "es2015",
+      "es2018",
       "dom"
     ],
     "typeRoots": [
