@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2020-02-14 </strong> Subscribe startRenew after isAuthorized is true
+
 <strong>2020-02-10 </strong> Update Angular 9
 
 <strong>2020-01-24 </strong> Update Nuget packages, OIDC lib
