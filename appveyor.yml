@@ -6,7 +6,7 @@ environment:
 install:
   - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
   - ps: Install-Product node $env:nodejs_version
-  - cmd: choco install dotnetcore-sdk --pre
+  - cmd: choco install dotnetcore-sdk
   - dotnet --version
   - dotnet restore
   - choco install googlechrome
