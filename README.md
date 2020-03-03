@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2020-03-03 </strong> Updated STS, support for FIDO2, updated nuget packages
+
 <strong>2020-02-14 </strong> Subscribe startRenew after isAuthorized is true
 
 <strong>2020-02-10 </strong> Update Angular 9
