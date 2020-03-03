@@ -54,32 +54,8 @@ namespace StsServerIdentity
             var useLocalCertStore = Convert.ToBoolean(Configuration["UseLocalCertStore"]);
             var certificateThumbprint = Configuration["CertificateThumbprint"];
 
-            X509Certificate2 cert;
-
-            if (_environment.IsProduction())
-            {
-                if (useLocalCertStore)
-                {
-                    using (X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
-                    {
-                        store.Open(OpenFlags.ReadOnly);
-                        var certs = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
-                        cert = certs[0];
-                        store.Close();
-                    }
-                }
-                else
-                {
-                    // Azure deployment, will be used if deployed to Azure
-                    var vaultConfigSection = Configuration.GetSection("Vault");
-                    var keyVaultService = new KeyVaultCertificateService(vaultConfigSection["Url"], vaultConfigSection["ClientId"], vaultConfigSection["ClientSecret"]);
-                    cert = keyVaultService.GetCertificateFromKeyVault(vaultConfigSection["CertificateName"]);
-                }
-            }
-            else
-            {
-                cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
-            }
+            var x509Certificate2 = GetCertificate(_environment, Configuration);
+            AddLocalizationConfigurations(services);
 
             services.AddCors(options =>
             {
@@ -129,28 +105,6 @@ namespace StsServerIdentity
 
             services.AddAuthorization();
 
-            services.Configure<RequestLocalizationOptions>(
-                options =>
-                {
-                    var supportedCultures = new List<CultureInfo>
-                        {
-                            new CultureInfo("en-US"),
-                            new CultureInfo("de-CH"),
-							new CultureInfo("fr-CH"),
-							new CultureInfo("it-CH")
-                        };
-
-                    options.DefaultRequestCulture = new RequestCulture(culture: "de-CH", uiCulture: "de-CH");
-                    options.SupportedCultures = supportedCultures;
-                    options.SupportedUICultures = supportedCultures;
-
-                    var providerQuery = new LocalizationQueryProvider
-                    {
-                        QureyParamterName = "ui_locales"
-                    };
-
-                    options.RequestCultureProviders.Insert(0, providerQuery);
-                });
             services.AddControllersWithViews(options =>
                 {
                     options.Filters.Add(new SecurityHeadersAttribute());
@@ -163,20 +117,19 @@ namespace StsServerIdentity
                         var assemblyName = new AssemblyName(typeof(SharedResource).GetTypeInfo().Assembly.FullName);
                         return factory.Create("SharedResource", assemblyName.Name);
                     };
-                });
                 })
                 .AddNewtonsoftJson();
 
             services.AddIdentityServer()
-                .AddSigningCredential(cert)
+                .AddSigningCredential(x509Certificate2)
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClients(stsConfig))
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
 
-            services.Configure<Fido2Configuration>(_configuration.GetSection("fido2"));
-            services.Configure<Fido2MdsConfiguration>(_configuration.GetSection("fido2mds"));
+            services.Configure<Fido2Configuration>(Configuration.GetSection("fido2"));
+            services.Configure<Fido2MdsConfiguration>(Configuration.GetSection("fido2mds"));
             services.AddScoped<Fido2Storage>();
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
