@@ -1,0 +1,37 @@
+﻿@using StsServerIdentity.Resources
+@using Microsoft.AspNetCore.Identity
+@inject LocService SharedLocalizer
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model MfaModel
+@{
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("FIDO2_LOGIN_WITH_MFA");
+}
+
+<br />
+<div class="section">
+    <div class="container">
+        <h4>@ViewData["Title"]</h4>
+        <div class="notification is-danger" style="display:none">
+            @SharedLocalizer.GetLocalizedHtmlString("FIDO2_WEBAUTHN_NOT_SUPPORTED") <a href="https://caniuse.com/#search=webauthn" target="_blank">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_SUPPORTED_BROWSERS")</a>
+        </div>
+
+        @*<button class="btn btn-primary" id="signin">MFA using FIDO2</button>*@
+
+        <div id="fido2logindisplay"></div>
+
+    </div>
+</div>
+
+<div style="display:none" id="fido2TapKeyToLogin">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_TAP_YOUR_SECURITY_KEY_TO_LOGIN")</div>
+<div style="display:none" id="fido2CouldNotVerifyAssertion">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_COULD_NOT_VERIFY_ASSERTION")</div>
+<div style="display:none" id="fido2ReturnUrl">@Model.ReturnUrl</div>
+
+<script src="~/js/helpers.js"></script>
+<script src="~/js/instant.js"></script>
+<script src="~/js/mfa.login.js"></script>
+
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

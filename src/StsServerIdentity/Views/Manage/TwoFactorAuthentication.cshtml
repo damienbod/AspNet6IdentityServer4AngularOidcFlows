@@ -13,7 +13,7 @@
     {
         <div class="alert alert-danger">
             <strong>@SharedLocalizer.GetLocalizedHtmlString("2FA_NO_CODES_LEFT")</strong>
-            <p>@SharedLocalizer.GetLocalizedHtmlString("2FA_NO_CODES_LEFT_TEXT") <a asp-action="GenerateRecoveryCodes">@SharedLocalizer.GetLocalizedHtmlString("GENERATE")</a></p>
+            <p>@SharedLocalizer.GetLocalizedHtmlString("2FA_NO_CODES_LEFT_TEXT") <a asp-action="GenerateRecoveryCodesWarning">@SharedLocalizer.GetLocalizedHtmlString("GENERATE")</a></p>
         </div>
     }
     else if (Model.RecoveryCodesLeft == 1)
@@ -27,7 +27,7 @@
     {
         <div class="alert alert-warning">
             <strong>@SharedLocalizer.GetLocalizedHtmlString("2FA_N_CODES_LEFT", @Model.RecoveryCodesLeft.ToString())</strong>
-            <p>@SharedLocalizer.GetLocalizedHtmlString("2FA_N_CODES_LEFT_TEXT") <a asp-action="GenerateRecoveryCodes">@SharedLocalizer.GetLocalizedHtmlString("GENERATE")</a></p>
+            <p>@SharedLocalizer.GetLocalizedHtmlString("2FA_N_CODES_LEFT_TEXT") <a asp-action="GenerateRecoveryCodesWarning">@SharedLocalizer.GetLocalizedHtmlString("GENERATE")</a></p>
         </div>
     }
 
@@ -45,6 +45,11 @@ else
     <a id="enable-authenticator" asp-action="EnableAuthenticator" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("2FA_AUTHENTICATION_ADD_SETUP_APP")</a>
     <a id="reset-authenticator" asp-action="ResetAuthenticatorWarning" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("2FA_AUTHENTICATION_ADD_RESET_APP")</a>
 }
+
+<br />
+<br />
+
+<a id="enable-fido2mfa" asp-action="Fido2Mfa" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_ADD_A_KEY")</a>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

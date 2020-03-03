@@ -863,4 +863,88 @@
   <data name="Your user profile information (first name, last name, etc.)" xml:space="preserve">
     <value>Ihre Benutzerprofilinformationen (Vorname, Nachname usw.)</value>
   </data>
+  <data name="GRANTS" xml:space="preserve">
+    <value>Genehmigung</value>
+  </data>
+  <data name="GRANTS_API_GRANTS" xml:space="preserve">
+    <value>API Genehmigung</value>
+  </data>
+  <data name="GRANTS_CLIENT_APP_ACCESS" xml:space="preserve">
+    <value>Client-Anwendungszugriff</value>
+  </data>
+  <data name="GRANTS_CREATED" xml:space="preserve">
+    <value>Erstellt</value>
+  </data>
+  <data name="GRANTS_EXPIRES" xml:space="preserve">
+    <value>Verfällt</value>
+  </data>
+  <data name="GRANTS_IDENTITY_GRANTS" xml:space="preserve">
+    <value>Identität Genehmigung</value>
+  </data>
+  <data name="GRANTS_INFO" xml:space="preserve">
+    <value>Unten finden Sie eine Liste der Anwendungen, auf die Sie Zugriff haben, und die Namen der Ressourcen, auf die Sie Zugriff haben.</value>
+  </data>
+  <data name="GRANTS_NO_ACCESS" xml:space="preserve">
+    <value>Sie haben keinen Zugriff auf Anwendungen gewährt</value>
+  </data>
+  <data name="GRANTS_REVOKE_ACCESS" xml:space="preserve">
+    <value>Zugangsberechtigung aufheben</value>
+  </data>
+  <data name="FIDO2_ADD_A_KEY" xml:space="preserve">
+    <value>Fügen Sie einen FIDO2-Schlüssel hinzu</value>
+  </data>
+  <data name="FIDO2_LOGIN_WITH_MFA" xml:space="preserve">
+    <value>Melden Sie sich mit FIDO2 MFA an</value>
+  </data>
+  <data name="FIDO2_MULTI_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>FIDO2 Multi-Faktor-Authentifizierung</value>
+  </data>
+  <data name="FIDO2_SUPPORTED_BROWSERS" xml:space="preserve">
+    <value>Unterstützte Browser</value>
+  </data>
+  <data name="FIDO2_UNABLE_TO_LOAD_2FA_AUTHENTICATED_USER" xml:space="preserve">
+    <value>Zwei-Faktor-authentifizierter Benutzer kann nicht geladen werden.</value>
+  </data>
+  <data name="FIDO2_UNKNOWN_CREDENTIALS" xml:space="preserve">
+    <value>Unbekannte Anmeldeinformationen</value>
+  </data>
+  <data name="FIDO2_USERNAME" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="FIDO2_USERNAME_NOT_REGISTERED" xml:space="preserve">
+    <value>Benutzername wurde nicht registriert</value>
+  </data>
+  <data name="FIDO2_USER_NOTFOUND" xml:space="preserve">
+    <value>Benutzer mit der ID '{0}' kann nicht geladen werden.</value>
+  </data>
+  <data name="FIDO2_WEBAUTHN_NOT_SUPPORTED" xml:space="preserve">
+    <value>Bitte beachten Sie: Ihr Browser scheint WebAuthn noch nicht zu unterstützen.</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_LOGIN" xml:space="preserve">
+    <value>Tippen Sie auf Ihren Sicherheitsschlüssel, um sich anzumelden.</value>
+  </data>
+  <data name="FIDO2_COULD_NOT_VERIFY_ASSERTION" xml:space="preserve">
+    <value>Assertion konnte nicht überprüft werden</value>
+  </data>
+  <data name="FIDO2_REGISTRATION_ERROR" xml:space="preserve">
+    <value>Anmeldeinformationen im Browser konnten nicht erstellt werden. Wahrscheinlich, weil der Benutzername bereits bei Ihrem Authentifikator registriert ist. Bitte ändern Sie den Benutzernamen oder den Authentifikator.</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_FINISH_REGISTRATION" xml:space="preserve">
+    <value>Tippen Sie auf Ihren Sicherheitsschlüssel, um die Registrierung abzuschließen.</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_CLIENT_APP_REQUIRES_MFA" xml:space="preserve">
+    <value>Die Client-Anwendung erfordert, dass Sie MFA aktiviert haben. Aktivieren Sie dies und versuchen Sie, sich erneut anzumelden.</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA" xml:space="preserve">
+    <value>MFA aktivieren</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_ERROR_TITLE" xml:space="preserve">
+    <value>MFA Aktivierungsfehler</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_YOU_CAN_ENABLE_HERE" xml:space="preserve">
+    <value>Sie können MFA hier zum Einloggen aktivieren:</value>
+  </data>
+  <data name="CONSENT_CONFIRM_AUTH_REQUEST_QUOTES" xml:space="preserve">
+    <value>Bitte bestätigen Sie, dass die Autorisierungsanfrage den Code enthält:</value>
+  </data>
 </root>

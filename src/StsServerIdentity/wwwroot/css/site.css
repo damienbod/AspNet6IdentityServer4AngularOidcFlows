@@ -98,3 +98,9 @@ textarea {
 .consent-middle {
     vertical-align: super;
 }
+
+.logoutiframe {
+    display: none;
+    width:0;
+    height: 0;
+}

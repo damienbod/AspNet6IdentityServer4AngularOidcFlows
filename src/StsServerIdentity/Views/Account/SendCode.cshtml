@@ -13,7 +13,7 @@
         <div class="col-md-8">
             @SharedLocalizer.GetLocalizedHtmlString("SEND_VERIFICATION_CODE_SELECT")
             <select asp-for="SelectedProvider" asp-items="Model.Providers"></select>
-            <button type="submit" class="btn btn-default">@SharedLocalizer.GetLocalizedHtmlString("SUBMIT")</button>
+            <button type="submit" class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("SUBMIT")</button>
         </div>
     </div>
 </form>

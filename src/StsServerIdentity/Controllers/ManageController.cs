@@ -33,6 +33,7 @@ namespace StsServerIdentity.Controllers
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
         private readonly IStringLocalizer _sharedLocalizer;
+        private readonly Fido2Storage _fido2Storage;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
@@ -40,13 +41,15 @@ namespace StsServerIdentity.Controllers
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
-          IStringLocalizerFactory factory)
+          IStringLocalizerFactory factory,
+          Fido2Storage fido2Storage)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _fido2Storage = fido2Storage;
 
             var type = typeof(SharedResource);
             var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
@@ -322,6 +325,19 @@ namespace StsServerIdentity.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Fido2Mfa()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
+            }
+
+            var model = new MfaModel();
+            return View(model);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> TwoFactorAuthentication()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -366,6 +382,9 @@ namespace StsServerIdentity.Controllers
             {
                 return NotFound(_sharedLocalizer["USER_NOTFOUND", _userManager.GetUserId(User)]);
             }
+
+            // remove Fido2 MFA if it exists
+            await _fido2Storage.RemoveCredentialsByUsername(user.UserName);
 
             var disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
             if (!disable2faResult.Succeeded)

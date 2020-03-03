@@ -157,7 +157,7 @@
     <value>Logout</value>
   </data>
   <data name="REMEMBER_ME" xml:space="preserve">
-    <value>Rircodami</value>
+    <value>Ricordami</value>
   </data>
   <data name="FORGOT_YOUR_PASSWORD" xml:space="preserve">
     <value>Hai dimenticato la password?</value>

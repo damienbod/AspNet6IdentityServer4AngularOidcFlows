@@ -6,7 +6,7 @@
 }
 <h2>@ViewData["Title"].</h2>
 <h4>  @SharedLocalizer.GetLocalizedHtmlString("EXTERNAL_LOGIN_ASSOCIATE_ACCOUNT", ViewData["LoginProvider"].ToString())</h4>
-<form asp-controller="Account" asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+<form asp-controller="Account" asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]"  asp-route-loginProvider="@ViewData["LoginProvider"]" method="post" class="form-horizontal">
     <h4>Association Form</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>

@@ -1,4 +1,6 @@
 @model StsServerIdentity.Models.DeviceAuthorizationViewModel
+@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
 
 <div class="page-header">
     <div class="row page-header">
@@ -9,42 +11,40 @@
             }
             <h1>
                 @Model.ClientName
-                <small>is requesting your permission</small>
+                <small>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_IS_REQUESTING_YOUR_PERMISSION")</small>
             </h1>
         </div>
     </div>
-
     @if (Model.ConfirmUserCode)
     {
         <div class="row">
             <div class="col-sm-8">
                 <p>
-                    Please confirm that the authorization request quotes the code: "@Model.UserCode".
+                    @SharedLocalizer.GetLocalizedHtmlString("CONSENT_CONFIRM_AUTH_REQUEST_QUOTES") "@Model.UserCode".
                 </p>
             </div>
         </div>
     }
-
     <div class="row">
         <div class="col-sm-8">
-            <partial name="_ValidationSummary" />
+            @await Html.PartialAsync("_ValidationSummary")
 
             <form asp-action="Callback" class="consent-form">
                 <input asp-for="UserCode" type="hidden" value="@Model.UserCode" />
 
-                <div>Uncheck the permissions you do not wish to grant.</div>
+                <div>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_IS_CHECK_UNREQUIRED")</div>
 
                 @if (Model.IdentityScopes.Any())
                 {
                     <div class="panel panel-default consent-buttons">
-                        <div class="panel-heading">
-                            <span class="glyphicon glyphicon-user"></span>
-                            Personal Information
+                        <div class="panel-heading consent-title-spacing-bottom">
+                            <span class="fas fa-user"></span>
+                            @SharedLocalizer.GetLocalizedHtmlString("CONSENT_PERSONAL_INFORMATION")
                         </div>
                         <ul class="list-group">
                             @foreach (var scope in Model.IdentityScopes)
                             {
-                                <partial name="_ScopeListItem" model="@scope" />
+                                @await Html.PartialAsync("_ScopeListItem", scope)
                             }
                         </ul>
                     </div>
@@ -53,39 +53,41 @@
                 @if (Model.ResourceScopes.Any())
                 {
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <span class="glyphicon glyphicon-tasks"></span>
-                            Application Access
+                        <div class="panel-heading consent-title-spacing-bottom consent-title-spacing-top">
+                            <span class="fas fa-tasks"></span>
+                            @SharedLocalizer.GetLocalizedHtmlString("CONSENT_APPLICATION_ACCESS")
                         </div>
                         <ul class="list-group">
                             @foreach (var scope in Model.ResourceScopes)
                             {
-                                <partial name="_ScopeListItem" model="scope" />
+                                @await Html.PartialAsync("_ScopeListItem", scope)
                             }
                         </ul>
                     </div>
                 }
 
-                @if (Model.AllowRememberConsent)
-                {
-                    <div class="consent-remember">
-                        <label>
-                            <input class="consent-scopecheck" asp-for="RememberConsent" />
-                            <strong>Remember My Decision</strong>
-                        </label>
-                    </div>
-                }
-
-                <div class="consent-buttons">
-                    <button name="button" value="yes" class="btn btn-primary" autofocus>Yes, Allow</button>
-                    <button name="button" value="no" class="btn">No, Do Not Allow</button>
-                    @if (Model.ClientUrl != null)
+                <div class="consent-remember">
+                    @if (Model.AllowRememberConsent)
                     {
-                        <a class="pull-right btn btn-default" target="_blank" href="@Model.ClientUrl">
-                            <span class="glyphicon glyphicon-info-sign"></span>
-                            <strong>@Model.ClientName</strong>
-                        </a>
+                        <div class="consent-title-spacing consent-title-spacing-top">
+                            <label>
+                                <input class="consent-scopecheck big_checkbox" asp-for="RememberConsent" />
+                                <strong class="consent-middle">@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REMEMBER_MY_DECISION")</strong>
+                            </label>
+                        </div>
                     }
+
+                    <div class="consent-buttons">
+                        <button name="button" value="yes" class="btn btn-primary" autofocus>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_YES_ALLOWED")</button>
+                        <button name="button" value="no" class="btn">@SharedLocalizer.GetLocalizedHtmlString("CONSENT_NO_NOT_ALLOWED")</button>
+                        @if (Model.ClientUrl != null)
+                        {
+                            <a class="pull-right btn btn-primary" target="_blank" href="@Model.ClientUrl">
+                                <span class="fas fa-info-circle"></span>
+                                <strong class="consent-middle">@Model.ClientName</strong>
+                            </a>
+                        }
+                    </div>
                 </div>
             </form>
         </div>

@@ -1,0 +1,50 @@
+﻿@using StsServerIdentity.Resources
+@using Microsoft.AspNetCore.Identity
+@inject LocService SharedLocalizer
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model MfaModel
+@{
+    Layout = "_Layout.cshtml";
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("FIDO2_MULTI_FACTOR_AUTHENTICATION");
+    ViewData["ActivePage"] = ManageNavPages.Fido2Mfa;
+}
+
+<div class="section">
+    <div class="container">
+        <div class="notification is-danger" style="display:none">
+            @SharedLocalizer.GetLocalizedHtmlString("FIDO2_WEBAUTHN_NOT_SUPPORTED") <a href="https://caniuse.com/#search=webauthn" target="_blank">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_SUPPORTED_BROWSERS")</a>
+        </div>
+
+        <div class="columns">
+            <div class="column is-4">
+                <h3 class="title is-3">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_MULTI_FACTOR_AUTHENTICATION")</h3>
+                <form action="/Fido2Mfa" method="post" id="register">
+                    <div class="field">
+                        <label class="label">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_USERNAME")</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="form-control" type="text" readonly placeholder="email" value="@User.Identity.Name" name="username" required>
+                        </div>
+                    </div>
+
+                    <div class="field" style="margin-top:10px;">
+                        <div class="control">
+                            <button class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_ADD_A_KEY")</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="fido2mfadisplay"></div>
+
+    </div>
+</div>
+
+<div style="display:none" id="fido2TapYourSecurityKeyToFinishRegistration">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_TAP_YOUR_SECURITY_KEY_TO_FINISH_REGISTRATION")</div>
+<div style="display:none" id="fido2RegistrationError">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_REGISTRATION_ERROR")</div>
+
+
+<script src="~/js/helpers.js"></script>
+<script src="~/js/instant.js"></script>
+<script src="~/js/mfa.register.js"></script>

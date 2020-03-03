@@ -1,14 +1,16 @@
 @model string
+@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
 
 <div class="page-header">
     <h1>
-        User Code
+        @SharedLocalizer.GetLocalizedHtmlString("DEVICE_USER_CODE")
     </h1>
     <p>
-        Please enter the code displayed on your device
+        @SharedLocalizer.GetLocalizedHtmlString("DEVICE_ENTER_CODE_DISPLAYED_ON_DEVICE")
     </p>
     <form asp-action="UserCodeCapture" method="post">
         <input for="userCode" name="userCode" />
-        <button class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary">@SharedLocalizer.GetLocalizedHtmlString("SUBMIT")</button>
     </form>
 </div>

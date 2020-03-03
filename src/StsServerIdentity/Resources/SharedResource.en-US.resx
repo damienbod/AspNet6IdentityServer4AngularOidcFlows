@@ -863,4 +863,85 @@
   <data name="Your user profile information (first name, last name, etc.)" xml:space="preserve">
     <value>Your user profile information (first name, last name, etc.)</value>
   </data>
+  <data name="GRANTS" xml:space="preserve">
+    <value>Grants</value>
+  </data>
+  <data name="GRANTS_API_GRANTS" xml:space="preserve">
+    <value>API Grants</value>
+  </data>
+  <data name="GRANTS_CLIENT_APP_ACCESS" xml:space="preserve">
+    <value>Client Application Access</value>
+  </data>
+  <data name="GRANTS_CREATED" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="GRANTS_EXPIRES" xml:space="preserve">
+    <value>Expires</value>
+  </data>
+  <data name="GRANTS_IDENTITY_GRANTS" xml:space="preserve">
+    <value>Identity Grants</value>
+  </data>
+  <data name="GRANTS_INFO" xml:space="preserve">
+    <value>Below is the list of applications you have given access to and the names of the resources they have access to.</value>
+  </data>
+  <data name="GRANTS_NO_ACCESS" xml:space="preserve">
+    <value>You have not given access to any applications</value>
+  </data>
+  <data name="GRANTS_REVOKE_ACCESS" xml:space="preserve">
+    <value>Revoke Access</value>
+  </data>
+  <data name="FIDO2_ADD_A_KEY" xml:space="preserve">
+    <value>Add a FIDO2 Key</value>
+  </data>
+  <data name="FIDO2_COULD_NOT_VERIFY_ASSERTION" xml:space="preserve">
+    <value>Could not verify assertion</value>
+  </data>
+  <data name="FIDO2_LOGIN_WITH_MFA" xml:space="preserve">
+    <value>Login with FIDO2 MFA</value>
+  </data>
+  <data name="FIDO2_MULTI_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>FIDO2 Multi-factor authentication</value>
+  </data>
+  <data name="FIDO2_REGISTRATION_ERROR" xml:space="preserve">
+    <value>Could not create credentials in browser. Probably because the username is already registered with your authenticator. Please change username or authenaticator.</value>
+  </data>
+  <data name="FIDO2_SUPPORTED_BROWSERS" xml:space="preserve">
+    <value>Supported browsers</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_FINISH_REGISTRATION" xml:space="preserve">
+    <value>Tap your security key to finish registration.</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_LOGIN" xml:space="preserve">
+    <value>Tap your security key to login. </value>
+  </data>
+  <data name="FIDO2_UNABLE_TO_LOAD_2FA_AUTHENTICATED_USER" xml:space="preserve">
+    <value>Unable to load two-factor authenticated user.</value>
+  </data>
+  <data name="FIDO2_UNKNOWN_CREDENTIALS" xml:space="preserve">
+    <value>Unknown credentials</value>
+  </data>
+  <data name="FIDO2_USERNAME" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="FIDO2_USERNAME_NOT_REGISTERED" xml:space="preserve">
+    <value>Username was not registered</value>
+  </data>
+  <data name="FIDO2_USER_NOTFOUND" xml:space="preserve">
+    <value>Unable to load user with ID '{0}'.</value>
+  </data>
+  <data name="FIDO2_WEBAUTHN_NOT_SUPPORTED" xml:space="preserve">
+    <value>Please note: Your browser does not seem to support WebAuthn yet.</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA" xml:space="preserve">
+    <value>Enable MFA</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_CLIENT_APP_REQUIRES_MFA" xml:space="preserve">
+    <value>The client application requires you to have MFA enabled. Enable this and try to sign in again.</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_ERROR_TITLE" xml:space="preserve">
+    <value>Enable MFA Error</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_YOU_CAN_ENABLE_HERE" xml:space="preserve">
+    <value>You can enable MFA to login here:</value>
+  </data>
 </root>

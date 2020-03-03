@@ -821,4 +821,46 @@
   <data name="YES" xml:space="preserve">
     <value>是的</value>
   </data>
+  <data name="FIDO2_ADD_A_KEY" xml:space="preserve">
+    <value>新增FIDO2秘钥</value>
+  </data>
+  <data name="FIDO2_COULD_NOT_VERIFY_ASSERTION" xml:space="preserve">
+    <value>无法验证断言</value>
+  </data>
+  <data name="FIDO2_LOGIN_WITH_MFA" xml:space="preserve">
+    <value>使用FIDO2多因素认证登录</value>
+  </data>
+  <data name="FIDO2_MULTI_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>FIDO2多因素认证</value>
+  </data>
+  <data name="FIDO2_REGISTRATION_ERROR" xml:space="preserve">
+    <value>无法在浏览器中创建凭证。可能是因为该用户名已被您的身份验证器所注册。请更换用户名或身份验证器。</value>
+  </data>
+  <data name="FIDO2_SUPPORTED_BROWSERS" xml:space="preserve">
+    <value>支持的浏览器</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_FINISH_REGISTRATION" xml:space="preserve">
+    <value>点击您的安全密钥以完成注册。</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_LOGIN" xml:space="preserve">
+    <value>点击您的安全密钥完成登录。</value>
+  </data>
+  <data name="FIDO2_UNABLE_TO_LOAD_2FA_AUTHENTICATED_USER" xml:space="preserve">
+    <value>无法加载双因素认证的用户。</value>
+  </data>
+  <data name="FIDO2_UNKNOWN_CREDENTIALS" xml:space="preserve">
+    <value>未知的凭证</value>
+  </data>
+  <data name="FIDO2_USERNAME" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="FIDO2_USERNAME_NOT_REGISTERED" xml:space="preserve">
+    <value>用户名没有注册</value>
+  </data>
+  <data name="FIDO2_USER_NOTFOUND" xml:space="preserve">
+    <value>无法加载ID为'{0}'的用户。</value>
+  </data>
+  <data name="FIDO2_WEBAUTHN_NOT_SUPPORTED" xml:space="preserve">
+    <value>请注意：您的浏览器很可能还不支持Web身份验证(WebAuthn)技术。</value>
+  </data>
 </root>

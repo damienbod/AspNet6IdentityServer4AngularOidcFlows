@@ -1,0 +1,79 @@
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model GrantsViewModel
+
+<div class="grants">
+    <div class="row page-header">
+        <div class="col-sm-10">
+            <h1>@SharedLocalizer.GetLocalizedHtmlString("GRANTS_CLIENT_APP_ACCESS")</h1>
+            <div>@SharedLocalizer.GetLocalizedHtmlString("GRANTS_INFO")</div>
+        </div>
+    </div>
+
+    @if (Model.Grants.Any() == false)
+    {
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="alert alert-info">
+                    @SharedLocalizer.GetLocalizedHtmlString("GRANTS_NO_ACCESS")  
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        foreach (var grant in Model.Grants)
+        {
+            <div class="row grant">
+                <div class="col-sm-2">
+                    @if (grant.ClientLogoUrl != null)
+                    {
+                        <img src="@grant.ClientLogoUrl">
+                    }
+                </div>
+                <div class="col-sm-8">
+                    <div class="clientname">@grant.ClientName</div>
+                    <div>
+                        <span class="created">@SharedLocalizer.GetLocalizedHtmlString("GRANTS_CREATED"):</span> @grant.Created.ToString("yyyy-MM-dd")
+                    </div>
+                    @if (grant.Expires.HasValue)
+                    {
+                        <div>
+                            <span class="expires">@SharedLocalizer.GetLocalizedHtmlString("GRANTS_EXPIRES"):</span> @grant.Expires.Value.ToString("yyyy-MM-dd")
+                        </div>
+                    }
+                    @if (grant.IdentityGrantNames.Any())
+                    {
+                        <div>
+                            <div class="granttype">@SharedLocalizer.GetLocalizedHtmlString("GRANTS_IDENTITY_GRANTS")</div>
+                            <ul>
+                                @foreach (var name in grant.IdentityGrantNames)
+                                {
+                                    <li>@name</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    @if (grant.ApiGrantNames.Any())
+                    {
+                        <div>
+                            <div class="granttype">@SharedLocalizer.GetLocalizedHtmlString("GRANTS_API_GRANTS")</div>
+                            <ul>
+                                @foreach (var name in grant.ApiGrantNames)
+                                {
+                                    <li>@name</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+                <div class="col-sm-2">
+                    <form asp-action="Revoke">
+                        <input type="hidden" name="clientId" value="@grant.ClientId">
+                        <button class="btn btn-danger">@SharedLocalizer.GetLocalizedHtmlString("GRANTS_REVOKE_ACCESS")</button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+</div>

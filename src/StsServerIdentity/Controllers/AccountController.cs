@@ -26,6 +26,7 @@ namespace StsServerIdentity.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly Fido2Storage _fido2Storage;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -43,8 +44,10 @@ namespace StsServerIdentity.Controllers
             ILoggerFactory loggerFactory,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
-            IStringLocalizerFactory factory)
+            IStringLocalizerFactory factory,
+            Fido2Storage fido2Storage)
         {
+            _fido2Storage = fido2Storage;
             _userManager = userManager;
             _persistedGrantService = persistedGrantService;
             _signInManager = signInManager;
@@ -90,6 +93,14 @@ namespace StsServerIdentity.Controllers
         public async Task<IActionResult> Login(LoginInputModel model)
         {
             var returnUrl = model.ReturnUrl;
+            var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+            var requires2Fa = context?.AcrValues.Count(t => t.Contains("mfa")) >= 1;
+
+            var user = await _userManager.FindByNameAsync(model.Email);
+            if(user != null && !user.TwoFactorEnabled && requires2Fa)
+            {
+                return RedirectToAction(nameof(ErrorEnable2FA));
+            }
 
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -104,8 +115,17 @@ namespace StsServerIdentity.Controllers
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToAction(nameof(VerifyCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberLogin });
+                    var fido2ItemExistsForUser = await _fido2Storage.GetCredentialsByUsername(model.Email);
+                    if (fido2ItemExistsForUser.Count > 0)
+                    {
+                        return RedirectToAction(nameof(LoginFido2Mfa), new { ReturnUrl = returnUrl, RememberMe = model.RememberLogin });
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(VerifyCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberLogin });
+                    }
                 }
+
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning(2, "User account locked out.");
@@ -122,7 +142,33 @@ namespace StsServerIdentity.Controllers
             return View(await BuildLoginViewModelAsync(model));
         }
 
-        async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl, AuthorizationRequest context)
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginFido2Mfa(string provider, bool rememberMe, string returnUrl = null)
+        {
+            // Require that the user has already logged in via username/password or external login
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            if (string.IsNullOrEmpty(provider))
+            {
+                provider = "fido2";
+            }
+
+            return View(new MfaModel { /*Provider = provider,*/ ReturnUrl = returnUrl, RememberMe = rememberMe });
+        }
+		
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ErrorEnable2FA()
+        {
+            return View();
+        }
+
+        private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl, AuthorizationRequest context)
         {
             var loginProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             var providers = loginProviders
@@ -157,7 +203,7 @@ namespace StsServerIdentity.Controllers
             };
         }
 
-        async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
+        private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl, context);
@@ -172,9 +218,6 @@ namespace StsServerIdentity.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            var item = CultureInfo.CurrentCulture;
-            var item2 = CultureInfo.CurrentUICulture;
-
             if (User.Identity.IsAuthenticated == false)
             {
                 // if the user is not authenticated, then just show logged out page
@@ -205,9 +248,6 @@ namespace StsServerIdentity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
-            var item = CultureInfo.CurrentCulture;
-            var item2 = CultureInfo.CurrentUICulture;
-
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
             var subjectId = HttpContext.User.Identity.GetSubjectId();
 
@@ -221,7 +261,7 @@ namespace StsServerIdentity.Controllers
                     model.LogoutId = await _interaction.CreateLogoutContextAsync();
                 }
 
-                string url = "/Account/Logout?logoutId=" + model.LogoutId;
+                // string url = "/Account/Logout?logoutId=" + model.LogoutId;
                 try
                 {
                     await _signInManager.SignOutAsync();
@@ -316,15 +356,30 @@ namespace StsServerIdentity.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
+            var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+            var requires2Fa = context?.AcrValues.Count(t => t.Contains("mfa")) >= 1;
+
             if (remoteError != null)
             {
                 ModelState.AddModelError(string.Empty, _sharedLocalizer["EXTERNAL_PROVIDER_ERROR", remoteError]);
                 return View(nameof(Login));
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
+
             if (info == null)
             {
                 return RedirectToAction(nameof(Login));
+            }
+
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+  
+            if (!string.IsNullOrEmpty(email))
+            {
+                var user = await _userManager.FindByNameAsync(email);
+                if (user != null && !user.TwoFactorEnabled && requires2Fa)
+                {
+                    return RedirectToAction(nameof(ErrorEnable2FA));
+                }
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -336,7 +391,15 @@ namespace StsServerIdentity.Controllers
             }
             if (result.RequiresTwoFactor)
             {
-                return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl });
+                var fido2ItemExistsForUser = await _fido2Storage.GetCredentialsByUsername(email);
+                if (fido2ItemExistsForUser.Count > 0)
+                {
+                    return RedirectToAction(nameof(LoginFido2Mfa), new { ReturnUrl = returnUrl });
+                }
+                else
+                {
+                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl });
+                }
             }
             if (result.IsLockedOut)
             {
@@ -357,7 +420,7 @@ namespace StsServerIdentity.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null, string loginProvider = null)
         {
             if (ModelState.IsValid)
             {
@@ -383,6 +446,7 @@ namespace StsServerIdentity.Controllers
             }
 
             ViewData["ReturnUrl"] = returnUrl;
+            ViewData["LoginProvider"] = loginProvider;
             return View(model);
         }
 
@@ -622,11 +686,6 @@ namespace StsServerIdentity.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-        }
-
-        private Task<ApplicationUser> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
