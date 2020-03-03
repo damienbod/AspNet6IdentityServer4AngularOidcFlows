@@ -1,29 +1,29 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using IdentityServer4.Services;
-using System.Security.Cryptography.X509Certificates;
-using System.IO;
-using Microsoft.AspNetCore.Identity;
-using System.Globalization;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using StsServerIdentity.Services.Certificate;
+using Microsoft.IdentityModel.Tokens;
+using IdentityServer4.Services;
 using StsServerIdentity.Models;
 using StsServerIdentity.Data;
 using StsServerIdentity.Resources;
 using StsServerIdentity.Services;
-using Microsoft.IdentityModel.Tokens;
 using StsServerIdentity.Filters;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Hosting;
+using StsServerIdentity.Services.Certificate;
+using Serilog;
 using Microsoft.AspNetCore.Http;
+using Fido2NetLib;
 
 namespace StsServerIdentity
 {
@@ -40,6 +40,7 @@ namespace StsServerIdentity
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
@@ -109,9 +110,10 @@ namespace StsServerIdentity
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-               .AddEntityFrameworkStores<ApplicationDbContext>()
-               .AddErrorDescriber<StsIdentityErrorDescriber>()
-               .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddErrorDescriber<StsIdentityErrorDescriber>()
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<Fifo2UserTwoFactorTokenProvider>("FIDO2");
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
             services.AddTransient<IEmailSender, EmailSender>();
@@ -149,12 +151,10 @@ namespace StsServerIdentity
 
                     options.RequestCultureProviders.Insert(0, providerQuery);
                 });
-
             services.AddControllersWithViews(options =>
                 {
                     options.Filters.Add(new SecurityHeadersAttribute());
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization(options =>
                 {
@@ -164,6 +164,8 @@ namespace StsServerIdentity
                         return factory.Create("SharedResource", assemblyName.Name);
                     };
                 });
+                })
+                .AddNewtonsoftJson();
 
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
@@ -172,6 +174,19 @@ namespace StsServerIdentity
                 .AddInMemoryClients(Config.GetClients(stsConfig))
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
+
+            services.Configure<Fido2Configuration>(_configuration.GetSection("fido2"));
+            services.Configure<Fido2MdsConfiguration>(_configuration.GetSection("fido2mds"));
+            services.AddScoped<Fido2Storage>();
+            // Adds a default in-memory implementation of IDistributedCache.
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(2);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -218,6 +233,10 @@ namespace StsServerIdentity
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
 
+            // https://nblumhardt.com/2019/10/serilog-in-aspnetcore-3/
+            // https://nblumhardt.com/2019/10/serilog-mvc-logging/
+            app.UseSerilogRequestLogging();
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 OnPrepareResponse = context =>
@@ -238,12 +257,12 @@ namespace StsServerIdentity
                 }
             });
 
-            app.UseIdentityServer();
-
             app.UseRouting();
 
-            app.UseAuthentication();
+            app.UseIdentityServer();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
@@ -251,6 +270,72 @@ namespace StsServerIdentity
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private static X509Certificate2 GetCertificate(IWebHostEnvironment environment, IConfiguration configuration)
+        {
+            X509Certificate2 cert;
+            var useLocalCertStore = Convert.ToBoolean(configuration["UseLocalCertStore"]);
+            var certificateThumbprint = configuration["CertificateThumbprint"];
+
+            if (environment.IsProduction())
+            {
+                if (useLocalCertStore)
+                {
+                    using (X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+                    {
+                        store.Open(OpenFlags.ReadOnly);
+                        var certs = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
+                        cert = certs[0];
+                        store.Close();
+                    }
+                }
+                else
+                {
+                    // Azure deployment, will be used if deployed to Azure
+                    var vaultConfigSection = configuration.GetSection("Vault");
+                    var keyVaultService = new KeyVaultCertificateService(vaultConfigSection["Url"], vaultConfigSection["ClientId"], vaultConfigSection["ClientSecret"]);
+                    cert = keyVaultService.GetCertificateFromKeyVault(vaultConfigSection["CertificateName"]);
+                }
+            }
+            else
+            {
+                cert = new X509Certificate2(Path.Combine(environment.ContentRootPath, "sts_dev_cert.pfx"), "1234");
+            }
+
+            return cert;
+        }
+
+        private static void AddLocalizationConfigurations(IServiceCollection services)
+        {
+            services.AddSingleton<LocService>();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.Configure<RequestLocalizationOptions>(
+                options =>
+                {
+                    var supportedCultures = new List<CultureInfo>
+                        {
+                            new CultureInfo("en-US"),
+                            new CultureInfo("de-DE"),
+                            new CultureInfo("de-CH"),
+                            new CultureInfo("it-IT"),
+                            new CultureInfo("gsw-CH"),
+                            new CultureInfo("fr-FR"),
+                            new CultureInfo("zh-Hans")
+                        };
+
+                    options.DefaultRequestCulture = new RequestCulture(culture: "de-DE", uiCulture: "de-DE");
+                    options.SupportedCultures = supportedCultures;
+                    options.SupportedUICultures = supportedCultures;
+
+                    var providerQuery = new LocalizationQueryProvider
+                    {
+                        QueryParameterName = "ui_locales"
+                    };
+
+                    options.RequestCultureProviders.Insert(0, providerQuery);
+                });
         }
 
         private static void CheckSameSite(HttpContext httpContext, CookieOptions options)
