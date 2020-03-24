@@ -94,7 +94,14 @@ namespace StsServerIdentity
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
             services.AddTransient<IEmailSender, EmailSender>();
-      
+
+            services.AddAntiforgery(options =>
+            {
+                options.SuppressXFrameOptionsHeader = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+
             services.AddAuthentication()
                  .AddOpenIdConnect("aad", "Login with Azure AD", options =>
                  {
