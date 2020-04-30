@@ -26,8 +26,6 @@ export class SecureFileService {
         }).subscribe(
             (data: any) => {
                 oneTimeAccessToken = data.oneTimeToken;
-            },
-            () => {
                 console.log(`open DownloadFile for file ${id}: ${this.actionUrl}${oneTimeAccessToken}/${id}`);
                 window.open(`${this.actionUrl}${oneTimeAccessToken}/${id}`);
             });

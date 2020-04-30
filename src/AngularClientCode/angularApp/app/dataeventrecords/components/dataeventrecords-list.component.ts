@@ -21,7 +21,7 @@ export class DataEventRecordsListComponent implements OnInit {
 
     constructor(
 
-        private _dataEventRecordsService: DataEventRecordsService,
+        private dataEventRecordsService: DataEventRecordsService,
         public oidcSecurityService: OidcSecurityService,
     ) {
         this.message = 'DataEventRecords';
@@ -56,14 +56,16 @@ export class DataEventRecordsListComponent implements OnInit {
 
     Delete(id: any) {
         console.log('Try to delete' + id);
-        this._dataEventRecordsService.Delete(id)
-            .subscribe((() => console.log('subscribed')),
-            () => this.getData(true).subscribe());
+        this.dataEventRecordsService.Delete(id).pipe(
+            switchMap(() => this.getData(true))
+        ).subscribe((data) => this.DataEventRecords = data,
+            () => console.log('getData Get all completed')
+        );
     }
 
     private getData(isAuthenticated: boolean): Observable<DataEventRecord[]> {
         if (isAuthenticated) {
-            return this._dataEventRecordsService.GetAll();
+            return this.dataEventRecordsService.GetAll();
         }
         return of(null);
     }
