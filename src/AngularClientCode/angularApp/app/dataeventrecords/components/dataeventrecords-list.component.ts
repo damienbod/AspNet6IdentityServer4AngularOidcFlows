@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { OidcSecurityService } from '../../auth/angular-auth-oidc-client';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';
@@ -32,13 +32,11 @@ export class DataEventRecordsListComponent implements OnInit {
         this.userData$ = this.oidcSecurityService.userData$;
 
         this.isAuthenticated$.pipe(
-            map((isAuthorized: boolean) => {
-                console.log('isAuthorized: ' + isAuthorized);
-
-                if (isAuthorized) {
-                    this.getData();
-                }
-            }));
+            switchMap((isAuthorized) => this.getData(isAuthorized))
+        ).subscribe(
+            data => this.DataEventRecords = data,
+            () => console.log('getData Get all completed')
+        );
             
         this.userData$.pipe(
             map((userData: any) => {
@@ -60,15 +58,13 @@ export class DataEventRecordsListComponent implements OnInit {
         console.log('Try to delete' + id);
         this._dataEventRecordsService.Delete(id)
             .subscribe((() => console.log('subscribed')),
-            () => this.getData());
+            () => this.getData(true).subscribe());
     }
 
-    private getData() {
-        this._dataEventRecordsService
-            .GetAll()
-            .subscribe(data => this.DataEventRecords = data,
-            () => console.log('getData Get all completed'));
+    private getData(isAuthenticated: boolean): Observable<DataEventRecord[]> {
+        if (isAuthenticated) {
+            return this._dataEventRecordsService.GetAll();
+        }
+        return of(null);
     }
-
-
 }

@@ -1,13 +1,13 @@
 import {
-    EventTypes,
+    //EventTypes,
     OidcClientNotification,
     OidcSecurityService,
     PublicConfiguration,
-    PublicEventsService,
+    // PublicEventsService,
 } from './auth/angular-auth-oidc-client';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+//import { filter } from 'rxjs/operators';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
 
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
     constructor(
         public oidcSecurityService: OidcSecurityService,
-        private eventService: PublicEventsService,
+        // private eventService: PublicEventsService,
         public locale: LocaleService,
         public translation: TranslationService
     ) {
@@ -47,10 +47,10 @@ export class AppComponent implements OnInit {
 
         this.oidcSecurityService.checkAuth().subscribe((isAuthenticated) => console.log('app authenticated', isAuthenticated));
 
-        this.eventService
-            .registerForEvents()
-            .pipe(filter((notification) => notification.type === EventTypes.CheckSessionReceived))
-            .subscribe((value) => console.log('CheckSessionReceived with value from app', value));
+        //this.eventService
+        //    .registerForEvents()
+        //    .pipe(filter((notification) => notification.type === EventTypes.CheckSessionReceived))
+        //    .subscribe((value) => console.log('CheckSessionReceived with value from app', value));
     }
 
     changeCulture(language: string, country: string) {

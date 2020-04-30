@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SecureFileService } from './SecureFileService';
 import { OidcSecurityService } from '../auth/angular-auth-oidc-client';
-import { map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-securefiles',
@@ -23,22 +23,21 @@ export class SecureFilesComponent implements OnInit {
     ngOnInit() {
         this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
         this.isAuthenticated$.pipe(
-            map((isAuthorized: boolean) => {
-                console.log('isAuthorized: ' + isAuthorized);
-
-                if (isAuthorized) {
-                    this.getData();
-                }
-            }));
+            switchMap((isAuthorized) => this.getData(isAuthorized))
+        ).subscribe(data =>
+            this.Files = data,
+            () => console.log('getData for secure files, get all completed')
+        );
     }
 
     DownloadFileById(id: any) {
         this._secureFileService.DownloadFile(id);
     }
 
-    private getData() {
-        this._secureFileService.GetListOfFiles()
-            .subscribe(data => this.Files = data,
-            () => console.log('getData for secure files, get all completed'));
+    private getData(isAuthenticated: boolean): Observable<string[]> {
+        if (isAuthenticated) {
+            return this._secureFileService.GetListOfFiles();
+        }
+        return of(null);
     }
 }
