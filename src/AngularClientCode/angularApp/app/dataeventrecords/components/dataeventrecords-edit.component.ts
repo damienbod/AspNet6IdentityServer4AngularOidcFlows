@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
-import { OidcSecurityService } from '../../auth/services/oidc.security.service';
+import { OidcSecurityService } from '../../auth/angular-auth-oidc-client';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';
 import { DataEventRecord } from '../models/DataEventRecord';
@@ -11,11 +12,10 @@ import { DataEventRecord } from '../models/DataEventRecord';
     templateUrl: 'dataeventrecords-edit.component.html'
 })
 
-export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
+export class DataEventRecordsEditComponent implements OnInit   {
 
     private id = 0;
     public message: string;
-    private sub: any;
     public DataEventRecord: DataEventRecord = {
         id: 0,
         name: '',
@@ -23,8 +23,7 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
         timestamp: ''
     };
 
-    isAuthorizedSubscription: Subscription | undefined;
-    isAuthorized = false;
+    isAuthenticated$: Observable<boolean>;
 
     constructor(
         private _dataEventRecordsService: DataEventRecordsService,
@@ -36,35 +35,26 @@ export class DataEventRecordsEditComponent implements OnInit, OnDestroy   {
     }
 
     ngOnInit() {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
-            });
-        console.log('IsAuthorized:' + this.isAuthorized);
+        this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.isAuthenticated$.pipe(
+            map((isAuthorized: boolean) => {
+                console.log('isAuthorized: ' + isAuthorized);
+            }));
 
-        this.sub = this._route.params.subscribe(params => {
+        this._route.params.subscribe(params => {
             const id = +params['id']; // (+) converts string 'id' to a number
             this.id = id;
             if (this.DataEventRecord.id === 0) {
                 this._dataEventRecordsService.GetById(id)
                     .subscribe(data => this.DataEventRecord = data,
-                    error => this.oidcSecurityService.handleError(error),
                     () => console.log('DataEventRecordsEditComponent:Get by Id complete'));
             }
         });
     }
 
-    ngOnDestroy() {
-        this.sub.unsubscribe();
-        if (this.isAuthorizedSubscription) {
-            this.isAuthorizedSubscription.unsubscribe();
-        }
-    }
-
-    public Update() {
+    Update() {
         this._dataEventRecordsService.Update(this.id, this.DataEventRecord)
             .subscribe((() => console.log('subscribed')),
-            error => this.oidcSecurityService.handleError(error),
             () => this._router.navigate(['/dataeventrecords']));
     }
 }
