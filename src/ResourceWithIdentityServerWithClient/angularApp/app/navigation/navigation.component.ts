@@ -1,9 +1,6 @@
 import {
-    //EventTypes,
     OidcClientNotification,
     OidcSecurityService,
-    PublicConfiguration,
-    // PublicEventsService,
 } from '../auth/angular-auth-oidc-client';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';

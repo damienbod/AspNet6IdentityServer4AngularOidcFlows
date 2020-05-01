@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.configuration = this.oidcSecurityService.configuration;
         this.userData$ = this.oidcSecurityService.userData$;
         this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
         this.checkSessionChanged$ = this.oidcSecurityService.checkSessionChanged$;
