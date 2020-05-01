@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { OidcSecurityService } from '../../auth/services/oidc.security.service';
+import { Component, OnInit } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { OidcSecurityService } from '../../auth/angular-auth-oidc-client';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';
 import { DataEventRecord } from '../models/DataEventRecord';
@@ -10,38 +11,37 @@ import { DataEventRecord } from '../models/DataEventRecord';
     templateUrl: 'dataeventrecords-list.component.html'
 })
 
-export class DataEventRecordsListComponent implements OnInit, OnDestroy {
+export class DataEventRecordsListComponent implements OnInit {
 
     message: string;
     DataEventRecords: DataEventRecord[] = [];
     hasAdminRole = false;
-    isAuthorizedSubscription: Subscription | undefined;
-    isAuthorized = false;
-
-    userDataSubscription: Subscription | undefined;
-    userData = false;
+    isAuthenticated$: Observable<boolean>;
+    userData$: Observable<any>;
 
     constructor(
 
-        private _dataEventRecordsService: DataEventRecordsService,
+        private dataEventRecordsService: DataEventRecordsService,
         public oidcSecurityService: OidcSecurityService,
     ) {
         this.message = 'DataEventRecords';
     }
 
     ngOnInit() {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
+        this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.userData$ = this.oidcSecurityService.userData$;
 
-                if (this.isAuthorized) {
-                    console.log('isAuthorized getting data');
-                    this.getData();
-                }
-            });
+        this.isAuthenticated$.pipe(
+            switchMap((isAuthorized) => this.getData(isAuthorized))
+        ).subscribe(
+            data => this.DataEventRecords = data,
+            () => console.log('getData Get all completed')
+        );
 
-        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
-            (userData: any) => {
+        this.userData$.subscribe((userData) => {
+            console.log('Get userData: ', userData);
+            if (userData) {
+                console.log('userData: ', userData);
 
                 if (userData !== '') {
                     for (let i = 0; i < userData.role.length; i++) {
@@ -52,36 +52,23 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
                         }
                     }
                 }
-
-                console.log('userData getting data');
-            });
+            }
+        });
     }
 
-    ngOnDestroy(): void {
-        if (this.isAuthorizedSubscription) {
-            this.isAuthorizedSubscription.unsubscribe();
-        }
-
-        if (this.userDataSubscription) {
-            this.userDataSubscription.unsubscribe();
-        }
-    }
-
-    public Delete(id: any) {
+    Delete(id: any) {
         console.log('Try to delete' + id);
-        this._dataEventRecordsService.Delete(id)
-            .subscribe((() => console.log('subscribed')),
-            error => this.oidcSecurityService.handleError(error),
-            () => this.getData());
+        this.dataEventRecordsService.Delete(id).pipe(
+            switchMap(() => this.getData(true))
+        ).subscribe((data) => this.DataEventRecords = data,
+            () => console.log('getData Get all completed')
+        );
     }
 
-    private getData() {
-        this._dataEventRecordsService
-            .GetAll()
-            .subscribe(data => this.DataEventRecords = data,
-            error => this.oidcSecurityService.handleError(error),
-            () => console.log('getData Get all completed'));
+    private getData(isAuthenticated: boolean): Observable<DataEventRecord[]> {
+        if (isAuthenticated) {
+            return this.dataEventRecordsService.GetAll();
+        }
+        return of(null);
     }
-
-
 }

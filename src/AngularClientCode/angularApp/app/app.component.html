@@ -6,23 +6,30 @@
                 <a [routerLink]="['/dataeventrecords']" class="navbar-brand"><img src="assets/damienbod.jpg" height="40" style="margin-top:-10px;" /></a>
             </div>
             <div class="navbar-collapse collapse" id="navbar">
-                <ul class="mr-auto navbar-nav">
-                    <li class="nav-item"><a class="nav-link" *ngIf="isAuthorized" [routerLink]="['/dataeventrecords']">DataEventRecords</a></li>
-                    <li class="nav-item"><a class="nav-link" *ngIf="isAuthorized" [routerLink]="['/dataeventrecords/create']">Create DataEventRecord</a></li>
-                    <li class="nav-item"><a class="nav-link" *ngIf="isAuthorized" [routerLink]="['/securefiles']">Secured Files Download</a></li>
-
-                    <li class="nav-item"><a class="nav-link" *ngIf="!isAuthorized" (click)="login()">{{ 'LOGIN' | translate:lang }}</a></li>
-                    <li class="nav-item"><a class="nav-link" *ngIf="isAuthorized" (click)="logout()">{{ 'LOGOUT' | translate:lang }}</a></li>
-
+                <ul class="mr-auto navbar-nav" *ngIf="isAuthenticated$ | async as isAuthenticated; else noAuth">
+                    <li class="nav-item"><a class="nav-link" [routerLink]="['/dataeventrecords']">DataEventRecords</a></li>
+                    <li class="nav-item"><a class="nav-link" [routerLink]="['/dataeventrecords/create']">Create DataEventRecord</a></li>
+                    <li class="nav-item"><a class="nav-link" [routerLink]="['/securefiles']">Secured Files Download</a></li>
+                    <li class="nav-item"><a class="nav-link" (click)="logout()">{{ 'LOGOUT' | translate:lang }}</a></li>
                     <li class="nav-item"><a class="nav-link" (click)="changeCulture('de','CH')">DE</a></li>
                     <li class="nav-item"><a class="nav-link" (click)="changeCulture('fr','CH')">FR</a></li>
                     <li class="nav-item"><a class="nav-link" (click)="changeCulture('it','CH')">IT</a></li>
                     <li class="nav-item"><a class="nav-link" (click)="changeCulture('en','US')">EN</a></li>
-
-                    <li class="nav-item"><a class="nav-link" *ngIf="checksession" (click)="refreshSession()">Refresh Session</a></li>
-
+                    <li class="nav-item"><a class="nav-link" *ngIf="checkSessionChanged$ | async" (click)="refreshSession()">Refresh Session</a></li>
                 </ul>
+                <ng-template #noAuth>
+                    <ul class="mr-auto navbar-nav">
+                        <li class="nav-item"><a class="nav-link" (click)="login()">{{ 'LOGIN' | translate:lang }}</a></li>
+                        <li class="nav-item"><a class="nav-link" (click)="changeCulture('de','CH')">DE</a></li>
+                        <li class="nav-item"><a class="nav-link" (click)="changeCulture('fr','CH')">FR</a></li>
+                        <li class="nav-item"><a class="nav-link" (click)="changeCulture('it','CH')">IT</a></li>
+                        <li class="nav-item"><a class="nav-link" (click)="changeCulture('en','US')">EN</a></li>
+                    </ul>
+                </ng-template>
             </div><!--/.nav-collapse -->
+
+ 
+
         </div><!--/.container-fluid -->
     </nav>
 

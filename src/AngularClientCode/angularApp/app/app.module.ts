@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { Configuration } from './app.constants';
 import { routing } from './app.routes';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { SecureFileService } from './securefile/SecureFileService';
 
 import { ForbiddenComponent } from './forbidden/forbidden.component';
@@ -15,14 +15,11 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { SecureFilesComponent } from './securefile/securefiles.component';
 import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
 
-import { AuthModule } from './auth/modules/auth.module';
-import { OidcSecurityService } from './auth/services/oidc.security.service';
-import { OidcConfigService, ConfigResult } from './auth/services/oidc.security.config.service';
-import { OpenIdConfiguration } from './auth/models/auth.configuration';
+import { AuthModule, OidcConfigService } from './auth/angular-auth-oidc-client';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
 import { AuthorizationGuard } from './authorization.guard';
-import { AuthorizationCanGuard } from './authorization.can.guard';
+import { map, switchMap } from 'rxjs/operators';
 
 const l10nConfig: L10nConfig = {
     locale: {
@@ -44,9 +41,32 @@ const l10nConfig: L10nConfig = {
     }
 };
 
-export function loadConfig(oidcConfigService: OidcConfigService) {
-    console.log('APP_INITIALIZER STARTING');
-    return () => oidcConfigService.load(`${window.location.origin}/api/ClientAppSettings`);
+export function configureAuth(oidcConfigService: OidcConfigService, httpClient: HttpClient) {
+    const setupAction$ = httpClient.get<any>(`${window.location.origin}/api/ClientAppSettings`).pipe(
+        map((customConfig) => {
+            return {
+                stsServer: customConfig.stsServer,
+                redirectUrl: customConfig.redirect_url,
+                clientId: customConfig.client_id,
+                responseType: customConfig.response_type,
+                scope: customConfig.scope,
+                postLogoutRedirectUri: customConfig.post_logout_redirect_uri,
+                startCheckSession: customConfig.start_checksession,
+                silentRenew: customConfig.silent_renew,
+                silentRenewUrl: customConfig.redirect_url + '/silent-renew.html',
+                postLoginRoute: customConfig.startup_route,
+                forbiddenRoute: customConfig.forbidden_route,
+                unauthorizedRoute: customConfig.unauthorized_route,
+                logLevel: 0, // LogLevel.Debug, // customConfig.logLevel
+                maxIdTokenIatOffsetAllowedInSeconds: customConfig.max_id_token_iat_offset_allowed_in_seconds,
+                historyCleanupOff: true,
+                // autoUserinfo: false,
+            };
+        }),
+        switchMap((config) => oidcConfigService.withConfig(config))
+    );
+
+    return () => setupAction$.toPromise();
 }
 
 @NgModule({
@@ -68,15 +88,13 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
     ],
     providers: [
         OidcConfigService,
-        OidcSecurityService,
         {
             provide: APP_INITIALIZER,
-            useFactory: loadConfig,
-            deps: [OidcConfigService],
-            multi: true
+            useFactory: configureAuth,
+            deps: [OidcConfigService, HttpClient],
+            multi: true,
         },
         AuthorizationGuard,
-        AuthorizationCanGuard,
         SecureFileService,
         Configuration
     ],
@@ -85,42 +103,8 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
 
 export class AppModule {
 
-    constructor(
-        private oidcSecurityService: OidcSecurityService,
-        private oidcConfigService: OidcConfigService,
-        configuration: Configuration,
-        public l10nLoader: L10nLoader
-    ) {
+    constructor(public l10nLoader: L10nLoader) {
         this.l10nLoader.load();
-
-        this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
-
-            const config: OpenIdConfiguration = {
-                stsServer: configResult.customConfig.stsServer,
-                redirect_url: configResult.customConfig.redirect_url,
-                client_id: configResult.customConfig.client_id,
-                response_type: configResult.customConfig.response_type,
-                scope: configResult.customConfig.scope,
-                post_logout_redirect_uri: configResult.customConfig.post_logout_redirect_uri,
-                start_checksession: configResult.customConfig.start_checksession,
-                silent_renew: configResult.customConfig.silent_renew,
-                silent_renew_url: configResult.customConfig.redirect_url + '/silent-renew.html',
-                post_login_route: configResult.customConfig.startup_route,
-                forbidden_route: configResult.customConfig.forbidden_route,
-                unauthorized_route: configResult.customConfig.unauthorized_route,
-                log_console_warning_active: configResult.customConfig.log_console_warning_active,
-                log_console_debug_active: configResult.customConfig.log_console_debug_active,
-                max_id_token_iat_offset_allowed_in_seconds: configResult.customConfig.max_id_token_iat_offset_allowed_in_seconds,
-                history_cleanup_off: true
-                // iss_validation_off: false
-                // disable_iat_offset_validation: true
-            };
-
-            configuration.FileServer = configResult.customConfig.apiFileServer;
-            configuration.Server = configResult.customConfig.apiServer;
-
-            this.oidcSecurityService.setupModule(config, configResult.authWellknownEndpoints);
-        });
 
         console.log('APP STARTING');
     }

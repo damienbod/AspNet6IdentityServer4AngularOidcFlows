@@ -1,62 +1,57 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { OidcSecurityService } from '../auth/services/oidc.security.service';
+import {
+    //EventTypes,
+    OidcClientNotification,
+    OidcSecurityService,
+    PublicConfiguration,
+    // PublicEventsService,
+} from '../auth/angular-auth-oidc-client';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-navigation',
     templateUrl: 'navigation.component.html'
 })
 
-export class NavigationComponent implements OnInit, OnDestroy {
+export class NavigationComponent implements OnInit {
 
     hasAdminRole = false;
     hasDataEventRecordsAdminRole = false;
 
-    isAuthorizedSubscription: Subscription | undefined;
-    isAuthorized = false;
-
-    userDataSubscription: Subscription | undefined;
-    userData: any;
+    configuration: PublicConfiguration;
+    isModuleSetUp$: Observable<boolean>;
+    userDataChanged$: Observable<OidcClientNotification<any>>;
+    userData$: Observable<any>;
+    isAuthenticated$: Observable<boolean>;
+    checkSessionChanged$: Observable<boolean>;
+    checkSessionChanged: any;
 
     constructor(public oidcSecurityService: OidcSecurityService) {
+        console.log('AppComponent STARTING');
     }
 
     ngOnInit() {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
+        this.configuration = this.oidcSecurityService.configuration;
+        this.userData$ = this.oidcSecurityService.userData$;
+        this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.isModuleSetUp$ = this.oidcSecurityService.moduleSetup$;
+        this.checkSessionChanged$ = this.oidcSecurityService.checkSessionChanged$;
 
-                if (this.isAuthorized) {
-                    console.log('isAuthorized getting data');
-                }
-            });
+        this.oidcSecurityService.checkAuth().subscribe((isAuthenticated) => console.log('app authenticated', isAuthenticated));
 
-        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
-            (userData: any) => {
-
-                if (userData && userData !== '' && userData.role) {
-                    for (let i = 0; i < userData.role.length; i++) {
-                        if (userData.role[i] === 'dataEventRecords.admin') {
-                            this.hasDataEventRecordsAdminRole = true;
-                        }
-                        if (userData.role[i] === 'admin') {
-                            this.hasAdminRole = true;
-                        }
+        this.userData$.subscribe((userData) => {
+            console.log('Get userData: ', userData);
+            if (userData && userData.role) {
+                for (let i = 0; i < userData.role.length; i++) {
+                    if (userData.role[i] === 'dataEventRecords.admin') {
+                        this.hasDataEventRecordsAdminRole = true;
+                    }
+                    if (userData.role[i] === 'admin') {
+                        this.hasAdminRole = true;
                     }
                 }
-
-                console.log('userData getting data');
-            });
-    }
-
-    ngOnDestroy(): void {
-        if (this.isAuthorizedSubscription) {
-            this.isAuthorizedSubscription.unsubscribe();
-        }
-
-        if (this.userDataSubscription) {
-            this.userDataSubscription.unsubscribe();
-        }
+            }
+        });
     }
 
     login() {

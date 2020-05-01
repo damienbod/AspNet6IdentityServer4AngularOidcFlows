@@ -1,52 +1,41 @@
-import { OidcSecurityService } from '../auth/services/oidc.security.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {
+    OidcClientNotification,
+    OidcSecurityService,
+} from '../auth/angular-auth-oidc-client';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-home',
     templateUrl: 'home.component.html'
 })
 
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
     message: string;
     name = 'none';
     email = 'none';
-    userDataSubscription: Subscription | undefined;
-    userData = false;
-    isAuthorizedSubscription: Subscription | undefined;
-    isAuthorized = false;
+
+    userDataChanged$: Observable<OidcClientNotification<any>>;
+    userData$: Observable<any>;
+    isAuthenticated$: Observable<boolean>;
 
     constructor(public oidcSecurityService: OidcSecurityService) {
-        this.message = 'HomeComponent constructor';
+        console.log('AppComponent STARTING');
     }
 
     ngOnInit() {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
-            });
+        this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.userData$ = this.oidcSecurityService.userData$;
 
-        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
-            (userData: any) => {
-
-                if (userData !== '') {
+        this.userData$
+            .subscribe((userData) => {
+                console.log('Get userData: ', userData);
+                if (userData) {
                     this.name = userData.name;
                     this.email = userData.email;
                     console.log(userData);
                 }
-
-                console.log('userData getting data');
             });
-    }
-
-    ngOnDestroy(): void {
-        if (this.userDataSubscription) {
-            this.userDataSubscription.unsubscribe();
-        }
-
-        if (this.isAuthorizedSubscription) {
-            this.isAuthorizedSubscription.unsubscribe();
-        }
     }
 }

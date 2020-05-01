@@ -72,8 +72,8 @@ namespace StsServerIdentity
             {
                 new Client
                 {
-                    ClientName = "angularclient",
-                    ClientId = "angularclient",
+                    ClientName = "angularImplicitFlowclient",
+                    ClientId = "angularImplicitFlowclient",
                     AccessTokenType = AccessTokenType.Reference,
                     // RequireConsent = false,
                     AccessTokenLifetime = 330,// 330 seconds, default 60 minutes

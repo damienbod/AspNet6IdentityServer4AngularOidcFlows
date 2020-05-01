@@ -1,7 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { OidcSecurityService } from './auth/services/oidc.security.service';
+import {
+    OidcClientNotification,
+    OidcSecurityService,
+    PublicConfiguration,
+} from './auth/angular-auth-oidc-client';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-component',
@@ -9,32 +12,30 @@ import { OidcSecurityService } from './auth/services/oidc.security.service';
     styleUrls: ['./app.component.scss'],
 })
 
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
+    title = '';
+    configuration: PublicConfiguration;
+    isModuleSetUp$: Observable<boolean>;
+    userDataChanged$: Observable<OidcClientNotification<any>>;
+    userData$: Observable<any>;
+    isAuthenticated$: Observable<boolean>;
+    checkSessionChanged$: Observable<boolean>;
+    checkSessionChanged: any;
 
-    isAuthorizedSubscription: Subscription | undefined;
-    isAuthorized = false;
-
-    constructor(public oidcSecurityService: OidcSecurityService) {
-        if (this.oidcSecurityService.moduleSetup) {
-            this.doCallbackLogicIfRequired();
-        } else {
-            this.oidcSecurityService.onModuleSetup.subscribe(() => {
-                this.doCallbackLogicIfRequired();
-            });
-        }
+    constructor(
+        public oidcSecurityService: OidcSecurityService
+    ) {
+        console.log('AppComponent STARTING');
     }
 
     ngOnInit() {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
-            });
-    }
+        this.configuration = this.oidcSecurityService.configuration;
+        this.userData$ = this.oidcSecurityService.userData$;
+        this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.isModuleSetUp$ = this.oidcSecurityService.moduleSetup$;
+        this.checkSessionChanged$ = this.oidcSecurityService.checkSessionChanged$;
 
-    ngOnDestroy(): void {
-        if (this.isAuthorizedSubscription) {
-            this.isAuthorizedSubscription.unsubscribe();
-        }
+        this.oidcSecurityService.checkAuth().subscribe((isAuthenticated) => console.log('app authenticated', isAuthenticated));
     }
 
     login() {
@@ -52,9 +53,4 @@ export class AppComponent implements OnInit, OnDestroy {
         this.oidcSecurityService.logoff();
     }
 
-    private doCallbackLogicIfRequired() {
-        if (window.location.hash) {
-            this.oidcSecurityService.authorizedImplicitFlowCallback();
-        }
-    }
 }
