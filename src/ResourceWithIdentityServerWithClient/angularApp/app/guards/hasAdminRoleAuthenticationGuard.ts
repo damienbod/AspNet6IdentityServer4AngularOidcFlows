@@ -12,7 +12,7 @@ export class HasAdminRoleAuthenticationGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         console.log(route + '' + state);
 
-        this.oidcSecurityService.userData$.pipe(
+        return this.oidcSecurityService.userData$.pipe(
             switchMap((userData) => {
             if (userData) {
                 for (let i = 0; i < userData.role.length; i++) {
@@ -24,7 +24,5 @@ export class HasAdminRoleAuthenticationGuard implements CanActivate {
 
             return of(false);
             }));
-
-        return of(false);
     }
 }
