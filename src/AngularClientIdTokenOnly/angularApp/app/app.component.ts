@@ -1,60 +1,85 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { OidcSecurityService } from './auth/services/oidc.security.service';
-
+import {
+    //EventTypes,
+    OidcClientNotification,
+    OidcSecurityService,
+    PublicConfiguration,
+    // PublicEventsService,
+} from './auth/angular-auth-oidc-client';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+//import { filter } from 'rxjs/operators';
+import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import './app.component.css';
 
 @Component({
     selector: 'app-component',
-    templateUrl: 'app.component.html'
+    templateUrl: 'app.component.html',
 })
 
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
 
-    isAuthorizedSubscription: Subscription | undefined;
-    isAuthorized = false;
+    @Language() lang = '';
 
-    constructor(public securityService: OidcSecurityService) {
-        if (this.securityService.moduleSetup) {
-            this.doCallbackLogicIfRequired();
-        } else {
-            this.securityService.onModuleSetup.subscribe(() => {
-                this.doCallbackLogicIfRequired();
-            });
-        }
+    title = '';
+    configuration: PublicConfiguration;
+    isModuleSetUp$: Observable<boolean>;
+    userDataChanged$: Observable<OidcClientNotification<any>>;
+    userData$: Observable<any>;
+    isAuthenticated$: Observable<boolean>;
+    checkSessionChanged$: Observable<boolean>;
+    checkSessionChanged: any;
+
+    constructor(
+        public oidcSecurityService: OidcSecurityService,
+        // private eventService: PublicEventsService,
+        public locale: LocaleService,
+        public translation: TranslationService
+    ) {
+        console.log('AppComponent STARTING');
     }
 
     ngOnInit() {
-        this.isAuthorizedSubscription = this.securityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
-            });
+        this.configuration = this.oidcSecurityService.configuration;
+        this.userData$ = this.oidcSecurityService.userData$;
+        this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.isModuleSetUp$ = this.oidcSecurityService.moduleSetup$;
+        this.checkSessionChanged$ = this.oidcSecurityService.checkSessionChanged$;
+
+        this.oidcSecurityService.checkAuth().subscribe((isAuthenticated) => console.log('app authenticated', isAuthenticated));
+
+        //this.eventService
+        //    .registerForEvents()
+        //    .pipe(filter((notification) => notification.type === EventTypes.CheckSessionReceived))
+        //    .subscribe((value) => console.log('CheckSessionReceived with value from app', value));
     }
 
-    ngOnDestroy(): void {
-        if (this.isAuthorizedSubscription) {
-            this.isAuthorizedSubscription.unsubscribe();
-        }
+    changeCulture(language: string, country: string) {
+        this.locale.setDefaultLocale(language, country);
+        console.log('set language: ' + language);
     }
 
     login() {
         console.log('start login');
-        this.securityService.authorize();
-    }
 
-    private doCallbackLogicIfRequired() {
-        if (window.location.hash) {
-            this.securityService.authorizedImplicitFlowCallback();
+        let culture = 'de-CH';
+        if (this.locale.getCurrentCountry()) {
+            culture = this.locale.getCurrentLanguage() + '-' + this.locale.getCurrentCountry();
         }
+        console.log(culture);
+
+        // this.oidcSecurityService.setCustomRequestParameters({ 'ui_locales': culture});
+
+        this.oidcSecurityService.authorize();
     }
 
     refreshSession() {
         console.log('start refreshSession');
-        this.securityService.authorize();
+        this.oidcSecurityService.authorize();
     }
 
     logout() {
         console.log('start logoff');
-        this.securityService.logoff();
+        this.oidcSecurityService.logoff();
     }
+
 }

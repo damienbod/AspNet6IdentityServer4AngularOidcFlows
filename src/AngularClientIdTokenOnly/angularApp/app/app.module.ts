@@ -6,20 +6,58 @@ import { AppComponent } from './app.component';
 import { Configuration } from './app.constants';
 import { routing } from './app.routes';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { SecureFileService } from './securefile/SecureFileService';
 
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { SecureFilesComponent } from './securefile/securefiles.component';
 
-import { AuthModule } from './auth/modules/auth.module';
-import { OidcSecurityService } from './auth/services/oidc.security.service';
-import { OidcConfigService, ConfigResult } from './auth/services/oidc.security.config.service';
-import { OpenIdConfiguration } from './auth/models/auth.configuration';
+import { AuthModule, OidcConfigService } from './auth/angular-auth-oidc-client';
 
-export function loadConfig(oidcConfigService: OidcConfigService) {
-    console.log('APP_INITIALIZER STARTING');
-    return () => oidcConfigService.load_using_stsServer('https://localhost:44318');
+import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType } from 'angular-l10n';
+import { AuthorizationGuard } from './authorization.guard';
+
+const l10nConfig: L10nConfig = {
+    locale: {
+        languages: [
+            { code: 'en', dir: 'ltr' },
+            { code: 'it', dir: 'ltr' },
+            { code: 'fr', dir: 'ltr' },
+            { code: 'de', dir: 'ltr' }
+        ],
+        language: 'en',
+        storage: StorageStrategy.Cookie
+    },
+    translation: {
+        providers: [
+            { type: ProviderType.Static, prefix: './i18n/locale-' }
+        ],
+        caching: true,
+        missingValue: 'No key'
+    }
+};
+
+export function configureAuth(oidcConfigService: OidcConfigService) {
+    return () =>
+        oidcConfigService.withConfig({
+            stsServer: 'https://localhost:44318',
+            redirectUrl: 'https://localhost:44372',
+            clientId: 'angularclientidtokenonly',
+            responseType: 'id_token',
+            scope: 'openid profile email',
+            postLogoutRedirectUri: 'https://localhost:44372/Unauthorized',
+            startCheckSession: false,
+            silentRenew: true,
+            silentRenewUrl: 'https://localhost:44372/silent-renew.html',
+            postLoginRoute: '/home',
+            forbiddenRoute: '/Forbidden',
+            unauthorizedRoute: '/Unauthorized',
+            logLevel: 0, // LogLevel.Debug, 
+            autoCleanStateAfterAuthentication: false
+            // autoUserinfo: false,
+        });
 }
 
 @NgModule({
@@ -28,67 +66,36 @@ export function loadConfig(oidcConfigService: OidcConfigService) {
         FormsModule,
         routing,
         HttpClientModule,
+        TranslationModule.forRoot(l10nConfig),
         AuthModule.forRoot(),
     ],
     declarations: [
         AppComponent,
         ForbiddenComponent,
         HomeComponent,
-        UnauthorizedComponent
+        UnauthorizedComponent,
+        SecureFilesComponent
     ],
     providers: [
         OidcConfigService,
-        OidcSecurityService,
         {
             provide: APP_INITIALIZER,
-            useFactory: loadConfig,
-            deps: [OidcConfigService],
-            multi: true
+            useFactory: configureAuth,
+            deps: [OidcConfigService, HttpClient],
+            multi: true,
         },
+        AuthorizationGuard,
+        SecureFileService,
         Configuration
     ],
     bootstrap: [AppComponent],
 })
 
-
 export class AppModule {
-    constructor(
-        private oidcSecurityService: OidcSecurityService,
-        private oidcConfigService: OidcConfigService,
-        configuration: Configuration
-    ) {
 
-        this.oidcConfigService.onConfigurationLoaded.subscribe((configResult: ConfigResult) => {
+    constructor(public l10nLoader: L10nLoader) {
+        this.l10nLoader.load();
 
-            const flowType = 'id_token';
-
-            // const flowType = 'id_token token';
-
-            const config: OpenIdConfiguration = {
-                // auto_userinfo: false,
-
-                stsServer: 'https://localhost:44318',
-                redirect_url: 'https://localhost:44372',
-                client_id: 'angularclientidtokenonly',
-                response_type: flowType,
-                scope: 'openid profile email',
-                post_logout_redirect_uri: 'https://localhost:44372/Unauthorized',
-                start_checksession: false,
-                silent_renew: true,
-                silent_renew_url: 'https://localhost:44372/silent-renew.html',
-                post_login_route: '/home',
-                forbidden_route: '/Forbidden',
-                unauthorized_route: '/Unauthorized',
-                log_console_warning_active: true,
-                log_console_debug_active: false,
-                max_id_token_iat_offset_allowed_in_seconds: 3,
-                auto_clean_state_after_authentication: false
-            };
-
-            configuration.FileServer = configResult.customConfig.apiFileServer;
-            configuration.Server = configResult.customConfig.apiServer;
-
-            this.oidcSecurityService.setupModule(config, configResult.authWellknownEndpoints);
-        });
+        console.log('APP STARTING');
     }
 }

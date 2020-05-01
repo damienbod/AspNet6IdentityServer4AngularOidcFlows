@@ -1,6 +1,6 @@
 <div>Welcome</div>
 
-<div *ngIf="isAuthorized">
+<div *ngIf="isAuthenticated$ | async">
     <p>name:</p>
     <p>{{name}}:</p>
     <p>email:</p>
