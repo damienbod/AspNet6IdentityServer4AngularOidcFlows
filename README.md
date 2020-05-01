@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2020-05-01 </strong> Updated to OIDC Version 11, nuget packages, npm packages
+
 <strong>2020-03-21 </strong> Updated packages
 
 <strong>2020-03-03 </strong> Updated STS, support for FIDO2, updated nuget packages
