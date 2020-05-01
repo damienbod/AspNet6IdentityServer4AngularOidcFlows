@@ -67,9 +67,7 @@ export class AppComponent implements OnInit {
         }
         console.log(culture);
 
-        // this.oidcSecurityService.setCustomRequestParameters({ 'ui_locales': culture});
-
-        this.oidcSecurityService.authorize();
+        this.oidcSecurityService.authorize({ customParams: { 'ui_locales': culture } });
     }
 
     refreshSession() {
