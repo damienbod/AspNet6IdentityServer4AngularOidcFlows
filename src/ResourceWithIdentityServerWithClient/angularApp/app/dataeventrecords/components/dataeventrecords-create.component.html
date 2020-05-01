@@ -1,4 +1,4 @@
-<form *ngIf="isAuthorized">
+<form *ngIf="isAuthenticated$ | async">
     <h3 class="panel-heading">
         {{message}}
     </h3>

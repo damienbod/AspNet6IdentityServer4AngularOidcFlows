@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { OidcSecurityService } from '../auth/services/oidc.security.service';
+import { Component, OnInit } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { OidcSecurityService } from '../auth/angular-auth-oidc-client';
+
 import { UserManagementService } from '../user-management/UserManagementService';
 import { User } from './models/User';
 
@@ -9,13 +11,12 @@ import { User } from './models/User';
     templateUrl: 'user-management.component.html'
 })
 
-export class UserManagementComponent implements OnInit, OnDestroy {
+export class UserManagementComponent implements OnInit {
 
-    isAuthorizedSubscription: Subscription | undefined;
-    isAuthorized = false;
-
-    public message: string;
-    public Users: User[] = [];
+    isAuthenticated$: Observable<boolean>;
+    userData$: Observable<any>;
+    message: string;
+    Users: User[] = [];
 
     constructor(
         private _userManagementService: UserManagementService,
@@ -25,32 +26,47 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
-                this.getData();
-            });
+        this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.userData$ = this.oidcSecurityService.userData$;
+
+        this.getIsAdmin().pipe(
+            switchMap((isAdmin) => this.getData(isAdmin))
+        ).subscribe(
+            (data) => {
+                this.Users = data;
+                console.log('User Management Get all completed', data)
+            }
+        );
     }
 
-    ngOnDestroy(): void {
-        if (this.isAuthorizedSubscription) {
-            this.isAuthorizedSubscription.unsubscribe();
+    getIsAdmin(): Observable<boolean> {
+
+        return this.oidcSecurityService.userData$.pipe(
+            switchMap((userData: any) => {
+                if (userData) {
+                    for (let i = 0; i < userData.role.length; i++) {
+                        if (userData.role[i] === 'admin') {
+                            console.log('PROCESS ADMIN ', true);
+                            return of(true);
+                        }
+                    }
+                }
+
+                return of(false);
+            }));
+    }
+
+    private getData(isAdmin: boolean): Observable<User[]> {
+        console.log('UM isAdmin', isAdmin);
+        if (isAdmin) {
+            return this._userManagementService.GetAll();
         }
-    }
-
-
-    private getData() {
-        this._userManagementService
-            .GetAll()
-            .subscribe(data => this.Users = data,
-            error => this.oidcSecurityService.handleError(error),
-            () => console.log('User Management Get all completed'));
+        return of(null);
     }
 
     public Update(user: User) {
         this._userManagementService.Update(user.id, user)
             .subscribe((() => console.log('subscribed')),
-            error => this.oidcSecurityService.handleError(error),
             () => console.log('update request sent!'));
     }
 

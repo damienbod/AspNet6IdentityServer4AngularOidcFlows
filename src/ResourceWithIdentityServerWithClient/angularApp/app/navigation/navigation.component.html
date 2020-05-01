@@ -4,15 +4,17 @@
             <a [routerLink]="['/dataeventrecords']" class="navbar-brand"><img src="assets/damienbod.jpg" height="40" style="margin-top:-10px;" /></a>
         </div>
         <div class="navbar-collapse collapse" id="navbar">
-            <ul class="nav navbar-nav">
-                <li class="nav-item"><a class="nav-link" [routerLink]="['/dataeventrecords']" *ngIf="isAuthorized">dataEventRecords</a></li>
-                <li class="nav-item"><a class="nav-link" [routerLink]="['/dataeventrecords/create']" *ngIf="(isAuthorized && hasDataEventRecordsAdminRole)">create dataEventRecord</a></li>
-                <li class="nav-item"><a class="nav-link" [routerLink]="['/usermanagement']" *ngIf="(isAuthorized && hasAdminRole)">user-management</a></li>
-
-                <li class="nav-item"><a class="nav-link" *ngIf="!isAuthorized" (click)="login()">Login</a></li>
-                <li class="nav-item"><a class="nav-link" *ngIf="isAuthorized" (click)="logout()">Logout</a></li>
-
+            <ul class="mr-auto navbar-nav" *ngIf="isAuthenticated$ | async as isAuthenticated; else noAuth">
+                <li class="nav-item"><a class="nav-link" [routerLink]="['/dataeventrecords']">DataEventRecords</a></li>
+                <li class="nav-item"><a class="nav-link" [routerLink]="['/dataeventrecords/create']" *ngIf="hasDataEventRecordsAdminRole">Create DataEventRecord</a></li>
+                <li class="nav-item"><a class="nav-link" [routerLink]="['/usermanagement']" *ngIf="hasAdminRole">user-management</a></li>
+                <li class="nav-item"><a class="nav-link" (click)="logout()">Logout</a></li>
             </ul>
+            <ng-template #noAuth>
+                <ul class="mr-auto navbar-nav">
+                    <li class="nav-item"><a class="nav-link" (click)="login()">Login</a></li>
+                </ul>
+            </ng-template>
         </div>
     </div>
 </nav>
