@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
     email = 'none';
 
     userDataChanged$: Observable<OidcClientNotification<any>>;
-    userData$: Observable<any>;
     isAuthenticated$: Observable<boolean>;
 
     constructor(public oidcSecurityService: OidcSecurityService) {
@@ -26,9 +25,8 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
-        this.userData$ = this.oidcSecurityService.userData$;
 
-        this.userData$
+        this.oidcSecurityService.userData$
             .subscribe((userData) => {
                 console.log('Get userData: ', userData);
                 if (userData) {

@@ -17,7 +17,6 @@ export class DataEventRecordsListComponent implements OnInit {
     DataEventRecords: DataEventRecord[] = [];
     hasAdminRole = false;
     isAuthenticated$: Observable<boolean>;
-    userData$: Observable<any>;
 
     constructor(
 
@@ -29,7 +28,6 @@ export class DataEventRecordsListComponent implements OnInit {
 
     ngOnInit() {
         this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
-        this.userData$ = this.oidcSecurityService.userData$;
 
         this.isAuthenticated$.pipe(
             switchMap((isAuthorized) => this.getData(isAuthorized))
@@ -38,7 +36,7 @@ export class DataEventRecordsListComponent implements OnInit {
             () => console.log('getData Get all completed')
         );
 
-        this.userData$.subscribe((userData) => {
+        this.oidcSecurityService.userData$.subscribe((userData) => {
             console.log('Get userData: ', userData);
             if (userData) {
                 console.log('userData: ', userData);

@@ -1,9 +1,6 @@
 import {
-    //EventTypes,
     OidcClientNotification,
     OidcSecurityService,
-    PublicConfiguration,
-    // PublicEventsService,
 } from './auth/angular-auth-oidc-client';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -21,8 +18,6 @@ export class AppComponent implements OnInit {
     @Language() lang = '';
 
     title = '';
-    configuration: PublicConfiguration;
-    isModuleSetUp$: Observable<boolean>;
     userDataChanged$: Observable<OidcClientNotification<any>>;
     userData$: Observable<any>;
     isAuthenticated$: Observable<boolean>;
@@ -39,18 +34,11 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.configuration = this.oidcSecurityService.configuration;
         this.userData$ = this.oidcSecurityService.userData$;
         this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
-        this.isModuleSetUp$ = this.oidcSecurityService.moduleSetup$;
         this.checkSessionChanged$ = this.oidcSecurityService.checkSessionChanged$;
 
         this.oidcSecurityService.checkAuth().subscribe((isAuthenticated) => console.log('app authenticated', isAuthenticated));
-
-        //this.eventService
-        //    .registerForEvents()
-        //    .pipe(filter((notification) => notification.type === EventTypes.CheckSessionReceived))
-        //    .subscribe((value) => console.log('CheckSessionReceived with value from app', value));
     }
 
     changeCulture(language: string, country: string) {
