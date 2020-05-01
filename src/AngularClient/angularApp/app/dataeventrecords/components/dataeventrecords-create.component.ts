@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { OidcSecurityService } from '../../auth/services/oidc.security.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { OidcSecurityService } from '../../auth/angular-auth-oidc-client';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';
 import { DataEventRecord } from '../models/DataEventRecord';
@@ -11,14 +12,14 @@ import { DataEventRecord } from '../models/DataEventRecord';
     templateUrl: 'dataeventrecords-create.component.html'
 })
 
-export class DataEventRecordsCreateComponent implements OnInit, OnDestroy {
+export class DataEventRecordsCreateComponent implements OnInit {
 
-    public message: string;
-    public DataEventRecord: DataEventRecord = {
+    message: string;
+    DataEventRecord: DataEventRecord = {
         id: 0, name: '', description: '', timestamp: ''
     };
-    isAuthorizedSubscription: Subscription | undefined;
-    isAuthorized = false;
+
+    isAuthenticated$: Observable<boolean>;
 
     constructor(private _dataEventRecordsService: DataEventRecordsService,
         public oidcSecurityService: OidcSecurityService,
@@ -28,26 +29,20 @@ export class DataEventRecordsCreateComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
-            });
+        this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.isAuthenticated$.pipe(
+            map((isAuthorized: boolean) => {
+                console.log('isAuthorized: ' + isAuthorized);
+            }));
+
         this.DataEventRecord = { id: 0, name: '', description: '', timestamp: '' };
-        console.log('IsAuthorized:' + this.isAuthorized);
     }
 
-    ngOnDestroy(): void {
-        if (this.isAuthorizedSubscription) {
-            this.isAuthorizedSubscription.unsubscribe();
-        }
-    }
-
-    public Create() {
+     Create() {
         // router navigate to DataEventRecordsList
         this._dataEventRecordsService
             .Add(this.DataEventRecord)
             .subscribe((data: any) => this.DataEventRecord = data,
-            error => this.oidcSecurityService.handleError(error),
             () => this._router.navigate(['/dataeventrecords']));
     }
 }
