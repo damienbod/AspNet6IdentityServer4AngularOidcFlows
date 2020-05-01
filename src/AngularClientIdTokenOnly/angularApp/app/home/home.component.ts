@@ -3,7 +3,6 @@ import {
     OidcSecurityService,
 } from '../auth/angular-auth-oidc-client';
 import { Component, OnInit } from '@angular/core';
-import {  map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -26,18 +25,17 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userData$ = this.oidcSecurityService.userData$;
         this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+        this.userData$ = this.oidcSecurityService.userData$;
 
-        this.userData$.pipe(
-            map((userData: any) => {
-                console.log('userData: ', userData);
-
-                if (userData !== '') {
+        this.userData$
+            .subscribe((userData) => {
+                console.log('Get userData: ', userData);
+                if (userData) {
                     this.name = userData.name;
                     this.email = userData.email;
                     console.log(userData);
                 }
-            }));
+            });
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { OidcSecurityService } from '../../auth/angular-auth-oidc-client';
 
@@ -38,8 +38,9 @@ export class DataEventRecordsListComponent implements OnInit {
             () => console.log('getData Get all completed')
         );
             
-        this.userData$.pipe(
-            map((userData: any) => {
+        this.userData$.subscribe((userData) => {
+            console.log('Get userData: ', userData);
+            if (userData) {
                 console.log('userData: ', userData);
 
                 if (userData !== '') {
@@ -51,7 +52,8 @@ export class DataEventRecordsListComponent implements OnInit {
                         }
                     }
                 }
-            }));
+            }
+        });
     }
 
     Delete(id: any) {
