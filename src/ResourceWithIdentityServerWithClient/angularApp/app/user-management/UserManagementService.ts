@@ -37,7 +37,7 @@ export class UserManagementService {
     public Update = (id: string, itemToUpdate: User): Observable<any> => {
         this.setHeaders();
         return this._http.put(
-            this.actionUrl + id,
+            this.actionUrl + '/' + id,
             JSON.stringify(itemToUpdate),
             { headers: this.headers }
         );

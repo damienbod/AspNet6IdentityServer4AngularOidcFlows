@@ -1323,3 +1323,337 @@ FROM "AspNetUsers" AS "a"
 2020-05-01 11:28:08.361 +02:00 [INF] Executed action ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient) in 3.3781ms
 2020-05-01 11:28:08.362 +02:00 [INF] Executed endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient)'
 2020-05-01 11:28:08.362 +02:00 [INF] Request finished in 22.0504ms 200 application/json; charset=utf-8
+2020-05-01 11:28:58.334 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/connect/authorize?client_id=singleapp&redirect_uri=https%3A%2F%2Flocalhost%3A44363%2Fsilent-renew.html&response_type=id_token%20token&scope=dataEventRecords%20openid&nonce=5f2abb3f6b1d8bed2b35f463865eb27c0fnIOV4jU&state=e70d4aa54c0991921afc98dca6f7187a44hKJHGAI&prompt=none  
+2020-05-01 11:28:58.343 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2020-05-01 11:28:58.345 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:28:58.348 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+WHERE "a"."Id" = @__p_0
+LIMIT 1
+2020-05-01 11:28:58.351 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__user_Id_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."ClaimType", "a"."ClaimValue", "a"."UserId"
+FROM "AspNetUserClaims" AS "a"
+WHERE "a"."UserId" = @__user_Id_0
+2020-05-01 11:28:58.353 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a0"."Name"
+FROM "AspNetUserRoles" AS "a"
+INNER JOIN "AspNetRoles" AS "a0" ON "a"."RoleId" = "a0"."Id"
+WHERE "a"."UserId" = @__userId_0
+2020-05-01 11:28:58.354 +02:00 [WRN] Certificate CN=damienbodserver has expired on 01/21/2020 00:00:00
+2020-05-01 11:28:58.358 +02:00 [INF] Request finished in 24.6635ms 302 
+2020-05-01 11:28:58.386 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/silent-renew.html  
+2020-05-01 11:28:58.398 +02:00 [INF] Sending file. Request path: '/silent-renew.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\silent-renew.html'
+2020-05-01 11:28:58.400 +02:00 [INF] Request finished in 14.0745ms 200 text/html
+2020-05-01 11:28:58.446 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/.well-known/openid-configuration/jwks  
+2020-05-01 11:28:58.446 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2020-05-01 11:28:58.448 +02:00 [INF] Request finished in 1.8696ms 200 application/jwk-set+json; charset=UTF-8
+2020-05-01 11:29:04.108 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/create  
+2020-05-01 11:29:04.111 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:29:04.113 +02:00 [INF] Request finished in 4.9965ms 200 text/html
+2020-05-01 11:29:04.179 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js  
+2020-05-01 11:29:04.195 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js  
+2020-05-01 11:29:04.200 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js  
+2020-05-01 11:29:04.252 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js'
+2020-05-01 11:29:04.254 +02:00 [INF] Request finished in 75.0563ms 200 application/javascript
+2020-05-01 11:29:04.275 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js'
+2020-05-01 11:29:04.275 +02:00 [INF] Request finished in 75.4399ms 200 application/javascript
+2020-05-01 11:29:04.332 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js.map  
+2020-05-01 11:29:04.338 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js.map'
+2020-05-01 11:29:04.339 +02:00 [INF] Request finished in 7.0032ms 200 text/plain
+2020-05-01 11:29:04.411 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js.map  
+2020-05-01 11:29:04.421 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js.map'
+2020-05-01 11:29:04.421 +02:00 [INF] Request finished in 10.6167ms 200 text/plain
+2020-05-01 11:29:04.996 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js'
+2020-05-01 11:29:04.997 +02:00 [INF] Request finished in 801.281ms 200 application/javascript
+2020-05-01 11:29:05.556 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/.well-known/openid-configuration  
+2020-05-01 11:29:05.556 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2020-05-01 11:29:05.557 +02:00 [INF] Request finished in 1.099ms 200 application/json; charset=UTF-8
+2020-05-01 11:29:05.575 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js.map  
+2020-05-01 11:29:05.638 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js.map'
+2020-05-01 11:29:05.638 +02:00 [INF] Request finished in 63.4209ms 200 text/plain
+2020-05-01 11:29:05.698 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/assets/damienbod.jpg  
+2020-05-01 11:29:05.699 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:29:05.699 +02:00 [INF] Request finished in 1.349ms 200 text/html
+2020-05-01 11:29:05.714 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:29:05.715 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:29:05.715 +02:00 [INF] Request finished in 1.1517ms 200 image/x-icon
+2020-05-01 11:29:05.738 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:29:05.740 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:29:05.740 +02:00 [INF] Request finished in 2.3324ms 200 image/x-icon
+2020-05-01 11:29:23.836 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/  
+2020-05-01 11:29:23.839 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:29:23.839 +02:00 [INF] Request finished in 3.3474ms 200 text/html
+2020-05-01 11:29:23.884 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js  
+2020-05-01 11:29:23.884 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js  
+2020-05-01 11:29:23.884 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js  
+2020-05-01 11:29:24.019 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js'
+2020-05-01 11:29:24.021 +02:00 [INF] Request finished in 135.5797ms 200 application/javascript
+2020-05-01 11:29:24.038 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js'
+2020-05-01 11:29:24.039 +02:00 [INF] Request finished in 154.9495ms 200 application/javascript
+2020-05-01 11:29:24.101 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js.map  
+2020-05-01 11:29:24.108 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js.map'
+2020-05-01 11:29:24.108 +02:00 [INF] Request finished in 7.354ms 200 text/plain
+2020-05-01 11:29:24.192 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js.map  
+2020-05-01 11:29:24.200 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js.map'
+2020-05-01 11:29:24.200 +02:00 [INF] Request finished in 7.8554ms 200 text/plain
+2020-05-01 11:29:24.664 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js'
+2020-05-01 11:29:24.664 +02:00 [INF] Request finished in 779.853ms 200 application/javascript
+2020-05-01 11:29:25.185 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/.well-known/openid-configuration  
+2020-05-01 11:29:25.186 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2020-05-01 11:29:25.187 +02:00 [INF] Request finished in 1.576ms 200 application/json; charset=UTF-8
+2020-05-01 11:29:25.196 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js.map  
+2020-05-01 11:29:25.273 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js.map'
+2020-05-01 11:29:25.273 +02:00 [INF] Request finished in 76.9654ms 200 text/plain
+2020-05-01 11:29:25.383 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:29:25.383 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/assets/damienbod.jpg  
+2020-05-01 11:29:25.384 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:29:25.384 +02:00 [INF] Request finished in 1.0764ms 200 image/x-icon
+2020-05-01 11:29:25.385 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:29:25.385 +02:00 [INF] Request finished in 2.0354ms 200 text/html
+2020-05-01 11:29:25.400 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:29:25.401 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:29:25.402 +02:00 [INF] Request finished in 1.6692ms 200 image/x-icon
+2020-05-01 11:29:27.490 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/  
+2020-05-01 11:29:27.492 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:29:27.492 +02:00 [INF] Request finished in 3.3737ms 200 text/html
+2020-05-01 11:29:27.538 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js  
+2020-05-01 11:29:27.538 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js  
+2020-05-01 11:29:27.543 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js  
+2020-05-01 11:29:27.551 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js'
+2020-05-01 11:29:27.554 +02:00 [INF] Request finished in 16.7209ms 200 application/javascript
+2020-05-01 11:29:27.563 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js'
+2020-05-01 11:29:27.563 +02:00 [INF] Request finished in 25.2902ms 200 application/javascript
+2020-05-01 11:29:27.656 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js'
+2020-05-01 11:29:27.656 +02:00 [INF] Request finished in 113.188ms 200 application/javascript
+2020-05-01 11:29:27.692 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js.map  
+2020-05-01 11:29:27.699 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js.map'
+2020-05-01 11:29:27.699 +02:00 [INF] Request finished in 6.9253ms 200 text/plain
+2020-05-01 11:29:27.785 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js.map  
+2020-05-01 11:29:27.792 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js.map'
+2020-05-01 11:29:27.792 +02:00 [INF] Request finished in 6.9327ms 200 text/plain
+2020-05-01 11:29:28.371 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/.well-known/openid-configuration  
+2020-05-01 11:29:28.372 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2020-05-01 11:29:28.372 +02:00 [INF] Request finished in 1.1051ms 200 application/json; charset=UTF-8
+2020-05-01 11:29:28.381 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js.map  
+2020-05-01 11:29:28.434 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js.map'
+2020-05-01 11:29:28.434 +02:00 [INF] Request finished in 53.3705ms 200 text/plain
+2020-05-01 11:29:28.526 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/assets/damienbod.jpg  
+2020-05-01 11:29:28.528 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:29:28.528 +02:00 [INF] Request finished in 2.0157ms 200 text/html
+2020-05-01 11:29:28.529 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:29:28.530 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:29:28.531 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:29:28.531 +02:00 [INF] Request finished in 2.0082ms 200 image/x-icon
+2020-05-01 11:29:28.531 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:29:28.532 +02:00 [INF] Request finished in 2.3598ms 200 image/x-icon
+2020-05-01 11:31:45.668 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/  
+2020-05-01 11:31:45.682 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:31:45.682 +02:00 [INF] Request finished in 14.5574ms 200 text/html
+2020-05-01 11:31:45.739 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js  
+2020-05-01 11:31:45.741 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js  
+2020-05-01 11:31:45.756 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js  
+2020-05-01 11:31:45.828 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js'
+2020-05-01 11:31:45.829 +02:00 [INF] Request finished in 89.4509ms 200 application/javascript
+2020-05-01 11:31:45.850 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js'
+2020-05-01 11:31:45.851 +02:00 [INF] Request finished in 109.5274ms 200 application/javascript
+2020-05-01 11:31:45.915 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js.map  
+2020-05-01 11:31:45.925 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js.map'
+2020-05-01 11:31:45.925 +02:00 [INF] Request finished in 10.4749ms 200 text/plain
+2020-05-01 11:31:45.996 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js.map  
+2020-05-01 11:31:46.005 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js.map'
+2020-05-01 11:31:46.005 +02:00 [INF] Request finished in 8.5507ms 200 text/plain
+2020-05-01 11:31:46.527 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js'
+2020-05-01 11:31:46.527 +02:00 [INF] Request finished in 771.3494ms 200 application/javascript
+2020-05-01 11:31:47.028 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/.well-known/openid-configuration  
+2020-05-01 11:31:47.028 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2020-05-01 11:31:47.029 +02:00 [INF] Request finished in 1.4551ms 200 application/json; charset=UTF-8
+2020-05-01 11:31:47.052 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js.map  
+2020-05-01 11:31:47.123 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js.map'
+2020-05-01 11:31:47.123 +02:00 [INF] Request finished in 70.5576ms 200 text/plain
+2020-05-01 11:31:47.178 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/assets/damienbod.jpg  
+2020-05-01 11:31:47.179 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:31:47.180 +02:00 [INF] Request finished in 1.359ms 200 text/html
+2020-05-01 11:31:47.196 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:31:47.197 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:31:47.198 +02:00 [INF] Request finished in 1.2441ms 200 image/x-icon
+2020-05-01 11:31:47.218 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:31:47.219 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:31:47.220 +02:00 [INF] Request finished in 1.7513ms 200 image/x-icon
+2020-05-01 11:31:47.965 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/api/UserManagement application/json 
+2020-05-01 11:31:47.968 +02:00 [INF] Start processing HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:31:47.968 +02:00 [INF] Sending HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:31:47.976 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:44363/connect/introspect application/x-www-form-urlencoded 142
+2020-05-01 11:31:47.977 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.IntrospectionEndpoint for /connect/introspect
+2020-05-01 11:31:47.979 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:31:47.986 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+WHERE "a"."Id" = @__p_0
+LIMIT 1
+2020-05-01 11:31:47.988 +02:00 [INF] Success token introspection. Token active: true, for API name: dataEventRecords
+2020-05-01 11:31:47.989 +02:00 [INF] Request finished in 12.1811ms 200 application/json; charset=UTF-8
+2020-05-01 11:31:47.989 +02:00 [INF] Received HTTP response after 21.4398ms - "OK"
+2020-05-01 11:31:47.990 +02:00 [INF] End processing HTTP request after 22.0028ms - "OK"
+2020-05-01 11:31:47.991 +02:00 [INF] Authorization was successful.
+2020-05-01 11:31:47.991 +02:00 [INF] Executing endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:31:47.991 +02:00 [INF] Route matched with {action = "Get", controller = "UserManagement"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceWithIdentityServerWithClient.Controllers.UserManagementController (ResourceWithIdentityServerWithClient).
+2020-05-01 11:31:47.992 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:31:47.994 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+2020-05-01 11:31:47.995 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceWithIdentityServerWithClient.Model.UserDto, ResourceWithIdentityServerWithClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-05-01 11:31:47.996 +02:00 [INF] Executed action ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient) in 4.0624ms
+2020-05-01 11:31:47.996 +02:00 [INF] Executed endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:31:47.996 +02:00 [INF] Request finished in 30.5577ms 200 application/json; charset=utf-8
+2020-05-01 11:31:54.273 +02:00 [INF] Request starting HTTP/2.0 PUT https://localhost:44363/api/UserManagementfd6d46be-01a9-43a5-bfa2-c1a34817a852 application/json 110
+2020-05-01 11:31:54.273 +02:00 [INF] CORS policy execution failed.
+2020-05-01 11:31:54.273 +02:00 [INF] Request origin https://localhost:44363 does not have permission to access the resource.
+2020-05-01 11:31:54.273 +02:00 [INF] No CORS policy found for the specified request.
+2020-05-01 11:31:54.275 +02:00 [INF] Request finished in 2.0494ms 404 
+2020-05-01 11:32:07.615 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/api/DataEventRecords/ application/json 
+2020-05-01 11:32:07.619 +02:00 [INF] Start processing HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:32:07.620 +02:00 [INF] Sending HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:32:07.624 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:44363/connect/introspect application/x-www-form-urlencoded 142
+2020-05-01 11:32:07.624 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.IntrospectionEndpoint for /connect/introspect
+2020-05-01 11:32:07.627 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:32:07.630 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+WHERE "a"."Id" = @__p_0
+LIMIT 1
+2020-05-01 11:32:07.632 +02:00 [INF] Success token introspection. Token active: true, for API name: dataEventRecords
+2020-05-01 11:32:07.633 +02:00 [INF] Request finished in 9.0836ms 200 application/json; charset=UTF-8
+2020-05-01 11:32:07.635 +02:00 [INF] Received HTTP response after 15.363ms - "OK"
+2020-05-01 11:32:07.636 +02:00 [INF] End processing HTTP request after 16.4514ms - "OK"
+2020-05-01 11:32:07.638 +02:00 [INF] Authorization was successful.
+2020-05-01 11:32:07.638 +02:00 [INF] Executing endpoint 'ResourceWithIdentityServerWithClient.Controllers.DataEventRecordsController.Get (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:32:07.639 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceWithIdentityServerWithClient.Controllers.DataEventRecordsController (ResourceWithIdentityServerWithClient).
+2020-05-01 11:32:07.640 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceWithIdentityServerWithClient.Model.DataEventRecord, ResourceWithIdentityServerWithClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-05-01 11:32:07.642 +02:00 [INF] Executed action ResourceWithIdentityServerWithClient.Controllers.DataEventRecordsController.Get (ResourceWithIdentityServerWithClient) in 2.7159ms
+2020-05-01 11:32:07.642 +02:00 [INF] Executed endpoint 'ResourceWithIdentityServerWithClient.Controllers.DataEventRecordsController.Get (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:32:07.642 +02:00 [INF] Request finished in 27.0523ms 200 application/json; charset=utf-8
+2020-05-01 11:32:38.854 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/api/UserManagement application/json 
+2020-05-01 11:32:38.858 +02:00 [INF] Start processing HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:32:38.859 +02:00 [INF] Sending HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:32:38.875 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:44363/connect/introspect application/x-www-form-urlencoded 142
+2020-05-01 11:32:38.876 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.IntrospectionEndpoint for /connect/introspect
+2020-05-01 11:32:38.878 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:32:38.881 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+WHERE "a"."Id" = @__p_0
+LIMIT 1
+2020-05-01 11:32:38.882 +02:00 [INF] Success token introspection. Token active: true, for API name: dataEventRecords
+2020-05-01 11:32:38.882 +02:00 [INF] Request finished in 6.9492ms 200 application/json; charset=UTF-8
+2020-05-01 11:32:38.883 +02:00 [INF] Received HTTP response after 24.7689ms - "OK"
+2020-05-01 11:32:38.884 +02:00 [INF] End processing HTTP request after 25.8932ms - "OK"
+2020-05-01 11:32:38.885 +02:00 [INF] Authorization was successful.
+2020-05-01 11:32:38.885 +02:00 [INF] Executing endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:32:38.885 +02:00 [INF] Route matched with {action = "Get", controller = "UserManagement"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceWithIdentityServerWithClient.Controllers.UserManagementController (ResourceWithIdentityServerWithClient).
+2020-05-01 11:32:38.887 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:32:38.890 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+2020-05-01 11:32:38.892 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceWithIdentityServerWithClient.Model.UserDto, ResourceWithIdentityServerWithClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-05-01 11:32:38.894 +02:00 [INF] Executed action ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient) in 8.204ms
+2020-05-01 11:32:38.894 +02:00 [INF] Executed endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:32:38.894 +02:00 [INF] Request finished in 39.9204ms 200 application/json; charset=utf-8
+2020-05-01 11:32:40.370 +02:00 [INF] Request starting HTTP/2.0 PUT https://localhost:44363/api/UserManagementfd6d46be-01a9-43a5-bfa2-c1a34817a852 application/json 110
+2020-05-01 11:32:40.371 +02:00 [INF] CORS policy execution failed.
+2020-05-01 11:32:40.371 +02:00 [INF] Request origin https://localhost:44363 does not have permission to access the resource.
+2020-05-01 11:32:40.371 +02:00 [INF] No CORS policy found for the specified request.
+2020-05-01 11:32:40.372 +02:00 [INF] Request finished in 2.3986ms 404 
+2020-05-01 11:33:25.328 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/usermanagement  
+2020-05-01 11:33:25.331 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:33:25.333 +02:00 [INF] Request finished in 4.8253ms 200 text/html
+2020-05-01 11:33:25.409 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js  
+2020-05-01 11:33:25.464 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js  
+2020-05-01 11:33:25.464 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js  
+2020-05-01 11:33:25.484 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js'
+2020-05-01 11:33:25.484 +02:00 [INF] Request finished in 74.9238ms 200 application/javascript
+2020-05-01 11:33:25.488 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js'
+2020-05-01 11:33:25.488 +02:00 [INF] Request finished in 24.4084ms 200 application/javascript
+2020-05-01 11:33:25.555 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/polyfills.bundle.js.map  
+2020-05-01 11:33:25.564 +02:00 [INF] Sending file. Request path: '/dist/polyfills.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\polyfills.bundle.js.map'
+2020-05-01 11:33:25.565 +02:00 [INF] Request finished in 9.8112ms 200 text/plain
+2020-05-01 11:33:25.666 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/vendor.bundle.js.map  
+2020-05-01 11:33:25.676 +02:00 [INF] Sending file. Request path: '/dist/vendor.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\vendor.bundle.js.map'
+2020-05-01 11:33:25.676 +02:00 [INF] Request finished in 10.0466ms 200 text/plain
+2020-05-01 11:33:26.344 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js'
+2020-05-01 11:33:26.344 +02:00 [INF] Request finished in 880.3994ms 200 application/javascript
+2020-05-01 11:33:26.925 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/.well-known/openid-configuration  
+2020-05-01 11:33:26.926 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2020-05-01 11:33:26.927 +02:00 [INF] Request finished in 1.3523ms 200 application/json; charset=UTF-8
+2020-05-01 11:33:26.949 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dist/app.bundle.js.map  
+2020-05-01 11:33:27.039 +02:00 [INF] Sending file. Request path: '/dist/app.bundle.js.map'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\dist\app.bundle.js.map'
+2020-05-01 11:33:27.040 +02:00 [INF] Request finished in 90.6582ms 200 text/plain
+2020-05-01 11:33:27.107 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/api/UserManagement application/json 
+2020-05-01 11:33:27.111 +02:00 [INF] Start processing HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:33:27.112 +02:00 [INF] Sending HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:33:27.120 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/dataeventrecords/dataeventrecords/assets/damienbod.jpg  
+2020-05-01 11:33:27.121 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:33:27.122 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44363/favicon.ico  
+2020-05-01 11:33:27.123 +02:00 [INF] Sending file. Request path: '/index.html'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\index.html'
+2020-05-01 11:33:27.123 +02:00 [INF] Request finished in 2.9553ms 200 text/html
+2020-05-01 11:33:27.124 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:33:27.134 +02:00 [INF] Request finished in 13.0913ms 200 image/x-icon
+2020-05-01 11:33:27.136 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceWithIdentityServerWithClient\wwwroot\favicon.ico'
+2020-05-01 11:33:27.136 +02:00 [INF] Request finished in 14.5238ms 200 image/x-icon
+2020-05-01 11:33:27.141 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:44363/connect/introspect application/x-www-form-urlencoded 142
+2020-05-01 11:33:27.142 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.IntrospectionEndpoint for /connect/introspect
+2020-05-01 11:33:27.145 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:33:27.148 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+WHERE "a"."Id" = @__p_0
+LIMIT 1
+2020-05-01 11:33:27.149 +02:00 [INF] Success token introspection. Token active: true, for API name: dataEventRecords
+2020-05-01 11:33:27.149 +02:00 [INF] Request finished in 8.2465ms 200 application/json; charset=UTF-8
+2020-05-01 11:33:27.150 +02:00 [INF] Received HTTP response after 38.5736ms - "OK"
+2020-05-01 11:33:27.150 +02:00 [INF] End processing HTTP request after 39.805ms - "OK"
+2020-05-01 11:33:27.152 +02:00 [INF] Authorization was successful.
+2020-05-01 11:33:27.152 +02:00 [INF] Executing endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:33:27.152 +02:00 [INF] Route matched with {action = "Get", controller = "UserManagement"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceWithIdentityServerWithClient.Controllers.UserManagementController (ResourceWithIdentityServerWithClient).
+2020-05-01 11:33:27.153 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:33:27.155 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+2020-05-01 11:33:27.156 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceWithIdentityServerWithClient.Model.UserDto, ResourceWithIdentityServerWithClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-05-01 11:33:27.158 +02:00 [INF] Executed action ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient) in 5.8568ms
+2020-05-01 11:33:27.158 +02:00 [INF] Executed endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Get (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:33:27.159 +02:00 [INF] Request finished in 51.8507ms 200 application/json; charset=utf-8
+2020-05-01 11:33:29.025 +02:00 [INF] Request starting HTTP/2.0 PUT https://localhost:44363/api/UserManagement/fd6d46be-01a9-43a5-bfa2-c1a34817a852 application/json 110
+2020-05-01 11:33:29.026 +02:00 [INF] CORS policy execution failed.
+2020-05-01 11:33:29.026 +02:00 [INF] Request origin https://localhost:44363 does not have permission to access the resource.
+2020-05-01 11:33:29.026 +02:00 [INF] No CORS policy found for the specified request.
+2020-05-01 11:33:29.028 +02:00 [INF] Start processing HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:33:29.028 +02:00 [INF] Sending HTTP request POST "https://localhost:44363/connect/introspect"
+2020-05-01 11:33:29.031 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:44363/connect/introspect application/x-www-form-urlencoded 142
+2020-05-01 11:33:29.031 +02:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.IntrospectionEndpoint for /connect/introspect
+2020-05-01 11:33:29.032 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:33:29.035 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+WHERE "a"."Id" = @__p_0
+LIMIT 1
+2020-05-01 11:33:29.035 +02:00 [INF] Success token introspection. Token active: true, for API name: dataEventRecords
+2020-05-01 11:33:29.036 +02:00 [INF] Request finished in 5.1953ms 200 application/json; charset=UTF-8
+2020-05-01 11:33:29.036 +02:00 [INF] Received HTTP response after 8.4336ms - "OK"
+2020-05-01 11:33:29.037 +02:00 [INF] End processing HTTP request after 8.9421ms - "OK"
+2020-05-01 11:33:29.037 +02:00 [INF] Authorization was successful.
+2020-05-01 11:33:29.038 +02:00 [INF] Executing endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Put (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:33:29.042 +02:00 [INF] Route matched with {action = "Put", controller = "UserManagement"}. Executing controller action with signature Void Put(System.String, ResourceWithIdentityServerWithClient.Model.UserDto) on controller ResourceWithIdentityServerWithClient.Controllers.UserManagementController (ResourceWithIdentityServerWithClient).
+2020-05-01 11:33:31.201 +02:00 [INF] Entity Framework Core 3.1.3 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-05-01 11:33:31.216 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SELECT "a"."Id", "a"."AccessFailedCount", "a"."AccountExpires", "a"."ConcurrencyStamp", "a"."DataEventRecordsRole", "a"."Email", "a"."EmailConfirmed", "a"."IsAdmin", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."SecuredFilesRole", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+FROM "AspNetUsers" AS "a"
+WHERE "a"."Id" = @__id_0
+LIMIT 1
+2020-05-01 11:33:31.349 +02:00 [INF] Executed DbCommand (4ms) [Parameters=[@p18='?' (Size = 36), @p0='?', @p1='?', @p2='?' (Size = 36), @p19='?' (Size = 36), @p3='?' (Size = 21), @p4='?' (Size = 23), @p5='?', @p6='?', @p7='?', @p8='?', @p9='?' (Size = 23), @p10='?' (Size = 23), @p11='?' (Size = 84), @p12='?', @p13='?', @p14='?' (Size = 17), @p15='?' (Size = 36), @p16='?', @p17='?' (Size = 23)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "AspNetUsers" SET "AccessFailedCount" = @p0, "AccountExpires" = @p1, "ConcurrencyStamp" = @p2, "DataEventRecordsRole" = @p3, "Email" = @p4, "EmailConfirmed" = @p5, "IsAdmin" = @p6, "LockoutEnabled" = @p7, "LockoutEnd" = @p8, "NormalizedEmail" = @p9, "NormalizedUserName" = @p10, "PasswordHash" = @p11, "PhoneNumber" = @p12, "PhoneNumberConfirmed" = @p13, "SecuredFilesRole" = @p14, "SecurityStamp" = @p15, "TwoFactorEnabled" = @p16, "UserName" = @p17
+WHERE "Id" = @p18 AND "ConcurrencyStamp" = @p19;
+SELECT changes();
+2020-05-01 11:33:31.391 +02:00 [INF] Executed action ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Put (ResourceWithIdentityServerWithClient) in 2349.4465ms
+2020-05-01 11:33:31.392 +02:00 [INF] Executed endpoint 'ResourceWithIdentityServerWithClient.Controllers.UserManagementController.Put (ResourceWithIdentityServerWithClient)'
+2020-05-01 11:33:31.392 +02:00 [INF] Request finished in 2366.8308ms 200 
