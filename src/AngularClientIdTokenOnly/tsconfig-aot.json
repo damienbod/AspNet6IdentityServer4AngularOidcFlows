@@ -1,5 +1,8 @@
 ﻿{
   "compilerOptions": {
+    //"baseUrl": "./",
+    //"outDir": "./dist/out-tsc",
+    "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
@@ -7,17 +10,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "sourceMap": true,
-    "emitDecoratorMetadata": true,
-    "removeComments": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-        "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": [ "es2018", "dom" ],
     "typeRoots": [
       "./node_modules/@types/"
     ]
@@ -25,7 +18,8 @@
   "exclude": [
     "node_modules",
     "./angularApp/main.ts",
-    "angularApp/tests"
+    "**/*.spec.ts",
+    "**/*mock.ts"
   ],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

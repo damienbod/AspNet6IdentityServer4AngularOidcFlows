@@ -15,7 +15,7 @@ build_script:
 - npm -g install npm@latest
 - cd src\AngularClientCode
 - npm install
-- npm run build
+- npm run build-production
 - cd ..\ResourceWithIdentityServerWithClient
 - npm install
 - npm run build
