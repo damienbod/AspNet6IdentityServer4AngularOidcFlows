@@ -13,7 +13,7 @@ install:
 build_script:
 - dotnet build
 - npm -g install npm@latest
-- cd src\AngularClientImplicitFlow
+- cd src\AngularClientCode
 - npm install
 - npm run build
 - cd ..\ResourceWithIdentityServerWithClient
