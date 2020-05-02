@@ -15,9 +15,9 @@ build_script:
 - npm -g install npm@latest
 - cd src\AngularClientImplicitFlow
 - npm install
-- npm run build-production
+- npm run build
 - cd ..\ResourceWithIdentityServerWithClient
 - npm install
-- npm run build-production
+- npm run build
 before_build:
 - appveyor-retry dotnet restore -v Minimal
