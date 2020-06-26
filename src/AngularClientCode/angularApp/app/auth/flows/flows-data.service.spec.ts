@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '../logging/logger.service';
 import { LoggerServiceMock } from '../logging/logger.service-mock';
-import { StoragePersistanceService } from '../storage';
+import { StoragePersistanceService } from '../storage/storage-persistance.service';
 import { StoragePersistanceServiceMock } from '../storage/storage-persistance.service-mock';
 import { FlowsDataService } from './flows-data.service';
 import { RandomService } from './random/random.service';
@@ -32,48 +32,48 @@ describe('Flows Data Service', () => {
 
     describe('nonce', () => {
         it('createNonce returns nonce and stores it', () => {
-            const spy = spyOnProperty(storagePersistanceService, 'authNonce', 'set');
+            const spy = spyOn(storagePersistanceService, 'write');
 
             const result = service.createNonce();
 
             expect(result).toBeTruthy();
-            expect(spy).toHaveBeenCalledWith(result);
+            expect(spy).toHaveBeenCalledWith('authNonce', result);
         });
     });
 
     describe('AuthStateControl', () => {
         it('getAuthStateControl returns property from store', () => {
-            const spy = spyOnProperty(storagePersistanceService, 'authStateControl', 'get');
+            const spy = spyOn(storagePersistanceService, 'read');
 
             service.getAuthStateControl();
 
-            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith('authStateControl');
         });
 
         it('setAuthStateControl saves property in store', () => {
-            const spy = spyOnProperty(storagePersistanceService, 'authStateControl', 'set');
+            const spy = spyOn(storagePersistanceService, 'write');
 
             service.setAuthStateControl('ToSave');
 
-            expect(spy).toHaveBeenCalledWith('ToSave');
+            expect(spy).toHaveBeenCalledWith('authStateControl', 'ToSave');
         });
     });
 
     describe('getExistingOrCreateAuthStateControl', () => {
         it('if nothing stored it creates a 40 char one and saves the authStateControl', () => {
-            spyOnProperty(storagePersistanceService, 'authStateControl', 'get').and.returnValue(null);
-            const setSpy = spyOnProperty(storagePersistanceService, 'authStateControl', 'set');
+            spyOn(storagePersistanceService, 'read').withArgs('authStateControl').and.returnValue(null);
+            const setSpy = spyOn(storagePersistanceService, 'write');
 
             const result = service.getExistingOrCreateAuthStateControl();
 
             expect(result).toBeTruthy();
             expect(result.length).toBe(41);
-            expect(setSpy).toHaveBeenCalledWith(result);
+            expect(setSpy).toHaveBeenCalledWith('authStateControl', result);
         });
 
         it('if stored it returns the value and does NOT Store the value again', () => {
-            spyOnProperty(storagePersistanceService, 'authStateControl', 'get').and.returnValue('someAuthStateControl');
-            const setSpy = spyOnProperty(storagePersistanceService, 'authStateControl', 'set');
+            spyOn(storagePersistanceService, 'read').withArgs('authStateControl').and.returnValue('someAuthStateControl');
+            const setSpy = spyOn(storagePersistanceService, 'write');
 
             const result = service.getExistingOrCreateAuthStateControl();
 
@@ -85,11 +85,11 @@ describe('Flows Data Service', () => {
 
     describe('setSessionState', () => {
         it('setSessionState saves the value in the storage', () => {
-            const spy = spyOnProperty(storagePersistanceService, 'sessionState', 'set');
+            const spy = spyOn(storagePersistanceService, 'write');
 
             service.setSessionState('Genesis');
 
-            expect(spy).toHaveBeenCalledWith('Genesis');
+            expect(spy).toHaveBeenCalledWith('session_state', 'Genesis');
         });
     });
 
@@ -105,22 +105,38 @@ describe('Flows Data Service', () => {
 
     describe('codeVerifier', () => {
         it('getCodeVerifier returns value from the store', () => {
-            const spy = spyOnProperty(storagePersistanceService, 'codeVerifier', 'get').and.returnValue('Genesis');
+            const spy = spyOn(storagePersistanceService, 'read').withArgs('codeVerifier').and.returnValue('Genesis');
 
             const result = service.getCodeVerifier();
 
             expect(result).toBe('Genesis');
-            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith('codeVerifier');
         });
 
         it('createCodeVerifier returns random createCodeVerifier and stores it', () => {
-            const setSpy = spyOnProperty(storagePersistanceService, 'codeVerifier', 'set');
+            const setSpy = spyOn(storagePersistanceService, 'write');
 
             const result = service.createCodeVerifier();
 
             expect(result).toBeTruthy();
             expect(result.length).toBe(67);
-            expect(setSpy).toHaveBeenCalledWith(result);
+            expect(setSpy).toHaveBeenCalledWith('codeVerifier', result);
+        });
+    });
+
+    describe('setSilentRenewRunning', () => {
+        it('set setSilentRenewRunning to `running` when called', () => {
+            const spy = spyOn(storagePersistanceService, 'write');
+            service.setSilentRenewRunning();
+            expect(spy).toHaveBeenCalledWith('storageSilentRenewRunning', 'running');
+        });
+    });
+
+    describe('resetSilentRenewRunning', () => {
+        it('set resetSilentRenewRunning to `` when called', () => {
+            const spy = spyOn(storagePersistanceService, 'write');
+            service.resetSilentRenewRunning();
+            expect(spy).toHaveBeenCalledWith('storageSilentRenewRunning', ``);
         });
     });
 });

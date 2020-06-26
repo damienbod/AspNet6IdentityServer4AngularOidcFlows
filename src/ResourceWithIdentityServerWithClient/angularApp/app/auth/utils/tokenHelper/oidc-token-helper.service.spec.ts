@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfigurationProvider } from '../../config';
+import { ConfigurationProvider } from '../../config/config.provider';
 import { LoggerService } from '../../logging/logger.service';
 import { LoggerServiceMock } from '../../logging/logger.service-mock';
 import { TokenHelperService } from './oidc-token-helper.service';
@@ -218,6 +218,13 @@ describe('Token Helper Service', () => {
             const token = 'eyAidGV4dCIgOiAiSGVsbG8gV29ybGQgMTIzISJ9.SGVsbG8gV29ybGQgMTIzIQ==.SGVsbG8gV29ybGQgMTIzIQ==';
             const expected = 'eyAidGV4dCIgOiAiSGVsbG8gV29ybGQgMTIzISJ9';
             const result = tokenHelperService.getHeaderFromToken(token, true);
+            expect(expected).toEqual(result);
+        });
+
+        it('returns payload if token is correct, encode is false', () => {
+            const token = 'eyJ0ZXh0IjogIkhlbGxvIFdvcmxkIDEyMyEifQ=.SGVsbG8gV29ybGQgMTIzIQ==.eyAidGV4dCIgOiAiSGVsbG8gV29ybGQgMTIzISJ9';
+            const expected = JSON.parse(`{"text": "Hello World 123!"}`);
+            const result = tokenHelperService.getHeaderFromToken(token, false);
             expect(expected).toEqual(result);
         });
     });

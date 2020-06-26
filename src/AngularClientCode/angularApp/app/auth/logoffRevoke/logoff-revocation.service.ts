@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { of, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { DataService } from '../api/data.service';
+import { ConfigurationProvider } from '../config/config.provider';
 import { FlowsService } from '../flows/flows.service';
-import { CheckSessionService } from '../iframe';
+import { CheckSessionService } from '../iframe/check-session.service';
 import { LoggerService } from '../logging/logger.service';
-import { StoragePersistanceService } from '../storage';
-import { RedirectService, UrlService } from '../utils';
+import { StoragePersistanceService } from '../storage/storage-persistance.service';
+import { RedirectService } from '../utils/redirect/redirect.service';
+import { UrlService } from '../utils/url/url.service';
 
 @Injectable()
 export class LogoffRevocationService {
@@ -18,7 +20,8 @@ export class LogoffRevocationService {
         private urlService: UrlService,
         private checkSessionService: CheckSessionService,
         private flowsService: FlowsService,
-        private redirectService: RedirectService
+        private redirectService: RedirectService,
+        private configurationProvider: ConfigurationProvider
     ) {}
 
     // Logs out on the server and the local client.
@@ -49,6 +52,11 @@ export class LogoffRevocationService {
     // The refresh token and and the access token are revoked on the server. If the refresh token does not exist
     // only the access token is revoked. Then the logout run.
     logoffAndRevokeTokens(urlHandler?: (url: string) => any) {
+        if (!this.storagePersistanceService.read('authWellKnownEndPoints')?.revocationEndpoint) {
+            this.loggerService.logDebug('revocation endpoint not supported');
+            this.logoff(urlHandler);
+        }
+
         if (this.storagePersistanceService.getRefreshToken()) {
             return this.revokeRefreshToken().pipe(
                 switchMap((result) => this.revokeAccessToken(result)),
@@ -76,7 +84,7 @@ export class LogoffRevocationService {
     // the storage is revoked. You can pass any token to revoke. This makes it possible to
     // manage your own tokens. The is a public API.
     revokeAccessToken(accessToken?: any) {
-        const accessTok = accessToken || this.storagePersistanceService.accessToken;
+        const accessTok = accessToken || this.storagePersistanceService.getAccessToken();
         const body = this.urlService.createRevocationEndpointBodyAccessToken(accessTok);
         const url = this.urlService.getRevocationEndpointUrl();
 
@@ -122,7 +130,7 @@ export class LogoffRevocationService {
     }
 
     getEndSessionUrl(): string | null {
-        const idTokenHint = this.storagePersistanceService.idToken;
-        return this.urlService.createEndSessionUrl(idTokenHint);
+        const idToken = this.storagePersistanceService.getIdToken();
+        return this.urlService.createEndSessionUrl(idToken);
     }
 }

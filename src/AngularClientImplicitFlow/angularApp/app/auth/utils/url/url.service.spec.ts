@@ -1,33 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfigurationProvider } from '../../config';
+import { ConfigurationProvider } from '../../config/config.provider';
 import { OpenIdConfiguration } from '../../config/openid-configuration';
 import { FlowsDataService } from '../../flows/flows-data.service';
 import { RandomService } from '../../flows/random/random.service';
 import { LoggerService } from '../../logging/logger.service';
 import { LoggerServiceMock } from '../../logging/logger.service-mock';
-import { StoragePersistanceService } from '../../storage';
+import { StoragePersistanceService } from '../../storage/storage-persistance.service';
 import { StoragePersistanceServiceMock } from '../../storage/storage-persistance.service-mock';
 import { TokenValidationService } from '../../validation/token-validation.service';
 import { TokenValidationServiceMock } from '../../validation/token-validation.service-mock';
 import { FlowHelper } from '../flowHelper/flow-helper.service';
 import { PlatformProvider } from '../platform-provider/platform.provider';
 import { PlatformProviderMock } from '../platform-provider/platform.provider-mock';
-import { WindowToken } from '../window/window.reference';
-import { AuthWellKnownEndpoints } from './../../config/auth-well-known-endpoints';
+import { WINDOW } from '../window/window.reference';
 import { UrlService } from './url.service';
-
-const MockWindow = {
-    location: {
-        _href: '',
-        set href(url: string) {
-            this._href = url;
-        },
-        get href() {
-            return this._href;
-        },
-        toString() {},
-    },
-};
 
 describe('UrlService Tests', () => {
     let service: UrlService;
@@ -35,6 +21,8 @@ describe('UrlService Tests', () => {
     let flowHelper: FlowHelper;
     let flowsDataService: FlowsDataService;
     let tokenValidationService: TokenValidationService;
+    let storagePersistanceService: StoragePersistanceService;
+    let mywindow: any;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -51,7 +39,17 @@ describe('UrlService Tests', () => {
                 { provide: TokenValidationService, useClass: TokenValidationServiceMock },
                 RandomService,
                 FlowHelper,
-                { provide: WindowToken, useValue: MockWindow },
+                {
+                    provide: WINDOW,
+                    useValue: {
+                        location: {
+                            get href() {
+                                return 'fakeUrl';
+                            },
+                            set href(v) {},
+                        },
+                    },
+                },
             ],
         });
     });
@@ -62,14 +60,17 @@ describe('UrlService Tests', () => {
         flowHelper = TestBed.inject(FlowHelper);
         flowsDataService = TestBed.inject(FlowsDataService);
         tokenValidationService = TestBed.inject(TokenValidationService);
+        storagePersistanceService = TestBed.inject(StoragePersistanceService);
+        mywindow = TestBed.inject(WINDOW);
     });
 
     afterEach(() => {
-        configurationProvider.setConfig(null, null);
+        configurationProvider.setConfig(null);
     });
 
     it('should create', () => {
         expect(service).toBeTruthy();
+        expect(mywindow).toBeTruthy();
     });
 
     describe('isCallbackFromSts', () => {
@@ -83,7 +84,7 @@ describe('UrlService Tests', () => {
 
         testingValues.forEach(({ param, isCallbackFromSts }) => {
             it(`should return ${isCallbackFromSts} when param is ${param}`, () => {
-                const spy = spyOn(MockWindow.location, 'toString').and.callFake(() => `https://any.url/?${param}=anyvalue`);
+                const spy = spyOn(mywindow.location, 'toString').and.callFake(() => `https://any.url/?${param}=anyvalue`);
                 const result = service.isCallbackFromSts();
                 expect(spy).toHaveBeenCalled();
                 expect(result).toBe(isCallbackFromSts);
@@ -149,7 +150,7 @@ describe('UrlService Tests', () => {
 
     describe('createAuthorizeUrl', () => {
         it('returns null when no authoizationendpoint given -> wellKnownEndpoints null', () => {
-            configurationProvider.setConfig(null, null);
+            configurationProvider.setConfig(null);
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -182,7 +183,7 @@ describe('UrlService Tests', () => {
             const clientId = null;
             const authorizationEndpoint = 'authorizationEndpoint';
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({ clientId });
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue({ authorizationEndpoint });
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ authorizationEndpoint });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -201,7 +202,7 @@ describe('UrlService Tests', () => {
             const responseType = null;
             const authorizationEndpoint = 'authorizationEndpoint';
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({ clientId, responseType });
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue({ authorizationEndpoint });
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ authorizationEndpoint });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -221,7 +222,7 @@ describe('UrlService Tests', () => {
             const scope = null;
             const authorizationEndpoint = 'authorizationEndpoint';
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({ clientId, responseType, scope });
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue({ authorizationEndpoint });
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ authorizationEndpoint });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -246,7 +247,10 @@ describe('UrlService Tests', () => {
                 testcustom: 'customvalue',
             };
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read')
+                .withArgs('authWellKnownEndPoints')
+                .and.returnValue({ authorizationEndpoint: 'http://example' });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -275,7 +279,10 @@ describe('UrlService Tests', () => {
             config.responseType = 'id_token token';
             config.scope = 'openid email profile';
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -304,7 +311,10 @@ describe('UrlService Tests', () => {
             config.responseType = 'id_token token';
             config.scope = 'openid email profile';
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -336,7 +346,10 @@ describe('UrlService Tests', () => {
             config.scope = 'openid email profile';
             config.hdParam = 'myHdParam';
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -368,7 +381,10 @@ describe('UrlService Tests', () => {
                 testcustom: 'customvalue',
             };
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -403,7 +419,10 @@ describe('UrlService Tests', () => {
                 t1: ';,/?:@&=+$',
             };
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -438,7 +457,10 @@ describe('UrlService Tests', () => {
                 },
             };
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -472,7 +494,10 @@ describe('UrlService Tests', () => {
                 customParams: null,
             };
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -504,7 +529,10 @@ describe('UrlService Tests', () => {
                 scope: 'openid email profile',
             };
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -537,8 +565,10 @@ describe('UrlService Tests', () => {
                 postLogoutRedirectUri: 'https://localhost:44386/Unauthorized',
             };
 
-            const endSessionEndpoint = 'http://example';
-            configurationProvider.setConfig(config, { endSessionEndpoint });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                endSessionEndpoint: 'http://example',
+            });
 
             const value = service.createEndSessionUrl('mytoken');
 
@@ -558,8 +588,10 @@ describe('UrlService Tests', () => {
                 postLogoutRedirectUri: null,
             };
 
-            const endSessionEndpoint = 'http://example';
-            configurationProvider.setConfig(config, { endSessionEndpoint });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                endSessionEndpoint: 'http://example',
+            });
 
             const value = service.createEndSessionUrl('mytoken');
 
@@ -569,7 +601,7 @@ describe('UrlService Tests', () => {
         });
 
         it('createEndSessionUrl returns null if no wellknownEndpoints given', () => {
-            configurationProvider.setConfig({}, null);
+            configurationProvider.setConfig({});
 
             const value = service.createEndSessionUrl('mytoken');
 
@@ -579,7 +611,10 @@ describe('UrlService Tests', () => {
         });
 
         it('createEndSessionUrl returns null if no wellknownEndpoints.endSessionEndpoint given', () => {
-            configurationProvider.setConfig({}, { endSessionEndpoint: null });
+            configurationProvider.setConfig({});
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                endSessionEndpoint: null,
+            });
 
             const value = service.createEndSessionUrl('mytoken');
 
@@ -595,7 +630,10 @@ describe('UrlService Tests', () => {
             config.responseType = 'id_token token';
             config.scope = 'openid email profile';
 
-            configurationProvider.setConfig(config, { authorizationEndpoint: 'http://example' });
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint: 'http://example',
+            });
 
             const value = (service as any).createAuthorizeUrl(
                 '', // Implicit Flow
@@ -623,7 +661,8 @@ describe('UrlService Tests', () => {
             config.responseType = 'id_token token';
             config.scope = 'openid email profile';
 
-            configurationProvider.setConfig(config, {
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
                 authorizationEndpoint:
                     'https://login.microsoftonline.com/fabrikamb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=b2c_1_sign_in',
             });
@@ -656,8 +695,10 @@ describe('UrlService Tests', () => {
             config.postLogoutRedirectUri = 'https://localhost:44386/Unauthorized';
 
             const endSessionEndpoint = 'https://login.microsoftonline.com/fabrikamb2c.onmicrosoft.com/oauth2/v2.0/logout?p=b2c_1_sign_in';
-            configurationProvider.setConfig(config, { endSessionEndpoint } as AuthWellKnownEndpoints);
-
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                endSessionEndpoint,
+            });
             const value = service.createEndSessionUrl('UzI1NiIsImtpZCI6Il');
 
             const expectValue =
@@ -677,7 +718,10 @@ describe('UrlService Tests', () => {
             config.postLogoutRedirectUri = 'https://localhost:44386/Unauthorized';
 
             const revocationEndpoint = 'http://example?cod=ddd';
-            configurationProvider.setConfig(config, { revocationEndpoint } as AuthWellKnownEndpoints);
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                revocationEndpoint,
+            });
 
             const value = service.createRevocationEndpointBodyAccessToken('mytoken');
             const expectValue =
@@ -689,7 +733,7 @@ describe('UrlService Tests', () => {
         it('createRevocationEndpointBodyAccessToken returns null when no clientId is given', () => {
             const config = { stsServer: 'https://localhost:5001', clientId: null } as OpenIdConfiguration;
 
-            configurationProvider.setConfig(config, null);
+            configurationProvider.setConfig(config);
 
             const value = service.createRevocationEndpointBodyAccessToken('mytoken');
 
@@ -705,7 +749,10 @@ describe('UrlService Tests', () => {
             config.postLogoutRedirectUri = 'https://localhost:44386/Unauthorized';
 
             const revocationEndpoint = 'http://example?cod=ddd';
-            configurationProvider.setConfig(config, { revocationEndpoint } as AuthWellKnownEndpoints);
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                revocationEndpoint,
+            });
 
             const value = service.createRevocationEndpointBodyRefreshToken('mytoken');
             const expectValue =
@@ -717,7 +764,7 @@ describe('UrlService Tests', () => {
         it('createRevocationEndpointBodyRefreshToken returns null when no clientId is given', () => {
             const config = { stsServer: 'https://localhost:5001', clientId: null } as OpenIdConfiguration;
 
-            configurationProvider.setConfig(config, null);
+            configurationProvider.setConfig(config);
 
             const value = service.createRevocationEndpointBodyRefreshToken('mytoken');
 
@@ -733,7 +780,10 @@ describe('UrlService Tests', () => {
             config.postLogoutRedirectUri = 'https://localhost:44386/Unauthorized';
 
             const revocationEndpoint = 'http://example?cod=ddd';
-            configurationProvider.setConfig(config, { revocationEndpoint } as AuthWellKnownEndpoints);
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                revocationEndpoint,
+            });
 
             const value = service.getRevocationEndpointUrl();
 
@@ -751,7 +801,10 @@ describe('UrlService Tests', () => {
             config.postLogoutRedirectUri = 'https://localhost:44386/Unauthorized';
 
             const revocationEndpoint = 'http://example';
-            configurationProvider.setConfig(config, { revocationEndpoint } as AuthWellKnownEndpoints);
+            configurationProvider.setConfig(config);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                revocationEndpoint,
+            });
 
             const value = service.getRevocationEndpointUrl();
 
@@ -761,15 +814,17 @@ describe('UrlService Tests', () => {
         });
 
         it('getRevocationEndpointUrl returns null when there is not revociationendpoint given', () => {
-            configurationProvider.setConfig(null, { revocationEndpoint: null });
-
+            configurationProvider.setConfig(null);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                revocationEndpoint: null,
+            });
             const value = service.getRevocationEndpointUrl();
 
             expect(value).toBeNull();
         });
 
         it('getRevocationEndpointUrl returns null when there is no wellKnownEndpoints given', () => {
-            configurationProvider.setConfig(null, null);
+            configurationProvider.setConfig(null);
 
             const value = service.getRevocationEndpointUrl();
 
@@ -938,7 +993,9 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'getExistingOrCreateAuthStateControl').and.returnValue(state);
             spyOn(flowsDataService, 'createNonce').and.returnValue(nonce);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue({ authorizationEndpoint });
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({
+                authorizationEndpoint,
+            });
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({
                 silentRenewUrl,
                 clientId,
@@ -964,7 +1021,7 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'getExistingOrCreateAuthStateControl').and.returnValue(state);
             spyOn(flowsDataService, 'createNonce').and.returnValue(nonce);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue(null);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue(null);
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({
                 silentRenewUrl,
                 clientId,
@@ -1017,7 +1074,7 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'createCodeVerifier').and.returnValue(codeVerifier);
             spyOn(tokenValidationService, 'generateCodeVerifier').and.returnValue(codeChallenge);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue({ authorizationEndpoint });
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ authorizationEndpoint });
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({
                 silentRenewUrl,
                 clientId,
@@ -1047,7 +1104,7 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'createCodeVerifier').and.returnValue(codeVerifier);
             spyOn(tokenValidationService, 'generateCodeVerifier').and.returnValue(codeChallenge);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue(null);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue(null);
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({ silentRenewUrl, clientId, responseType });
 
             const serviceAsAny = service as any;
@@ -1070,7 +1127,7 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'getExistingOrCreateAuthStateControl').and.returnValue(state);
             spyOn(flowsDataService, 'createNonce').and.returnValue(nonce);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue({ authorizationEndpoint });
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ authorizationEndpoint });
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({
                 redirectUrl,
                 clientId,
@@ -1096,7 +1153,26 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'getExistingOrCreateAuthStateControl').and.returnValue(state);
             spyOn(flowsDataService, 'createNonce').and.returnValue(nonce);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue(null);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue(null);
+            spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({ redirectUrl, clientId, responseType });
+
+            const serviceAsAny = service as any;
+
+            const result = serviceAsAny.createUrlImplicitFlowAuthorize();
+            expect(result).toBe(null);
+        });
+
+        it('returns null if there is nor redirecturl', () => {
+            const state = 'testState';
+            const nonce = 'testNonce';
+            const redirectUrl = '';
+            const clientId = 'clientId';
+            const responseType = 'responseType';
+
+            spyOn(flowsDataService, 'getExistingOrCreateAuthStateControl').and.returnValue(state);
+            spyOn(flowsDataService, 'createNonce').and.returnValue(nonce);
+
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue(null);
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({ redirectUrl, clientId, responseType });
 
             const serviceAsAny = service as any;
@@ -1141,7 +1217,7 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'createCodeVerifier').and.returnValue(codeVerifier);
             spyOn(tokenValidationService, 'generateCodeVerifier').and.returnValue(codeChallenge);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue({ authorizationEndpoint });
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ authorizationEndpoint });
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({
                 redirectUrl,
                 clientId,
@@ -1173,7 +1249,7 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'createCodeVerifier').and.returnValue(codeVerifier);
             spyOn(tokenValidationService, 'generateCodeVerifier').and.returnValue(codeChallenge);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue({ authorizationEndpoint });
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ authorizationEndpoint });
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({
                 redirectUrl,
                 clientId,
@@ -1204,7 +1280,7 @@ describe('UrlService Tests', () => {
             spyOn(flowsDataService, 'createCodeVerifier').and.returnValue(codeVerifier);
             spyOn(tokenValidationService, 'generateCodeVerifier').and.returnValue(codeChallenge);
 
-            spyOnProperty(configurationProvider, 'wellKnownEndpoints', 'get').and.returnValue(null);
+            spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue(null);
             spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({ redirectUrl, clientId, responseType });
 
             const serviceAsAny = service as any;

@@ -1,9 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { ConfigurationProvider } from '../config';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { ConfigurationProvider } from '../config/config.provider';
 import { LoggerService } from '../logging/logger.service';
-import { EventTypes, PublicEventsService } from '../public-events';
-import { StoragePersistanceService } from '../storage';
+import { EventTypes } from '../public-events/event-types';
+import { PublicEventsService } from '../public-events/public-events.service';
+import { StoragePersistanceService } from '../storage/storage-persistance.service';
 import { IFrameService } from './existing-iframe.service';
 
 const IFRAME_FOR_CHECK_SESSION_IDENTIFIER = 'myiFrameForCheckSession';
@@ -30,7 +32,7 @@ export class CheckSessionService {
         private iFrameService: IFrameService,
         private zone: NgZone,
         private eventService: PublicEventsService,
-        private readonly configurationProvider: ConfigurationProvider
+        private configurationProvider: ConfigurationProvider
     ) {}
 
     isCheckSessionConfigured() {
@@ -41,8 +43,6 @@ export class CheckSessionService {
         if (!!this.scheduledHeartBeatRunning) {
             return;
         }
-
-        this.init();
 
         const clientId = this.configurationProvider.openIDConfiguration.clientId;
         this.pollServerSession(clientId);
@@ -61,62 +61,71 @@ export class CheckSessionService {
         return this.configurationProvider.openIDConfiguration.startCheckSession && this.checkSessionReceived;
     }
 
-    private init() {
+    private init(): Observable<any> {
         if (this.lastIFrameRefresh + this.iframeRefreshInterval > Date.now()) {
-            return;
+            return of(undefined);
         }
 
-        if (!this.configurationProvider.wellKnownEndpoints) {
+        const authWellKnownEndPoints = this.storagePersistanceService.read('authWellKnownEndPoints');
+
+        if (!authWellKnownEndPoints) {
             this.loggerService.logWarning('init check session: authWellKnownEndpoints is undefined. Returning.');
-            return;
+            return of();
         }
 
         const existingIframe = this.getOrCreateIframe();
+        const checkSessionIframe = authWellKnownEndPoints.checkSessionIframe;
 
-        if (this.configurationProvider.wellKnownEndpoints.checkSessionIframe) {
-            existingIframe.contentWindow.location.replace(this.configurationProvider.wellKnownEndpoints.checkSessionIframe);
+        if (checkSessionIframe) {
+            existingIframe.contentWindow.location.replace(checkSessionIframe);
         } else {
             this.loggerService.logWarning('init check session: checkSessionIframe is not configured to run');
         }
 
-        this.bindMessageEventToIframe();
-
-        existingIframe.onload = () => {
-            this.lastIFrameRefresh = Date.now();
-        };
+        return new Observable((observer) => {
+            existingIframe.onload = () => {
+                this.lastIFrameRefresh = Date.now();
+                observer.next();
+                observer.complete();
+            };
+        });
     }
 
     private pollServerSession(clientId: string) {
         this.outstandingMessages = 0;
-
         const pollServerSessionRecur = () => {
-            const existingIframe = this.getExistingIframe();
-            if (existingIframe && clientId) {
-                this.loggerService.logDebug(existingIframe);
-                const sessionState = this.storagePersistanceService.sessionState;
-                if (sessionState) {
-                    this.outstandingMessages++;
-                    existingIframe.contentWindow.postMessage(
-                        clientId + ' ' + sessionState,
-                        this.configurationProvider.openIDConfiguration.stsServer
-                    );
-                } else {
-                    this.loggerService.logDebug('OidcSecurityCheckSession pollServerSession session_state is blank');
-                }
-            } else {
-                this.loggerService.logWarning('OidcSecurityCheckSession pollServerSession checkSession IFrame does not exist');
-                this.loggerService.logDebug(clientId);
-                this.loggerService.logDebug(existingIframe);
-            }
+            this.init()
+                .pipe(take(1))
+                .subscribe(() => {
+                    const existingIframe = this.getExistingIframe();
+                    if (existingIframe && clientId) {
+                        this.loggerService.logDebug(existingIframe);
+                        const sessionState = this.storagePersistanceService.read('session_state');
+                        if (sessionState) {
+                            this.outstandingMessages++;
+                            existingIframe.contentWindow.postMessage(
+                                clientId + ' ' + sessionState,
+                                this.configurationProvider.openIDConfiguration.stsServer
+                            );
+                        } else {
+                            this.loggerService.logDebug('OidcSecurityCheckSession pollServerSession session_state is blank');
+                        }
+                    } else {
+                        this.loggerService.logWarning('OidcSecurityCheckSession pollServerSession checkSession IFrame does not exist');
+                        this.loggerService.logDebug(clientId);
+                        this.loggerService.logDebug(existingIframe);
+                    }
 
-            // after sending three messages with no response, fail.
-            if (this.outstandingMessages > 3) {
-                this.loggerService.logError(
-                    `OidcSecurityCheckSession not receiving check session response messages. Outstanding messages: ${this.outstandingMessages}. Server unreachable?`
-                );
-            }
+                    // after sending three messages with no response, fail.
+                    if (this.outstandingMessages > 3) {
+                        this.loggerService.logError(
+                            `OidcSecurityCheckSession not receiving check session response messages. Outstanding messages: ${this.outstandingMessages}. Server unreachable?`
+                        );
+                    }
+                });
         };
 
+        pollServerSessionRecur();
         this.zone.runOutsideAngular(() => {
             this.scheduledHeartBeatRunning = setInterval(pollServerSessionRecur, this.heartBeatInterval);
         });
@@ -162,7 +171,9 @@ export class CheckSessionService {
         const existingIframe = this.getExistingIframe();
 
         if (!existingIframe) {
-            return this.iFrameService.addIFrameToWindowBody(IFRAME_FOR_CHECK_SESSION_IDENTIFIER);
+            const frame = this.iFrameService.addIFrameToWindowBody(IFRAME_FOR_CHECK_SESSION_IDENTIFIER);
+            this.bindMessageEventToIframe();
+            return frame;
         }
 
         return existingIframe;

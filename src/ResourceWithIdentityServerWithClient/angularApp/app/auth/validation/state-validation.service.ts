@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ConfigurationProvider } from '../config';
+import { ConfigurationProvider } from '../config/config.provider';
 import { CallbackContext } from '../flows/callback-context';
 import { LoggerService } from '../logging/logger.service';
-import { StoragePersistanceService } from '../storage';
+import { StoragePersistanceService } from '../storage/storage-persistance.service';
 import { FlowHelper } from '../utils/flowHelper/flow-helper.service';
 import { TokenHelperService } from '../utils/tokenHelper/oidc-token-helper.service';
 import { StateValidationResult } from './state-validation-result';
@@ -45,27 +45,37 @@ export class StateValidationService {
 
         // its iss Claim Value MUST be the same as in the ID Token issued when the original authentication occurred,
         if (decodedIdToken.iss !== newIdToken.iss) {
+            this.loggerService.logDebug(`iss do not match: ${decodedIdToken.iss} ${newIdToken.iss}`);
             return false;
         }
         // its azp Claim Value MUST be the same as in the ID Token issued when the original authentication occurred;
         //   if no azp Claim was present in the original ID Token, one MUST NOT be present in the new ID Token, and
         // otherwise, the same rules apply as apply when issuing an ID Token at the time of the original authentication.
         if (decodedIdToken.azp !== newIdToken.azp) {
+            this.loggerService.logDebug(`azp do not match: ${decodedIdToken.azp} ${newIdToken.azp}`);
             return false;
         }
         // its sub Claim Value MUST be the same as in the ID Token issued when the original authentication occurred,
         if (decodedIdToken.sub !== newIdToken.sub) {
+            this.loggerService.logDebug(`sub do not match: ${decodedIdToken.sub} ${newIdToken.sub}`);
             return false;
         }
 
         // its aud Claim Value MUST be the same as in the ID Token issued when the original authentication occurred,
         if (decodedIdToken.aud !== newIdToken.aud) {
+            this.loggerService.logDebug(`aud do not match: ${decodedIdToken.aud} ${newIdToken.aud}`);
             return false;
         }
+
+        if (this.configurationProvider.openIDConfiguration.disableRefreshIdTokenAuthTimeValidation) {
+            return true;
+        }
+
         // its iat Claim MUST represent the time that the new ID Token is issued,
         // if the ID Token contains an auth_time Claim, its value MUST represent the time of the original authentication
         // - not the time that the new ID token is issued,
         if (decodedIdToken.auth_time !== newIdToken.auth_time) {
+            this.loggerService.logDebug(`auth_time do not match: ${decodedIdToken.auth_time} ${newIdToken.auth_time}`);
             return false;
         }
 
@@ -74,12 +84,9 @@ export class StateValidationService {
 
     validateState(callbackContext): StateValidationResult {
         const toReturn = new StateValidationResult();
-        if (
-            !this.tokenValidationService.validateStateFromHashCallback(
-                callbackContext.authResult.state,
-                this.storagePersistanceService.authStateControl
-            )
-        ) {
+        const authStateControl = this.storagePersistanceService.read('authStateControl');
+
+        if (!this.tokenValidationService.validateStateFromHashCallback(callbackContext.authResult.state, authStateControl)) {
             this.loggerService.logWarning('authorizedCallback incorrect state');
             toReturn.state = ValidationResult.StatesDoNotMatch;
             this.handleUnsuccessfulValidation();
@@ -105,10 +112,12 @@ export class StateValidationService {
                 return toReturn;
             }
 
+            const authNonce = this.storagePersistanceService.read('authNonce');
+
             if (
                 !this.tokenValidationService.validateIdTokenNonce(
                     toReturn.decodedIdToken,
-                    this.storagePersistanceService.authNonce,
+                    authNonce,
                     this.configurationProvider.openIDConfiguration.ignoreNonceAfterRefresh
                 )
             ) {
@@ -140,15 +149,14 @@ export class StateValidationService {
                 return toReturn;
             }
 
-            if (this.configurationProvider.wellKnownEndpoints) {
+            const authWellKnownEndPoints = this.storagePersistanceService.read('authWellKnownEndPoints');
+
+            if (authWellKnownEndPoints) {
                 if (this.configurationProvider.openIDConfiguration.issValidationOff) {
                     this.loggerService.logDebug('iss validation is turned off, this is not recommended!');
                 } else if (
                     !this.configurationProvider.openIDConfiguration.issValidationOff &&
-                    !this.tokenValidationService.validateIdTokenIss(
-                        toReturn.decodedIdToken,
-                        this.configurationProvider.wellKnownEndpoints.issuer
-                    )
+                    !this.tokenValidationService.validateIdTokenIss(toReturn.decodedIdToken, authWellKnownEndPoints.issuer)
                 ) {
                     this.loggerService.logWarning('authorizedCallback incorrect iss does not match authWellKnownEndpoints issuer');
                     toReturn.state = ValidationResult.IssDoesNotMatchIssuer;
@@ -221,11 +229,13 @@ export class StateValidationService {
 
         const idTokenHeader = this.tokenHelperService.getHeaderFromToken(toReturn.idToken, false);
 
-        if (
+        // The at_hash is optional for the code flow
+        if (isCurrentFlowCodeFlow && !(toReturn.decodedIdToken.at_hash as string)) {
+            this.loggerService.logDebug('Code Flow active, and no at_hash in the id_token, skipping check!');
+        } else if (
             !this.tokenValidationService.validateIdTokenAtHash(
                 toReturn.accessToken,
                 toReturn.decodedIdToken.at_hash,
-                isCurrentFlowCodeFlow,
                 idTokenHeader.alg // 'RSA256'
             ) ||
             !toReturn.accessToken
@@ -243,19 +253,19 @@ export class StateValidationService {
     }
 
     private handleSuccessfulValidation() {
-        this.storagePersistanceService.authNonce = '';
+        this.storagePersistanceService.write('authNonce', '');
 
         if (this.configurationProvider.openIDConfiguration.autoCleanStateAfterAuthentication) {
-            this.storagePersistanceService.authStateControl = '';
+            this.storagePersistanceService.write('authStateControl', '');
         }
         this.loggerService.logDebug('AuthorizedCallback token(s) validated, continue');
     }
 
     private handleUnsuccessfulValidation() {
-        this.storagePersistanceService.authNonce = '';
+        this.storagePersistanceService.write('authNonce', '');
 
         if (this.configurationProvider.openIDConfiguration.autoCleanStateAfterAuthentication) {
-            this.storagePersistanceService.authStateControl = '';
+            this.storagePersistanceService.write('authStateControl', '');
         }
         this.loggerService.logDebug('AuthorizedCallback token(s) invalid');
     }
