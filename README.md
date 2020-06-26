@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2020-06-26 </strong> Updated to Angular 10
+
 <strong>2020-05-01 </strong> Updated to OIDC Version 11, nuget packages, npm packages
 
 <strong>2020-03-21 </strong> Updated packages
