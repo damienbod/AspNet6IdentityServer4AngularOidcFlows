@@ -42,3 +42,458 @@
 2020-06-26 21:11:14.547 +02:00 [INF] Authorization failed.
 2020-06-26 21:11:14.548 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
 2020-06-26 21:11:14.550 +02:00 [INF] Request finished in 33.0467ms 403 
+2020-06-26 21:21:54.208 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-06-26 21:21:54.260 +02:00 [INF] Hosting environment: Development
+2020-06-26 21:21:54.265 +02:00 [INF] Content root path: C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceServer
+2020-06-26 21:21:54.299 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:21:54.330 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:21:54.399 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:21:54.400 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:21:54.404 +02:00 [INF] Request finished in 115.0356ms 204 
+2020-06-26 21:21:54.724 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:21:54.735 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:21:55.402 +02:00 [INF] Received HTTP response after 653.766ms - "OK"
+2020-06-26 21:21:55.405 +02:00 [INF] End processing HTTP request after 696.4339ms - "OK"
+2020-06-26 21:21:55.581 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:21:55.582 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:21:55.618 +02:00 [INF] Received HTTP response after 36.0787ms - "OK"
+2020-06-26 21:21:55.619 +02:00 [INF] End processing HTTP request after 37.4914ms - "OK"
+2020-06-26 21:21:56.081 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:21:56.081 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:21:56.183 +02:00 [INF] Received HTTP response after 102.0033ms - "OK"
+2020-06-26 21:21:56.184 +02:00 [INF] End processing HTTP request after 102.8622ms - "OK"
+2020-06-26 21:21:56.293 +02:00 [INF] Authorization failed.
+2020-06-26 21:21:56.308 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:21:56.322 +02:00 [INF] Request finished in 1922.5873ms 403 
+2020-06-26 21:23:49.371 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:23:49.379 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:23:49.384 +02:00 [INF] Request finished in 43.9308ms 204 
+2020-06-26 21:23:49.416 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:23:49.417 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:23:49.443 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:23:49.444 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:23:49.467 +02:00 [INF] Received HTTP response after 23.0053ms - "OK"
+2020-06-26 21:23:49.468 +02:00 [INF] End processing HTTP request after 24.9538ms - "OK"
+2020-06-26 21:23:49.472 +02:00 [INF] Authorization failed.
+2020-06-26 21:23:49.473 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:23:49.475 +02:00 [INF] Request finished in 59.4697ms 403 
+2020-06-26 21:36:39.858 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-06-26 21:36:39.914 +02:00 [INF] Hosting environment: Development
+2020-06-26 21:36:39.918 +02:00 [INF] Content root path: C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceServer
+2020-06-26 21:36:39.939 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:36:39.965 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:36:40.024 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:36:40.025 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:36:40.028 +02:00 [INF] Request finished in 95.51ms 204 
+2020-06-26 21:36:40.350 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:36:40.362 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:36:40.981 +02:00 [INF] Received HTTP response after 608.3368ms - "OK"
+2020-06-26 21:36:40.984 +02:00 [INF] End processing HTTP request after 648.1461ms - "OK"
+2020-06-26 21:36:41.122 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:36:41.122 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:36:41.134 +02:00 [INF] Received HTTP response after 11.492ms - "OK"
+2020-06-26 21:36:41.134 +02:00 [INF] End processing HTTP request after 12.377ms - "OK"
+2020-06-26 21:36:41.440 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:36:41.440 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:36:41.543 +02:00 [INF] Received HTTP response after 102.7998ms - "OK"
+2020-06-26 21:36:41.544 +02:00 [INF] End processing HTTP request after 103.5766ms - "OK"
+2020-06-26 21:36:41.655 +02:00 [INF] Authorization failed.
+2020-06-26 21:36:41.669 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:36:41.688 +02:00 [INF] Request finished in 1663.3267ms 403 
+2020-06-26 21:37:20.464 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:37:20.467 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:37:20.471 +02:00 [INF] Request finished in 18.7853ms 204 
+2020-06-26 21:37:20.493 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:37:20.495 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:37:20.517 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:37:20.518 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:37:20.533 +02:00 [INF] Received HTTP response after 15.3167ms - "OK"
+2020-06-26 21:37:20.533 +02:00 [INF] End processing HTTP request after 16.6792ms - "OK"
+2020-06-26 21:37:20.537 +02:00 [INF] Authorization failed.
+2020-06-26 21:37:20.537 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:37:20.539 +02:00 [INF] Request finished in 58.3718ms 403 
+2020-06-26 21:37:37.313 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:37:37.315 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:37:37.316 +02:00 [INF] Request finished in 5.9755ms 204 
+2020-06-26 21:37:37.321 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:37:37.321 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:37:37.327 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:37:37.327 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:37:37.342 +02:00 [INF] Received HTTP response after 14.9803ms - "OK"
+2020-06-26 21:37:37.343 +02:00 [INF] End processing HTTP request after 16.3321ms - "OK"
+2020-06-26 21:37:37.346 +02:00 [INF] Authorization failed.
+2020-06-26 21:37:37.346 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:37:37.348 +02:00 [INF] Request finished in 26.4629ms 403 
+2020-06-26 21:44:21.813 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-06-26 21:44:21.855 +02:00 [INF] Hosting environment: Development
+2020-06-26 21:44:21.859 +02:00 [INF] Content root path: C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceServer
+2020-06-26 21:44:21.921 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:44:21.970 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:44:22.036 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:44:22.050 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:44:22.069 +02:00 [INF] Request finished in 159.0586ms 204 
+2020-06-26 21:44:22.308 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:44:22.319 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:44:22.894 +02:00 [INF] Received HTTP response after 560.1062ms - "OK"
+2020-06-26 21:44:22.898 +02:00 [INF] End processing HTTP request after 604.1628ms - "OK"
+2020-06-26 21:44:23.077 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:44:23.077 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:44:23.099 +02:00 [INF] Received HTTP response after 21.426ms - "OK"
+2020-06-26 21:44:23.099 +02:00 [INF] End processing HTTP request after 22.2455ms - "OK"
+2020-06-26 21:44:23.472 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:44:23.473 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:44:23.568 +02:00 [INF] Received HTTP response after 95.8846ms - "OK"
+2020-06-26 21:44:23.569 +02:00 [INF] End processing HTTP request after 96.5983ms - "OK"
+2020-06-26 21:44:23.659 +02:00 [INF] Authorization failed.
+2020-06-26 21:44:23.672 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:44:23.687 +02:00 [INF] Request finished in 1650.3134ms 403 
+2020-06-26 21:48:13.935 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-06-26 21:48:13.987 +02:00 [INF] Hosting environment: Development
+2020-06-26 21:48:13.993 +02:00 [INF] Content root path: C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceServer
+2020-06-26 21:48:14.028 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:48:14.058 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:48:14.139 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:48:14.140 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:48:14.143 +02:00 [INF] Request finished in 124.8658ms 204 
+2020-06-26 21:48:17.537 +02:00 [INF] Successfully validated the token.
+2020-06-26 21:48:17.570 +02:00 [INF] Authorization failed.
+2020-06-26 21:48:17.590 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:48:17.608 +02:00 [INF] Request finished in 3468.7776ms 403 
+2020-06-26 21:53:17.406 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-06-26 21:53:17.454 +02:00 [INF] Hosting environment: Development
+2020-06-26 21:53:17.459 +02:00 [INF] Content root path: C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceServer
+2020-06-26 21:53:17.486 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:53:17.508 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:53:17.567 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:53:17.568 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:53:17.572 +02:00 [INF] Request finished in 93.8929ms 204 
+2020-06-26 21:53:19.516 +02:00 [INF] Successfully validated the token.
+2020-06-26 21:53:19.538 +02:00 [INF] Authorization failed.
+2020-06-26 21:53:19.550 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:53:19.564 +02:00 [INF] Request finished in 1997.324ms 403 
+2020-06-26 21:59:34.259 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-06-26 21:59:34.303 +02:00 [INF] Hosting environment: Development
+2020-06-26 21:59:34.308 +02:00 [INF] Content root path: C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceServer
+2020-06-26 21:59:34.340 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:59:34.376 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:59:34.451 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:59:34.452 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:59:34.457 +02:00 [INF] Request finished in 126.9668ms 204 
+2020-06-26 21:59:34.789 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:59:34.799 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:59:35.261 +02:00 [INF] Received HTTP response after 451.9682ms - "OK"
+2020-06-26 21:59:35.265 +02:00 [INF] End processing HTTP request after 491.9403ms - "OK"
+2020-06-26 21:59:35.389 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:59:35.390 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:59:35.400 +02:00 [INF] Received HTTP response after 10.0428ms - "OK"
+2020-06-26 21:59:35.400 +02:00 [INF] End processing HTTP request after 11.057ms - "OK"
+2020-06-26 21:59:35.842 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:59:35.842 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:59:35.965 +02:00 [INF] Received HTTP response after 122.1325ms - "OK"
+2020-06-26 21:59:35.965 +02:00 [INF] End processing HTTP request after 123.3133ms - "OK"
+2020-06-26 21:59:36.062 +02:00 [INF] Authorization was successful.
+2020-06-26 21:59:36.070 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 21:59:36.116 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 21:59:36.133 +02:00 [FTL] Getting a the existing records
+2020-06-26 21:59:36.243 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 21:59:36.323 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 21:59:36.484 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 21:59:36.593 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 465.7175ms
+2020-06-26 21:59:36.594 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 21:59:36.601 +02:00 [INF] Request finished in 2150.5923ms 200 application/json; charset=utf-8
+2020-06-26 21:59:56.315 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:59:56.317 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:59:56.320 +02:00 [INF] Request finished in 6.0862ms 204 
+2020-06-26 21:59:56.333 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:59:56.336 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:59:56.353 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:59:56.355 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:59:56.379 +02:00 [INF] Received HTTP response after 24.2532ms - "OK"
+2020-06-26 21:59:56.379 +02:00 [INF] End processing HTTP request after 27.1501ms - "OK"
+2020-06-26 21:59:56.382 +02:00 [INF] Authorization was successful.
+2020-06-26 21:59:56.382 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 21:59:56.383 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 21:59:56.384 +02:00 [FTL] Getting a the existing records
+2020-06-26 21:59:56.401 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 21:59:56.406 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 21:59:56.409 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 21:59:56.411 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 27.4987ms
+2020-06-26 21:59:56.411 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 21:59:56.412 +02:00 [INF] Request finished in 82.1517ms 200 application/json; charset=utf-8
+2020-06-26 22:00:03.978 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:00:03.979 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:00:03.982 +02:00 [INF] Request finished in 4.5896ms 204 
+2020-06-26 22:00:03.991 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:00:03.992 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:00:04.000 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:00:04.001 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:00:04.014 +02:00 [INF] Received HTTP response after 13.5863ms - "OK"
+2020-06-26 22:00:04.015 +02:00 [INF] End processing HTTP request after 14.6614ms - "OK"
+2020-06-26 22:00:04.020 +02:00 [INF] Authorization was successful.
+2020-06-26 22:00:04.021 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:00:04.021 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:00:04.028 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:00:04.029 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:00:04.032 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:00:04.034 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:00:04.036 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 14.3069ms
+2020-06-26 22:00:04.036 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:00:04.037 +02:00 [INF] Request finished in 45.7303ms 200 application/json; charset=utf-8
+2020-06-26 22:00:26.431 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:00:26.432 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:00:26.434 +02:00 [INF] Request finished in 3.1886ms 204 
+2020-06-26 22:00:26.440 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:00:26.442 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:00:26.476 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:00:26.484 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:00:26.510 +02:00 [INF] Received HTTP response after 26.1568ms - "OK"
+2020-06-26 22:00:26.511 +02:00 [INF] End processing HTTP request after 35.4678ms - "OK"
+2020-06-26 22:00:26.544 +02:00 [INF] Authorization was successful.
+2020-06-26 22:00:26.545 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:00:26.547 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:00:26.548 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:00:26.550 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:00:26.555 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:00:26.560 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:00:26.564 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 16.6751ms
+2020-06-26 22:00:26.564 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:00:26.565 +02:00 [INF] Request finished in 124.9845ms 200 application/json; charset=utf-8
+2020-06-26 22:00:34.242 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:00:34.243 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:00:34.245 +02:00 [INF] Request finished in 3.767ms 204 
+2020-06-26 22:00:34.250 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:00:34.250 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:00:34.256 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:00:34.256 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:00:34.275 +02:00 [INF] Received HTTP response after 18.9972ms - "OK"
+2020-06-26 22:00:34.276 +02:00 [INF] End processing HTTP request after 20.3988ms - "OK"
+2020-06-26 22:00:34.278 +02:00 [INF] Authorization was successful.
+2020-06-26 22:00:34.279 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:00:34.280 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:00:34.281 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:00:34.283 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:00:34.287 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:00:34.290 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:00:34.292 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 11.9686ms
+2020-06-26 22:00:34.292 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:00:34.293 +02:00 [INF] Request finished in 43.3234ms 200 application/json; charset=utf-8
+2020-06-26 22:00:56.454 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:00:56.456 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:00:56.458 +02:00 [INF] Request finished in 38.5555ms 204 
+2020-06-26 22:00:56.491 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:00:56.491 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:00:56.509 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:00:56.525 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:00:56.546 +02:00 [INF] Received HTTP response after 21.0908ms - "OK"
+2020-06-26 22:00:56.547 +02:00 [INF] End processing HTTP request after 37.946ms - "OK"
+2020-06-26 22:00:56.550 +02:00 [INF] Authorization was successful.
+2020-06-26 22:00:56.550 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:00:56.551 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:00:56.552 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:00:56.554 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:00:56.557 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:00:56.560 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:00:56.566 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 14.4898ms
+2020-06-26 22:00:56.566 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:00:56.567 +02:00 [INF] Request finished in 76.5838ms 200 application/json; charset=utf-8
+2020-06-26 22:01:07.238 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:01:07.239 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:01:07.242 +02:00 [INF] Request finished in 17.4751ms 204 
+2020-06-26 22:01:07.247 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:01:07.248 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:01:07.254 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:01:07.255 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:01:07.276 +02:00 [INF] Received HTTP response after 20.3325ms - "OK"
+2020-06-26 22:01:07.276 +02:00 [INF] End processing HTTP request after 21.9361ms - "OK"
+2020-06-26 22:01:07.280 +02:00 [INF] Authorization was successful.
+2020-06-26 22:01:07.281 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:01:07.282 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:01:07.284 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:01:07.286 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:01:07.291 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:01:07.294 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:01:07.298 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 15.7573ms
+2020-06-26 22:01:07.298 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:01:07.299 +02:00 [INF] Request finished in 52.4249ms 200 application/json; charset=utf-8
+2020-06-26 22:01:26.582 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:01:26.582 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:01:26.585 +02:00 [INF] Request finished in 3.0301ms 204 
+2020-06-26 22:01:26.596 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:01:26.597 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:01:26.604 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:01:26.605 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:01:26.678 +02:00 [INF] Received HTTP response after 72.9021ms - "OK"
+2020-06-26 22:01:26.678 +02:00 [INF] End processing HTTP request after 73.761ms - "OK"
+2020-06-26 22:01:26.683 +02:00 [INF] Authorization was successful.
+2020-06-26 22:01:26.683 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:01:26.684 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:01:26.685 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:01:26.686 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:01:26.689 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:01:26.693 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:01:26.697 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 12.5919ms
+2020-06-26 22:01:26.697 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:01:26.698 +02:00 [INF] Request finished in 102.0643ms 200 application/json; charset=utf-8
+2020-06-26 22:01:48.208 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:01:48.209 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:01:48.210 +02:00 [INF] Request finished in 1.393ms 204 
+2020-06-26 22:01:48.222 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:01:48.222 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:01:48.230 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:01:48.230 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:01:48.271 +02:00 [INF] Received HTTP response after 40.2796ms - "OK"
+2020-06-26 22:01:48.271 +02:00 [INF] End processing HTTP request after 41.3589ms - "OK"
+2020-06-26 22:01:48.294 +02:00 [INF] Authorization was successful.
+2020-06-26 22:01:48.294 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:01:48.295 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:01:48.297 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:01:48.298 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:01:48.301 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:01:48.304 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:01:48.308 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 13.0601ms
+2020-06-26 22:01:48.309 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:01:48.309 +02:00 [INF] Request finished in 88.0087ms 200 application/json; charset=utf-8
+2020-06-26 22:01:53.180 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:01:53.181 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:01:53.185 +02:00 [INF] Request finished in 5.5154ms 204 
+2020-06-26 22:01:53.196 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:01:53.199 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:01:53.208 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:01:53.209 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:01:53.239 +02:00 [INF] Received HTTP response after 29.5263ms - "OK"
+2020-06-26 22:01:53.240 +02:00 [INF] End processing HTTP request after 31.5724ms - "OK"
+2020-06-26 22:01:53.266 +02:00 [INF] Authorization was successful.
+2020-06-26 22:01:53.267 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:01:53.268 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:01:53.272 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:01:53.274 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:01:53.279 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:01:53.283 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:01:53.286 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 17.6034ms
+2020-06-26 22:01:53.286 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:01:53.288 +02:00 [INF] Request finished in 91.5161ms 200 application/json; charset=utf-8
+2020-06-26 22:02:22.924 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:02:22.925 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:02:22.926 +02:00 [INF] Request finished in 1.4153ms 204 
+2020-06-26 22:02:22.936 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:02:22.937 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:02:22.945 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:02:22.946 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:02:22.976 +02:00 [INF] Received HTTP response after 30.0712ms - "OK"
+2020-06-26 22:02:22.976 +02:00 [INF] End processing HTTP request after 30.9664ms - "OK"
+2020-06-26 22:02:22.979 +02:00 [INF] Authorization was successful.
+2020-06-26 22:02:22.980 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:02:22.980 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:02:22.982 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:02:22.984 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:02:22.987 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:02:22.991 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:02:22.999 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 17.9527ms
+2020-06-26 22:02:22.999 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:02:22.999 +02:00 [INF] Request finished in 62.9049ms 200 application/json; charset=utf-8
+2020-06-26 22:02:53.187 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:02:53.188 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:02:53.192 +02:00 [INF] Request finished in 2.9543ms 204 
+2020-06-26 22:02:53.195 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:02:53.196 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:02:53.210 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:02:53.210 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:02:53.262 +02:00 [INF] Received HTTP response after 51.3407ms - "OK"
+2020-06-26 22:02:53.262 +02:00 [INF] End processing HTTP request after 52.0047ms - "OK"
+2020-06-26 22:02:53.264 +02:00 [INF] Authorization was successful.
+2020-06-26 22:02:53.265 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:02:53.265 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:02:53.266 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:02:53.269 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:02:53.284 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:02:53.286 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:02:53.288 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 22.7082ms
+2020-06-26 22:02:53.288 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:02:53.289 +02:00 [INF] Request finished in 93.5893ms 200 application/json; charset=utf-8
+2020-06-26 22:02:54.733 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:02:54.736 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:02:54.738 +02:00 [INF] Request finished in 5.6218ms 204 
+2020-06-26 22:02:54.751 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:02:54.751 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:02:54.759 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:02:54.774 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:02:54.794 +02:00 [INF] Received HTTP response after 34.6485ms - "OK"
+2020-06-26 22:02:54.794 +02:00 [INF] End processing HTTP request after 35.2204ms - "OK"
+2020-06-26 22:02:54.796 +02:00 [INF] Authorization was successful.
+2020-06-26 22:02:54.796 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:02:54.797 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:02:54.798 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:02:54.799 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:02:54.803 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:02:54.806 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:02:54.810 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 12.6244ms
+2020-06-26 22:02:54.810 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:02:54.811 +02:00 [INF] Request finished in 59.7221ms 200 application/json; charset=utf-8
+2020-06-26 22:03:19.558 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:03:19.558 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:03:19.559 +02:00 [INF] Request finished in 1.5155ms 204 
+2020-06-26 22:03:19.565 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:03:19.566 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:03:19.590 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:03:19.590 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:03:19.613 +02:00 [INF] Received HTTP response after 22.7084ms - "OK"
+2020-06-26 22:03:19.613 +02:00 [INF] End processing HTTP request after 23.4575ms - "OK"
+2020-06-26 22:03:19.616 +02:00 [INF] Authorization was successful.
+2020-06-26 22:03:19.616 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:03:19.617 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:03:19.619 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:03:19.621 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:03:19.623 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:03:19.625 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:03:19.644 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 27.0207ms
+2020-06-26 22:03:19.644 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:03:19.645 +02:00 [INF] Request finished in 79.9096ms 200 application/json; charset=utf-8
+2020-06-26 22:03:25.024 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 22:03:25.024 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:03:25.027 +02:00 [INF] Request finished in 2.6533ms 204 
+2020-06-26 22:03:25.035 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 22:03:25.035 +02:00 [INF] CORS policy execution successful.
+2020-06-26 22:03:25.041 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:03:25.042 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 22:03:25.061 +02:00 [INF] Received HTTP response after 19.1301ms - "OK"
+2020-06-26 22:03:25.062 +02:00 [INF] End processing HTTP request after 21.2354ms - "OK"
+2020-06-26 22:03:25.067 +02:00 [INF] Authorization was successful.
+2020-06-26 22:03:25.067 +02:00 [INF] Executing endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:03:25.069 +02:00 [INF] Route matched with {action = "Get", controller = "DataEventRecords"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller ResourceServer.Controllers.DataEventRecordsController (ResourceServer).
+2020-06-26 22:03:25.071 +02:00 [FTL] Getting a the existing records
+2020-06-26 22:03:25.073 +02:00 [INF] Entity Framework Core 3.1.5 initialized 'DataEventRecordContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: None
+2020-06-26 22:03:25.076 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "d"."Id", "d"."Description", "d"."Name", "d"."Timestamp"
+FROM "DataEventRecords" AS "d"
+2020-06-26 22:03:25.079 +02:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResourceServer.Model.DataEventRecord, ResourceServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2020-06-26 22:03:25.082 +02:00 [INF] Executed action ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer) in 12.6663ms
+2020-06-26 22:03:25.082 +02:00 [INF] Executed endpoint 'ResourceServer.Controllers.DataEventRecordsController.Get (ResourceServer)'
+2020-06-26 22:03:25.085 +02:00 [INF] Request finished in 49.8747ms 200 application/json; charset=utf-8

@@ -35,6 +35,22 @@ namespace StsServerIdentity
             claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
             claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
 
+            claims.Add(new Claim(JwtClaimTypes.Role, "dataEventRecords.user"));
+            claims.Add(new Claim(JwtClaimTypes.Role, "dataEventRecords"));
+            claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles.user"));
+            claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles"));
+            claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
+
+            if (user.DataEventRecordsRole == "dataEventRecords.admin")
+            {
+                claims.Add(new Claim(JwtClaimTypes.Role, "dataEventRecords.admin"));
+            }
+
+            if (user.SecuredFilesRole == "securedFiles.admin")
+            {
+                claims.Add(new Claim(JwtClaimTypes.Role, "securedFiles.admin"));
+            }
+
             if (user.IsAdmin)
             {
                 claims.Add(new Claim(JwtClaimTypes.Role, "admin"));
