@@ -863,33 +863,6 @@
   <data name="Your user profile information (first name, last name, etc.)" xml:space="preserve">
     <value>Your user profile information (first name, last name, etc.)</value>
   </data>
-  <data name="GRANTS" xml:space="preserve">
-    <value>Grants</value>
-  </data>
-  <data name="GRANTS_API_GRANTS" xml:space="preserve">
-    <value>API Grants</value>
-  </data>
-  <data name="GRANTS_CLIENT_APP_ACCESS" xml:space="preserve">
-    <value>Client Application Access</value>
-  </data>
-  <data name="GRANTS_CREATED" xml:space="preserve">
-    <value>Created</value>
-  </data>
-  <data name="GRANTS_EXPIRES" xml:space="preserve">
-    <value>Expires</value>
-  </data>
-  <data name="GRANTS_IDENTITY_GRANTS" xml:space="preserve">
-    <value>Identity Grants</value>
-  </data>
-  <data name="GRANTS_INFO" xml:space="preserve">
-    <value>Below is the list of applications you have given access to and the names of the resources they have access to.</value>
-  </data>
-  <data name="GRANTS_NO_ACCESS" xml:space="preserve">
-    <value>You have not given access to any applications</value>
-  </data>
-  <data name="GRANTS_REVOKE_ACCESS" xml:space="preserve">
-    <value>Revoke Access</value>
-  </data>
   <data name="FIDO2_ADD_A_KEY" xml:space="preserve">
     <value>Add a FIDO2 Key</value>
   </data>
@@ -903,7 +876,7 @@
     <value>FIDO2 Multi-factor authentication</value>
   </data>
   <data name="FIDO2_REGISTRATION_ERROR" xml:space="preserve">
-    <value>Could not create credentials in browser. Probably because the username is already registered with your authenticator. Please change username or authenaticator.</value>
+    <value>Could not create credentials in browser. Probably because the username is already registered with your authenticator. Please change username or authenticator.</value>
   </data>
   <data name="FIDO2_SUPPORTED_BROWSERS" xml:space="preserve">
     <value>Supported browsers</value>
@@ -943,5 +916,32 @@
   </data>
   <data name="ERROR_ENABLE_MFA_YOU_CAN_ENABLE_HERE" xml:space="preserve">
     <value>You can enable MFA to login here:</value>
+  </data>
+  <data name="GRANTS" xml:space="preserve">
+    <value>Grants</value>
+  </data>
+  <data name="GRANTS_API_GRANTS" xml:space="preserve">
+    <value>API Grants</value>
+  </data>
+  <data name="GRANTS_CLIENT_APP_ACCESS" xml:space="preserve">
+    <value>Client Application Access</value>
+  </data>
+  <data name="GRANTS_CREATED" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="GRANTS_EXPIRES" xml:space="preserve">
+    <value>Expires</value>
+  </data>
+  <data name="GRANTS_IDENTITY_GRANTS" xml:space="preserve">
+    <value>Identity Grants</value>
+  </data>
+  <data name="GRANTS_INFO" xml:space="preserve">
+    <value>Below is the list of applications you have given access to and the names of the resources they have access to.</value>
+  </data>
+  <data name="GRANTS_NO_ACCESS" xml:space="preserve">
+    <value>You have not given access to any applications</value>
+  </data>
+  <data name="GRANTS_REVOKE_ACCESS" xml:space="preserve">
+    <value>Revoke Access</value>
   </data>
 </root>

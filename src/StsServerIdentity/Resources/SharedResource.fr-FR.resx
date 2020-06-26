@@ -821,4 +821,85 @@
   <data name="FORGET_THIS_BROWSER" xml:space="preserve">
     <value>Oubliez ce navigateur</value>
   </data>
+  <data name="FIDO2_ADD_A_KEY" xml:space="preserve">
+    <value>Ajouter une clé FIDO2</value>
+  </data>
+  <data name="FIDO2_COULD_NOT_VERIFY_ASSERTION" xml:space="preserve">
+    <value>Impossible de vérifier l'affirmation</value>
+  </data>
+  <data name="FIDO2_LOGIN_WITH_MFA" xml:space="preserve">
+    <value>Se connecter avec FIDO2 MFA</value>
+  </data>
+  <data name="FIDO2_MULTI_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>Authentification multifacteur FIDO2</value>
+  </data>
+  <data name="FIDO2_REGISTRATION_ERROR" xml:space="preserve">
+    <value>Impossible de créer l'identité dans le navigateur. Le nom d'utilisateur est probablement déjà enregistré avec votre identificateur. Veuillez changer de nom d'utilisateur ou d'identificateur.</value>
+  </data>
+  <data name="FIDO2_SUPPORTED_BROWSERS" xml:space="preserve">
+    <value>Navigateurs supportés</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_FINISH_REGISTRATION" xml:space="preserve">
+    <value>Veuillez écrire votre clé de sécurité pour finir l'enregistrement.</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_LOGIN" xml:space="preserve">
+    <value>Veuillez écrire votre clé de sécurité pour vous connecter.</value>
+  </data>
+  <data name="FIDO2_UNABLE_TO_LOAD_2FA_AUTHENTICATED_USER" xml:space="preserve">
+    <value>Impossible de charger l'utilisateur doublement identifié.</value>
+  </data>
+  <data name="FIDO2_UNKNOWN_CREDENTIALS" xml:space="preserve">
+    <value>Identifiants inconnus</value>
+  </data>
+  <data name="FIDO2_USERNAME" xml:space="preserve">
+    <value>nom d'utilisateur</value>
+  </data>
+  <data name="FIDO2_USERNAME_NOT_REGISTERED" xml:space="preserve">
+    <value>Le nom d'utilisateur n'a pas été enregistré</value>
+  </data>
+  <data name="FIDO2_USER_NOTFOUND" xml:space="preserve">
+    <value>Impossible de charger l'utilisateur ayant l'ID '{0}'.</value>
+  </data>
+  <data name="FIDO2_WEBAUTHN_NOT_SUPPORTED" xml:space="preserve">
+    <value>Votre navigateur ne semble pas supporter WebAuthn.</value>
+  </data>
+  <data name="GRANTS" xml:space="preserve">
+    <value>Permis</value>
+  </data>
+  <data name="GRANTS_API_GRANTS" xml:space="preserve">
+    <value>Permis API</value>
+  </data>
+  <data name="GRANTS_CLIENT_APP_ACCESS" xml:space="preserve">
+    <value>Accès à l'application client</value>
+  </data>
+  <data name="GRANTS_CREATED" xml:space="preserve">
+    <value>Créé</value>
+  </data>
+  <data name="GRANTS_EXPIRES" xml:space="preserve">
+    <value>Expire</value>
+  </data>
+  <data name="GRANTS_IDENTITY_GRANTS" xml:space="preserve">
+    <value>Approbation d'identité</value>
+  </data>
+  <data name="GRANTS_INFO" xml:space="preserve">
+    <value>Les applications auxquelles vous avez donné accès et les ressources auxquelles elles ont accès sont données ci-dessous.</value>
+  </data>
+  <data name="GRANTS_NO_ACCESS" xml:space="preserve">
+    <value>Vous n'avez donné l'accès à aucune application.</value>
+  </data>
+  <data name="GRANTS_REVOKE_ACCESS" xml:space="preserve">
+    <value>Révoquer l'accès</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA" xml:space="preserve">
+    <value>Activer MFA</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_CLIENT_APP_REQUIRES_MFA" xml:space="preserve">
+    <value>L'application cliente requière l'activation du MFA. Activez cette fonctionalité et réssayez.</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_ERROR_TITLE" xml:space="preserve">
+    <value>Error lors de l'activation du MFA</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_YOU_CAN_ENABLE_HERE" xml:space="preserve">
+    <value>Vous pouvez activer MFA pour vous connectez ici:</value>
+  </data>
 </root>

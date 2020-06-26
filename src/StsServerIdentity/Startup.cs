@@ -132,12 +132,12 @@ namespace StsServerIdentity
                 .AddSigningCredential(x509Certificate2.ActiveCertificate)
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
+                .AddInMemoryApiScopes(Config.GetApiScopes())
                 .AddInMemoryClients(Config.GetClients(stsConfig))
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
 
             services.Configure<Fido2Configuration>(Configuration.GetSection("fido2"));
-            services.Configure<Fido2MdsConfiguration>(Configuration.GetSection("fido2mds"));
             services.AddScoped<Fido2Storage>();
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();

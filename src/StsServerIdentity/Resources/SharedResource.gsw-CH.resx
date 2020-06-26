@@ -621,4 +621,296 @@
   <data name="FORGET_THIS_BROWSER" xml:space="preserve">
     <value>Vergiss dä Browsär</value>
   </data>
+  <data name="ConcurrencyFailure" xml:space="preserve">
+    <value>Optimistische Parallelitätsfehler, s'Objekt isch vränderet worde.</value>
+  </data>
+  <data name="DefaultError" xml:space="preserve">
+    <value>En unbekannte Fehler isch passiert</value>
+  </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>Die E-Mail '{0}' gits scho</value>
+  </data>
+  <data name="DuplicateRoleName" xml:space="preserve">
+    <value>Die Rolle '{0}' gits scho</value>
+  </data>
+  <data name="DuplicateUserName" xml:space="preserve">
+    <value>De Bentuzername '{0}' wird scho vrwendet</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Die E-Mail Adresse '{0}' gits nid</value>
+  </data>
+  <data name="InvalidManagerType" xml:space="preserve">
+    <value>Dr Typ {0} muess vo {1} &lt;{2}&gt; ableite.</value>
+  </data>
+  <data name="InvalidPasswordHasherCompatibilityMode" xml:space="preserve">
+    <value>Dr PasswordHasherCompatibilityMode  isch ungültig</value>
+  </data>
+  <data name="InvalidPasswordHasherIterationCount" xml:space="preserve">
+    <value>Dr Iterationszähler mues positive si</value>
+  </data>
+  <data name="InvalidRoleName" xml:space="preserve">
+    <value>Ungültige Rollename '{0}'</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Ungültigs Token</value>
+  </data>
+  <data name="InvalidUserName" xml:space="preserve">
+    <value>Dr Benutzername '{0}' isch ungültig. Darfsch nur Buechstabe oder Zahle bruche</value>
+  </data>
+  <data name="LoginAlreadyAssociated" xml:space="preserve">
+    <value>En Benutzer mit dem Login gits scho</value>
+  </data>
+  <data name="MustCallAddIdentity" xml:space="preserve">
+    <value>Du muesch zerstmal AddIdentity uff rüefe</value>
+  </data>
+  <data name="NoPersonalDataProtector" xml:space="preserve">
+    <value>Es git kai PersonalDataProtector wo registriert isch</value>
+  </data>
+  <data name="NoRoleType" xml:space="preserve">
+    <value>Es isch kai Rolletyp ahgeh worde</value>
+  </data>
+  <data name="NoTokenProvider" xml:space="preserve">
+    <value>Es isch kai Tökenprovider registriert</value>
+  </data>
+  <data name="NullSecurityStamp" xml:space="preserve">
+    <value>Ui, de Sicherheitstempel darf nid Null si</value>
+  </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Falsches Passwort Köbi</value>
+  </data>
+  <data name="PasswordRequiresDigit" xml:space="preserve">
+    <value>Es Passwort brucht mindistens en Zahl</value>
+  </data>
+  <data name="PasswordRequiresLower" xml:space="preserve">
+    <value>Es Password bruch mindistens en Chline Buechstabe</value>
+  </data>
+  <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+    <value>Es Passwort brucht ministens en nicht alphanumerischs Zeiche</value>
+  </data>
+  <data name="PasswordRequiresUniqueChars" xml:space="preserve">
+    <value>Passwörter bruche mindistens {0} unterschiedlichi Zeiche</value>
+  </data>
+  <data name="PasswordRequiresUpper" xml:space="preserve">
+    <value>Es Passwort brucht minidisten ein Grosse Buechstabe</value>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>Das Passwort isch z'churz</value>
+  </data>
+  <data name="RecoveryCodeRedemptionFailed" xml:space="preserve">
+    <value>Es git en Fehler bim ihlöse vom Wiederherstelligscode</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>D'Rolle {0} gits nid.</value>
+  </data>
+  <data name="StoreNotIProtectedUserStore" xml:space="preserve">
+    <value>IProtectedUserStore &lt;TUser&gt; ist nicht implementiert. Dies ist erforderlich, wenn ProtectPersonalData = true ist.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIQueryableRoleStore" xml:space="preserve">
+    <value>IQueryableRoleStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIQueryableUserStore" xml:space="preserve">
+    <value>IQueryableUserStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIRoleClaimStore" xml:space="preserve">
+    <value>IRoleClaimStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserAuthenticationTokenStore" xml:space="preserve">
+    <value>IUserAuthenticationTokenStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserAuthenticatorKeyStore" xml:space="preserve">
+    <value>IUserAuthenticatorKeyStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserClaimStore" xml:space="preserve">
+    <value>IUserClaimStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserConfirmationStore" xml:space="preserve">
+    <value>IUserConfirmationStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserEmailStore" xml:space="preserve">
+    <value>IUserEmailStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserLockoutStore" xml:space="preserve">
+    <value>IUserLockoutStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserLoginStore" xml:space="preserve">
+    <value> IUserLoginStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserPasswordStore" xml:space="preserve">
+    <value> IUserPhoneNumberStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserPhoneNumberStore" xml:space="preserve">
+    <value>IProtectedUserStore &lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserRoleStore" xml:space="preserve">
+    <value> IUserRoleStore&lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserSecurityStampStore" xml:space="preserve">
+    <value>IUserTwoFactorRecoveryCodeStore&lt;User&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="StoreNotIUserTwoFactorRecoveryCodeStore" xml:space="preserve">
+    <value>IProtectedUserStore &lt;TUser&gt; ist nicht implementiert.</value>
+    <comment>Error when the store does not implement this interface</comment>
+  </data>
+  <data name="UserAlreadyHasPassword" xml:space="preserve">
+    <value>De Benutzer het scho es Passwort</value>
+  </data>
+  <data name="UserAlreadyInRole" xml:space="preserve">
+    <value>De Benutzer isch scho in dr Rolle '{0}'</value>
+  </data>
+  <data name="UserLockedOut" xml:space="preserve">
+    <value>De Benutzer isch gsperrt</value>
+  </data>
+  <data name="UserLockoutNotEnabled" xml:space="preserve">
+    <value>Sperrig vo dem Benutzer isch nid aktiviert</value>
+  </data>
+  <data name="UserNameNotFound" xml:space="preserve">
+    <value>De Köbi '{0}' existiert nid</value>
+  </data>
+  <data name="UserNotInRole" xml:space="preserve">
+    <value>De Köbi isch nid in dr Rolle '{0}'</value>
+  </data>
+  <data name="Access to your applications and resources, even when you are offline" xml:space="preserve">
+    <value>Zuegriff uff dini Awendig und Ressource, au wenn de offline bisch</value>
+  </data>
+  <data name="CONSENT_CONFIRM_AUTH_REQUEST_QUOTECONSENT_CONFIRM_AUTH_REQUEST_QUOTE" xml:space="preserve">
+    <value>Du muesch bestätige das de Code in dr Authorisierigsahfrag überihstimmt</value>
+  </data>
+  <data name="DEVICE_ENTER_CODE_DISPLAYED_ON_DEVICE" xml:space="preserve">
+    <value>Dr Code wo uff dim Grät isch muesch ihtrage</value>
+  </data>
+  <data name="DEVICE_SUCCESS" xml:space="preserve">
+    <value>Het Klappt</value>
+  </data>
+  <data name="DEVICE_SUCCESS_AUTHORIZE" xml:space="preserve">
+    <value>Du hesch das Grät erfolgrich autorisiert</value>
+  </data>
+  <data name="DEVICE_USER_CODE" xml:space="preserve">
+    <value>Am Köbi si Code</value>
+  </data>
+  <data name="Invalid selection" xml:space="preserve">
+    <value>Ungültigi uswahl</value>
+  </data>
+  <data name="Offline Access" xml:space="preserve">
+    <value>Offline Zuegriff</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Wiederherstelligscodes</value>
+  </data>
+  <data name="User profile" xml:space="preserve">
+    <value>Benutzerprofil</value>
+  </data>
+  <data name="You must pick at least one permission" xml:space="preserve">
+    <value>Du muesch mindistens öpis erlaube</value>
+  </data>
+  <data name="Your email address" xml:space="preserve">
+    <value>Dini E-Mail Adresse</value>
+  </data>
+  <data name="Your user identifier" xml:space="preserve">
+    <value>Dini Bentzer-ID</value>
+  </data>
+  <data name="Your user profile information (first name, last name, etc.)" xml:space="preserve">
+    <value>Dini Benutzerprofilinformatione (Vorname, Nachname usw.)</value>
+  </data>
+  <data name="GRANTS" xml:space="preserve">
+    <value>Genehmigunge</value>
+  </data>
+  <data name="GRANTS_API_GRANTS" xml:space="preserve">
+    <value>API Genehmigunge</value>
+  </data>
+  <data name="GRANTS_CLIENT_APP_ACCESS" xml:space="preserve">
+    <value>Client-Awendigszuegriff</value>
+  </data>
+  <data name="GRANTS_CREATED" xml:space="preserve">
+    <value>Erstellt</value>
+  </data>
+  <data name="GRANTS_EXPIRES" xml:space="preserve">
+    <value>Vrfallt</value>
+  </data>
+  <data name="GRANTS_IDENTITY_GRANTS" xml:space="preserve">
+    <value>Identitäts Genehmigunge</value>
+  </data>
+  <data name="GRANTS_INFO" xml:space="preserve">
+    <value>Unte findsch e Lischte mit Awendige wo de Zuegriff hesch</value>
+  </data>
+  <data name="GRANTS_NO_ACCESS" xml:space="preserve">
+    <value>Du hesch kai Zuegriff uff en Awendig</value>
+  </data>
+  <data name="GRANTS_REVOKE_ACCESS" xml:space="preserve">
+    <value>Zugangsberchtigunge striche</value>
+  </data>
+  <data name="FIDO2_ADD_A_KEY" xml:space="preserve">
+    <value>FIDO2-Schlüssel dr zue tue</value>
+  </data>
+  <data name="FIDO2_LOGIN_WITH_MFA" xml:space="preserve">
+    <value>Mit FIDO2 MFA ahmelde</value>
+  </data>
+  <data name="FIDO2_MULTI_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>FIDO2 Multi-Faktor-Authentifizierung</value>
+  </data>
+  <data name="FIDO2_SUPPORTED_BROWSERS" xml:space="preserve">
+    <value>Unterstützi Browser</value>
+  </data>
+  <data name="FIDO2_UNABLE_TO_LOAD_2FA_AUTHENTICATED_USER" xml:space="preserve">
+    <value>Zwei-Faktor-authentifizierti Benutzer het nid chönne glade werde</value>
+  </data>
+  <data name="FIDO2_UNKNOWN_CREDENTIALS" xml:space="preserve">
+    <value>Unbekannti Ameldeinformatione</value>
+  </data>
+  <data name="FIDO2_USERNAME" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="FIDO2_USERNAME_NOT_REGISTERED" xml:space="preserve">
+    <value>Benutzername isch nid registriert worde</value>
+  </data>
+  <data name="FIDO2_USER_NOTFOUND" xml:space="preserve">
+    <value>De Köbi mir dr Id '{0}' het nid glade werde chönne</value>
+  </data>
+  <data name="FIDO2_WEBAUTHN_NOT_SUPPORTED" xml:space="preserve">
+    <value>Du hesch en Browser wo WebAuth nid unterstütz, tue mal update</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_LOGIN" xml:space="preserve">
+    <value>Drück uff din Sicherheitsschlüssel um dich ahzmelde</value>
+  </data>
+  <data name="FIDO2_COULD_NOT_VERIFY_ASSERTION" xml:space="preserve">
+    <value>Assertion het nid chönne überprüft werde</value>
+  </data>
+  <data name="FIDO2_REGISTRATION_ERROR" xml:space="preserve">
+    <value>Ahmeldeinformation het nid chönne erstellt werde</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_FINISH_REGISTRATION" xml:space="preserve">
+    <value>Drück uff din Sicherheitsschlüssel, um d'registration abzschliesse</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_CLIENT_APP_REQUIRES_MFA" xml:space="preserve">
+    <value>Für de Client mues MFA aktiviert si</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA" xml:space="preserve">
+    <value>MFA Aktiviere</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_ERROR_TITLE" xml:space="preserve">
+    <value>MFA Aktivierigsfehler</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_YOU_CAN_ENABLE_HERE" xml:space="preserve">
+    <value>Da channsch MFA zum ihlogge aktiviere:</value>
+  </data>
+  <data name="CONSENT_CONFIRM_AUTH_REQUEST_QUOTES" xml:space="preserve">
+    <value>Du muesch bestätige das de Code in dr Authorisierigsahfrag überihstimmt</value>
+  </data>
+  <data name="StoreNotIUserTwoFactorStore" xml:space="preserve">
+    <value>IUserTwoFactorStore&lt;TUser&gt;ist nicht implementiert.</value>
+  </data>
 </root>

@@ -51,7 +51,7 @@ namespace ResourceFileServer
                .AddIdentityServerAuthentication(options =>
                {
                    options.Authority = "https://localhost:44318/";
-                   options.ApiName = "securedFiles";
+                   options.ApiName = "securedFilesApi";
                    options.ApiSecret = "securedFilesSecret";
                });
 
@@ -72,8 +72,7 @@ namespace ResourceFileServer
                 {
                     options.Filters.Add(new AuthorizeFilter(securedFilesPolicy));
                 })
-                .AddNewtonsoftJson()
-               .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                .AddNewtonsoftJson();
 
             services.AddTransient<ISecuredFileProvider, SecuredFileProvider>();
             services.AddSingleton<UseOnceAccessIdService>();

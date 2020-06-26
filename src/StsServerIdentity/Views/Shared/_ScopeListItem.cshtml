@@ -5,28 +5,27 @@
 <li class="list-group-item">
     <label>
         <input class="consent-scopecheck big_checkbox" type="checkbox" name="ScopesConsented"
-               id="scopes_@Model.Name" value="@Model.Name" checked="@Model.Checked" disabled="@Model.Required" />
-
+               id="scopes_@Model.Value" value="@Model.Value" checked="@Model.Checked" disabled="@Model.Required" />
         @if (Model.Required)
         {
-            <input type="hidden" name="ScopesConsented" value="@Model.Name" />
+            <input type="hidden" name="ScopesConsented" value="@Model.Value" />
         }
+
         <strong class="consent-middle">@SharedLocalizer.GetLocalizedHtmlStringAllowNull(Model.DisplayName)</strong>
+
         @if (Model.Emphasize)
         {
             <span class="fas fa-exclamation consent-middle"></span>
         }
     </label>
-
     @if (Model.Required)
     {
         <span class="consent-middle"><em>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REQUIRED")</em></span>
     }
     @if (Model.Description != null)
     {
-        <div class="">
-            <label for="scopes_@Model.Name">@SharedLocalizer.GetLocalizedHtmlStringAllowNull(Model.Description)</label>
+        <div class="consent-description">
+            <label for="scopes_@Model.Value">@SharedLocalizer.GetLocalizedHtmlStringAllowNull(Model.Description)</label>
         </div>
     }
-
 </li>

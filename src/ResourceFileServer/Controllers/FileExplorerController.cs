@@ -21,7 +21,6 @@ namespace ResourceFileServer.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            //  TODO MUST FIX, rc4 update does not work, claims are missing
             var adminClaim = User.Claims.FirstOrDefault(x => x.Type == "role" && x.Value == "securedFiles.admin");
             var files = _securedFileProvider.GetFilesForUser(adminClaim != null);
 

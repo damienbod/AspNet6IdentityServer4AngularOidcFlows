@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace ResourceFileServer.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class DownloadController : Controller
     {
@@ -34,7 +34,6 @@ namespace ResourceFileServer.Controllers
             return new StatusCodeResult(401);
         }
 
-        // TODO MUST FIX, user claims validation no longer work since identityserver4 rc4
         [Authorize]
         //[Authorize("securedFilesUser")]
         [HttpGet("GenerateOneTimeAccessToken/{id}")]

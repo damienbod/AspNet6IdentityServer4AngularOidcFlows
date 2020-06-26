@@ -10,31 +10,48 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var cultureItems = LocOptions.Value.SupportedUICultures
-        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.TextInfo.ToTitleCase(c.NativeName.Contains('(') ? c.NativeName.Substring(0, c.NativeName.IndexOf('(')) : c.NativeName) })
         .ToList();
+
+    var location = new Uri($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}");
+
+    var url = location.AbsoluteUri;
+    var returnUrlForLanguageSwitch = Context.Request.Path;
+
+    if (Context.Request.QueryString.HasValue)
+    {
+        returnUrlForLanguageSwitch = $"{Context.Request.Path}{Context.Request.QueryString.Value}";
+    }
 }
 
 <div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
-    @{ 
-        var location = new Uri($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}");
+    <form id="selectLanguage"
+          asp-controller="SetLanguage"
+          asp-action="SetLanguage"
+          asp-route-returnUrl="@returnUrlForLanguageSwitch"
+          method="post"
+          role="form">
 
-        var url = location.AbsoluteUri;
-        var returnUrlForLanguageSwitch = Context.Request.Path;
-
-        if (Context.Request.QueryString.HasValue)
-        {
-            returnUrlForLanguageSwitch = $"{Context.Request.Path}{Context.Request.QueryString.Value}";
-        }
-    }
-    <form class="form-inline" id="selectLanguage" asp-controller="SetLanguage" asp-action="SetLanguage" asp-route-returnUrl="@returnUrlForLanguageSwitch" method="post" role="form">
-        <label class="form-label paddingright5px" >@SharedLocalizer.GetLocalizedHtmlString("LANGUAGE"): </label>
-        <div class="input-group">
-
-            <select class="custom-select" name="culture" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
-            <input type="hidden" name="returnUrlForLanguageSwitch" id="returnUrlForLanguageSwitch" value="@url"/>
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-outline-secondary">@SharedLocalizer.GetLocalizedHtmlString("SAVE")</button>
+        <div class="dropdown">
+            <button class="btn dropdown-toggle nav-link" type="button" id="dropdownLangButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @cultureItems.Where(o => o.Value == requestCulture.RequestCulture.UICulture.Name).FirstOrDefault().Text
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownLangButton">
+                @foreach (var culture in cultureItems)
+                {
+                    if (culture.Value != requestCulture.RequestCulture.UICulture.Name)
+                    {
+                        <a class="dropdown-item" href="#" onclick="updateLanguage('@culture.Value', '/')" id="@(culture.Text)_item">@culture.Text</a>
+                    }
+                }
             </div>
         </div>
     </form>
 </div>
+<script type="text/javascript">
+    function updateLanguage(culture, returnUrl) {
+        $.post("/SetLanguage/SetLanguage", { culture: culture, returnUrl: returnUrl }).then(function (result) {
+            window.location.reload();
+        });
+    }
+</script>
