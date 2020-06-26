@@ -50,7 +50,7 @@
                     </div>
                 }
 
-                @if (Model.ResourceScopes.Any())
+                @if (Model.ApiScopes.Any())
                 {
                     <div class="panel panel-default">
                         <div class="panel-heading consent-title-spacing-bottom consent-title-spacing-top">
@@ -58,13 +58,25 @@
                             @SharedLocalizer.GetLocalizedHtmlString("CONSENT_APPLICATION_ACCESS")
                         </div>
                         <ul class="list-group">
-                            @foreach (var scope in Model.ResourceScopes)
+                            @foreach (var scope in Model.ApiScopes)
                             {
                                 @await Html.PartialAsync("_ScopeListItem", scope)
                             }
                         </ul>
                     </div>
                 }
+
+                <div class="form-group">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="glyphicon glyphicon-tasks"></span>
+                            Description
+                        </div>
+                        <div class="card-body">
+                            <input class="form-control" placeholder="Description or name of device" asp-for="Description" autofocus>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="consent-remember">
                     @if (Model.AllowRememberConsent)

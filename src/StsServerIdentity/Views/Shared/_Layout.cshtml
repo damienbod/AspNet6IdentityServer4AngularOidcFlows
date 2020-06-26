@@ -26,7 +26,14 @@
                         <a asp-controller="Home" asp-action="Index" class="nav-link">@SharedLocalizer.GetLocalizedHtmlString("HOME")</a>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        @await Html.PartialAsync("_SelectLanguagePartial")
+                    </li>
+                </ul>
                 <partial name="_LoginPartial" />
+
+
             </div>
         </nav>
 
@@ -42,7 +49,6 @@
         <nav class="navbar transparent navbar-inverse">
             <p>&copy; 2020 - StsServerIdentity</p>
 
-            @await Html.PartialAsync("_SelectLanguagePartial")
         </nav>
     </footer>
 

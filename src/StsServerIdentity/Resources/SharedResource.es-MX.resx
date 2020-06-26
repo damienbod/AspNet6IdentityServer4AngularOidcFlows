@@ -1,0 +1,947 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="REGISTER" xml:space="preserve">
+    <value>Registrar</value>
+  </data>
+  <data name="CONFIRM_PASSWORD" xml:space="preserve">
+    <value>Confirmar Contraseña</value>
+  </data>
+  <data name="CONFIRM_PASSWORD_NOT_MATCHING" xml:space="preserve">
+    <value>La contraseña y su confirmación no coinciden.</value>
+  </data>
+  <data name="CREATE_A_NEW_ACCOUNT" xml:space="preserve">
+    <value>Crear una nueva cuenta.</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>Correo electrónico</value>
+  </data>
+  <data name="EMAIL_INVALID" xml:space="preserve">
+    <value>correo electrónico invalido</value>
+  </data>
+  <data name="EMAIL_REQUIRED" xml:space="preserve">
+    <value>El correo electrónico es requiredo</value>
+  </data>
+  <data name="PASSWORD_REQUIRED" xml:space="preserve">
+    <value>La contraseña es requirida</value>
+  </data>
+  <data name="RESET" xml:space="preserve">
+    <value>Restablecer</value>
+  </data>
+  <data name="RESET_PASSWORD" xml:space="preserve">
+    <value>Restablecer la contraseña</value>
+  </data>
+  <data name="RESET_YOUR_PASSWORD" xml:space="preserve">
+    <value>Restablecer tú contraseña</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="REMEMBER_ME" xml:space="preserve">
+    <value>Recordarme</value>
+  </data>
+  <data name="FORGOT_YOUR_PASSWORD" xml:space="preserve">
+    <value>¿Olvidaste tú contraseña?</value>
+  </data>
+  <data name="ACCOUNT_LOGIN" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="REGISTER_AS_NEW_USER" xml:space="preserve">
+    <value>Registrar como usuario nuevo</value>
+  </data>
+  <data name="ACCESS_DENIED" xml:space="preserve">
+    <value>Acceso denegado</value>
+  </data>
+  <data name="ACCESS_DENIED_TEXT" xml:space="preserve">
+    <value>No tienes acceso a este recurso.</value>
+  </data>
+  <data name="ACCOUNT_NO_EXTERNAL_LOGINS" xml:space="preserve">
+    <value>No hay ningún servicio de autenticación configurado. Ver el artículo https://go.microsoft.com/fwlink/?LinkID=53215 para más detalles sobre como configurar esto en una aplicación ASP.NET </value>
+  </data>
+  <data name="ACCOUNT_USE_ANOTHER_SERVICE_LOG_IN" xml:space="preserve">
+    <value>Usar otro servicio para iniciar sesión</value>
+  </data>
+  <data name="ACCOUNT_USE_LOCAL_ACCOUNT_TO_LOG_IN" xml:space="preserve">
+    <value>Usa una cuenta local para ingresar.</value>
+  </data>
+  <data name="CONFIRM_EMAIL" xml:space="preserve">
+    <value>Confirmar correo electrónico</value>
+  </data>
+  <data name="CONFIRM_EMAIL_TEXT" xml:space="preserve">
+    <value>Gracias por confirmar tú correo electrónico.</value>
+  </data>
+  <data name="CONFIRM_YOUR_EMAIL" xml:space="preserve">
+    <value>Confirma tú correo electrónico</value>
+  </data>
+  <data name="CONFIRM_YOUR_EMAIL_TEXT" xml:space="preserve">
+    <value>Por favor confirma tu cuenta &lt;a href='{0}'&gt;presionando aquí&lt;/a&gt;.</value>
+  </data>
+  <data name="FORGOT_PASSWORD_CONFIRMATION" xml:space="preserve">
+    <value>Olvidar confirmación de contraseña</value>
+  </data>
+  <data name="FORGOT_PASSWORD_CONFIRMATION_TEXT" xml:space="preserve">
+    <value>Por favor verifica tu correo electrónico para restablecer tú contraseña.</value>
+  </data>
+  <data name="FORGOT_YOUR_PASSWORD_ENTER_EMAIL" xml:space="preserve">
+    <value>Ingresa tu correo eléctronico.</value>
+  </data>
+  <data name="INVALID_LOGIN_ATTEMPT" xml:space="preserve">
+    <value>Intento de inicio inválido.</value>
+  </data>
+  <data name="LOCKED_OUT" xml:space="preserve">
+    <value>Bloqueado</value>
+  </data>
+  <data name="LOCKED_OUT_TEXT" xml:space="preserve">
+    <value>Esta cuenta ha sido bloqueada, por favor intenta más tarde.</value>
+  </data>
+  <data name="RESET_PASSWORD_EMAIL_TEXT" xml:space="preserve">
+    <value>Por favor restablece tú contraseña presionando &lt;a href='{0}'&gt;aquí&lt;/a&gt;.</value>
+  </data>
+  <data name="SUBMIT" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_ASSOCIATE_ACCOUNT" xml:space="preserve">
+    <value>Asociar tú cuenta de {0}</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_TEXT" xml:space="preserve">
+    <value>Te has autenticado con éxito con {0}. Ingrese una dirección de correo electrónico para este sitio a continuación y haga clic en el botón Registrarse para finalizar el inicio de sesión.</value>
+  </data>
+  <data name="EXTERNAL_PROVIDER_ERROR" xml:space="preserve">
+    <value>Error del provedor externo: {0}</value>
+  </data>
+  <data name="EXTERNAL_PROVIDER_ERROR_CONFIRMATION" xml:space="preserve">
+    <value>Error al cargar la información de inicio de sesión externo durante la confirmación.</value>
+  </data>
+  <data name="EXTERNAL_PROVIDER_ERROR_INFO" xml:space="preserve">
+    <value>Error al cargar la información del inicio de sesión externo.</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA" xml:space="preserve">
+    <value>Autenticación de doble factor</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA_NO_AUTHENTICATOR_DEVICE" xml:space="preserve">
+    <value>¿No tiene acceso a su dispositivo autenticador? Usted puede</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA_RECOVERY_CODE_TEXT" xml:space="preserve">
+    <value>iniciar sesión con un código de recuperación</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA_REMEMBER_MC" xml:space="preserve">
+    <value>Recordar este equipo</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA_TEXT" xml:space="preserve">
+    <value>Su inicio de sesión está protegido con una aplicación de autenticación. Ingrese su código de autenticación a continuación.</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_AUTHENTICATOR_CODE" xml:space="preserve">
+    <value>Código de autenticación</value>
+  </data>
+  <data name="ACCOUNT_RECOVERY_CODE" xml:space="preserve">
+    <value>Código de recuperación</value>
+  </data>
+  <data name="ACCOUNT_RECOVERY_CODE_REQUIRED" xml:space="preserve">
+    <value>Código de recuperación requerido</value>
+  </data>
+  <data name="ACCOUNT_RECOVERY_CODE_VERIFICATION" xml:space="preserve">
+    <value>Verificación del código de recuperación</value>
+  </data>
+  <data name="ACCOUNT_RECOVERY_CODE_VERIFICATION_TEXT" xml:space="preserve">
+    <value>Ha solicitado iniciar sesión con un código de recuperación. Este inicio de sesión no se recordará hasta que proporcione un código de aplicación de autenticación al iniciar sesión o deshabilite 2FA y vuelva a iniciar sesión.</value>
+  </data>
+  <data name="INVALID_AUTHENTICATOR_CODE" xml:space="preserve">
+    <value>Código de autenticación inválido.</value>
+  </data>
+  <data name="INVALID_RECOVERY_CODE" xml:space="preserve">
+    <value>El código de recuperación ingresado es inválido.</value>
+  </data>
+  <data name="LOGOUT_TEXT" xml:space="preserve">
+    <value>Has cerrado sesión con éxito en la aplicación.</value>
+  </data>
+  <data name="RESET_PASSWORD_CONFIRMATION" xml:space="preserve">
+    <value>Restablecer confirmación de contraseña</value>
+  </data>
+  <data name="RESET_PASSWORD_CONFIRMATION_CLICK_HERE" xml:space="preserve">
+    <value>presiona aquí para ingresar</value>
+  </data>
+  <data name="RESET_PASSWORD_CONFIRMATION_TEXT1" xml:space="preserve">
+    <value>Tú contraseña ha sido restablecida. Por favor</value>
+  </data>
+  <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
+    <value>El {0} debe tener al menos {2} y un máximo de {1} caracteres de longitud.</value>
+  </data>
+  <data name="2FA" xml:space="preserve">
+    <value>Autenticación de doble factor</value>
+  </data>
+  <data name="CHANGE_PASSWORD" xml:space="preserve">
+    <value>Cambiar contraseña</value>
+  </data>
+  <data name="CHANGE_PASSWORD_STATUS" xml:space="preserve">
+    <value>Tú contraseña ha sido cambiada.</value>
+  </data>
+  <data name="CURRENT_PASSWORD" xml:space="preserve">
+    <value>Contraseña actual</value>
+  </data>
+  <data name="CURRENT_PASSWORD_REQUIRED" xml:space="preserve">
+    <value>Contraseña actual requerida</value>
+  </data>
+  <data name="EXTERNAL_LOGINS" xml:space="preserve">
+    <value>Inicios de sesión externos</value>
+  </data>
+  <data name="MANAGE_CHANGE_ACCOUNT_SETTINGS" xml:space="preserve">
+    <value>Cambiar la configuración de su cuenta</value>
+  </data>
+  <data name="MANAGE_YOUR_ACCOUNT" xml:space="preserve">
+    <value>Administar tú cuenta</value>
+  </data>
+  <data name="NEW_PASSWORD" xml:space="preserve">
+    <value>Nueva contraseña</value>
+  </data>
+  <data name="NEW_PASSWORD_REQUIRED" xml:space="preserve">
+    <value>La nueva contraseña es requerida</value>
+  </data>
+  <data name="PERSONAL_DATA" xml:space="preserve">
+    <value>Información personal</value>
+  </data>
+  <data name="PROFILE" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="TWOFACTORCODE_REQUIRED" xml:space="preserve">
+    <value>Se requiere un código de doble factor</value>
+  </data>
+  <data name="UPDATE_PASSWORD" xml:space="preserve">
+    <value>Actualizar contraseña</value>
+  </data>
+  <data name="VERIFICATION_CODE_REQUIRED" xml:space="preserve">
+    <value>El código de verificación es requerido</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>y</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Configurar la aplicación de autenticación</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_DOWNLOAD_TEXT" xml:space="preserve">
+    <value>Descargue una aplicación de autenticación de dos factores como Microsoft Authenticator para</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_GOOGLE_TEXT" xml:space="preserve">
+    <value>Autenticador de Google para</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN1" xml:space="preserve">
+    <value>Escanee el código QR o ingrese esta clave</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN2" xml:space="preserve">
+    <value>en su aplicación de autenticación de dos factores. Los espacios y la carcasa no importan.</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT" xml:space="preserve">
+    <value>Para habilitar la generación de código QR, lea nuestra</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT_DETAILS" xml:space="preserve">
+    <value>Una vez que haya escaneado el código QR o ingrese la clave anterior, su aplicación de autenticación de dos factores le proporcionará un código único. Ingrese el código en el cuadro de confirmación a continuación.</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT_LINK" xml:space="preserve">
+    <value>documentación</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_STEPS" xml:space="preserve">
+    <value>Para usar una aplicación de autenticación, siga los siguientes pasos:</value>
+  </data>
+  <data name="DELETE_PERSONAL_DATA" xml:space="preserve">
+    <value>Eliminar datos personales</value>
+  </data>
+  <data name="DELETE_PERSONAL_DATA_AND_CLOSE" xml:space="preserve">
+    <value>Eliminar datos y cerrar mi cuenta</value>
+  </data>
+  <data name="DELETE_PERSONAL_DATA_TEXT" xml:space="preserve">
+    <value>Eliminar estos datos eliminará permanentemente su cuenta, y esto no se puede recuperar.</value>
+  </data>
+  <data name="DISABLE_2FA" xml:space="preserve">
+    <value>Deshabilitar la autenticación de doble factor (2FA)</value>
+  </data>
+  <data name="DISABLE_2FA_BUTTON" xml:space="preserve">
+    <value>Desabilitar 2FA</value>
+  </data>
+  <data name="DISABLE_2FA_STATUS" xml:space="preserve">
+    <value>2fa se ha deshabilitado. Puede volver a habilitar 2fa cuando configure una aplicación de autenticación</value>
+  </data>
+  <data name="DISABLE_2FA_TEXT_DETAILS" xml:space="preserve">
+    <value>Deshabilitar 2FA no cambia las claves utilizadas en las aplicaciones de autenticación. Si desea cambiar la clave utilizada en una aplicación de autenticación, debe</value>
+  </data>
+  <data name="DISABLE_2FA_TEXT_DETAILS_LINK" xml:space="preserve">
+    <value>restablecer sus claves de autenticación.</value>
+  </data>
+  <data name="DISABLE_2FA_TEXT_HEADER" xml:space="preserve">
+    <value>Está acción solo desactiva 2FA.</value>
+  </data>
+  <data name="DOWNLOAD_YOUR_DATA" xml:space="preserve">
+    <value>Descagar tus datos</value>
+  </data>
+  <data name="INCORRECT_PASSWORD" xml:space="preserve">
+    <value>Contraseña incorrecta</value>
+  </data>
+  <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
+    <value>El código de verificación es inválido.</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>o</value>
+  </data>
+  <data name="USER_NOTFOUND" xml:space="preserve">
+    <value>No fue posible cargar al usuario con '{0}'.</value>
+  </data>
+  <data name="VERIFICATION_CODE" xml:space="preserve">
+    <value>Código de verificación</value>
+  </data>
+  <data name="VERIFY" xml:space="preserve">
+    <value>Verificar</value>
+  </data>
+  <data name="2FA_AUTHENTICATION_ADD_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Agregar aplicación de autenticación</value>
+  </data>
+  <data name="2FA_AUTHENTICATION_ADD_RESET_APP" xml:space="preserve">
+    <value>Restablecer aplicación de autenticación</value>
+  </data>
+  <data name="2FA_AUTHENTICATION_ADD_SETUP_APP" xml:space="preserve">
+    <value>Configurar la aplicación de autenticación</value>
+  </data>
+  <data name="2FA_AUTHENTICATION_TITLE" xml:space="preserve">
+    <value>Autenticación de dos factores (2FA)</value>
+  </data>
+  <data name="2FA_NO_CODES_LEFT" xml:space="preserve">
+    <value>No te quedan códigos de recuperación.</value>
+  </data>
+  <data name="2FA_NO_CODES_LEFT_TEXT" xml:space="preserve">
+    <value>Debe generar un nuevo conjunto de códigos de recuperación antes de poder iniciar sesión con un código de recuperación.</value>
+  </data>
+  <data name="2FA_N_CODES_LEFT" xml:space="preserve">
+    <value>Te quedan {0} códigos de recuperación.</value>
+  </data>
+  <data name="2FA_N_CODES_LEFT_TEXT" xml:space="preserve">
+    <value>Debe generar un nuevo conjunto de códigos de recuperación.</value>
+  </data>
+  <data name="2FA_ONE_CODES_LEFT" xml:space="preserve">
+    <value>Te queda 1 código de recuperación.</value>
+  </data>
+  <data name="2FA_ONE_CODES_LEFT_TEXT" xml:space="preserve">
+    <value>Puede generar un nuevo conjunto de códigos de recuperación.</value>
+  </data>
+  <data name="2FA_STATUS_BROWSER_FORGET" xml:space="preserve">
+    <value>El navegador actual ha sido olvidado. Cuando inicie sesión nuevamente desde este navegador, se le solicitará su código 2fa.</value>
+  </data>
+  <data name="AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Aplicación de autenticación</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DOWNLOAD" xml:space="preserve">
+    <value>Descargar</value>
+  </data>
+  <data name="EXTERNAL_LOGINS_REGISTERED_LOGIN" xml:space="preserve">
+    <value>Inicios de sesión registrados</value>
+  </data>
+  <data name="EXTERNAL_LOGINS_TITLE" xml:space="preserve">
+    <value>Administra tus inicios de sesión externos</value>
+  </data>
+  <data name="FORGET_THIS_BROWSER" xml:space="preserve">
+    <value>Olvidadar este navegador</value>
+  </data>
+  <data name="GENERATE" xml:space="preserve">
+    <value>Generar</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES" xml:space="preserve">
+    <value>Generar códigos de recuperación de autenticación de doble factor (2FA)</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES_INFO_LOSE" xml:space="preserve">
+    <value>Si pierde su dispositivo y no tiene los códigos de recuperación, perderá el acceso a su cuenta.</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES_SAFE_PLACE" xml:space="preserve">
+    <value>Coloca estos códigos en un lugar seguro.</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES_TEXT" xml:space="preserve">
+    <value>La generación de nuevos códigos de recuperación no cambia las claves utilizadas en las aplicaciones de autenticación. Si desea cambiar la clave utilizada en una aplicación de autenticación, debe</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES_TEXT_LINK" xml:space="preserve">
+    <value>restablecer sus claves de autenticación.</value>
+  </data>
+  <data name="GENERATE_RECOVERY_CODES" xml:space="preserve">
+    <value>Generar códigos de recuperación</value>
+  </data>
+  <data name="PERSONAL_DATA_DELETEINFO" xml:space="preserve">
+    <value>Eliminar estos datos eliminará permanentemente su cuenta, y esto no se puede recuperar.</value>
+  </data>
+  <data name="PERSONAL_DATA_INFO" xml:space="preserve">
+    <value>Su cuenta contiene datos personales que nos ha proporcionado. Esta página le permite descargar o eliminar esos datos.</value>
+  </data>
+  <data name="PHONE_NUMBER" xml:space="preserve">
+    <value>Número telefónico</value>
+  </data>
+  <data name="REMOVE" xml:space="preserve">
+    <value>Remover</value>
+  </data>
+  <data name="RESET_AUTHENTICATOR_INFO" xml:space="preserve">
+    <value>Si restablece su clave de autenticación, su aplicación de autenticación no funcionará hasta que la reconfigure.</value>
+  </data>
+  <data name="RESET_AUTHENTICATOR_KEY" xml:space="preserve">
+    <value>Restablecer clave de autenticador</value>
+  </data>
+  <data name="RESET_AUTHENTICATOR_STATUS" xml:space="preserve">
+    <value>La clave de la aplicación de autenticación se ha restablecido; deberá configurarla con la nueva clave.</value>
+  </data>
+  <data name="RESET_AUTHENTICATOR_TEXT" xml:space="preserve">
+    <value>Este proceso deshabilita 2FA hasta que verifique su aplicación de autenticación. Si no completa la configuración de la aplicación de autenticación, puede perder el acceso a su cuenta.</value>
+  </data>
+  <data name="RESET_RECOVERY_CODES" xml:space="preserve">
+    <value>Restablecer tus códigos de verificación</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="SEND_VERIFICATION_EMAIL" xml:space="preserve">
+    <value>Enviar correo electrónico de verificación</value>
+  </data>
+  <data name="SET_PASSWORD" xml:space="preserve">
+    <value>Configurar la contraseña</value>
+  </data>
+  <data name="SET_PASSWORD_STATUS" xml:space="preserve">
+    <value>Su contraseña ha sido establecida.</value>
+  </data>
+  <data name="SET_PASSWORD_TEXT" xml:space="preserve">
+    <value>No tiene un nombre de usuario / contraseña local para este sitio. Agregue una cuenta local para que pueda iniciar sesión sin un inicio de sesión externo.</value>
+  </data>
+  <data name="SET_YOUR_PASSWORD" xml:space="preserve">
+    <value>Establece tu contraseña</value>
+  </data>
+  <data name="STATUS_EXTERNAL_LOGIN_ADDED" xml:space="preserve">
+    <value>Se agregó el inicio de sesión externo.</value>
+  </data>
+  <data name="STATUS_EXTERNAL_LOGIN_REMOVED" xml:space="preserve">
+    <value>Se eliminó el inicio de sesión externo.</value>
+  </data>
+  <data name="STATUS_GENERATE_CODES" xml:space="preserve">
+    <value>Has generado nuevos códigos de recuperación.</value>
+  </data>
+  <data name="STATUS_PROFILE_UPDATED" xml:space="preserve">
+    <value>Tú perfil ha sido actualizado</value>
+  </data>
+  <data name="STATUS_UPDATE_PROFILE_EMAIL_SEND" xml:space="preserve">
+    <value>Correo de verificación enviado. Por favor verifica tu correo electrónico.</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>Nombre de usuario</value>
+  </data>
+  <data name="ACCOUNT_CLICK_LOGIN_LINK" xml:space="preserve">
+    <value>Haga clic en el botón de inicio de sesión</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_WITH_AZURE_AD" xml:space="preserve">
+    <value>Inicie sesión con Azure AD</value>
+  </data>
+  <data name="REMEMBER_BROWSER" xml:space="preserve">
+    <value>Recordar navegador</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="CONSENT_APPLICATION_ACCESS" xml:space="preserve">
+    <value>Acceso a la aplicación</value>
+  </data>
+  <data name="CONSENT_IS_CHECK_UNREQUIRED" xml:space="preserve">
+    <value>Desmarca los permisos que no deseas otorgar.</value>
+  </data>
+  <data name="CONSENT_IS_REQUESTING_YOUR_PERMISSION" xml:space="preserve">
+    <value>esta solicitado tu permiso</value>
+  </data>
+  <data name="CONSENT_NO_NOT_ALLOWED" xml:space="preserve">
+    <value>No, no permitir</value>
+  </data>
+  <data name="CONSENT_PERSONAL_INFORMATION" xml:space="preserve">
+    <value>Información Personal</value>
+  </data>
+  <data name="CONSENT_REMEMBER_MY_DECISION" xml:space="preserve">
+    <value>Recordar mi decisión</value>
+  </data>
+  <data name="CONSENT_REQUIRED" xml:space="preserve">
+    <value>(requerido)</value>
+  </data>
+  <data name="CONSENT_YES_ALLOWED" xml:space="preserve">
+    <value>Si, Permitir</value>
+  </data>
+  <data name="LOGOUT_RETURN_TO" xml:space="preserve">
+    <value>Volver a</value>
+  </data>
+  <data name="WOULD_YOU_LIKE_TO_LOGOUT" xml:space="preserve">
+    <value>¿Desea cerrar sesión en IdentityServer?</value>
+  </data>
+  <data name="EXTERNAL_LOGINS_ADD_ANOTHER_SERVICE_TO_LOGIN" xml:space="preserve">
+    <value>Agregue otro servicio para iniciar sesión.</value>
+  </data>
+  <data name="LANGUAGE" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="RESET_PASSWORD_CLICK_HERE_TO_LOGIN" xml:space="preserve">
+    <value>Haga clic aquí para ingresar</value>
+  </data>
+  <data name="RESET_PASSWORD_YOUR_PASSWORD_HAS_BEEN_RESET" xml:space="preserve">
+    <value>Tú contraseña ha sido restablecida.</value>
+  </data>
+  <data name="SEND_VERIFICATION_CODE" xml:space="preserve">
+    <value>Enviar Código de Verificación</value>
+  </data>
+  <data name="SEND_VERIFICATION_CODE_SELECT" xml:space="preserve">
+    <value>Selecionar el provedor de autenticación de doble factor:</value>
+  </data>
+  <data name="UNSUCCESSFUL_LOGIN_WITH_SERVICE" xml:space="preserve">
+    <value>Inicio de sesión fallido con el servicio.</value>
+  </data>
+  <data name="CODE_REQUIRED" xml:space="preserve">
+    <value>Se requiere código</value>
+  </data>
+  <data name="INVALID_CODE" xml:space="preserve">
+    <value>Código invalido.</value>
+  </data>
+  <data name="INVALID_CONSENT_PERMISSION" xml:space="preserve">
+    <value>Debes elegir al menos un permiso.</value>
+  </data>
+  <data name="INVALID_CONSENT_SELECTION" xml:space="preserve">
+    <value>Selección Invalida</value>
+  </data>
+  <data name="STATUS_MESSAGE_PROFILE_HAS_BEEN_RESET" xml:space="preserve">
+    <value>Tú perfil ha sido actualizado</value>
+  </data>
+  <data name="ConcurrencyFailure" xml:space="preserve">
+    <value>Error de concurrencia optimista, el objeto ha sido modificado.</value>
+    <comment>Error cuando falla la concurrencia optimista</comment>
+  </data>
+  <data name="DefaultError" xml:space="preserve">
+    <value>Ha ocurrido una falla desconocida.</value>
+     <comment>Mensaje de error de resultado de identidad predeterminado</comment>
+  </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>El correo electrónico '{0}' esta tomado.</value>
+    <comment>Error correos electronicos duplicados</comment>
+  </data>
+  <data name="DuplicateRoleName" xml:space="preserve">
+    <value>El nombre de rol '{0}' ya está en uso.</value>
+    <comment>Error para roles duplicados</comment>
+  </data>
+  <data name="DuplicateUserName" xml:space="preserve">
+    <value>El nombre de usuario '{0}' ya está en uso.</value>
+    <comment>Error para nombres de usuario duplicados</comment>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>El correo electrónico '{0}' es inválido.</value>
+    <comment>Correo electrónico inválido</comment>
+  </data>
+  <data name="InvalidManagerType" xml:space="preserve">
+    <value>El tipo {0} debe derivar de {1}&lt;{2}&gt;.</value>
+    <comment>Error cuando el tipo de administrador no se deriva correctamente</comment>
+  </data>
+  <data name="InvalidPasswordHasherCompatibilityMode" xml:space="preserve">
+    <value>El PasswordHasherCompatibilityMode proporcionado no es válido.</value>
+    <comment>Error cuando el hasher de contraseñas no entiende el formato que se le solicta producir.</comment>
+  </data>
+  <data name="InvalidPasswordHasherIterationCount" xml:space="preserve">
+    <value>El contador de iteraciones debe ser un número entero positivo.</value>
+    <comment>Error cuando el contador de iteraciones es &lt;1.</comment>
+  </data>
+  <data name="InvalidRoleName" xml:space="preserve">
+    <value>El nombre del rol '{0}' es inválido.</value>
+    <comment>Error para nombres de roles no válidos</comment>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Token  inválido.</value>
+    <comment>Error cuando un token no es reconocido</comment>
+  </data>
+  <data name="InvalidUserName" xml:space="preserve">
+    <value>El nombre de usuario '{0}' no es válido, solo puede contener letras o dígitos.</value>
+    <comment>Los nombres de usuario solo pueden contener letras o dígitos</comment>
+  </data>
+  <data name="LoginAlreadyAssociated" xml:space="preserve">
+    <value>Ya existe un usuario con este inicio de sesión.</value>
+    <comment>Error cuando un inicio de sesión ya está vinculado</comment>
+  </data>
+  <data name="MustCallAddIdentity" xml:space="preserve">
+    <value>AddIdentity debe invocars en la colección de servicios.</value>
+    <comment>Error cuando AddIdentity no es invocado</comment>
+  </data>
+  <data name="NoPersonalDataProtector" xml:space="preserve">
+    <value>No se registró ningún servicio IPersonalDataProtector, esto es necesario cuando ProtectPersonalData = true.</value>
+    <comment>Error cuando no hay IPersonalDataProtector</comment>
+  </data>
+  <data name="NoRoleType" xml:space="preserve">
+    <value>No se especificó RoleType, intente AddRoles&lt;TRole&gt;().</value>
+    <comment>Error cuando no se especificó IdentityBuilder.RoleType</comment>
+  </data>
+  <data name="NoTokenProvider" xml:space="preserve">
+    <value>No se ha registrado ningún IUserTwoFactorTokenProvider&lt;{0}&gt; llamado '{1}'.</value>
+    <comment>Error cuando no hay IUserTwoFactorTokenProvider</comment>
+  </data>
+  <data name="NullSecurityStamp" xml:space="preserve">
+    <value>El sello de seguridad del usuario no puede ser nulo.</value>
+    <comment>Error cuando el sello de seguridad de un usuario es nulo.</comment>
+  </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Contraseña incorrecta</value>
+    <comment>Error cuando una contraseña no coincide</comment>
+  </data>
+  <data name="PasswordRequiresDigit" xml:space="preserve">
+    <value>Las contraseñas deben tener al menos un dígito ('0' - '9').</value>
+    <comment>Error cuando las contraseñas no tienen un dígito</comment>
+  </data>
+  <data name="PasswordRequiresLower" xml:space="preserve">
+    <value>Las contraseñas deben tener al menos una minúscula ('a' - 'z').</value>
+    <comment>Error cuando las contraseñas no tienen una letra minúscula</comment>
+  </data>
+  <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+    <value>Las contraseñas deben tener al menos un carácter no alfanumérico.</value>
+    <comment>Error cuando la contraseña no tiene suficientes caracteres no alfanuméricos</comment>
+  </data>
+  <data name="PasswordRequiresUniqueChars" xml:space="preserve">
+    <value>Las contraseñas deben usar al menos {0} caracteres diferentes.</value>
+    <comment>Mensaje de error para contraseñas basadas en caracteres similares</comment>
+  </data>
+  <data name="PasswordRequiresUpper" xml:space="preserve">
+    <value>Las contraseñas deben tener al menos una mayúscula ('A' - 'Z').</value>
+    <comment>Error cuando las contraseñas no tienen una letra mayúscula</comment>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>Las contraseñas deben tener al menos {0} caracteres.</value>
+    <comment>Mensaje de error para contraseñas que son demasiado cortas</comment>
+  </data>
+  <data name="RecoveryCodeRedemptionFailed" xml:space="preserve">
+    <value>Error al canjear el código de recuperación.</value>
+    <comment>Error cuando no se canjea un código de recuperación</comment>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>El rol {0} no existe.</value>
+    <comment>Error cuando un rol no existe</comment>
+  </data>
+  <data name="StoreNotIProtectedUserStore" xml:space="preserve">
+    <value>El almacén no implementa IProtectedUserStore&lt;TUser&gt; que es requerido cuando ProtectPersonalData = true.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIQueryableRoleStore" xml:space="preserve">
+    <value>El almacén no implementa IQueryableRoleStore&lt;TRole&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIQueryableUserStore" xml:space="preserve">
+    <value>El almacén no implementa IQueryableUserStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIRoleClaimStore" xml:space="preserve">
+    <value>El almacén no implementa IRoleClaimStore&lt;TRole&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserAuthenticationTokenStore" xml:space="preserve">
+    <value>El almacén no implementa IUserAuthenticationTokenStore&lt;User&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserAuthenticatorKeyStore" xml:space="preserve">
+    <value>El almacén no implementa IUserAuthenticatorKeyStore&lt;User&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserClaimStore" xml:space="preserve">
+    <value>El almacén no implementa IUserClaimStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserConfirmationStore" xml:space="preserve">
+    <value>El almacén no implementa IUserConfirmationStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserEmailStore" xml:space="preserve">
+    <value>El almacén no implementa IUserEmailStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserLockoutStore" xml:space="preserve">
+    <value>El almacén no implementa IUserLockoutStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserLoginStore" xml:space="preserve">
+    <value>El almacén no implementa IUserLoginStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserPasswordStore" xml:space="preserve">
+    <value>El almacén no implementa IUserPasswordStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserPhoneNumberStore" xml:space="preserve">
+    <value>El almacén no implementa IUserPhoneNumberStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserRoleStore" xml:space="preserve">
+    <value>El almacén no implementa IUserRoleStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserSecurityStampStore" xml:space="preserve">
+    <value>El almacén no implementa IUserSecurityStampStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserTwoFactorRecoveryCodeStore" xml:space="preserve">
+    <value>El almacén no implementa IUserTwoFactorRecoveryCodeStore&lt;User&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="StoreNotIUserTwoFactorStore" xml:space="preserve">
+    <value>Almacen no implementa IUserTwoFactorStore&lt;TUser&gt;.</value>
+    <comment>Error cuando el almacen no implementa esta interfaz</comment>
+  </data>
+  <data name="UserAlreadyHasPassword" xml:space="preserve">
+    <value>El usuario ya tiene configurado una contraseña.</value>
+    <comment>Error cuando se invoca AddPasswordAsync y el un usuario ya ha configurado su contraseña</comment>
+  </data>
+  <data name="UserAlreadyInRole" xml:space="preserve">
+    <value>Usuario ya pertence al rol '{0}'.</value>
+    <comment>Error cuando un usuario ya está en un rol</comment>
+  </data>
+  <data name="UserLockedOut" xml:space="preserve">
+    <value>El usuario está bloqueado.(masculino)</value>
+    <comment>Error cuando un usuario está bloqueado</comment>
+  </data>
+  <data name="UserLockoutNotEnabled" xml:space="preserve">
+    <value>El bloqueo no está habilitado para este usuario.</value>
+    <comment>Error cuando el bloqueo no está habilitado</comment>
+  </data>
+  <data name="UserNameNotFound" xml:space="preserve">
+    <value>Userio {0} no existe.</value>
+    <comment>Error cuando el usuario no existe</comment>
+  </data>
+  <data name="UserNotInRole" xml:space="preserve">
+    <value>El usuario no pertenece al rol '{0}'.</value>
+    <comment>Erro cuando un usuario no pertenece al rol</comment>
+  </data>
+  <data name="Access to your applications and resources, even when you are offline" xml:space="preserve">
+    <value>Acceda a sus aplicaciones y recursos, incluso cuando esté desconectado</value>
+  </data>
+  <data name="CONSENT_CONFIRM_AUTH_REQUEST_QUOTES" xml:space="preserve">
+    <value>Confirme que la solicitud de autorización cita el código:</value>
+  </data>
+  <data name="DEVICE_ENTER_CODE_DISPLAYED_ON_DEVICE" xml:space="preserve">
+    <value>Por favor ingresa el código mostrado en tú dispositivo</value>
+  </data>
+  <data name="DEVICE_SUCCESS" xml:space="preserve">
+    <value>Satisfactorio</value>
+  </data>
+  <data name="DEVICE_SUCCESS_AUTHORIZE" xml:space="preserve">
+    <value>Haz autorizado satisfactiriamente el dispositivo</value>
+  </data>
+  <data name="DEVICE_USER_CODE" xml:space="preserve">
+    <value>Código de Usuario</value>
+  </data>
+  <data name="Invalid selection" xml:space="preserve">
+    <value>Selección inválida</value>
+  </data>
+  <data name="Offline Access" xml:space="preserve">
+    <value>Acceso fuera de línea</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Códigos de recuperación</value>
+  </data>
+  <data name="User profile" xml:space="preserve">
+    <value>Perfil de usuario</value>
+  </data>
+  <data name="You must pick at least one permission" xml:space="preserve">
+    <value>Debes elegir al menos un permiso</value>
+  </data>
+  <data name="Your email address" xml:space="preserve">
+    <value>Su correo electrónico</value>
+  </data>
+  <data name="Your user identifier" xml:space="preserve">
+    <value>Su identificador de usuario</value>
+  </data>
+  <data name="Your user profile information (first name, last name, etc.)" xml:space="preserve">
+    <value>La infomación de su perfil de usuario  (nombre, apellido , etc.)</value>
+  </data>
+  <data name="FIDO2_ADD_A_KEY" xml:space="preserve">
+    <value>Agregar una clave FIDO2</value>
+  </data>
+  <data name="FIDO2_COULD_NOT_VERIFY_ASSERTION" xml:space="preserve">
+    <value>No se pudo verificar la afirmación</value>
+  </data>
+  <data name="FIDO2_LOGIN_WITH_MFA" xml:space="preserve">
+    <value>Iniciar con FIDO2 MFA</value>
+  </data>
+  <data name="IDO2_MULTI_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>Autenticación Multi-factor con FIDO2 </value>
+  </data>
+  <data name="FIDO2_REGISTRATION_ERROR" xml:space="preserve">
+    <value>No se pudieron crear credenciales en el navegador. Probablemente porque el nombre de usuario ya está registrado con su autenticador. Por favor, cambie el nombre de usuario o el autenticador.</value>
+  </data>
+  <data name="FIDO2_SUPPORTED_BROWSERS" xml:space="preserve">
+    <value>Navegadores soportados</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_FINISH_REGISTRATION" xml:space="preserve">
+    <value>Toque su clave de seguridad para finalizar el registro.</value>
+  </data>
+  <data name="FIDO2_TAP_YOUR_SECURITY_KEY_TO_LOGIN" xml:space="preserve">
+    <value>Toque su clave de seguridad para iniciar sesión. </value>
+  </data>
+  <data name="FIDO2_UNABLE_TO_LOAD_2FA_AUTHENTICATED_USER" xml:space="preserve">
+    <value>No se puede cargar el usuario autenticado de doble factore.</value>
+  </data>
+  <data name="FIDO2_UNKNOWN_CREDENTIALS" xml:space="preserve">
+    <value>Credenciales desconocidas</value>
+  </data>
+  <data name="FIDO2_USERNAME" xml:space="preserve">
+    <value>Nombre de usuario</value>
+  </data>
+  <data name="FIDO2_USERNAME_NOT_REGISTERED" xml:space="preserve">
+    <value>El nombre de usuario no fue registrado</value>
+  </data>
+  <data name="FIDO2_USER_NOTFOUND" xml:space="preserve">
+    <value>No fue ppsible cargar el usuario ID '{0}'.</value>
+  </data>
+  <data name="FIDO2_WEBAUTHN_NOT_SUPPORTED" xml:space="preserve">
+    <value>Por favor ten en cuenta: Parece que tu navegador todavia no soporta.</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA" xml:space="preserve">
+    <value>Habilitar MFA</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_CLIENT_APP_REQUIRES_MFA" xml:space="preserve">
+    <value>La aplicación cliente requiere que tenga habilitado MFA. Habilite esto e intente iniciar sesión nuevamente.</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_ERROR_TITLE" xml:space="preserve">
+    <value>Habilitar erro MFA</value>
+  </data>
+  <data name="ERROR_ENABLE_MFA_YOU_CAN_ENABLE_HERE" xml:space="preserve">
+    <value>Puedes habilitar MFA para ingresar aquí:</value>
+  </data>
+  <data name="GRANTS" xml:space="preserve">
+    <value>Grants</value>
+  </data>
+  <data name="GRANTS_API_GRANTS" xml:space="preserve">
+    <value>API Grants</value>
+  </data>
+  <data name="GRANTS_CLIENT_APP_ACCESS" xml:space="preserve">
+    <value>Acceso a la aplicación cliente</value>
+  </data>
+  <data name="GRANTS_CREATED" xml:space="preserve">
+    <value>Creada</value>
+  </data>
+  <data name="GRANTS_EXPIRES" xml:space="preserve">
+    <value>Expira</value>
+  </data>
+  <data name="GRANTS_IDENTITY_GRANTS" xml:space="preserve">
+    <value>Identity Grants</value>
+  </data>
+  <data name="GRANTS_INFO" xml:space="preserve">
+    <value>A continuación se muestra la lista de aplicaciones a las que ha dado acceso y los nombres de los recursos a los que tiene acceso.</value>
+  </data>
+  <data name="GRANTS_NO_ACCESS" xml:space="preserve">
+    <value>No tienes acceso a ninguna aplicación</value>
+  </data>
+  <data name="GRANTS_REVOKE_ACCESS" xml:space="preserve">
+    <value>Revocar Acceso</value>
+  </data>
+</root>
