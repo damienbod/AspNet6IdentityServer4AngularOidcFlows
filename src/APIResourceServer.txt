@@ -1,0 +1,44 @@
+2020-06-26 21:01:10.913 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-06-26 21:01:10.953 +02:00 [INF] Hosting environment: Development
+2020-06-26 21:01:10.958 +02:00 [INF] Content root path: C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceServer
+2020-06-26 21:01:10.986 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:01:11.006 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:01:11.068 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:01:11.087 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:01:11.089 +02:00 [INF] Request finished in 110.0094ms 204 
+2020-06-26 21:01:11.332 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:01:11.343 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration"
+2020-06-26 21:01:11.773 +02:00 [INF] Received HTTP response after 420.6906ms - "OK"
+2020-06-26 21:01:11.777 +02:00 [INF] End processing HTTP request after 456.0049ms - "OK"
+2020-06-26 21:01:11.907 +02:00 [INF] Start processing HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:01:11.907 +02:00 [INF] Sending HTTP request GET "https://localhost:44318/.well-known/openid-configuration/jwks"
+2020-06-26 21:01:11.942 +02:00 [INF] Received HTTP response after 35.1586ms - "OK"
+2020-06-26 21:01:11.943 +02:00 [INF] End processing HTTP request after 36.1412ms - "OK"
+2020-06-26 21:01:12.384 +02:00 [INF] Start processing HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:01:12.384 +02:00 [INF] Sending HTTP request POST "https://localhost:44318/connect/introspect"
+2020-06-26 21:01:12.475 +02:00 [INF] Received HTTP response after 90.5072ms - "OK"
+2020-06-26 21:01:12.475 +02:00 [INF] End processing HTTP request after 91.4003ms - "OK"
+2020-06-26 21:01:12.568 +02:00 [INF] Authorization failed.
+2020-06-26 21:01:12.580 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:01:12.595 +02:00 [INF] Request finished in 1526.3181ms 403 
+2020-06-26 21:08:12.730 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-06-26 21:08:12.803 +02:00 [INF] Hosting environment: Development
+2020-06-26 21:08:12.811 +02:00 [INF] Content root path: C:\git\damienbod\AspNet5IdentityServerAngularImplicitFlow\src\ResourceServer
+2020-06-26 21:08:12.867 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:08:12.915 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:08:12.983 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:08:12.984 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:08:12.987 +02:00 [INF] Request finished in 138.637ms 204 
+2020-06-26 21:08:15.426 +02:00 [INF] Successfully validated the token.
+2020-06-26 21:08:15.456 +02:00 [INF] Authorization failed.
+2020-06-26 21:08:15.468 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:08:15.483 +02:00 [INF] Request finished in 2499.5872ms 403 
+2020-06-26 21:11:14.456 +02:00 [INF] Request starting HTTP/2.0 OPTIONS https://localhost:44390/api/DataEventRecords/  
+2020-06-26 21:11:14.465 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:11:14.475 +02:00 [INF] Request finished in 21.8461ms 204 
+2020-06-26 21:11:14.518 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44390/api/DataEventRecords/ application/json 
+2020-06-26 21:11:14.519 +02:00 [INF] CORS policy execution successful.
+2020-06-26 21:11:14.544 +02:00 [INF] Successfully validated the token.
+2020-06-26 21:11:14.547 +02:00 [INF] Authorization failed.
+2020-06-26 21:11:14.548 +02:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2020-06-26 21:11:14.550 +02:00 [INF] Request finished in 33.0467ms 403 
