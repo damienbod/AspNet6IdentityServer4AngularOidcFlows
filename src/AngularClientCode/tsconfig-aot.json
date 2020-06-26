@@ -1,8 +1,5 @@
 ﻿{
   "compilerOptions": {
-    //"baseUrl": "./",
-    //"outDir": "./dist/out-tsc",
-    "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
@@ -10,7 +7,14 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "lib": [ "es2018", "dom" ],
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+        "lib": [
+      "es2018",
+      "dom"
+    ],
     "typeRoots": [
       "./node_modules/@types/"
     ]
@@ -25,28 +29,4 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   }
-}
-
-
-  //"compilerOptions": {
-  //  "declaration": false,
-  //  "downlevelIteration": true,
-  //  "experimentalDecorators": true,
-  //  "module": "esnext",
-  //  "moduleResolution": "node",
-  //  "importHelpers": true,
-  //  "target": "es2015",
-  //  "sourceMap": true,
-  //  "emitDecoratorMetadata": true,
-  //  "removeComments": true,
-  //  "skipLibCheck": true,
-  //  "strict": true,
-  //  "noUnusedLocals": true,
-  //  "noUnusedParameters": true,
-  //  "lib": [
-  //    "es2018",
-  //    "dom"
-  //  ],
-  //  "typeRoots": [
-  //    "./node_modules/@types/"
-  //  ]
+}

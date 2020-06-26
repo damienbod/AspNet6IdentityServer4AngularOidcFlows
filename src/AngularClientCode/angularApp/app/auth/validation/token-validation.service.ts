@@ -396,16 +396,8 @@ export class TokenValidationService {
     // access_token C2: Take the left- most half of the hash and base64url- encode it.
     // access_token C3: The value of at_hash in the ID Token MUST match the value produced in the previous step if at_hash
     // is present in the ID Token.
-    validateIdTokenAtHash(accessToken: any, atHash: any, isCodeFlow: boolean, idTokenAlg: string): boolean {
+    validateIdTokenAtHash(accessToken: any, atHash: any, idTokenAlg: string): boolean {
         this.loggerService.logDebug('at_hash from the server:' + atHash);
-
-        // The at_hash is optional for the code flow
-        if (isCodeFlow) {
-            if (!(atHash as string)) {
-                this.loggerService.logDebug('Code Flow active, and no at_hash in the id_token, skipping check!');
-                return true;
-            }
-        }
 
         // 'sha256' 'sha384' 'sha512'
         let sha = 'sha256';

@@ -1,52 +1,34 @@
 import { Injectable } from '@angular/core';
 import { PlatformProvider } from '../utils/platform-provider/platform.provider';
-import { AuthWellKnownEndpoints } from './auth-well-known-endpoints';
 import { DEFAULT_CONFIG } from './default-config';
 import { OpenIdConfiguration } from './openid-configuration';
-import { PublicConfiguration } from './public-configuration';
 
 @Injectable()
 export class ConfigurationProvider {
-    private wellKnownEndpointsInternal: AuthWellKnownEndpoints;
     private openIdConfigurationInternal: OpenIdConfiguration;
 
     get openIDConfiguration(): OpenIdConfiguration {
-        if (!this.openIdConfigurationInternal) {
-            return null;
-        }
-
-        return this.openIdConfigurationInternal;
-    }
-
-    get wellKnownEndpoints(): AuthWellKnownEndpoints {
-        if (!this.wellKnownEndpointsInternal) {
-            return null;
-        }
-
-        return this.wellKnownEndpointsInternal;
-    }
-
-    get configuration(): PublicConfiguration {
-        if (!this.hasValidConfig()) {
-            return null;
-        }
-
-        return {
-            configuration: { ...this.openIDConfiguration },
-            wellknown: { ...this.wellKnownEndpoints },
-        };
+        return this.openIdConfigurationInternal || null;
     }
 
     hasValidConfig() {
-        return !!this.wellKnownEndpointsInternal && !!this.openIdConfigurationInternal;
+        return !!this.openIdConfigurationInternal;
     }
 
     constructor(private platformProvider: PlatformProvider) {}
 
-    setConfig(configuration: OpenIdConfiguration, wellKnownEndpoints: AuthWellKnownEndpoints) {
-        this.wellKnownEndpointsInternal = wellKnownEndpoints;
+    setConfig(configuration: OpenIdConfiguration) {
         this.openIdConfigurationInternal = { ...DEFAULT_CONFIG, ...configuration };
+
+        if (configuration?.storage) {
+            console.warn(
+                'PLEASE NOTE: The storage in the config will be deprecated in future versions: Please pass the custom storage in forRoot() as documented'
+            );
+        }
+
         this.setSpecialCases(this.openIdConfigurationInternal);
+
+        return this.openIdConfigurationInternal;
     }
 
     private setSpecialCases(currentConfig: OpenIdConfiguration) {

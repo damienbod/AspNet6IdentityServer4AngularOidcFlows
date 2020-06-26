@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfigurationProvider } from '../../config';
+import { ConfigurationProvider } from '../../config/config.provider';
 import { PlatformProvider } from '../platform-provider/platform.provider';
 import { PlatformProviderMock } from '../platform-provider/platform.provider-mock';
 import { FlowHelper } from './flow-helper.service';
@@ -26,7 +26,7 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowCodeFlow returns false if current flow is not code flow', () => {
         const config = { responseType: 'id_token token' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
 
         expect(flowHelper.isCurrentFlowCodeFlow()).toBeFalse();
     });
@@ -34,7 +34,7 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowCodeFlow returns true if current flow is code flow', () => {
         const config = { responseType: 'code' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
 
         expect(flowHelper.isCurrentFlowCodeFlow()).toBeTrue();
     });
@@ -42,7 +42,7 @@ describe('Flow Helper Service', () => {
     it('currentFlowIs returns true if current flow is code flow', () => {
         const config = { responseType: 'code' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
 
         expect(flowHelper.currentFlowIs('code')).toBeTrue();
     });
@@ -50,7 +50,7 @@ describe('Flow Helper Service', () => {
     it('currentFlowIs returns true if current flow is code flow (array)', () => {
         const config = { responseType: 'code' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
 
         expect(flowHelper.currentFlowIs(['code'])).toBeTrue();
     });
@@ -58,7 +58,7 @@ describe('Flow Helper Service', () => {
     it('currentFlowIs returns true if current flow is id_token token or code (array)', () => {
         const config = { responseType: 'id_token token' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
 
         expect(flowHelper.currentFlowIs(['id_token token', 'code'])).toBeTrue();
     });
@@ -66,7 +66,7 @@ describe('Flow Helper Service', () => {
     it('currentFlowIs returns true if current flow is code flow', () => {
         const config = { responseType: 'id_token token' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
 
         expect(flowHelper.currentFlowIs('code')).toBeFalse();
     });
@@ -74,7 +74,7 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowImplicitFlowWithAccessToken return true if flow is "id_token token"', () => {
         const config = { responseType: 'id_token token' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
         const result = flowHelper.isCurrentFlowImplicitFlowWithAccessToken();
 
         expect(result).toBeTrue();
@@ -83,7 +83,7 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowImplicitFlowWithAccessToken return false if flow is not "id_token token"', () => {
         const config = { responseType: 'id_token2 token2' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
         const result = flowHelper.isCurrentFlowImplicitFlowWithAccessToken();
 
         expect(result).toBeFalse();
@@ -92,7 +92,7 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowImplicitFlowWithoutAccessToken return true if flow is "id_token"', () => {
         const config = { responseType: 'id_token' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
         const result = flowHelper.isCurrentFlowImplicitFlowWithoutAccessToken();
 
         expect(result).toBeTrue();
@@ -101,7 +101,7 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowImplicitFlowWithoutAccessToken return false if flow is not "id_token token"', () => {
         const config = { responseType: 'id_token2' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
         const result = flowHelper.isCurrentFlowImplicitFlowWithoutAccessToken();
 
         expect(result).toBeFalse();
@@ -110,7 +110,7 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowCodeFlowWithRefeshTokens return false if flow is not code flow', () => {
         const config = { responseType: 'not code' };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
         const result = flowHelper.isCurrentFlowCodeFlowWithRefeshTokens();
 
         expect(result).toBeFalse();
@@ -119,7 +119,7 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowCodeFlowWithRefeshTokens return false if useRefreshToken is set to false', () => {
         const config = { responseType: 'not code', useRefreshToken: false };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
         const result = flowHelper.isCurrentFlowCodeFlowWithRefeshTokens();
 
         expect(result).toBeFalse();
@@ -128,9 +128,38 @@ describe('Flow Helper Service', () => {
     it('isCurrentFlowCodeFlowWithRefeshTokens return true if useRefreshToken is set to true and code flow', () => {
         const config = { responseType: 'code', useRefreshToken: true };
 
-        configProvider.setConfig(config, null);
+        configProvider.setConfig(config);
         const result = flowHelper.isCurrentFlowCodeFlowWithRefeshTokens();
 
         expect(result).toBeTrue();
+    });
+
+    describe('isCurrentFlowAnyImplicitFlow', () => {
+        it('returns true if currentFlowIsImplicitFlowWithAccessToken is true', () => {
+            spyOn(flowHelper, 'isCurrentFlowImplicitFlowWithAccessToken').and.returnValue(true);
+            spyOn(flowHelper, 'isCurrentFlowImplicitFlowWithoutAccessToken').and.returnValue(false);
+
+            const result = flowHelper.isCurrentFlowAnyImplicitFlow();
+
+            expect(result).toBeTrue();
+        });
+
+        it('returns true if isCurrentFlowImplicitFlowWithoutAccessToken is true', () => {
+            spyOn(flowHelper, 'isCurrentFlowImplicitFlowWithAccessToken').and.returnValue(false);
+            spyOn(flowHelper, 'isCurrentFlowImplicitFlowWithoutAccessToken').and.returnValue(true);
+
+            const result = flowHelper.isCurrentFlowAnyImplicitFlow();
+
+            expect(result).toBeTrue();
+        });
+
+        it('returns false it is not any implicit flow', () => {
+            spyOn(flowHelper, 'isCurrentFlowImplicitFlowWithAccessToken').and.returnValue(false);
+            spyOn(flowHelper, 'isCurrentFlowImplicitFlowWithoutAccessToken').and.returnValue(false);
+
+            const result = flowHelper.isCurrentFlowAnyImplicitFlow();
+
+            expect(result).toBeFalse();
+        });
     });
 });

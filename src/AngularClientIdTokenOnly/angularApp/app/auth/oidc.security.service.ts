@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AuthOptions } from './auth-options';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { AuthStateService } from './authState/auth-state.service';
 import { CallbackService } from './callback/callback.service';
-import { ConfigurationProvider } from './config';
+import { PeriodicallyTokenCheckService } from './callback/periodically-token-check.service';
+import { RefreshSessionService } from './callback/refresh-session.service';
+import { ConfigurationProvider } from './config/config.provider';
+import { PublicConfiguration } from './config/public-configuration';
 import { FlowsDataService } from './flows/flows-data.service';
-import { FlowsService } from './flows/flows.service';
-import { CheckSessionService, SilentRenewService } from './iframe';
+import { CheckSessionService } from './iframe/check-session.service';
+import { SilentRenewService } from './iframe/silent-renew.service';
 import { LoggerService } from './logging/logger.service';
+import { AuthOptions } from './login/auth-options';
+import { LoginService } from './login/login.service';
 import { LogoffRevocationService } from './logoffRevoke/logoff-revocation.service';
-import { EventTypes } from './public-events';
-import { PublicEventsService } from './public-events/public-events.service';
+import { StoragePersistanceService } from './storage/storage-persistance.service';
 import { UserService } from './userData/user-service';
-import { RedirectService, UrlService } from './utils';
 import { TokenHelperService } from './utils/tokenHelper/oidc-token-helper.service';
-import { TokenValidationService } from './validation/token-validation.service';
 
 @Injectable()
 export class OidcSecurityService {
     private TOKEN_REFRESH_INTERVALL_IN_SECONDS = 3;
 
-    private isModuleSetupInternal$ = new BehaviorSubject<boolean>(false);
-
-    get configuration() {
-        return this.configurationProvider.configuration;
+    get configuration(): PublicConfiguration {
+        return {
+            configuration: this.configurationProvider.openIDConfiguration,
+            wellknown: this.storagePersistanceService.read('authWellKnownEndPoints'),
+        };
     }
 
     get userData$() {
@@ -39,10 +41,6 @@ export class OidcSecurityService {
         return this.checkSessionService.checkSessionChanged$;
     }
 
-    get moduleSetup$() {
-        return this.isModuleSetupInternal$.asObservable();
-    }
-
     get stsCallback$() {
         return this.callbackService.stsCallback$;
     }
@@ -51,18 +49,17 @@ export class OidcSecurityService {
         private checkSessionService: CheckSessionService,
         private silentRenewService: SilentRenewService,
         private userService: UserService,
-        private tokenValidationService: TokenValidationService,
         private tokenHelperService: TokenHelperService,
         private loggerService: LoggerService,
         private configurationProvider: ConfigurationProvider,
-        private publicEventsService: PublicEventsService,
-        private urlService: UrlService,
         private authStateService: AuthStateService,
         private flowsDataService: FlowsDataService,
-        private flowsService: FlowsService,
         private callbackService: CallbackService,
         private logoffRevocationService: LogoffRevocationService,
-        private redirectService: RedirectService
+        private loginService: LoginService,
+        private storagePersistanceService: StoragePersistanceService,
+        private refreshSessionService: RefreshSessionService,
+        private periodicallyTokenCheckService: PeriodicallyTokenCheckService
     ) {}
 
     checkAuth(): Observable<boolean> {
@@ -74,35 +71,60 @@ export class OidcSecurityService {
         this.loggerService.logDebug('STS server: ' + this.configurationProvider.openIDConfiguration.stsServer);
 
         const currentUrl = window.location.toString();
+        const isCallback = this.callbackService.isCallback();
 
-        return this.callbackService.handlePossibleStsCallback(currentUrl).pipe(
+        const callback$ = isCallback ? this.callbackService.handleCallbackAndFireEvents(currentUrl) : of(null);
+
+        return callback$.pipe(
             map(() => {
                 const isAuthenticated = this.authStateService.areAuthStorageTokensValid();
-                // validate storage and @@set authorized@@ if true
                 if (isAuthenticated) {
-                    this.authStateService.setAuthorizedAndFireEvent();
-                    this.userService.publishUserdataIfExists();
+                    this.startCheckSessionAndValidation();
 
-                    if (this.checkSessionService.isCheckSessionConfigured()) {
-                        this.checkSessionService.start();
-                    }
-
-                    this.callbackService.startTokenValidationPeriodically(this.TOKEN_REFRESH_INTERVALL_IN_SECONDS);
-
-                    if (this.silentRenewService.isSilentRenewConfigured()) {
-                        this.silentRenewService.getOrCreateIframe();
+                    if (!isCallback) {
+                        this.authStateService.setAuthorizedAndFireEvent();
+                        this.userService.publishUserdataIfExists();
                     }
                 }
 
                 this.loggerService.logDebug('checkAuth completed fire events, auth: ' + isAuthenticated);
 
-                // TODO EXTRACT THIS IN SERVICE LATER
-                this.publicEventsService.fireEvent(EventTypes.ModuleSetup, true);
-                this.isModuleSetupInternal$.next(true);
-
                 return isAuthenticated;
             })
         );
+    }
+
+    checkAuthIncludingServer(): Observable<boolean> {
+        return this.checkAuth().pipe(
+            switchMap((isAuthenticated) => {
+                if (isAuthenticated) {
+                    return of(isAuthenticated);
+                }
+
+                return this.refreshSessionService.forceRefreshSession().pipe(
+                    map((result) => !!result?.idToken && !!result?.accessToken),
+                    switchMap((isAuth) => {
+                        if (isAuth) {
+                            this.startCheckSessionAndValidation();
+                        }
+
+                        return of(isAuth);
+                    })
+                );
+            })
+        );
+    }
+
+    private startCheckSessionAndValidation() {
+        if (this.checkSessionService.isCheckSessionConfigured()) {
+            this.checkSessionService.start();
+        }
+
+        this.periodicallyTokenCheckService.startTokenValidationPeriodically(this.TOKEN_REFRESH_INTERVALL_IN_SECONDS);
+
+        if (this.silentRenewService.isSilentRenewConfigured()) {
+            this.silentRenewService.getOrCreateIframe();
+        }
     }
 
     getToken(): string {
@@ -132,29 +154,11 @@ export class OidcSecurityService {
 
     // Code Flow with PCKE or Implicit Flow
     authorize(authOptions?: AuthOptions) {
-        if (!this.configurationProvider.hasValidConfig()) {
-            this.loggerService.logError('Well known endpoints must be loaded before user can login!');
-            return;
-        }
+        this.loginService.login(authOptions);
+    }
 
-        if (!this.tokenValidationService.configValidateResponseType(this.configurationProvider.openIDConfiguration.responseType)) {
-            this.loggerService.logError('Invalid response type!');
-            return;
-        }
-
-        this.flowsService.resetAuthorizationData();
-
-        this.loggerService.logDebug('BEGIN Authorize OIDC Flow, no auth data');
-
-        const { urlHandler, customParams } = authOptions || {};
-
-        const url = this.urlService.getAuthorizeUrl(customParams);
-
-        if (urlHandler) {
-            urlHandler(url);
-        } else {
-            this.redirectService.redirectTo(url);
-        }
+    forceRefreshSession() {
+        return this.refreshSessionService.forceRefreshSession();
     }
 
     // The refresh token and and the access token are revoked on the server. If the refresh token does not exist

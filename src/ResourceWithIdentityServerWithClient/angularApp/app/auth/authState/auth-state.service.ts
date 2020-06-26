@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ConfigurationProvider } from '../config';
+import { ConfigurationProvider } from '../config/config.provider';
 import { LoggerService } from '../logging/logger.service';
-import { EventTypes, PublicEventsService } from '../public-events';
-import { StoragePersistanceService } from '../storage';
+import { EventTypes } from '../public-events/event-types';
+import { PublicEventsService } from '../public-events/public-events.service';
+import { StoragePersistanceService } from '../storage/storage-persistance.service';
 import { TokenValidationService } from '../validation/token-validation.service';
 import { AuthorizationResult } from './authorization-result';
-import { AuthorizedState } from './authorized-state';
 
 @Injectable()
 export class AuthStateService {
-    // event which contains the state
     private authorizedInternal$ = new BehaviorSubject<boolean>(false);
-    private authState = AuthorizedState.Unknown;
 
     get authorized$() {
         return this.authorizedInternal$.asObservable();
+    }
+
+    private get isAuthorized() {
+        return !!this.storagePersistanceService.getAccessToken() && !!this.storagePersistanceService.getIdToken();
     }
 
     constructor(
@@ -27,45 +29,29 @@ export class AuthStateService {
     ) {}
 
     setAuthorizedAndFireEvent(): void {
-        // set the correct values in storage
-        this.authState = AuthorizedState.Authorized;
-        this.persistAuthStateInStorage(this.authState);
         this.authorizedInternal$.next(true);
     }
 
     setUnauthorizedAndFireEvent(): void {
-        // set the correct values in storage
-        this.authState = AuthorizedState.Unauthorized;
         this.storagePersistanceService.resetAuthStateInStorage();
         this.authorizedInternal$.next(false);
-    }
-
-    initStateFromStorage(): void {
-        const currentAuthorizedState = this.getCurrentlyPersistedAuthState();
-        if (currentAuthorizedState === AuthorizedState.Authorized) {
-            this.authState = AuthorizedState.Authorized;
-        } else {
-            this.authState = AuthorizedState.Unknown;
-        }
     }
 
     updateAndPublishAuthState(authorizationResult: AuthorizationResult) {
         this.publicEventsService.fireEvent<AuthorizationResult>(EventTypes.NewAuthorizationResult, authorizationResult);
     }
 
-    setAuthorizationData(accessToken: any, idToken: any) {
+    setAuthorizationData(accessToken: any, authResult: any) {
         this.loggerService.logDebug(accessToken);
-        this.loggerService.logDebug(idToken);
-        this.loggerService.logDebug('storing to storage, getting the roles');
+        this.loggerService.logDebug('storing the accessToken');
 
-        this.storagePersistanceService.accessToken = accessToken;
-        this.storagePersistanceService.idToken = idToken;
-
+        this.storagePersistanceService.write('authzData', accessToken);
+        this.persistAccessTokenExpirationTime(authResult);
         this.setAuthorizedAndFireEvent();
     }
 
     getAccessToken(): string {
-        if (!(this.authState === AuthorizedState.Authorized)) {
+        if (!this.isAuthorized) {
             return '';
         }
 
@@ -74,7 +60,7 @@ export class AuthStateService {
     }
 
     getIdToken(): string {
-        if (!(this.authState === AuthorizedState.Authorized)) {
+        if (!this.isAuthorized) {
             return '';
         }
 
@@ -83,7 +69,7 @@ export class AuthStateService {
     }
 
     getRefreshToken(): string {
-        if (!(this.authState === AuthorizedState.Authorized)) {
+        if (!this.isAuthorized) {
             return '';
         }
 
@@ -92,13 +78,9 @@ export class AuthStateService {
     }
 
     areAuthStorageTokensValid() {
-        const currentAuthState = this.getCurrentlyPersistedAuthState();
-
-        if (currentAuthState !== AuthorizedState.Authorized) {
+        if (!this.isAuthorized) {
             return false;
         }
-
-        this.loggerService.logDebug(`authorizedState in storage is ${currentAuthState}`);
 
         if (this.hasIdTokenExpired()) {
             this.loggerService.logDebug('persisted id_token is expired');
@@ -114,12 +96,8 @@ export class AuthStateService {
         return true;
     }
 
-    setAuthResultInStorage(authResult: any) {
-        this.storagePersistanceService.authResult = authResult;
-    }
-
     hasIdTokenExpired() {
-        const tokenToCheck = this.storagePersistanceService.idToken;
+        const tokenToCheck = this.storagePersistanceService.getIdToken();
         const idTokenExpired = this.tokenValidationService.hasIdTokenExpired(
             tokenToCheck,
             this.configurationProvider.openIDConfiguration.renewTimeBeforeTokenExpiresInSeconds
@@ -133,7 +111,7 @@ export class AuthStateService {
     }
 
     hasAccessTokenExpiredIfExpiryExists() {
-        const accessTokenExpiresIn = this.storagePersistanceService.accessTokenExpiresIn;
+        const accessTokenExpiresIn = this.storagePersistanceService.read('access_token_expires_at');
         const accessTokenHasNotExpired = this.tokenValidationService.validateAccessTokenNotExpired(
             accessTokenExpiresIn,
             this.configurationProvider.openIDConfiguration.renewTimeBeforeTokenExpiresInSeconds
@@ -148,11 +126,10 @@ export class AuthStateService {
         return hasExpired;
     }
 
-    private getCurrentlyPersistedAuthState() {
-        return this.storagePersistanceService.authorizedState;
-    }
-
-    private persistAuthStateInStorage(authState: AuthorizedState) {
-        this.storagePersistanceService.authorizedState = authState;
+    private persistAccessTokenExpirationTime(authResult: any) {
+        if (authResult?.expires_in) {
+            const accessTokenExpiryTime = new Date().valueOf() + authResult.expires_in * 1000;
+            this.storagePersistanceService.write('access_token_expires_at', accessTokenExpiryTime);
+        }
     }
 }

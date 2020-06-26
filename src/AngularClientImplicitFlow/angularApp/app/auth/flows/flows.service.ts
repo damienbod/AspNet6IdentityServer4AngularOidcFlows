@@ -7,8 +7,9 @@ import { AuthStateService } from '../authState/auth-state.service';
 import { AuthorizedState } from '../authState/authorized-state';
 import { ConfigurationProvider } from '../config/config.provider';
 import { LoggerService } from '../logging/logger.service';
+import { StoragePersistanceService } from '../storage/storage-persistance.service';
 import { UserService } from '../userData/user-service';
-import { UrlService } from '../utils';
+import { UrlService } from '../utils/url/url.service';
 import { StateValidationResult } from '../validation/state-validation-result';
 import { StateValidationService } from '../validation/state-validation.service';
 import { TokenValidationService } from '../validation/token-validation.service';
@@ -29,7 +30,8 @@ export class FlowsService {
         private readonly signinKeyDataService: SigninKeyDataService,
         private readonly dataService: DataService,
         private readonly userService: UserService,
-        private readonly stateValidationService: StateValidationService
+        private readonly stateValidationService: StateValidationService,
+        private readonly storagePersistanceService: StoragePersistanceService
     ) {}
 
     resetAuthorizationData(): void {
@@ -45,7 +47,6 @@ export class FlowsService {
     processCodeFlowCallback(urlToCheck: string) {
         return this.codeFlowCallback(urlToCheck).pipe(
             switchMap((callbackContext) => this.codeFlowCodeRequest(callbackContext)),
-            switchMap((callbackContext) => this.codeFlowSilentRenewCheck(callbackContext)),
             switchMap((callbackContext) => this.callbackHistoryAndResetJwtKeys(callbackContext)),
             switchMap((callbackContext) => this.callbackStateValidation(callbackContext)),
             switchMap((callbackContext) => this.callbackUser(callbackContext))
@@ -54,7 +55,6 @@ export class FlowsService {
 
     processSilentRenewCodeFlowCallback(firstContext: CallbackContext) {
         return this.codeFlowCodeRequest(firstContext).pipe(
-            switchMap((callbackContext) => this.codeFlowSilentRenewCheck(callbackContext)),
             switchMap((callbackContext) => this.callbackHistoryAndResetJwtKeys(callbackContext)),
             switchMap((callbackContext) => this.callbackStateValidation(callbackContext)),
             switchMap((callbackContext) => this.callbackUser(callbackContext))
@@ -72,7 +72,6 @@ export class FlowsService {
     processRefreshToken() {
         return this.refreshSessionWithRefreshTokens().pipe(
             switchMap((callbackContext) => this.refreshTokensRequestTokens(callbackContext)),
-            switchMap((callbackContext) => this.codeFlowSilentRenewCheck(callbackContext)),
             switchMap((callbackContext) => this.callbackHistoryAndResetJwtKeys(callbackContext)),
             switchMap((callbackContext) => this.callbackStateValidation(callbackContext)),
             switchMap((callbackContext) => this.callbackUser(callbackContext))
@@ -179,14 +178,15 @@ export class FlowsService {
         let headers: HttpHeaders = new HttpHeaders();
         headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
-        const tokenRequestUrl = this.getTokenEndpoint();
-        if (!tokenRequestUrl) {
+        const authWellKnown = this.storagePersistanceService.read('authWellKnownEndPoints');
+        const tokenEndpoint = authWellKnown?.tokenEndpoint;
+        if (!tokenEndpoint) {
             return throwError('Token Endpoint not defined');
         }
 
         const data = this.urlService.createBodyForCodeFlowRefreshTokensRequest(callbackContext.refreshToken);
 
-        return this.dataService.post(tokenRequestUrl, data, headers).pipe(
+        return this.dataService.post(tokenEndpoint, data, headers).pipe(
             switchMap((response: any) => {
                 this.loggerService.logDebug('token refresh response: ', response);
                 let authResult: any = new Object();
@@ -216,8 +216,9 @@ export class FlowsService {
             return throwError('codeFlowCodeRequest incorrect state');
         }
 
-        const tokenRequestUrl = this.getTokenEndpoint();
-        if (!tokenRequestUrl) {
+        const authWellKnown = this.storagePersistanceService.read('authWellKnownEndPoints');
+        const tokenEndpoint = authWellKnown?.tokenEndpoint;
+        if (!tokenEndpoint) {
             return throwError('Token Endpoint not defined');
         }
 
@@ -226,7 +227,7 @@ export class FlowsService {
 
         const bodyForCodeFlow = this.urlService.createBodyForCodeFlowCodeRequest(callbackContext.code);
 
-        return this.dataService.post(tokenRequestUrl, bodyForCodeFlow, headers).pipe(
+        return this.dataService.post(tokenEndpoint, bodyForCodeFlow, headers).pipe(
             switchMap((response) => {
                 let authResult: any = new Object();
                 authResult = response;
@@ -244,21 +245,9 @@ export class FlowsService {
         );
     }
 
-    // STEP 3 Code Flow, STEP 3 Refresh Token
-    private codeFlowSilentRenewCheck(callbackContext: CallbackContext): Observable<CallbackContext> {
-        callbackContext.isRenewProcess = this.flowsDataService.isSilentRenewRunning();
-
-        this.loggerService.logDebug('BEGIN authorized Code Flow Callback, no auth data');
-        if (!callbackContext.isRenewProcess) {
-            this.resetAuthorizationData();
-        }
-
-        return of(callbackContext);
-    }
-
-    // STEP 4 Code Flow, STEP 2 Implicit Flow, STEP 4 Refresh Token
+    // STEP 3 Code Flow, STEP 2 Implicit Flow, STEP 3 Refresh Token
     private callbackHistoryAndResetJwtKeys(callbackContext: CallbackContext): Observable<CallbackContext> {
-        this.authStateService.setAuthResultInStorage(callbackContext.authResult);
+        this.storagePersistanceService.write('authnResult', callbackContext.authResult);
 
         if (this.historyCleanUpTurnedOn() && !callbackContext.isRenewProcess) {
             this.resetBrowserHistory();
@@ -298,14 +287,13 @@ export class FlowsService {
         );
     }
 
-    // STEP 5 All flows
+    // STEP 4 All flows
     private callbackStateValidation(callbackContext: CallbackContext): Observable<CallbackContext> {
         const validationResult = this.stateValidationService.getValidatedStateResult(callbackContext);
         callbackContext.validationResult = validationResult;
 
         if (validationResult.authResponseIsValid) {
-            this.authStateService.setAuthorizationData(validationResult.accessToken, validationResult.idToken);
-
+            this.authStateService.setAuthorizationData(validationResult.accessToken, callbackContext.authResult);
             return of(callbackContext);
         } else {
             const errorMessage = `authorizedCallback, token(s) validation failed, resetting. Hash: ${window.location.hash}`;
@@ -316,7 +304,7 @@ export class FlowsService {
         }
     }
 
-    // STEP 6 userData
+    // STEP 5 userData
     private callbackUser(callbackContext: CallbackContext): Observable<CallbackContext> {
         if (!this.configurationProvider.openIDConfiguration.autoUserinfo) {
             if (!callbackContext.isRenewProcess) {
@@ -384,10 +372,6 @@ export class FlowsService {
             validationResult,
             isRenewProcess,
         });
-    }
-
-    private getTokenEndpoint(): string {
-        return this.configurationProvider.wellKnownEndpoints?.tokenEndpoint || null;
     }
 
     private historyCleanUpTurnedOn() {

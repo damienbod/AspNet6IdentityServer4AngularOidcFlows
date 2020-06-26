@@ -11,9 +11,6 @@
     "emitDecoratorMetadata": true,
     "removeComments": true,
     "skipLibCheck": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
         "lib": [
       "es2018",
       "dom"
@@ -25,10 +22,11 @@
   "exclude": [
     "node_modules",
     "./angularApp/main.ts",
-    "angularApp/tests"
+    "**/*.spec.ts",
+    "**/*mock.ts"
   ],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   }
-}
+}

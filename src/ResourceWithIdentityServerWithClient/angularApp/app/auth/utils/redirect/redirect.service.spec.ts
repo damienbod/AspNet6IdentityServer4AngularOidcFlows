@@ -1,26 +1,30 @@
 import { TestBed } from '@angular/core/testing';
-import { WindowToken } from '../window/window.reference';
+import { WINDOW } from '../window/window.reference';
 import { RedirectService } from './redirect.service';
-
-const MockWindow = {
-    location: {
-        _href: '',
-        set href(url: string) {
-            this._href = url;
-        },
-        get href() {
-            return this._href;
-        },
-    },
-};
 
 describe('Redirect Service Tests', () => {
     let service: RedirectService;
+    let mywindow: any;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [RedirectService, { provide: WindowToken, useValue: MockWindow }],
+            providers: [
+                RedirectService,
+                {
+                    provide: WINDOW,
+                    useValue: {
+                        location: {
+                            get href() {
+                                return 'fakeUrl';
+                            },
+                            set href(v) {},
+                        },
+                    },
+                },
+            ],
         });
+
+        mywindow = TestBed.inject(WINDOW);
     });
 
     beforeEach(() => {
@@ -29,11 +33,12 @@ describe('Redirect Service Tests', () => {
 
     it('should create', () => {
         expect(service).toBeTruthy();
+        expect(mywindow).toBeTruthy();
     });
 
     it('redirectTo sets window location href', () => {
-        const hrefSetSpy = spyOnProperty(MockWindow.location, 'href', 'set');
+        const spy = spyOnProperty(mywindow.location, 'href', 'set');
         service.redirectTo('anyurl');
-        expect(hrefSetSpy).toHaveBeenCalledWith('anyurl');
+        expect(spy).toHaveBeenCalledWith('anyurl');
     });
 });
