@@ -142,12 +142,12 @@ namespace StsServerIdentity.Controllers
                 }
                 else
                 {
-                    result.ValidationError = ConsentOptions.MustChooseOneErrorMessage;
+                    result.ValidationError = _sharedLocalizer["You must pick at least one permission"];
                 }
             }
             else
             {
-                result.ValidationError = ConsentOptions.InvalidSelectionErrorMessage;
+                result.ValidationError = _sharedLocalizer["Invalid selection"];
             }
 
             if (grantedConsent != null)
@@ -260,7 +260,7 @@ namespace StsServerIdentity.Controllers
             {
                 Value = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
                 DisplayName = _sharedLocalizer["Offline Access"],
-                Description = ConsentOptions.OfflineAccessDescription,
+                Description = _sharedLocalizer["Access to your applications and resources, even when you are offline"],
                 Emphasize = true,
                 Checked = check
             };
