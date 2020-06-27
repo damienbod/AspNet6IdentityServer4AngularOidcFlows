@@ -229,7 +229,7 @@ namespace StsServerIdentity.Controllers
             return new ScopeViewModel
             {
                 Value = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
-                DisplayName = ConsentOptions.OfflineAccessDisplayName,
+                DisplayName = _sharedLocalizer["Offline Access"],
                 Description = ConsentOptions.OfflineAccessDescription,
                 Emphasize = true,
                 Checked = check
