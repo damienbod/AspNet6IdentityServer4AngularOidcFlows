@@ -39,6 +39,9 @@
 
 ## History
 
+
+<strong>2020-07-06 </strong> Updated IdentityServer4 4.0.2, Angular 10.0.2, OIDC 11.1.4
+
 <strong>2020-06-26 </strong> Updated IdentityServer4 to V4
 
 <strong>2020-06-26 </strong> Updated OIDC lib to 11.1.3
