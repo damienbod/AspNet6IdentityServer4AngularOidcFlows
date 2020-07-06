@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { of, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { DataService } from '../api/data.service';
+import { ConfigurationProvider } from '../config/config.provider';
 import { FlowsService } from '../flows/flows.service';
 import { CheckSessionService } from '../iframe/check-session.service';
 import { LoggerService } from '../logging/logger.service';
@@ -19,7 +20,8 @@ export class LogoffRevocationService {
         private urlService: UrlService,
         private checkSessionService: CheckSessionService,
         private flowsService: FlowsService,
-        private redirectService: RedirectService
+        private redirectService: RedirectService,
+        private configurationProvider: ConfigurationProvider
     ) {}
 
     // Logs out on the server and the local client.
@@ -59,8 +61,8 @@ export class LogoffRevocationService {
             return this.revokeRefreshToken().pipe(
                 switchMap((result) => this.revokeAccessToken(result)),
                 catchError((error) => {
-                    const errorMessage = `revoke token failed ${error}`;
-                    this.loggerService.logError(errorMessage);
+                    const errorMessage = `revoke token failed`;
+                    this.loggerService.logError(errorMessage, error);
                     return throwError(errorMessage);
                 }),
                 tap(() => this.logoff(urlHandler))
@@ -68,8 +70,8 @@ export class LogoffRevocationService {
         } else {
             return this.revokeAccessToken().pipe(
                 catchError((error) => {
-                    const errorMessage = `revoke access token failed ${error}`;
-                    this.loggerService.logError(errorMessage);
+                    const errorMessage = `revoke access token failed`;
+                    this.loggerService.logError(errorMessage, error);
                     return throwError(errorMessage);
                 }),
                 tap(() => this.logoff(urlHandler))
@@ -95,8 +97,8 @@ export class LogoffRevocationService {
                 return of(response);
             }),
             catchError((error) => {
-                const errorMessage = `Revocation request failed ${error}`;
-                this.loggerService.logError(errorMessage);
+                const errorMessage = `Revocation request failed`;
+                this.loggerService.logError(errorMessage, error);
                 return throwError(errorMessage);
             })
         );
@@ -120,8 +122,8 @@ export class LogoffRevocationService {
                 return of(response);
             }),
             catchError((error) => {
-                const errorMessage = `Revocation request failed ${error}`;
-                this.loggerService.logError(errorMessage);
+                const errorMessage = `Revocation request failed`;
+                this.loggerService.logError(errorMessage, error);
                 return throwError(errorMessage);
             })
         );

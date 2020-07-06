@@ -146,7 +146,6 @@ export class FlowsService {
         this.loggerService.logDebug('RefreshSession created. adding myautostate: ' + stateData);
         const refreshToken = this.authStateService.getRefreshToken();
         const idToken = this.authStateService.getIdToken();
-        // TODO add id_token data
 
         if (refreshToken) {
             const callbackContext = {
@@ -155,7 +154,7 @@ export class FlowsService {
                 state: stateData,
                 sessionState: null,
                 authResult: null,
-                isRenewProcess: false,
+                isRenewProcess: true,
                 jwtKeys: null,
                 validationResult: null,
                 existingIdToken: idToken,
@@ -197,8 +196,8 @@ export class FlowsService {
                 return of(callbackContext);
             }),
             catchError((error) => {
-                const errorMessage = `OidcService code request ${this.configurationProvider.openIDConfiguration.stsServer}: ${error}`;
-                this.loggerService.logError(errorMessage);
+                const errorMessage = `OidcService code request ${this.configurationProvider.openIDConfiguration.stsServer}`;
+                this.loggerService.logError(errorMessage, error);
                 return throwError(errorMessage);
             })
         );
@@ -238,8 +237,8 @@ export class FlowsService {
                 return of(callbackContext);
             }),
             catchError((error) => {
-                const errorMessage = `OidcService code request ${this.configurationProvider.openIDConfiguration.stsServer} with error ${error}`;
-                this.loggerService.logError(errorMessage);
+                const errorMessage = `OidcService code request ${this.configurationProvider.openIDConfiguration.stsServer}`;
+                this.loggerService.logError(errorMessage, error);
                 return throwError(errorMessage);
             })
         );
