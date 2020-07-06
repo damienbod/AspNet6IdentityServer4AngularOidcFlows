@@ -6,3 +6,4 @@
 **/*.js
 **/*.csproj.user
 /src/StsLogs.txt
+/src/APIResourceServer.txt
