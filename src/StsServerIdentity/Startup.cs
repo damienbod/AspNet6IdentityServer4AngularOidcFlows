@@ -268,9 +268,9 @@ namespace StsServerIdentity
                         {
                             new CultureInfo("en-US"),
                             new CultureInfo("de-CH"),
-                            new CultureInfo("it-CH"),
+                            new CultureInfo("it-IT"),
                             new CultureInfo("gsw-CH"),
-                            new CultureInfo("fr-CH"),
+                            new CultureInfo("fr-FR"),
                             new CultureInfo("zh-Hans")
                         };
 

@@ -51,7 +51,7 @@ namespace StsServerIdentity
                 ServerDomain = _optionsFido2Configuration.Value.ServerDomain,
                 ServerName = _optionsFido2Configuration.Value.ServerName,
                 Origin = _optionsFido2Configuration.Value.Origin,
-                TimestampDriftTolerance = _optionsFido2Configuration.Value.TimestampDriftTolerance,
+                TimestampDriftTolerance = _optionsFido2Configuration.Value.TimestampDriftTolerance
             });
         }
 
@@ -61,6 +61,7 @@ namespace StsServerIdentity
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("/mfaassertionOptions")]
         public async Task<ActionResult> AssertionOptionsPost([FromForm] string username, [FromForm] string userVerification)
         {
@@ -76,7 +77,7 @@ namespace StsServerIdentity
 
                 if (!string.IsNullOrEmpty(identityUser.UserName))
                 {
-                    
+
                     var user = new Fido2User
                     {
                         DisplayName = identityUser.UserName,
@@ -115,6 +116,7 @@ namespace StsServerIdentity
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("/mfamakeAssertion")]
         public async Task<JsonResult> MakeAssertion([FromBody] AuthenticatorAssertionRawResponse clientResponse)
         {
@@ -154,7 +156,7 @@ namespace StsServerIdentity
                 {
                     throw new InvalidOperationException(_sharedLocalizer["FIDO2_UNABLE_TO_LOAD_2FA_AUTHENTICATED_USER"]);
                 }
-                
+
                 var result = await _signInManager.TwoFactorSignInAsync("FIDO2", string.Empty, false, false);
 
                 // 7. return OK to client

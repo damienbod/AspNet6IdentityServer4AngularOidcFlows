@@ -30,7 +30,7 @@ namespace StsServerIdentity.Services.Certificate
             }
 
             // search for local PFX with password, usually local dev
-            if(certs.ActiveCertificate == null)
+            if (certs.ActiveCertificate == null)
             {
                 certs.ActiveCertificate = new X509Certificate2(
                     certificateConfiguration.DevelopmentCertificatePfx,
