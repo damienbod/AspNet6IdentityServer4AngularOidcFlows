@@ -20,7 +20,7 @@ namespace StsServerIdentity.Services.Certificate
             {
                 throw new ArgumentException("missing keyVaultEndpoint");
             }
-            
+
             _keyVaultEndpoint = keyVaultEndpoint; // "https://damienbod.vault.azure.net"
             _certificateName = certificateName; // certificateName
         }
@@ -46,7 +46,7 @@ namespace StsServerIdentity.Services.Certificate
             return certs;
         }
 
-        private async Task<List<CertificateItem>> GetAllEnabledCertificateVersionsAsync( KeyVaultClient keyVaultClient)
+        private async Task<List<CertificateItem>> GetAllEnabledCertificateVersionsAsync(KeyVaultClient keyVaultClient)
         {
             // Get all the certificate versions (this will also get the currect active version
             var certificateVersions = await keyVaultClient.GetCertificateVersionsAsync(_keyVaultEndpoint, _certificateName);

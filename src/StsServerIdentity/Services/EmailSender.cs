@@ -26,7 +26,7 @@ namespace StsServerIdentity.Services
             //msg.AddContent(MimeType.Html, message);
 
             msg.SetReplyTo(new EmailAddress(_optionsEmailSettings.Value.SenderEmailAddress, "damienbod"));
-            
+
             var response = await client.SendEmailAsync(msg);
         }
     }

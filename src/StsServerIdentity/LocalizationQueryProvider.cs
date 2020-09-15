@@ -37,7 +37,7 @@ namespace StsServerIdentity
                     var requestCulture = query1.FirstOrDefault(t => t.Key == "ui_locales").Value;
 
                     var cultureFromReturnUrl = requestCulture.ToString();
-                    if(string.IsNullOrEmpty(cultureFromReturnUrl))
+                    if (string.IsNullOrEmpty(cultureFromReturnUrl))
                     {
                         return NullProviderCultureResult;
                     }

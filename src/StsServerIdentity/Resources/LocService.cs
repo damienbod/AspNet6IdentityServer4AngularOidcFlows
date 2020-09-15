@@ -21,7 +21,7 @@ namespace StsServerIdentity.Resources
 
         public LocalizedString GetLocalizedHtmlStringAllowNull(string key)
         {
-            if(!string.IsNullOrWhiteSpace(key))
+            if (!string.IsNullOrWhiteSpace(key))
             {
                 return _localizer[key];
             }

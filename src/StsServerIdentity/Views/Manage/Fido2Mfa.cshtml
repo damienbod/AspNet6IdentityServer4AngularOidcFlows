@@ -1,5 +1,12 @@
 ﻿@using StsServerIdentity.Resources
 @using Microsoft.AspNetCore.Identity
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(this.Context).RequestToken;
+    }
+}
 @inject LocService SharedLocalizer
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -20,6 +27,7 @@
             <div class="column is-4">
                 <h3 class="title is-3">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_MULTI_FACTOR_AUTHENTICATION")</h3>
                 <form action="/Fido2Mfa" method="post" id="register">
+                    <input type="hidden" id="RequestVerificationToken" name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
                     <div class="field">
                         <label class="label">@SharedLocalizer.GetLocalizedHtmlString("FIDO2_USERNAME")</label>
                         <div class="control has-icons-left has-icons-right">

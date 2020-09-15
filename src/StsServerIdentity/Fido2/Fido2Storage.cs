@@ -11,7 +11,7 @@ namespace StsServerIdentity
 {
     public class Fido2Storage
     {
-       private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
         public Fido2Storage(ApplicationDbContext applicationDbContext)
         {
@@ -26,9 +26,9 @@ namespace StsServerIdentity
         public async Task RemoveCredentialsByUsername(string username)
         {
             var items = await _applicationDbContext.FidoStoredCredential.Where(c => c.Username == username).ToListAsync();
-            if(items != null)
+            if (items != null)
             {
-                foreach(var fido2Key in items)
+                foreach (var fido2Key in items)
                 {
                     _applicationDbContext.FidoStoredCredential.Remove(fido2Key);
                 };
