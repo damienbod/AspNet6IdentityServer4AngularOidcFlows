@@ -10,11 +10,10 @@ using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Mvc;
 using ResourceServer.DataProtection;
 using System;
-using ResourceServer.Certificate;
-using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ResourceServer
 {
@@ -36,38 +35,7 @@ namespace ResourceServer
             var useLocalCertStore = Convert.ToBoolean(Configuration["UseLocalCertStore"]);
             var certificateThumbprint = Configuration["CertificateThumbprint"];
 
-            X509Certificate2 cert;
-
-            if (_webHostEnvironment.IsProduction())
-            {
-                if (useLocalCertStore)
-                {
-                    using (X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
-                    {
-                        store.Open(OpenFlags.ReadOnly);
-                        var certs = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
-                        cert = certs[0];
-                        store.Close();
-                    }
-                }
-                else
-                {
-                    // Azure deployment, will be used if deployed to Azure
-                    var vaultConfigSection = Configuration.GetSection("Vault");
-                    var keyVaultService = new KeyVaultCertificateService(vaultConfigSection["Url"], vaultConfigSection["ClientId"], vaultConfigSection["ClientSecret"]);
-                    cert = keyVaultService.GetCertificateFromKeyVault(vaultConfigSection["CertificateName"]);
-                }
-            }
-            else
-            {
-                cert = new X509Certificate2(Path.Combine(_webHostEnvironment.ContentRootPath, "damienbodserver.pfx"), "");
-            }
-
-            // Important The folderForKeyStore needs to be backed up.
-            // services.AddDataProtection()
-            //    .SetApplicationName("ResourceServer")
-            //    .PersistKeysToFileSystem(new DirectoryInfo(folderForKeyStore))
-            //    .ProtectKeysWithCertificate(cert);
+            X509Certificate2 cert = new X509Certificate2(Path.Combine(_webHostEnvironment.ContentRootPath, "damienbodserver.pfx"), "");
 
             services.AddDataProtection()
                 .SetApplicationName("ResourceServer")
@@ -132,6 +100,44 @@ namespace ResourceServer
                 });
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                // add JWT Authentication
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer", // must be lower case
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {securityScheme, new string[] { }}
+                });
+
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Resource server",
+                    Version = "v1",
+                    Description = "Recource Server",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "damienbod",
+                        Email = string.Empty,
+                        Url = new Uri("https://damienbod.com/"),
+                    },
+                });
+            });
+
+
             services.AddControllers()
                 .AddNewtonsoftJson();
 
@@ -140,6 +146,13 @@ namespace ResourceServer
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Resource Server");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseExceptionHandler("/Home/Error");
             app.UseCors("AllowAllOrigins");
             app.UseStaticFiles();
