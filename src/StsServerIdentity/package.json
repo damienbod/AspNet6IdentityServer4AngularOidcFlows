@@ -3,13 +3,13 @@
   "name": "asp.net",
   "private": true,
   "devDependencies": {
-    "bootstrap": "4.5.2",
+    "bootstrap": "4.5.3",
     "jquery": "3.5.1",
     "jquery-validation": "1.19.2",
     "jquery-validation-unobtrusive": "3.2.11",
     "jquery-ajax-unobtrusive": "3.2.6",
     "popper.js": "^1.16.1",
-    "sweetalert2": "^10.0.2"
+    "sweetalert2": "^10.9.0"
   },
   "dependencies": {}
 }
