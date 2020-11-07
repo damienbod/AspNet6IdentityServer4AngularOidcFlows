@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2020-11-07 </strong> Updated .NET packages, added swagger
+
 <strong>2020-09-15 </strong> Updated IdentityServer4 4.1.0, Angular 10.1.1, OIDC 11.12.0
 
 <strong>2020-07-06 </strong> Updated IdentityServer4 4.0.2, Angular 10.0.2, OIDC 11.1.4
