@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using IdentityServer4.AccessTokenValidation;
 using ResourceServer.DataProtection;
 using System;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ResourceServer
 {
@@ -98,6 +100,44 @@ namespace ResourceServer
                 });
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                // add JWT Authentication
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer", // must be lower case
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {securityScheme, new string[] { }}
+                });
+
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Resource server",
+                    Version = "v1",
+                    Description = "Recource Server",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "damienbod",
+                        Email = string.Empty,
+                        Url = new Uri("https://damienbod.com/"),
+                    },
+                });
+            });
+
+
             services.AddControllers()
                 .AddNewtonsoftJson();
 
@@ -106,6 +146,13 @@ namespace ResourceServer
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Resource Server");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseExceptionHandler("/Home/Error");
             app.UseCors("AllowAllOrigins");
             app.UseStaticFiles();
