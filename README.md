@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2020-11-08 </strong> Updated to Azure.Security.KeyVault.Secrets
+
 <strong>2020-11-07 </strong> Updated .NET packages, added swagger, updated npm packages
 
 <strong>2020-09-15 </strong> Updated IdentityServer4 4.1.0, Angular 10.1.1, OIDC 11.12.0
