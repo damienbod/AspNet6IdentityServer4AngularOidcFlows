@@ -20,8 +20,6 @@ import { TokenHelperService } from './utils/tokenHelper/oidc-token-helper.servic
 
 @Injectable()
 export class OidcSecurityService {
-    private TOKEN_REFRESH_INTERVALL_IN_SECONDS = 3;
-
     get configuration(): PublicConfiguration {
         return {
             configuration: this.configurationProvider.openIDConfiguration,
@@ -62,7 +60,7 @@ export class OidcSecurityService {
         private periodicallyTokenCheckService: PeriodicallyTokenCheckService
     ) {}
 
-    checkAuth(): Observable<boolean> {
+    checkAuth(url?: string): Observable<boolean> {
         if (!this.configurationProvider.hasValidConfig()) {
             this.loggerService.logError('Please provide a configuration before setting up the module');
             return of(false);
@@ -70,8 +68,10 @@ export class OidcSecurityService {
 
         this.loggerService.logDebug('STS server: ' + this.configurationProvider.openIDConfiguration.stsServer);
 
-        const currentUrl = window.location.toString();
-        const isCallback = this.callbackService.isCallback();
+        const currentUrl = url || window.location.toString();
+        const isCallback = this.callbackService.isCallback(currentUrl);
+
+        this.loggerService.logDebug('currentUrl to check auth with: ', currentUrl);
 
         const callback$ = isCallback ? this.callbackService.handleCallbackAndFireEvents(currentUrl) : of(null);
 
@@ -121,7 +121,7 @@ export class OidcSecurityService {
             this.checkSessionService.start();
         }
 
-        this.periodicallyTokenCheckService.startTokenValidationPeriodically(this.TOKEN_REFRESH_INTERVALL_IN_SECONDS);
+        this.periodicallyTokenCheckService.startTokenValidationPeriodically(this.configuration.configuration.tokenRefreshInSeconds);
 
         if (this.silentRenewService.isSilentRenewConfigured()) {
             this.silentRenewService.getOrCreateIframe();
@@ -156,6 +156,22 @@ export class OidcSecurityService {
     // Code Flow with PCKE or Implicit Flow
     authorize(authOptions?: AuthOptions) {
         this.loginService.login(authOptions);
+    }
+
+    authorizeWithPopUp(authOptions?: AuthOptions) {
+        const internalUrlHandler = (authUrl) => {
+            // handle the authorization URL
+            window.open(authUrl, '_blank', 'toolbar=0,location=0,menubar=0');
+        };
+
+        const urlHandler = authOptions?.urlHandler || internalUrlHandler;
+
+        const options = {
+            urlHandler,
+            customParams: authOptions?.customParams,
+        };
+
+        this.authorize(options);
     }
 
     forceRefreshSession() {

@@ -19,6 +19,7 @@ export interface OpenIdConfiguration {
     forbiddenRoute?: string;
     unauthorizedRoute?: string;
     autoUserinfo?: boolean;
+    renewUserInfoAfterTokenRenew?: boolean;
     autoCleanStateAfterAuthentication?: boolean;
     triggerAuthorizationResultEvent?: boolean;
     logLevel?: LogLevel;
@@ -32,4 +33,5 @@ export interface OpenIdConfiguration {
 
     // Azure B2C have implemented this incorrectly. Add support for to disable this until fixed.
     disableRefreshIdTokenAuthTimeValidation?: boolean;
+    tokenRefreshInSeconds?: number;
 }

@@ -9,7 +9,7 @@
     "jquery-validation-unobtrusive": "3.2.11",
     "jquery-ajax-unobtrusive": "3.2.6",
     "popper.js": "^1.16.1",
-    "sweetalert2": "^10.9.0"
+    "sweetalert2": "^10.10.1"
   },
   "dependencies": {}
 }

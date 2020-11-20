@@ -200,6 +200,31 @@ describe('User Service', () => {
 
             expect(spyGetIdentityUserData).toHaveBeenCalled();
         }));
+
+        it(`if not currentFlow is id token or code flow and renewprocess and renewUserInfoAfterTokenRenew
+          --> ask server for data`, async(() => {
+            const isRenewProcess = true;
+            const idToken = false;
+            const decodedIdToken = 'decodedIdToken';
+            const userDataInstore = 'userDataInStore';
+            const userDataFromSts = 'userDataFromSts';
+
+            const config = {
+                responseType: 'code',
+                renewUserInfoAfterTokenRenew: true,
+            };
+
+            configProvider.setConfig(config);
+
+            spyOn(userService, 'getUserDataFromStore').and.returnValue(userDataInstore);
+            const spy = spyOn(userService as any, 'getIdentityUserData').and.returnValue(of(userDataFromSts));
+
+            userService.getAndPersistUserDataInStore(isRenewProcess, idToken, decodedIdToken).subscribe((token) => {
+                expect(userDataFromSts).toEqual(token);
+            });
+
+            expect(spy).toHaveBeenCalled();
+        }));
     });
 
     describe('getUserDataFromStore', () => {
@@ -237,9 +262,9 @@ describe('User Service', () => {
 
     describe('resetUserDataInStore', () => {
         it('resets userdata sets null in storagePersistanceService', () => {
-            const spy = spyOn(storagePersistanceService, 'write');
+            const spy = spyOn(storagePersistanceService, 'remove');
             userService.resetUserDataInStore();
-            expect(spy).toHaveBeenCalledWith('userData', null);
+            expect(spy).toHaveBeenCalledWith('userData');
         });
 
         it('userDataInternal$ is called with null when userdata is reset', () => {

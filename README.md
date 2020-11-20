@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2020-11-20 </strong> Updated to .NET 5 and Angular 11
+
 <strong>2020-11-08 </strong> Updated to Azure.Security.KeyVault.Secrets
 
 <strong>2020-11-07 </strong> Updated .NET packages, added swagger, updated npm packages
