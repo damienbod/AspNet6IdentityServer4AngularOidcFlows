@@ -1,4 +1,8 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using Azure.Identity;
+using Azure.Security.KeyVault.Certificates;
+using Azure.Security.KeyVault.Secrets;
+using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace StsServerIdentity.Services.Certificate
@@ -21,11 +25,20 @@ namespace StsServerIdentity.Services.Certificate
             {
                 if (!string.IsNullOrEmpty(certificateConfiguration.KeyVaultEndpoint))
                 {
+                    var credential = new DefaultAzureCredential();
                     var keyVaultCertificateService = new KeyVaultCertificateService(
                             certificateConfiguration.KeyVaultEndpoint,
                             certificateConfiguration.CertificateNameKeyVault);
 
-                    certs = await keyVaultCertificateService.GetCertificatesFromKeyVault().ConfigureAwait(false);
+                    var secretClient = new SecretClient(
+                        vaultUri: new Uri(certificateConfiguration.KeyVaultEndpoint),
+                        credential);
+
+                    var certificateClient = new CertificateClient(
+                        vaultUri: new Uri(certificateConfiguration.KeyVaultEndpoint),
+                        credential);
+
+                    certs = await keyVaultCertificateService.GetCertificatesFromKeyVault(secretClient, certificateClient).ConfigureAwait(false);
                 }
             }
 
