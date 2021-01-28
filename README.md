@@ -1,9 +1,9 @@
-# ASP.NET Core 3.1 IdentityServer4 OpenID Connect Code Flow / OIDC Implicit Flow examples Angular
+# ASP.NET Core 5 IdentityServer4 OpenID Connect Code Flow / OIDC Implicit Flow examples Angular
 
 
 |                           | Build                                                                                                                                                                          |       
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| .NET Core, Angular        | [![Build status](https://ci.appveyor.com/api/projects/status/cua2pxkvngv5rfej?svg=true)](https://ci.appveyor.com/project/damienbod/aspnet5identityserverangularimplicitflow)   |
+| .NET 5, Angular        | [![Build status](https://ci.appveyor.com/api/projects/status/cua2pxkvngv5rfej?svg=true)](https://ci.appveyor.com/project/damienbod/aspnet5identityserverangularimplicitflow)   |
 
 <strong>Code: </strong> https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow
 
