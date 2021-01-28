@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2021-01-28 </strong> Updated npm, nuget packages
+
 <strong>2020-11-20 </strong> Updated to .NET 5 and Angular 11
 
 <strong>2020-11-08 </strong> Updated to Azure.Security.KeyVault.Secrets
