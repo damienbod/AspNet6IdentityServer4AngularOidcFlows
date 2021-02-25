@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2021-02-25 </strong> Updated npm, nuget packages, OIDC 11.6.0
+
 <strong>2021-01-28 </strong> Updated npm, nuget packages
 
 <strong>2020-11-20 </strong> Updated to .NET 5 and Angular 11
@@ -47,7 +49,7 @@
 
 <strong>2020-11-07 </strong> Updated .NET packages, added swagger, updated npm packages
 
-<strong>2020-09-15 </strong> Updated IdentityServer4 4.1.0, Angular 10.1.1, OIDC 11.12.0
+<strong>2020-09-15 </strong> Updated IdentityServer4 4.1.0, Angular 10.1.1, OIDC 11.1.2
 
 <strong>2020-07-06 </strong> Updated IdentityServer4 4.0.2, Angular 10.0.2, OIDC 11.1.4
 
