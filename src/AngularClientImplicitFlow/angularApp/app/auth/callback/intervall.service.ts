@@ -1,20 +1,31 @@
-import { Injectable } from '@angular/core';
-import { interval, Subscription } from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class IntervallService {
-    runTokenValidationRunning: Subscription = null;
+  runTokenValidationRunning: Subscription = null;
 
-    stopPeriodicallTokenCheck(): void {
-        if (this.runTokenValidationRunning) {
-            this.runTokenValidationRunning.unsubscribe();
-            this.runTokenValidationRunning = null;
-        }
+  constructor(private zone: NgZone) {}
+
+  stopPeriodicallTokenCheck(): void {
+    if (this.runTokenValidationRunning) {
+      this.runTokenValidationRunning.unsubscribe();
+      this.runTokenValidationRunning = null;
     }
+  }
 
-    startPeriodicTokenCheck(repeatAfterSeconds: number) {
-        const millisecondsDelayBetweenTokenCheck = repeatAfterSeconds * 1000;
+  startPeriodicTokenCheck(repeatAfterSeconds: number) {
+    const millisecondsDelayBetweenTokenCheck = repeatAfterSeconds * 1000;
 
-        return interval(millisecondsDelayBetweenTokenCheck);
-    }
+    return new Observable((subscriber) => {
+      let intervalId;
+      this.zone.runOutsideAngular(() => {
+        intervalId = setInterval(() => subscriber.next(), millisecondsDelayBetweenTokenCheck);
+      });
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    });
+  }
 }
