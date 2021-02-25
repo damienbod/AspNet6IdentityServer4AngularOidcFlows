@@ -1,53 +1,39 @@
 import { Injectable } from '@angular/core';
-import { AuthWellKnownService } from '../config/auth-well-known.service';
+import { Observable } from 'rxjs';
 import { ConfigurationProvider } from '../config/config.provider';
-import { LoggerService } from '../logging/logger.service';
-import { RedirectService } from '../utils/redirect/redirect.service';
-import { UrlService } from '../utils/url/url.service';
-import { TokenValidationService } from '../validation/token-validation.service';
 import { AuthOptions } from './auth-options';
+import { LoginResponse } from './login-response';
+import { ParLoginService } from './par/par-login.service';
+import { PopUpLoginService } from './popup/popup-login.service';
+import { PopupOptions } from './popup/popup-options';
+import { StandardLoginService } from './standard/standard-login.service';
 
 @Injectable()
 export class LoginService {
-    constructor(
-        private loggerService: LoggerService,
-        private tokenValidationService: TokenValidationService,
-        private urlService: UrlService,
-        private redirectService: RedirectService,
-        private configurationProvider: ConfigurationProvider,
-        private authWellKnownService: AuthWellKnownService
-    ) {}
+  constructor(
+    private configurationProvider: ConfigurationProvider,
+    private parLoginService: ParLoginService,
+    private popUpLoginService: PopUpLoginService,
+    private standardLoginService: StandardLoginService
+  ) {}
 
-    login(authOptions?: AuthOptions) {
-        if (!this.tokenValidationService.configValidateResponseType(this.configurationProvider.openIDConfiguration.responseType)) {
-            this.loggerService.logError('Invalid response type!');
-            return;
-        }
+  login(authOptions?: AuthOptions): void {
+    const usePushedAuthorisationRequests = this.configurationProvider.openIDConfiguration.usePushedAuthorisationRequests;
 
-        const authWellknownEndpoint = this.configurationProvider.openIDConfiguration?.authWellknownEndpoint;
-
-        if (!authWellknownEndpoint) {
-            this.loggerService.logError('no authwellknownendpoint given!');
-            return;
-        }
-
-        this.loggerService.logDebug('BEGIN Authorize OIDC Flow, no auth data');
-
-        this.authWellKnownService.getAuthWellKnownEndPoints(authWellknownEndpoint).subscribe(() => {
-            const { urlHandler, customParams } = authOptions || {};
-
-            const url = this.urlService.getAuthorizeUrl(customParams);
-
-            if (!url) {
-                this.loggerService.logError('Could not create url', url);
-                return;
-            }
-
-            if (urlHandler) {
-                urlHandler(url);
-            } else {
-                this.redirectService.redirectTo(url);
-            }
-        });
+    if (usePushedAuthorisationRequests) {
+      return this.parLoginService.loginPar(authOptions);
+    } else {
+      return this.standardLoginService.loginStandard(authOptions);
     }
+  }
+
+  loginWithPopUp(authOptions?: AuthOptions, popupOptions?: PopupOptions): Observable<LoginResponse> {
+    const usePushedAuthorisationRequests = this.configurationProvider.openIDConfiguration.usePushedAuthorisationRequests;
+
+    if (usePushedAuthorisationRequests) {
+      return this.parLoginService.loginWithPopUpPar(authOptions, popupOptions);
+    } else {
+      return this.popUpLoginService.loginWithPopUpStandard(authOptions, popupOptions);
+    }
+  }
 }

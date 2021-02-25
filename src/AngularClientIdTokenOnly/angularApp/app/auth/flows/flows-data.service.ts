@@ -1,65 +1,94 @@
 import { Injectable } from '@angular/core';
+import { ConfigurationProvider } from '../config/config.provider';
+import { LoggerService } from '../logging/logger.service';
 import { StoragePersistanceService } from '../storage/storage-persistance.service';
 import { RandomService } from './random/random.service';
 
 @Injectable()
 export class FlowsDataService {
-    constructor(private storagePersistanceService: StoragePersistanceService, private randomService: RandomService) {}
+  constructor(
+    private storagePersistanceService: StoragePersistanceService,
+    private randomService: RandomService,
+    private configurationProvider: ConfigurationProvider,
+    private loggerService: LoggerService
+  ) {}
 
-    createNonce(): string {
-        const nonce = this.randomService.createRandom(40);
-        this.setNonce(nonce);
-        return nonce;
+  createNonce(): string {
+    const nonce = this.randomService.createRandom(40);
+    this.setNonce(nonce);
+    return nonce;
+  }
+
+  setNonce(nonce: string) {
+    this.storagePersistanceService.write('authNonce', nonce);
+  }
+
+  getAuthStateControl(): any {
+    return this.storagePersistanceService.read('authStateControl');
+  }
+
+  setAuthStateControl(authStateControl: string) {
+    this.storagePersistanceService.write('authStateControl', authStateControl);
+  }
+
+  getExistingOrCreateAuthStateControl(): any {
+    let state = this.storagePersistanceService.read('authStateControl');
+    if (!state) {
+      state = this.randomService.createRandom(40);
+      this.storagePersistanceService.write('authStateControl', state);
+    }
+    return state;
+  }
+
+  setSessionState(sessionState: any) {
+    this.storagePersistanceService.write('session_state', sessionState);
+  }
+
+  resetStorageFlowData() {
+    this.storagePersistanceService.resetStorageFlowData();
+  }
+
+  getCodeVerifier() {
+    return this.storagePersistanceService.read('codeVerifier');
+  }
+
+  createCodeVerifier() {
+    const codeVerifier = this.randomService.createRandom(67);
+    this.storagePersistanceService.write('codeVerifier', codeVerifier);
+    return codeVerifier;
+  }
+
+  isSilentRenewRunning() {
+    const storageObject = JSON.parse(this.storagePersistanceService.read('storageSilentRenewRunning'));
+
+    if (storageObject) {
+      const dateOfLaunchedProcessUtc = Date.parse(storageObject.dateOfLaunchedProcessUtc);
+      const currentDateUtc = Date.parse(new Date().toISOString());
+      const elapsedTimeInMilliseconds = Math.abs(currentDateUtc - dateOfLaunchedProcessUtc);
+      const isProbablyStuck = elapsedTimeInMilliseconds > this.configurationProvider.openIDConfiguration.silentRenewTimeoutInSeconds * 1000;
+
+      if (isProbablyStuck) {
+        this.loggerService.logDebug('silent renew process is probably stuck, state will be reset.');
+        this.resetSilentRenewRunning();
+        return false;
+      }
+
+      return storageObject.state === 'running';
     }
 
-    setNonce(nonce: string) {
-        this.storagePersistanceService.write('authNonce', nonce);
-    }
+    return false;
+  }
 
-    getAuthStateControl(): any {
-        return this.storagePersistanceService.read('authStateControl');
-    }
+  setSilentRenewRunning() {
+    const storageObject = {
+      state: 'running',
+      dateOfLaunchedProcessUtc: new Date().toISOString(),
+    };
 
-    setAuthStateControl(authStateControl: string) {
-        this.storagePersistanceService.write('authStateControl', authStateControl);
-    }
+    this.storagePersistanceService.write('storageSilentRenewRunning', JSON.stringify(storageObject));
+  }
 
-    getExistingOrCreateAuthStateControl(): any {
-        let state = this.storagePersistanceService.read('authStateControl');
-        if (!state) {
-            state = this.randomService.createRandom(40);
-            this.storagePersistanceService.write('authStateControl', state);
-        }
-        return state;
-    }
-
-    setSessionState(sessionState: any) {
-        this.storagePersistanceService.write('session_state', sessionState);
-    }
-
-    resetStorageFlowData() {
-        this.storagePersistanceService.resetStorageFlowData();
-    }
-
-    getCodeVerifier() {
-        return this.storagePersistanceService.read('codeVerifier');
-    }
-
-    createCodeVerifier() {
-        const codeVerifier = this.randomService.createRandom(67);
-        this.storagePersistanceService.write('codeVerifier', codeVerifier);
-        return codeVerifier;
-    }
-
-    isSilentRenewRunning() {
-        return this.storagePersistanceService.read('storageSilentRenewRunning') === 'running';
-    }
-
-    setSilentRenewRunning() {
-        this.storagePersistanceService.write('storageSilentRenewRunning', 'running');
-    }
-
-    resetSilentRenewRunning() {
-        this.storagePersistanceService.write('storageSilentRenewRunning', '');
-    }
+  resetSilentRenewRunning() {
+    this.storagePersistanceService.write('storageSilentRenewRunning', '');
+  }
 }
