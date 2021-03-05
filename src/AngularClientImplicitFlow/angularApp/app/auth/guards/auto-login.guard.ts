@@ -11,7 +11,8 @@ const STORAGE_KEY = 'redirect';
 export class AutoLoginGuard implements CanActivate {
   constructor(private checkAuthService: CheckAuthService, private loginService: LoginService, private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+        console.log(route + '' + state);
     return this.checkAuthService.checkAuth().pipe(
       map((isAuthorized: boolean) => {
         const storedRoute = localStorage.getItem(STORAGE_KEY);
