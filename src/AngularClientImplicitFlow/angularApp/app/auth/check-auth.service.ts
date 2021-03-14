@@ -1,8 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthStateService } from './authState/auth-state.service';
+import { AutoLoginService } from './auto-login/auto-login-service';
 import { CallbackService } from './callback/callback.service';
 import { PeriodicallyTokenCheckService } from './callback/periodically-token-check.service';
 import { RefreshSessionService } from './callback/refresh-session.service';
@@ -26,7 +28,9 @@ export class CheckAuthService {
     private callbackService: CallbackService,
     private refreshSessionService: RefreshSessionService,
     private periodicallyTokenCheckService: PeriodicallyTokenCheckService,
-    private popupService: PopUpService
+    private popupService: PopUpService,
+    private autoLoginService: AutoLoginService,
+    private router: Router
   ) {}
 
   checkAuth(url?: string): Observable<boolean> {
@@ -35,7 +39,9 @@ export class CheckAuthService {
       return of(false);
     }
 
-    this.loggerService.logDebug('STS server: ' + this.configurationProvider.openIDConfiguration.stsServer);
+    const { stsServer } = this.configurationProvider.getOpenIDConfiguration();
+
+    this.loggerService.logDebug('STS server: ', stsServer);
 
     const currentUrl = url || this.doc.defaultView.location.toString();
 
@@ -65,6 +71,13 @@ export class CheckAuthService {
         this.loggerService.logDebug('checkAuth completed fired events, auth: ' + isAuthenticated);
 
         return isAuthenticated;
+      }),
+      tap(() => {
+        const savedRouteForRedirect = this.autoLoginService.getStoredRedirectRoute();
+        if (savedRouteForRedirect) {
+          this.autoLoginService.deleteStoredRedirectRoute();
+          this.router.navigate([savedRouteForRedirect]);
+        }
       }),
       catchError((error) => {
         this.loggerService.logError(error);
@@ -99,9 +112,9 @@ export class CheckAuthService {
       this.checkSessionService.start();
     }
 
-    this.periodicallyTokenCheckService.startTokenValidationPeriodically(
-      this.configurationProvider.openIDConfiguration.tokenRefreshInSeconds
-    );
+    const { tokenRefreshInSeconds } = this.configurationProvider.getOpenIDConfiguration();
+
+    this.periodicallyTokenCheckService.startTokenValidationPeriodically(tokenRefreshInSeconds);
 
     if (this.silentRenewService.isSilentRenewConfigured()) {
       this.silentRenewService.getOrCreateIframe();

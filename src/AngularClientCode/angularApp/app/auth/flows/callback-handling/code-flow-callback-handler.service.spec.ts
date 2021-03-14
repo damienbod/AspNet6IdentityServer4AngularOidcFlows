@@ -133,7 +133,7 @@ describe('CodeFlowCallbackHandlerService', () => {
     );
 
     it(
-      'calls dataservice if all params are good',
+      'calls dataService if all params are good',
       waitForAsync(() => {
         const postSpy = spyOn(dataService, 'post').and.returnValue(of({}));
         spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ tokenEndpoint: 'tokenEndpoint' });
@@ -145,7 +145,23 @@ describe('CodeFlowCallbackHandlerService', () => {
     );
 
     it(
-      'calls dataservice with correct headers if all params are good',
+      'calls url service with custom token params',
+      waitForAsync(() => {
+        const urlServiceSpy = spyOn(urlService, 'createBodyForCodeFlowCodeRequest');
+        spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ tokenEndpoint: 'tokenEndpoint' });
+
+        const postSpy = spyOn(dataService, 'post').and.returnValue(of({}));
+        spyOn(configurationProvider, 'getOpenIDConfiguration').and.returnValue({ customTokenParams: { foo: 'bar' } });
+
+        service.codeFlowCodeRequest({ code: 'foo' } as CallbackContext).subscribe((callbackContext) => {
+          expect(urlServiceSpy).toHaveBeenCalledWith('foo', { foo: 'bar' });
+          expect(postSpy).toHaveBeenCalledTimes(1);
+        });
+      })
+    );
+
+    it(
+      'calls dataService with correct headers if all params are good',
       waitForAsync(() => {
         const postSpy = spyOn(dataService, 'post').and.returnValue(of({}));
         spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ tokenEndpoint: 'tokenEndpoint' });
@@ -163,7 +179,7 @@ describe('CodeFlowCallbackHandlerService', () => {
       waitForAsync(() => {
         spyOn(dataService, 'post').and.returnValue(throwError({}));
         spyOn(storagePersistanceService, 'read').withArgs('authWellKnownEndPoints').and.returnValue({ tokenEndpoint: 'tokenEndpoint' });
-        spyOnProperty(configurationProvider, 'openIDConfiguration', 'get').and.returnValue({ stsServer: 'stsServer' });
+        spyOn(configurationProvider, 'getOpenIDConfiguration').and.returnValue({ stsServer: 'stsServer' });
 
         service.codeFlowCodeRequest({} as CallbackContext).subscribe({
           error: (err) => {

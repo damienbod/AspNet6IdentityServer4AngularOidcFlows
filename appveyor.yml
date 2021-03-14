@@ -9,7 +9,7 @@ install:
   - cmd: choco install dotnetcore-sdk
   - dotnet --version
   - dotnet restore
-  - choco install googlechrome
+  - choco install googlechrome --ignore-checksums
 build_script:
 - dotnet build
 - npm -g install npm@latest

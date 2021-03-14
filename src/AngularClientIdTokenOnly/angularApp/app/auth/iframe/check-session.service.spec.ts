@@ -131,7 +131,7 @@ describe('SecurityCheckSessionTests', () => {
     expect(spy).toHaveBeenCalledWith('clientId');
   });
 
-  it('start() does not call pollserversession() if scheduledHeartBeatRunning is set', () => {
+  it('start() does not call pollServerSession() if scheduledHeartBeatRunning is set', () => {
     const spy = spyOn<any>(checkSessionService, 'pollServerSession');
     (checkSessionService as any).scheduledHeartBeatRunning = () => {};
     checkSessionService.start();
@@ -154,21 +154,21 @@ describe('SecurityCheckSessionTests', () => {
 
   describe('serverStateChanged', () => {
     it('returns false if startCheckSession is not configured', () => {
-      spyOnProperty(configurationProvider, 'openIDConfiguration').and.returnValue({ startCheckSession: false });
+      spyOn(configurationProvider, 'getOpenIDConfiguration').and.returnValue({ startCheckSession: false });
       const result = checkSessionService.serverStateChanged();
       expect(result).toBeFalsy();
     });
 
     it('returns false if checkSessionReceived is false', () => {
       (checkSessionService as any).checkSessionReceived = false;
-      spyOnProperty(configurationProvider, 'openIDConfiguration').and.returnValue({ startCheckSession: true });
+      spyOn(configurationProvider, 'getOpenIDConfiguration').and.returnValue({ startCheckSession: true });
       const result = checkSessionService.serverStateChanged();
       expect(result).toBeFalse();
     });
 
     it('returns true if startCheckSession is configured and checkSessionReceived is true', () => {
       (checkSessionService as any).checkSessionReceived = true;
-      spyOnProperty(configurationProvider, 'openIDConfiguration').and.returnValue({ startCheckSession: true });
+      spyOn(configurationProvider, 'getOpenIDConfiguration').and.returnValue({ startCheckSession: true });
       const result = checkSessionService.serverStateChanged();
       expect(result).toBeTrue();
     });
