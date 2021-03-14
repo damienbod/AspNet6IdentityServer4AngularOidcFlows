@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2021-03-14 </strong> Updated npm, nuget packages, OIDC 11.6.4
+
 <strong>2021-03-05 </strong> Updated npm, nuget packages, OIDC 11.6.2
 
 <strong>2021-02-25 </strong> Updated npm, nuget packages, OIDC 11.6.0
