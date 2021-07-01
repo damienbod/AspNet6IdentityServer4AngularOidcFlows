@@ -2,6 +2,7 @@ import {
     OidcClientNotification,
     OidcSecurityService,
 } from './auth/angular-auth-oidc-client';
+import { ConfigAuthenticatedResult } from './auth/authState/auth-result';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
     title = '';
     userDataChanged$: Observable<OidcClientNotification<any>>;
     userData$: Observable<any>;
-    isAuthenticated$: Observable<boolean>;
+    isAuthenticated$: Observable<boolean | ConfigAuthenticatedResult[]>;
     checkSessionChanged$: Observable<boolean>;
     checkSessionChanged: any;
 
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit {
         }
         console.log(culture);
 
-        this.oidcSecurityService.authorize({ customParams: { 'ui_locales': culture } });
+        this.oidcSecurityService.authorize(null, { customParams: { 'ui_locales': culture } });
     }
 
     refreshSession() {
