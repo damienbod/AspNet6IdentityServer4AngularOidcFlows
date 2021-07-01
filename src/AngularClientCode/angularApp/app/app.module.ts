@@ -44,7 +44,7 @@ const l10nConfig: L10nConfig = {
 
 export const httpLoaderFactory = (httpClient: HttpClient) => {
     const config$ = httpClient
-        .get<any>(`https://localhost:44390/api/ClientAppSettingsNewsApp`)
+        .get<any>(`${window.location.origin}/api/ClientAppSettings`)
         .pipe(
             map((customConfig: any) => {
                 return {
