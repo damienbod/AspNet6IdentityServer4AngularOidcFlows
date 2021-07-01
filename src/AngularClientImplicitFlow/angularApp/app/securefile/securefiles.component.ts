@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { SecureFileService } from './SecureFileService';
-import { OidcSecurityService } from '../auth/angular-auth-oidc-client';
+import { ConfigAuthenticatedResult, OidcSecurityService } from '../auth/angular-auth-oidc-client';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -14,7 +14,7 @@ export class SecureFilesComponent implements OnInit {
 
     public message: string;
     public Files: string[] = [];
-    isAuthenticated$: Observable<boolean>;
+    isAuthenticated$: Observable<boolean | ConfigAuthenticatedResult[]>;
 
     constructor(private _secureFileService: SecureFileService, public oidcSecurityService: OidcSecurityService) {
         this.message = 'Secure Files download';
@@ -23,7 +23,7 @@ export class SecureFilesComponent implements OnInit {
     ngOnInit() {
         this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
         this.isAuthenticated$.pipe(
-            switchMap((isAuthorized) => this.getData(isAuthorized))
+            switchMap((isAuthorized) => this.getData(isAuthorized as boolean))
         ).subscribe(data =>
             this.Files = data,
             () => console.log('getData for secure files, get all completed')
