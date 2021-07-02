@@ -5,12 +5,11 @@ import {
 import { ConfigAuthenticatedResult } from './auth/authState/auth-result';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LocaleService, TranslationService, Language } from 'angular-l10n';
-import './app.component.css';
 
 @Component({
     selector: 'app-component',
     templateUrl: 'app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 
 export class AppComponent implements OnInit {
