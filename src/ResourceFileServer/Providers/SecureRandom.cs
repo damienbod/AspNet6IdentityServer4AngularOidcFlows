@@ -9,7 +9,7 @@ namespace ResourceFileServer.Providers
     /// </summary>
     public class SecureRandom : RandomNumberGenerator
     {
-        private readonly RandomNumberGenerator rng =  RandomNumberGenerator.Create();
+        private readonly RandomNumberGenerator rng = RandomNumberGenerator.Create();
 
 
         public int Next()

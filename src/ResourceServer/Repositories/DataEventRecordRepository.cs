@@ -24,8 +24,8 @@ namespace ResourceServer.Repositories
         public List<DataEventRecord> GetAll()
         {
             _logger.LogCritical("Getting a the existing records");
-            var data =  _context.DataEventRecords.ToList();
-            foreach(var item in data)
+            var data = _context.DataEventRecords.ToList();
+            foreach (var item in data)
             {
                 unprotectDescription(item);
             }
@@ -41,9 +41,9 @@ namespace ResourceServer.Repositories
         }
 
         [HttpPost]
-        public void Post(DataEventRecord dataEventRecord )
+        public void Post(DataEventRecord dataEventRecord)
         {
-            if(string.IsNullOrWhiteSpace(dataEventRecord.Timestamp))
+            if (string.IsNullOrWhiteSpace(dataEventRecord.Timestamp))
             {
                 dataEventRecord.Timestamp = DateTime.UtcNow.ToString("o");
             };
@@ -52,7 +52,7 @@ namespace ResourceServer.Repositories
             _context.SaveChanges();
         }
 
-        public void Put(long id, [FromBody]DataEventRecord dataEventRecord)
+        public void Put(long id, [FromBody] DataEventRecord dataEventRecord)
         {
             dataEventRecord.Timestamp = DateTime.UtcNow.ToString("o");
             protectDescription(dataEventRecord);

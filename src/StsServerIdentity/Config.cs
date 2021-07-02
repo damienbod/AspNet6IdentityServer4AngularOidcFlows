@@ -12,7 +12,7 @@ namespace StsServerIdentity
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email(), 
+                new IdentityResources.Email(),
                 new IdentityResource("dataeventrecordsir",new []{ "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } ),
                 new IdentityResource("securedfilessir",new []{ "role", "admin", "user", "securedFiles", "securedFiles.admin", "securedFiles.user"} )
             };
@@ -38,7 +38,7 @@ namespace StsServerIdentity
                     ApiSecrets =
                     {
                         new Secret("dataEventRecordsSecret".Sha256())
-                    }, 
+                    },
                     Scopes = new List<string> { "dataEventRecords" }
                 },
                 new ApiResource("securedFilesApi")

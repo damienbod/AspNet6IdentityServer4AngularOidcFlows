@@ -8,7 +8,7 @@ using ResourceWithIdentityServerWithClient.Model;
 
 namespace ResourceWithIdentityServerWithClient.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer", Policy ="admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "admin")]
     [Produces("application/json")]
     [Route("api/UserManagement")]
     public class UserManagementController : Controller
@@ -27,7 +27,7 @@ namespace ResourceWithIdentityServerWithClient.Controllers
             var users = _context.Users.ToList();
             var result = new List<UserDto>();
 
-            foreach(var applicationUser in users)
+            foreach (var applicationUser in users)
             {
                 var user = new UserDto
                 {
@@ -42,17 +42,17 @@ namespace ResourceWithIdentityServerWithClient.Controllers
 
             return Ok(result);
         }
-        
+
         [HttpPut("{id}")]
         [Route("{id}")]
-        public void Put(string id, [FromBody]UserDto userDto)
+        public void Put(string id, [FromBody] UserDto userDto)
         {
             var user = _context.Users.First(t => t.Id == id);
 
             user.IsAdmin = userDto.IsAdmin;
-            if(userDto.IsActive)
+            if (userDto.IsActive)
             {
-                if(user.AccountExpires < DateTime.UtcNow)
+                if (user.AccountExpires < DateTime.UtcNow)
                 {
                     user.AccountExpires = DateTime.UtcNow.AddDays(7.0);
                 }
@@ -65,6 +65,6 @@ namespace ResourceWithIdentityServerWithClient.Controllers
 
             _context.Users.Update(user);
             _context.SaveChanges();
-        }   
+        }
     }
 }

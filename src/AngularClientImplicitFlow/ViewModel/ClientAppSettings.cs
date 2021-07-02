@@ -2,7 +2,7 @@
 {
     public class ClientAppSettings
     {
-        public string  stsServer { get; set; }
+        public string stsServer { get; set; }
         public string redirect_url { get; set; }
         public string client_id { get; set; }
         public string response_type { get; set; }

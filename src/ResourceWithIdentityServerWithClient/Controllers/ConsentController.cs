@@ -24,7 +24,7 @@ namespace IdentityServer4.Quickstart.UI.Controllers
         private readonly IClientStore _clientStore;
         private readonly IResourceStore _resourceStore;
         private readonly IIdentityServerInteractionService _interaction;
-        
+
         public ConsentController(
             ILogger<ConsentController> logger,
             IIdentityServerInteractionService interaction,

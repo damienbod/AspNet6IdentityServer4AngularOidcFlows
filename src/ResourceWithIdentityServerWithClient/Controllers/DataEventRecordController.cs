@@ -15,7 +15,7 @@ namespace ResourceWithIdentityServerWithClient.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(new List<DataEventRecord> { new DataEventRecord { Id =1, Description= "Fake", Name="myname", Timestamp= DateTime.UtcNow } });
+            return Ok(new List<DataEventRecord> { new DataEventRecord { Id = 1, Description = "Fake", Name = "myname", Timestamp = DateTime.UtcNow } });
         }
 
         [Authorize("dataEventRecordsAdmin")]
@@ -27,23 +27,23 @@ namespace ResourceWithIdentityServerWithClient.Controllers
 
         [Authorize("dataEventRecordsAdmin")]
         [HttpPost]
-        public void Post([FromBody]DataEventRecord value)
+        public void Post([FromBody] DataEventRecord value)
         {
-            
+
         }
 
         [Authorize("dataEventRecordsAdmin")]
         [HttpPut("{id}")]
-        public void Put(long id, [FromBody]DataEventRecord value)
+        public void Put(long id, [FromBody] DataEventRecord value)
         {
-            
+
         }
 
         [Authorize("dataEventRecordsAdmin")]
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
-            
+
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ResourceFileServer.Providers
 
         public bool FileIdExists(string fileId)
         {
-            if(_fileIds.Contains(fileId.ToLower()))
+            if (_fileIds.Contains(fileId.ToLower()))
             {
                 return true;
             }
@@ -35,7 +35,7 @@ namespace ResourceFileServer.Providers
 
         public string GetFileIdForUseOnceAccessId(string oneTimeToken)
         {
-           return _useOnceAccessIdService.GetFileIdForUseOnceAccessId(oneTimeToken);
+            return _useOnceAccessIdService.GetFileIdForUseOnceAccessId(oneTimeToken);
         }
 
         public List<string> GetFilesForUser(bool isSecuredFilesAdmin)
