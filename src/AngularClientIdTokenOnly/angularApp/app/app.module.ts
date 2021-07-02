@@ -39,27 +39,6 @@ const l10nConfig: L10nConfig = {
     }
 };
 
-export function configureAuth(oidcConfigService: OidcConfigService) {
-    return () =>
-        oidcConfigService.withConfig({
-            stsServer: 'https://localhost:44318',
-            redirectUrl: 'https://localhost:44372',
-            clientId: 'angularclientidtokenonly',
-            responseType: 'id_token',
-            scope: 'openid profile email',
-            postLogoutRedirectUri: 'https://localhost:44372/Unauthorized',
-            startCheckSession: false,
-            silentRenew: true,
-            silentRenewUrl: 'https://localhost:44372/silent-renew.html',
-            postLoginRoute: '/home',
-            forbiddenRoute: '/Forbidden',
-            unauthorizedRoute: '/Unauthorized',
-            logLevel: 0, // LogLevel.Debug, 
-            autoCleanStateAfterAuthentication: false
-            // autoUserinfo: false,
-        });
-}
-
 @NgModule({
     imports: [
         BrowserModule,
@@ -67,7 +46,25 @@ export function configureAuth(oidcConfigService: OidcConfigService) {
         routing,
         HttpClientModule,
         TranslationModule.forRoot(l10nConfig),
-        AuthModule.forRoot(),
+        AuthModule.forRoot({
+            config: {
+                stsServer: 'https://localhost:44318',
+                redirectUrl: 'https://localhost:44372',
+                clientId: 'angularclientidtokenonly',
+                responseType: 'id_token',
+                scope: 'openid profile email',
+                postLogoutRedirectUri: 'https://localhost:44372/Unauthorized',
+                startCheckSession: false,
+                silentRenew: true,
+                silentRenewUrl: 'https://localhost:44372/silent-renew.html',
+                postLoginRoute: '/home',
+                forbiddenRoute: '/Forbidden',
+                unauthorizedRoute: '/Unauthorized',
+                logLevel: 0, // LogLevel.Debug, 
+                autoCleanStateAfterAuthentication: false
+                // autoUserInfo: false,
+            },
+        }),
     ],
     declarations: [
         AppComponent,
@@ -77,13 +74,6 @@ export function configureAuth(oidcConfigService: OidcConfigService) {
         SecureFilesComponent
     ],
     providers: [
-        OidcConfigService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: configureAuth,
-            deps: [OidcConfigService, HttpClient],
-            multi: true,
-        },
         AuthorizationGuard,
         SecureFileService,
         Configuration

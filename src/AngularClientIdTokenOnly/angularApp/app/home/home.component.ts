@@ -1,4 +1,5 @@
 import {
+    ConfigAuthenticatedResult,
     OidcClientNotification,
     OidcSecurityService,
 } from '../auth/angular-auth-oidc-client';
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
     email = 'none';
 
     userDataChanged$: Observable<OidcClientNotification<any>>;
-    isAuthenticated$: Observable<boolean>;
+    isAuthenticated$: Observable<boolean | ConfigAuthenticatedResult[]>;
 
     constructor(public oidcSecurityService: OidcSecurityService) {
         console.log('AppComponent STARTING');
