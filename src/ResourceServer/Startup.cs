@@ -137,7 +137,6 @@ namespace ResourceServer
                 });
             });
 
-
             services.AddControllers()
                 .AddNewtonsoftJson();
 
