@@ -215,7 +215,7 @@ namespace ResourceWithIdentityServerWithClient.Controllers
                     await _signInManager.SignOutAsync();
                     // await HttpContext.Authentication.SignOutAsync(idp, new AuthenticationProperties { RedirectUri = url });
                 }
-                catch(NotSupportedException)
+                catch (NotSupportedException)
                 {
                 }
             }
@@ -270,7 +270,8 @@ namespace ResourceWithIdentityServerWithClient.Controllers
                     securedFilesRole = "securedFiles.admin";
                 }
 
-                var user = new ApplicationUser {
+                var user = new ApplicationUser
+                {
                     UserName = model.Email,
                     Email = model.Email,
                     IsAdmin = model.IsAdmin,
@@ -278,7 +279,7 @@ namespace ResourceWithIdentityServerWithClient.Controllers
                     SecuredFilesRole = securedFilesRole,
                     AccountExpires = DateTime.UtcNow.AddDays(7.0)
                 };
-    
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

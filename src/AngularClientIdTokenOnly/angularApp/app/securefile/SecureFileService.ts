@@ -42,7 +42,7 @@ export class SecureFileService {
         this.headers = this.headers.set('Content-Type', 'application/json');
         this.headers = this.headers.set('Accept', 'application/json');
 
-        const token = this.oidcSecurityService.getToken();
+        const token = this.oidcSecurityService.getAccessToken();
         if (token !== '') {
             const tokenValue = 'Bearer ' + token;
             this.headers = this.headers.set('Authorization', tokenValue);

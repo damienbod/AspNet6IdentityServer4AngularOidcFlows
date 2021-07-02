@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { PopupOptions } from './popup-options';
+import { PopupResult } from './popup-result';
 
 @Injectable({ providedIn: 'root' })
 export class PopUpService {
   private STORAGE_IDENTIFIER = 'popupauth';
   private popUp: Window;
-  private receivedUrlInternal$ = new Subject<string>();
+  private handle: number;
+  private resultInternal$ = new Subject<PopupResult>();
 
-  get receivedUrl$(): Observable<string> {
-    return this.receivedUrlInternal$.asObservable();
+  get result$(): Observable<PopupResult> {
+    return this.resultInternal$.asObservable();
   }
 
   isCurrentlyInPopup(): boolean {
-    const popup = sessionStorage.getItem(this.STORAGE_IDENTIFIER);
-    return !!window.opener && window.opener !== window && !!popup;
+    if (this.canAccessSessionStorage()) {
+      const popup = sessionStorage.getItem(this.STORAGE_IDENTIFIER);
+
+      return !!window.opener && window.opener !== window && !!popup;
+    }
+
+    return false;
   }
 
   openPopUp(url: string, popupOptions?: PopupOptions): void {
@@ -27,12 +34,20 @@ export class PopUpService {
         return;
       }
 
-      this.receivedUrlInternal$.next(event.data);
+      this.resultInternal$.next({ userClosed: false, receivedUrl: event.data });
 
       this.cleanUp(listener);
     };
 
     window.addEventListener('message', listener, false);
+
+    this.handle = window.setInterval(() => {
+      if (this.popUp.closed) {
+        this.resultInternal$.next({ userClosed: true });
+
+        this.cleanUp(listener);
+      }
+    }, 200);
   }
 
   sendMessageToMainWindow(url: string): void {
@@ -44,8 +59,10 @@ export class PopUpService {
   private cleanUp(listener: any): void {
     window.removeEventListener('message', listener, false);
 
+    window.clearInterval(this.handle);
+
     if (this.popUp) {
-      this.popUp.sessionStorage.removeItem(this.STORAGE_IDENTIFIER);
+      this.popUp.sessionStorage?.removeItem(this.STORAGE_IDENTIFIER);
       this.popUp.close();
       this.popUp = null;
     }
@@ -63,5 +80,9 @@ export class PopUpService {
     return Object.entries(options)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join(',');
+  }
+
+  private canAccessSessionStorage(): boolean {
+    return typeof navigator !== 'undefined' && navigator.cookieEnabled && typeof Storage !== 'undefined';
   }
 }

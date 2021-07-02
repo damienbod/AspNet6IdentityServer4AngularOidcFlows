@@ -92,7 +92,7 @@ namespace ResourceServer
                 });
                 options.AddPolicy("dataEventRecordsUser", policyUser =>
                 {
-                    policyUser.RequireClaim("role",  "dataEventRecords.user");
+                    policyUser.RequireClaim("role", "dataEventRecords.user");
                 });
                 options.AddPolicy("dataEventRecords", policyUser =>
                 {
@@ -137,7 +137,6 @@ namespace ResourceServer
                 });
             });
 
-
             services.AddControllers()
                 .AddNewtonsoftJson();
 
@@ -158,7 +157,7 @@ namespace ResourceServer
             app.UseStaticFiles();
 
             app.UseRouting();
-			
+
             app.UseAuthentication();
             app.UseAuthorization();
 

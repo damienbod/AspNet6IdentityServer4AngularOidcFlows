@@ -6,6 +6,7 @@ import { OidcSecurityService } from '../../auth/angular-auth-oidc-client';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';
 import { DataEventRecord } from '../models/DataEventRecord';
+import { ConfigAuthenticatedResult } from '../../auth/authState/auth-result';
 
 @Component({
     selector: 'app-dataeventrecords-edit',
@@ -23,7 +24,7 @@ export class DataEventRecordsEditComponent implements OnInit   {
         timestamp: ''
     };
 
-    isAuthenticated$: Observable<boolean>;
+    isAuthenticated$: Observable<boolean | ConfigAuthenticatedResult[]>;
 
     constructor(
         private _dataEventRecordsService: DataEventRecordsService,

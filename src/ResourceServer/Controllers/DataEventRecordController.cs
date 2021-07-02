@@ -32,14 +32,14 @@ namespace ResourceServer.Controllers
 
         [Authorize("dataEventRecordsAdmin")]
         [HttpPost]
-        public void Post([FromBody]DataEventRecord value)
+        public void Post([FromBody] DataEventRecord value)
         {
             _dataEventRecordRepository.Post(value);
         }
 
         [Authorize("dataEventRecordsAdmin")]
         [HttpPut("{id}")]
-        public void Put(long id, [FromBody]DataEventRecord value)
+        public void Put(long id, [FromBody] DataEventRecord value)
         {
             _dataEventRecordRepository.Put(id, value);
         }

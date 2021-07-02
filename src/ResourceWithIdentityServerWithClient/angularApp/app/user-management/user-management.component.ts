@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { OidcSecurityService } from '../auth/angular-auth-oidc-client';
+import { ConfigAuthenticatedResult, OidcSecurityService } from '../auth/angular-auth-oidc-client';
 
 import { UserManagementService } from '../user-management/UserManagementService';
 import { User } from './models/User';
@@ -13,7 +13,7 @@ import { User } from './models/User';
 
 export class UserManagementComponent implements OnInit {
 
-    isAuthenticated$: Observable<boolean>;
+    isAuthenticated$: Observable<boolean | ConfigAuthenticatedResult[]>;
     userData$: Observable<any>;
     message: string;
     Users: User[] = [];

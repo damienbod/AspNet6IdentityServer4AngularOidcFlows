@@ -95,7 +95,7 @@ namespace StsServerIdentity.Controllers
             var requires2Fa = context?.AcrValues.Count(t => t.Contains("mfa")) >= 1;
 
             var user = await _userManager.FindByNameAsync(model.Email);
-            if(user != null && !user.TwoFactorEnabled && requires2Fa)
+            if (user != null && !user.TwoFactorEnabled && requires2Fa)
             {
                 return RedirectToAction(nameof(ErrorEnable2FA));
             }
@@ -158,7 +158,7 @@ namespace StsServerIdentity.Controllers
 
             return View(new MfaModel { /*Provider = provider,*/ ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-		
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ErrorEnable2FA()
@@ -208,7 +208,7 @@ namespace StsServerIdentity.Controllers
                     await _signInManager.SignOutAsync();
                     // await HttpContext.Authentication.SignOutAsync(idp, new AuthenticationProperties { RedirectUri = url });
                 }
-                catch(NotSupportedException)
+                catch (NotSupportedException)
                 {
                 }
             }
@@ -257,7 +257,8 @@ namespace StsServerIdentity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {
+                var user = new ApplicationUser
+                {
                     UserName = model.Email,
                     Email = model.Email,
                     IsAdmin = false
@@ -316,7 +317,7 @@ namespace StsServerIdentity.Controllers
             }
 
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-  
+
             if (!string.IsNullOrEmpty(email))
             {
                 var user = await _userManager.FindByNameAsync(email);
@@ -444,9 +445,9 @@ namespace StsServerIdentity.Controllers
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                 await _emailSender.SendEmail(
-                   model.Email, 
+                   model.Email,
                    "Reset Password",
-                   $"Please reset your password by clicking here: {callbackUrl}", 
+                   $"Please reset your password by clicking here: {callbackUrl}",
                    "Hi Sir");
 
                 return View("ForgotPasswordConfirmation");
@@ -577,7 +578,7 @@ namespace StsServerIdentity.Controllers
                 return View("Error");
             }
 
-            if(string.IsNullOrEmpty(provider))
+            if (string.IsNullOrEmpty(provider))
             {
                 provider = "Authenticator";
             }

@@ -23,7 +23,7 @@ namespace IdentityServer4.Quickstart.UI.Models
             AllowRememberConsent = client.AllowRememberConsent;
 
             IdentityScopes = resources.IdentityResources.Select(x => new ScopeViewModel(x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
-            ResourceScopes = resources.ApiResources.SelectMany(x=>x.Scopes).Select(x => new ScopeViewModel(x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
+            ResourceScopes = resources.ApiResources.SelectMany(x => x.Scopes).Select(x => new ScopeViewModel(x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             if (resources.OfflineAccess)
             {
                 ResourceScopes = ResourceScopes.Union(new ScopeViewModel[] {

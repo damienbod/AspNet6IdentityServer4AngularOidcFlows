@@ -24,7 +24,7 @@ namespace ResourceFileServer.Controllers
         public IActionResult Get(string accessId, string id)
         {
             var filePath = _securedFileProvider.GetFileIdForUseOnceAccessId(accessId);
-            if(!string.IsNullOrEmpty(filePath))
+            if (!string.IsNullOrEmpty(filePath))
             {
                 var fileContents = System.IO.File.ReadAllBytes(filePath);
                 return new FileContentResult(fileContents, "application/octet-stream");

@@ -19,7 +19,8 @@ namespace ResourceFileServer.Providers
         {
             var fileId = string.Empty;
 
-            lock(lockObject) {
+            lock (lockObject)
+            {
 
                 // Max 30 seconds to start download after requesting one time token.
                 _useOnceAccessIds.RemoveAll(t => t.Created < DateTime.UtcNow.AddSeconds(-_timeToLive));

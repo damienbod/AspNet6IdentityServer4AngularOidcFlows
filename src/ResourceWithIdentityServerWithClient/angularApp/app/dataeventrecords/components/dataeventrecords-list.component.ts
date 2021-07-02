@@ -5,6 +5,7 @@ import { OidcSecurityService } from '../../auth/angular-auth-oidc-client';
 
 import { DataEventRecordsService } from '../dataeventrecords.service';
 import { DataEventRecord } from '../models/DataEventRecord';
+import { ConfigAuthenticatedResult } from '../../auth/authState/auth-result';
 
 @Component({
     selector: 'app-dataeventrecords-list',
@@ -16,8 +17,7 @@ export class DataEventRecordsListComponent implements OnInit {
     message: string;
     DataEventRecords: DataEventRecord[] = [];
     hasAdminRole = false;
-    isAuthenticated$: Observable<boolean>;
-    userData$: Observable<any>;
+    isAuthenticated$: Observable<boolean | ConfigAuthenticatedResult[]>;
 
     constructor(
 
@@ -29,16 +29,15 @@ export class DataEventRecordsListComponent implements OnInit {
 
     ngOnInit() {
         this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
-        this.userData$ = this.oidcSecurityService.userData$;
 
         this.isAuthenticated$.pipe(
-            switchMap((isAuthorized) => this.getData(isAuthorized))
+            switchMap((isAuthorized) => this.getData(isAuthorized as boolean))
         ).subscribe(
             data => this.DataEventRecords = data,
             () => console.log('getData Get all completed')
         );
-            
-        this.userData$.subscribe((userData) => {
+
+        this.oidcSecurityService.userData$.subscribe((userData) => {
             console.log('Get userData: ', userData);
             if (userData) {
                 console.log('userData: ', userData);

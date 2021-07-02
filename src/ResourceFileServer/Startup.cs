@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using ResourceFileServer.Providers;
 using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
@@ -106,8 +105,6 @@ namespace ResourceFileServer
                     },
                 });
             });
-
-
             services.AddControllers(
                 options =>
                 {
@@ -133,7 +130,7 @@ namespace ResourceFileServer
             app.UseStaticFiles();
 
             app.UseRouting();
-			
+
             app.UseAuthentication();
             app.UseAuthorization();
 

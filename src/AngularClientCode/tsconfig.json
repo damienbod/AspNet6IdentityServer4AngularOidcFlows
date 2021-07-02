@@ -9,7 +9,7 @@
     "removeComments": true,
     "skipLibCheck": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noImplicitAny": false,
     "lib": [
       "es2018",
