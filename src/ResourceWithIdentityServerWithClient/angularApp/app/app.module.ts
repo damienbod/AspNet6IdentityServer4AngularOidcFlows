@@ -19,26 +19,6 @@ import { AuthModule, OidcConfigService } from './auth/angular-auth-oidc-client';
 import { AuthorizationGuard } from './authorization.guard';
 import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
 
-export function configureAuth(oidcConfigService: OidcConfigService) {
-    return () =>
-        oidcConfigService.withConfig({
-            stsServer: 'https://localhost:44363',
-            redirectUrl: 'https://localhost:44363',
-            clientId: 'singleapp',
-            responseType: 'id_token token',
-            scope: 'dataEventRecords openid',
-            postLogoutRedirectUri: 'https://localhost:44363/Unauthorized',
-            startCheckSession: false,
-            silentRenew: true,
-            silentRenewUrl: 'https://localhost:44363/silent-renew.html',
-            postLoginRoute: '/dataeventrecords',
-            forbiddenRoute: '/Forbidden',
-            unauthorizedRoute: '/Unauthorized',
-            logLevel: 0, // LogLevel.Debug, 
-            // autoUserinfo: false,
-        });
-}
-
 @NgModule({
     imports: [
         BrowserModule,
@@ -46,7 +26,24 @@ export function configureAuth(oidcConfigService: OidcConfigService) {
         routing,
         HttpClientModule,
         DataEventRecordsModule,
-        AuthModule.forRoot(),
+        AuthModule.forRoot({
+            config: {
+                stsServer: 'https://localhost:44363',
+                redirectUrl: 'https://localhost:44363',
+                clientId: 'singleapp',
+                responseType: 'id_token token',
+                scope: 'dataEventRecords openid',
+                postLogoutRedirectUri: 'https://localhost:44363/Unauthorized',
+                startCheckSession: false,
+                silentRenew: true,
+                silentRenewUrl: 'https://localhost:44363/silent-renew.html',
+                postLoginRoute: '/dataeventrecords',
+                forbiddenRoute: '/Forbidden',
+                unauthorizedRoute: '/Unauthorized',
+                logLevel: 0, // LogLevel.Debug, 
+                // autoUserInfo: false,
+            },
+        }),
     ],
     declarations: [
         AppComponent,
@@ -57,13 +54,6 @@ export function configureAuth(oidcConfigService: OidcConfigService) {
         NavigationComponent,
     ],
     providers: [
-        OidcConfigService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: configureAuth,
-            deps: [OidcConfigService, HttpClient],
-            multi: true,
-        },
         AuthorizationGuard,
         Configuration,
         UserManagementService,

@@ -1,4 +1,5 @@
 import {
+    ConfigAuthenticatedResult,
     OidcClientNotification,
     OidcSecurityService,
 } from '../auth/angular-auth-oidc-client';
@@ -16,7 +17,7 @@ export class NavigationComponent implements OnInit {
     hasDataEventRecordsAdminRole = false;
     userDataChanged$: Observable<OidcClientNotification<any>>;
     userData$: Observable<any>;
-    isAuthenticated$: Observable<boolean>;
+    isAuthenticated$: Observable<boolean | ConfigAuthenticatedResult[]>;
     checkSessionChanged$: Observable<boolean>;
     checkSessionChanged: any;
 
