@@ -13,13 +13,6 @@ namespace StsServerIdentity.Filters
             var result = context.Result;
             if (result is ViewResult)
             {
-                var featurePolicy = "accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'";
-
-                if (!context.HttpContext.Response.Headers.ContainsKey("feature-policy"))
-                {
-                    context.HttpContext.Response.Headers.Add("feature-policy", featurePolicy);
-                }
-
                 if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Type-Options"))
                 {
                     context.HttpContext.Response.Headers.Add("X-Content-Type-Options", "nosniff");
