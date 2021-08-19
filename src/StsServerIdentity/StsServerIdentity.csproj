@@ -9,7 +9,6 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageTags>oidc identityserver4 identity aspnetcore</PackageTags>
     <PackageReleaseNotes>Updated security headers, updated packages</PackageReleaseNotes>
-    <UserSecretsId>55674afb-fac9-407f-898f-6a543e9d137a</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.2.1" />
