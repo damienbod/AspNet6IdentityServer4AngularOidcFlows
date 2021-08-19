@@ -152,6 +152,9 @@ namespace StsServerIdentity
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSecurityHeaders(
+                SecurityHeadersDefinitions.GetHeaderPolicyCollection(env.IsDevelopment()));
+
             app.UseCookiePolicy();
 
             if (env.IsDevelopment())
@@ -161,34 +164,13 @@ namespace StsServerIdentity
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts(hsts => hsts.MaxAge(365).IncludeSubdomains());
             }
 
             app.UseCors("AllowAllOrigins");
 
-            app.UseHsts(hsts => hsts.MaxAge(365).IncludeSubdomains());
-            app.UseXContentTypeOptions();
-            app.UseReferrerPolicy(opts => opts.NoReferrer());
-            app.UseXXssProtection(options => options.EnabledWithBlockMode());
-
             var stsConfig = Configuration.GetSection("StsConfig");
             var angularClientIdTokenOnlyUrl = stsConfig["AngularClientIdTokenOnlyUrl"];
             var angularClientUrl = stsConfig["AngularClientUrl"];
-
-            app.UseCsp(opts => opts
-                .BlockAllMixedContent()
-                .StyleSources(s => s.Self())
-                .StyleSources(s => s.UnsafeInline())
-                .FontSources(s => s.Self())
-                .FrameAncestors(s => s.Self())
-                .FrameAncestors(s => s.CustomSources(
-                    angularClientUrl, angularClientIdTokenOnlyUrl, "https://localhost:44352", "https://localhost:4200")
-                 )
-                .ImageSources(imageSrc => imageSrc.Self())
-                .ImageSources(imageSrc => imageSrc.CustomSources("data:"))
-                .ScriptSources(s => s.Self())
-                .ScriptSources(s => s.UnsafeInline())
-            );
 
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
