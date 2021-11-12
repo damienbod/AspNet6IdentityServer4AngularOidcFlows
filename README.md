@@ -3,7 +3,7 @@
 
 |                           | Build                                                                                                                                                                          |       
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| .NET 5, Angular        | [![Build status](https://ci.appveyor.com/api/projects/status/cua2pxkvngv5rfej?svg=true)](https://ci.appveyor.com/project/damienbod/aspnet5identityserverangularimplicitflow)   |
+| .NET 6, Angular        | [![Build status](https://ci.appveyor.com/api/projects/status/cua2pxkvngv5rfej?svg=true)](https://ci.appveyor.com/project/damienbod/aspnet5identityserverangularimplicitflow)   |
 
 <strong>Code: </strong> https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow
 
@@ -38,6 +38,8 @@
 
 
 ## History
+
+<strong>2021-11-12 </strong> Updated nuget packages, .NET 6
 
 <strong>2021-08-18 </strong> Updated nuget packages
 
