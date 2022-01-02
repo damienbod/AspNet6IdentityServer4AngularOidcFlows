@@ -1,4 +1,4 @@
-# ASP.NET Core 5 IdentityServer4 OpenID Connect Code Flow / OIDC Implicit Flow examples Angular
+# ASP.NET Core 6 IdentityServer4 OpenID Connect Code Flow / OIDC Implicit Flow examples Angular
 
 
 |                           | Build                                                                                                                                                                          |       
