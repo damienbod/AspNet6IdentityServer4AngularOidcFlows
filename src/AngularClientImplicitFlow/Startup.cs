@@ -44,7 +44,7 @@ namespace AngularClient
                     });
             });
 
-            services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app)
