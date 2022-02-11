@@ -3,38 +3,37 @@ using Microsoft.AspNetCore.Mvc;
 using IdentityServer4.Services;
 using StsServerIdentity.Models;
 
-namespace StsServerIdentity.Controllers
+namespace StsServerIdentity.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly IIdentityServerInteractionService _interaction;
+
+    public HomeController(IIdentityServerInteractionService interaction)
     {
-        private readonly IIdentityServerInteractionService _interaction;
+        _interaction = interaction;
+    }
 
-        public HomeController(IIdentityServerInteractionService interaction)
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+
+    /// <summary>
+    /// Shows the error page
+    /// </summary>
+    public async Task<IActionResult> Error(string errorId)
+    {
+        var vm = new ErrorViewModel();
+
+        // retrieve error details from identityserver
+        var message = await _interaction.GetErrorContextAsync(errorId);
+        if (message != null)
         {
-            _interaction = interaction;
+            vm.Error = message;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-
-        /// <summary>
-        /// Shows the error page
-        /// </summary>
-        public async Task<IActionResult> Error(string errorId)
-        {
-            var vm = new ErrorViewModel();
-
-            // retrieve error details from identityserver
-            var message = await _interaction.GetErrorContextAsync(errorId);
-            if (message != null)
-            {
-                vm.Error = message;
-            }
-
-            return View("Error", vm);
-        }
+        return View("Error", vm);
     }
 }
