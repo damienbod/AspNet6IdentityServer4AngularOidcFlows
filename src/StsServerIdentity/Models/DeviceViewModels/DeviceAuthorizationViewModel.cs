@@ -1,8 +1,7 @@
-namespace StsServerIdentity.Models
+namespace StsServerIdentity.Models;
+
+public class DeviceAuthorizationViewModel : ConsentViewModel
 {
-    public class DeviceAuthorizationViewModel : ConsentViewModel
-    {
-        public string UserCode { get; set; }
-        public bool ConfirmUserCode { get; set; }
-    }
+    public string UserCode { get; set; }
+    public bool ConfirmUserCode { get; set; }
 }

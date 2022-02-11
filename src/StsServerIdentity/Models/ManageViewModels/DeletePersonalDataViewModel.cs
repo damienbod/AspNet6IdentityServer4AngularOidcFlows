@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StsServerIdentity.Models.ManageViewModels
-{
-    public class DeletePersonalDataViewModel
-    {
-        public bool RequirePassword { get; set; }
+namespace StsServerIdentity.Models.ManageViewModels;
 
-        [DataType(DataType.Password)]
-        [Required(ErrorMessage = "PASSWORD_REQUIRED")]
-        public string Password { get; set; }
-    }
+public class DeletePersonalDataViewModel
+{
+    public bool RequirePassword { get; set; }
+
+    [DataType(DataType.Password)]
+    [Required(ErrorMessage = "PASSWORD_REQUIRED")]
+    public string Password { get; set; }
 }

@@ -1,9 +1,8 @@
-﻿namespace StsServerIdentity.Models
-{
-    public class MfaModel
-    {
-        public bool RememberMe { get; set; }
+﻿namespace StsServerIdentity.Models;
 
-        public string ReturnUrl { get; set; }
-    }
+public class MfaModel
+{
+    public bool RememberMe { get; set; }
+
+    public string ReturnUrl { get; set; }
 }

@@ -4,32 +4,31 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace ResourceServer.DataProtection
+namespace ResourceServer.DataProtection;
+
+public class SqlXmlRepository : IXmlRepository
 {
-    public class SqlXmlRepository : IXmlRepository
+    private readonly DataProtectionDbContext DataProtectionDbContext;
+
+    public SqlXmlRepository(DataProtectionDbContext context)
     {
-        private readonly DataProtectionDbContext DataProtectionDbContext;
+        DataProtectionDbContext = context;
+    }
 
-        public SqlXmlRepository(DataProtectionDbContext context)
-        {
-            DataProtectionDbContext = context;
-        }
+    public IReadOnlyCollection<XElement> GetAllElements()
+    {
+        return new ReadOnlyCollection<XElement>(DataProtectionDbContext.DataProtectionXMLElements.Select(x => XElement.Parse(x.Xml)).ToList());
+    }
 
-        public IReadOnlyCollection<XElement> GetAllElements()
-        {
-            return new ReadOnlyCollection<XElement>(DataProtectionDbContext.DataProtectionXMLElements.Select(x => XElement.Parse(x.Xml)).ToList());
-        }
+    public void StoreElement(XElement element, string friendlyName)
+    {
+        DataProtectionDbContext.DataProtectionXMLElements.Add(
+            new DataProtectionElement
+            {
+                Xml = element.ToString(SaveOptions.DisableFormatting)
+            }
+        );
 
-        public void StoreElement(XElement element, string friendlyName)
-        {
-            DataProtectionDbContext.DataProtectionXMLElements.Add(
-                new DataProtectionElement
-                {
-                    Xml = element.ToString(SaveOptions.DisableFormatting)
-                }
-            );
-
-            DataProtectionDbContext.SaveChanges();
-        }
+        DataProtectionDbContext.SaveChanges();
     }
 }

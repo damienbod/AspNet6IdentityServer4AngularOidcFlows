@@ -1,7 +1,6 @@
-﻿namespace StsServerIdentity.Models
+﻿namespace StsServerIdentity.Models;
+
+public class ConsentOptions
 {
-    public class ConsentOptions
-    {
-        public static bool EnableOfflineAccess = true;
-    }
+    public static bool EnableOfflineAccess = true;
 }

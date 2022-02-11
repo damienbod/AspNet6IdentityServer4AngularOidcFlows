@@ -1,8 +1,7 @@
 ﻿using System;
-namespace ResourceFileServer.Controllers
+namespace ResourceFileServer.Controllers;
+
+public class DownloadToken
 {
-    public class DownloadToken
-    {
-        public string OneTimeToken { get; set; }
-    }
+    public string OneTimeToken { get; set; }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace StsServerIdentity.Services
+namespace StsServerIdentity.Services;
+
+public interface IEmailSender
 {
-    public interface IEmailSender
-    {
-        Task SendEmail(string email, string subject, string message, string toUsername);
-    }
+    Task SendEmail(string email, string subject, string message, string toUsername);
 }

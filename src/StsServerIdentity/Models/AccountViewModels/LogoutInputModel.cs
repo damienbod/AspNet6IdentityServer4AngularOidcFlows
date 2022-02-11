@@ -1,7 +1,6 @@
-﻿namespace StsServerIdentity.Models.AccountViewModels
+﻿namespace StsServerIdentity.Models.AccountViewModels;
+
+public class LogoutInputModel
 {
-    public class LogoutInputModel
-    {
-        public string LogoutId { get; set; }
-    }
+    public string LogoutId { get; set; }
 }

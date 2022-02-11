@@ -39,6 +39,8 @@
 
 ## History
 
+<strong>2022-02-11 </strong> Updated nuget packages, namespaces
+
 <strong>2021-11-12 </strong> Updated nuget packages, .NET 6
 
 <strong>2021-08-18 </strong> Updated nuget packages

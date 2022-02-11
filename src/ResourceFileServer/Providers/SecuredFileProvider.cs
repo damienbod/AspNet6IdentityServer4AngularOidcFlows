@@ -1,68 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace ResourceFileServer.Providers
+namespace ResourceFileServer.Providers;
+
+public class SecuredFileProvider : ISecuredFileProvider
 {
-    public class SecuredFileProvider : ISecuredFileProvider
+    private List<string> _fileIds;
+
+    private readonly UseOnceAccessIdService _useOnceAccessIdService;
+
+    public SecuredFileProvider(UseOnceAccessIdService oneTimeTokenService)
     {
-        private List<string> _fileIds;
+        // create the demo data, this could be data from a database or file provider...
+        _fileIds = new List<string> { "securefile.txt", "securefileadmin.txt", "securefiletwo.txt" };
+        _useOnceAccessIdService = oneTimeTokenService;
+    }
 
-        private readonly UseOnceAccessIdService _useOnceAccessIdService;
+    public string AddFileIdForUseOnceAccessId(string filePath)
+    {
+        return _useOnceAccessIdService.AddFileIdForUseOnceAccessId(filePath);
+    }
 
-        public SecuredFileProvider(UseOnceAccessIdService oneTimeTokenService)
+    public bool FileIdExists(string fileId)
+    {
+        if (_fileIds.Contains(fileId.ToLower()))
         {
-            // create the demo data, this could be data from a database or file provider...
-            _fileIds = new List<string> { "securefile.txt", "securefileadmin.txt", "securefiletwo.txt" };
-            _useOnceAccessIdService = oneTimeTokenService;
+            return true;
         }
 
-        public string AddFileIdForUseOnceAccessId(string filePath)
+        return false;
+    }
+
+    public string GetFileIdForUseOnceAccessId(string oneTimeToken)
+    {
+        return _useOnceAccessIdService.GetFileIdForUseOnceAccessId(oneTimeToken);
+    }
+
+    public List<string> GetFilesForUser(bool isSecuredFilesAdmin)
+    {
+        List<string> files = new List<string>();
+        files.Add("SecureFile.txt");
+        files.Add("SecureFileTwo.txt");
+
+        // Use the claims to check if the logged in use has admin rights.
+        if (isSecuredFilesAdmin)
         {
-            return _useOnceAccessIdService.AddFileIdForUseOnceAccessId(filePath);
+            files.Add("SecureFileAdmin.txt");
         }
 
-        public bool FileIdExists(string fileId)
-        {
-            if (_fileIds.Contains(fileId.ToLower()))
-            {
-                return true;
-            }
+        return files;
+    }
 
+    public bool HasUserClaimToAccessFile(string fileId, bool isSecuredFilesAdmin)
+    {
+        if ("SecureFileAdmin.txt" == fileId && !isSecuredFilesAdmin)
+        {
             return false;
         }
 
-        public string GetFileIdForUseOnceAccessId(string oneTimeToken)
-        {
-            return _useOnceAccessIdService.GetFileIdForUseOnceAccessId(oneTimeToken);
-        }
-
-        public List<string> GetFilesForUser(bool isSecuredFilesAdmin)
-        {
-            List<string> files = new List<string>();
-            files.Add("SecureFile.txt");
-            files.Add("SecureFileTwo.txt");
-
-            // Use the claims to check if the logged in use has admin rights.
-            if (isSecuredFilesAdmin)
-            {
-                files.Add("SecureFileAdmin.txt");
-            }
-
-            return files;
-        }
-
-        public bool HasUserClaimToAccessFile(string fileId, bool isSecuredFilesAdmin)
-        {
-            if ("SecureFileAdmin.txt" == fileId && !isSecuredFilesAdmin)
-            {
-                return false;
-            }
-
-            return true;
+        return true;
 
 
-        }
     }
 }
